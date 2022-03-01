@@ -1,0 +1,6 @@
+projectKey=CAT-app
+serverUrl=http://localhost:9000
+serverVersion=9.3.0.51899
+dashboardUrl=http://localhost:9000/dashboard?id=CAT-app
+ceTaskId=AX9FziYy8fYHYVA1PtWe
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX9FziYy8fYHYVA1PtWe
