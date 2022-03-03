@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'schemas_library.dart';
+import 'Activity/activity_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,14 +15,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'cross array task',
-      theme: ThemeData(
-        // This is the theme of the application.
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(title: 'Home Page'),
-    );
+    return const CupertinoApp(
+        title: 'cross array task',
+        home: HomePage(title: 'Home Page'),
+        theme: CupertinoThemeData(
+          brightness: Brightness.light,
+          primaryColor: CupertinoColors.systemOrange,
+        ));
   }
 }
 
@@ -37,169 +38,109 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const TextStyle optionStyle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+  static const List<Widget> _widgetContent = <Widget>[
     SchoolForm(),
-    Text(
-      'Index 1: Programmazione a blocchi',
-      style: optionStyle,
-    ), //BlockBasedImplementation()
-    Text(
-      'Index 2: disegno',
-      style: optionStyle,
-    ), //GestureImplementation()
+    // Text(
+    //   'Index 2: Schemas',
+    //   style: optionStyle,
+    // )
+    SchemasLibrary(),
+    TestWidget()
   ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _widgetOptions.elementAt(_selectedIndex),
-          ],
-        ),
-      ),
-      // MENU ON THE LEFT
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Menu'),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.home,
-                color: Colors.black,
-                size: 24.0,
-              ),
-              title: const Text('Casa'),
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 0;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.schema,
-                color: Colors.black,
-                size: 24.0,
-              ),
-              title: const Text('Programmazione a blocchi'),
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 1;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.draw,
-                color: Colors.black,
-                size: 24.0,
-              ),
-              title: const Text('Disegno'),
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 2;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-          ],
-        ),
+    return CupertinoTabScaffold(
+      tabBuilder: (BuildContext context, int index) {
+        return CupertinoTabView(
+          builder: (BuildContext context) {
+            return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: _widgetContent.elementAt(_selectedIndex))
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     _widgetContent.elementAt(_selectedIndex),
+                //   ],
+                // ),
+                );
+          },
+        );
+      },
+      // Bottom navigation bar
+      tabBar: CupertinoTabBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.lock_circle),
+            label: 'Amministrazione',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.collections_solid),
+            label: 'Schemi',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.game_controller),
+            label: 'Attività',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        activeColor: CupertinoColors.activeBlue,
+        onTap: _onItemTapped,
       ),
     );
   }
 }
 
 /// Form for save the data of the class and the school
-class SchoolForm extends StatefulWidget {
+class SchoolForm extends StatelessWidget {
   const SchoolForm({Key? key}) : super(key: key);
 
   @override
-  SchoolFormState createState() {
-    return SchoolFormState();
-  }
-}
-
-/// This holds data related to the form for the class and the school.
-class SchoolFormState extends State<SchoolForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
+  Widget build(context) {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              //School name field
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Nome della scuola',
-              ),
-              // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Campo obbligatorio';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              //Number of the class
-              //Class number field
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Classe',
-              ),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ], // Only numbers can be entered
-              // The validator receives the text that the user has entered.
-            ),
-            TextFormField(
-              //Section of the class
-              //Class number field
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Sezione',
-              ),
-              // The validator receives the text that the user has entered.
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Submitted corrected')),
-                  );
-                }
-              },
-              child: const Text('Submit'),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CupertinoFormSection(
+              header: const Text("Inserire i dati della sessione"),
+              children: [
+                CupertinoFormRow(
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Inserire il nome della scuola',
+                  ),
+                  prefix: const Text('Scuola:', textAlign: TextAlign.right),
+                ),
+                CupertinoFormRow(
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Inserire la classe',
+                  ),
+                  prefix: const Text(
+                    'Classe:',
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                CupertinoFormRow(
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Inserire la sezione',
+                  ),
+                  prefix: const Text('Sezione:', textAlign: TextAlign.right),
+                ),
+              ],
             ),
           ],
         ),
@@ -207,42 +148,16 @@ class SchoolFormState extends State<SchoolForm> {
     );
   }
 }
-
-
-/// Implementation for the gestures-based GUI
-class GestureImplementation extends StatefulWidget {
-  const GestureImplementation({Key? key}) : super(key: key);
-
-  @override
-  GestureImplementationState createState() {
-    return GestureImplementationState();
-  }
-}
-
-/// State for the gesture-based GUI
-class GestureImplementationState extends State<GestureImplementation> {
-  @override
-  Widget build(context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
-
-/// Implementation for the block-based programming GUI
-class BlockBasedImplementation extends StatefulWidget {
-  const BlockBasedImplementation({Key? key}) : super(key: key);
-
-  @override
-  BlockBasedImplementationState createState() {
-    return BlockBasedImplementationState();
-  }
-}
-
-/// State for the block-based programming GUI
-class BlockBasedImplementationState extends State<BlockBasedImplementation> {
-  @override
-  Widget build(context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
+// ElevatedButton(
+//   onPressed: () {
+//     // Validate returns true if the form is valid, or false otherwise.
+//     if (_formKey.currentState!.validate()) {
+//       // If the form is valid, display a snackbar. In the real world,
+//       // you'd often call a server or save the information in a database.
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(content: Text('Submitted corrected')),
+//       );
+//     }
+//   },
+//   child: const Text('Submit'),
+// ),
