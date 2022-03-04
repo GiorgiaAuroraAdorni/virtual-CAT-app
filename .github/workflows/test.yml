@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Flutter_Tests
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  tests:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      # Setup Flutter (https://github.com/marketplace/actions/flutter-action)
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # or: 'beta' or 'master'
+
+      # Restore the pub packages of the project
+      - name: Restore packages
+        run: flutter pub get
+        
+      # Analyze the code
+      - name: Analyze
+        run: flutter analyze
+
+      # Run the unit tests
+      - name: Run tests
+        run: flutter test --coverage
+        
+  codecov:
+    needs: tests
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Upload coverage to codecov
+        run: curl -s https://codecov.io/bash -t $CODECOV_TOKEN
+        shell: bash
