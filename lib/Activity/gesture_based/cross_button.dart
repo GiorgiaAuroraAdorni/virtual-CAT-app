@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 class CrossButton extends StatefulWidget {
-  Tuple2<String, int> position = const Tuple2<String, int>('z', 0);
+  final Tuple2<String, int> position;
 
-  Color nextColor = Colors.grey;
-  CrossButton({Key? key, required int x, required String y, required this.nextColor}) : super(key: key) {
-    position = Tuple2<String, int>(y, x);
-  }
+  final Color nextColor;
+
+  const CrossButton({Key? key, required this.nextColor, required this.position}) : super(key: key);
 
   @override
   State<CrossButton> createState() => CrossButtonState();

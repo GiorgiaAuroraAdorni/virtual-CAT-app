@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 import 'cross_button.dart';
 
@@ -51,41 +52,41 @@ class GestureImplementationState extends State<GestureImplementation> {
       const Text('answer'),
       const SizedBox(height: 50),
       Row(children: <Widget>[
-        CrossButton(y: 'f', x: 3, nextColor: nextColor),
-        CrossButton(y: 'f', x: 4, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'f', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'f', 4), nextColor: nextColor),
       ]),
       const SizedBox(height: 8),
       Row(children: <Widget>[
-        CrossButton(y: 'e', x: 3, nextColor: nextColor),
-        CrossButton(y: 'e', x: 4, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'e', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'e', 4), nextColor: nextColor),
       ]),
       const SizedBox(height: 8),
       Row(children: <Widget>[
-        CrossButton(y: 'd', x: 1, nextColor: nextColor),
-        CrossButton(y: 'd', x: 2, nextColor: nextColor),
-        CrossButton(y: 'd', x: 3, nextColor: nextColor),
-        CrossButton(y: 'd', x: 4, nextColor: nextColor),
-        CrossButton(y: 'd', x: 5, nextColor: nextColor),
-        CrossButton(y: 'd', x: 6, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 1), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 2), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 4), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 5), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'd', 6), nextColor: nextColor),
       ]),
       const SizedBox(height: 8),
       Row(children: <Widget>[
-        CrossButton(y: 'c', x: 1, nextColor: nextColor),
-        CrossButton(y: 'c', x: 2, nextColor: nextColor),
-        CrossButton(y: 'c', x: 3, nextColor: nextColor),
-        CrossButton(y: 'c', x: 4, nextColor: nextColor),
-        CrossButton(y: 'c', x: 5, nextColor: nextColor),
-        CrossButton(y: 'c', x: 6, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 1), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 2), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 4), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 5), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'c', 6), nextColor: nextColor),
       ]),
       const SizedBox(height: 4),
       Row(children: <Widget>[
-        CrossButton(y: 'b', x: 3, nextColor: nextColor),
-        CrossButton(y: 'b', x: 4, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'b', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'b', 4), nextColor: nextColor),
       ]),
       const SizedBox(height: 4),
       Row(children: <Widget>[
-        CrossButton(y: 'a', x: 3, nextColor: nextColor),
-        CrossButton(y: 'a', x: 4, nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'a', 3), nextColor: nextColor),
+        CrossButton(position: const Tuple2<String, int>( 'a', 4), nextColor: nextColor),
       ])
     ];
   }
@@ -95,7 +96,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void changeColor(Color nextColor){
-    //TODO: change the value of "this.nextColor" to "nextColor" after tap on the color buttons
     setState(() {
       this.nextColor = nextColor;
     });

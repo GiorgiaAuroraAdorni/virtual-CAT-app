@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 
 /// Implementation for the gestures-based GUI
 class SchemasLibrary extends StatefulWidget {

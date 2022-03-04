@@ -38,16 +38,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.bold,
-  );
   static const List<Widget> _widgetContent = <Widget>[
     SchoolForm(),
-    // Text(
-    //   'Index 2: Schemas',
-    //   style: optionStyle,
-    // )
     SchemasLibrary(),
     TestWidget()
   ];
