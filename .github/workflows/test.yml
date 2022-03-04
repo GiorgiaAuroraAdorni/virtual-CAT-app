@@ -42,15 +42,4 @@ jobs:
 
       # Run the unit tests
       - name: Run tests
-        run: flutter test --coverage
-        
-  codecov:
-    needs: tests
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Upload coverage to codecov
-        run: curl -s https://codecov.io/bash -t $CODECOV_TOKEN
-        shell: bash
+        run: flutter test
