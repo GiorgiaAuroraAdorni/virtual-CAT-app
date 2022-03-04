@@ -4,10 +4,9 @@ import 'package:tuple/tuple.dart';
 class CrossButton extends StatefulWidget {
   Tuple2<String, int> position = const Tuple2<String, int>('z', 0);
 
-  var nextColor;
-  CrossButton({Key? key, required int x, required String y, required nextColor}) : super(key: key) {
+  Color nextColor = Colors.grey;
+  CrossButton({Key? key, required int x, required String y, required this.nextColor}) : super(key: key) {
     position = Tuple2<String, int>(y, x);
-    this.nextColor = nextColor;
   }
 
   @override
@@ -16,28 +15,24 @@ class CrossButton extends StatefulWidget {
 
 class CrossButtonState extends State<CrossButton> {
   Color color = Colors.grey;
+  bool visible = true;
 
   @override
   Widget build(context) {
     return ElevatedButton(
-      onPressed: () => setState(() {
-        onTap();
-        // if (color == Colors.grey) {
-        //   color = Colors.blue;
-        // } else {
-        //   color = Colors.grey;
-        // }
-        color = widget.nextColor;
-      }),
+      onPressed: () => onTap(),
       style: ElevatedButton.styleFrom(
           fixedSize: const Size(40, 40),
           shape: const CircleBorder(),
-          primary: color),
+          primary: visible? color : Colors.grey),
       child: null,
     );
   }
 
   void onTap() {
-    debugPrint(widget.position.item1 + " " + widget.position.item2.toString());
+    setState(() {
+      color = widget.nextColor;
+    });
+    // debugPrint('x: ${widget.position.item1}  y: ${widget.position.item2.toString()} color: ${color == Colors.grey ? 'grey' : color == Colors.blue? 'blue' : color == Colors.red? 'red' : 'error'}');
   }
 }
