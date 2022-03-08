@@ -1,13 +1,13 @@
-{"protocolVersion":"0.1.1","runnerVersion":null,"pid":47364,"type":"start","time":0}
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":35920,"type":"start","time":0}
 {"suite":{"id":0,"platform":"vm","path":"/Users/simonepiatti/Documents/universityCourses/6.SP 2022/BachelorProject/cross-array-task-app/test/widget_test.dart"},"type":"suite","time":0}
-{"test":{"id":1,"name":"loading /Users/simonepiatti/Documents/universityCourses/6.SP 2022/BachelorProject/cross-array-task-app/test/widget_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2}
-{"count":1,"time":15,"type":"allSuites"}
+{"test":{"id":1,"name":"loading /Users/simonepiatti/Documents/universityCourses/6.SP 2022/BachelorProject/cross-array-task-app/test/widget_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":1}
+{"count":1,"time":12,"type":"allSuites"}
 
-[{"event":"test.startedProcess","params":{"observatoryUri":"http://127.0.0.1:52212/ErzEM8V2Gvo=/"}}]
-{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2774}
-{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":2779}
-{"test":{"id":3,"name":"Counter increments smoke test","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":153,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":14,"root_column":3,"root_url":"file:///Users/simonepiatti/Documents/universityCourses/6.SP%202022/BachelorProject/cross-array-task-app/test/widget_test.dart"},"type":"testStart","time":2780}
-{"testID":3,"messageType":"print","message":"══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════\nThe following TestFailure was thrown running a test:\nExpected: exactly one matching node in the widget tree\n  Actual: _TextFinder:<zero widgets with text \"0\" (ignoring offstage widgets)>\n   Which: means none were found but one was expected\n\nWhen the exception was thrown, this was the stack:\n#4      main.<anonymous closure> (file:///Users/simonepiatti/Documents/universityCourses/6.SP%202022/BachelorProject/cross-array-task-app/test/widget_test.dart:19:5)\n<asynchronous suspension>\n<asynchronous suspension>\n(elided one frame from package:stack_trace)\n\nThis was caught by the test expectation on the following line:\n  file:///Users/simonepiatti/Documents/universityCourses/6.SP%202022/BachelorProject/cross-array-task-app/test/widget_test.dart line 19\nThe test description was:\n  Counter increments smoke test\n════════════════════════════════════════════════════════════════════════════════════════════════════","type":"print","time":4042}
-{"testID":3,"error":"Test failed. See exception logs above.\nThe test description was: Counter increments smoke test","stackTrace":"","isFailure":false,"type":"error","time":4046}
-{"testID":3,"result":"error","skipped":false,"hidden":false,"type":"testDone","time":4053}
-{"success":false,"type":"done","time":4311}
+[{"event":"test.startedProcess","params":{"observatoryUri":"http://127.0.0.1:53844/omW67nHBip0=/"}}]
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2566}
+{"group":{"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":2577}
+{"test":{"id":3,"name":"Test tab bar elements","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":153,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":13,"root_column":3,"root_url":"file:///Users/simonepiatti/Documents/universityCourses/6.SP%202022/BachelorProject/cross-array-task-app/test/widget_test.dart"},"type":"testStart","time":2579}
+{"testID":3,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3556}
+{"test":{"id":4,"name":"Test school form elements","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":153,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":32,"root_column":3,"root_url":"file:///Users/simonepiatti/Documents/universityCourses/6.SP%202022/BachelorProject/cross-array-task-app/test/widget_test.dart"},"type":"testStart","time":3557}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3708}
+{"success":true,"type":"done","time":3951}

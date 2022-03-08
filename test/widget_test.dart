@@ -5,26 +5,47 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:cross_array_task_app/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cross_array_task_app/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Test tab bar elements', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Amministrazione'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.lock_circle), findsOneWidget);
+    expect(find.text('Schemi'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.collections_solid), findsOneWidget);
+    expect(find.text('Attività'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.game_controller), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // // Tap the '+' icon and trigger a frame.
+    // await tester.tap(find.byIcon(Icons.add));
+    // await tester.pump();
+    //
+    // // Verify that our counter has incremented.
+    // expect(find.text('0'), findsNothing);
+    // expect(find.text('1'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Test school form elements', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    expect(find.text('Inserire i dati della sessione'), findsOneWidget);
+
+    expect(find.text('Scuola:'), findsOneWidget);
+    expect(
+        find.widgetWithText(
+            CupertinoTextFormFieldRow, 'Inserire il nome della scuola'),
+        findsOneWidget);
+
+    expect(find.text('Classe:'), findsOneWidget);
+    expect(find.widgetWithText(CupertinoTextFormFieldRow, 'Inserire la classe'),
+        findsOneWidget);
+
+    expect(find.text('Sezione:'), findsOneWidget);
+    expect(
+        find.widgetWithText(CupertinoTextFormFieldRow, 'Inserire la sezione'),
+        findsOneWidget);
   });
 }

@@ -5,8 +5,10 @@ class CrossButton extends StatefulWidget {
   final Tuple2<String, int> position;
 
   final Color nextColor;
+  final bool visible;
 
-  const CrossButton({Key? key, required this.nextColor, required this.position}) : super(key: key);
+  const CrossButton({Key? key, required this.nextColor, required this.position, required this.visible})
+      : super(key: key);
 
   @override
   State<CrossButton> createState() => CrossButtonState();
@@ -14,7 +16,6 @@ class CrossButton extends StatefulWidget {
 
 class CrossButtonState extends State<CrossButton> {
   Color color = Colors.grey;
-  bool visible = true;
 
   @override
   Widget build(context) {
@@ -23,7 +24,7 @@ class CrossButtonState extends State<CrossButton> {
       style: ElevatedButton.styleFrom(
           fixedSize: const Size(40, 40),
           shape: const CircleBorder(),
-          primary: visible? color : Colors.grey),
+          primary: widget.visible ? color : Colors.grey),
       child: null,
     );
   }

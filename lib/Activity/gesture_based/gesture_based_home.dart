@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
-import 'cross_button.dart';
+import 'cross.dart';
 
-class Cross {}
+//TODO: make a button to reset the cross
 
 /// Implementation for the gestures-based GUI
 class GestureImplementation extends StatefulWidget {
@@ -21,10 +21,10 @@ class GestureImplementation extends StatefulWidget {
 /// State for the gesture-based GUI
 class GestureImplementationState extends State<GestureImplementation> {
   Color nextColor = Colors.grey;
+  bool visible = false;
 
   @override
   Widget build(context) {
-    var cross = crossBuild(nextColor);
     return Padding(
         padding: const EdgeInsets.all(100.0),
         child: Column(children: <Widget>[
@@ -40,102 +40,103 @@ class GestureImplementationState extends State<GestureImplementation> {
                           '.jpg')),
                 ]),
             const SizedBox(width: 100),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center, children: cross),
+            CrossWidget(nextColor: nextColor, visible: visible),
           ]),
-          Row(children: colorButtonsBuild())
+          Row(children: colorButtonsBuild()),
+          Row(children: <Widget>[
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  (ElevatedButton(
+                    onPressed: () => reassemble(),
+                    style: ElevatedButton.styleFrom(),
+                    child: const Text('Reset cross'),
+                  ))
+                ]),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: visibilityButtonBuild())
+          ]),
         ]));
   }
 
-  static List<Widget> crossBuild(nextColor) {
-    return <Widget>[
-      const Text('answer'),
-      const SizedBox(height: 50),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'f', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'f', 4), nextColor: nextColor),
-      ]),
-      const SizedBox(height: 8),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'e', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'e', 4), nextColor: nextColor),
-      ]),
-      const SizedBox(height: 8),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'd', 1), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'd', 2), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'd', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'd', 4), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'd', 5), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'd', 6), nextColor: nextColor),
-      ]),
-      const SizedBox(height: 8),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'c', 1), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'c', 2), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'c', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'c', 4), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'c', 5), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'c', 6), nextColor: nextColor),
-      ]),
-      const SizedBox(height: 4),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'b', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'b', 4), nextColor: nextColor),
-      ]),
-      const SizedBox(height: 4),
-      Row(children: <Widget>[
-        CrossButton(position: const Tuple2<String, int>( 'a', 3), nextColor: nextColor),
-        CrossButton(position: const Tuple2<String, int>( 'a', 4), nextColor: nextColor),
-      ])
-    ];
-  }
-
-  void changeVisibility(var cross){
-    //TODO: iterate over list "cross" and change the state "visibility" to true
-  }
-
-  void changeColor(Color nextColor){
+  void changeColor(Color nextColor) {
     setState(() {
-      this.nextColor = nextColor;
+      if (this.nextColor == nextColor) {
+        this.nextColor = Colors.grey;
+      } else {
+        this.nextColor = nextColor;
+      }
     });
-    // TODO: make visible which color is selected
   }
 
-  List<Widget> colorButtonsBuild(){
-    return <Widget> [
+  void changeVisibility() {
+    //TODO: iterate over list "cross" and change the state "visibility" to true
+    setState(() {
+      visible = !visible;
+    });
+  }
+
+  List<Widget> colorButtonsBuild() {
+    BorderSide border = const BorderSide(width: 5.0, color: Colors.black);
+    return <Widget>[
       ElevatedButton(
         onPressed: () => changeColor(Colors.blue),
         style: ElevatedButton.styleFrom(
-            fixedSize: const Size(40, 40),
-            shape: const CircleBorder(),
-            primary: Colors.blue),
+          fixedSize: const Size(40, 40),
+          shape: const CircleBorder(),
+          primary: Colors.blue,
+          side: (nextColor == Colors.blue ? border : null),
+        ),
         child: null,
       ),
       ElevatedButton(
         onPressed: () => changeColor(Colors.red),
         style: ElevatedButton.styleFrom(
-            fixedSize: const Size(40, 40),
-            shape: const CircleBorder(),
-            primary: Colors.red),
+          fixedSize: const Size(40, 40),
+          shape: const CircleBorder(),
+          primary: Colors.red,
+          side: (nextColor == Colors.red ? border : null),
+        ),
         child: null,
       ),
       ElevatedButton(
         onPressed: () => changeColor(Colors.green),
         style: ElevatedButton.styleFrom(
-            fixedSize: const Size(40, 40),
-            shape: const CircleBorder(),
-            primary: Colors.green),
+          fixedSize: const Size(40, 40),
+          shape: const CircleBorder(),
+          primary: Colors.green,
+          side: (nextColor == Colors.green ? border : null),
+        ),
         child: null,
       ),
       ElevatedButton(
         onPressed: () => changeColor(Colors.yellow),
         style: ElevatedButton.styleFrom(
-            fixedSize: const Size(40, 40),
-            shape: const CircleBorder(),
-            primary: Colors.yellow),
+          fixedSize: const Size(40, 40),
+          shape: const CircleBorder(),
+          primary: Colors.yellow,
+          side: (nextColor == Colors.yellow ? border : null),
+        ),
         child: null,
       ),
     ];
+  }
+
+  List<Widget> visibilityButtonBuild() {
+    if (!visible) {
+      return <Widget>[
+        ElevatedButton(
+            onPressed: () => changeVisibility(),
+            style: ElevatedButton.styleFrom(
+                fixedSize: const Size(40, 40),
+                shape: const CircleBorder(),
+                primary: Colors.grey),
+            child: const Icon(
+              CupertinoIcons.eye,
+            ))
+      ];
+    }
+    return <Widget>[];
   }
 }

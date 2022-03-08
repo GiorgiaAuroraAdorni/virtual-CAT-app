@@ -1,12 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'schemas_library.dart';
+
 import 'Activity/activity_home.dart';
+import 'schemas_library.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   runApp(const MyApp());
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
 }
 
 class MyApp extends StatelessWidget {
@@ -16,83 +24,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
-        title: 'cross array task',
-        home: HomePage(title: 'Home Page'),
+        home: HomePage(),
         theme: CupertinoThemeData(
           brightness: Brightness.light,
           primaryColor: CupertinoColors.systemOrange,
         ));
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of the application.
-
-  final String title;
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  static const List<Widget> _widgetContent = <Widget>[
-    SchoolForm(),
-    SchemasLibrary(),
-    TestWidget()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBuilder: (BuildContext context, int index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(child: _widgetContent.elementAt(_selectedIndex))
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //     _widgetContent.elementAt(_selectedIndex),
-                //   ],
-                // ),
-                );
-          },
-        );
-      },
-      // Bottom navigation bar
-      tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.lock_circle),
-            label: 'Amministrazione',
-            backgroundColor: CupertinoColors.lightBackgroundGray,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.collections_solid),
-            label: 'Schemi',
-            backgroundColor: CupertinoColors.lightBackgroundGray,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.game_controller),
-            label: 'Attività',
-            backgroundColor: CupertinoColors.lightBackgroundGray,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        activeColor: CupertinoColors.activeBlue,
-        onTap: _onItemTapped,
-      ),
-    );
   }
 }
 
@@ -138,6 +74,68 @@ class SchoolForm extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _HomePageState extends State<HomePage> {
+  static const List<Widget> _widgetContent = <Widget>[
+    SchoolForm(),
+    SchemasLibrary(),
+    ActivityHome()
+  ];
+
+  int _selectedIndex = 0;
+  int get selectedIndex => _selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoTabScaffold(
+      tabBuilder: (BuildContext context, int index) {
+        return CupertinoTabView(
+          builder: (BuildContext context) {
+            return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: _widgetContent.elementAt(_selectedIndex))
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //     _widgetContent.elementAt(_selectedIndex),
+                //   ],
+                // ),
+                );
+          },
+        );
+      },
+      // Bottom navigation bar
+      tabBar: CupertinoTabBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.lock_circle),
+            label: 'Amministrazione',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.collections_solid),
+            label: 'Schemi',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.game_controller),
+            label: 'Attività',
+            backgroundColor: CupertinoColors.lightBackgroundGray,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        activeColor: CupertinoColors.activeBlue,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
 // ElevatedButton(

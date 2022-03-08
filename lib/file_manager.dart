@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
 
 class FileManager {
@@ -6,18 +7,6 @@ class FileManager {
     final directory = await getApplicationDocumentsDirectory();
 
     return directory.path;
-  }
-
-  static File _localFile (String pathOfFile) {
-    final localPath = _localPath;
-    return File('$localPath/$pathOfFile');
-  }
-
-  static Future<File> writeOnFile(String pathOfFile, String content, bool append) async {
-    var file = _localFile(pathOfFile);
-
-    // Write the file
-      return file.writeAsString(content,  mode: append ? FileMode.append : FileMode.write);
   }
 
   static Future<int> readFile(String pathOfFile) async {
@@ -32,5 +21,19 @@ class FileManager {
       // If encountering an error, return 0
       return 0;
     }
+  }
+
+  static Future<File> writeOnFile(
+      String pathOfFile, String content, bool append) async {
+    var file = _localFile(pathOfFile);
+
+    // Write the file
+    return file.writeAsString(content,
+        mode: append ? FileMode.append : FileMode.write);
+  }
+
+  static File _localFile(String pathOfFile) {
+    final localPath = _localPath;
+    return File('$localPath/$pathOfFile');
   }
 }
