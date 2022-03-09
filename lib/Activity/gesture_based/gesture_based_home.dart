@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'cross.dart';
 
-//TODO: make a button to reset the cross
-
 /// Implementation for the gestures-based GUI
 class GestureImplementation extends StatefulWidget {
   final int schema;
@@ -22,9 +20,12 @@ class GestureImplementation extends StatefulWidget {
 class GestureImplementationState extends State<GestureImplementation> {
   Color nextColor = Colors.grey;
   bool visible = false;
+  late Widget cross;
 
   @override
   Widget build(context) {
+    cross =
+        CrossWidget(key: UniqueKey(), nextColor: nextColor, visible: visible);
     return Padding(
         padding: const EdgeInsets.all(100.0),
         child: Column(children: <Widget>[
@@ -40,7 +41,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                           '.jpg')),
                 ]),
             const SizedBox(width: 100),
-            CrossWidget(nextColor: nextColor, visible: visible),
+            cross //CrossWidget(nextColor: nextColor, visible: visible),
           ]),
           Row(children: colorButtonsBuild()),
           Row(children: <Widget>[
@@ -48,7 +49,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   (ElevatedButton(
-                    onPressed: () => reassemble(),
+                    onPressed: resetCross,
                     style: ElevatedButton.styleFrom(),
                     child: const Text('Reset cross'),
                   ))
@@ -121,6 +122,15 @@ class GestureImplementationState extends State<GestureImplementation> {
         child: null,
       ),
     ];
+  }
+
+  void resetCross() {
+    setState(() {
+      nextColor = Colors.grey;
+      visible = false;
+      cross =
+          CrossWidget(key: UniqueKey(), nextColor: nextColor, visible: visible);
+    });
   }
 
   List<Widget> visibilityButtonBuild() {

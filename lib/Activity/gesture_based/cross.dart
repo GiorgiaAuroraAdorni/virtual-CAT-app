@@ -16,6 +16,7 @@ class CrossWidget extends StatefulWidget {
 
 /// State for the activity page
 class CrossWidgetState extends State<CrossWidget> {
+
   @override
   Widget build(context) {
     return Column(
@@ -122,4 +123,6 @@ class CrossWidgetState extends State<CrossWidget> {
           ])
         ]);
   }
+
+
 }
