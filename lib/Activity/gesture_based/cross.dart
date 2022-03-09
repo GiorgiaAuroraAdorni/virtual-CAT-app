@@ -16,7 +16,6 @@ class CrossWidget extends StatefulWidget {
 
 /// State for the activity page
 class CrossWidgetState extends State<CrossWidget> {
-
   @override
   Widget build(context) {
     return Column(
@@ -29,6 +28,7 @@ class CrossWidgetState extends State<CrossWidget> {
                 position: const Tuple2<String, int>('f', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('f', 4),
                 nextColor: widget.nextColor,
@@ -40,6 +40,7 @@ class CrossWidgetState extends State<CrossWidget> {
                 position: const Tuple2<String, int>('e', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('e', 4),
                 nextColor: widget.nextColor,
@@ -51,22 +52,27 @@ class CrossWidgetState extends State<CrossWidget> {
                 position: const Tuple2<String, int>('d', 1),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('d', 2),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('d', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('d', 4),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('d', 5),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('d', 6),
                 nextColor: widget.nextColor,
@@ -78,44 +84,51 @@ class CrossWidgetState extends State<CrossWidget> {
                 position: const Tuple2<String, int>('c', 1),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('c', 2),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('c', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('c', 4),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('c', 5),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('c', 6),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           Row(children: <Widget>[
             CrossButton(
                 position: const Tuple2<String, int>('b', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('b', 4),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           Row(children: <Widget>[
             CrossButton(
                 position: const Tuple2<String, int>('a', 3),
                 nextColor: widget.nextColor,
                 visible: widget.visible),
+            const SizedBox(width: 8),
             CrossButton(
                 position: const Tuple2<String, int>('a', 4),
                 nextColor: widget.nextColor,
@@ -123,6 +136,4 @@ class CrossWidgetState extends State<CrossWidget> {
           ])
         ]);
   }
-
-
 }

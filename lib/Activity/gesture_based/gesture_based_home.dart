@@ -20,12 +20,10 @@ class GestureImplementation extends StatefulWidget {
 class GestureImplementationState extends State<GestureImplementation> {
   Color nextColor = Colors.grey;
   bool visible = false;
-  late Widget cross;
+  int crossKey = 1;
 
   @override
   Widget build(context) {
-    cross =
-        CrossWidget(key: UniqueKey(), nextColor: nextColor, visible: visible);
     return Padding(
         padding: const EdgeInsets.all(100.0),
         child: Column(children: <Widget>[
@@ -41,19 +39,23 @@ class GestureImplementationState extends State<GestureImplementation> {
                           '.jpg')),
                 ]),
             const SizedBox(width: 100),
-            cross //CrossWidget(nextColor: nextColor, visible: visible),
+            CrossWidget(
+                key: Key(crossKey.toString()),
+                nextColor: nextColor,
+                visible: visible),
           ]),
           Row(children: colorButtonsBuild()),
           Row(children: <Widget>[
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  (ElevatedButton(
+                  (CupertinoButton.filled(
                     onPressed: resetCross,
-                    style: ElevatedButton.styleFrom(),
+                    padding: const EdgeInsets.all(5.0),
                     child: const Text('Reset cross'),
                   ))
                 ]),
+            const SizedBox(width: 8),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: visibilityButtonBuild())
@@ -79,47 +81,57 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   List<Widget> colorButtonsBuild() {
-    BorderSide border = const BorderSide(width: 5.0, color: Colors.black);
+    //CupertinoButton(
+    //       onPressed: () => onTap(),
+    //       borderRadius: BorderRadius.circular(45.0),
+    //       minSize: 45.0,
+    //       color: widget.visible ? color : Colors.grey,
+    //         padding: const EdgeInsets.all(0.0),
+    //       child: const Text(''),
+    //     );
     return <Widget>[
-      ElevatedButton(
+      CupertinoButton(
         onPressed: () => changeColor(Colors.blue),
-        style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
-          shape: const CircleBorder(),
-          primary: Colors.blue,
-          side: (nextColor == Colors.blue ? border : null),
-        ),
-        child: null,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 40.0,
+        color: Colors.blue,
+        padding: const EdgeInsets.all(0.0),
+        child: nextColor != Colors.blue
+            ? const Text('')
+            : const Icon(CupertinoIcons.circle_fill),
       ),
-      ElevatedButton(
+      const SizedBox(width: 8),
+      CupertinoButton(
         onPressed: () => changeColor(Colors.red),
-        style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
-          shape: const CircleBorder(),
-          primary: Colors.red,
-          side: (nextColor == Colors.red ? border : null),
-        ),
-        child: null,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 40.0,
+        color: Colors.red,
+        padding: const EdgeInsets.all(0.0),
+        child: nextColor != Colors.red
+            ? const Text('')
+            : const Icon(CupertinoIcons.circle_fill),
       ),
-      ElevatedButton(
+      const SizedBox(width: 8),
+      CupertinoButton(
         onPressed: () => changeColor(Colors.green),
-        style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
-          shape: const CircleBorder(),
-          primary: Colors.green,
-          side: (nextColor == Colors.green ? border : null),
-        ),
-        child: null,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 40.0,
+        color: Colors.green,
+        padding: const EdgeInsets.all(0.0),
+        child: nextColor != Colors.green
+            ? const Text('')
+            : const Icon(CupertinoIcons.circle_fill),
       ),
-      ElevatedButton(
+      const SizedBox(width: 8),
+      CupertinoButton(
         onPressed: () => changeColor(Colors.yellow),
-        style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
-          shape: const CircleBorder(),
-          primary: Colors.yellow,
-          side: (nextColor == Colors.yellow ? border : null),
-        ),
-        child: null,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 40.0,
+        color: Colors.yellow,
+        padding: const EdgeInsets.all(0.0),
+        child: nextColor != Colors.yellow
+            ? const Text('')
+            : const Icon(CupertinoIcons.circle_fill),
       ),
     ];
   }
@@ -128,25 +140,19 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       nextColor = Colors.grey;
       visible = false;
-      cross =
-          CrossWidget(key: UniqueKey(), nextColor: nextColor, visible: visible);
+      ++crossKey;
     });
   }
 
   List<Widget> visibilityButtonBuild() {
-    if (!visible) {
-      return <Widget>[
-        ElevatedButton(
-            onPressed: () => changeVisibility(),
-            style: ElevatedButton.styleFrom(
-                fixedSize: const Size(40, 40),
-                shape: const CircleBorder(),
-                primary: Colors.grey),
-            child: const Icon(
-              CupertinoIcons.eye,
-            ))
-      ];
-    }
-    return <Widget>[];
+    return <Widget>[
+      CupertinoButton(
+          onPressed: visible ? null : () => changeVisibility(),
+          minSize: 40.0,
+          padding: const EdgeInsets.all(5.0),
+          child: visible
+              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
+              : const Icon(CupertinoIcons.eye_fill, size: 40.0))
+    ];
   }
 }

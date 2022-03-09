@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
@@ -7,7 +8,11 @@ class CrossButton extends StatefulWidget {
   final Color nextColor;
   final bool visible;
 
-  const CrossButton({Key? key, required this.nextColor, required this.position, required this.visible})
+  const CrossButton(
+      {Key? key,
+      required this.nextColor,
+      required this.position,
+      required this.visible})
       : super(key: key);
 
   @override
@@ -19,13 +24,13 @@ class CrossButtonState extends State<CrossButton> {
 
   @override
   Widget build(context) {
-    return ElevatedButton(
+    return CupertinoButton(
       onPressed: () => onTap(),
-      style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
-          shape: const CircleBorder(),
-          primary: widget.visible ? color : Colors.grey),
-      child: null,
+      borderRadius: BorderRadius.circular(45.0),
+      minSize: 45.0,
+      color: widget.visible ? color : Colors.grey,
+      padding: const EdgeInsets.all(0.0),
+      child: const Text(''),
     );
   }
 
@@ -34,11 +39,5 @@ class CrossButtonState extends State<CrossButton> {
       color = widget.nextColor;
     });
     // debugPrint('x: ${widget.position.item1}  y: ${widget.position.item2.toString()} color: ${color == Colors.grey ? 'grey' : color == Colors.blue? 'blue' : color == Colors.red? 'red' : 'error'}');
-  }
-
-  @override
-  void didUpdateWidget(covariant oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    color = color;
   }
 }
