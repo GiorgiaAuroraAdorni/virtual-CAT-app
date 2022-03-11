@@ -18,12 +18,12 @@ class ActivityHomeState extends State<ActivityHome> {
   Widget build(context) {
     return Column(children: <Widget>[
       Text('Current schema: $_currentSchema'),
-      const SizedBox(height: 30),
-      GestureImplementation(schema: _currentSchema),
       CupertinoButton(
         onPressed: _nextSchema,
         child: const Text('Next schema'),
       ),
+      const SizedBox(height: 10),
+      GestureImplementation(schema: _currentSchema),
     ]);
   }
 
