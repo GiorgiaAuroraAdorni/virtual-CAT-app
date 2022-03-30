@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../Utility/analyzer.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 
@@ -18,14 +19,19 @@ class GestureImplementation extends StatefulWidget {
 
 /// State for the gesture-based GUI
 class GestureImplementationState extends State<GestureImplementation> {
-  Color nextColor = CupertinoColors.systemGrey;
-  bool visible = false;
-  int crossKey = 1;
-  bool multiSelect = false;
-  List<CrossButtonState> selectedButton = [];
+  int _crossKey = 1;
+
+  final Map _params = {
+    'nextColor': CupertinoColors.systemGrey,
+    'visible': false,
+    'multiSelect': false,
+    'selectedButton': <CrossButton>[],
+    'analyzer': Analyzer()
+  };
 
   @override
   Widget build(context) {
+    print('build home state');
     return Padding(
         padding: const EdgeInsets.all(100.0),
         child: Column(children: <Widget>[
@@ -42,16 +48,11 @@ class GestureImplementationState extends State<GestureImplementation> {
                 ]),
             const SizedBox(width: 100),
             Column(children: <Widget>[
-              Row(children: colorButtonsBuild()),
+              Row(children: _colorButtonsBuild()),
               const SizedBox(height: 20),
-              CrossWidget(
-                  key: Key(crossKey.toString()),
-                  nextColor: nextColor,
-                  visible: visible,
-                  selectedButton: selectedButton,
-                  multiSelect: multiSelect),
+              CrossWidget(key: Key(_crossKey.toString()), params: _params),
               const SizedBox(height: 20),
-              Column(children: multiSelectionButtonsBuild()),
+              Column(children: _multiSelectionButtonsBuild()),
             ]),
           ]),
           Row(children: <Widget>[
@@ -59,7 +60,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   (CupertinoButton.filled(
-                    onPressed: recreateCross,
+                    onPressed: _recreateCross,
                     padding: const EdgeInsets.all(5.0),
                     child: const Text('Reset cross'),
                   ))
@@ -67,85 +68,128 @@ class GestureImplementationState extends State<GestureImplementation> {
             const SizedBox(width: 8),
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: visibilityButtonBuild())
+                children: _visibilityButtonBuild())
           ]),
         ]));
   }
 
-  void changeColor(Color nextColor) {
+  void _changeColor(Color nextColor) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
-      if (this.nextColor == nextColor) {
-        this.nextColor = CupertinoColors.systemGrey;
-      } else {
-        this.nextColor = nextColor;
-      }
+      // if (this.nextColor == nextColor) {
+      //   this.nextColor = CupertinoColors.systemGrey;
+      // } else {
+      //   this.nextColor = nextColor;
+      // }
+      _params['nextColor'] = nextColor;
     });
   }
 
-  void changeVisibility() {
-    setState(() {
-      visible = !visible;
-    });
+  void _changeSelectionMode() {
+    _params['multiSelect'] = !_params['multiSelect'];
+    _params['selectedButton'] = <CrossButton>[];
+    setState(() {});
   }
 
-  List<Widget> colorButtonsBuild() {
+  void _changeVisibility() {
+      print('visibility changed');
+      _params['visible'] = true;
+      setState(() {});
+  }
+
+  List<Widget> _colorButtonsBuild() {
     return <Widget>[
       CupertinoButton(
-        onPressed: () => changeColor(CupertinoColors.systemBlue),
+        onPressed: () => _changeColor(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemBlue,
         padding: const EdgeInsets.all(0.0),
-        child: nextColor != CupertinoColors.systemBlue
+        child: _params['nextColor'] != CupertinoColors.systemBlue
             ? const Text('')
             : const Icon(CupertinoIcons.circle_fill),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
-        onPressed: () => changeColor(CupertinoColors.systemRed),
+        onPressed: () => _changeColor(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemRed,
         padding: const EdgeInsets.all(0.0),
-        child: nextColor != CupertinoColors.systemRed
+        child: _params['nextColor'] != CupertinoColors.systemRed
             ? const Text('')
             : const Icon(CupertinoIcons.circle_fill),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
-        onPressed: () => changeColor(CupertinoColors.systemGreen),
+        onPressed: () => _changeColor(CupertinoColors.systemGreen),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemGreen,
         padding: const EdgeInsets.all(0.0),
-        child: nextColor != CupertinoColors.systemGreen
+        child: _params['nextColor'] != CupertinoColors.systemGreen
             ? const Text('')
             : const Icon(CupertinoIcons.circle_fill),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
-        onPressed: () => changeColor(CupertinoColors.systemYellow),
+        onPressed: () => _changeColor(CupertinoColors.systemYellow),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemYellow,
         padding: const EdgeInsets.all(0.0),
-        child: nextColor != CupertinoColors.systemYellow
+        child: _params['nextColor'] != CupertinoColors.systemYellow
             ? const Text('')
             : const Icon(CupertinoIcons.circle_fill),
       ),
     ];
   }
 
-  List<Widget> multiSelectionButtonsBuild() {
+  void _confirmSelection() {
+    for (var element in _params['selectedButton']) {
+      element.changeColor();
+      element.deselect();
+    }
+    //TODO: add analyzer for "gesture"
+    _message("Comandi riconsociuti:",
+        _params['analyzer'].analyze(_params['selectedButton']).toString());
+    _params['analyzer'].resetAnalyzer();
+    setState(() {
+      _params['selectedButton'] = <CrossButton>[];
+    });
+  }
+
+  void _message(String title, String message) {
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          // CupertinoDialogAction(
+          //   child: const Text('Yes'),
+          //   isDestructiveAction: true,
+          //   onPressed: () {
+          //     // Do something destructive.
+          //   },
+          // )
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _multiSelectionButtonsBuild() {
     List<Widget> result = [
       CupertinoButton(
-        onPressed: () => setState(() {
-          multiSelect = !multiSelect;
-          selectedButton = [];
-        }),
+        onPressed: _changeSelectionMode,
         padding: const EdgeInsets.all(5.0),
-        child: multiSelect
+        child: _params['multiSelect']
             ? const Text('Single selection')
             : const Text('Multiple selection'),
       )
@@ -156,7 +200,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       Row(children: <Widget>[
         CupertinoButton(
           onPressed: () {
-            confirmSelection();
+            _confirmSelection();
           },
           borderRadius: BorderRadius.circular(45.0),
           minSize: 40.0,
@@ -166,7 +210,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         ),
         CupertinoButton(
           onPressed: () {
-            removeSelection();
+            _removeSelection();
           },
           borderRadius: BorderRadius.circular(45.0),
           minSize: 40.0,
@@ -181,46 +225,39 @@ class GestureImplementationState extends State<GestureImplementation> {
     return result;
   }
 
-  void recreateCross() {
+  void _recreateCross() {
     setState(() {
-      nextColor = CupertinoColors.systemGrey;
-      visible = false;
-      ++crossKey;
-      multiSelect = false;
-      selectedButton = [];
+      _params['nextColor'] = CupertinoColors.systemGrey;
+      _params['visible'] = false;
+      ++_crossKey;
+      _params['multiSelect'] = false;
+      _params['selectedButton'] = <CrossButton>[];
+      _params['analyzer'].resetAnalyzer();
     });
   }
 
-  List<Widget> visibilityButtonBuild() {
+  void _removeSelection() {
+    //TODO: implement delete color multiple selection
+    for (var element in _params['selectedButton']) {
+      if (mounted) {
+        element.deselect();
+      }
+      _params['analyzer'].resetAnalyzer();
+      setState(() {
+        _params['selectedButton'] = <CrossButton>[];
+      });
+    }
+  }
+
+  List<Widget> _visibilityButtonBuild() {
     return <Widget>[
       CupertinoButton(
-          onPressed: visible ? null : () => changeVisibility(),
+          onPressed: _params['visible'] ? null : () => _changeVisibility(),
           minSize: 40.0,
           padding: const EdgeInsets.all(5.0),
-          child: visible
+          child: _params['visible']
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
               : const Icon(CupertinoIcons.eye_fill, size: 40.0))
     ];
-  }
-
-  void confirmSelection() {
-    for (var element in selectedButton) {
-      element.changeColor();
-      element.deselect();
-    }
-    //TODO: add analyzer for "gesture"
-    setState(() {selectedButton = [];});
-  }
-
-  void removeSelection() {
-    //TODO: implement delete color multiple selection
-    for (var element in selectedButton) {
-      if (mounted) {
-        setState(() {
-          element.deselect();
-        });
-      }
-      selectedButton = [];
-    }
   }
 }

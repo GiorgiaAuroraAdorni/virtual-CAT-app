@@ -30,7 +30,7 @@ class ActivityHomeState extends State<ActivityHome> {
   void _nextSchema() {
     setState(() {
       if (_currentSchema < 12) {
-        _currentSchema += 1;
+        ++_currentSchema;
       } else {
         _currentSchema = 1;
       }

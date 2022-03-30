@@ -78,33 +78,34 @@ class SchoolForm extends StatelessWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const List<Widget> _widgetContent = <Widget>[
-    SchoolForm(),
-    SchemasLibrary(),
-    ActivityHome()
-  ];
-
-  int _selectedIndex = 0;
-  int get selectedIndex => _selectedIndex;
-
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBuilder: (BuildContext context, int index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(child: _widgetContent.elementAt(_selectedIndex))
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //     _widgetContent.elementAt(_selectedIndex),
-                //   ],
-                // ),
-                );
-          },
-        );
+        switch (index) {
+          case 0:
+            return CupertinoTabView(builder: (context) {
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: SchoolForm()),
+              );
+            });
+          case 1:
+            return CupertinoTabView(builder: (context) {
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: SchemasLibrary()),
+              );
+            });
+          case 2:
+            return CupertinoTabView(builder: (context) {
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: ActivityHome()),
+              );
+            });
+        }
+        throw Exception('Index $index is not supported');
       },
       // Bottom navigation bar
       tabBar: CupertinoTabBar(
@@ -125,19 +126,12 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: CupertinoColors.lightBackgroundGray,
           ),
         ],
-        currentIndex: _selectedIndex,
         activeColor: CupertinoColors.activeBlue,
-        onTap: _onItemTapped,
       ),
     );
   }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 }
+
 // ElevatedButton(
 //   onPressed: () {
 //     // Validate returns true if the form is valid, or false otherwise.
