@@ -74,20 +74,20 @@ class Analyzer {
     }
   }
 
-  void _diagonals(List<Tuple2<String, int>> coordinates) {
-    //TODO: implement different function for each direction of function and call here
-    // for (int i = 0; i < coordinates.length - 1; i++) {
-    //   if (coordinates[i].item1 == coordinates[i + 1].item1) {
-    //     if (!_possiblePath.contains("diagonal")) {
-    //       _possiblePath.add("diagonal");
-    //     }
-    //   } else {
-    //     _possiblePath.remove("diagonal");
-    //     _impossiblePath.add("diagonal");
-    //     break;
-    //   }
-    // }
-  }
+  // void _diagonals(List<Tuple2<String, int>> coordinates) {
+  //   //TODO: implement different function for each direction of function and call here
+  //   // for (int i = 0; i < coordinates.length - 1; i++) {
+  //   //   if (coordinates[i].item1 == coordinates[i + 1].item1) {
+  //   //     if (!_possiblePath.contains("diagonal")) {
+  //   //       _possiblePath.add("diagonal");
+  //   //     }
+  //   //   } else {
+  //   //     _possiblePath.remove("diagonal");
+  //   //     _impossiblePath.add("diagonal");
+  //   //     break;
+  //   //   }
+  //   // }
+  // }
 
   List<Tuple2<String, int>> _generateCoordinates(
       List<CrossButton> selectedButton) {

@@ -7,13 +7,21 @@ import 'cross_button.dart';
 class CrossWidget extends StatefulWidget {
   final Map params;
 
+  final GlobalKey<CrossWidgetState> globalKey;
+
   const CrossWidget({
-    Key? key,
+    required this.globalKey,
     required this.params,
-  }) : super(key: key);
+  }) : super(key: globalKey);
+
+  void changeVisibility() => _changeVisibility(globalKey);
 
   @override
   CrossWidgetState createState() => CrossWidgetState();
+
+  void _changeVisibility(GlobalKey<CrossWidgetState> globalKey) {
+    globalKey.currentState?.changeVisibility();
+  }
 }
 
 /// State for the activity page
@@ -22,7 +30,6 @@ class CrossWidgetState extends State<CrossWidget> {
 
   @override
   Widget build(context) {
-    print('Build cross');
     return GestureDetector(
       onPanStart: (details) {
         checkPosition(details.globalPosition);
@@ -54,8 +61,17 @@ class CrossWidgetState extends State<CrossWidget> {
     return result;
   }
 
+  void changeVisibility() {
+    for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
+      for (int x in [1, 2, 3, 4, 5, 6]) {
+        if (buttons[y][x] != null) {
+          buttons[y][x].changeVisibility();
+        }
+      }
+    }
+  }
+
   void checkPosition(Offset globalPosition) {
-    print('checkPosition');
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
@@ -73,7 +89,7 @@ class CrossWidgetState extends State<CrossWidget> {
   }
 
   void endPan(details) {
-    print(widget.params['analyzer'].analyze(widget.params['selectedButton']));
+    widget.params['analyzer'].analyze(widget.params['selectedButton']);
   }
 
   @override
@@ -91,9 +107,8 @@ class CrossWidgetState extends State<CrossWidget> {
         possibleXs = [1, 2, 3, 4, 5, 6];
       }
       for (int x in possibleXs) {
-
         buttons[y][x] = CrossButton(
-            key: GlobalKey<CrossButtonState>(),
+            globalKey: GlobalKey<CrossButtonState>(),
             position: Tuple2<String, int>(y, x),
             params: widget.params);
       }

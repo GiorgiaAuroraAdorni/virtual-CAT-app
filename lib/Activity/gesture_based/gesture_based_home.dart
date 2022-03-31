@@ -19,7 +19,9 @@ class GestureImplementation extends StatefulWidget {
 
 /// State for the gesture-based GUI
 class GestureImplementationState extends State<GestureImplementation> {
-  int _crossKey = 1;
+  // int _crossKey = 1;
+
+  late CrossWidget cross;
 
   final Map _params = {
     'nextColor': CupertinoColors.systemGrey,
@@ -31,7 +33,6 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   @override
   Widget build(context) {
-    print('build home state');
     return Padding(
         padding: const EdgeInsets.all(100.0),
         child: Column(children: <Widget>[
@@ -50,7 +51,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             Column(children: <Widget>[
               Row(children: _colorButtonsBuild()),
               const SizedBox(height: 20),
-              CrossWidget(key: Key(_crossKey.toString()), params: _params),
+              cross,
               const SizedBox(height: 20),
               Column(children: _multiSelectionButtonsBuild()),
             ]),
@@ -73,6 +74,13 @@ class GestureImplementationState extends State<GestureImplementation> {
         ]));
   }
 
+  @override
+  void initState() {
+    cross =
+        CrossWidget(globalKey: GlobalKey<CrossWidgetState>(), params: _params);
+    super.initState();
+  }
+
   void _changeColor(Color nextColor) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
@@ -92,9 +100,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void _changeVisibility() {
-      print('visibility changed');
-      _params['visible'] = true;
-      setState(() {});
+    _params['visible'] = true;
+    cross.changeVisibility();
+    setState(() {});
   }
 
   List<Widget> _colorButtonsBuild() {
@@ -229,10 +237,12 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       _params['nextColor'] = CupertinoColors.systemGrey;
       _params['visible'] = false;
-      ++_crossKey;
+      // ++_crossKey;
       _params['multiSelect'] = false;
       _params['selectedButton'] = <CrossButton>[];
       _params['analyzer'].resetAnalyzer();
+      cross = CrossWidget(
+          globalKey: GlobalKey<CrossWidgetState>(), params: _params);
     });
   }
 

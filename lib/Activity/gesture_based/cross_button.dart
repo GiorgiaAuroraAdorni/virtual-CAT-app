@@ -4,28 +4,33 @@ import 'package:tuple/tuple.dart';
 class CrossButton extends StatefulWidget {
   final Tuple2<String, int> position;
 
-  @override
-  final GlobalKey<CrossButtonState> key;
+  final GlobalKey<CrossButtonState> globalKey;
 
   final Map params;
 
   const CrossButton(
-      {required this.key, required this.position, required this.params})
-      : super(key: key);
+      {required this.globalKey, required this.position, required this.params})
+      : super(key: globalKey);
 
-  void changeColor() => _changeColor(key);
+  void changeColor() => _changeColor(globalKey);
+
+  void changeVisibility() => _changeVisibility(globalKey);
 
   @override
   State<CrossButton> createState() => CrossButtonState();
 
-  void deselect() => _deselect(key);
+  void deselect() => _deselect(globalKey);
 
-  Tuple2<double, double> getPosition() => _getPositionFromKey(key);
+  Tuple2<double, double> getPosition() => _getPositionFromKey(globalKey);
 
-  void select() => _select(key);
+  void select() => _select(globalKey);
 
   void _changeColor(GlobalKey<CrossButtonState> globalKey) {
     globalKey.currentState?.changeColor();
+  }
+
+  void _changeVisibility(GlobalKey<CrossButtonState> globalKey) {
+    globalKey.currentState?.changeVisibility();
   }
 
   void _deselect(GlobalKey<CrossButtonState> globalKey) {
@@ -53,10 +58,8 @@ class CrossButtonState extends State<CrossButton> {
 
   @override
   Widget build(context) {
-    print('BUILD BUTTON ${widget.position.item1} ${widget.position.item2}');
-    print(widget.params['visible']);
     return CupertinoButton(
-      onPressed: onTap, //widget.params['multiSelect'] ? select : changeColor,
+      onPressed: _onTap, //widget.params['multiSelect'] ? select : changeColor,
       borderRadius: BorderRadius.circular(45.0),
       minSize: 45.0,
       color: widget.params['visible'] ? color : CupertinoColors.systemGrey,
@@ -66,10 +69,13 @@ class CrossButtonState extends State<CrossButton> {
   }
 
   void changeColor() {
-    print('changeColor ${widget.position.item1} ${widget.position.item2}');
     setState(() {
       color = widget.params['nextColor'];
     });
+  }
+
+  void changeVisibility() {
+    setState(() {});
   }
 
   void deselect() {
@@ -78,16 +84,7 @@ class CrossButtonState extends State<CrossButton> {
     });
   }
 
-  void onTap() {
-    if (widget.params['multiSelect']) {
-      select();
-    } else {
-      changeColor();
-    }
-  }
-
   void select() {
-    print('select ${widget.position.item1} ${widget.position.item2}');
     setState(() {
       if (!widget.params['selectedButton'].contains(widget)) {
         widget.params['selectedButton'].add(widget);
@@ -95,5 +92,13 @@ class CrossButtonState extends State<CrossButton> {
       widget.params['analyzer'].analyze(widget.params['selectedButton']);
       selected = true;
     });
+  }
+
+  void _onTap() {
+    if (widget.params['multiSelect']) {
+      select();
+    } else {
+      changeColor();
+    }
   }
 }
