@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../Utility/analyzer.dart';
+import 'analyzer.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 

@@ -64,7 +64,7 @@ class CrossButtonState extends State<CrossButton> {
       minSize: 45.0,
       color: widget.params['visible'] ? color : CupertinoColors.systemGrey,
       padding: const EdgeInsets.all(0.0),
-      child: selected ? const Icon(CupertinoIcons.circle_fill) : const Text(''),
+      child: selected ? const Icon(CupertinoIcons.circle_fill) : Text('${widget.position.item1}${widget.position.item2}')//const Text(''),
     );
   }
 
