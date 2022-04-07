@@ -14,7 +14,15 @@ class Analyzer {
       'diagonal up left',
       'diagonal down left',
       'diagonal up right',
-      'diagonal down right'
+      'diagonal down right',
+      'zig-zag left up down',
+      'zig-zag left down up',
+      'zig-zag right up down',
+      'zig-zag right down up',
+      'zig-zag up left right',
+      'zig-zag up right left',
+      'zig-zag down right left',
+      'zig-zag down left right',
     ];
   }
 
@@ -53,103 +61,93 @@ class Analyzer {
             ? null
             : _possiblePath.remove('diagonal down right');
       }
-      if (selectedButton.length == 4) {
-        if(_square(coordinates) && !_possiblePath.contains('square')){
+      if (coordinates.length == 4) {
+        if (_square(coordinates) && !_possiblePath.contains('square')) {
           _possiblePath.add('square');
         }
-      } else if(selectedButton.length > 4 && _possiblePath.contains('square')){
+      } else if (coordinates.length > 4) {
         _possiblePath.remove('square');
+      }
+
+      if (coordinates.length == 5) {
+        (_lUpLeft(coordinates) && !_possiblePath.contains('L up left'))
+            ? _possiblePath.add('L up left')
+            : null;
+        (_lUpRight(coordinates) && !_possiblePath.contains('L up right'))
+            ? _possiblePath.add('L up right')
+            : null;
+        (_lDownLeft(coordinates) && !_possiblePath.contains('L down left'))
+            ? _possiblePath.add('L down left')
+            : null;
+        (_lDownRight(coordinates) && !_possiblePath.contains('L down right'))
+            ? _possiblePath.add('L down right')
+            : null;
+        (_lLeftUp(coordinates) && !_possiblePath.contains('L left up'))
+            ? _possiblePath.add('L left up')
+            : null;
+        (_lLeftDown(coordinates) && !_possiblePath.contains('L left down'))
+            ? _possiblePath.add('L left down')
+            : null;
+        (_lRightUp(coordinates) && !_possiblePath.contains('L right up'))
+            ? _possiblePath.add('L right up')
+            : null;
+        (_lRightDown(coordinates) && !_possiblePath.contains('L right down'))
+            ? _possiblePath.add('L right down')
+            : null;
+      } else if (coordinates.length > 5) {
+        _possiblePath.remove('L up left');
+        _possiblePath.remove('L up right');
+        _possiblePath.remove('L down left');
+        _possiblePath.remove('L down right');
+        _possiblePath.remove('L left up');
+        _possiblePath.remove('L left down');
+        _possiblePath.remove('L right up');
+        _possiblePath.remove('L right down');
+      }
+      if (coordinates.length >= 3) {
+        if (_possiblePath.contains('zig-zag left up down')) {
+          _zigLeftUpDown(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag left up down');
+        }
+        if (_possiblePath.contains('zig-zag left down up')) {
+          _zigLeftDownUp(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag left down up');
+        }
+        if (_possiblePath.contains('zig-zag right up down')) {
+          _zigRightUpDown(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag right up down');
+        }
+        if (_possiblePath.contains('zig-zag right down up')) {
+          _zigRightDownUp(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag right down up');
+        }
+        if (_possiblePath.contains('zig-zag up left right')) {
+          _zigUpLeftRight(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag up left right');
+        }
+        if (_possiblePath.contains('zig-zag up right left')) {
+          _zigUpRightLeft(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag up right left');
+        }
+        if (_possiblePath.contains('zig-zag down right left')) {
+          _zigDownRightLeft(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag down right left');
+        }
+        if (_possiblePath.contains('zig-zag down left right')) {
+          _zigDownLeftRight(coordinates)
+              ? null
+              : _possiblePath.remove('zig-zag down left right');
+        }
       }
     }
     return _possiblePath;
-  }
-
-  //diagonal up left
-  bool _diagonalUpLeft(List<Map> coordinates) {
-    bool correct = false;
-    for (int i = 0; i < coordinates.length - 1; i++) {
-      correct = false;
-      switch (coordinates[i]['y']) {
-        case 'a':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 1});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'b':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'c':
-          switch (coordinates[i]['x']) {
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 1});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 5});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'd':
-          switch (coordinates[i]['x']) {
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 4});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'e':
-          if (coordinates[i]['x'] == 4) {
-            correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 3});
-          } else {
-            correct = false;
-          }
-          break;
-        default:
-          correct = false;
-          break;
-      }
-      if (!correct) {
-        break;
-      }
-    }
-    return correct;
   }
 
   bool _diagonalDownLeft(List<Map> coordinates) {
@@ -326,6 +324,94 @@ class Analyzer {
     return correct;
   }
 
+  //diagonal up left
+  bool _diagonalUpLeft(List<Map> coordinates) {
+    bool correct = false;
+    for (int i = 0; i < coordinates.length - 1; i++) {
+      correct = false;
+      switch (coordinates[i]['y']) {
+        case 'a':
+          switch (coordinates[i]['x']) {
+            case 3:
+              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 1});
+              break;
+            case 4:
+              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 3});
+              break;
+            default:
+              correct = false;
+              break;
+          }
+          break;
+        case 'b':
+          switch (coordinates[i]['x']) {
+            case 3:
+              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 2});
+              break;
+            case 4:
+              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 3});
+              break;
+            default:
+              correct = false;
+              break;
+          }
+          break;
+        case 'c':
+          switch (coordinates[i]['x']) {
+            case 2:
+              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 1});
+              break;
+            case 3:
+              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 2});
+              break;
+            case 4:
+              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 3});
+              break;
+            case 5:
+              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 4});
+              break;
+            case 6:
+              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 5});
+              break;
+            default:
+              correct = false;
+              break;
+          }
+          break;
+        case 'd':
+          switch (coordinates[i]['x']) {
+            case 4:
+              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 3});
+              break;
+            case 5:
+              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 4});
+              break;
+            case 6:
+              correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 4});
+              break;
+            default:
+              correct = false;
+              break;
+          }
+          break;
+        case 'e':
+          if (coordinates[i]['x'] == 4) {
+            correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 3});
+          } else {
+            correct = false;
+          }
+          break;
+        default:
+          correct = false;
+          break;
+      }
+      if (!correct) {
+        break;
+      }
+    }
+    return correct;
+  }
+
   bool _diagonalUpRight(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
@@ -456,6 +542,16 @@ class Analyzer {
     return result;
   }
 
+  bool _lDownLeft(List<Map> coordinates) {
+    return (_down([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _left([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lDownRight(List<Map> coordinates) {
+    return (_down([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _right([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
   bool _left(List<Map> coordinates) {
     bool correct = false;
     var y = coordinates[0]['y'];
@@ -471,6 +567,36 @@ class Analyzer {
     return correct;
   }
 
+  bool _lLeftDown(List<Map> coordinates) {
+    return (_left([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _down([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lLeftUp(List<Map> coordinates) {
+    return (_left([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _up([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lRightDown(List<Map> coordinates) {
+    return (_right([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _down([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lRightUp(List<Map> coordinates) {
+    return (_right([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _up([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lUpLeft(List<Map> coordinates) {
+    return (_up([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _left([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
+  bool _lUpRight(List<Map> coordinates) {
+    return (_up([coordinates[0], coordinates[1], coordinates[2]]) &&
+        _right([coordinates[2], coordinates[3], coordinates[4]]));
+  }
+
   bool _right(List<Map> coordinates) {
     bool correct = false;
     var y = coordinates[0]['y'];
@@ -484,6 +610,23 @@ class Analyzer {
       }
     }
     return correct;
+  }
+
+  bool _square(List<Map> coordinates) {
+    var sorted = [];
+    sorted.addAll(coordinates);
+    sorted.sort((a, b) {
+      var r = a["y"].compareTo(b["y"]);
+      if (r != 0) return r;
+      return a["x"].compareTo(b["x"]);
+    });
+    var last = sorted[3];
+    sorted[3] = sorted[2];
+    sorted[2] = last;
+    return (_right([sorted[0], sorted[1]]) &&
+        _up([sorted[1], sorted[2]]) &&
+        _left([sorted[2], sorted[3]]) &&
+        _down([sorted[3], sorted[0]]));
   }
 
   bool _up(List<Map> coordinates) {
@@ -520,19 +663,147 @@ class Analyzer {
     return correct;
   }
 
-  bool _square(List<Map> coordinates) {
-    var sorted = coordinates;
-    sorted.sort((a, b) {
-      var r = a["y"].compareTo(b["y"]);
-      if (r != 0) return r;
-      return a["x"].compareTo(b["x"]);
-    });
-    var last = sorted[3];
-    sorted[3] = sorted[2];
-    sorted[2] = last;
-    return (_right([sorted[0], sorted[1]]) &&
-        _up([sorted[1], sorted[2]]) &&
-        _left([sorted[2], sorted[3]]) &&
-        _down([sorted[3], sorted[0]]));
+  bool _zigDownLeftRight(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalDownLeft([coordinates[0], coordinates[1]]) &&
+          _diagonalDownRight([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalDownLeft([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalDownRight([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalDownLeft([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigDownRightLeft(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalDownRight([coordinates[0], coordinates[1]]) &&
+          _diagonalDownLeft([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalDownRight([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalDownLeft([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalDownRight([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigLeftDownUp(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalDownLeft([coordinates[0], coordinates[1]]) &&
+          _diagonalUpLeft([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalDownLeft([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalUpLeft([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalDownLeft([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigLeftUpDown(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalUpLeft([coordinates[0], coordinates[1]]) &&
+          _diagonalDownLeft([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalUpLeft([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalDownLeft([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalUpLeft([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigRightDownUp(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalDownRight([coordinates[0], coordinates[1]]) &&
+          _diagonalUpRight([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalDownRight([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalUpRight([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalDownRight([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigRightUpDown(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalUpRight([coordinates[0], coordinates[1]]) &&
+          _diagonalDownRight([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalUpRight([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalDownRight([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalUpRight([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigUpLeftRight(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalUpLeft([coordinates[0], coordinates[1]]) &&
+          _diagonalUpRight([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalUpLeft([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalUpRight([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalUpLeft([coordinates[4], coordinates[5]]);
+    }
+    return correct;
+  }
+
+  bool _zigUpRightLeft(List<Map> coordinates) {
+    var correct = false;
+    if (coordinates.length >= 3) {
+      correct = _diagonalUpRight([coordinates[0], coordinates[1]]) &&
+          _diagonalUpLeft([coordinates[1], coordinates[2]]);
+    }
+    if (coordinates.length >= 4) {
+      correct = _diagonalUpRight([coordinates[2], coordinates[3]]);
+    }
+    if (coordinates.length >= 5) {
+      correct = _diagonalUpLeft([coordinates[3], coordinates[4]]);
+    }
+    if (coordinates.length == 6) {
+      correct = _diagonalUpRight([coordinates[4], coordinates[5]]);
+    }
+    return correct;
   }
 }
