@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'cross_button.dart';
 
 class Analyzer {
-  List<String> _possiblePath = [];
+  List<String> _possiblePath = ['right', 'left', 'up', 'down', 'diagonal up left', 'diagonal down left', 'diagonal up right','diagonal down right'];
 
   Analyzer();
 
