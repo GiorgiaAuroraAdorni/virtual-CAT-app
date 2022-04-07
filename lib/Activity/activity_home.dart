@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'gesture_based/gesture_based_home.dart';
+import 'gestureBased/gesture_based_home.dart';
 
 /// Implementation for the activity page
 class ActivityHome extends StatefulWidget {

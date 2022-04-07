@@ -19,7 +19,7 @@ class GestureImplementation extends StatefulWidget {
 
 /// State for the gesture-based GUI
 class GestureImplementationState extends State<GestureImplementation> {
-  // int _crossKey = 1;
+  int _crossKey = 1;
 
   late CrossWidget cross;
 
@@ -40,7 +40,6 @@ class GestureImplementationState extends State<GestureImplementation> {
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("solution"),
                   const SizedBox(height: 50),
                   Image(
                       image: AssetImage('resources/sequence/image/S' +
@@ -77,7 +76,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   void initState() {
     cross =
-        CrossWidget(globalKey: GlobalKey<CrossWidgetState>(), params: _params);
+        CrossWidget(globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()), params: _params);
     super.initState();
   }
 
@@ -108,6 +107,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _colorButtonsBuild() {
     return <Widget>[
       CupertinoButton(
+        key: const Key('ColorButtonBlue'),
         onPressed: () => _changeColor(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
@@ -119,6 +119,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
       const SizedBox(width: 8),
       CupertinoButton(
+        key: const Key('ColorButtonRed'),
         onPressed: () => _changeColor(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
@@ -130,6 +131,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
       const SizedBox(width: 8),
       CupertinoButton(
+        key: const Key('ColorButtonGreen'),
         onPressed: () => _changeColor(CupertinoColors.systemGreen),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
@@ -141,6 +143,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
       const SizedBox(width: 8),
       CupertinoButton(
+        key: const Key('ColorButtonYellow'),
         onPressed: () => _changeColor(CupertinoColors.systemYellow),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
@@ -158,7 +161,6 @@ class GestureImplementationState extends State<GestureImplementation> {
       element.changeColor();
       element.deselect();
     }
-    //TODO: add analyzer for "gesture"
     _message("Comandi riconsociuti:",
         _params['analyzer'].analyze(_params['selectedButton']).toString());
     _params['analyzer'].resetAnalyzer();
@@ -195,6 +197,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _multiSelectionButtonsBuild() {
     List<Widget> result = [
       CupertinoButton(
+        key: const Key('Selection mode'),
         onPressed: _changeSelectionMode,
         padding: const EdgeInsets.all(5.0),
         child: _params['multiSelect']
@@ -207,6 +210,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       ,
       Row(children: <Widget>[
         CupertinoButton(
+          key: const Key('Confirm Selection'),
           onPressed: () {
             _confirmSelection();
           },
@@ -217,6 +221,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           child: const Icon(CupertinoIcons.checkmark),
         ),
         CupertinoButton(
+          key: const Key('Delete Selection'),
           onPressed: () {
             _removeSelection();
           },
@@ -237,12 +242,12 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       _params['nextColor'] = CupertinoColors.systemGrey;
       _params['visible'] = false;
-      // ++_crossKey;
+      ++_crossKey;
       _params['multiSelect'] = false;
       _params['selectedButton'] = <CrossButton>[];
       _params['analyzer'].resetAnalyzer();
       cross = CrossWidget(
-          globalKey: GlobalKey<CrossWidgetState>(), params: _params);
+          globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()), params: _params);
     });
   }
 
@@ -262,6 +267,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _visibilityButtonBuild() {
     return <Widget>[
       CupertinoButton(
+        key: const Key('Visibility Button'),
           onPressed: _params['visible'] ? null : () => _changeVisibility(),
           minSize: 40.0,
           padding: const EdgeInsets.all(5.0),
