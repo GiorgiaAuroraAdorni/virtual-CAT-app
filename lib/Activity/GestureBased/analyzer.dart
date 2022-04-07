@@ -3,49 +3,47 @@ import 'package:flutter/foundation.dart';
 import 'cross_button.dart';
 
 class Analyzer {
-  final List<String> _possiblePath = [];
-  final List<String> _impossiblePath = [];
+  List<String> _possiblePath = [];
 
   Analyzer();
 
   List<String> analyze(List<CrossButton> selectedButton) {
     var coordinates = _generateCoordinates(selectedButton);
     if (coordinates.length > 1) {
-      if (!_impossiblePath.contains('right')) {
-        _right(coordinates);
+      if (_possiblePath.contains('right')) {
+        _right(coordinates) ? null : _possiblePath.remove('right');
       }
-      if (!_impossiblePath.contains('left')) {
-        _left(coordinates);
+      if (_possiblePath.contains('left')) {
+        _left(coordinates)? null : _possiblePath.remove('left');
       }
-      if (!_impossiblePath.contains('up')) {
-        _up(coordinates);
+      if (_possiblePath.contains('up')) {
+        _up(coordinates)? null : _possiblePath.remove('up');
       }
-      if (!_impossiblePath.contains('down')) {
-        _down(coordinates);
+      if (_possiblePath.contains('down')) {
+        _down(coordinates)? null : _possiblePath.remove('down');
       }
-      if (!_impossiblePath.contains('diagonal up left')) {
-        _diagonalUpLeft(coordinates);
+      if (_possiblePath.contains('diagonal up left')) {
+        _diagonalUpLeft(coordinates)? null : _possiblePath.remove('diagonal up left');
       }
-      if (!_impossiblePath.contains('diagonal up right')) {
-        _diagonalUpRight(coordinates);
+      if (_possiblePath.contains('diagonal up right')) {
+        _diagonalUpRight(coordinates)? null : _possiblePath.remove('diagonal up right');
       }
-      if (!_impossiblePath.contains('diagonal down left')) {
-        _diagonalDownLeft(coordinates);
+      if (_possiblePath.contains('diagonal down left')) {
+        _diagonalDownLeft(coordinates)? null : _possiblePath.remove('diagonal down left');
       }
-      if (!_impossiblePath.contains('diagonal down right')) {
-        _diagonalDownRight(coordinates);
+      if (_possiblePath.contains('diagonal down right')) {
+        _diagonalDownRight(coordinates)? null : _possiblePath.remove('diagonal down right');
       }
     }
     return _possiblePath;
   }
 
   void resetAnalyzer() {
-    _possiblePath.clear();
-    _impossiblePath.clear();
+    _possiblePath = ['right', 'left', 'up', 'down', 'diagonal up left', 'diagonal down left', 'diagonal up right','diagonal down right'];
   }
 
   //diagonal up left
-  void _diagonalUpLeft(List<Map> coordinates) {
+  bool _diagonalUpLeft(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
@@ -129,17 +127,10 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("diagonal up left")) {
-        _possiblePath.add("diagonal up left");
-      }
-    } else {
-      _possiblePath.remove("diagonal up left");
-      _impossiblePath.add("diagonal up left");
-    }
+    return correct;
   }
 
-  void _diagonalDownLeft(List<Map> coordinates) {
+  bool _diagonalDownLeft(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
@@ -223,17 +214,10 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("diagonal down left")) {
-        _possiblePath.add("diagonal down left");
-      }
-    } else {
-      _possiblePath.remove("diagonal down left");
-      _impossiblePath.add("diagonal down left");
-    }
+    return  correct;
   }
 
-  void _diagonalDownRight(List<Map> coordinates) {
+  bool _diagonalDownRight(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
@@ -317,17 +301,10 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("diagonal down right")) {
-        _possiblePath.add("diagonal down right");
-      }
-    } else {
-      _possiblePath.remove("diagonal down right");
-      _impossiblePath.add("diagonal down right");
-    }
+    return correct;
   }
 
-  void _diagonalUpRight(List<Map> coordinates) {
+  bool _diagonalUpRight(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
@@ -411,17 +388,10 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("diagonal up right")) {
-        _possiblePath.add("diagonal up right");
-      }
-    } else {
-      _possiblePath.remove("diagonal up right");
-      _impossiblePath.add("diagonal up right");
-    }
+    return correct;
   }
 
-  void _down(List<Map> coordinates) {
+  bool _down(List<Map> coordinates) {
     bool correct = false;
     var x = coordinates[0]['x'];
     for (int i = 0; i < coordinates.length - 1; i++) {
@@ -452,14 +422,7 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("down")) {
-        _possiblePath.add("down");
-      }
-    } else {
-      _possiblePath.remove("down");
-      _impossiblePath.add("down");
-    }
+    return correct;
   }
 
   List<Map> _generateCoordinates(List<CrossButton> selectedButton) {
@@ -471,39 +434,37 @@ class Analyzer {
     return result;
   }
 
-  void _left(List<Map> coordinates) {
+  bool _left(List<Map> coordinates) {
+    bool correct = false;
     var y = coordinates[0]['y'];
     for (int i = 0; i < coordinates.length - 1; i++) {
       if ((coordinates[i]['y'] == y && y == coordinates[i + 1]['y']) &&
           coordinates[i]['x'] - 1 == coordinates[i + 1]['x']) {
-        if (!_possiblePath.contains("left")) {
-          _possiblePath.add("left");
-        }
+        correct = false;
       } else {
-        _possiblePath.remove("left");
-        _impossiblePath.add("left");
+        correct = false;
         break;
       }
     }
+    return correct;
   }
 
-  void _right(List<Map> coordinates) {
+  bool _right(List<Map> coordinates) {
+    bool correct = false;
     var y = coordinates[0]['y'];
     for (int i = 0; i < coordinates.length - 1; i++) {
       if ((coordinates[i]['y'] == y && y == coordinates[i + 1]['y']) &&
           coordinates[i]['x'] + 1 == coordinates[i + 1]['x']) {
-        if (!_possiblePath.contains("right")) {
-          _possiblePath.add("right");
-        }
+        correct = false;
       } else {
-        _possiblePath.remove("right");
-        _impossiblePath.add("right");
+        correct = false;
         break;
       }
     }
+    return correct;
   }
 
-  void _up(List<Map> coordinates) {
+  bool _up(List<Map> coordinates) {
     bool correct = false;
     var x = coordinates[0]['x'];
     for (int i = 0; i < coordinates.length - 1; i++) {
@@ -534,13 +495,6 @@ class Analyzer {
         break;
       }
     }
-    if (correct) {
-      if (!_possiblePath.contains("up")) {
-        _possiblePath.add("up");
-      }
-    } else {
-      _possiblePath.remove("up");
-      _impossiblePath.add("up");
-    }
+    return  correct;
   }
 }

@@ -43,3 +43,7 @@ jobs:
       # Run the unit tests
       - name: Run tests
         run: flutter test
+
+      - name: Upload coverage to codecov
+        run: curl -s https://codecov.io/bash -t $6f44335c-cb76-4436-a38b-c6086b51ef04
+        shell: bash
