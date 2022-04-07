@@ -54,7 +54,9 @@ class Analyzer {
             : _possiblePath.remove('diagonal down right');
       }
       if (selectedButton.length == 4) {
-        _square(coordinates) ? _possiblePath.add('square') : null;
+        if(_square(coordinates) && !_possiblePath.contains('square')){
+          _possiblePath.add('square');
+        }
       } else if(selectedButton.length > 4 && _possiblePath.contains('square')){
         _possiblePath.remove('square');
       }
@@ -519,19 +521,18 @@ class Analyzer {
   }
 
   bool _square(List<Map> coordinates) {
-    var A = coordinates[0];
-    var B = coordinates[1];
-    var C = coordinates[2];
-    var D = coordinates[3];
-    // if(_right([A,B])){
-    //   if(_)
-    // }
-    return false;
-  }
-
-  List<Map> _sortCoordinates (List<Map> coordinates) {
-    var sorted = [{}];
-
-    return sorted;
+    var sorted = coordinates;
+    sorted.sort((a, b) {
+      var r = a["y"].compareTo(b["y"]);
+      if (r != 0) return r;
+      return a["x"].compareTo(b["x"]);
+    });
+    var last = sorted[3];
+    sorted[3] = sorted[2];
+    sorted[2] = last;
+    return (_right([sorted[0], sorted[1]]) &&
+        _up([sorted[1], sorted[2]]) &&
+        _left([sorted[2], sorted[3]]) &&
+        _down([sorted[3], sorted[0]]));
   }
 }
