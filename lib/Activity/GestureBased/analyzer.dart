@@ -3,9 +3,20 @@ import 'package:flutter/foundation.dart';
 import 'cross_button.dart';
 
 class Analyzer {
-  List<String> _possiblePath = ['right', 'left', 'up', 'down', 'diagonal up left', 'diagonal down left', 'diagonal up right','diagonal down right'];
+  late List<String> _possiblePath;
 
-  Analyzer();
+  Analyzer() {
+    _possiblePath = [
+      'right',
+      'left',
+      'up',
+      'down',
+      'diagonal up left',
+      'diagonal down left',
+      'diagonal up right',
+      'diagonal down right'
+    ];
+  }
 
   List<String> analyze(List<CrossButton> selectedButton) {
     var coordinates = _generateCoordinates(selectedButton);
@@ -14,32 +25,41 @@ class Analyzer {
         _right(coordinates) ? null : _possiblePath.remove('right');
       }
       if (_possiblePath.contains('left')) {
-        _left(coordinates)? null : _possiblePath.remove('left');
+        _left(coordinates) ? null : _possiblePath.remove('left');
       }
       if (_possiblePath.contains('up')) {
-        _up(coordinates)? null : _possiblePath.remove('up');
+        _up(coordinates) ? null : _possiblePath.remove('up');
       }
       if (_possiblePath.contains('down')) {
-        _down(coordinates)? null : _possiblePath.remove('down');
+        _down(coordinates) ? null : _possiblePath.remove('down');
       }
       if (_possiblePath.contains('diagonal up left')) {
-        _diagonalUpLeft(coordinates)? null : _possiblePath.remove('diagonal up left');
+        _diagonalUpLeft(coordinates)
+            ? null
+            : _possiblePath.remove('diagonal up left');
       }
       if (_possiblePath.contains('diagonal up right')) {
-        _diagonalUpRight(coordinates)? null : _possiblePath.remove('diagonal up right');
+        _diagonalUpRight(coordinates)
+            ? null
+            : _possiblePath.remove('diagonal up right');
       }
       if (_possiblePath.contains('diagonal down left')) {
-        _diagonalDownLeft(coordinates)? null : _possiblePath.remove('diagonal down left');
+        _diagonalDownLeft(coordinates)
+            ? null
+            : _possiblePath.remove('diagonal down left');
       }
       if (_possiblePath.contains('diagonal down right')) {
-        _diagonalDownRight(coordinates)? null : _possiblePath.remove('diagonal down right');
+        _diagonalDownRight(coordinates)
+            ? null
+            : _possiblePath.remove('diagonal down right');
+      }
+      if (selectedButton.length == 4) {
+        _square(coordinates) ? _possiblePath.add('square') : null;
+      } else if(selectedButton.length > 4 && _possiblePath.contains('square')){
+        _possiblePath.remove('square');
       }
     }
     return _possiblePath;
-  }
-
-  void resetAnalyzer() {
-    _possiblePath = ['right', 'left', 'up', 'down', 'diagonal up left', 'diagonal down left', 'diagonal up right','diagonal down right'];
   }
 
   //diagonal up left
@@ -214,7 +234,7 @@ class Analyzer {
         break;
       }
     }
-    return  correct;
+    return correct;
   }
 
   bool _diagonalDownRight(List<Map> coordinates) {
@@ -440,7 +460,7 @@ class Analyzer {
     for (int i = 0; i < coordinates.length - 1; i++) {
       if ((coordinates[i]['y'] == y && y == coordinates[i + 1]['y']) &&
           coordinates[i]['x'] - 1 == coordinates[i + 1]['x']) {
-        correct = false;
+        correct = true;
       } else {
         correct = false;
         break;
@@ -455,7 +475,7 @@ class Analyzer {
     for (int i = 0; i < coordinates.length - 1; i++) {
       if ((coordinates[i]['y'] == y && y == coordinates[i + 1]['y']) &&
           coordinates[i]['x'] + 1 == coordinates[i + 1]['x']) {
-        correct = false;
+        correct = true;
       } else {
         correct = false;
         break;
@@ -495,6 +515,23 @@ class Analyzer {
         break;
       }
     }
-    return  correct;
+    return correct;
+  }
+
+  bool _square(List<Map> coordinates) {
+    var A = coordinates[0];
+    var B = coordinates[1];
+    var C = coordinates[2];
+    var D = coordinates[3];
+    // if(_right([A,B])){
+    //   if(_)
+    // }
+    return false;
+  }
+
+  List<Map> _sortCoordinates (List<Map> coordinates) {
+    var sorted = [{}];
+
+    return sorted;
   }
 }

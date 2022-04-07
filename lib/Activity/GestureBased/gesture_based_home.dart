@@ -75,8 +75,10 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   @override
   void initState() {
-    cross =
-        CrossWidget(globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()), params: _params);
+    cross = CrossWidget(
+        globalKey:
+            GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
+        params: _params);
     super.initState();
   }
 
@@ -163,7 +165,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     }
     _message("Comandi riconsociuti:",
         _params['analyzer'].analyze(_params['selectedButton']).toString());
-    _params['analyzer'].resetAnalyzer();
+    _params['analyzer'] = Analyzer();
     setState(() {
       _params['selectedButton'] = <CrossButton>[];
     });
@@ -245,9 +247,11 @@ class GestureImplementationState extends State<GestureImplementation> {
       ++_crossKey;
       _params['multiSelect'] = false;
       _params['selectedButton'] = <CrossButton>[];
-      _params['analyzer'].resetAnalyzer();
+      _params['analyzer']= Analyzer();
       cross = CrossWidget(
-          globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()), params: _params);
+          globalKey:
+              GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
+          params: _params);
     });
   }
 
@@ -257,7 +261,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       if (mounted) {
         element.deselect();
       }
-      _params['analyzer'].resetAnalyzer();
+      _params['analyzer'] = Analyzer();
       setState(() {
         _params['selectedButton'] = <CrossButton>[];
       });
@@ -267,7 +271,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _visibilityButtonBuild() {
     return <Widget>[
       CupertinoButton(
-        key: const Key('Visibility Button'),
+          key: const Key('Visibility Button'),
           onPressed: _params['visible'] ? null : () => _changeVisibility(),
           minSize: 40.0,
           padding: const EdgeInsets.all(5.0),
