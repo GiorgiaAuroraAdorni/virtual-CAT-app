@@ -14,140 +14,136 @@ class Analyzer {
       'diagonal up left',
       'diagonal down left',
       'diagonal up right',
-      'diagonal down right',
-      'zig-zag left up down',
-      'zig-zag left down up',
-      'zig-zag right up down',
-      'zig-zag right down up',
-      'zig-zag up left right',
-      'zig-zag up right left',
-      'zig-zag down right left',
-      'zig-zag down left right',
+      'diagonal down right'
     ];
   }
 
   List<String> analyze(List<CrossButton> selectedButton) {
     var coordinates = _generateCoordinates(selectedButton);
     if (coordinates.length > 1) {
-      if (_possiblePath.contains('right')) {
-        _right(coordinates) ? null : _possiblePath.remove('right');
-      }
-      if (_possiblePath.contains('left')) {
-        _left(coordinates) ? null : _possiblePath.remove('left');
-      }
-      if (_possiblePath.contains('up')) {
-        _up(coordinates) ? null : _possiblePath.remove('up');
-      }
-      if (_possiblePath.contains('down')) {
-        _down(coordinates) ? null : _possiblePath.remove('down');
-      }
-      if (_possiblePath.contains('diagonal up left')) {
-        _diagonalUpLeft(coordinates)
-            ? null
-            : _possiblePath.remove('diagonal up left');
-      }
-      if (_possiblePath.contains('diagonal up right')) {
-        _diagonalUpRight(coordinates)
-            ? null
-            : _possiblePath.remove('diagonal up right');
-      }
-      if (_possiblePath.contains('diagonal down left')) {
-        _diagonalDownLeft(coordinates)
-            ? null
-            : _possiblePath.remove('diagonal down left');
-      }
-      if (_possiblePath.contains('diagonal down right')) {
-        _diagonalDownRight(coordinates)
-            ? null
-            : _possiblePath.remove('diagonal down right');
-      }
-      if (coordinates.length == 4) {
-        if (_square(coordinates) && !_possiblePath.contains('square')) {
-          _possiblePath.add('square');
-        }
-      } else if (coordinates.length > 4) {
-        _possiblePath.remove('square');
-      }
-
-      if (coordinates.length == 5) {
-        (_lUpLeft(coordinates) && !_possiblePath.contains('L up left'))
-            ? _possiblePath.add('L up left')
-            : null;
-        (_lUpRight(coordinates) && !_possiblePath.contains('L up right'))
-            ? _possiblePath.add('L up right')
-            : null;
-        (_lDownLeft(coordinates) && !_possiblePath.contains('L down left'))
-            ? _possiblePath.add('L down left')
-            : null;
-        (_lDownRight(coordinates) && !_possiblePath.contains('L down right'))
-            ? _possiblePath.add('L down right')
-            : null;
-        (_lLeftUp(coordinates) && !_possiblePath.contains('L left up'))
-            ? _possiblePath.add('L left up')
-            : null;
-        (_lLeftDown(coordinates) && !_possiblePath.contains('L left down'))
-            ? _possiblePath.add('L left down')
-            : null;
-        (_lRightUp(coordinates) && !_possiblePath.contains('L right up'))
-            ? _possiblePath.add('L right up')
-            : null;
-        (_lRightDown(coordinates) && !_possiblePath.contains('L right down'))
-            ? _possiblePath.add('L right down')
-            : null;
-      } else if (coordinates.length > 5) {
-        _possiblePath.remove('L up left');
-        _possiblePath.remove('L up right');
-        _possiblePath.remove('L down left');
-        _possiblePath.remove('L down right');
-        _possiblePath.remove('L left up');
-        _possiblePath.remove('L left down');
-        _possiblePath.remove('L right up');
-        _possiblePath.remove('L right down');
-      }
-      if (coordinates.length >= 3) {
-        if (_possiblePath.contains('zig-zag left up down')) {
-          _zigLeftUpDown(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag left up down');
-        }
-        if (_possiblePath.contains('zig-zag left down up')) {
-          _zigLeftDownUp(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag left down up');
-        }
-        if (_possiblePath.contains('zig-zag right up down')) {
-          _zigRightUpDown(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag right up down');
-        }
-        if (_possiblePath.contains('zig-zag right down up')) {
-          _zigRightDownUp(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag right down up');
-        }
-        if (_possiblePath.contains('zig-zag up left right')) {
-          _zigUpLeftRight(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag up left right');
-        }
-        if (_possiblePath.contains('zig-zag up right left')) {
-          _zigUpRightLeft(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag up right left');
-        }
-        if (_possiblePath.contains('zig-zag down right left')) {
-          _zigDownRightLeft(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag down right left');
-        }
-        if (_possiblePath.contains('zig-zag down left right')) {
-          _zigDownLeftRight(coordinates)
-              ? null
-              : _possiblePath.remove('zig-zag down left right');
-        }
-      }
+      _analyzeHorizontal(coordinates);
+      _analyzeVertical(coordinates);
+      _analyzeDiagonal(coordinates);
+      _analyzeSquare(coordinates);
+      _analyzeL(coordinates);
+      _analyzeZigZag(coordinates);
+      return _possiblePath;
+    } else {
+      return [];
     }
-    return _possiblePath;
+  }
+
+  void _analyzeHorizontal(List<Map> coordinates){
+    if (_possiblePath.contains('right')) {
+      _right(coordinates) ? null : _possiblePath.remove('right');
+    }
+    if (_possiblePath.contains('left')) {
+      _left(coordinates) ? null : _possiblePath.remove('left');
+    }
+  }
+  void _analyzeVertical(List<Map> coordinates){
+    if (_possiblePath.contains('up')) {
+      _up(coordinates) ? null : _possiblePath.remove('up');
+    }
+    if (_possiblePath.contains('down')) {
+      _down(coordinates) ? null : _possiblePath.remove('down');
+    }
+  }
+  void _analyzeSquare(List<Map> coordinates){
+    if (coordinates.length == 4) {
+      if (_square(coordinates) && !_possiblePath.contains('square')) {
+        _possiblePath.add('square');
+      }
+    } else if (coordinates.length > 4) {
+      _possiblePath.remove('square');
+    }
+  }
+  void _analyzeDiagonal(List<Map> coordinates){
+    if (_possiblePath.contains('diagonal up left')) {
+      _diagonalUpLeft(coordinates)
+          ? null
+          : _possiblePath.remove('diagonal up left');
+    }
+    if (_possiblePath.contains('diagonal up right')) {
+      _diagonalUpRight(coordinates)
+          ? null
+          : _possiblePath.remove('diagonal up right');
+    }
+    if (_possiblePath.contains('diagonal down left')) {
+      _diagonalDownLeft(coordinates)
+          ? null
+          : _possiblePath.remove('diagonal down left');
+    }
+    if (_possiblePath.contains('diagonal down right')) {
+      _diagonalDownRight(coordinates)
+          ? null
+          : _possiblePath.remove('diagonal down right');
+    }
+  }
+  void _analyzeL(List<Map> coordinates){
+    if (coordinates.length == 5) {
+      (_lUpLeft(coordinates) && !_possiblePath.contains('L up left'))
+          ? _possiblePath.add('L up left')
+          : null;
+      (_lUpRight(coordinates) && !_possiblePath.contains('L up right'))
+          ? _possiblePath.add('L up right')
+          : null;
+      (_lDownLeft(coordinates) && !_possiblePath.contains('L down left'))
+          ? _possiblePath.add('L down left')
+          : null;
+      (_lDownRight(coordinates) && !_possiblePath.contains('L down right'))
+          ? _possiblePath.add('L down right')
+          : null;
+      (_lLeftUp(coordinates) && !_possiblePath.contains('L left up'))
+          ? _possiblePath.add('L left up')
+          : null;
+      (_lLeftDown(coordinates) && !_possiblePath.contains('L left down'))
+          ? _possiblePath.add('L left down')
+          : null;
+      (_lRightUp(coordinates) && !_possiblePath.contains('L right up'))
+          ? _possiblePath.add('L right up')
+          : null;
+      (_lRightDown(coordinates) && !_possiblePath.contains('L right down'))
+          ? _possiblePath.add('L right down')
+          : null;
+    } else if (coordinates.length > 5) {
+      _possiblePath.remove('L up left');
+      _possiblePath.remove('L up right');
+      _possiblePath.remove('L down left');
+      _possiblePath.remove('L down right');
+      _possiblePath.remove('L left up');
+      _possiblePath.remove('L left down');
+      _possiblePath.remove('L right up');
+      _possiblePath.remove('L right down');
+    }
+  }
+  void _analyzeZigZag(List<Map> coordinates){
+    if (coordinates.length >= 3) {
+        _zigLeftUpDown(coordinates)
+            ? !_possiblePath.contains('zig-zag left up down') ? _possiblePath.add('zig-zag left up down') : null
+            : _possiblePath.remove('zig-zag left up down');
+        _zigLeftDownUp(coordinates)
+            ? !_possiblePath.contains('zig-zag left down up') ? _possiblePath.add('zig-zag left down up') : null
+            : _possiblePath.remove('zig-zag left down up');
+        _zigRightUpDown(coordinates)
+            ? !_possiblePath.contains('zig-zag right up down') ? _possiblePath.add('zig-zag right up down') : null
+            : _possiblePath.remove('zig-zag right up down');
+        _zigRightDownUp(coordinates)
+            ? !_possiblePath.contains('zig-zag right down up') ? _possiblePath.add('zig-zag right down up') : null
+            : _possiblePath.remove('zig-zag right down up');
+        _zigUpLeftRight(coordinates)
+            ? !_possiblePath.contains('zig-zag up left right') ? _possiblePath.add('zig-zag up left right') : null
+            : _possiblePath.remove('zig-zag up left right');
+        _zigUpRightLeft(coordinates)
+            ? !_possiblePath.contains('zig-zag up right left') ? _possiblePath.add('zig-zag up right left') : null
+            : _possiblePath.remove('zig-zag up right left');
+        _zigDownRightLeft(coordinates)
+            ? !_possiblePath.contains('zig-zag down right left') ? _possiblePath.add('zig-zag down right left') : null
+            : _possiblePath.remove('zig-zag down right left');
+        _zigDownLeftRight(coordinates)
+            ? !_possiblePath.contains('zig-zag down left right') ? _possiblePath.add('zig-zag down left right') : null
+            : _possiblePath.remove('zig-zag down left right');
+    }
   }
 
   bool _diagonalDownLeft(List<Map> coordinates) {
@@ -669,13 +665,13 @@ class Analyzer {
       correct = _diagonalDownLeft([coordinates[0], coordinates[1]]) &&
           _diagonalDownRight([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalDownLeft([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalDownRight([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalDownLeft([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -687,13 +683,13 @@ class Analyzer {
       correct = _diagonalDownRight([coordinates[0], coordinates[1]]) &&
           _diagonalDownLeft([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalDownRight([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalDownLeft([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalDownRight([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -705,13 +701,13 @@ class Analyzer {
       correct = _diagonalDownLeft([coordinates[0], coordinates[1]]) &&
           _diagonalUpLeft([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalDownLeft([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalUpLeft([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalDownLeft([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -723,13 +719,13 @@ class Analyzer {
       correct = _diagonalUpLeft([coordinates[0], coordinates[1]]) &&
           _diagonalDownLeft([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalUpLeft([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalDownLeft([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalUpLeft([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -741,13 +737,13 @@ class Analyzer {
       correct = _diagonalDownRight([coordinates[0], coordinates[1]]) &&
           _diagonalUpRight([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalDownRight([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalUpRight([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalDownRight([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -759,13 +755,13 @@ class Analyzer {
       correct = _diagonalUpRight([coordinates[0], coordinates[1]]) &&
           _diagonalDownRight([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalUpRight([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalDownRight([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalUpRight([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -777,13 +773,13 @@ class Analyzer {
       correct = _diagonalUpLeft([coordinates[0], coordinates[1]]) &&
           _diagonalUpRight([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalUpLeft([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalUpRight([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalUpLeft([coordinates[4], coordinates[5]]);
     }
     return correct;
@@ -795,13 +791,13 @@ class Analyzer {
       correct = _diagonalUpRight([coordinates[0], coordinates[1]]) &&
           _diagonalUpLeft([coordinates[1], coordinates[2]]);
     }
-    if (coordinates.length >= 4) {
+    if (coordinates.length >= 4 && correct) {
       correct = _diagonalUpRight([coordinates[2], coordinates[3]]);
     }
-    if (coordinates.length >= 5) {
+    if (coordinates.length >= 5 && correct) {
       correct = _diagonalUpLeft([coordinates[3], coordinates[4]]);
     }
-    if (coordinates.length == 6) {
+    if (coordinates.length == 6 && correct) {
       correct = _diagonalUpRight([coordinates[4], coordinates[5]]);
     }
     return correct;

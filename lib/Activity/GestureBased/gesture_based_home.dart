@@ -54,6 +54,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               const SizedBox(height: 20),
               Column(children: _multiSelectionButtonsBuild()),
             ]),
+            Column(children: _instructionsButtonsBuild()),
           ]),
           Row(children: <Widget>[
             Column(
@@ -171,6 +172,40 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
+  List<Widget> _instructionsButtonsBuild() {
+    return <Widget>[
+      CupertinoButton(
+        onPressed: () {},
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 45.0,
+        padding: const EdgeInsets.all(0.0),
+        color: CupertinoColors.systemFill,
+        child: const Icon(CupertinoIcons.paintbrush_fill,
+            color: CupertinoColors.black),
+      ),
+      const SizedBox(height: 20),
+      CupertinoButton(
+        onPressed: () {},
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 45.0,
+        padding: const EdgeInsets.all(0.0),
+        color: CupertinoColors.systemFill,
+        child:
+            const Icon(CupertinoIcons.doc_on_doc, color: CupertinoColors.black),
+      ),
+      const SizedBox(height: 20),
+      CupertinoButton(
+        onPressed: () {},
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 45.0,
+        padding: const EdgeInsets.all(0.0),
+        color: CupertinoColors.systemFill,
+        child: const Icon(CupertinoIcons.rectangle_grid_1x2,
+            color: CupertinoColors.black),
+      )
+    ];
+  }
+
   void _message(String title, String message) {
     showCupertinoDialog<void>(
       context: context,
@@ -247,7 +282,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       ++_crossKey;
       _params['multiSelect'] = false;
       _params['selectedButton'] = <CrossButton>[];
-      _params['analyzer']= Analyzer();
+      _params['analyzer'] = Analyzer();
       cross = CrossWidget(
           globalKey:
               GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
