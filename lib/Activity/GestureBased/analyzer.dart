@@ -33,32 +33,7 @@ class Analyzer {
     }
   }
 
-  void _analyzeHorizontal(List<Map> coordinates){
-    if (_possiblePath.contains('right')) {
-      _right(coordinates) ? null : _possiblePath.remove('right');
-    }
-    if (_possiblePath.contains('left')) {
-      _left(coordinates) ? null : _possiblePath.remove('left');
-    }
-  }
-  void _analyzeVertical(List<Map> coordinates){
-    if (_possiblePath.contains('up')) {
-      _up(coordinates) ? null : _possiblePath.remove('up');
-    }
-    if (_possiblePath.contains('down')) {
-      _down(coordinates) ? null : _possiblePath.remove('down');
-    }
-  }
-  void _analyzeSquare(List<Map> coordinates){
-    if (coordinates.length == 4) {
-      if (_square(coordinates) && !_possiblePath.contains('square')) {
-        _possiblePath.add('square');
-      }
-    } else if (coordinates.length > 4) {
-      _possiblePath.remove('square');
-    }
-  }
-  void _analyzeDiagonal(List<Map> coordinates){
+  void _analyzeDiagonal(List<Map> coordinates) {
     if (_possiblePath.contains('diagonal up left')) {
       _diagonalUpLeft(coordinates)
           ? null
@@ -80,7 +55,17 @@ class Analyzer {
           : _possiblePath.remove('diagonal down right');
     }
   }
-  void _analyzeL(List<Map> coordinates){
+
+  void _analyzeHorizontal(List<Map> coordinates) {
+    if (_possiblePath.contains('right')) {
+      _right(coordinates) ? null : _possiblePath.remove('right');
+    }
+    if (_possiblePath.contains('left')) {
+      _left(coordinates) ? null : _possiblePath.remove('left');
+    }
+  }
+
+  void _analyzeL(List<Map> coordinates) {
     if (coordinates.length == 5) {
       (_lUpLeft(coordinates) && !_possiblePath.contains('L up left'))
           ? _possiblePath.add('L up left')
@@ -117,32 +102,68 @@ class Analyzer {
       _possiblePath.remove('L right down');
     }
   }
-  void _analyzeZigZag(List<Map> coordinates){
+
+  void _analyzeSquare(List<Map> coordinates) {
+    if (coordinates.length == 4) {
+      if (_square(coordinates) && !_possiblePath.contains('square')) {
+        _possiblePath.add('square');
+      }
+    } else if (coordinates.length > 4) {
+      _possiblePath.remove('square');
+    }
+  }
+
+  void _analyzeVertical(List<Map> coordinates) {
+    if (_possiblePath.contains('up')) {
+      _up(coordinates) ? null : _possiblePath.remove('up');
+    }
+    if (_possiblePath.contains('down')) {
+      _down(coordinates) ? null : _possiblePath.remove('down');
+    }
+  }
+
+  void _analyzeZigZag(List<Map> coordinates) {
     if (coordinates.length >= 3) {
-        _zigLeftUpDown(coordinates)
-            ? !_possiblePath.contains('zig-zag left up down') ? _possiblePath.add('zig-zag left up down') : null
-            : _possiblePath.remove('zig-zag left up down');
-        _zigLeftDownUp(coordinates)
-            ? !_possiblePath.contains('zig-zag left down up') ? _possiblePath.add('zig-zag left down up') : null
-            : _possiblePath.remove('zig-zag left down up');
-        _zigRightUpDown(coordinates)
-            ? !_possiblePath.contains('zig-zag right up down') ? _possiblePath.add('zig-zag right up down') : null
-            : _possiblePath.remove('zig-zag right up down');
-        _zigRightDownUp(coordinates)
-            ? !_possiblePath.contains('zig-zag right down up') ? _possiblePath.add('zig-zag right down up') : null
-            : _possiblePath.remove('zig-zag right down up');
-        _zigUpLeftRight(coordinates)
-            ? !_possiblePath.contains('zig-zag up left right') ? _possiblePath.add('zig-zag up left right') : null
-            : _possiblePath.remove('zig-zag up left right');
-        _zigUpRightLeft(coordinates)
-            ? !_possiblePath.contains('zig-zag up right left') ? _possiblePath.add('zig-zag up right left') : null
-            : _possiblePath.remove('zig-zag up right left');
-        _zigDownRightLeft(coordinates)
-            ? !_possiblePath.contains('zig-zag down right left') ? _possiblePath.add('zig-zag down right left') : null
-            : _possiblePath.remove('zig-zag down right left');
-        _zigDownLeftRight(coordinates)
-            ? !_possiblePath.contains('zig-zag down left right') ? _possiblePath.add('zig-zag down left right') : null
-            : _possiblePath.remove('zig-zag down left right');
+      _zigLeftUpDown(coordinates)
+          ? !_possiblePath.contains('zig-zag left up down')
+              ? _possiblePath.add('zig-zag left up down')
+              : null
+          : _possiblePath.remove('zig-zag left up down');
+      _zigLeftDownUp(coordinates)
+          ? !_possiblePath.contains('zig-zag left down up')
+              ? _possiblePath.add('zig-zag left down up')
+              : null
+          : _possiblePath.remove('zig-zag left down up');
+      _zigRightUpDown(coordinates)
+          ? !_possiblePath.contains('zig-zag right up down')
+              ? _possiblePath.add('zig-zag right up down')
+              : null
+          : _possiblePath.remove('zig-zag right up down');
+      _zigRightDownUp(coordinates)
+          ? !_possiblePath.contains('zig-zag right down up')
+              ? _possiblePath.add('zig-zag right down up')
+              : null
+          : _possiblePath.remove('zig-zag right down up');
+      _zigUpLeftRight(coordinates)
+          ? !_possiblePath.contains('zig-zag up left right')
+              ? _possiblePath.add('zig-zag up left right')
+              : null
+          : _possiblePath.remove('zig-zag up left right');
+      _zigUpRightLeft(coordinates)
+          ? !_possiblePath.contains('zig-zag up right left')
+              ? _possiblePath.add('zig-zag up right left')
+              : null
+          : _possiblePath.remove('zig-zag up right left');
+      _zigDownRightLeft(coordinates)
+          ? !_possiblePath.contains('zig-zag down right left')
+              ? _possiblePath.add('zig-zag down right left')
+              : null
+          : _possiblePath.remove('zig-zag down right left');
+      _zigDownLeftRight(coordinates)
+          ? !_possiblePath.contains('zig-zag down left right')
+              ? _possiblePath.add('zig-zag down left right')
+              : null
+          : _possiblePath.remove('zig-zag down left right');
     }
   }
 
@@ -150,81 +171,15 @@ class Analyzer {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
-      switch (coordinates[i]['y']) {
-        case 'b':
-          if (coordinates[i]['x'] == 4) {
-            correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 3});
-          } else {
-            correct = false;
-          }
-          break;
-        case 'c':
-          switch (coordinates[i]['x']) {
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 4});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'd':
-          switch (coordinates[i]['x']) {
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 1});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 5});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'e':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'f':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 1});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        default:
-          correct = false;
-          break;
+      if (mapEquals(coordinates[i], {'y': 'c', 'x': 6})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 4});
+      } else if (mapEquals(coordinates[i], {'y': 'f', 'x': 3})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 1});
+      } else {
+        correct = mapEquals(coordinates[i + 1], {
+          'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) - 1),
+          'x': coordinates[i]['x'] - 1
+        });
       }
       if (!correct) {
         break;
@@ -237,81 +192,15 @@ class Analyzer {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
-      switch (coordinates[i]['y']) {
-        case 'b':
-          if (coordinates[i]['x'] == 3) {
-            correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 4});
-          } else {
-            correct = false;
-          }
-          break;
-        case 'c':
-          switch (coordinates[i]['x']) {
-            case 1:
-              correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 3});
-              break;
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 3});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 4});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'd':
-          switch (coordinates[i]['x']) {
-            case 1:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 2});
-              break;
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 3});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 5});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 6});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'e':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 5});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'f':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 6});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        default:
-          correct = false;
-          break;
+      if (mapEquals(coordinates[i], {'y': 'c', 'x': 1})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'a', 'x': 3});
+      } else if (mapEquals(coordinates[i], {'y': 'f', 'x': 4})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 6});
+      } else {
+        correct = mapEquals(coordinates[i + 1], {
+          'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) - 1),
+          'x': coordinates[i]['x'] + 1
+        });
       }
       if (!correct) {
         break;
@@ -320,86 +209,19 @@ class Analyzer {
     return correct;
   }
 
-  //diagonal up left
   bool _diagonalUpLeft(List<Map> coordinates) {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
-      switch (coordinates[i]['y']) {
-        case 'a':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 1});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'b':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 3});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'c':
-          switch (coordinates[i]['x']) {
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 1});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 2});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 5});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'd':
-          switch (coordinates[i]['x']) {
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 3});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 4});
-              break;
-            case 6:
-              correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 4});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'e':
-          if (coordinates[i]['x'] == 4) {
-            correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 3});
-          } else {
-            correct = false;
-          }
-          break;
-        default:
-          correct = false;
-          break;
+      if (mapEquals(coordinates[i], {'y': 'a', 'x': 3})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 1});
+      } else if (mapEquals(coordinates[i], {'y': 'd', 'x': 6})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 4});
+      } else {
+        correct = mapEquals(coordinates[i + 1], {
+          'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) + 1),
+          'x': coordinates[i]['x'] - 1
+        });
       }
       if (!correct) {
         break;
@@ -412,81 +234,15 @@ class Analyzer {
     bool correct = false;
     for (int i = 0; i < coordinates.length - 1; i++) {
       correct = false;
-      switch (coordinates[i]['y']) {
-        case 'a':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'b', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 6});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'b':
-          switch (coordinates[i]['x']) {
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 5});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'c':
-          switch (coordinates[i]['x']) {
-            case 1:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 2});
-              break;
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 3});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 4});
-              break;
-            case 4:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 5});
-              break;
-            case 5:
-              correct = mapEquals(coordinates[i + 1], {'y': 'd', 'x': 6});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'd':
-          switch (coordinates[i]['x']) {
-            case 1:
-              correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 3});
-              break;
-            case 2:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 3});
-              break;
-            case 3:
-              correct = mapEquals(coordinates[i + 1], {'y': 'e', 'x': 4});
-              break;
-            default:
-              correct = false;
-              break;
-          }
-          break;
-        case 'e':
-          if (coordinates[i]['x'] == 3) {
-            correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 4});
-          } else {
-            correct = false;
-          }
-          break;
-        default:
-          correct = false;
-          break;
+      if (mapEquals(coordinates[i], {'y': 'a', 'x': 4})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'c', 'x': 6});
+      } else if (mapEquals(coordinates[i], {'y': 'd', 'x': 1})) {
+        correct = mapEquals(coordinates[i + 1], {'y': 'f', 'x': 3});
+      } else {
+        correct = mapEquals(coordinates[i + 1], {
+          'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) + 1),
+          'x': coordinates[i]['x'] + 1
+        });
       }
       if (!correct) {
         break;
@@ -499,29 +255,11 @@ class Analyzer {
     bool correct = false;
     var x = coordinates[0]['x'];
     for (int i = 0; i < coordinates.length - 1; i++) {
-      correct = false;
-      if (x == coordinates[i]['x'] && x == coordinates[i + 1]['x']) {
-        switch (coordinates[i]['y']) {
-          case 'f':
-            correct = coordinates[i + 1]['y'] == 'e';
-            break;
-          case 'e':
-            correct = coordinates[i + 1]['y'] == 'd';
-            break;
-          case 'd':
-            correct = coordinates[i + 1]['y'] == 'c';
-            break;
-          case 'c':
-            correct = coordinates[i + 1]['y'] == 'b';
-            break;
-          case 'b':
-            correct = coordinates[i + 1]['y'] == 'a';
-            break;
-          default:
-            correct = false;
-            break;
-        }
-      }
+      correct = (x == coordinates[i]['x'] &&
+          mapEquals(coordinates[i + 1], {
+            'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) - 1),
+            'x': x
+          }));
       if (!correct) {
         break;
       }
@@ -629,29 +367,11 @@ class Analyzer {
     bool correct = false;
     var x = coordinates[0]['x'];
     for (int i = 0; i < coordinates.length - 1; i++) {
-      correct = false;
-      if (x == coordinates[i]['x'] && x == coordinates[i + 1]['x']) {
-        switch (coordinates[i]['y']) {
-          case 'a':
-            correct = coordinates[i + 1]['y'] == 'b';
-            break;
-          case 'b':
-            correct = coordinates[i + 1]['y'] == 'c';
-            break;
-          case 'c':
-            correct = coordinates[i + 1]['y'] == 'd';
-            break;
-          case 'd':
-            correct = coordinates[i + 1]['y'] == 'e';
-            break;
-          case 'e':
-            correct = coordinates[i + 1]['y'] == 'f';
-            break;
-          default:
-            correct = false;
-            break;
-        }
-      }
+      correct = correct = (x == coordinates[i]['x'] &&
+          mapEquals(coordinates[i + 1], {
+            'y': String.fromCharCode(coordinates[i]['y'].codeUnitAt(0) + 1),
+            'x': x
+          }));
       if (!correct) {
         break;
       }
