@@ -16,12 +16,22 @@ class CrossButton extends StatefulWidget {
 
   void changeVisibility() => _changeVisibility(globalKey);
 
+  Color currentColor() => _currentColor(globalKey);
+
+  Color _currentColor(GlobalKey<CrossButtonState> globalKey){
+    var state = globalKey.currentState;
+    if(state != null){
+     return state.color;
+    }
+    return CupertinoColors.black;
+  }
+
   @override
   State<CrossButton> createState() => CrossButtonState();
 
   void deselect() => _deselect(globalKey);
 
-  Tuple2<double, double> getPosition() => _getPositionFromKey(globalKey);
+  Offset getPosition() => _getPositionFromKey(globalKey);
 
   void select() => _select(globalKey);
 
@@ -41,14 +51,14 @@ class CrossButton extends StatefulWidget {
     globalKey.currentState?.select();
   }
 
-  static Tuple2<double, double> _getPositionFromKey(
+  static Offset _getPositionFromKey(
       GlobalKey<CrossButtonState> globalKey) {
     RenderBox? box = globalKey.currentContext?.findRenderObject() as RenderBox?;
     Offset? position = box?.localToGlobal(Offset.zero);
     if (position != null) {
-      return Tuple2<double, double>(position.dx, position.dy);
+      return position;
     }
-    return const Tuple2<double, double>(0, 0);
+    return const Offset(0,0);
   }
 }
 
@@ -61,7 +71,7 @@ class CrossButtonState extends State<CrossButton> {
     return CupertinoButton(
       onPressed: _onTap, //widget.params['multiSelect'] ? select : changeColor,
       borderRadius: BorderRadius.circular(45.0),
-      minSize: 45.0,
+      minSize: 55.0,
       color: widget.params['visible'] ? color : CupertinoColors.systemGrey,
       padding: const EdgeInsets.all(0.0),
       child: selected ? const Icon(CupertinoIcons.circle_fill) : Text('${widget.position.item1}${widget.position.item2}')//const Text(''),

@@ -16,6 +16,12 @@ class CrossWidget extends StatefulWidget {
 
   void changeVisibility() => _changeVisibility(globalKey);
 
+  void fillEmpty() => _fillEmpty(globalKey);
+
+  void _fillEmpty(GlobalKey<CrossWidgetState> globalKey){
+    globalKey.currentState?.fillEmpty();
+  }
+
   @override
   CrossWidgetState createState() => CrossWidgetState();
 
@@ -32,31 +38,34 @@ class CrossWidgetState extends State<CrossWidget> {
   Widget build(context) {
     return GestureDetector(
       onPanStart: (details) {
-        checkPosition(details.globalPosition);
+            _checkPosition(details.globalPosition, 55);
       },
       onPanUpdate: (details) {
-        checkPosition(details.globalPosition);
+        _checkPosition(details.globalPosition, 30);
       },
-      onPanEnd: (details) {},
-      child: Column(
+      onPanEnd: (details) {_endPan(details);},
+      child: Padding(
+          padding: const EdgeInsets.all(15.0),
+    child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: buildCross(),
+        children: _buildCross(),
+      )
       ),
     );
   }
 
-  List<Widget> buildCross() {
+  List<Widget> _buildCross() {
     List<Widget> result = [];
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       List<Widget> rowChildren = [];
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
           rowChildren.add(buttons[y][x]);
-          rowChildren.add(const SizedBox(width: 8));
+          rowChildren.add(const SizedBox(width: 10));
         }
       }
       result.add(Row(children: rowChildren));
-      result.add(const SizedBox(height: 8));
+      result.add(const SizedBox(height: 10));
     }
     return result;
   }
@@ -71,15 +80,14 @@ class CrossWidgetState extends State<CrossWidget> {
     }
   }
 
-  void checkPosition(Offset globalPosition) {
+  void _checkPosition(Offset globalPosition, double offset) {
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
           CrossButton current = buttons[y][x];
-          var pos = current.getPosition();
-          Offset position = Offset(pos.item1, pos.item2);
+          Offset position = current.getPosition();
           var distance = (position - globalPosition).distance;
-          if (distance <= 30) {
+          if (distance <= offset) {
             current.select();
           }
         }
@@ -88,7 +96,7 @@ class CrossWidgetState extends State<CrossWidget> {
     setState(() {});
   }
 
-  void endPan(details) {
+  void _endPan(details) {
     widget.params['analyzer'].analyze(widget.params['selectedButton']);
   }
 
@@ -115,4 +123,18 @@ class CrossWidgetState extends State<CrossWidget> {
     }
     super.initState();
   }
+
+  void fillEmpty(){
+    for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
+      for (int x in [1, 2, 3, 4, 5, 6]) {
+        if (buttons[y][x] != null && buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
+          buttons[y][x].changeColor();
+        }
+      }
+    }
+  }
+
+  void mirror(){}
+
+  void copy(){}
 }

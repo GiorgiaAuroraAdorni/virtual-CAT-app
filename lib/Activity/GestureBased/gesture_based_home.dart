@@ -34,7 +34,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   Widget build(context) {
     return Padding(
-        padding: const EdgeInsets.all(100.0),
+        padding: const EdgeInsets.all(50.0),
         child: Column(children: <Widget>[
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             Column(
@@ -96,9 +96,10 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void _changeSelectionMode() {
-    _params['multiSelect'] = !_params['multiSelect'];
-    _params['selectedButton'] = <CrossButton>[];
-    setState(() {});
+    setState(() {
+      _params['multiSelect'] = !_params['multiSelect'];
+      _removeSelection();
+    });
   }
 
   void _changeVisibility() {
@@ -160,22 +161,24 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void _confirmSelection() {
-    for (var element in _params['selectedButton']) {
-      element.changeColor();
-      element.deselect();
+    if(_checkColorSelected()) {
+      for (var element in _params['selectedButton']) {
+        element.changeColor();
+        element.deselect();
+      }
+      _message("Comandi riconsociuti:",
+          _params['analyzer'].analyze(_params['selectedButton']).toString());
+      _params['analyzer'] = Analyzer();
+      setState(() {
+        _params['selectedButton'] = <CrossButton>[];
+      });
     }
-    _message("Comandi riconsociuti:",
-        _params['analyzer'].analyze(_params['selectedButton']).toString());
-    _params['analyzer'] = Analyzer();
-    setState(() {
-      _params['selectedButton'] = <CrossButton>[];
-    });
   }
 
   List<Widget> _instructionsButtonsBuild() {
     return <Widget>[
       CupertinoButton(
-        onPressed: () {},
+        onPressed: () => {setState((){cross.fillEmpty();})},
         borderRadius: BorderRadius.circular(45.0),
         minSize: 45.0,
         padding: const EdgeInsets.all(0.0),
@@ -314,5 +317,13 @@ class GestureImplementationState extends State<GestureImplementation> {
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
               : const Icon(CupertinoIcons.eye_fill, size: 40.0))
     ];
+  }
+
+  bool _checkColorSelected(){
+    if(_params['nextColor'] == CupertinoColors.systemGrey){
+      _message('Colore non selezionato', 'Selezionare un colore per poter eseguire questa operazione');
+      return false;
+    }
+    return true;
   }
 }
