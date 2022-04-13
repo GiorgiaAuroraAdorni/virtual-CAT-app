@@ -28,6 +28,7 @@ void main() {
       'yellow': find.byKey(const Key('ColorButtonYellow')),
     };
 
+    var i = 0;
     for(var k in finderColorButtons.keys) {
       Finder finder = finderColorButtons[k] as Finder;
       var current = finder.evaluate().single.widget as CupertinoButton;
@@ -35,9 +36,9 @@ void main() {
       expect(current.child.toString(), const Text('').toString());
       await tester.tap(finder);
       await tester.pump();
+      i += 1;
       current = finder.evaluate().single.widget as CupertinoButton;
-      expect(find.byIcon(CupertinoIcons.circle_fill), findsOneWidget);
-      expect(current.child.toString(), const Icon(CupertinoIcons.circle_fill).toString());
+      expect(find.byIcon(CupertinoIcons.circle_fill), findsNWidgets(i));
     }
   });
 

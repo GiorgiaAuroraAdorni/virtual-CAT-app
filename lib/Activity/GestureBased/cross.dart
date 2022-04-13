@@ -18,7 +18,7 @@ class CrossWidget extends StatefulWidget {
 
   void fillEmpty() => _fillEmpty(globalKey);
 
-  void _fillEmpty(GlobalKey<CrossWidgetState> globalKey){
+  void _fillEmpty(GlobalKey<CrossWidgetState> globalKey) {
     globalKey.currentState?.fillEmpty();
   }
 
@@ -38,19 +38,20 @@ class CrossWidgetState extends State<CrossWidget> {
   Widget build(context) {
     return GestureDetector(
       onPanStart: (details) {
-            _checkPosition(details.globalPosition, 55);
+        _checkPosition(details.globalPosition, 55);
       },
       onPanUpdate: (details) {
         _checkPosition(details.globalPosition, 30);
       },
-      onPanEnd: (details) {_endPan(details);},
+      onPanEnd: (details) {
+        _endPan(details);
+      },
       child: Padding(
           padding: const EdgeInsets.all(15.0),
-    child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _buildCross(),
-      )
-      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _buildCross(),
+          )),
     );
   }
 
@@ -97,7 +98,7 @@ class CrossWidgetState extends State<CrossWidget> {
   }
 
   void _endPan(details) {
-    widget.params['analyzer'].analyze(widget.params['selectedButton']);
+    widget.params['homeState'].confirmSelection();
   }
 
   @override
@@ -124,17 +125,28 @@ class CrossWidgetState extends State<CrossWidget> {
     super.initState();
   }
 
-  void fillEmpty(){
-    for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
-      for (int x in [1, 2, 3, 4, 5, 6]) {
-        if (buttons[y][x] != null && buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
-          buttons[y][x].changeColor();
+  void fillEmpty() {
+    if(widget.params['nextColors'].length == 1) {
+      bool success = false;
+      for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
+        for (int x in [1, 2, 3, 4, 5, 6]) {
+          if (buttons[y][x] != null &&
+              buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
+            success = true;
+            buttons[y][x].changeColor(0);
+          }
         }
       }
+      if (success) {
+        widget.params['commands'].add("FILL_EMPTY(${widget.params['analyzer'].analyzeColor(widget.params['nextColors'])})");
+      }
+    } else {
+      widget.params['homeState'].message('Troppi colori selezionati', 'Per poter colorare gli spazi vuoti è necessario selezionare un solo colore');
     }
+
   }
 
-  void mirror(){}
+  void mirror() {}
 
-  void copy(){}
+  void copy() {}
 }

@@ -12,7 +12,7 @@ class CrossButton extends StatefulWidget {
       {required this.globalKey, required this.position, required this.params})
       : super(key: globalKey);
 
-  void changeColor() => _changeColor(globalKey);
+  void changeColor(int index) => _changeColor(globalKey, index);
 
   void changeVisibility() => _changeVisibility(globalKey);
 
@@ -35,8 +35,8 @@ class CrossButton extends StatefulWidget {
 
   void select() => _select(globalKey);
 
-  void _changeColor(GlobalKey<CrossButtonState> globalKey) {
-    globalKey.currentState?.changeColor();
+  void _changeColor(GlobalKey<CrossButtonState> globalKey, int index) {
+    globalKey.currentState?.changeColor(index);
   }
 
   void _changeVisibility(GlobalKey<CrossButtonState> globalKey) {
@@ -78,9 +78,9 @@ class CrossButtonState extends State<CrossButton> {
     );
   }
 
-  void changeColor() {
+  void changeColor(int index) {
     setState(() {
-      color = widget.params['nextColor'];
+      color = widget.params['nextColors'][index];
     });
   }
 
@@ -99,7 +99,7 @@ class CrossButtonState extends State<CrossButton> {
       if (!widget.params['selectedButton'].contains(widget)) {
         widget.params['selectedButton'].add(widget);
       }
-      widget.params['analyzer'].analyze(widget.params['selectedButton']);
+      widget.params['analyzer'].analyzePattern(widget.params['selectedButton']);
       selected = true;
     });
   }
@@ -108,7 +108,13 @@ class CrossButtonState extends State<CrossButton> {
     if (widget.params['multiSelect']) {
       select();
     } else {
-      changeColor();
+      if(widget.params['nextColors'].length == 1) {
+        changeColor(0);
+        widget.params['commands'].add("GO(${widget.position.item1}${widget.position.item2})");
+        widget.params['commands'].add("PAINT(${widget.params['analyzer'].analyzeColor(widget.params['nextColors'])})");
+      } else {
+       widget.params['homeState'].message('Troppi colori selezionati', 'Per poter colorare un singolo punto è necessario selezionare un solo colore');
+      }
     }
   }
 }

@@ -24,15 +24,17 @@ class GestureImplementationState extends State<GestureImplementation> {
   late CrossWidget cross;
 
   final Map _params = {
-    'nextColor': CupertinoColors.systemGrey,
+    'nextColors': [],
     'visible': false,
     'multiSelect': false,
     'selectedButton': <CrossButton>[],
-    'analyzer': Analyzer()
+    'analyzer': Analyzer(),
+    'commands': <String>[],
   };
 
   @override
   Widget build(context) {
+    _params['homeState'] = this;
     return Padding(
         padding: const EdgeInsets.all(50.0),
         child: Column(children: <Widget>[
@@ -83,15 +85,19 @@ class GestureImplementationState extends State<GestureImplementation> {
     super.initState();
   }
 
-  void _changeColor(Color nextColor) {
+  void _colorButtonTap(Color color) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
-      // if (this.nextColor == nextColor) {
-      //   this.nextColor = CupertinoColors.systemGrey;
+      // if (this.nextColors == nextColors) {
+      //   this.nextColors = CupertinoColors.systemGrey;
       // } else {
-      //   this.nextColor = nextColor;
+      //   this.nextColors = nextColors;
       // }
-      _params['nextColor'] = nextColor;
+      if (_params['nextColors'].contains(color)) {
+        _params['nextColors'].remove(color);
+      } else {
+        _params['nextColors'].add(color);
+      }
     });
   }
 
@@ -109,76 +115,135 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   List<Widget> _colorButtonsBuild() {
+    var textStyle =
+        const TextStyle(color: CupertinoColors.black, fontSize: 20.0);
     return <Widget>[
       CupertinoButton(
         key: const Key('ColorButtonBlue'),
-        onPressed: () => _changeColor(CupertinoColors.systemBlue),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemBlue,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColor'] != CupertinoColors.systemBlue
-            ? const Text('')
-            : const Icon(CupertinoIcons.circle_fill),
+        child: _params['nextColors'].contains(CupertinoColors.systemBlue)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ' +
+                        (_params['nextColors']
+                                    .indexOf(CupertinoColors.systemBlue) +
+                                1)
+                            .toString(),
+                    style: textStyle),
+              ]) //const Icon(CupertinoIcons.circle_fill)
+            : const Text(''),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
         key: const Key('ColorButtonRed'),
-        onPressed: () => _changeColor(CupertinoColors.systemRed),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemRed,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColor'] != CupertinoColors.systemRed
-            ? const Text('')
-            : const Icon(CupertinoIcons.circle_fill),
+        child: _params['nextColors'].contains(CupertinoColors.systemRed)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ' +
+                        (_params['nextColors']
+                                    .indexOf(CupertinoColors.systemRed) +
+                                1)
+                            .toString(),
+                    style: textStyle),
+              ])
+            : const Text(''),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
         key: const Key('ColorButtonGreen'),
-        onPressed: () => _changeColor(CupertinoColors.systemGreen),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemGreen,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColor'] != CupertinoColors.systemGreen
-            ? const Text('')
-            : const Icon(CupertinoIcons.circle_fill),
+        child: _params['nextColors'].contains(CupertinoColors.systemGreen)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ' +
+                        (_params['nextColors']
+                                    .indexOf(CupertinoColors.systemGreen) +
+                                1)
+                            .toString(),
+                    style: textStyle),
+              ])
+            : const Text(''),
       ),
       const SizedBox(width: 8),
       CupertinoButton(
         key: const Key('ColorButtonYellow'),
-        onPressed: () => _changeColor(CupertinoColors.systemYellow),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         color: CupertinoColors.systemYellow,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColor'] != CupertinoColors.systemYellow
-            ? const Text('')
-            : const Icon(CupertinoIcons.circle_fill),
+        child: _params['nextColors'].contains(CupertinoColors.systemYellow)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ' +
+                        (_params['nextColors']
+                                    .indexOf(CupertinoColors.systemYellow) +
+                                1)
+                            .toString(),
+                    style: textStyle),
+              ])
+            : const Text(''),
       ),
     ];
   }
 
-  void _confirmSelection() {
-    if(_checkColorSelected()) {
-      for (var element in _params['selectedButton']) {
-        element.changeColor();
-        element.deselect();
+  void confirmSelection() {
+    if (_checkColorSelected()) {
+      var recognisedCommands =
+          _params['analyzer'].analyzePattern(_params['selectedButton']);
+      if (recognisedCommands.length == 1) {
+        num j = -1;
+        var numOfColor = _params['nextColors'].length;
+        for (CrossButton element in _params['selectedButton']) {
+          j = (j + 1) % numOfColor;
+          element.changeColor(j.toInt());
+          element.deselect();
+        }
+        message("Comando riconsociuto:", recognisedCommands.toString());
+        var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
+        _params['commands'].add(
+            'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
+        _params['commands'].add(
+            'PAINT($colors, ${_params['selectedButton'].length}, ${recognisedCommands[0]})');
+        _params['analyzer'] = Analyzer();
+        setState(() {
+          _params['selectedButton'].clear();
+        });
+      } else if (recognisedCommands.length == 0) {
+        message("Nessun commando riconsociuto",
+            "Non è stato possible riconoscer alcun comando");
+        _removeSelection();
+      } else {
+        message("Comando ambiguo:",
+            'Comandi riconsociuti: ${recognisedCommands.toString()}');
+        _removeSelection();
       }
-      _message("Comandi riconsociuti:",
-          _params['analyzer'].analyze(_params['selectedButton']).toString());
-      _params['analyzer'] = Analyzer();
-      setState(() {
-        _params['selectedButton'] = <CrossButton>[];
-      });
+    } else {
+      _removeSelection();
     }
   }
 
   List<Widget> _instructionsButtonsBuild() {
     return <Widget>[
       CupertinoButton(
-        onPressed: () => {setState((){cross.fillEmpty();})},
+        onPressed: _fillEmpty,
         borderRadius: BorderRadius.circular(45.0),
         minSize: 45.0,
         padding: const EdgeInsets.all(0.0),
@@ -198,7 +263,9 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
       const SizedBox(height: 20),
       CupertinoButton(
-        onPressed: () {},
+        onPressed: () {
+          debugPrint(_params['commands'].toString());
+        },
         borderRadius: BorderRadius.circular(45.0),
         minSize: 45.0,
         padding: const EdgeInsets.all(0.0),
@@ -209,7 +276,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
-  void _message(String title, String message) {
+  void message(String title, String message) {
     showCupertinoDialog<void>(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
@@ -252,7 +319,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           key: const Key('Confirm Selection'),
           onPressed: () {
-            _confirmSelection();
+            confirmSelection();
           },
           borderRadius: BorderRadius.circular(45.0),
           minSize: 40.0,
@@ -280,12 +347,13 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _recreateCross() {
     setState(() {
-      _params['nextColor'] = CupertinoColors.systemGrey;
+      _params['nextColors'].clear();
       _params['visible'] = false;
       ++_crossKey;
       _params['multiSelect'] = false;
-      _params['selectedButton'] = <CrossButton>[];
+      _params['selectedButton'].clear();
       _params['analyzer'] = Analyzer();
+      _params['commands'].clear();
       cross = CrossWidget(
           globalKey:
               GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
@@ -296,14 +364,12 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _removeSelection() {
     //TODO: implement delete color multiple selection
     for (var element in _params['selectedButton']) {
-      if (mounted) {
-        element.deselect();
-      }
-      _params['analyzer'] = Analyzer();
-      setState(() {
-        _params['selectedButton'] = <CrossButton>[];
-      });
+      element.deselect();
     }
+    _params['analyzer'] = Analyzer();
+    setState(() {
+      _params['selectedButton'].clear();
+    });
   }
 
   List<Widget> _visibilityButtonBuild() {
@@ -319,11 +385,19 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
-  bool _checkColorSelected(){
-    if(_params['nextColor'] == CupertinoColors.systemGrey){
-      _message('Colore non selezionato', 'Selezionare un colore per poter eseguire questa operazione');
+  bool _checkColorSelected() {
+    if (_params['nextColors'].isEmpty) {
+      message('Nessun colore selezionato',
+          'Selezionare un colore per poter eseguire questa operazione');
       return false;
     }
     return true;
+  }
+
+  void _fillEmpty() {
+    if (_checkColorSelected()) {
+      cross.fillEmpty();
+      setState(() {});
+    }
   }
 }
