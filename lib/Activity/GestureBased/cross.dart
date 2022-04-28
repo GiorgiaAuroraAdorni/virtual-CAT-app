@@ -22,6 +22,16 @@ class CrossWidget extends StatefulWidget {
     globalKey.currentState?.fillEmpty();
   }
 
+  void checkPosition(globalPosition, maxDistance) => _checkPositionFromKey(globalKey, globalPosition, maxDistance);
+  void _checkPositionFromKey(GlobalKey<CrossWidgetState> globalKey, Offset globalPosition, double maxDistance){
+    globalKey.currentState?.checkPosition(globalPosition, maxDistance);
+  }
+
+  void endPan(details) => _endPanFromKey(globalKey, details);
+  void _endPanFromKey(GlobalKey<CrossWidgetState> globalKey, details) {
+    globalKey.currentState?.endPan(details);
+  }
+
   @override
   CrossWidgetState createState() => CrossWidgetState();
 
@@ -36,22 +46,23 @@ class CrossWidgetState extends State<CrossWidget> {
 
   @override
   Widget build(context) {
+    double maxDistance = 30;
     return GestureDetector(
       onPanStart: (details) {
-        _checkPosition(details.globalPosition, 55);
+        print('start');
+        checkPosition(details.globalPosition, 40);
       },
       onPanUpdate: (details) {
-        _checkPosition(details.globalPosition, 30);
+        checkPosition(details.globalPosition, maxDistance);
       },
       onPanEnd: (details) {
-        _endPan(details);
+        endPan(details);
       },
-      child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      child:Flex(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            direction: Axis.vertical,
             children: _buildCross(),
-          )),
+          )
     );
   }
 
@@ -62,11 +73,11 @@ class CrossWidgetState extends State<CrossWidget> {
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
           rowChildren.add(buttons[y][x]);
-          rowChildren.add(const SizedBox(width: 10));
+          rowChildren.add(const SizedBox(width: 35));
         }
       }
       result.add(Row(children: rowChildren));
-      result.add(const SizedBox(height: 10));
+      result.add(const SizedBox(height: 35));
     }
     return result;
   }
@@ -81,23 +92,28 @@ class CrossWidgetState extends State<CrossWidget> {
     }
   }
 
-  void _checkPosition(Offset globalPosition, double offset) {
+  void checkPosition(Offset globalPosition, double maxDistance) {
+    double minDistance = double.infinity;
+    Tuple2<String, int>? coordinates;
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
-          CrossButton current = buttons[y][x];
-          Offset position = current.getPosition();
-          var distance = (position - globalPosition).distance;
-          if (distance <= offset) {
-            current.select();
+          var distance = ( buttons[y][x].getPosition() - globalPosition).distance;
+          if (distance < minDistance && distance < maxDistance) {
+            minDistance = distance;
+            coordinates = Tuple2<String, int>(y,x);
           }
         }
       }
     }
-    setState(() {});
+    setState(() {
+      if(coordinates != null) {
+        buttons[coordinates.item1][coordinates.item2].select();
+      }
+    });
   }
 
-  void _endPan(details) {
+  void endPan(details) {
     widget.params['homeState'].confirmSelection();
   }
 

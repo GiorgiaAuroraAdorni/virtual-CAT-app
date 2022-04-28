@@ -35,45 +35,87 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   Widget build(context) {
     _params['homeState'] = this;
-    return Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(children: <Widget>[
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 50),
-                  Image(
-                      image: AssetImage('resources/sequence/image/S' +
-                          (widget.schema.toString()) +
-                          '.jpg')),
-                ]),
-            const SizedBox(width: 100),
-            Column(children: <Widget>[
-              Row(children: _colorButtonsBuild()),
-              const SizedBox(height: 20),
-              cross,
-              const SizedBox(height: 20),
-              Column(children: _multiSelectionButtonsBuild()),
-            ]),
-            Column(children: _instructionsButtonsBuild()),
-          ]),
-          Row(children: <Widget>[
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  (CupertinoButton.filled(
-                    onPressed: _recreateCross,
-                    padding: const EdgeInsets.all(5.0),
-                    child: const Text('Reset cross'),
-                  ))
-                ]),
-            const SizedBox(width: 8),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _visibilityButtonBuild())
-          ]),
-        ]));
+    // return Padding(
+    //     padding: const EdgeInsets.all(20.0),
+    //     child: Flex(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         direction: Axis.vertical,
+    //         children: <Widget>[
+    //           Flex(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               direction: Axis.horizontal,
+    //               children: <Widget>[
+    //                 Flex(
+    //                     crossAxisAlignment: CrossAxisAlignment.start,
+    //                     direction: Axis.vertical,
+    //                     children: <Widget>[
+    //                       Image(
+    //                           image: AssetImage('resources/sequence/image/S' +
+    //                               (widget.schema.toString()) +
+    //                               '.jpg')),
+    //                     ]),
+    //                 const SizedBox(width: 20),
+    //                 Flex(
+    //                     crossAxisAlignment: CrossAxisAlignment.end,
+    //                     direction: Axis.vertical,
+    //                     children: _colorAndVisibilityButtonsBuild()),
+    //                 const SizedBox(width: 10),
+    //                 cross,
+    //                 Flex(
+    //                     crossAxisAlignment: CrossAxisAlignment.center,
+    //                     direction: Axis.vertical,
+    //                     children: _instructionsButtonsBuild()),
+    //               ]),
+    //           Row(children: <Widget>[
+    //             Column(
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: <Widget>[
+    //                   (CupertinoButton.filled(
+    //                     onPressed: _recreateCross,
+    //                     padding: const EdgeInsets.all(5.0),
+    //                     child: const Text('Reset cross'),
+    //                   ))
+    //                 ]),
+    //             const SizedBox(width: 100),
+    //             Column(children: _multiSelectionButtonsBuild()),
+    //           ]),
+    //         ]));
+
+    // double maxDistance = 30;
+    // return GestureDetector(
+    //     onPanDown: (details) {
+    //       cross.checkPosition(details.globalPosition, maxDistance);
+    //     },
+    //     onPanStart: (details) {
+    //       print('start');
+    //       cross.checkPosition(details.globalPosition, 40.0);
+    //     },
+    //     onPanUpdate: (details) {
+    //       cross.checkPosition(details.globalPosition, maxDistance);
+    //     },
+    //     onPanEnd: (details) {
+    //       cross.endPan(details);
+    //     },
+    //     child:
+    return Row(children: <Widget>[
+      const SizedBox(width: 50),
+          Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image(
+                    image: AssetImage(
+                        'resources/sequence/image/S${widget.schema.toString()}.jpg')),
+                const SizedBox(height: 100),
+                Row(children: _colorAndVisibilityButtonsBuild()),
+                Row(children: _instructionsButtonsBuild()),
+              ]),
+
+          const SizedBox(width: 80),
+          cross,
+
+        ]);
+    // );
   }
 
   @override
@@ -114,10 +156,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {});
   }
 
-  List<Widget> _colorButtonsBuild() {
+  List<Widget> _colorAndVisibilityButtonsBuild() {
     var textStyle =
         const TextStyle(color: CupertinoColors.black, fontSize: 20.0);
     return <Widget>[
+
       CupertinoButton(
         key: const Key('ColorButtonBlue'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
@@ -138,7 +181,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               ]) //const Icon(CupertinoIcons.circle_fill)
             : const Text(''),
       ),
-      const SizedBox(width: 8),
+      const SizedBox(width: 10),
       CupertinoButton(
         key: const Key('ColorButtonRed'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
@@ -159,7 +202,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               ])
             : const Text(''),
       ),
-      const SizedBox(width: 8),
+      const SizedBox(width: 10),
       CupertinoButton(
         key: const Key('ColorButtonGreen'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
@@ -180,7 +223,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               ])
             : const Text(''),
       ),
-      const SizedBox(width: 8),
+      const SizedBox(width: 10),
       CupertinoButton(
         key: const Key('ColorButtonYellow'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
@@ -201,6 +244,16 @@ class GestureImplementationState extends State<GestureImplementation> {
               ])
             : const Text(''),
       ),
+      const SizedBox(width: 20),
+      CupertinoButton(
+          key: const Key('Visibility Button'),
+          onPressed: _params['visible'] ? null : () => _changeVisibility(),
+          minSize: 40.0,
+          padding: const EdgeInsets.all(5.0),
+          child: _params['visible']
+              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
+              : const Icon(CupertinoIcons.eye_fill, size: 40.0)),
+
     ];
   }
 
@@ -228,7 +281,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         });
       } else if (recognisedCommands.length == 0) {
         message("Nessun commando riconsociuto",
-            "Non è stato possible riconoscer alcun comando");
+            "Non è stato possible riconoscere alcun comando");
         _removeSelection();
       } else {
         message("Comando ambiguo:",
@@ -251,7 +304,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         child: const Icon(CupertinoIcons.paintbrush_fill,
             color: CupertinoColors.black),
       ),
-      const SizedBox(height: 20),
+      const SizedBox(width: 20),
       CupertinoButton(
         onPressed: () {},
         borderRadius: BorderRadius.circular(45.0),
@@ -261,7 +314,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         child:
             const Icon(CupertinoIcons.doc_on_doc, color: CupertinoColors.black),
       ),
-      const SizedBox(height: 20),
+      const SizedBox(width: 20),
       CupertinoButton(
         onPressed: () {
           debugPrint(_params['commands'].toString());
@@ -370,19 +423,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       _params['selectedButton'].clear();
     });
-  }
-
-  List<Widget> _visibilityButtonBuild() {
-    return <Widget>[
-      CupertinoButton(
-          key: const Key('Visibility Button'),
-          onPressed: _params['visible'] ? null : () => _changeVisibility(),
-          minSize: 40.0,
-          padding: const EdgeInsets.all(5.0),
-          child: _params['visible']
-              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
-              : const Icon(CupertinoIcons.eye_fill, size: 40.0))
-    ];
   }
 
   bool _checkColorSelected() {

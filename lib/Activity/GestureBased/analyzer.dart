@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tuple/tuple.dart';
 
 import 'cross_button.dart';
 
@@ -21,7 +22,7 @@ class Analyzer {
 
   List<String> analyzePattern(List<CrossButton> selectedButton) {
     var coordinates = _generateCoordinates(selectedButton);
-    if (coordinates.length > 1) {
+    if (coordinates.length > 1 && coordinates.length <= 6) {
       _analyzeHorizontal(coordinates);
       _analyzeVertical(coordinates);
       _analyzeDiagonal(coordinates);
@@ -556,5 +557,27 @@ class Analyzer {
       }
     }
     return colors;
+  }
+
+  String analyzeMovement(Tuple2<String, int> startPosition, Tuple2<String, int> endPosition){
+    var yStart = startPosition.item1.toLowerCase();
+    var yEnd = endPosition.item1.toLowerCase();
+    var xStart = startPosition.item2;
+    var xEnd = endPosition.item2;
+    int repetition;
+    if(yStart == yEnd){
+      repetition = (xStart - xEnd);
+      if(repetition > 0){
+        return '$repetition left';
+      } else if(repetition < 0){
+        repetition = repetition * -1;
+        return '$repetition right';
+      }
+    } else if(xStart == xEnd){
+      //column
+    } else {
+      //diagonal
+    }
+    return '';
   }
 }

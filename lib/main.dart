@@ -87,20 +87,11 @@ class _HomePageState extends State<HomePage> {
       return CupertinoTabView(builder: (context) {
         switch (index) {
           case 0:
-              return const Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Center(child: SchoolForm()),
-              );
+              return const SchoolForm();
           case 1:
-              return const Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Center(child: SchemasLibrary()),
-              );
+            return const SchemasLibrary();
           case 2:
-              return const Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Center(child: ActivityHome()),
-              );
+               return const ActivityHome();
         }
         throw Exception('Index $index is not supported');
       });
@@ -114,8 +105,8 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: CupertinoColors.lightBackgroundGray,
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.collections_solid),
-            label: 'Schemi',
+            icon: Icon(CupertinoIcons.play_rectangle),
+            label: 'Tutorial',
             backgroundColor: CupertinoColors.lightBackgroundGray,
           ),
           BottomNavigationBarItem(

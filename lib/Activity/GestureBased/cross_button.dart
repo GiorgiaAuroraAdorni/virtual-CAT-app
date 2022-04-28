@@ -54,7 +54,7 @@ class CrossButton extends StatefulWidget {
   static Offset _getPositionFromKey(
       GlobalKey<CrossButtonState> globalKey) {
     RenderBox? box = globalKey.currentContext?.findRenderObject() as RenderBox?;
-    Offset? position = box?.localToGlobal(Offset.zero);
+    Offset? position = box?.localToGlobal(const Offset(30,30));
     if (position != null) {
       return position;
     }
@@ -71,7 +71,7 @@ class CrossButtonState extends State<CrossButton> {
     return CupertinoButton(
       onPressed: _onTap, //widget.params['multiSelect'] ? select : changeColor,
       borderRadius: BorderRadius.circular(45.0),
-      minSize: 55.0,
+      minSize: 60.0,
       color: widget.params['visible'] ? color : CupertinoColors.systemGrey,
       padding: const EdgeInsets.all(0.0),
       child: selected ? const Icon(CupertinoIcons.circle_fill) : Text('${widget.position.item1}${widget.position.item2}')//const Text(''),
@@ -106,6 +106,7 @@ class CrossButtonState extends State<CrossButton> {
 
   void _onTap() {
     if (widget.params['multiSelect']) {
+      print('multiSelect');
       select();
     } else {
       if(widget.params['nextColors'].length == 1) {
