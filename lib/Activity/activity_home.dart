@@ -23,7 +23,7 @@ class ActivityHomeState extends State<ActivityHome> {
         child: const Text('Next schema'),
       ),
       const SizedBox(height: 10),
-      GestureImplementation(schema: _currentSchema),
+      GestureImplementation(key: Key(_currentSchema.toString()), schema: _currentSchema),
     ]);
   }
 

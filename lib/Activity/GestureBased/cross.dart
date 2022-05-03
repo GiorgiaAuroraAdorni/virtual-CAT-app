@@ -44,16 +44,16 @@ class CrossWidget extends StatefulWidget {
 class CrossWidgetState extends State<CrossWidget> {
   late Map buttons = {};
 
+  final double buttonDimension = 70.0;
+
   @override
   Widget build(context) {
-    double maxDistance = 30;
     return GestureDetector(
       onPanStart: (details) {
-        print('start');
-        checkPosition(details.globalPosition, 40);
+        checkPosition(details.globalPosition, (buttonDimension/2).toDouble());
       },
       onPanUpdate: (details) {
-        checkPosition(details.globalPosition, maxDistance);
+        checkPosition(details.globalPosition, (buttonDimension/2).toDouble());
       },
       onPanEnd: (details) {
         endPan(details);
@@ -67,6 +67,7 @@ class CrossWidgetState extends State<CrossWidget> {
   }
 
   List<Widget> _buildCross() {
+    //TODO: remove space at end of columns and end of lines
     List<Widget> result = [];
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       List<Widget> rowChildren = [];
@@ -114,7 +115,10 @@ class CrossWidgetState extends State<CrossWidget> {
   }
 
   void endPan(details) {
-    widget.params['homeState'].confirmSelection();
+    //TODO: check if all line/column/diagonl/zigzag/square
+    bool allCell = details.velocity == Velocity.zero;
+    widget.params['homeState'].confirmSelection(allCell);
+    widget.params['nextColors'].clear();
   }
 
   @override
@@ -135,7 +139,8 @@ class CrossWidgetState extends State<CrossWidget> {
         buttons[y][x] = CrossButton(
             globalKey: GlobalKey<CrossButtonState>(),
             position: Tuple2<String, int>(y, x),
-            params: widget.params);
+            params: widget.params,
+            buttonDimension: buttonDimension.toDouble());
       }
     }
     super.initState();

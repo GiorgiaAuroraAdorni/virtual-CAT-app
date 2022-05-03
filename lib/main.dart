@@ -84,17 +84,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBuilder: (BuildContext context, int index) {
-      return CupertinoTabView(builder: (context) {
-        switch (index) {
-          case 0:
+        return CupertinoTabView(builder: (context) {
+          switch (index) {
+            case 0:
               return const SchoolForm();
-          case 1:
-            return const SchemasLibrary();
-          case 2:
-               return const ActivityHome();
-        }
-        throw Exception('Index $index is not supported');
-      });
+            case 1:
+              return const SchemasLibrary();
+            case 2:
+              return const ActivityHome();
+          }
+          throw Exception('Index $index is not supported');
+        });
       },
       // Bottom navigation bar
       tabBar: CupertinoTabBar(

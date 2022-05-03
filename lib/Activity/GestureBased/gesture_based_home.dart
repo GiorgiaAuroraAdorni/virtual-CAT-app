@@ -99,22 +99,31 @@ class GestureImplementationState extends State<GestureImplementation> {
     //     child:
     return Row(children: <Widget>[
       const SizedBox(width: 50),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image(
-                    image: AssetImage(
-                        'resources/sequence/image/S${widget.schema.toString()}.jpg')),
-                const SizedBox(height: 100),
-                Row(children: _colorAndVisibilityButtonsBuild()),
-                Row(children: _instructionsButtonsBuild()),
-              ]),
-
-          const SizedBox(width: 80),
-          cross,
-
-        ]);
+      Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Image(
+                image: AssetImage(
+                    'resources/sequence/image/S${widget.schema.toString()}.jpg')),
+            const SizedBox(height: 100),
+            Row(children: _colorAndVisibilityButtonsBuild()),
+            Row(children: _instructionsButtonsBuild()),
+            Row(children: <Widget>[
+              CupertinoButton(
+                key: const Key('Schema completed'),
+                onPressed: _schemaCompleted,
+                borderRadius: BorderRadius.circular(45.0),
+                minSize: 40.0,
+                color: CupertinoColors.systemGreen,
+                padding: const EdgeInsets.all(0.0),
+                child: const Icon(CupertinoIcons.checkmark),
+              ),
+            ])
+          ]),
+      const SizedBox(width: 80),
+      cross,
+    ]);
     // );
   }
 
@@ -160,7 +169,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     var textStyle =
         const TextStyle(color: CupertinoColors.black, fontSize: 20.0);
     return <Widget>[
-
       CupertinoButton(
         key: const Key('ColorButtonBlue'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
@@ -253,11 +261,10 @@ class GestureImplementationState extends State<GestureImplementation> {
           child: _params['visible']
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
               : const Icon(CupertinoIcons.eye_fill, size: 40.0)),
-
     ];
   }
 
-  void confirmSelection() {
+  void confirmSelection(bool allCell) {
     if (_checkColorSelected()) {
       var recognisedCommands =
           _params['analyzer'].analyzePattern(_params['selectedButton']);
@@ -269,12 +276,14 @@ class GestureImplementationState extends State<GestureImplementation> {
           element.changeColor(j.toInt());
           element.deselect();
         }
-        message("Comando riconsociuto:", recognisedCommands.toString());
+
         var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
         _params['commands'].add(
             'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
-        _params['commands'].add(
-            'PAINT($colors, ${_params['selectedButton'].length}, ${recognisedCommands[0]})');
+        var length = allCell ? ':' : _params['selectedButton'].length;
+        var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
+        _params['commands'].add(command);
+        message("Comando riconsociuto:", command);
         _params['analyzer'] = Analyzer();
         setState(() {
           _params['selectedButton'].clear();
@@ -372,7 +381,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           key: const Key('Confirm Selection'),
           onPressed: () {
-            confirmSelection();
+            confirmSelection(false);
           },
           borderRadius: BorderRadius.circular(45.0),
           minSize: 40.0,
@@ -439,5 +448,10 @@ class GestureImplementationState extends State<GestureImplementation> {
       cross.fillEmpty();
       setState(() {});
     }
+  }
+
+  void _schemaCompleted(){
+    print(_params['commands']);
+    setState(() {_params['visible'] = true; cross.changeVisibility();});
   }
 }

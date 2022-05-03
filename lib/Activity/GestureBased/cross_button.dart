@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 
 class CrossButton extends StatefulWidget {
+
+  final double buttonDimension;
+
   final Tuple2<String, int> position;
 
   final GlobalKey<CrossButtonState> globalKey;
@@ -9,7 +12,7 @@ class CrossButton extends StatefulWidget {
   final Map params;
 
   const CrossButton(
-      {required this.globalKey, required this.position, required this.params})
+      {required this.globalKey, required this.position, required this.params, required this.buttonDimension})
       : super(key: globalKey);
 
   void changeColor(int index) => _changeColor(globalKey, index);
@@ -71,7 +74,7 @@ class CrossButtonState extends State<CrossButton> {
     return CupertinoButton(
       onPressed: _onTap, //widget.params['multiSelect'] ? select : changeColor,
       borderRadius: BorderRadius.circular(45.0),
-      minSize: 60.0,
+      minSize: widget.buttonDimension,
       color: widget.params['visible'] ? color : CupertinoColors.systemGrey,
       padding: const EdgeInsets.all(0.0),
       child: selected ? const Icon(CupertinoIcons.circle_fill) : Text('${widget.position.item1}${widget.position.item2}')//const Text(''),
@@ -106,7 +109,6 @@ class CrossButtonState extends State<CrossButton> {
 
   void _onTap() {
     if (widget.params['multiSelect']) {
-      print('multiSelect');
       select();
     } else {
       if(widget.params['nextColors'].length == 1) {

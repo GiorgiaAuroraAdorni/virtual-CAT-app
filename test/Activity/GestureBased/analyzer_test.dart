@@ -24,7 +24,8 @@ void main() {
         buttons[y][x] = CrossButton(
             globalKey: GlobalKey<CrossButtonState>(),
             position: Tuple2<String, int>(y, x),
-            params: const {});
+            params: const {},
+            buttonDimension: 10.0);
       }
     }
     group('Empty result', () {
@@ -1683,9 +1684,9 @@ void main() {
       });
       test('invalid color', () {
         expect(
-                () => {
-              Analyzer().analyzeColor([blue, green, grey, red, yellow])
-            },
+            () => {
+                  Analyzer().analyzeColor([blue, green, grey, red, yellow])
+                },
             throwsA(isA<Exception>()));
       });
     });
