@@ -93,6 +93,12 @@ void main() {
   });
 }
 
+/// It sets the size of the screen to the size of an iPad Pro, and then it pumps a
+/// CupertinoApp with a GestureImplementation widget as its home
+///
+/// Args:
+///   tester (WidgetTester): The WidgetTester object that is used to test the
+/// widget.
 Future<void> initializeTest(WidgetTester tester) async {
   await tester.binding.setSurfaceSize(const Size(2224, 1668));
   await tester.pumpWidget(const CupertinoApp(

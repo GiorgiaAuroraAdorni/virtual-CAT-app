@@ -4,25 +4,35 @@ import 'analyzer.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 
-/// Implementation for the gestures-based GUI
+
+/// `GestureImplementation` is a class that extends the `StatefulWidget` class and
+/// has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
+  /// Declaring a variable called schema and assigning it a value of 1.
   final int schema;
 
+  /// Creating a constructor for the GestureImplementation class.
   const GestureImplementation({Key? key, required this.schema})
       : super(key: key);
 
+  /// `createState()` is a function that returns a state object
+  ///
+  /// Returns:
+  ///   A new instance of the GestureImplementationState class.
   @override
   GestureImplementationState createState() {
     return GestureImplementationState();
   }
 }
 
-/// State for the gesture-based GUI
 class GestureImplementationState extends State<GestureImplementation> {
+  /// Creating a variable called _crossKey and assigning it the value of 1.
   int _crossKey = 1;
 
+  /// Creating a new instance of the CrossWidget class.
   late CrossWidget cross;
 
+  /// Creating a map called _params.
   final Map _params = {
     'nextColors': [],
     'visible': false,
@@ -33,6 +43,13 @@ class GestureImplementationState extends State<GestureImplementation> {
   };
 
   @override
+  /// It builds the UI for the home screen
+  ///
+  /// Args:
+  ///   context: The BuildContext of the widget.
+  ///
+  /// Returns:
+  ///   A widget.
   Widget build(context) {
     _params['homeState'] = this;
     // return Padding(
@@ -128,6 +145,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   @override
+  /// > The CrossWidget is initialized with a GlobalKey and the params object
   void initState() {
     cross = CrossWidget(
         globalKey:
@@ -136,6 +154,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     super.initState();
   }
 
+  /// It takes a color as a parameter, and if the color is already in the list of
+  /// colors, it removes it, otherwise it adds it
+  ///
+  /// Args:
+  ///   color (Color): the color of the button
   void _colorButtonTap(Color color) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
@@ -152,6 +175,8 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
+  /// It toggles the value of the `multiSelect` parameter, and then calls the
+  /// `_removeSelection` function
   void _changeSelectionMode() {
     setState(() {
       _params['multiSelect'] = !_params['multiSelect'];
@@ -159,12 +184,19 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
+  /// _changeVisibility() is a function that sets the visibility of the cross to
+  /// true and then calls the cross.changeVisibility() function
   void _changeVisibility() {
     _params['visible'] = true;
     cross.changeVisibility();
     setState(() {});
   }
 
+  /// It returns a list of widgets that are buttons for each color and a button to
+  /// toggle visibility
+  ///
+  /// Returns:
+  ///   A list of widgets.
   List<Widget> _colorAndVisibilityButtonsBuild() {
     var textStyle =
         const TextStyle(color: CupertinoColors.black, fontSize: 20.0);
@@ -264,6 +296,13 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
+  /// It checks if the selected buttons are all of the same color, if so it checks
+  /// if the pattern is recognized, if so it adds the command to the list of
+  /// commands and clears the selection, if not it shows an error message
+  ///
+  /// Args:
+  ///   allCell (bool): if true, the user wants to select all the cells in the
+  /// row/column
   void confirmSelection(bool allCell) {
     if (_checkColorSelected()) {
       var recognisedCommands =
@@ -302,6 +341,10 @@ class GestureImplementationState extends State<GestureImplementation> {
     }
   }
 
+  /// It returns a list of widgets.
+  ///
+  /// Returns:
+  ///   A list of widgets.
   List<Widget> _instructionsButtonsBuild() {
     return <Widget>[
       CupertinoButton(
@@ -338,6 +381,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
+  /// It shows a dialog box with a title and a message.
+  ///
+  /// Args:
+  ///   title (String): The title of the dialog.
+  ///   message (String): The message you want to display.
   void message(String title, String message) {
     showCupertinoDialog<void>(
       context: context,
@@ -363,6 +411,10 @@ class GestureImplementationState extends State<GestureImplementation> {
     );
   }
 
+  /// It returns a list of widgets.
+  ///
+  /// Returns:
+  ///   A list of widgets.
   List<Widget> _multiSelectionButtonsBuild() {
     List<Widget> result = [
       CupertinoButton(
@@ -407,6 +459,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     return result;
   }
 
+  /// It creates a new cross widget with a new key, and resets all the parameters
   void _recreateCross() {
     setState(() {
       _params['nextColors'].clear();
@@ -423,6 +476,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
+  /// It removes the selected color buttons from the screen
   void _removeSelection() {
     //TODO: implement delete color multiple selection
     for (var element in _params['selectedButton']) {
@@ -434,6 +488,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
+  /// If the list of colors is empty, show a message and return false, otherwise
+  /// return true
+  ///
+  /// Returns:
+  ///   A boolean value.
   bool _checkColorSelected() {
     if (_params['nextColors'].isEmpty) {
       message('Nessun colore selezionato',
@@ -443,6 +502,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     return true;
   }
 
+  /// If the color is selected, fill the empty cells with the selected color
   void _fillEmpty() {
     if (_checkColorSelected()) {
       cross.fillEmpty();
@@ -450,6 +510,8 @@ class GestureImplementationState extends State<GestureImplementation> {
     }
   }
 
+  /// _schemaCompleted() is called when the schema is completed. It prints the
+  /// commands to the console and sets the visibility of the cross to true
   void _schemaCompleted(){
     print(_params['commands']);
     setState(() {_params['visible'] = true; cross.changeVisibility();});
