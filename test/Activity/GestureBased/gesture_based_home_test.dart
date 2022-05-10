@@ -42,36 +42,36 @@ void main() {
     }
   });
 
-  testWidgets('Reset cross test', (WidgetTester tester) async {
-    await initializeTest(tester);
-    expect(find.byType(CrossWidget), findsOneWidget);
-    var cross = find.byType(CrossWidget).evaluate().single.widget as CrossWidget;
-    var crossKeyNumber = cross.key.toString().split(' ')[1].split(']')[0];
-    expect(crossKeyNumber, '1');
+  // testWidgets('Reset cross test', (WidgetTester tester) async {
+  //   await initializeTest(tester);
+  //   expect(find.byType(CrossWidget), findsOneWidget);
+  //   var cross = find.byType(CrossWidget).evaluate().single.widget as CrossWidget;
+  //   var crossKeyNumber = cross.key.toString().split(' ')[1].split(']')[0];
+  //   expect(crossKeyNumber, '1');
+  //
+  //   await tester.tap(find.widgetWithText(CupertinoButton, 'Reset cross'));
+  //   await tester.pump();
+  //   cross = find.byType(CrossWidget).evaluate().single.widget as CrossWidget;
+  //   expect(find.byType(CrossWidget), findsOneWidget);
+  //   crossKeyNumber = cross.key.toString().split(' ')[1].split(']')[0];
+  //   expect(crossKeyNumber, '2');
+  // });
 
-    await tester.tap(find.widgetWithText(CupertinoButton, 'Reset cross'));
-    await tester.pump();
-    cross = find.byType(CrossWidget).evaluate().single.widget as CrossWidget;
-    expect(find.byType(CrossWidget), findsOneWidget);
-    crossKeyNumber = cross.key.toString().split(' ')[1].split(']')[0];
-    expect(crossKeyNumber, '2');
-  });
-
-  testWidgets('Change selection mode test', (WidgetTester tester) async {
-    await initializeTest(tester);
-    var buttonFinder =find.byKey(const Key('Selection mode'));
-    expect(buttonFinder, findsOneWidget);
-    var button = buttonFinder.evaluate().single.widget as CupertinoButton;
-    var text = button.child;
-    expect(text.toString(), const Text('Multiple selection').toString());
-
-    await tester.tap(buttonFinder);
-    await tester.pump();
-    button = buttonFinder.evaluate().single.widget as CupertinoButton;
-    text = button.child;
-    expect(buttonFinder, findsOneWidget);
-    expect(text.toString(), const Text('Single selection').toString());
-  });
+  // testWidgets('Change selection mode test', (WidgetTester tester) async {
+  //   await initializeTest(tester);
+  //   var buttonFinder =find.byKey(const Key('Selection mode'));
+  //   expect(buttonFinder, findsOneWidget);
+  //   var button = buttonFinder.evaluate().single.widget as CupertinoButton;
+  //   var text = button.child;
+  //   expect(text.toString(), const Text('Multiple selection').toString());
+  //
+  //   await tester.tap(buttonFinder);
+  //   await tester.pump();
+  //   button = buttonFinder.evaluate().single.widget as CupertinoButton;
+  //   text = button.child;
+  //   expect(buttonFinder, findsOneWidget);
+  //   expect(text.toString(), const Text('Single selection').toString());
+  // });
 
   testWidgets('Change visibility test', (WidgetTester tester) async {
     await initializeTest(tester);

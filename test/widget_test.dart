@@ -15,8 +15,8 @@ void main() {
 
     expect(find.text('Amministrazione'), findsOneWidget);
     expect(find.byIcon(CupertinoIcons.lock_circle), findsOneWidget);
-    expect(find.text('Schemi'), findsOneWidget);
-    expect(find.byIcon(CupertinoIcons.collections_solid), findsOneWidget);
+    expect(find.text('Tutorial'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.play_rectangle), findsOneWidget);
     expect(find.text('Attività'), findsOneWidget);
     expect(find.byIcon(CupertinoIcons.game_controller), findsOneWidget);
 
