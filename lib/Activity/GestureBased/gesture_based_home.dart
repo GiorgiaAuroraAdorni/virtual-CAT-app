@@ -1,18 +1,25 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
+import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:interpreter/cat_interpreter.dart';
+
+import '../../Utility/file_manager.dart';
+import '../activity_home.dart';
 import 'analyzer.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 
-
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class and
 /// has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
-  /// Declaring a variable called schema and assigning it a value of 1.
   final int schema;
+  final ActivityHomeState homeState;
 
   /// Creating a constructor for the GestureImplementation class.
-  const GestureImplementation({Key? key, required this.schema})
+  const GestureImplementation(
+      {Key? key, required this.schema, required this.homeState})
       : super(key: key);
 
   /// `createState()` is a function that returns a state object
@@ -42,7 +49,12 @@ class GestureImplementationState extends State<GestureImplementation> {
     'commands': <String>[],
   };
 
+  // final Parameters _params = Parameters();
+
+  late CATInterpreter catInterpreter;
+
   @override
+
   /// It builds the UI for the home screen
   ///
   /// Args:
@@ -144,44 +156,108 @@ class GestureImplementationState extends State<GestureImplementation> {
     // );
   }
 
+  /// It checks if the selected buttons are all of the same color, if so it checks
+  /// if the pattern is recognized, if so it adds the command to the list of
+  /// commands and clears the selection, if not it shows an error message
+  ///
+  /// Args:
+  ///   allCell (bool): if true, the user wants to select all the cells in the
+  /// row/column
+  void confirmSelection(bool allCell) {
+    if (_checkColorSelected()) {
+      var recognisedCommands =
+          _params['analyzer'].analyzePattern(_params['selectedButton']);
+      if (recognisedCommands.length == 1) {
+        num j = -1;
+        var numOfColor = _params['nextColors'].length;
+        for (CrossButton element in _params['selectedButton']) {
+          j = (j + 1) % numOfColor;
+          element.changeColor(j.toInt());
+          element.deselect();
+        }
+
+        var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
+        _params['commands'].add(
+            'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
+        var length = allCell ? ':' : _params['selectedButton'].length;
+        var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
+        _params['commands'].add(command);
+        message("Comando riconsociuto:", command);
+        _params['analyzer'] = Analyzer();
+        setState(() {
+          _params['selectedButton'].clear();
+        });
+      } else if (recognisedCommands.length == 0) {
+        message("Nessun commando riconsociuto",
+            "Non è stato possible riconoscere alcun comando");
+        _removeSelection();
+      } else {
+        message("Comando ambiguo:",
+            'Comandi riconsociuti: ${recognisedCommands.toString()}');
+        _removeSelection();
+      }
+    } else {
+      _removeSelection();
+    }
+  }
+
   @override
+
   /// > The CrossWidget is initialized with a GlobalKey and the params object
   void initState() {
     cross = CrossWidget(
         globalKey:
             GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
         params: _params);
+    readJson().then((value) {
+      setState(() => catInterpreter = CATInterpreter(value));
+    });
     super.initState();
   }
 
-  /// It takes a color as a parameter, and if the color is already in the list of
-  /// colors, it removes it, otherwise it adds it
+  /// It shows a dialog box with a title and a message.
   ///
   /// Args:
-  ///   color (Color): the color of the button
-  void _colorButtonTap(Color color) {
-    setState(() {
-      //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
-      // if (this.nextColors == nextColors) {
-      //   this.nextColors = CupertinoColors.systemGrey;
-      // } else {
-      //   this.nextColors = nextColors;
-      // }
-      if (_params['nextColors'].contains(color)) {
-        _params['nextColors'].remove(color);
-      } else {
-        _params['nextColors'].add(color);
-      }
-    });
+  ///   title (String): The title of the dialog.
+  ///   message (String): The message you want to display.
+  void message(String title, String message) {
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          // CupertinoDialogAction(
+          //   child: const Text('Yes'),
+          //   isDestructiveAction: true,
+          //   onPressed: () {
+          //     // Do something destructive.
+          //   },
+          // )
+        ],
+      ),
+    );
   }
 
-  /// It toggles the value of the `multiSelect` parameter, and then calls the
-  /// `_removeSelection` function
-  void _changeSelectionMode() {
-    setState(() {
-      _params['multiSelect'] = !_params['multiSelect'];
-      _removeSelection();
-    });
+  // /// It toggles the value of the `multiSelect` parameter, and then calls the
+  // /// `_removeSelection` function
+  // void _changeSelectionMode() {
+  //   setState(() {
+  //     _params['multiSelect'] = !_params['multiSelect'];
+  //     _removeSelection();
+  //   });
+  // }
+
+  Future<String> readJson() async {
+    String future =
+        await rootBundle.loadString('resources/sequence/schemas.json');
+    return future;
   }
 
   /// _changeVisibility() is a function that sets the visibility of the cross to
@@ -190,6 +266,20 @@ class GestureImplementationState extends State<GestureImplementation> {
     _params['visible'] = true;
     cross.changeVisibility();
     setState(() {});
+  }
+
+  /// If the list of colors is empty, show a message and return false, otherwise
+  /// return true
+  ///
+  /// Returns:
+  ///   A boolean value.
+  bool _checkColorSelected() {
+    if (_params['nextColors'].isEmpty) {
+      message('Nessun colore selezionato',
+          'Selezionare un colore per poter eseguire questa operazione');
+      return false;
+    }
+    return true;
   }
 
   /// It returns a list of widgets that are buttons for each color and a button to
@@ -296,48 +386,81 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
-  /// It checks if the selected buttons are all of the same color, if so it checks
-  /// if the pattern is recognized, if so it adds the command to the list of
-  /// commands and clears the selection, if not it shows an error message
+  /// It takes a color as a parameter, and if the color is already in the list of
+  /// colors, it removes it, otherwise it adds it
   ///
   /// Args:
-  ///   allCell (bool): if true, the user wants to select all the cells in the
-  /// row/column
-  void confirmSelection(bool allCell) {
-    if (_checkColorSelected()) {
-      var recognisedCommands =
-          _params['analyzer'].analyzePattern(_params['selectedButton']);
-      if (recognisedCommands.length == 1) {
-        num j = -1;
-        var numOfColor = _params['nextColors'].length;
-        for (CrossButton element in _params['selectedButton']) {
-          j = (j + 1) % numOfColor;
-          element.changeColor(j.toInt());
-          element.deselect();
-        }
-
-        var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
-        _params['commands'].add(
-            'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
-        var length = allCell ? ':' : _params['selectedButton'].length;
-        var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
-        _params['commands'].add(command);
-        message("Comando riconsociuto:", command);
-        _params['analyzer'] = Analyzer();
-        setState(() {
-          _params['selectedButton'].clear();
-        });
-      } else if (recognisedCommands.length == 0) {
-        message("Nessun commando riconsociuto",
-            "Non è stato possible riconoscere alcun comando");
-        _removeSelection();
+  ///   color (Color): the color of the button
+  void _colorButtonTap(Color color) {
+    setState(() {
+      //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
+      // if (this.nextColors == nextColors) {
+      //   this.nextColors = CupertinoColors.systemGrey;
+      // } else {
+      //   this.nextColors = nextColors;
+      // }
+      if (_params['nextColors'].contains(color)) {
+        _params['nextColors'].remove(color);
       } else {
-        message("Comando ambiguo:",
-            'Comandi riconsociuti: ${recognisedCommands.toString()}');
-        _removeSelection();
+        _params['nextColors'].add(color);
       }
-    } else {
-      _removeSelection();
+    });
+  }
+
+  // /// It returns a list of widgets.
+  // ///
+  // /// Returns:
+  // ///   A list of widgets.
+  // List<Widget> _multiSelectionButtonsBuild() {
+  //   List<Widget> result = [
+  //     CupertinoButton(
+  //       key: const Key('Selection mode'),
+  //       onPressed: _changeSelectionMode,
+  //       padding: const EdgeInsets.all(5.0),
+  //       child: _params['multiSelect']
+  //           ? const Text('Single selection')
+  //           : const Text('Multiple selection'),
+  //     )
+  //     // ];
+  //     // if (multiSelect) {
+  //     //   result.add(
+  //     ,
+  //     Row(children: <Widget>[
+  //       CupertinoButton(
+  //         key: const Key('Confirm Selection'),
+  //         onPressed: () {
+  //           confirmSelection(false);
+  //         },
+  //         borderRadius: BorderRadius.circular(45.0),
+  //         minSize: 40.0,
+  //         color: CupertinoColors.systemGreen,
+  //         padding: const EdgeInsets.all(0.0),
+  //         child: const Icon(CupertinoIcons.checkmark),
+  //       ),
+  //       CupertinoButton(
+  //         key: const Key('Delete Selection'),
+  //         onPressed: () {
+  //           _removeSelection();
+  //         },
+  //         borderRadius: BorderRadius.circular(45.0),
+  //         minSize: 40.0,
+  //         color: CupertinoColors.systemRed,
+  //         padding: const EdgeInsets.all(0.0),
+  //         child: const Icon(CupertinoIcons.multiply),
+  //       )
+  //       // ]));
+  //       // }
+  //     ])
+  //   ];
+  //   return result;
+  // }
+  //
+
+  /// If the color is selected, fill the empty cells with the selected color
+  void _fillEmpty() {
+    if (_checkColorSelected()) {
+      cross.fillEmpty();
+      setState(() {});
     }
   }
 
@@ -381,84 +504,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
-  /// It shows a dialog box with a title and a message.
-  ///
-  /// Args:
-  ///   title (String): The title of the dialog.
-  ///   message (String): The message you want to display.
-  void message(String title, String message) {
-    showCupertinoDialog<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            child: const Text('Close'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          // CupertinoDialogAction(
-          //   child: const Text('Yes'),
-          //   isDestructiveAction: true,
-          //   onPressed: () {
-          //     // Do something destructive.
-          //   },
-          // )
-        ],
-      ),
-    );
-  }
-
-  /// It returns a list of widgets.
-  ///
-  /// Returns:
-  ///   A list of widgets.
-  List<Widget> _multiSelectionButtonsBuild() {
-    List<Widget> result = [
-      CupertinoButton(
-        key: const Key('Selection mode'),
-        onPressed: _changeSelectionMode,
-        padding: const EdgeInsets.all(5.0),
-        child: _params['multiSelect']
-            ? const Text('Single selection')
-            : const Text('Multiple selection'),
-      )
-      // ];
-      // if (multiSelect) {
-      //   result.add(
-      ,
-      Row(children: <Widget>[
-        CupertinoButton(
-          key: const Key('Confirm Selection'),
-          onPressed: () {
-            confirmSelection(false);
-          },
-          borderRadius: BorderRadius.circular(45.0),
-          minSize: 40.0,
-          color: CupertinoColors.systemGreen,
-          padding: const EdgeInsets.all(0.0),
-          child: const Icon(CupertinoIcons.checkmark),
-        ),
-        CupertinoButton(
-          key: const Key('Delete Selection'),
-          onPressed: () {
-            _removeSelection();
-          },
-          borderRadius: BorderRadius.circular(45.0),
-          minSize: 40.0,
-          color: CupertinoColors.systemRed,
-          padding: const EdgeInsets.all(0.0),
-          child: const Icon(CupertinoIcons.multiply),
-        )
-        // ]));
-        // }
-      ])
-    ];
-    return result;
-  }
-
   /// It creates a new cross widget with a new key, and resets all the parameters
   void _recreateCross() {
     setState(() {
@@ -488,32 +533,25 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  /// If the list of colors is empty, show a message and return false, otherwise
-  /// return true
-  ///
-  /// Returns:
-  ///   A boolean value.
-  bool _checkColorSelected() {
-    if (_params['nextColors'].isEmpty) {
-      message('Nessun colore selezionato',
-          'Selezionare un colore per poter eseguire questa operazione');
-      return false;
-    }
-    return true;
-  }
 
-  /// If the color is selected, fill the empty cells with the selected color
-  void _fillEmpty() {
-    if (_checkColorSelected()) {
-      cross.fillEmpty();
-      setState(() {});
+  void _schemaCompleted() {
+    stdout.writeln(_params['commands']);
+    final resultPair = catInterpreter.validateOnScheme(
+        _params['commands'].toString(), widget.schema);
+    stdout.writeln(resultPair.second);
+    stdout.writeln(resultPair.first);
+    for (var state in resultPair.first.getStates) {
+      stdout.writeln(state);
     }
-  }
-
-  /// _schemaCompleted() is called when the schema is completed. It prints the
-  /// commands to the console and sets the visibility of the cross to true
-  void _schemaCompleted(){
-    print(_params['commands']);
-    setState(() {_params['visible'] = true; cross.changeVisibility();});
+    // FileManager().writeString("test", 'test.txt');
+    setState(() {
+      if (_params['visible']) {
+        _recreateCross();
+      } else {
+        _params['visible'] = true;
+        cross.changeVisibility();
+      }
+      widget.homeState.nextSchema();
+    });
   }
 }

@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart';
+import 'package:cross_array_task_app/Activity/activity_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:interpreter/cat_interpreter.dart';
 
 void main() {
   testWidgets('Test home creation', (WidgetTester tester) async {
@@ -101,9 +105,9 @@ void main() {
 /// widget.
 Future<void> initializeTest(WidgetTester tester) async {
   await tester.binding.setSurfaceSize(const Size(2224, 1668));
-  await tester.pumpWidget(const CupertinoApp(
-      home: GestureImplementation(key: Key('testing'), schema: 1),
-      theme: CupertinoThemeData(
+  await tester.pumpWidget(CupertinoApp(
+      home: GestureImplementation(key: const Key('testing'), schema: 1, homeState: ActivityHomeState()),
+      theme: const CupertinoThemeData(
         brightness: Brightness.light,
         primaryColor: CupertinoColors.systemOrange,
       )));

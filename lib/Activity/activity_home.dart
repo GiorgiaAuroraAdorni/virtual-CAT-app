@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:file_saver/file_saver.dart';
 
 import 'GestureBased/gesture_based_home.dart';
 
@@ -15,11 +18,10 @@ class ActivityHome extends StatefulWidget {
 /// It's a stateful widget that displays a button to change the schema, a button to
 /// record audio, a button to play audio, and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
-  /// Setting the initial schema to 1.
   int _currentSchema = 1;
   late final RecorderController recorderController;
   late PlayerController playerController;
-  late var path;
+  late String path;
 
   @override
   /// It creates a column with a row of buttons and a row of waveforms.
@@ -35,23 +37,11 @@ class ActivityHomeState extends State<ActivityHome> {
       Row(children: <Widget>[
         Text('Current schema: $_currentSchema'),
         CupertinoButton(
-          onPressed: _nextSchema,
+          onPressed: nextSchema,
           child: const Text('Next schema'),
         ),
       ]),
       Row(children: <Widget>[
-        AudioWaveforms(
-          size: Size(MediaQuery.of(context).size.width/5, 10.0),
-          waveStyle: const WaveStyle(
-            waveColor: CupertinoColors.black,
-            showDurationLabel: false,
-            spacing: 4.0,
-            showBottom: true,
-            extendWaveform: true,
-            showMiddleLine: false,
-          ),
-          recorderController: recorderController,
-        ),
         CupertinoButton(
             onPressed: () async {
               await recorderController.record();
@@ -64,47 +54,22 @@ class ActivityHomeState extends State<ActivityHome> {
             child: const Icon(CupertinoIcons.pause)),
         CupertinoButton(
             onPressed: () async {
-              path = await recorderController.stop();
-              print(path);
+              path = (await recorderController.stop())!;
+              stdout.writeln(path);
+              stdout.writeln(await FileSaver.instance.saveFile('AudioTest', File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
+
             },
             child: const Icon(CupertinoIcons.stop_fill)),
-
-        AudioFileWaveforms(
-          size: Size(MediaQuery.of(context).size.width/5, 10.0),
-          playerController: playerController,
-          playerWaveStyle: const PlayerWaveStyle(
-            backgroundColor: CupertinoColors.activeGreen,
-            fixedWaveColor: CupertinoColors.black,
-            liveWaveColor: CupertinoColors.black,
-            showBottom: true,
-          ),
-        ),
-        CupertinoButton(
-            onPressed: () async {
-              await playerController.preparePlayer(path.split('file://')[1]);
-              await playerController.startPlayer();
-            },
-            child: const Icon(CupertinoIcons.play_arrow_solid)),
-        CupertinoButton(
-            onPressed: () async {
-              await playerController.pausePlayer();
-            },
-            child: const Icon(CupertinoIcons.pause)),
-        CupertinoButton(
-            onPressed: () async {
-              await playerController.stopPlayer();
-            },
-            child: const Icon(CupertinoIcons.stop_fill))
       ]),
       const SizedBox(height: 10),
       GestureImplementation(
-          key: Key(_currentSchema.toString()), schema: _currentSchema),
+          key: Key(_currentSchema.toString()), schema: _currentSchema, homeState: this),
     ]);
   }
 
   /// If the current schema is less than 12, increment the current schema by 1.
   /// Otherwise, set the current schema to 1
-  void _nextSchema() {
+  void nextSchema() {
     setState(() {
       if (_currentSchema < 12) {
         ++_currentSchema;
@@ -119,6 +84,5 @@ class ActivityHomeState extends State<ActivityHome> {
   void initState() {
     super.initState();
     recorderController = RecorderController();
-    playerController = PlayerController();
   }
 }

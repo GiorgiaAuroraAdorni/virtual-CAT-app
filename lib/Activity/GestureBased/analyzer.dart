@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
 
 import 'cross_button.dart';
@@ -21,6 +21,79 @@ class Analyzer {
     ];
   }
 
+  /// It takes a list of colors and returns a string representation of the colors
+  ///
+  /// Args:
+  ///   nextColors: The list of colors that the user has to press.
+  ///
+  /// Returns:
+  ///   A string that represents the colors of the next sequence.
+  String analyzeColor(nextColors) {
+    String colors;
+    // if (nextColors.length > 1) {
+      colors = '{';
+      nextColors.forEach((currentColor) {
+        if (currentColor == CupertinoColors.systemBlue) {
+          colors += 'blue, ';
+        } else if (currentColor == CupertinoColors.systemRed) {
+          colors += 'red, ';
+        } else if (currentColor == CupertinoColors.systemGreen) {
+          colors += 'green, ';
+        } else if (currentColor == CupertinoColors.systemYellow) {
+          colors += 'yellow, ';
+        } else {
+          throw Exception('Invalid color');
+        }
+      });
+      colors = colors.replaceRange(colors.length - 2, null, '}');
+    // } else {
+    //   if (nextColors.contains(CupertinoColors.systemBlue)) {
+    //     colors = 'blue';
+    //   } else if (nextColors.contains(CupertinoColors.systemRed)) {
+    //     colors = 'red';
+    //   } else if (nextColors.contains(CupertinoColors.systemGreen)) {
+    //     colors = 'green';
+    //   } else if (nextColors.contains(CupertinoColors.systemYellow)) {
+    //     colors = 'yellow';
+    //   } else {
+    //     throw Exception('Invalid color');
+    //   }
+    // }
+    return colors;
+  }
+
+  /// > Given a start and end position, return a string that describes the movement
+  ///
+  /// Args:
+  ///   startPosition (Tuple2<String, int>): The starting position of the piece.
+  ///   endPosition (Tuple2<String, int>): The position of the piece you want to
+  /// move to.
+  ///
+  /// Returns:
+  ///   A string that describes the movement of the piece.
+  String analyzeMovement(
+      Tuple2<String, int> startPosition, Tuple2<String, int> endPosition) {
+    var yStart = startPosition.item1.toLowerCase();
+    var yEnd = endPosition.item1.toLowerCase();
+    var xStart = startPosition.item2;
+    var xEnd = endPosition.item2;
+    int repetition;
+    if (yStart == yEnd) {
+      repetition = (xStart - xEnd);
+      if (repetition > 0) {
+        return '$repetition left';
+      } else if (repetition < 0) {
+        repetition = repetition * -1;
+        return '$repetition right';
+      }
+    } else if (xStart == xEnd) {
+      //column
+    } else {
+      //diagonal
+    }
+    return '';
+  }
+
   /// It takes a list of selected buttons and returns a list of possible patterns.
   ///
   /// Args:
@@ -29,13 +102,14 @@ class Analyzer {
   ///
   /// Returns:
   ///   A list of strings.
-  List<String> analyzePattern(List<CrossButton> selectedButton) {
-    var selectedButtonsCoordinates = _generateCoordinates(selectedButton);
-    if (selectedButtonsCoordinates.length > 1 && selectedButtonsCoordinates.length <= 6) {
+  List<String> analyzePattern(List<CrossButton> selectedButtons) {
+    var selectedButtonsCoordinates = _generateCoordinates(selectedButtons);
+    if (selectedButtonsCoordinates.length > 1 &&
+        selectedButtonsCoordinates.length <= 6) {
       _analyzeHorizontal(selectedButtonsCoordinates);
       _analyzeVertical(selectedButtonsCoordinates);
       _analyzeDiagonal(selectedButtonsCoordinates);
-      _analyzeSquare(selectedButtonsCoordinates);
+      _analyzeSquare(selectedButtonsCoordinates, selectedButtons);
       _analyzeL(selectedButtonsCoordinates);
       _analyzeZigZag(selectedButtonsCoordinates);
       return _possiblePattern;
@@ -82,10 +156,14 @@ class Analyzer {
   /// that have been selected.
   void _analyzeHorizontal(List<Map> selectedButtonsCoordinates) {
     if (_possiblePattern.contains('right')) {
-      _right(selectedButtonsCoordinates) ? null : _possiblePattern.remove('right');
+      _right(selectedButtonsCoordinates)
+          ? null
+          : _possiblePattern.remove('right');
     }
     if (_possiblePattern.contains('left')) {
-      _left(selectedButtonsCoordinates) ? null : _possiblePattern.remove('left');
+      _left(selectedButtonsCoordinates)
+          ? null
+          : _possiblePattern.remove('left');
     }
   }
 
@@ -98,28 +176,36 @@ class Analyzer {
   /// coordinates of the selected buttons.
   void _analyzeL(List<Map> selectedButtonsCoordinates) {
     if (selectedButtonsCoordinates.length == 5) {
-      (_lUpLeft(selectedButtonsCoordinates) && !_possiblePattern.contains('L up left'))
+      (_lUpLeft(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L up left'))
           ? _possiblePattern.add('L up left')
           : null;
-      (_lUpRight(selectedButtonsCoordinates) && !_possiblePattern.contains('L up right'))
+      (_lUpRight(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L up right'))
           ? _possiblePattern.add('L up right')
           : null;
-      (_lDownLeft(selectedButtonsCoordinates) && !_possiblePattern.contains('L down left'))
+      (_lDownLeft(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L down left'))
           ? _possiblePattern.add('L down left')
           : null;
-      (_lDownRight(selectedButtonsCoordinates) && !_possiblePattern.contains('L down right'))
+      (_lDownRight(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L down right'))
           ? _possiblePattern.add('L down right')
           : null;
-      (_lLeftUp(selectedButtonsCoordinates) && !_possiblePattern.contains('L left up'))
+      (_lLeftUp(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L left up'))
           ? _possiblePattern.add('L left up')
           : null;
-      (_lLeftDown(selectedButtonsCoordinates) && !_possiblePattern.contains('L left down'))
+      (_lLeftDown(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L left down'))
           ? _possiblePattern.add('L left down')
           : null;
-      (_lRightUp(selectedButtonsCoordinates) && !_possiblePattern.contains('L right up'))
+      (_lRightUp(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L right up'))
           ? _possiblePattern.add('L right up')
           : null;
-      (_lRightDown(selectedButtonsCoordinates) && !_possiblePattern.contains('L right down'))
+      (_lRightDown(selectedButtonsCoordinates) &&
+              !_possiblePattern.contains('L right down'))
           ? _possiblePattern.add('L right down')
           : null;
     } else if (selectedButtonsCoordinates.length > 5) {
@@ -140,9 +226,14 @@ class Analyzer {
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
   /// buttons.
-  void _analyzeSquare(List<Map> selectedButtonsCoordinates) {
+  void _analyzeSquare(
+      List<Map> selectedButtonsCoordinates, List<CrossButton> selectedButtons) {
     if (selectedButtonsCoordinates.length == 4) {
-      if (_square(selectedButtonsCoordinates) && !_possiblePattern.contains('square')) {
+      List<Map> tempCoordinates = [];
+      tempCoordinates.addAll(selectedButtonsCoordinates);
+      if (_square(tempCoordinates) && !_possiblePattern.contains('square')) {
+        _sortCoordinates(selectedButtonsCoordinates);
+        _sortButtons(selectedButtons);
         _possiblePattern.add('square');
       }
     } else if (selectedButtonsCoordinates.length > 4) {
@@ -161,10 +252,11 @@ class Analyzer {
       _up(selectedButtonsCoordinates) ? null : _possiblePattern.remove('up');
     }
     if (_possiblePattern.contains('down')) {
-      _down(selectedButtonsCoordinates) ? null : _possiblePattern.remove('down');
+      _down(selectedButtonsCoordinates)
+          ? null
+          : _possiblePattern.remove('down');
     }
   }
-
 
   /// If the user has drawn at least 3 lines, check if the user has drawn a zig-zag
   /// pattern in any of the 8 possible directions. If the user has drawn a zig-zag
@@ -235,12 +327,15 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
       if (mapEquals(selectedButtonsCoordinates[i], {'y': 'c', 'x': 6})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 4});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 4});
       } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'f', 'x': 3})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 1});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 1});
       } else {
         correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
+          'y': String.fromCharCode(
+              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
           'x': selectedButtonsCoordinates[i]['x'] - 1
         });
       }
@@ -265,12 +360,15 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
       if (mapEquals(selectedButtonsCoordinates[i], {'y': 'c', 'x': 1})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 3});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 3});
       } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'f', 'x': 4})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 6});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 6});
       } else {
         correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
+          'y': String.fromCharCode(
+              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
           'x': selectedButtonsCoordinates[i]['x'] + 1
         });
       }
@@ -295,12 +393,15 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
       if (mapEquals(selectedButtonsCoordinates[i], {'y': 'a', 'x': 3})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 1});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 1});
       } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'd', 'x': 6})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 4});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 4});
       } else {
         correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
+          'y': String.fromCharCode(
+              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
           'x': selectedButtonsCoordinates[i]['x'] - 1
         });
       }
@@ -325,12 +426,15 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
       if (mapEquals(selectedButtonsCoordinates[i], {'y': 'a', 'x': 4})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 6});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 6});
       } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'd', 'x': 1})) {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 3});
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 3});
       } else {
         correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
+          'y': String.fromCharCode(
+              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
           'x': selectedButtonsCoordinates[i]['x'] + 1
         });
       }
@@ -357,7 +461,8 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = (x == selectedButtonsCoordinates[i]['x'] &&
           mapEquals(selectedButtonsCoordinates[i + 1], {
-            'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
+            'y': String.fromCharCode(
+                selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
             'x': x
           }));
       if (!correct) {
@@ -395,8 +500,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lDownLeft(List<Map> selectedButtonsCoordinates) {
-    return (_down([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _left([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_down([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _left([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a downward direction and the last three
@@ -409,8 +522,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lDownRight(List<Map> selectedButtonsCoordinates) {
-    return (_down([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _right([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_down([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _right([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// It checks if the selected buttons are in a straight line and in the left
@@ -426,8 +547,10 @@ class Analyzer {
     bool correct = false;
     var y = selectedButtonsCoordinates[0]['y'];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      if ((selectedButtonsCoordinates[i]['y'] == y && y == selectedButtonsCoordinates[i + 1]['y']) &&
-          selectedButtonsCoordinates[i]['x'] - 1 == selectedButtonsCoordinates[i + 1]['x']) {
+      if ((selectedButtonsCoordinates[i]['y'] == y &&
+              y == selectedButtonsCoordinates[i + 1]['y']) &&
+          selectedButtonsCoordinates[i]['x'] - 1 ==
+              selectedButtonsCoordinates[i + 1]['x']) {
         correct = true;
       } else {
         correct = false;
@@ -447,8 +570,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lLeftDown(List<Map> selectedButtonsCoordinates) {
-    return (_left([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _down([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_left([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _down([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a left direction and the last three buttons
@@ -461,8 +592,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lLeftUp(List<Map> selectedButtonsCoordinates) {
-    return (_left([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _up([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_left([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _up([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a right direction and the last three buttons
@@ -475,8 +614,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lRightDown(List<Map> selectedButtonsCoordinates) {
-    return (_right([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _down([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_right([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _down([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a right direction and the last three buttons
@@ -489,8 +636,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lRightUp(List<Map> selectedButtonsCoordinates) {
-    return (_right([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _up([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_right([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _up([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a straight line going up and the last three
@@ -503,8 +658,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lUpLeft(List<Map> selectedButtonsCoordinates) {
-    return (_up([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _left([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_up([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _left([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// If the first three buttons are in a straight line going up and the last three
@@ -517,8 +680,16 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _lUpRight(List<Map> selectedButtonsCoordinates) {
-    return (_up([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _right([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]));
+    return (_up([
+          selectedButtonsCoordinates[0],
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2]
+        ]) &&
+        _right([
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4]
+        ]));
   }
 
   /// It checks if the selected buttons are in a straight line and in the right
@@ -534,8 +705,10 @@ class Analyzer {
     bool correct = false;
     var y = selectedButtonsCoordinates[0]['y'];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      if ((selectedButtonsCoordinates[i]['y'] == y && y == selectedButtonsCoordinates[i + 1]['y']) &&
-          selectedButtonsCoordinates[i]['x'] + 1 == selectedButtonsCoordinates[i + 1]['x']) {
+      if ((selectedButtonsCoordinates[i]['y'] == y &&
+              y == selectedButtonsCoordinates[i + 1]['y']) &&
+          selectedButtonsCoordinates[i]['x'] + 1 ==
+              selectedButtonsCoordinates[i + 1]['x']) {
         correct = true;
       } else {
         correct = false;
@@ -543,6 +716,40 @@ class Analyzer {
       }
     }
     return correct;
+  }
+
+  /// It sorts the buttons to be in the correct order for a square.
+  ///
+  /// Args:
+  ///   selectedButtons (List<CrossButton>): A list of the buttons that are
+  /// currently selected.
+  ///
+  void _sortButtons(List<CrossButton> selectedButtons) {
+    selectedButtons.sort((a, b) {
+      var r = a.position.item1.compareTo(b.position.item1);
+      if (r != 0) return r;
+      return a.position.item2.compareTo(b.position.item2);
+    });
+    var last = selectedButtons[3];
+    selectedButtons[3] = selectedButtons[2];
+    selectedButtons[2] = last;
+  }
+
+  /// Sort the list of coordinates to be in the correct order for a square.
+  ///
+  /// Args:
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
+  /// buttons.
+  ///
+  void _sortCoordinates(List<Map> selectedButtonsCoordinates) {
+    selectedButtonsCoordinates.sort((a, b) {
+      var r = a["y"].compareTo(b["y"]);
+      if (r != 0) return r;
+      return a["x"].compareTo(b["x"]);
+    });
+    var last = selectedButtonsCoordinates[3];
+    selectedButtonsCoordinates[3] = selectedButtonsCoordinates[2];
+    selectedButtonsCoordinates[2] = last;
   }
 
   /// If the first two buttons are right of each other, the second two buttons are
@@ -556,20 +763,12 @@ class Analyzer {
   /// Returns:
   ///   A boolean value.
   bool _square(List<Map> selectedButtonsCoordinates) {
-    var sorted = [];
-    sorted.addAll(selectedButtonsCoordinates);
-    sorted.sort((a, b) {
-      var r = a["y"].compareTo(b["y"]);
-      if (r != 0) return r;
-      return a["x"].compareTo(b["x"]);
-    });
-    var last = sorted[3];
-    sorted[3] = sorted[2];
-    sorted[2] = last;
-    return (_right([sorted[0], sorted[1]]) &&
-        _up([sorted[1], sorted[2]]) &&
-        _left([sorted[2], sorted[3]]) &&
-        _down([sorted[3], sorted[0]]));
+    _sortCoordinates(selectedButtonsCoordinates);
+    return (_right(
+            [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+        _up([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
+        _left([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]) &&
+        _down([selectedButtonsCoordinates[3], selectedButtonsCoordinates[0]]));
   }
 
   /// It checks if the selected buttons are in a straight line and in the same
@@ -587,7 +786,8 @@ class Analyzer {
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = correct = (x == selectedButtonsCoordinates[i]['x'] &&
           mapEquals(selectedButtonsCoordinates[i + 1], {
-            'y': String.fromCharCode(selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
+            'y': String.fromCharCode(
+                selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
             'x': x
           }));
       if (!correct) {
@@ -608,21 +808,25 @@ class Analyzer {
   bool _zigDownLeftRight(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalDownRight([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalDownLeft(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalDownRight(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
-
 
   /// If the selected buttons are in a zig-zag pattern, then return true
   ///
@@ -635,17 +839,22 @@ class Analyzer {
   bool _zigDownRightLeft(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalDownLeft([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalDownRight(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalDownLeft(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -663,17 +872,22 @@ class Analyzer {
   bool _zigLeftDownUp(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalUpLeft([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalDownLeft(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalUpLeft(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -689,17 +903,22 @@ class Analyzer {
   bool _zigLeftUpDown(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalDownLeft([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalUpLeft(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalDownLeft(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalDownLeft([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalDownLeft(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -715,17 +934,22 @@ class Analyzer {
   bool _zigRightDownUp(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalUpRight([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalDownRight(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalUpRight(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -748,17 +972,22 @@ class Analyzer {
   bool _zigRightUpDown(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalDownRight([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalUpRight(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalDownRight(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalDownRight([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalDownRight(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -774,17 +1003,22 @@ class Analyzer {
   bool _zigUpLeftRight(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalUpRight([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalUpLeft(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalUpRight(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
   }
@@ -800,90 +1034,23 @@ class Analyzer {
   bool _zigUpRightLeft(List<Map> selectedButtonsCoordinates) {
     var correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-          _diagonalUpLeft([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+      correct = _diagonalUpRight(
+              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+          _diagonalUpLeft(
+              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
-      correct = _diagonalUpLeft([selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+      correct = _diagonalUpLeft(
+          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
-      correct = _diagonalUpRight([selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+      correct = _diagonalUpRight(
+          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
-  }
-
-  /// It takes a list of colors and returns a string representation of the colors
-  ///
-  /// Args:
-  ///   nextColors: The list of colors that the user has to press.
-  ///
-  /// Returns:
-  ///   A string that represents the colors of the next sequence.
-  String analyzeColor(nextColors) {
-    String colors;
-    if (nextColors.length > 1) {
-      colors = '{';
-      nextColors.forEach((currentColor) {
-        if (currentColor == CupertinoColors.systemBlue) {
-          colors += 'blue, ';
-        } else if (currentColor == CupertinoColors.systemRed) {
-          colors += 'red, ';
-        } else if (currentColor == CupertinoColors.systemGreen) {
-          colors += 'green, ';
-        } else if (currentColor == CupertinoColors.systemYellow) {
-          colors += 'yellow, ';
-        } else {
-          throw Exception('Invalid color');
-        }
-      });
-      colors = colors.replaceRange(colors.length - 2, null, '}');
-    } else {
-      if (nextColors.contains(CupertinoColors.systemBlue)) {
-        colors = 'blue';
-      } else if (nextColors.contains(CupertinoColors.systemRed)) {
-        colors = 'red';
-      } else if (nextColors.contains(CupertinoColors.systemGreen)) {
-        colors = 'green';
-      } else if (nextColors.contains(CupertinoColors.systemYellow)) {
-        colors = 'yellow';
-      } else {
-        throw Exception('Invalid color');
-      }
-    }
-    return colors;
-  }
-
-  /// > Given a start and end position, return a string that describes the movement
-  ///
-  /// Args:
-  ///   startPosition (Tuple2<String, int>): The starting position of the piece.
-  ///   endPosition (Tuple2<String, int>): The position of the piece you want to
-  /// move to.
-  ///
-  /// Returns:
-  ///   A string that describes the movement of the piece.
-  String analyzeMovement(Tuple2<String, int> startPosition, Tuple2<String, int> endPosition){
-    var yStart = startPosition.item1.toLowerCase();
-    var yEnd = endPosition.item1.toLowerCase();
-    var xStart = startPosition.item2;
-    var xEnd = endPosition.item2;
-    int repetition;
-    if(yStart == yEnd){
-      repetition = (xStart - xEnd);
-      if(repetition > 0){
-        return '$repetition left';
-      } else if(repetition < 0){
-        repetition = repetition * -1;
-        return '$repetition right';
-      }
-    } else if(xStart == xEnd){
-      //column
-    } else {
-      //diagonal
-    }
-    return '';
   }
 }

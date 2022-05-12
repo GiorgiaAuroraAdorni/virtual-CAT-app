@@ -47,5 +47,10 @@
 
 	<key>NSMicrophoneUsageDescription</key>
     <string>This app is requires Mic permission.</string>
+
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
 </dict>
 </plist>
