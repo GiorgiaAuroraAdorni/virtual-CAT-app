@@ -1,5 +1,7 @@
 import 'package:cross_array_task_app/Activity/GestureBased/analyzer.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/cross_button.dart';
+import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
+import 'package:cross_array_task_app/Activity/activity_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tuple/tuple.dart';
@@ -24,7 +26,7 @@ void main() {
         buttons[y][x] = CrossButton(
             globalKey: GlobalKey<CrossButtonState>(),
             position: Tuple2<String, int>(y, x),
-            params: const {},
+            params: Parameters(),
             buttonDimension: 10.0);
       }
     }
@@ -1645,10 +1647,10 @@ void main() {
     var yellow = CupertinoColors.systemYellow;
     var grey = CupertinoColors.systemGrey;
     test('single color', () {
-      expect(Analyzer().analyzeColor([blue]), 'blue');
-      expect(Analyzer().analyzeColor([red]), 'red');
-      expect(Analyzer().analyzeColor([green]), 'green');
-      expect(Analyzer().analyzeColor([yellow]), 'yellow');
+      expect(Analyzer().analyzeColor([blue]), '{blue}');
+      expect(Analyzer().analyzeColor([red]), '{red}');
+      expect(Analyzer().analyzeColor([green]), '{green}');
+      expect(Analyzer().analyzeColor([yellow]), '{yellow}');
       expect(
           () => {
                 Analyzer().analyzeColor([grey])

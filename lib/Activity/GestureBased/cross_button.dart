@@ -1,3 +1,5 @@
+import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
+import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 
@@ -12,8 +14,7 @@ class CrossButton extends StatefulWidget {
   /// It's a way to access the state of the button from outside the widget.
   final GlobalKey<CrossButtonState> globalKey;
 
-  /// It's a way to pass parameters to the widget.
-  final Map params;
+  final Parameters params;
 
   /// It's the constructor of the class.
   const CrossButton(
@@ -148,7 +149,7 @@ class CrossButtonState extends State<CrossButton> {
       onPressed: _onTap, //widget.params['multiSelect'] ? select : changeColor,
       borderRadius: BorderRadius.circular(45.0),
       minSize: widget.buttonDimension,
-      color: widget.params['visible'] ? buttonColor : CupertinoColors.systemGrey,
+      color: widget.params.visible ? buttonColor : CupertinoColors.systemGrey,
       padding: const EdgeInsets.all(0.0),
       child: selected ? const Icon(CupertinoIcons.circle_fill) : const Text(''), //Text('${widget.position.item1}${widget.position.item2}')
     );
@@ -161,7 +162,7 @@ class CrossButtonState extends State<CrossButton> {
   ///   index (int): The index of the button that was pressed.
   void changeColor(int index) {
     setState(() {
-      buttonColor = widget.params['nextColors'][index];
+      buttonColor = widget.params.nextColors[index];
     });
   }
 
@@ -180,10 +181,10 @@ class CrossButtonState extends State<CrossButton> {
   /// list and then analyze the pattern
   void select() {
     setState(() {
-      if (!widget.params['selectedButton'].contains(widget)) {
-        widget.params['selectedButton'].add(widget);
+      if (!widget.params.selectedButtons.contains(widget)) {
+        widget.params.selectedButtons.add(widget);
       }
-      widget.params['analyzer'].analyzePattern(widget.params['selectedButton']);
+      widget.params.analyzePattern();
       selected = true;
     });
   }
@@ -193,15 +194,13 @@ class CrossButtonState extends State<CrossButton> {
   /// it calls the changeColor function and adds the GO and PAINT commands to the
   /// list of commands, otherwise it shows an error message
   void _onTap() {
-    if (widget.params['multiSelect']) {
+    if (widget.params.selectionMode == SelectionModes.multiple) {
       select();
     } else {
-      if(widget.params['nextColors'].length == 1) {
+      if(widget.params.gestureHomeState.checkColorSelected(checkExactlyOne: true)) {
         changeColor(0);
-        widget.params['commands'].add("GO(${widget.position.item1}${widget.position.item2})");
-        widget.params['commands'].add("PAINT(${widget.params['analyzer'].analyzeColor(widget.params['nextColors'])})");
-      } else {
-       widget.params['homeState'].message('Troppi colori selezionati', 'Per poter colorare un singolo punto è necessario selezionare un solo colore');
+        widget.params.addCommand("GO(${widget.position.item1}${widget.position.item2})");
+        widget.params.addCommand("PAINT(${widget.params.analyzeColor()})");
       }
     }
   }

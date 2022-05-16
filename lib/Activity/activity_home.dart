@@ -5,6 +5,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:file_saver/file_saver.dart';
 
 import 'GestureBased/gesture_based_home.dart';
+import 'GestureBased/parameters.dart';
 
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState` object
@@ -18,10 +19,10 @@ class ActivityHome extends StatefulWidget {
 /// It's a stateful widget that displays a button to change the schema, a button to
 /// record audio, a button to play audio, and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
-  int _currentSchema = 1;
   late final RecorderController recorderController;
-  late PlayerController playerController;
   late String path;
+
+  late Parameters _params=Parameters();
 
   @override
   /// It creates a column with a row of buttons and a row of waveforms.
@@ -33,11 +34,12 @@ class ActivityHomeState extends State<ActivityHome> {
   ///   A Column widget with a Row widget with a Text widget and a CupertinoButton
   /// widget.
   Widget build(context) {
+    _params.activityHomeState = this;
     return Column(children: <Widget>[
       Row(children: <Widget>[
-        Text('Current schema: $_currentSchema'),
+        Text('Current schema: ${_params.currentSchema}'),
         CupertinoButton(
-          onPressed: nextSchema,
+          onPressed: _params.nextSchema,
           child: const Text('Next schema'),
         ),
       ]),
@@ -63,20 +65,8 @@ class ActivityHomeState extends State<ActivityHome> {
       ]),
       const SizedBox(height: 10),
       GestureImplementation(
-          key: Key(_currentSchema.toString()), schema: _currentSchema, homeState: this),
+          key: Key(_params.currentSchema.toString()), params: _params),
     ]);
-  }
-
-  /// If the current schema is less than 12, increment the current schema by 1.
-  /// Otherwise, set the current schema to 1
-  void nextSchema() {
-    setState(() {
-      if (_currentSchema < 12) {
-        ++_currentSchema;
-      } else {
-        _currentSchema = 1;
-      }
-    });
   }
 
   /// It initializes the recorder and player controllers.
@@ -84,5 +74,9 @@ class ActivityHomeState extends State<ActivityHome> {
   void initState() {
     super.initState();
     recorderController = RecorderController();
+  }
+
+  void setStateFromOutside(){
+    setState(() {});
   }
 }

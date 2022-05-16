@@ -6,20 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:interpreter/cat_interpreter.dart';
 
 import '../../Utility/file_manager.dart';
-import '../activity_home.dart';
-import 'analyzer.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class and
 /// has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
-  final int schema;
-  final ActivityHomeState homeState;
+  final Parameters params;
 
   /// Creating a constructor for the GestureImplementation class.
-  const GestureImplementation(
-      {Key? key, required this.schema, required this.homeState})
+  const GestureImplementation({Key? key, required this.params})
       : super(key: key);
 
   /// `createState()` is a function that returns a state object
@@ -39,17 +35,15 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Creating a new instance of the CrossWidget class.
   late CrossWidget cross;
 
-  /// Creating a map called _params.
-  final Map _params = {
-    'nextColors': [],
-    'visible': false,
-    'multiSelect': false,
-    'selectedButton': <CrossButton>[],
-    'analyzer': Analyzer(),
-    'commands': <String>[],
-  };
-
-  // final Parameters _params = Parameters();
+  // /// Creating a map called _params.
+  // final Map _params = {
+  //   'nextColors': [],
+  //   'visible': false,
+  //   'multiSelect': false,
+  //   'selectedButton': <CrossButton>[],
+  //   'analyzer': Analyzer(),
+  //   'commands': <String>[],
+  // };
 
   late CATInterpreter catInterpreter;
 
@@ -63,7 +57,8 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Returns:
   ///   A widget.
   Widget build(context) {
-    _params['homeState'] = this;
+    widget.params.gestureHomeState = this;
+    // _params['homeState'] = this;
     // return Padding(
     //     padding: const EdgeInsets.all(20.0),
     //     child: Flex(
@@ -134,7 +129,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           children: <Widget>[
             Image(
                 image: AssetImage(
-                    'resources/sequence/image/S${widget.schema.toString()}.jpg')),
+                    'resources/sequence/image/S${widget.params.currentSchema.toString()}.jpg')),
             const SizedBox(height: 100),
             Row(children: _colorAndVisibilityButtonsBuild()),
             Row(children: _instructionsButtonsBuild()),
@@ -164,41 +159,39 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   allCell (bool): if true, the user wants to select all the cells in the
   /// row/column
   void confirmSelection(bool allCell) {
-    if (_checkColorSelected()) {
-      var recognisedCommands =
-          _params['analyzer'].analyzePattern(_params['selectedButton']);
+    if (checkColorSelected()) {
+      var recognisedCommands = widget.params.analyzePattern();
       if (recognisedCommands.length == 1) {
         num j = -1;
-        var numOfColor = _params['nextColors'].length;
-        for (CrossButton element in _params['selectedButton']) {
+        var numOfColor = widget.params.nextColors.length;
+        for (CrossButton element in widget.params.selectedButtons) {
           j = (j + 1) % numOfColor;
           element.changeColor(j.toInt());
           element.deselect();
         }
 
-        var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
-        _params['commands'].add(
-            'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
-        var length = allCell ? ':' : _params['selectedButton'].length;
+        var colors =
+        widget.params.analyzeColor();
+        widget.params.addCommand(
+            'GO(${widget.params.selectedButtons[0].position.item1}${widget
+                .params.selectedButtons[0].position.item2})');
+        var length = allCell ? ':' : widget.params.selectedButtons.length;
         var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
-        _params['commands'].add(command);
+        widget.params.addCommand(command);
         message("Comando riconsociuto:", command);
-        _params['analyzer'] = Analyzer();
+        widget.params.resetAnalyzer();
         setState(() {
-          _params['selectedButton'].clear();
+          widget.params.selectedButtons.clear();
         });
-      } else if (recognisedCommands.length == 0) {
+      } else if (recognisedCommands.isEmpty) {
         message("Nessun commando riconsociuto",
             "Non è stato possible riconoscere alcun comando");
-        _removeSelection();
       } else {
         message("Comando ambiguo:",
             'Comandi riconsociuti: ${recognisedCommands.toString()}');
-        _removeSelection();
       }
-    } else {
-      _removeSelection();
     }
+    widget.params.removeSelection();
   }
 
   @override
@@ -208,7 +201,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     cross = CrossWidget(
         globalKey:
             GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
-        params: _params);
+        params: widget.params);
     readJson().then((value) {
       setState(() => catInterpreter = CATInterpreter(value));
     });
@@ -254,6 +247,11 @@ class GestureImplementationState extends State<GestureImplementation> {
   //   });
   // }
 
+  /// `readJson()` is an asynchronous function that returns a `Future<String>`
+  /// object
+  ///
+  /// Returns:
+  ///   A Future<String>
   Future<String> readJson() async {
     String future =
         await rootBundle.loadString('resources/sequence/schemas.json');
@@ -263,7 +261,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// _changeVisibility() is a function that sets the visibility of the cross to
   /// true and then calls the cross.changeVisibility() function
   void _changeVisibility() {
-    _params['visible'] = true;
+    widget.params.changeVisibility();
     cross.changeVisibility();
     setState(() {});
   }
@@ -273,10 +271,15 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _checkColorSelected() {
-    if (_params['nextColors'].isEmpty) {
+  bool checkColorSelected({bool checkExactlyOne = false}) {
+    if (!widget.params.checkColorLength(min: 1)) {
       message('Nessun colore selezionato',
           'Selezionare un colore per poter eseguire questa operazione');
+      return false;
+    }
+    if(checkExactlyOne && !widget.params.checkColorLength(min: 1, max: 1)) {
+      message('Troppi colori selezionati',
+          'Per poter eseguire questa operazione è necessario selezionare un solo colore');
       return false;
     }
     return true;
@@ -298,12 +301,12 @@ class GestureImplementationState extends State<GestureImplementation> {
         minSize: 40.0,
         color: CupertinoColors.systemBlue,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColors'].contains(CupertinoColors.systemBlue)
+        child: widget.params.nextColors.contains(CupertinoColors.systemBlue)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
                     ' ' +
-                        (_params['nextColors']
+                        (widget.params.nextColors
                                     .indexOf(CupertinoColors.systemBlue) +
                                 1)
                             .toString(),
@@ -319,12 +322,12 @@ class GestureImplementationState extends State<GestureImplementation> {
         minSize: 40.0,
         color: CupertinoColors.systemRed,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColors'].contains(CupertinoColors.systemRed)
+        child: widget.params.nextColors.contains(CupertinoColors.systemRed)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
                     ' ' +
-                        (_params['nextColors']
+                        (widget.params.nextColors
                                     .indexOf(CupertinoColors.systemRed) +
                                 1)
                             .toString(),
@@ -340,12 +343,12 @@ class GestureImplementationState extends State<GestureImplementation> {
         minSize: 40.0,
         color: CupertinoColors.systemGreen,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColors'].contains(CupertinoColors.systemGreen)
+        child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
                     ' ' +
-                        (_params['nextColors']
+                        (widget.params.nextColors
                                     .indexOf(CupertinoColors.systemGreen) +
                                 1)
                             .toString(),
@@ -361,12 +364,12 @@ class GestureImplementationState extends State<GestureImplementation> {
         minSize: 40.0,
         color: CupertinoColors.systemYellow,
         padding: const EdgeInsets.all(0.0),
-        child: _params['nextColors'].contains(CupertinoColors.systemYellow)
+        child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
                     ' ' +
-                        (_params['nextColors']
+                        (widget.params.nextColors
                                     .indexOf(CupertinoColors.systemYellow) +
                                 1)
                             .toString(),
@@ -377,10 +380,10 @@ class GestureImplementationState extends State<GestureImplementation> {
       const SizedBox(width: 20),
       CupertinoButton(
           key: const Key('Visibility Button'),
-          onPressed: _params['visible'] ? null : () => _changeVisibility(),
+          onPressed: widget.params.visible ? null : () => _changeVisibility(),
           minSize: 40.0,
           padding: const EdgeInsets.all(5.0),
-          child: _params['visible']
+          child: widget.params.visible
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
               : const Icon(CupertinoIcons.eye_fill, size: 40.0)),
     ];
@@ -391,7 +394,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///
   /// Args:
   ///   color (Color): the color of the button
-  void _colorButtonTap(Color color) {
+  void _colorButtonTap(CupertinoDynamicColor color) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
       // if (this.nextColors == nextColors) {
@@ -399,10 +402,10 @@ class GestureImplementationState extends State<GestureImplementation> {
       // } else {
       //   this.nextColors = nextColors;
       // }
-      if (_params['nextColors'].contains(color)) {
-        _params['nextColors'].remove(color);
+      if (widget.params.nextColors.contains(color)) {
+        widget.params.removeColor(color);
       } else {
-        _params['nextColors'].add(color);
+        widget.params.addColor(color);
       }
     });
   }
@@ -458,7 +461,7 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   /// If the color is selected, fill the empty cells with the selected color
   void _fillEmpty() {
-    if (_checkColorSelected()) {
+    if (checkColorSelected(checkExactlyOne: true)) {
       cross.fillEmpty();
       setState(() {});
     }
@@ -492,7 +495,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       const SizedBox(width: 20),
       CupertinoButton(
         onPressed: () {
-          debugPrint(_params['commands'].toString());
+          debugPrint(widget.params.commands.toString());
         },
         borderRadius: BorderRadius.circular(45.0),
         minSize: 45.0,
@@ -507,51 +510,50 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// It creates a new cross widget with a new key, and resets all the parameters
   void _recreateCross() {
     setState(() {
-      _params['nextColors'].clear();
-      _params['visible'] = false;
+      widget.params.reset();
       ++_crossKey;
-      _params['multiSelect'] = false;
-      _params['selectedButton'].clear();
-      _params['analyzer'] = Analyzer();
-      _params['commands'].clear();
+      catInterpreter.reset();
       cross = CrossWidget(
           globalKey:
               GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
-          params: _params);
+          params: widget.params);
     });
   }
 
-  /// It removes the selected color buttons from the screen
-  void _removeSelection() {
-    //TODO: implement delete color multiple selection
-    for (var element in _params['selectedButton']) {
-      element.deselect();
-    }
-    _params['analyzer'] = Analyzer();
-    setState(() {
-      _params['selectedButton'].clear();
-    });
-  }
-
+  // It removes the selected color buttons from the screen
+  // void _removeSelection() {
+  //   //TODO: implement delete color multiple selection
+  //   for (var element in widget.params.selectedButtons) {
+  //     element.deselect();
+  //   }
+  //   widget.params.resetAnalyzer();
+  //   setState(() {
+  //     widget.params.selectedButtons.clear();
+  //   });
+  // }
 
   void _schemaCompleted() {
-    stdout.writeln(_params['commands']);
-    final resultPair = catInterpreter.validateOnScheme(
-        _params['commands'].toString(), widget.schema);
-    stdout.writeln(resultPair.second);
-    stdout.writeln(resultPair.first);
-    for (var state in resultPair.first.getStates) {
-      stdout.writeln(state);
-    }
-    // FileManager().writeString("test", 'test.txt');
-    setState(() {
-      if (_params['visible']) {
-        _recreateCross();
-      } else {
-        _params['visible'] = true;
-        cross.changeVisibility();
+    if(widget.params.commands.isNotEmpty) {
+      stdout.writeln(widget.params.commands);
+      final resultPair = catInterpreter.validateOnScheme(
+          widget.params.commands.toString(), widget.params.currentSchema);
+      stdout.writeln(resultPair.second);
+      for (var state in resultPair.first.getStates) {
+        stdout.writeln(state);
       }
-      widget.homeState.nextSchema();
-    });
+      if (resultPair.second == CatError.none) {
+        message('Croce colorata correttamente', 'La croce è stata colorata correttamente');
+        FileManager().writeString(widget.params.commands.toString(),
+            '${widget.params.currentSchema}.txt');
+      } else {
+        message('Errore durante la validazione della croce', 'Errore: ${resultPair.second.name}');
+      }
+      setState(() {
+        _recreateCross();
+        widget.params.nextSchema();
+      });
+    } else {
+      message('Nesun comando eseguito', 'Eseguire almeno un comando prima di confermare');
+    }
   }
 }

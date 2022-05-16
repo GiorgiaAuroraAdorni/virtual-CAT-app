@@ -1,3 +1,4 @@
+import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 
@@ -7,7 +8,7 @@ import 'cross_button.dart';
 /// of methods that call the state's methods
 class CrossWidget extends StatefulWidget {
   /// It's a map of parameters that is passed to the stateful widget.
-  final Map params;
+  final Parameters params;
 
   /// It's a key that is used to access the state of the widget.
   final GlobalKey<CrossWidgetState> globalKey;
@@ -155,8 +156,8 @@ class CrossWidgetState extends State<CrossWidget> {
   void endPan(details) {
     //TODO: check if all line/column/diagonal/zigzag/square
     bool allCell = details.velocity == Velocity.zero;
-    widget.params['homeState'].confirmSelection(allCell);
-    widget.params['nextColors'].clear();
+    widget.params.gestureHomeState.confirmSelection(allCell);
+    widget.params.nextColors.clear();
   }
 
   /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new map
@@ -191,27 +192,21 @@ class CrossWidgetState extends State<CrossWidget> {
 
   /// It fills all the empty spaces with the color selected by the user
   void fillEmpty() {
-    if (widget.params['nextColors'].length == 1) {
-      bool success = false;
-      for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
-        for (int x in [1, 2, 3, 4, 5, 6]) {
-          if (buttons[y][x] != null &&
-              buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
-            success = true;
-            buttons[y][x].changeColor(0);
-          }
+    bool success = false;
+    for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
+      for (int x in [1, 2, 3, 4, 5, 6]) {
+        if (buttons[y][x] != null &&
+            buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
+          success = true;
+          buttons[y][x].changeColor(0);
         }
       }
-      if (success) {
-        widget.params['commands'].add(
-            "FILL_EMPTY(${widget.params['analyzer'].analyzeColor(widget.params['nextColors'])})");
-      }
-    } else {
-      widget.params['homeState'].message('Troppi colori selezionati',
-          'Per poter colorare gli spazi vuoti è necessario selezionare un solo colore');
+    }
+    if (success) {
+      widget.params.addCommand(
+          "FILL_EMPTY(${widget.params.analyzeColor().split('{')[1].split('}')[0]})");
     }
   }
-
 
   void mirror() {}
 

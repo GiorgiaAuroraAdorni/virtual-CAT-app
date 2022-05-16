@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart';
+import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:cross_array_task_app/Activity/activity_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:interpreter/cat_interpreter.dart';
 
 void main() {
   testWidgets('Test home creation', (WidgetTester tester) async {
@@ -13,7 +11,6 @@ void main() {
 
     expect(find.byType(GestureImplementation), findsOneWidget);
     expect(find.byType(CrossWidget), findsOneWidget);
-
 
     final imageWidget = find.byType(Image).evaluate().single.widget as Image;
     if (imageWidget.image is AssetImage) {
@@ -33,7 +30,7 @@ void main() {
     };
 
     var i = 0;
-    for(var k in finderColorButtons.keys) {
+    for (var k in finderColorButtons.keys) {
       Finder finder = finderColorButtons[k] as Finder;
       var current = finder.evaluate().single.widget as CupertinoButton;
       expect(finder, findsOneWidget);
@@ -79,20 +76,22 @@ void main() {
 
   testWidgets('Change visibility test', (WidgetTester tester) async {
     await initializeTest(tester);
-    var buttonFinder =find.byKey(const Key('Visibility Button'));
+    var buttonFinder = find.byKey(const Key('Visibility Button'));
     expect(buttonFinder, findsOneWidget);
     var button = buttonFinder.evaluate().single.widget as CupertinoButton;
-    expect(button.child.toString(), const Icon(CupertinoIcons.eye_fill, size: 40.0).toString());
+    expect(button.child.toString(),
+        const Icon(CupertinoIcons.eye_fill, size: 40.0).toString());
 
     await tester.tap(buttonFinder);
     await tester.pump();
     expect(buttonFinder, findsOneWidget);
     button = buttonFinder.evaluate().single.widget as CupertinoButton;
-    expect(button.child.toString(), const Icon(CupertinoIcons.eye_slash_fill, size: 40.0).toString());
+    expect(button.child.toString(),
+        const Icon(CupertinoIcons.eye_slash_fill, size: 40.0).toString());
   });
 
-  testWidgets('Confirm e delete selection button test', (WidgetTester tester) async {
-
+  testWidgets('Confirm e delete selection button test',
+      (WidgetTester tester) async {
     // expect(actual, matcher);
   });
 }
@@ -106,7 +105,10 @@ void main() {
 Future<void> initializeTest(WidgetTester tester) async {
   await tester.binding.setSurfaceSize(const Size(2224, 1668));
   await tester.pumpWidget(CupertinoApp(
-      home: GestureImplementation(key: const Key('testing'), schema: 1, homeState: ActivityHomeState()),
+      home: GestureImplementation(
+        key: const Key('testing'),
+        params: Parameters(),
+      ),
       theme: const CupertinoThemeData(
         brightness: Brightness.light,
         primaryColor: CupertinoColors.systemOrange,
