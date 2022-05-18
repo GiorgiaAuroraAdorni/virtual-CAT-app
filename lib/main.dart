@@ -72,25 +72,25 @@ class SchoolForm extends StatelessWidget {
               header: const Text("Inserire i dati della sessione"),
               children: [
                 CupertinoFormRow(
+                  prefix: const Text('Scuola:', textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
                     placeholder: 'Inserire il nome della scuola',
                   ),
-                  prefix: const Text('Scuola:', textAlign: TextAlign.right),
                 ),
                 CupertinoFormRow(
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la classe',
-                  ),
                   prefix: const Text(
                     'Classe:',
                     textAlign: TextAlign.right,
                   ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Inserire la classe',
+                  ),
                 ),
                 CupertinoFormRow(
+                  prefix: const Text('Sezione:', textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
                     placeholder: 'Inserire la sezione',
                   ),
-                  prefix: const Text('Sezione:', textAlign: TextAlign.right),
                 ),
               ],
             ),

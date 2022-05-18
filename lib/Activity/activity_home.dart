@@ -22,7 +22,7 @@ class ActivityHomeState extends State<ActivityHome> {
   late final RecorderController recorderController;
   late String path;
 
-  late Parameters _params=Parameters();
+  late final Parameters _params = Parameters();
 
   @override
   /// It creates a column with a row of buttons and a row of waveforms.

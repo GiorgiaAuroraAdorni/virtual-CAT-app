@@ -62,36 +62,34 @@ class Analyzer {
     return colors;
   }
 
-  /// > Given a start and end position, return a string that describes the movement
+  /// > Given a start and end position, return a list of directions to get from the
+  /// start to the end
   ///
   /// Args:
-  ///   startPosition (Tuple2<String, int>): The starting position of the piece.
-  ///   endPosition (Tuple2<String, int>): The position of the piece you want to
-  /// move to.
+  ///   startPosition (Tuple2<String, int>): The starting position of the robot.
+  ///   endPosition (Tuple2<String, int>): The position of the destination
   ///
   /// Returns:
-  ///   A string that describes the movement of the piece.
-  String analyzeMovement(
+  ///   A list of strings.
+  List<String> analyzeMovement(
       Tuple2<String, int> startPosition, Tuple2<String, int> endPosition) {
-    var yStart = startPosition.item1.toLowerCase();
-    var yEnd = endPosition.item1.toLowerCase();
+    var yStart = startPosition.item1.toLowerCase().codeUnits[0];
+    var yEnd = endPosition.item1.toLowerCase().codeUnits[0];
     var xStart = startPosition.item2;
     var xEnd = endPosition.item2;
-    int repetition;
-    if (yStart == yEnd) {
-      repetition = (xStart - xEnd);
-      if (repetition > 0) {
-        return '$repetition left';
-      } else if (repetition < 0) {
-        repetition = repetition * -1;
-        return '$repetition right';
-      }
-    } else if (xStart == xEnd) {
-      //column
-    } else {
-      //diagonal
+    List<String> result = [];
+
+    if(xStart < xEnd){
+       result.add('GO(${xEnd-xStart} right)');
+    } else if(xStart > xEnd){
+      result.add('GO(${xStart-xEnd} left)');
     }
-    return '';
+    if(yStart < yEnd){
+      result.add('GO(${yEnd-yStart} up)');
+    } else if(yStart > yEnd){
+      result.add('GO(${yStart-yEnd} down)');
+    }
+    return result;
   }
 
   /// It takes a list of selected buttons and returns a list of possible patterns.

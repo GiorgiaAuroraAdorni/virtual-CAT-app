@@ -1,5 +1,6 @@
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:interpreter/cat_interpreter.dart';
 import 'package:tuple/tuple.dart';
 
 import 'cross_button.dart';
@@ -49,6 +50,12 @@ class CrossWidget extends StatefulWidget {
   void _changeVisibility(GlobalKey<CrossWidgetState> globalKey) {
     globalKey.currentState?.changeVisibility();
   }
+
+  void fromSchema(Cross schema) => _fromSchema(globalKey, schema);
+
+  void _fromSchema(GlobalKey<CrossWidgetState> globalKey, Cross schema) {
+    globalKey.currentState?.fromSchema(schema);
+  }
 }
 
 /// It's a widget that contains a grid of buttons that can be selected and colored
@@ -89,18 +96,21 @@ class CrossWidgetState extends State<CrossWidget> {
   /// Returns:
   ///   A list of widgets.
   List<Widget> _buildCross() {
-    //TODO: remove space at end of columns and end of lines
     List<Widget> result = [];
     for (String y in ['f', 'e', 'd', 'c', 'b', 'a']) {
       List<Widget> rowChildren = [];
       for (int x in [1, 2, 3, 4, 5, 6]) {
         if (buttons[y][x] != null) {
           rowChildren.add(buttons[y][x]);
-          rowChildren.add(const SizedBox(width: 35));
+          if (x != 6 || (!['f','e','b','a'].contains(y) && x!=4)) {
+            rowChildren.add(const SizedBox(width: 35));
+          }
         }
       }
       result.add(Row(children: rowChildren));
-      result.add(const SizedBox(height: 35));
+      if (y != 'a') {
+        result.add(const SizedBox(height: 35));
+      }
     }
     return result;
   }
@@ -198,7 +208,7 @@ class CrossWidgetState extends State<CrossWidget> {
         if (buttons[y][x] != null &&
             buttons[y][x].currentColor() == CupertinoColors.systemGrey) {
           success = true;
-          buttons[y][x].changeColor(0);
+          buttons[y][x].changeColorFromIndex(0);
         }
       }
     }
@@ -208,7 +218,38 @@ class CrossWidgetState extends State<CrossWidget> {
     }
   }
 
-  void mirror() {}
+  void fromSchema(Cross schema) {
+    var cross = schema.getCross;
+    var stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
+    for (int y = 0; y < cross.length; y++) {
+      for (int x = 0; x < cross[y].length; x++) {
+        var current = buttons[stringY[y]][x + 1];
+        if (current != null) {
+          Color color = CupertinoColors.systemGrey;
+          switch (cross[y][x]) {
+            case 0:
+              color = CupertinoColors.systemGrey;
+              break;
+            case 1:
+              color = CupertinoColors.systemGreen;
+              break;
+            case 2:
+              color = CupertinoColors.systemRed;
+              break;
+            case 3:
+              color = CupertinoColors.systemBlue;
+              break;
+            case 4:
+              color = CupertinoColors.systemYellow;
+              break;
+            default:
+              color = CupertinoColors.systemGrey;
+              break;
+          }
 
-  void copy() {}
+          current.changeColorFromColor(color);
+        }
+      }
+    }
+  }
 }

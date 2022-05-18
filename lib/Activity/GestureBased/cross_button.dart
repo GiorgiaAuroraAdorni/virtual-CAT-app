@@ -29,15 +29,52 @@ class CrossButton extends StatefulWidget {
   ///
   /// Args:
   ///   index (int): The index of the color you want to change to.
-  void changeColor(int index) => _changeColor(globalKey, index);
+  void changeColorFromIndex(int index) => _changeColorFromIndex(globalKey, index);
+
+  void changeColorFromColor(Color color) => _changeColorFromColor(globalKey, color);
 
   /// It takes a global key, and then calls the _changeVisibility function with that
   /// key
   void changeVisibility() => _changeVisibility(globalKey);
 
 
+  /// It creates a state object for the CrossButton widget.
+  @override
+  State<CrossButton> createState() => CrossButtonState();
+
   /// It returns the current color of the cross button
   Color currentColor() => _currentColor(globalKey);
+
+  void deselect() => _deselect(globalKey);
+
+
+  /// > Get the position of the button by getting the global key of the button, then
+  /// getting the global position of the button, then subtracting half the button's
+  /// dimension from the global position
+  Offset getPosition() => _getPositionFromKey(globalKey, buttonDimension/2);
+
+  void select() => _select(globalKey);
+
+  /// It changes the color of the button.
+  ///
+  /// Args:
+  ///   globalKey (GlobalKey<CrossButtonState>): The global key of the CrossButton
+  /// widget.
+  ///   index (int): The index of the button that was clicked.
+  void _changeColorFromIndex(GlobalKey<CrossButtonState> globalKey, int index) {
+    globalKey.currentState?.changeColorFromIndex(index);
+  }
+
+  /// _changeVisibility() is a function that takes a GlobalKey<CrossButtonState> as
+  /// an argument and calls the changeVisibility() function on the currentState of
+  /// the GlobalKey
+  ///
+  /// Args:
+  ///   globalKey (GlobalKey<CrossButtonState>): The global key of the CrossButton
+  /// widget.
+  void _changeVisibility(GlobalKey<CrossButtonState> globalKey) {
+    globalKey.currentState?.changeVisibility();
+  }
 
   /// It returns the current color of the cross button.
   ///
@@ -53,41 +90,6 @@ class CrossButton extends StatefulWidget {
      return state.buttonColor;
     }
     return CupertinoColors.black;
-  }
-
-  /// It creates a state object for the CrossButton widget.
-  @override
-  State<CrossButton> createState() => CrossButtonState();
-
-
-  void deselect() => _deselect(globalKey);
-
-  /// > Get the position of the button by getting the global key of the button, then
-  /// getting the global position of the button, then subtracting half the button's
-  /// dimension from the global position
-  Offset getPosition() => _getPositionFromKey(globalKey, buttonDimension/2);
-
-  void select() => _select(globalKey);
-
-  /// It changes the color of the button.
-  ///
-  /// Args:
-  ///   globalKey (GlobalKey<CrossButtonState>): The global key of the CrossButton
-  /// widget.
-  ///   index (int): The index of the button that was clicked.
-  void _changeColor(GlobalKey<CrossButtonState> globalKey, int index) {
-    globalKey.currentState?.changeColor(index);
-  }
-
-  /// _changeVisibility() is a function that takes a GlobalKey<CrossButtonState> as
-  /// an argument and calls the changeVisibility() function on the currentState of
-  /// the GlobalKey
-  ///
-  /// Args:
-  ///   globalKey (GlobalKey<CrossButtonState>): The global key of the CrossButton
-  /// widget.
-  void _changeVisibility(GlobalKey<CrossButtonState> globalKey) {
-    globalKey.currentState?.changeVisibility();
   }
 
   /// If the current state of the global key is not null, then deselect it
@@ -128,6 +130,10 @@ class CrossButton extends StatefulWidget {
     }
     return const Offset(0,0);
   }
+
+  void _changeColorFromColor(GlobalKey<CrossButtonState> globalKey, Color color) {
+    globalKey.currentState?.changeColorFromColor(color);
+  }
 }
 
 class CrossButtonState extends State<CrossButton> {
@@ -160,9 +166,15 @@ class CrossButtonState extends State<CrossButton> {
   ///
   /// Args:
   ///   index (int): The index of the button that was pressed.
-  void changeColor(int index) {
+  void changeColorFromIndex(int index) {
     setState(() {
       buttonColor = widget.params.nextColors[index];
+    });
+  }
+
+  void changeColorFromColor(Color color) {
+    setState(() {
+      buttonColor = color;
     });
   }
 
@@ -194,11 +206,11 @@ class CrossButtonState extends State<CrossButton> {
   /// it calls the changeColor function and adds the GO and PAINT commands to the
   /// list of commands, otherwise it shows an error message
   void _onTap() {
-    if (widget.params.selectionMode == SelectionModes.multiple) {
+    if (widget.params.selectionMode == SelectionModes.multiple || widget.params.selectionMode == SelectionModes.mirror) {
       select();
     } else {
       if(widget.params.gestureHomeState.checkColorSelected(checkExactlyOne: true)) {
-        changeColor(0);
+        changeColorFromIndex(0);
         widget.params.addCommand("GO(${widget.position.item1}${widget.position.item2})");
         widget.params.addCommand("PAINT(${widget.params.analyzeColor()})");
       }

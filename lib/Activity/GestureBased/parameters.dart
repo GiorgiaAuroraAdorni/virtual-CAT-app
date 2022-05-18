@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:interpreter/cat_interpreter.dart';
+import 'package:tuple/tuple.dart';
 
 import '../activity_home.dart';
 import 'analyzer.dart';
@@ -7,25 +14,40 @@ import 'cross_button.dart';
 import 'gesture_based_home.dart';
 
 class Parameters {
-  late List<CupertinoDynamicColor> nextColors; // 'nextColors': [],
-  late bool visible; // 'visible': false,
-  late SelectionModes selectionMode; // 'multiSelect': false,
-  late List<CrossButton> selectedButtons; // 'selectedButton': <CrossButton>[],
-  late Analyzer analyzer; // 'analyzer': Analyzer(),
-  late List<String> commands; // 'commands': <String>[],
+  late List<CupertinoDynamicColor> nextColors;
+  late bool visible;
+  late SelectionModes selectionMode;
+  late List<CrossButton> selectedButtons;
+  late Analyzer analyzer;
+  late List<String> commands;
   late GestureImplementationState gestureHomeState;
   late int currentSchema;
   late ActivityHomeState activityHomeState;
+  late CATInterpreter catInterpreter;
 
   /// > The function `Parameters()` initializes the `Parameters` class
   Parameters() {
     nextColors = [];
     visible = false;
-    selectionMode = SelectionModes.single;
+    selectionMode = SelectionModes.base;
     selectedButtons = [];
     analyzer = Analyzer();
     commands = [];
     currentSchema = 1;
+    _readSchemasJSON().then((value) {
+      catInterpreter = CATInterpreter(value);
+    });
+  }
+
+  /// `readJson()` is an asynchronous function that returns a `Future<String>`
+  /// object
+  ///
+  /// Returns:
+  ///   A Future<String>
+  Future<String> _readSchemasJSON() async {
+    String future =
+    await rootBundle.loadString('resources/sequence/schemas.json');
+    return future;
   }
 
 
@@ -99,10 +121,11 @@ class Parameters {
   void reset() {
     nextColors.clear();
     visible = false;
-    selectionMode = SelectionModes.single;
+    selectionMode = SelectionModes.base;
     selectedButtons.clear;
     analyzer = Analyzer();
     commands.clear();
+    catInterpreter.reset();
   }
 
   // void confirmSelection(){
@@ -178,4 +201,60 @@ class Parameters {
     resetAnalyzer();
     selectedButtons.clear();
   }
+
+  CatError checkSchema(){
+    stdout.writeln(commands);
+    final resultPair = catInterpreter.validateOnScheme(
+        commands.toString(), currentSchema);
+    stdout.writeln(resultPair.second);
+    for (int i =0; i<resultPair.first.getCommands.length; i++) {
+      var state = resultPair.first.getStates[i];
+      var command = resultPair.first.getCommands[i];
+      stdout.writeln('$command $state');
+      stdout.writeln('--------------------------------------------------');
+    }
+    return resultPair.second;
+  }
+
+  void modifyCommandForCopy(int startIndex){
+    List<String> stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
+    List<String> previousCommands = commands.getRange(0, startIndex).toList();
+    List<String> newCommands = [];
+    List<String> destination =[];
+    Pair resultPair = catInterpreter.validateOnScheme(previousCommands.toString(), currentSchema);
+    if(commands[startIndex].startsWith('GO(')){
+      destination.add(commands[startIndex].split('GO(')[1].split(')')[0]);
+    }
+    for(int i = startIndex; i<commands.length; i++){
+      if(commands[i].startsWith('GO(')) {
+        int y = resultPair.first.getPositions.last.first;
+        int x = resultPair.first.getPositions.last.second;
+        Tuple2<String, int> startPosition = Tuple2(stringY[y], x+1);
+        String coordinates = commands[i].split('GO(')[1].split(')')[0];
+        Tuple2<String, int> endPosition = Tuple2(coordinates.split('')[0], int.parse(coordinates.split('')[1]));
+        var movements = analyzer.analyzeMovement(startPosition, endPosition);
+        resultPair = catInterpreter.validateOnScheme(movements.toString(), currentSchema);
+        newCommands.addAll(movements);
+      } else {
+        resultPair = catInterpreter.validateOnScheme(commands[i], currentSchema);
+        newCommands.add(commands[i]);
+      }
+    }
+    catInterpreter.reset();
+    commands = previousCommands;
+    for(var button in selectedButtons){
+      destination.add('${button.position.item1}${button.position.item2}');
+    }
+    commands.add('COPY({${newCommands.toString().substring(1,newCommands.toString().length-1)}}, {${destination.toString().substring(1,destination.toString().length-1)} })');
+    selectedButtons.clear();
+  }
+
+  void reloadCross(CrossWidget cross){
+    catInterpreter.reset();
+    var resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    cross.fromSchema(resultPair.first.getStates.last);
+    catInterpreter.reset();
+  }
+
+  // TODO: create commandsToString to return a [].tostring() without '[....]'
 }

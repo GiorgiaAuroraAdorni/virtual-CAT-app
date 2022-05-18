@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  dartx: ^1.0.0
+
   flutter:
     sdk: flutter
 
@@ -36,7 +38,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.9
   tuple: ^2.0.0
-  audio_waveforms: ^0.1.1
+
+#  audio_waveforms: ^0.1.1
+  audio_waveforms:
+    git:
+      url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
+      ref: hotfix/flutter_version3.0.0
+
   file_saver: ^0.1.0
 
   interpreter:
@@ -55,7 +63,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

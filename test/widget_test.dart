@@ -12,7 +12,6 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('Test tab bar elements', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
-
     expect(find.text('Amministrazione'), findsOneWidget);
     expect(find.byIcon(CupertinoIcons.lock_circle), findsOneWidget);
     expect(find.text('Tutorial'), findsOneWidget);

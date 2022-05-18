@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
+import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:interpreter/cat_interpreter.dart';
 
 import '../../Utility/file_manager.dart';
@@ -35,17 +36,10 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Creating a new instance of the CrossWidget class.
   late CrossWidget cross;
 
-  // /// Creating a map called _params.
-  // final Map _params = {
-  //   'nextColors': [],
-  //   'visible': false,
-  //   'multiSelect': false,
-  //   'selectedButton': <CrossButton>[],
-  //   'analyzer': Analyzer(),
-  //   'commands': <String>[],
-  // };
+  int _firstCommandToRepeat = -1;
 
-  late CATInterpreter catInterpreter;
+  Pair<bool, String> mirroring = const Pair(false, '');
+  bool copying = false;
 
   @override
 
@@ -58,69 +52,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   A widget.
   Widget build(context) {
     widget.params.gestureHomeState = this;
-    // _params['homeState'] = this;
-    // return Padding(
-    //     padding: const EdgeInsets.all(20.0),
-    //     child: Flex(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         direction: Axis.vertical,
-    //         children: <Widget>[
-    //           Flex(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               direction: Axis.horizontal,
-    //               children: <Widget>[
-    //                 Flex(
-    //                     crossAxisAlignment: CrossAxisAlignment.start,
-    //                     direction: Axis.vertical,
-    //                     children: <Widget>[
-    //                       Image(
-    //                           image: AssetImage('resources/sequence/image/S' +
-    //                               (widget.schema.toString()) +
-    //                               '.jpg')),
-    //                     ]),
-    //                 const SizedBox(width: 20),
-    //                 Flex(
-    //                     crossAxisAlignment: CrossAxisAlignment.end,
-    //                     direction: Axis.vertical,
-    //                     children: _colorAndVisibilityButtonsBuild()),
-    //                 const SizedBox(width: 10),
-    //                 cross,
-    //                 Flex(
-    //                     crossAxisAlignment: CrossAxisAlignment.center,
-    //                     direction: Axis.vertical,
-    //                     children: _instructionsButtonsBuild()),
-    //               ]),
-    //           Row(children: <Widget>[
-    //             Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: <Widget>[
-    //                   (CupertinoButton.filled(
-    //                     onPressed: _recreateCross,
-    //                     padding: const EdgeInsets.all(5.0),
-    //                     child: const Text('Reset cross'),
-    //                   ))
-    //                 ]),
-    //             const SizedBox(width: 100),
-    //             Column(children: _multiSelectionButtonsBuild()),
-    //           ]),
-    //         ]));
-
-    // double maxDistance = 30;
-    // return GestureDetector(
-    //     onPanDown: (details) {
-    //       cross.checkPosition(details.globalPosition, maxDistance);
-    //     },
-    //     onPanStart: (details) {
-    //       print('start');
-    //       cross.checkPosition(details.globalPosition, 40.0);
-    //     },
-    //     onPanUpdate: (details) {
-    //       cross.checkPosition(details.globalPosition, maxDistance);
-    //     },
-    //     onPanEnd: (details) {
-    //       cross.endPan(details);
-    //     },
-    //     child:
     return Row(children: <Widget>[
       const SizedBox(width: 50),
       Column(
@@ -129,26 +60,37 @@ class GestureImplementationState extends State<GestureImplementation> {
           children: <Widget>[
             Image(
                 image: AssetImage(
-                    'resources/sequence/image/S${widget.params.currentSchema.toString()}.jpg')),
+                    'resources/sequence/image/S${widget.params.currentSchema.toString()}.png')),
             const SizedBox(height: 100),
-            Row(children: _colorAndVisibilityButtonsBuild()),
+            Row(children: _basicButtonsBuild()),
+            const SizedBox(height: 20),
+            Row(children: _colorButtonsBuild()),
+            const SizedBox(height: 20),
             Row(children: _instructionsButtonsBuild()),
-            Row(children: <Widget>[
-              CupertinoButton(
-                key: const Key('Schema completed'),
-                onPressed: _schemaCompleted,
-                borderRadius: BorderRadius.circular(45.0),
-                minSize: 40.0,
-                color: CupertinoColors.systemGreen,
-                padding: const EdgeInsets.all(0.0),
-                child: const Icon(CupertinoIcons.checkmark),
-              ),
-            ])
           ]),
       const SizedBox(width: 80),
       cross,
     ]);
     // );
+  }
+
+  /// If the list of colors is empty, show a message and return false, otherwise
+  /// return true
+  ///
+  /// Returns:
+  ///   A boolean value.
+  bool checkColorSelected({bool checkExactlyOne = false}) {
+    if (!widget.params.checkColorLength(min: 1)) {
+      message('Nessun colore selezionato',
+          'Selezionare un colore per poter eseguire questa operazione');
+      return false;
+    }
+    if (checkExactlyOne && !widget.params.checkColorLength(min: 1, max: 1)) {
+      message('Troppi colori selezionati',
+          'Per poter eseguire questa operazione è necessario selezionare un solo colore');
+      return false;
+    }
+    return true;
   }
 
   /// It checks if the selected buttons are all of the same color, if so it checks
@@ -166,15 +108,13 @@ class GestureImplementationState extends State<GestureImplementation> {
         var numOfColor = widget.params.nextColors.length;
         for (CrossButton element in widget.params.selectedButtons) {
           j = (j + 1) % numOfColor;
-          element.changeColor(j.toInt());
+          element.changeColorFromIndex(j.toInt());
           element.deselect();
         }
 
-        var colors =
-        widget.params.analyzeColor();
+        var colors = widget.params.analyzeColor();
         widget.params.addCommand(
-            'GO(${widget.params.selectedButtons[0].position.item1}${widget
-                .params.selectedButtons[0].position.item2})');
+            'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
         var length = allCell ? ':' : widget.params.selectedButtons.length;
         var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
         widget.params.addCommand(command);
@@ -202,9 +142,6 @@ class GestureImplementationState extends State<GestureImplementation> {
         globalKey:
             GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
         params: widget.params);
-    readJson().then((value) {
-      setState(() => catInterpreter = CATInterpreter(value));
-    });
     super.initState();
   }
 
@@ -238,24 +175,42 @@ class GestureImplementationState extends State<GestureImplementation> {
     );
   }
 
-  // /// It toggles the value of the `multiSelect` parameter, and then calls the
-  // /// `_removeSelection` function
-  // void _changeSelectionMode() {
-  //   setState(() {
-  //     _params['multiSelect'] = !_params['multiSelect'];
-  //     _removeSelection();
-  //   });
-  // }
-
-  /// `readJson()` is an asynchronous function that returns a `Future<String>`
-  /// object
+  /// It returns a list of widgets that are used to build the basic buttons
   ///
   /// Returns:
-  ///   A Future<String>
-  Future<String> readJson() async {
-    String future =
-        await rootBundle.loadString('resources/sequence/schemas.json');
-    return future;
+  ///   A list of widgets.
+  List<Widget> _basicButtonsBuild() {
+    return <Widget>[
+      CupertinoButton(
+        key: const Key('Erase cross'),
+        onPressed: _recreateCross,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 50.0,
+        padding: const EdgeInsets.all(0.0),
+        color: CupertinoColors.systemFill,
+        child:
+            const Icon(CupertinoIcons.trash_fill, color: CupertinoColors.black),
+      ),
+      const SizedBox(width: 20),
+      CupertinoButton(
+        key: const Key('Schema completed'),
+        onPressed: _schemaCompleted,
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 50.0,
+        color: CupertinoColors.systemGreen,
+        padding: const EdgeInsets.all(0.0),
+        child: const Icon(CupertinoIcons.checkmark),
+      ),
+      const SizedBox(width: 20),
+      CupertinoButton(
+          key: const Key('Visibility Button'),
+          onPressed: widget.params.visible ? null : () => _changeVisibility(),
+          minSize: 50.0,
+          padding: const EdgeInsets.all(0.0),
+          child: widget.params.visible
+              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
+              : const Icon(CupertinoIcons.eye_fill, size: 40.0)),
+    ];
   }
 
   /// _changeVisibility() is a function that sets the visibility of the cross to
@@ -266,31 +221,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {});
   }
 
-  /// If the list of colors is empty, show a message and return false, otherwise
-  /// return true
+  /// It builds a list of buttons that are used to select the next color.
   ///
   /// Returns:
-  ///   A boolean value.
-  bool checkColorSelected({bool checkExactlyOne = false}) {
-    if (!widget.params.checkColorLength(min: 1)) {
-      message('Nessun colore selezionato',
-          'Selezionare un colore per poter eseguire questa operazione');
-      return false;
-    }
-    if(checkExactlyOne && !widget.params.checkColorLength(min: 1, max: 1)) {
-      message('Troppi colori selezionati',
-          'Per poter eseguire questa operazione è necessario selezionare un solo colore');
-      return false;
-    }
-    return true;
-  }
-
-  /// It returns a list of widgets that are buttons for each color and a button to
-  /// toggle visibility
-  ///
-  /// Returns:
-  ///   A list of widgets.
-  List<Widget> _colorAndVisibilityButtonsBuild() {
+  ///   A list of buttons.
+  List<Widget> _colorButtonsBuild() {
     var textStyle =
         const TextStyle(color: CupertinoColors.black, fontSize: 20.0);
     return <Widget>[
@@ -298,94 +233,69 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('ColorButtonBlue'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 40.0,
+        minSize: 50.0,
         color: CupertinoColors.systemBlue,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemBlue)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
-                    ' ' +
-                        (widget.params.nextColors
-                                    .indexOf(CupertinoColors.systemBlue) +
-                                1)
-                            .toString(),
+                    ' ${widget.params.nextColors.indexOf(CupertinoColors.systemBlue) + 1}',
                     style: textStyle),
               ]) //const Icon(CupertinoIcons.circle_fill)
             : const Text(''),
       ),
-      const SizedBox(width: 10),
+      const SizedBox(width: 20),
       CupertinoButton(
         key: const Key('ColorButtonRed'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 40.0,
+        minSize: 50.0,
         color: CupertinoColors.systemRed,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemRed)
             ? Stack(children: <Widget>[
                 const Icon(CupertinoIcons.circle_fill),
                 Text(
-                    ' ' +
-                        (widget.params.nextColors
-                                    .indexOf(CupertinoColors.systemRed) +
-                                1)
-                            .toString(),
-                    style: textStyle),
-              ])
-            : const Text(''),
-      ),
-      const SizedBox(width: 10),
-      CupertinoButton(
-        key: const Key('ColorButtonGreen'),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
-        borderRadius: BorderRadius.circular(45.0),
-        minSize: 40.0,
-        color: CupertinoColors.systemGreen,
-        padding: const EdgeInsets.all(0.0),
-        child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
-            ? Stack(children: <Widget>[
-                const Icon(CupertinoIcons.circle_fill),
-                Text(
-                    ' ' +
-                        (widget.params.nextColors
-                                    .indexOf(CupertinoColors.systemGreen) +
-                                1)
-                            .toString(),
-                    style: textStyle),
-              ])
-            : const Text(''),
-      ),
-      const SizedBox(width: 10),
-      CupertinoButton(
-        key: const Key('ColorButtonYellow'),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
-        borderRadius: BorderRadius.circular(45.0),
-        minSize: 40.0,
-        color: CupertinoColors.systemYellow,
-        padding: const EdgeInsets.all(0.0),
-        child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
-            ? Stack(children: <Widget>[
-                const Icon(CupertinoIcons.circle_fill),
-                Text(
-                    ' ' +
-                        (widget.params.nextColors
-                                    .indexOf(CupertinoColors.systemYellow) +
-                                1)
-                            .toString(),
+                    ' ${widget.params.nextColors.indexOf(CupertinoColors.systemRed) + 1}',
                     style: textStyle),
               ])
             : const Text(''),
       ),
       const SizedBox(width: 20),
       CupertinoButton(
-          key: const Key('Visibility Button'),
-          onPressed: widget.params.visible ? null : () => _changeVisibility(),
-          minSize: 40.0,
-          padding: const EdgeInsets.all(5.0),
-          child: widget.params.visible
-              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
-              : const Icon(CupertinoIcons.eye_fill, size: 40.0)),
+        key: const Key('ColorButtonGreen'),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 50.0,
+        color: CupertinoColors.systemGreen,
+        padding: const EdgeInsets.all(0.0),
+        child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ${widget.params.nextColors.indexOf(CupertinoColors.systemGreen) + 1}',
+                    style: textStyle),
+              ])
+            : const Text(''),
+      ),
+      const SizedBox(width: 20),
+      CupertinoButton(
+        key: const Key('ColorButtonYellow'),
+        onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
+        borderRadius: BorderRadius.circular(45.0),
+        minSize: 50.0,
+        color: CupertinoColors.systemYellow,
+        padding: const EdgeInsets.all(0.0),
+        child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
+            ? Stack(children: <Widget>[
+                const Icon(CupertinoIcons.circle_fill),
+                Text(
+                    ' ${widget.params.nextColors.indexOf(CupertinoColors.systemYellow) + 1}',
+                    style: textStyle),
+              ])
+            : const Text(''),
+      ),
     ];
   }
 
@@ -397,11 +307,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _colorButtonTap(CupertinoDynamicColor color) {
     setState(() {
       //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
-      // if (this.nextColors == nextColors) {
-      //   this.nextColors = CupertinoColors.systemGrey;
-      // } else {
-      //   this.nextColors = nextColors;
-      // }
       if (widget.params.nextColors.contains(color)) {
         widget.params.removeColor(color);
       } else {
@@ -410,54 +315,27 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  // /// It returns a list of widgets.
-  // ///
-  // /// Returns:
-  // ///   A list of widgets.
-  // List<Widget> _multiSelectionButtonsBuild() {
-  //   List<Widget> result = [
-  //     CupertinoButton(
-  //       key: const Key('Selection mode'),
-  //       onPressed: _changeSelectionMode,
-  //       padding: const EdgeInsets.all(5.0),
-  //       child: _params['multiSelect']
-  //           ? const Text('Single selection')
-  //           : const Text('Multiple selection'),
-  //     )
-  //     // ];
-  //     // if (multiSelect) {
-  //     //   result.add(
-  //     ,
-  //     Row(children: <Widget>[
-  //       CupertinoButton(
-  //         key: const Key('Confirm Selection'),
-  //         onPressed: () {
-  //           confirmSelection(false);
-  //         },
-  //         borderRadius: BorderRadius.circular(45.0),
-  //         minSize: 40.0,
-  //         color: CupertinoColors.systemGreen,
-  //         padding: const EdgeInsets.all(0.0),
-  //         child: const Icon(CupertinoIcons.checkmark),
-  //       ),
-  //       CupertinoButton(
-  //         key: const Key('Delete Selection'),
-  //         onPressed: () {
-  //           _removeSelection();
-  //         },
-  //         borderRadius: BorderRadius.circular(45.0),
-  //         minSize: 40.0,
-  //         color: CupertinoColors.systemRed,
-  //         padding: const EdgeInsets.all(0.0),
-  //         child: const Icon(CupertinoIcons.multiply),
-  //       )
-  //       // ]));
-  //       // }
-  //     ])
-  //   ];
-  //   return result;
-  // }
-  //
+  void _copyConfirm() {
+    if (widget.params.selectionMode == SelectionModes.copy) {
+      widget.params.selectionMode = SelectionModes.multiple;
+    } else if (widget.params.selectionMode == SelectionModes.multiple) {
+      widget.params.selectionMode = SelectionModes.base;
+      copying = false;
+      widget.params.modifyCommandForCopy(_firstCommandToRepeat);
+      // TODO: eseguire nuovi comandi all'interno di COPY (chiedere a Vlad come fare)
+      widget.params.reloadCross(cross);
+    }
+    setState(() {});
+  }
+
+  void _copyInit() {
+    if (_firstCommandToRepeat == -1) {
+      _firstCommandToRepeat = widget.params.commands.length;
+    }
+    widget.params.selectionMode = SelectionModes.copy;
+    copying = true;
+    setState(() {});
+  }
 
   /// If the color is selected, fill the empty cells with the selected color
   void _fillEmpty() {
@@ -476,7 +354,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       CupertinoButton(
         onPressed: _fillEmpty,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 45.0,
+        minSize: 50.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child: const Icon(CupertinoIcons.paintbrush_fill,
@@ -484,27 +362,146 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
       const SizedBox(width: 20),
       CupertinoButton(
-        onPressed: () {},
+        onPressed: _copyInit,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 45.0,
+        minSize: 50.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child:
             const Icon(CupertinoIcons.doc_on_doc, color: CupertinoColors.black),
       ),
+      Column(
+        children: [
+          CupertinoButton(
+            key: const Key('Confirm Copy'),
+            onPressed: copying ? () => _copyConfirm() : null,
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemGreen,
+            padding: const EdgeInsets.all(0.0),
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+          const SizedBox(height: 10),
+          CupertinoButton(
+            key: const Key('Delete Copy'),
+            onPressed: copying
+                ? () => {
+                      setState(() {
+                        widget.params.removeSelection();
+                        _firstCommandToRepeat = -1;
+                        copying = false;
+                      })
+                    }
+                : null,
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemRed,
+            padding: const EdgeInsets.all(0.0),
+            child: const Icon(CupertinoIcons.multiply),
+          )
+        ],
+      ),
       const SizedBox(width: 20),
       CupertinoButton(
-        onPressed: () {
-          debugPrint(widget.params.commands.toString());
-        },
+        onPressed: _mirrorInit,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 45.0,
+        minSize: 50.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child: const Icon(CupertinoIcons.rectangle_grid_1x2,
             color: CupertinoColors.black),
-      )
+      ),
+      Column(
+        children: [
+          CupertinoButton(
+            key: const Key('Confirm Mirror'),
+            onPressed: mirroring.first ? () => _mirrorConfirm() : null,
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemGreen,
+            padding: const EdgeInsets.all(0.0),
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+          const SizedBox(height: 10),
+          CupertinoButton(
+            key: const Key('Delete Mirror'),
+            onPressed: mirroring.first
+                ? () => {
+                      setState(() {
+                        widget.params.removeSelection();
+                        _firstCommandToRepeat = -1;
+                        mirroring = const Pair(false, '');
+                      })
+                    }
+                : null,
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemRed,
+            padding: const EdgeInsets.all(0.0),
+            child: const Icon(CupertinoIcons.multiply),
+          )
+        ],
+      ),
+      Column(
+        children: [
+          CupertinoButton(
+            key: const Key('Vertical Mirror'),
+            onPressed: (){
+              mirroring = Pair(mirroring.first, 'vertical');
+            },
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemGrey,
+            padding: const EdgeInsets.all(0.0),
+            child: const Text('V'),
+          ),
+          const SizedBox(height: 10),
+          CupertinoButton(
+            key: const Key('Horizontal Mirror'),
+            onPressed: (){
+              mirroring = Pair(mirroring.first, 'horizontal');
+            },
+            borderRadius: BorderRadius.circular(45.0),
+            minSize: 40.0,
+            color: CupertinoColors.systemGrey,
+            padding: const EdgeInsets.all(0.0),
+            child: const Text('H'),
+          )
+        ],
+      ),
     ];
+  }
+
+  void _mirrorConfirm() {
+    // TODO: implementare selezione assi
+    //TODO: implementare uguale a copy
+    if (widget.params.selectionMode == SelectionModes.mirror) {
+      widget.params.selectionMode = SelectionModes.multiple;
+    } else if (widget.params.selectionMode == SelectionModes.multiple) {
+      widget.params.selectionMode = SelectionModes.base;
+      String result ='';
+      String command = widget.params.commands.getRange(_firstCommandToRepeat, widget.params.commands.length).toString();
+      command = '{${command.substring(1,command.length-1)}}';
+      if(mirroring.second != ''){
+        result = 'MIRROR($command, ${mirroring.second})';
+      } else {
+        stderr.writeln('Sei un coglione');
+      }
+      widget.params.commands.removeRange(_firstCommandToRepeat, widget.params.commands.length);
+      widget.params.addCommand(result);
+      mirroring = const Pair(false, '');
+      widget.params.reloadCross(cross);
+    }
+    setState(() {});
+  }
+
+  void _mirrorInit() {
+    if (_firstCommandToRepeat == -1) {
+      _firstCommandToRepeat = widget.params.commands.length;
+    }
+    widget.params.selectionMode = SelectionModes.mirror;
+    mirroring = Pair(true, mirroring.second);
+    setState(() {});
   }
 
   /// It creates a new cross widget with a new key, and resets all the parameters
@@ -512,7 +509,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       widget.params.reset();
       ++_crossKey;
-      catInterpreter.reset();
       cross = CrossWidget(
           globalKey:
               GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
@@ -520,40 +516,31 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  // It removes the selected color buttons from the screen
-  // void _removeSelection() {
-  //   //TODO: implement delete color multiple selection
-  //   for (var element in widget.params.selectedButtons) {
-  //     element.deselect();
-  //   }
-  //   widget.params.resetAnalyzer();
-  //   setState(() {
-  //     widget.params.selectedButtons.clear();
-  //   });
-  // }
-
   void _schemaCompleted() {
-    if(widget.params.commands.isNotEmpty) {
-      stdout.writeln(widget.params.commands);
-      final resultPair = catInterpreter.validateOnScheme(
-          widget.params.commands.toString(), widget.params.currentSchema);
-      stdout.writeln(resultPair.second);
-      for (var state in resultPair.first.getStates) {
-        stdout.writeln(state);
-      }
-      if (resultPair.second == CatError.none) {
-        message('Croce colorata correttamente', 'La croce è stata colorata correttamente');
+    if (widget.params.commands.isNotEmpty) {
+      CatError result = widget.params.checkSchema();
+      if (result == CatError.none) {
+        /*
+          TODO: chiedere se bisogna differenziare
+            - croce completata correttemanete => (Result.completed == true)
+            - croce completata sbagliata =>  (Result.completed == false)
+        */
+        message('Croce colorata correttamente',
+            'La croce è stata colorata correttamente');
         FileManager().writeString(widget.params.commands.toString(),
             '${widget.params.currentSchema}.txt');
       } else {
-        message('Errore durante la validazione della croce', 'Errore: ${resultPair.second.name}');
+        message('Errore durante la validazione della croce',
+            'Errore: ${result.name}');
       }
       setState(() {
-        _recreateCross();
-        widget.params.nextSchema();
+        // _recreateCross();
+        // widget.params.nextSchema();
+        widget.params.visible = true;
       });
     } else {
-      message('Nesun comando eseguito', 'Eseguire almeno un comando prima di confermare');
+      message('Nesun comando eseguito',
+          'Eseguire almeno un comando prima di confermare');
     }
   }
 }

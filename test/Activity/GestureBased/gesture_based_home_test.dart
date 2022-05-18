@@ -1,7 +1,6 @@
 import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
-import 'package:cross_array_task_app/Activity/activity_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
