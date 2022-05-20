@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 generateImages() {
   var result = <Widget>[];
   for (int i = 1; i < 13; i++) {
-    result.add(Image(image: AssetImage('resources/sequence/image/S$i.jpg')));
+    result.add(Image(image: AssetImage('resources/sequence/image/S$i.png')));
+    result.add(const SizedBox(height: 10,));
   }
   return result;
 }

@@ -265,3 +265,5 @@ metrics/
 *.output
 
 .scannerwork/
+
+resources/blockly/.idea/

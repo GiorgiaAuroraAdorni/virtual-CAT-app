@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:cross_array_task_app/Activity/block_based.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:file_saver/file_saver.dart';
 
 import 'GestureBased/gesture_based_home.dart';
 import 'GestureBased/parameters.dart';
-
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState` object
 class ActivityHome extends StatefulWidget {
@@ -24,7 +24,10 @@ class ActivityHomeState extends State<ActivityHome> {
 
   late final Parameters _params = Parameters();
 
+  bool block = true;
+
   @override
+
   /// It creates a column with a row of buttons and a row of waveforms.
   ///
   /// Args:
@@ -42,6 +45,14 @@ class ActivityHomeState extends State<ActivityHome> {
           onPressed: _params.nextSchema,
           child: const Text('Next schema'),
         ),
+        CupertinoButton(
+          onPressed: () {
+            setState(() {
+              block = !block;
+            });
+          },
+          child: const Text('Cambia modalità'),
+        ),
       ]),
       Row(children: <Widget>[
         CupertinoButton(
@@ -58,14 +69,20 @@ class ActivityHomeState extends State<ActivityHome> {
             onPressed: () async {
               path = (await recorderController.stop())!;
               stdout.writeln(path);
-              stdout.writeln(await FileSaver.instance.saveFile('AudioTest', File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
-
+              stdout.writeln(await FileSaver.instance.saveFile('AudioTest',
+                  File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
             },
             child: const Icon(CupertinoIcons.stop_fill)),
       ]),
       const SizedBox(height: 10),
-      GestureImplementation(
-          key: Key(_params.currentSchema.toString()), params: _params),
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height-120,
+        child: block
+            ? const BlockBasedImplementation()
+            : GestureImplementation(
+                key: Key(_params.currentSchema.toString()), params: _params),
+      )
     ]);
   }
 
@@ -76,7 +93,7 @@ class ActivityHomeState extends State<ActivityHome> {
     recorderController = RecorderController();
   }
 
-  void setStateFromOutside(){
+  void setStateFromOutside() {
     setState(() {});
   }
 }

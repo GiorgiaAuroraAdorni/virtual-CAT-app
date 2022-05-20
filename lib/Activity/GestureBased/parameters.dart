@@ -26,15 +26,14 @@ class Parameters {
   late CATInterpreter catInterpreter;
 
   /// > The function `Parameters()` initializes the `Parameters` class
-  Parameters() {
+  Parameters({this.visible = false, this.currentSchema = 1}) {
     nextColors = [];
-    visible = false;
     selectionMode = SelectionModes.base;
     selectedButtons = [];
     analyzer = Analyzer();
     commands = [];
-    currentSchema = 1;
     _readSchemasJSON().then((value) {
+      print(value);
       catInterpreter = CATInterpreter(value);
     });
   }

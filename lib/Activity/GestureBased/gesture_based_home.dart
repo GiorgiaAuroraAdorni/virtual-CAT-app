@@ -34,7 +34,8 @@ class GestureImplementationState extends State<GestureImplementation> {
   int _crossKey = 1;
 
   /// Creating a new instance of the CrossWidget class.
-  late CrossWidget cross;
+  late CrossWidget activeCross;
+  // late CrossWidget solutionCross;
 
   int _firstCommandToRepeat = -1;
 
@@ -61,6 +62,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             Image(
                 image: AssetImage(
                     'resources/sequence/image/S${widget.params.currentSchema.toString()}.png')),
+            // solutionCross,
             const SizedBox(height: 100),
             Row(children: _basicButtonsBuild()),
             const SizedBox(height: 20),
@@ -69,7 +71,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             Row(children: _instructionsButtonsBuild()),
           ]),
       const SizedBox(width: 80),
-      cross,
+      activeCross,
     ]);
     // );
   }
@@ -138,10 +140,12 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   /// > The CrossWidget is initialized with a GlobalKey and the params object
   void initState() {
-    cross = CrossWidget(
+    activeCross = CrossWidget(
         globalKey:
             GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
         params: widget.params);
+    // solutionCross = CrossWidget(globalKey: GlobalKey<CrossWidgetState>(), params: Parameters(visible: true, currentSchema:widget.params.currentSchema));
+    // solutionCross.fromSchema(Schemes.fromJson());
     super.initState();
   }
 
@@ -217,7 +221,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// true and then calls the cross.changeVisibility() function
   void _changeVisibility() {
     widget.params.changeVisibility();
-    cross.changeVisibility();
+    activeCross.changeVisibility();
     setState(() {});
   }
 
@@ -323,7 +327,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       copying = false;
       widget.params.modifyCommandForCopy(_firstCommandToRepeat);
       // TODO: eseguire nuovi comandi all'interno di COPY (chiedere a Vlad come fare)
-      widget.params.reloadCross(cross);
+      widget.params.reloadCross(activeCross);
     }
     setState(() {});
   }
@@ -340,7 +344,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// If the color is selected, fill the empty cells with the selected color
   void _fillEmpty() {
     if (checkColorSelected(checkExactlyOne: true)) {
-      cross.fillEmpty();
+      activeCross.fillEmpty();
       setState(() {});
     }
   }
@@ -490,7 +494,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       widget.params.commands.removeRange(_firstCommandToRepeat, widget.params.commands.length);
       widget.params.addCommand(result);
       mirroring = const Pair(false, '');
-      widget.params.reloadCross(cross);
+      widget.params.reloadCross(activeCross);
     }
     setState(() {});
   }
@@ -509,7 +513,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       widget.params.reset();
       ++_crossKey;
-      cross = CrossWidget(
+      activeCross = CrossWidget(
           globalKey:
               GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
           params: widget.params);
