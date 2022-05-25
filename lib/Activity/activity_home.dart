@@ -1,16 +1,17 @@
 import 'dart:io';
 
-import 'package:cross_array_task_app/Activity/block_based.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:cross_array_task_app/Utility/data_manager.dart';
 import 'package:file_saver/file_saver.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'GestureBased/gesture_based_home.dart';
 import 'GestureBased/parameters.dart';
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState` object
 class ActivityHome extends StatefulWidget {
-  const ActivityHome({Key? key}) : super(key: key);
+  final SessionData sessionData;
+  const ActivityHome({Key? key, required this.sessionData}) : super(key: key);
 
   @override
   ActivityHomeState createState() => ActivityHomeState();
@@ -24,7 +25,7 @@ class ActivityHomeState extends State<ActivityHome> {
 
   late final Parameters _params = Parameters();
 
-  bool block = true;
+  // bool block = true;
 
   @override
 
@@ -38,6 +39,7 @@ class ActivityHomeState extends State<ActivityHome> {
   /// widget.
   Widget build(context) {
     _params.activityHomeState = this;
+    _params.sessionData = widget.sessionData; //TODO: add form for student data
     return Column(children: <Widget>[
       Row(children: <Widget>[
         Text('Current schema: ${_params.currentSchema}'),
@@ -45,14 +47,14 @@ class ActivityHomeState extends State<ActivityHome> {
           onPressed: _params.nextSchema,
           child: const Text('Next schema'),
         ),
-        CupertinoButton(
-          onPressed: () {
-            setState(() {
-              block = !block;
-            });
-          },
-          child: const Text('Cambia modalità'),
-        ),
+        // CupertinoButton(
+        //   onPressed: () {
+        //     setState(() {
+        //       block = !block;
+        //     });
+        //   },
+        //   child: const Text('Cambia modalità'),
+        // ),
       ]),
       Row(children: <Widget>[
         CupertinoButton(
@@ -68,21 +70,22 @@ class ActivityHomeState extends State<ActivityHome> {
         CupertinoButton(
             onPressed: () async {
               path = (await recorderController.stop())!;
-              stdout.writeln(path);
-              stdout.writeln(await FileSaver.instance.saveFile('AudioTest',
-                  File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
+              // stdout.writeln(path);
+              // stdout.writeln(await FileSaver.instance.saveFile('AudioTest',
+              //     File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
             },
             child: const Icon(CupertinoIcons.stop_fill)),
       ]),
       const SizedBox(height: 10),
       SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height-120,
-        child: block
-            ? const BlockBasedImplementation()
-            : GestureImplementation(
-                key: Key(_params.currentSchema.toString()), params: _params),
-      )
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 120,
+          // child: block
+          //     ? const BlockBasedImplementation()
+          //     : GestureImplementation(
+          //         key: Key(_params.currentSchema.toString()), params: _params),
+          child: GestureImplementation(
+              key: Key(_params.currentSchema.toString()), params: _params))
     ]);
   }
 
@@ -97,3 +100,47 @@ class ActivityHomeState extends State<ActivityHome> {
     setState(() {});
   }
 }
+
+// class SchoolForm extends StatelessWidget {
+//   const SchoolForm({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(context) {
+//     return SafeArea(
+//       child: Container(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             CupertinoFormSection(
+//               header: const Text("Dati studente"),
+//               children: [
+//                 CupertinoFormRow(
+//                   prefix: const Text('Nome:', textAlign: TextAlign.right),
+//                   child: CupertinoTextFormFieldRow(
+//                     placeholder: 'Inserire il nome della scuola',
+//                   ),
+//                 ),
+//                 CupertinoFormRow(
+//                   prefix: const Text(
+//                     'Classe:',
+//                     textAlign: TextAlign.right,
+//                   ),
+//                   child: CupertinoTextFormFieldRow(
+//                     placeholder: 'Inserire la classe',
+//                   ),
+//                 ),
+//                 CupertinoFormRow(
+//                   prefix: const Text('Sezione:', textAlign: TextAlign.right),
+//                   child: CupertinoTextFormFieldRow(
+//                     placeholder: 'Inserire la sezione',
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

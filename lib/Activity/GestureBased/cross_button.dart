@@ -206,8 +206,14 @@ class CrossButtonState extends State<CrossButton> {
   /// it calls the changeColor function and adds the GO and PAINT commands to the
   /// list of commands, otherwise it shows an error message
   void _onTap() {
-    if (widget.params.selectionMode == SelectionModes.multiple || widget.params.selectionMode == SelectionModes.mirror) {
+    if (widget.params.selectionMode == SelectionModes.multiple) {
       select();
+    } else if (widget.params.selectionMode == SelectionModes.copy || widget.params.selectionMode == SelectionModes.mirror){
+      if(widget.params.gestureHomeState.checkColorSelected(checkExactlyOne: true)) {
+        changeColorFromIndex(0);
+        widget.params.addTemporaryCommand("GO(${widget.position.item1}${widget.position.item2})");
+        widget.params.addTemporaryCommand("PAINT(${widget.params.analyzeColor()})");
+      }
     } else {
       if(widget.params.gestureHomeState.checkColorSelected(checkExactlyOne: true)) {
         changeColorFromIndex(0);

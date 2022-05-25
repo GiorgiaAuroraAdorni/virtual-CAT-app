@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
+import 'package:cross_array_task_app/Utility/data_manager.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:interpreter/cat_interpreter.dart';
 
-import '../../Utility/file_manager.dart';
 import 'cross.dart';
 import 'cross_button.dart';
 
@@ -37,10 +37,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   late CrossWidget activeCross;
   // late CrossWidget solutionCross;
 
-  int _firstCommandToRepeat = -1;
-
   Pair<bool, String> mirroring = const Pair(false, '');
   bool copying = false;
+  late JsonParser jsonParser;
 
   @override
 
@@ -53,6 +52,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   A widget.
   Widget build(context) {
     widget.params.gestureHomeState = this;
+    jsonParser = JsonParser(sessionData: widget.params.sessionData, pupilData: widget.params.pupilData);
     return Row(children: <Widget>[
       const SizedBox(width: 50),
       Column(
@@ -113,13 +113,19 @@ class GestureImplementationState extends State<GestureImplementation> {
           element.changeColorFromIndex(j.toInt());
           element.deselect();
         }
-
         var colors = widget.params.analyzeColor();
-        widget.params.addCommand(
-            'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
         var length = allCell ? ':' : widget.params.selectedButtons.length;
         var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
-        widget.params.addCommand(command);
+        if (widget.params.selectionMode == SelectionModes.mirror ||
+            widget.params.selectionMode == SelectionModes.copy) {
+          widget.params.addTemporaryCommand(
+              'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
+          widget.params.addTemporaryCommand(command);
+        } else {
+          widget.params.addCommand(
+              'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
+          widget.params.addCommand(command);
+        }
         message("Comando riconsociuto:", command);
         widget.params.resetAnalyzer();
         setState(() {
@@ -325,17 +331,14 @@ class GestureImplementationState extends State<GestureImplementation> {
     } else if (widget.params.selectionMode == SelectionModes.multiple) {
       widget.params.selectionMode = SelectionModes.base;
       copying = false;
-      widget.params.modifyCommandForCopy(_firstCommandToRepeat);
-      // TODO: eseguire nuovi comandi all'interno di COPY (chiedere a Vlad come fare)
+      widget.params.modifyCommandForCopy();
       widget.params.reloadCross(activeCross);
+      widget.params.temporaryCommands.clear();
     }
     setState(() {});
   }
 
   void _copyInit() {
-    if (_firstCommandToRepeat == -1) {
-      _firstCommandToRepeat = widget.params.commands.length;
-    }
     widget.params.selectionMode = SelectionModes.copy;
     copying = true;
     setState(() {});
@@ -374,6 +377,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         child:
             const Icon(CupertinoIcons.doc_on_doc, color: CupertinoColors.black),
       ),
+      const SizedBox(width: 10),
       Column(
         children: [
           CupertinoButton(
@@ -392,7 +396,6 @@ class GestureImplementationState extends State<GestureImplementation> {
                 ? () => {
                       setState(() {
                         widget.params.removeSelection();
-                        _firstCommandToRepeat = -1;
                         copying = false;
                       })
                     }
@@ -415,6 +418,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         child: const Icon(CupertinoIcons.rectangle_grid_1x2,
             color: CupertinoColors.black),
       ),
+      const SizedBox(width: 10),
       Column(
         children: [
           CupertinoButton(
@@ -433,7 +437,6 @@ class GestureImplementationState extends State<GestureImplementation> {
                 ? () => {
                       setState(() {
                         widget.params.removeSelection();
-                        _firstCommandToRepeat = -1;
                         mirroring = const Pair(false, '');
                       })
                     }
@@ -446,13 +449,16 @@ class GestureImplementationState extends State<GestureImplementation> {
           )
         ],
       ),
+      const SizedBox(width: 10,),
       Column(
         children: [
           CupertinoButton(
             key: const Key('Vertical Mirror'),
-            onPressed: (){
-              mirroring = Pair(mirroring.first, 'vertical');
-            },
+            onPressed: mirroring.first
+                ? () => {
+                      mirroring = Pair(mirroring.first, 'vertical'),
+                    }
+                : null,
             borderRadius: BorderRadius.circular(45.0),
             minSize: 40.0,
             color: CupertinoColors.systemGrey,
@@ -462,14 +468,16 @@ class GestureImplementationState extends State<GestureImplementation> {
           const SizedBox(height: 10),
           CupertinoButton(
             key: const Key('Horizontal Mirror'),
-            onPressed: (){
-              mirroring = Pair(mirroring.first, 'horizontal');
-            },
+            onPressed: mirroring.first
+                ? () => {
+                      mirroring = Pair(mirroring.first, 'horizontal'),
+                    }
+                : null,
             borderRadius: BorderRadius.circular(45.0),
             minSize: 40.0,
             color: CupertinoColors.systemGrey,
             padding: const EdgeInsets.all(0.0),
-            child: const Text('H'),
+            child: const Text('O'),
           )
         ],
       ),
@@ -477,21 +485,23 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void _mirrorConfirm() {
-    // TODO: implementare selezione assi
-    //TODO: implementare uguale a copy
+    //TODO: implementare selezione celle singole
     if (widget.params.selectionMode == SelectionModes.mirror) {
-      widget.params.selectionMode = SelectionModes.multiple;
-    } else if (widget.params.selectionMode == SelectionModes.multiple) {
       widget.params.selectionMode = SelectionModes.base;
-      String result ='';
-      String command = widget.params.commands.getRange(_firstCommandToRepeat, widget.params.commands.length).toString();
-      command = '{${command.substring(1,command.length-1)}}';
-      if(mirroring.second != ''){
+      String result = '';
+      String command = '';
+      if(widget.params.temporaryCommands.isNotEmpty) {
+        command = widget.params.temporaryCommands.toString();
+        command = '{${command.substring(1, command.length - 1)}}';
+      }
+      if (mirroring.second != '') {
         result = 'MIRROR($command, ${mirroring.second})';
       } else {
-        stderr.writeln('Sei un coglione');
+        message('Nessun asse selezionato',
+            'Selezionare un asse (V = verticale, O = orizontale');
+        widget.params.selectionMode = SelectionModes.mirror;
       }
-      widget.params.commands.removeRange(_firstCommandToRepeat, widget.params.commands.length);
+      widget.params.temporaryCommands.clear();
       widget.params.addCommand(result);
       mirroring = const Pair(false, '');
       widget.params.reloadCross(activeCross);
@@ -500,9 +510,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   void _mirrorInit() {
-    if (_firstCommandToRepeat == -1) {
-      _firstCommandToRepeat = widget.params.commands.length;
-    }
     widget.params.selectionMode = SelectionModes.mirror;
     mirroring = Pair(true, mirroring.second);
     setState(() {});
@@ -522,25 +529,20 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _schemaCompleted() {
     if (widget.params.commands.isNotEmpty) {
-      CatError result = widget.params.checkSchema();
-      if (result == CatError.none) {
-        /*
-          TODO: chiedere se bisogna differenziare
-            - croce completata correttemanete => (Result.completed == true)
-            - croce completata sbagliata =>  (Result.completed == false)
-        */
+      Pair<Results, CatError> resultPair = widget.params.checkSchema();
+      CatError error = resultPair.second;
+      Results results = resultPair.first;
+      if (error == CatError.none) {
         message('Croce colorata correttamente',
-            'La croce è stata colorata correttamente');
-        FileManager().writeString(widget.params.commands.toString(),
-            '${widget.params.currentSchema}.txt');
+            'La croce è stata colorata correttamente \n comandi: ${results.getCommands.except(['None'])} \n croce ${results.completed? 'corretta': 'sbagliata'}');
       } else {
         message('Errore durante la validazione della croce',
-            'Errore: ${result.name}');
+            'Errore: ${error.name}');
       }
+      jsonParser.saveData(true, widget.params.visible, widget.params.currentSchema, widget.params.commands );
       setState(() {
-        // _recreateCross();
-        // widget.params.nextSchema();
-        widget.params.visible = true;
+        _recreateCross();
+        widget.params.nextSchema();
       });
     } else {
       message('Nesun comando eseguito',

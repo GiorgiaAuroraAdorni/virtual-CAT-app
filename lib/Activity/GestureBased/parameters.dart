@@ -6,8 +6,10 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:interpreter/cat_interpreter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../Utility/data_manager.dart';
 import '../activity_home.dart';
 import 'analyzer.dart';
 import 'cross_button.dart';
@@ -20,10 +22,13 @@ class Parameters {
   late List<CrossButton> selectedButtons;
   late Analyzer analyzer;
   late List<String> commands;
+  late List<String> temporaryCommands;
   late GestureImplementationState gestureHomeState;
   late int currentSchema;
   late ActivityHomeState activityHomeState;
   late CATInterpreter catInterpreter;
+  late SessionData sessionData;
+  late PupilData pupilData;
 
   /// > The function `Parameters()` initializes the `Parameters` class
   Parameters({this.visible = false, this.currentSchema = 1}) {
@@ -33,9 +38,11 @@ class Parameters {
     analyzer = Analyzer();
     commands = [];
     _readSchemasJSON().then((value) {
-      print(value);
       catInterpreter = CATInterpreter(value);
     });
+    temporaryCommands = [];
+    sessionData = SessionData(schoolName: 'USI', grade: 0, section: 'A', date: DateTime.now(), supervisor: 'test');
+    pupilData = PupilData(name: 'test');
   }
 
   /// `readJson()` is an asynchronous function that returns a `Future<String>`
@@ -75,6 +82,10 @@ class Parameters {
     commands.add(command);
   }
 
+  void addTemporaryCommand(String command) {
+    temporaryCommands.add(command);
+  }
+
   /// > It returns a string of the next color in the sequence
   ///
   /// Returns:
@@ -98,9 +109,11 @@ class Parameters {
   ///   The currentSchema is being returned.
   int nextSchema() {
     activityHomeState.setStateFromOutside();
-    if (currentSchema < 12) {
+    if (currentSchema < catInterpreter.schemes.schemas.length) {
       ++currentSchema;
     } else {
+      gestureHomeState.message('Ultimo schema completato', 'Passaggio al pupillo successivo');
+      pupilData = PupilData(name: 'test');
       currentSchema = 1;
     }
     return currentSchema;
@@ -125,6 +138,7 @@ class Parameters {
     analyzer = Analyzer();
     commands.clear();
     catInterpreter.reset();
+    temporaryCommands.clear();
   }
 
   // void confirmSelection(){
@@ -201,46 +215,41 @@ class Parameters {
     selectedButtons.clear();
   }
 
-  CatError checkSchema(){
-    stdout.writeln(commands);
+  Pair<Results, CatError> checkSchema(){
     final resultPair = catInterpreter.validateOnScheme(
         commands.toString(), currentSchema);
-    stdout.writeln(resultPair.second);
-    for (int i =0; i<resultPair.first.getCommands.length; i++) {
-      var state = resultPair.first.getStates[i];
-      var command = resultPair.first.getCommands[i];
-      stdout.writeln('$command $state');
-      stdout.writeln('--------------------------------------------------');
-    }
-    return resultPair.second;
+    // for (int i =0; i<resultPair.first.getCommands.length; i++) {
+    //   var state = resultPair.first.getStates[i];
+    //   var command = resultPair.first.getCommands[i];
+    // }
+    return resultPair;
   }
 
-  void modifyCommandForCopy(int startIndex){
+  void modifyCommandForCopy(){
     List<String> stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
-    List<String> previousCommands = commands.getRange(0, startIndex).toList();
     List<String> newCommands = [];
     List<String> destination =[];
-    Pair resultPair = catInterpreter.validateOnScheme(previousCommands.toString(), currentSchema);
-    if(commands[startIndex].startsWith('GO(')){
-      destination.add(commands[startIndex].split('GO(')[1].split(')')[0]);
+    Pair resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    if(temporaryCommands[0].startsWith('GO(')){
+      destination.add(temporaryCommands[0].split('GO(')[1].split(')')[0]);
     }
-    for(int i = startIndex; i<commands.length; i++){
-      if(commands[i].startsWith('GO(')) {
+    for(int i = 0; i<temporaryCommands.length; i++){
+      if(temporaryCommands[i].startsWith('GO(')) {
         int y = resultPair.first.getPositions.last.first;
         int x = resultPair.first.getPositions.last.second;
         Tuple2<String, int> startPosition = Tuple2(stringY[y], x+1);
-        String coordinates = commands[i].split('GO(')[1].split(')')[0];
+        String coordinates = temporaryCommands[i].split('GO(')[1].split(')')[0];
         Tuple2<String, int> endPosition = Tuple2(coordinates.split('')[0], int.parse(coordinates.split('')[1]));
         var movements = analyzer.analyzeMovement(startPosition, endPosition);
         resultPair = catInterpreter.validateOnScheme(movements.toString(), currentSchema);
         newCommands.addAll(movements);
       } else {
-        resultPair = catInterpreter.validateOnScheme(commands[i], currentSchema);
-        newCommands.add(commands[i]);
+        resultPair = catInterpreter.validateOnScheme(temporaryCommands[i], currentSchema);
+        newCommands.add(temporaryCommands[i]);
       }
     }
     catInterpreter.reset();
-    commands = previousCommands;
+    // commands = previousCommands;
     for(var button in selectedButtons){
       destination.add('${button.position.item1}${button.position.item2}');
     }

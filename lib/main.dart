@@ -1,9 +1,10 @@
+import 'package:cross_array_task_app/Utility/data_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'Activity/activity_home.dart';
+import 'forms.dart';
 import 'schemas_library.dart';
-
 
 /// "Set the preferred orientation of the app to landscape, then run the app."
 ///
@@ -48,56 +49,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
-        home: HomePage(),
-        theme: CupertinoThemeData(
-          brightness: Brightness.light,
-          primaryColor: CupertinoColors.systemOrange,
-        ),
-      debugShowCheckedModeBanner: false,);
-  }
-}
-
-/// Form for save the data of the class and the school
-class SchoolForm extends StatelessWidget {
-  const SchoolForm({Key? key}) : super(key: key);
-
-  @override
-  Widget build(context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CupertinoFormSection(
-              header: const Text("Inserire i dati della sessione"),
-              children: [
-                CupertinoFormRow(
-                  prefix: const Text('Scuola:', textAlign: TextAlign.right),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire il nome della scuola',
-                  ),
-                ),
-                CupertinoFormRow(
-                  prefix: const Text(
-                    'Classe:',
-                    textAlign: TextAlign.right,
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la classe',
-                  ),
-                ),
-                CupertinoFormRow(
-                  prefix: const Text('Sezione:', textAlign: TextAlign.right),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la sezione',
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      home: HomePage(),
+      theme: CupertinoThemeData(
+        brightness: Brightness.light,
+        primaryColor: CupertinoColors.systemOrange,
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -106,6 +63,7 @@ class SchoolForm extends StatelessWidget {
 /// and three CupertinoTabViews
 class _HomePageState extends State<HomePage> {
   @override
+
   /// It creates a CupertinoTabScaffold with a CupertinoTabBar and a
   /// CupertinoTabView.
   ///
@@ -124,7 +82,9 @@ class _HomePageState extends State<HomePage> {
             case 1:
               return const SchemasLibrary();
             case 2:
-              return const ActivityHome();
+              return ActivityHome(
+                  sessionData:
+                  SessionData(schoolName: 'USI', grade: 0, section: 'A', date: DateTime.now(), supervisor: 'test')); //TODO: add check for session data exist and complete the form
           }
           throw Exception('Index $index is not supported');
         });
@@ -153,17 +113,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// ElevatedButton(
-//   onPressed: () {
-//     // Validate returns true if the form is valid, or false otherwise.
-//     if (_formKey.currentState!.validate()) {
-//       // If the form is valid, display a snackbar. In the real world,
-//       // you'd often call a server or save the information in a database.
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text('Submitted corrected')),
-//       );
-//     }
-//   },
-//   child: const Text('Submit'),
-// ),

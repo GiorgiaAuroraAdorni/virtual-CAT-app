@@ -267,3 +267,5 @@ metrics/
 .scannerwork/
 
 resources/blockly/.idea/
+
+.idea/

@@ -88,11 +88,6 @@ flutter:
   assets:
     - resources/sequence/image/
     - resources/sequence/
-    # Assets for blockly
-    - resources/blockly/
-    - resources/blockly/media/
-    - resources/blockly/msg/js/
-    - resources/blockly/msg/json/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
