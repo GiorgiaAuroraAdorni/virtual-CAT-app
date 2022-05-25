@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:dartx/dartx_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
@@ -18,13 +15,7 @@ class FileManager {
 
   void saveJson(String json, int id) async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    File file = File('${documentDirectory.path}/pupil${id}.json');
-    file.writeAsString(json);
-  }
-
-  void readJson(String json, int id) async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    File file = File('${documentDirectory.path}/pupil${id}.json');
+    File file = File('${documentDirectory.path}/pupil$id.json');
     file.writeAsString(json);
   }
 

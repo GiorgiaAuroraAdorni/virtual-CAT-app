@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
-import 'package:cross_array_task_app/Utility/data_manager.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:interpreter/cat_interpreter.dart';
@@ -326,12 +323,15 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _copyConfirm() {
     if (widget.params.selectionMode == SelectionModes.copy) {
       widget.params.selectionMode = SelectionModes.multiple;
+      message('Comando COPIA',
+          'Seleziona i punti dove vuoi incollare quello che hai fatto: \n Comandi riconosciuti: ${widget.params.temporaryCommands}');
     } else if (widget.params.selectionMode == SelectionModes.multiple) {
       widget.params.selectionMode = SelectionModes.base;
       copying = false;
       widget.params.modifyCommandForCopy();
       widget.params.reloadCross(activeCross);
       widget.params.temporaryCommands.clear();
+      message('Comando COPIA', 'Comando eseguito correttamente');
     }
     setState(() {});
   }
@@ -339,6 +339,8 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _copyInit() {
     widget.params.selectionMode = SelectionModes.copy;
     copying = true;
+    message('Comando COPIA',
+        'Esegui quello che vuoi copiare e poi clicca il tasto verde vicino al tasto copia');
     setState(() {});
   }
 
@@ -346,6 +348,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _fillEmpty() {
     if (checkColorSelected(checkExactlyOne: true)) {
       activeCross.fillEmpty();
+      String colors = widget.params.analyzeColor();
+      message('Comando RIEMPI',
+          'Tutti i punti grigi sono stati colorati di ${colors.substring(1, colors.length - 1)}');
       setState(() {});
     }
   }
@@ -447,7 +452,9 @@ class GestureImplementationState extends State<GestureImplementation> {
           )
         ],
       ),
-      const SizedBox(width: 10,),
+      const SizedBox(
+        width: 10,
+      ),
       Column(
         children: [
           CupertinoButton(
@@ -486,29 +493,36 @@ class GestureImplementationState extends State<GestureImplementation> {
     //TODO: implementare selezione celle singole
     if (widget.params.selectionMode == SelectionModes.mirror) {
       widget.params.selectionMode = SelectionModes.base;
-      String result = '';
       String command = '';
-      if(widget.params.temporaryCommands.isNotEmpty) {
+      if (widget.params.temporaryCommands.isNotEmpty) {
         command = widget.params.temporaryCommands.toString();
         command = '{${command.substring(1, command.length - 1)}}';
       }
       if (mirroring.second != '') {
-        result = 'MIRROR($command, ${mirroring.second})';
+        widget.params.temporaryCommands.clear();
+        widget.params.addCommand('MIRROR($command, ${mirroring.second})');
+        mirroring = const Pair(false, '');
+        widget.params.reloadCross(activeCross);
+        if (widget.params.temporaryCommands.isNotEmpty) {
+          message('Comando SPECCHIA',
+              'Comando eseguito correttamente sui comandi: $command');
+        } else {
+          message('Comando SPECCHIA',
+              'Comando eseguito correttamente su tutta la croce');
+        }
       } else {
         message('Nessun asse selezionato',
             'Selezionare un asse (V = verticale, O = orizontale');
         widget.params.selectionMode = SelectionModes.mirror;
       }
-      widget.params.temporaryCommands.clear();
-      widget.params.addCommand(result);
-      mirroring = const Pair(false, '');
-      widget.params.reloadCross(activeCross);
     }
     setState(() {});
   }
 
   void _mirrorInit() {
     widget.params.selectionMode = SelectionModes.mirror;
+    message('Comando SPECCHIA',
+        'Seleziona l\'asse (V=verticale, O=orizontale), esegui quello che vuoi specchiare (o nulla se vuoi specchiare tutto) e poi clicca il tasto verde vicino al tasto specchia');
     mirroring = Pair(true, mirroring.second);
     setState(() {});
   }
@@ -531,13 +545,17 @@ class GestureImplementationState extends State<GestureImplementation> {
       CatError error = resultPair.second;
       Results results = resultPair.first;
       if (error == CatError.none) {
-        message('Croce colorata correttamente',
-            'La croce è stata colorata correttamente \n comandi: ${results.getCommands.except(['None'])} \n croce ${results.completed? 'corretta': 'sbagliata'}');
+        message(
+            'Croce colorata correttamente',
+            'La croce è stata colorata correttamente \n comandi: ${results.getCommands.except([
+                  'None'
+                ])} \n croce ${results.completed ? 'corretta' : 'sbagliata'}');
       } else {
         message('Errore durante la validazione della croce',
             'Errore: ${error.name}');
       }
-      widget.params.jsonParser.addDataForSchema(true, widget.params.visible, widget.params.currentSchema, widget.params.commands );
+      widget.params.jsonParser.addDataForSchema(true, widget.params.visible,
+          widget.params.currentSchema, widget.params.commands);
       setState(() {
         _recreateCross();
         widget.params.nextSchema();

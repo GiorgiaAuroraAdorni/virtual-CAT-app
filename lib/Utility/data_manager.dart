@@ -72,12 +72,10 @@ class JsonParser {
           'cross visible' : visible,
           'commands' : commandsString.substring(1, commandsString.length - 1),
         });
-    print(activity);
   }
 void saveData() {
     data['activity']=[];
     data['activity'].addAll(activity);
-    print(data);
   FileManager()
       .saveJson(jsonEncode(data), pupilData.id);
     }

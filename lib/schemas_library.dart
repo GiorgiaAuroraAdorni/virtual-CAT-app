@@ -3,8 +3,13 @@ import 'package:flutter/cupertino.dart';
 generateImages() {
   var result = <Widget>[];
   for (int i = 1; i < 13; i++) {
-    result.add(Image(image: AssetImage('resources/sequence/image/S$i.png')));
-    result.add(const SizedBox(height: 10,));
+
+    result.add(Column(
+      children: [Text('Schema $i'),
+        const SizedBox(height: 10),
+        Image(image: AssetImage('resources/sequence/image/S$i.png'))],
+    )
+    );
   }
   return result;
 }
@@ -25,10 +30,16 @@ class SchemasLibraryState extends State<SchemasLibrary> {
   Widget build(context) {
     var images = generateImages();
     if (!images.isEmpty) {
-      return Center(
-          child: Column(
+      // return Center(
+      //     child: Column(
+      //   children: [
+      //
+      //   ],
+      // ));
+      return GridView.count(
+        crossAxisCount: 3,
         children: generateImages(),
-      ));
+      );
     } else {
       return Center(
         child: Column(

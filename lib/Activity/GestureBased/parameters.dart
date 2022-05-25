@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:interpreter/cat_interpreter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../Utility/data_manager.dart';
@@ -235,7 +232,7 @@ class Parameters {
     List<String> stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
     List<String> newCommands = [];
     List<String> destination =[];
-    Pair resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    Pair<Results, CatError> resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     if(temporaryCommands[0].startsWith('GO(')){
       destination.add(temporaryCommands[0].split('GO(')[1].split(')')[0]);
     }
@@ -255,12 +252,11 @@ class Parameters {
       }
     }
     catInterpreter.reset();
-    // commands = previousCommands;
     for(var button in selectedButtons){
       destination.add('${button.position.item1}${button.position.item2}');
     }
     commands.add('COPY({${newCommands.toString().substring(1,newCommands.toString().length-1)}}, {${destination.toString().substring(1,destination.toString().length-1)} })');
-    selectedButtons.clear();
+    removeSelection();
   }
 
   void reloadCross(CrossWidget cross){
