@@ -22,7 +22,7 @@ class SessionData {
       'school': schoolName,
       'class': grade,
       'section': section,
-      'date': date.toString(),
+      'date': date.toString().split(' ')[0],
       'supervisor': supervisor
     };
   }
@@ -40,7 +40,7 @@ class PupilData {
     return {
       'name': name,
       'gender': (gender != '') ? gender : '',
-      'date of birth': (dateOfBirth.year != 1) ? dateOfBirth.toString() : ''
+      'date of birth': (dateOfBirth.year != 1) ? dateOfBirth.toString().split(' ')[0] : ''
     };
   }
 
@@ -53,22 +53,63 @@ class PupilData {
 class JsonParser {
   SessionData sessionData;
   PupilData pupilData;
+  late Map data;
+  List<Map> activity = [];
 
-  JsonParser({required this.sessionData, required this.pupilData});
-
-  void saveData(bool gesture, bool visible, int schema, List<String> commands) {
-    String commandsString = commands.toString();
-    Map map = {
+  JsonParser({required this.sessionData, required this.pupilData}){
+    data = {
       'session': sessionData.toJson(),
       'pupil': pupilData.toJson(),
-      'activity': {
-        'schema' : schema,
-        'used_gesture' : gesture,
-        'cross_visible' : visible,
-        'commands' : commandsString.substring(1, commandsString.length - 1),
-      }
     };
-    FileManager()
-        .saveJson(jsonEncode(map), pupilData.id, schema);
   }
+
+  void addDataForSchema(bool gesture, bool visible, int schema, List<String> commands) {
+    String commandsString = commands.toString();
+    activity.add(
+        {
+          'schema' : schema,
+          'used gesture' : gesture,
+          'cross visible' : visible,
+          'commands' : commandsString.substring(1, commandsString.length - 1),
+        });
+    print(activity);
+  }
+void saveData() {
+    data['activity']=[];
+    data['activity'].addAll(activity);
+    print(data);
+  FileManager()
+      .saveJson(jsonEncode(data), pupilData.id);
+    }
 }
+
+// {
+//   "session":
+//     {
+//       "school":"USI",
+//       "class":0,
+//       "section":"A",
+//       "date":"2022-05-25",
+//       "supervisor":"test"
+//     },
+//   "pupil":
+//     {
+//       "name":"test",
+//       "gender":"",
+//       "date of birth":""
+//     },
+//   "activity":
+//     [
+//       {
+//         "schema":1,
+//         "used gesture":true,
+//         "cross visible":false,
+//         "commands":"FILL_EMPTY(blue)"
+//       },{
+//         "schema":2,
+//         "used gesture":true,
+//         "cross visible":false,
+//         "commands":"GO(c1), PAINT({blue}, 4, square), GO(f3), PAINT({blue}, 6, down), FILL_EMPTY(yellow)"
+//       }
+//     ]
+// }

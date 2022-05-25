@@ -30,6 +30,9 @@ class Parameters {
   late SessionData sessionData;
   late PupilData pupilData;
 
+  late JsonParser jsonParser;
+
+
   /// > The function `Parameters()` initializes the `Parameters` class
   Parameters({this.visible = false, this.currentSchema = 1}) {
     nextColors = [];
@@ -43,6 +46,7 @@ class Parameters {
     temporaryCommands = [];
     sessionData = SessionData(schoolName: 'USI', grade: 0, section: 'A', date: DateTime.now(), supervisor: 'test');
     pupilData = PupilData(name: 'test');
+    jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
   /// `readJson()` is an asynchronous function that returns a `Future<String>`
@@ -113,7 +117,9 @@ class Parameters {
       ++currentSchema;
     } else {
       gestureHomeState.message('Ultimo schema completato', 'Passaggio al pupillo successivo');
+      jsonParser.saveData();
       pupilData = PupilData(name: 'test');
+      jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
       currentSchema = 1;
     }
     return currentSchema;

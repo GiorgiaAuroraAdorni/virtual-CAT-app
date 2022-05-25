@@ -16,10 +16,15 @@ class FileManager {
     file.writeAsString(content);
   }
 
-  void saveJson(String json, int id, int schema) async {
+  void saveJson(String json, int id) async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    Directory studentDirectory = await Directory('${documentDirectory.path}/student${id}').create();
-    File file = File('${studentDirectory.path}/schema$schema.json');
+    File file = File('${documentDirectory.path}/pupil${id}.json');
+    file.writeAsString(json);
+  }
+
+  void readJson(String json, int id) async {
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    File file = File('${documentDirectory.path}/pupil${id}.json');
     file.writeAsString(json);
   }
 

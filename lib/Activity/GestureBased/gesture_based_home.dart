@@ -39,7 +39,6 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   Pair<bool, String> mirroring = const Pair(false, '');
   bool copying = false;
-  late JsonParser jsonParser;
 
   @override
 
@@ -52,7 +51,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   A widget.
   Widget build(context) {
     widget.params.gestureHomeState = this;
-    jsonParser = JsonParser(sessionData: widget.params.sessionData, pupilData: widget.params.pupilData);
     return Row(children: <Widget>[
       const SizedBox(width: 50),
       Column(
@@ -539,7 +537,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         message('Errore durante la validazione della croce',
             'Errore: ${error.name}');
       }
-      jsonParser.saveData(true, widget.params.visible, widget.params.currentSchema, widget.params.commands );
+      widget.params.jsonParser.addDataForSchema(true, widget.params.visible, widget.params.currentSchema, widget.params.commands );
       setState(() {
         _recreateCross();
         widget.params.nextSchema();
