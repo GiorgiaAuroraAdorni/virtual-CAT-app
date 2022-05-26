@@ -58,7 +58,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 image: AssetImage(
                     'resources/sequence/image/S${widget.params.currentSchema.toString()}.png')),
             // solutionCross,
-            const SizedBox(height: 100),
+            const SizedBox(height: 50),
             Row(children: _basicButtonsBuild()),
             const SizedBox(height: 20),
             Row(children: _colorButtonsBuild()),
@@ -190,7 +190,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('Erase cross'),
         onPressed: _recreateCross,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child:
@@ -201,7 +201,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('Schema completed'),
         onPressed: _schemaCompleted,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         color: CupertinoColors.systemGreen,
         padding: const EdgeInsets.all(0.0),
         child: const Icon(CupertinoIcons.checkmark),
@@ -210,7 +210,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       CupertinoButton(
           key: const Key('Visibility Button'),
           onPressed: widget.params.visible ? null : () => _changeVisibility(),
-          minSize: 30.0,
+          minSize: 40.0,
           padding: const EdgeInsets.all(0.0),
           child: widget.params.visible
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40.0)
@@ -238,7 +238,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('ColorButtonBlue'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         color: CupertinoColors.systemBlue,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemBlue)
@@ -255,7 +255,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('ColorButtonRed'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         color: CupertinoColors.systemRed,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemRed)
@@ -272,7 +272,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('ColorButtonGreen'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         color: CupertinoColors.systemGreen,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
@@ -289,7 +289,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key('ColorButtonYellow'),
         onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         color: CupertinoColors.systemYellow,
         padding: const EdgeInsets.all(0.0),
         child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
@@ -364,7 +364,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       CupertinoButton(
         onPressed: _fillEmpty,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child: const Icon(CupertinoIcons.paintbrush_fill,
@@ -374,7 +374,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       CupertinoButton(
         onPressed: _copyInit,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child:
@@ -415,7 +415,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       CupertinoButton(
         onPressed: _mirrorInit,
         borderRadius: BorderRadius.circular(45.0),
-        minSize: 30.0,
+        minSize: 40.0,
         padding: const EdgeInsets.all(0.0),
         color: CupertinoColors.systemFill,
         child: const Icon(CupertinoIcons.rectangle_grid_1x2,
