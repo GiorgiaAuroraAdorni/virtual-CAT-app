@@ -44,14 +44,14 @@ class ActivityHomeState extends State<ActivityHome> {
           onPressed: _params.nextSchema,
           child: const Text('Next schema'),
         ),
-        // CupertinoButton(
-        //   onPressed: () {
-        //     setState(() {
-        //       block = !block;
-        //     });
-        //   },
-        //   child: const Text('Cambia modalità'),
-        // ),
+        CupertinoButton(
+          onPressed: () {
+            setState(() {
+              _params.nextPupil();
+            });
+          },
+          child: const Text('Prossimo pupillo'),
+        ),
       ]),
       Row(children: <Widget>[
         CupertinoButton(

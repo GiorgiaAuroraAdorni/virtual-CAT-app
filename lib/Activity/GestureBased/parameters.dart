@@ -122,6 +122,14 @@ class Parameters {
     return currentSchema;
   }
 
+  void nextPupil(){
+    jsonParser.saveData();
+    gestureHomeState.message('Dati salvati', 'Passaggio al pupillo successivo');
+    pupilData = PupilData(name: 'test');
+    jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
+    currentSchema = 1;
+  }
+
   /// It removes a color from the list of colors that will be used to generate the
   /// next color
   ///

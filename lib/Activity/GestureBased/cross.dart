@@ -61,7 +61,7 @@ class CrossWidget extends StatefulWidget {
 /// It's a widget that contains a grid of buttons that can be selected and colored
 class CrossWidgetState extends State<CrossWidget> {
   late Map buttons = {};
-  final double buttonDimension = 70.0;
+  final double buttonDimension = 50.0;
 
   /// A function that returns a widget.
   ///
