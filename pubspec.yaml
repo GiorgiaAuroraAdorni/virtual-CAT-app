@@ -53,7 +53,6 @@ dependencies:
       url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
       ref: hotfix/flutter_version3.0.0
 
-  file_saver: ^0.1.0
 
   interpreter:
     path: ../CAT-symbolic-programming-language-interpreter/
