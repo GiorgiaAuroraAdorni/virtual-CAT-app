@@ -1,8 +1,6 @@
 PODS:
   - audio_waveforms (0.0.1):
     - Flutter
-  - file_saver (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
   - path_provider_ios (0.0.1):
     - Flutter
@@ -11,7 +9,6 @@ PODS:
 
 DEPENDENCIES:
   - audio_waveforms (from `.symlinks/plugins/audio_waveforms/ios`)
-  - file_saver (from `.symlinks/plugins/file_saver/ios`)
   - Flutter (from `Flutter`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
@@ -19,8 +16,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   audio_waveforms:
     :path: ".symlinks/plugins/audio_waveforms/ios"
-  file_saver:
-    :path: ".symlinks/plugins/file_saver/ios"
   Flutter:
     :path: Flutter
   path_provider_ios:
@@ -30,7 +25,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_waveforms: cd736909ebc6b6a164eb74701d8c705ce3241e1c
-  file_saver: 503e386464dbe118f630e17b4c2e1190fa0cf808
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f

@@ -14,7 +14,7 @@ void main() {
     final imageWidget = find.byType(Image).evaluate().single.widget as Image;
     if (imageWidget.image is AssetImage) {
       final temp = imageWidget.image as AssetImage;
-      expect(temp.assetName, 'resources/sequence/image/S1.jpg');
+      expect(temp.assetName, 'resources/sequence/image/S1.png');
     }
   });
 

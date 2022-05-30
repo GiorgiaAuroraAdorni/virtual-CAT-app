@@ -132,9 +132,9 @@ class GestureImplementationState extends State<GestureImplementation> {
       } else {
         message("Comando ambiguo:",
             'Comandi riconsociuti: ${recognisedCommands.toString()}');
+        widget.params.removeSelection();
       }
     }
-    widget.params.removeSelection();
   }
 
   @override

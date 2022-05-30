@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tuple/tuple.dart';
 
 void main() {
+
   group('Analyze pattern', () {
     final Map buttons = {};
 
@@ -25,7 +26,7 @@ void main() {
         buttons[y][x] = CrossButton(
             globalKey: GlobalKey<CrossButtonState>(),
             position: Tuple2<String, int>(y, x),
-            params: Parameters(),
+            params: Parameters.forAnalyzerTest(),
             buttonDimension: 10.0);
       }
     }
@@ -1690,6 +1691,12 @@ void main() {
                 },
             throwsA(isA<Exception>()));
       });
+    });
+  });
+  
+  group('Analyze movement', () {
+    test('a3 -> d2', (){
+      expect(Analyzer().analyzeMovement(const Tuple2('a', 3), const Tuple2('d', 2)), ['GO(1 left)', 'GO(3 up)']);
     });
   });
 }

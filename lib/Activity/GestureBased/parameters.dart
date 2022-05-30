@@ -46,6 +46,15 @@ class Parameters {
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
+  Parameters.forAnalyzerTest(){
+    nextColors = [];
+    selectionMode = SelectionModes.base;
+    selectedButtons = [];
+    analyzer = Analyzer();
+    commands = [];
+    temporaryCommands = [];
+  }
+
   /// `readJson()` is an asynchronous function that returns a `Future<String>`
   /// object
   ///
@@ -112,6 +121,7 @@ class Parameters {
     activityHomeState.setStateFromOutside();
     if (currentSchema < catInterpreter.schemes.schemas.length) {
       ++currentSchema;
+      reset();
     } else {
       gestureHomeState.message('Ultimo schema completato', 'Passaggio al pupillo successivo');
       jsonParser.saveData();
@@ -242,9 +252,10 @@ class Parameters {
     List<String> destination =[];
     Pair<Results, CatError> resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     if(temporaryCommands[0].startsWith('GO(')){
+      resultPair = catInterpreter.validateOnScheme(temporaryCommands[0].toString(), currentSchema);
       destination.add(temporaryCommands[0].split('GO(')[1].split(')')[0]);
     }
-    for(int i = 0; i<temporaryCommands.length; i++){
+    for(int i = 1; i<temporaryCommands.length; i++){
       if(temporaryCommands[i].startsWith('GO(')) {
         int y = resultPair.first.getPositions.last.first;
         int x = resultPair.first.getPositions.last.second;
@@ -258,12 +269,15 @@ class Parameters {
         resultPair = catInterpreter.validateOnScheme(temporaryCommands[i], currentSchema);
         newCommands.add(temporaryCommands[i]);
       }
+
     }
     catInterpreter.reset();
     for(var button in selectedButtons){
       destination.add('${button.position.item1}${button.position.item2}');
     }
-    commands.add('COPY({${newCommands.toString().substring(1,newCommands.toString().length-1)}}, {${destination.toString().substring(1,destination.toString().length-1)} })');
+
+    String resultCommand = 'COPY({${newCommands.toString().substring(1,newCommands.toString().length-1)}}, {${destination.toString().substring(1,destination.toString().length-1)} })';
+    commands.add(resultCommand);
     removeSelection();
   }
 
