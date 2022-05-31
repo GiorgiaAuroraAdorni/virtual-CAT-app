@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tuple/tuple.dart';
 
 void main() {
-
   group('Analyze pattern', () {
     final Map buttons = {};
 
@@ -89,6 +88,16 @@ void main() {
                 buttons['c'][6]
               ]),
               ['right']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['c'][1],
+                buttons['c'][2],
+                buttons['c'][3],
+                buttons['c'][4],
+                buttons['c'][5],
+                buttons['c'][6]
+              ], 'right'),
+              ':');
         });
       });
       group('left', () {
@@ -134,6 +143,16 @@ void main() {
                 buttons['d'][1]
               ]),
               ['left']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['d'][6],
+                buttons['d'][5],
+                buttons['d'][4],
+                buttons['d'][3],
+                buttons['d'][2],
+                buttons['d'][1]
+              ], 'left'),
+              ':');
         });
       });
     });
@@ -182,6 +201,16 @@ void main() {
                 buttons['f'][3]
               ]),
               ['up']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['a'][3],
+                buttons['b'][3],
+                buttons['c'][3],
+                buttons['d'][3],
+                buttons['e'][3],
+                buttons['f'][3]
+              ], 'up'),
+              ':');
         });
       });
       group('down', () {
@@ -227,6 +256,16 @@ void main() {
                 buttons['a'][4]
               ]),
               ['down']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][4],
+                buttons['e'][4],
+                buttons['d'][4],
+                buttons['c'][4],
+                buttons['b'][4],
+                buttons['a'][4]
+              ], 'down'),
+              ':');
         });
       });
     });
@@ -236,12 +275,23 @@ void main() {
         test('2', () {
           expect(Analyzer().analyzePattern([buttons['a'][3], buttons['c'][1]]),
               ['diagonal up left']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['a'][3], buttons['c'][1]], 'diagonal up left'),
+              ':');
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
                   [buttons['b'][4], buttons['c'][3], buttons['d'][2]]),
               ['diagonal up left']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['b'][4],
+                buttons['c'][3],
+                buttons['d'][2],
+              ], 'diagonal up left'),
+              ':');
         });
         test('4', () {
           expect(
@@ -252,18 +302,35 @@ void main() {
                 buttons['f'][3]
               ]),
               ['diagonal up left']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['c'][6],
+                buttons['d'][5],
+                buttons['e'][4],
+                buttons['f'][3]
+              ], 'diagonal up left'),
+              ':');
         });
       });
       group('up right', () {
         test('2', () {
           expect(Analyzer().analyzePattern([buttons['d'][1], buttons['f'][3]]),
               ['diagonal up right']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['d'][1], buttons['f'][3]], 'diagonal up right'),
+              ':');
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
                   [buttons['c'][2], buttons['d'][3], buttons['e'][4]]),
               ['diagonal up right']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['c'][2], buttons['d'][3], buttons['e'][4]],
+                  'diagonal up right'),
+              ':');
         });
         test('4', () {
           expect(
@@ -274,18 +341,35 @@ void main() {
                 buttons['d'][6]
               ]),
               ['diagonal up right']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['a'][3],
+                buttons['b'][4],
+                buttons['c'][5],
+                buttons['d'][6]
+              ], 'diagonal up right'),
+              ':');
         });
       });
       group('down left', () {
         test('2', () {
           expect(Analyzer().analyzePattern([buttons['c'][6], buttons['a'][4]]),
               ['diagonal down left']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['c'][6], buttons['a'][4]], 'diagonal down left'),
+              ':');
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
                   [buttons['d'][5], buttons['c'][4], buttons['b'][3]]),
               ['diagonal down left']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['d'][5], buttons['c'][4], buttons['b'][3]],
+                  'diagonal down left'),
+              ':');
         });
         test('4', () {
           expect(
@@ -296,18 +380,35 @@ void main() {
                 buttons['c'][1]
               ]),
               ['diagonal down left']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][4],
+                buttons['e'][3],
+                buttons['d'][2],
+                buttons['c'][1]
+              ], 'diagonal down left'),
+              ':');
         });
       });
       group('down right', () {
         test('2', () {
           expect(Analyzer().analyzePattern([buttons['c'][1], buttons['a'][3]]),
               ['diagonal down right']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['c'][1], buttons['a'][3]], 'diagonal down right'),
+              ':');
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
                   [buttons['e'][3], buttons['d'][4], buttons['c'][5]]),
               ['diagonal down right']);
+          expect(
+              Analyzer().analyzeNumberOfCell(
+                  [buttons['e'][3], buttons['d'][4], buttons['c'][5]],
+                  'diagonal down right'),
+              ':');
         });
         test('4', () {
           expect(
@@ -318,6 +419,14 @@ void main() {
                 buttons['c'][6]
               ]),
               ['diagonal down right']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][3],
+                buttons['e'][4],
+                buttons['d'][5],
+                buttons['c'][6]
+              ], 'diagonal down right'),
+              ':');
         });
       });
     });
@@ -397,6 +506,14 @@ void main() {
                 buttons['f'][3]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['e'][3],
+                buttons['e'][4],
+                buttons['f'][4],
+                buttons['f'][3]
+              ], 'square'),
+              ':');
         });
         test('up left down right', () {
           expect(
@@ -471,6 +588,14 @@ void main() {
                 buttons['e'][3]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['e'][4],
+                buttons['f'][4],
+                buttons['f'][3],
+                buttons['e'][3]
+              ], 'square'),
+              ':');
         });
         test('left down right up', () {
           expect(
@@ -545,6 +670,14 @@ void main() {
                 buttons['e'][4]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][4],
+                buttons['f'][3],
+                buttons['e'][3],
+                buttons['e'][4]
+              ], 'square'),
+              ':');
         });
         test('down right up left', () {
           expect(
@@ -619,6 +752,14 @@ void main() {
                 buttons['f'][4]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][3],
+                buttons['e'][3],
+                buttons['e'][4],
+                buttons['f'][4]
+              ], 'square'),
+              ':');
         });
       });
       group('clockwise', () {
@@ -695,6 +836,14 @@ void main() {
                 buttons['e'][3]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][3],
+                buttons['f'][4],
+                buttons['e'][4],
+                buttons['e'][3]
+              ], 'square'),
+              ':');
         });
         test('down left up right', () {
           expect(
@@ -769,6 +918,14 @@ void main() {
                 buttons['f'][3]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['f'][4],
+                buttons['e'][4],
+                buttons['e'][3],
+                buttons['f'][3]
+              ], 'square'),
+              ':');
         });
         test('left up right down', () {
           expect(
@@ -843,6 +1000,14 @@ void main() {
                 buttons['f'][4]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['e'][4],
+                buttons['e'][3],
+                buttons['f'][3],
+                buttons['f'][4]
+              ], 'square'),
+              ':');
         });
         test('up right down left', () {
           expect(
@@ -917,6 +1082,14 @@ void main() {
                 buttons['e'][4]
               ]),
               ['square']);
+          expect(
+              Analyzer().analyzeNumberOfCell([
+                buttons['e'][3],
+                buttons['f'][3],
+                buttons['f'][4],
+                buttons['e'][4]
+              ], 'square'),
+              ':');
         });
       });
     });
@@ -932,6 +1105,15 @@ void main() {
               buttons['c'][1]
             ]),
             ['L up left']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['a'][3],
+              buttons['b'][3],
+              buttons['c'][3],
+              buttons['c'][2],
+              buttons['c'][1]
+            ], 'L up left'),
+            ':');
       });
       test('up right', () {
         expect(
@@ -943,6 +1125,15 @@ void main() {
               buttons['c'][6]
             ]),
             ['L up right']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['a'][4],
+              buttons['b'][4],
+              buttons['c'][4],
+              buttons['c'][5],
+              buttons['c'][6]
+            ], 'L up right'),
+            ':');
       });
       test('down left', () {
         expect(
@@ -954,6 +1145,15 @@ void main() {
               buttons['d'][1]
             ]),
             ['L down left']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['f'][3],
+              buttons['e'][3],
+              buttons['d'][3],
+              buttons['d'][2],
+              buttons['d'][1]
+            ], 'L down left'),
+            ':');
       });
       test('down right', () {
         expect(
@@ -965,6 +1165,15 @@ void main() {
               buttons['d'][6]
             ]),
             ['L down right']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['f'][4],
+              buttons['e'][4],
+              buttons['d'][4],
+              buttons['d'][5],
+              buttons['d'][6]
+            ], 'L down right'),
+            ':');
       });
       test('left up', () {
         expect(
@@ -976,6 +1185,15 @@ void main() {
               buttons['f'][4]
             ]),
             ['L left up']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['d'][6],
+              buttons['d'][5],
+              buttons['d'][4],
+              buttons['e'][4],
+              buttons['f'][4]
+            ], 'L left up'),
+            ':');
       });
       test('left down', () {
         expect(
@@ -987,6 +1205,15 @@ void main() {
               buttons['a'][4]
             ]),
             ['L left down']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['c'][6],
+              buttons['c'][5],
+              buttons['c'][4],
+              buttons['b'][4],
+              buttons['a'][4]
+            ], 'L left down'),
+            ':');
       });
       test('right up', () {
         expect(
@@ -998,6 +1225,15 @@ void main() {
               buttons['f'][3]
             ]),
             ['L right up']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['d'][1],
+              buttons['d'][2],
+              buttons['d'][3],
+              buttons['e'][3],
+              buttons['f'][3]
+            ], 'L right up'),
+            ':');
       });
       test('right down', () {
         expect(
@@ -1009,6 +1245,15 @@ void main() {
               buttons['a'][3]
             ]),
             ['L right down']);
+        expect(
+            Analyzer().analyzeNumberOfCell([
+              buttons['c'][1],
+              buttons['c'][2],
+              buttons['c'][3],
+              buttons['b'][3],
+              buttons['a'][3]
+            ], 'L right down'),
+            ':');
       });
     });
 
@@ -1693,10 +1938,13 @@ void main() {
       });
     });
   });
-  
+
   group('Analyze movement', () {
-    test('a3 -> d2', (){
-      expect(Analyzer().analyzeMovement(const Tuple2('a', 3), const Tuple2('d', 2)), ['GO(1 left)', 'GO(3 up)']);
+    test('a3 -> d2', () {
+      expect(
+          Analyzer()
+              .analyzeMovement(const Tuple2('a', 3), const Tuple2('d', 2)),
+          ['GO(1 left)', 'GO(3 up)']);
     });
   });
 }

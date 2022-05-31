@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
@@ -31,21 +33,21 @@ class Analyzer {
   String analyzeColor(nextColors) {
     String colors;
     // if (nextColors.length > 1) {
-      colors = '{';
-      nextColors.forEach((currentColor) {
-        if (currentColor == CupertinoColors.systemBlue) {
-          colors += 'blue, ';
-        } else if (currentColor == CupertinoColors.systemRed) {
-          colors += 'red, ';
-        } else if (currentColor == CupertinoColors.systemGreen) {
-          colors += 'green, ';
-        } else if (currentColor == CupertinoColors.systemYellow) {
-          colors += 'yellow, ';
-        } else {
-          throw Exception('Invalid color');
-        }
-      });
-      colors = colors.replaceRange(colors.length - 2, null, '}');
+    colors = '{';
+    nextColors.forEach((currentColor) {
+      if (currentColor == CupertinoColors.systemBlue) {
+        colors += 'blue, ';
+      } else if (currentColor == CupertinoColors.systemRed) {
+        colors += 'red, ';
+      } else if (currentColor == CupertinoColors.systemGreen) {
+        colors += 'green, ';
+      } else if (currentColor == CupertinoColors.systemYellow) {
+        colors += 'yellow, ';
+      } else {
+        throw Exception('Invalid color');
+      }
+    });
+    colors = colors.replaceRange(colors.length - 2, null, '}');
     // } else {
     //   if (nextColors.contains(CupertinoColors.systemBlue)) {
     //     colors = 'blue';
@@ -72,23 +74,25 @@ class Analyzer {
   /// Returns:
   ///   A list of strings.
   List<String> analyzeMovement(
-      Tuple2<String, int> startPosition, Tuple2<String, int> endPosition) {
+      Tuple2<String, int> startPosition, Tuple2<String, int> endPosition, {bool onlyHorizontal=false, bool onlyVertical=false}) {
     var yStart = startPosition.item1.toLowerCase().codeUnits[0];
     var yEnd = endPosition.item1.toLowerCase().codeUnits[0];
     var xStart = startPosition.item2;
     var xEnd = endPosition.item2;
     List<String> result = [];
 
-    if(xStart < xEnd){
-       result.add('GO(${xEnd-xStart} right)');
-    } else if(xStart > xEnd){
-      result.add('GO(${xStart-xEnd} left)');
-    }
-    if(yStart < yEnd){
-      result.add('GO(${yEnd-yStart} up)');
-    } else if(yStart > yEnd){
-      result.add('GO(${yStart-yEnd} down)');
-    }
+    if(!onlyVertical){
+    if (xStart < xEnd) {
+      result.add('GO(${xEnd - xStart} right)');
+    } else if (xStart > xEnd) {
+      result.add('GO(${xStart - xEnd} left)');
+    }}
+    if(!onlyHorizontal){
+    if (yStart < yEnd) {
+      result.add('GO(${yEnd - yStart} up)');
+    } else if (yStart > yEnd) {
+      result.add('GO(${yStart - yEnd} down)');
+    }}
     return result;
   }
 
@@ -1050,5 +1054,128 @@ class Analyzer {
           [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
     }
     return correct;
+  }
+
+  /// It returns the number of cells in a
+  /// row/column/diagonal/zig-zag/square/L-shape, given the direction and the
+  /// starting cell
+  ///
+  /// Args:
+  ///   selectedButton (List<CrossButton>): The list of buttons that were selected.
+  ///   direction (String): The direction of the swipe.
+  ///
+  /// Returns:
+  ///   A string that represents the number of cells in the selectedButton list.
+  String analyzeNumberOfCell(
+      List<CrossButton> selectedButton, String direction) {
+    if (direction == 'up' || direction == 'down') {
+      if ([1, 2, 5, 6].contains(selectedButton.first.position.item2) &&
+          selectedButton.length == 2) {
+        return ':';
+      } else if (selectedButton.length == 6) {
+        return ':';
+      }
+    }
+    if (direction == 'right' || direction == 'left') {
+      if (['a', 'b', 'e', 'f'].contains(selectedButton.first.position.item1) &&
+          selectedButton.length == 2) {
+        return ':';
+      } else if (selectedButton.length == 6) {
+        return ':';
+      }
+    }
+    if (direction.startsWith('L') && selectedButton.length == 5) {
+      return ':';
+    }
+    if (direction.startsWith('zig-zag') && selectedButton.length == 6) {
+      return ':';
+    }
+    if (direction == 'square' && selectedButton.length == 4) {
+      return ':';
+    }
+    if (direction.startsWith('diagonal')) {
+      List<Tuple2<String, int>> startCoordinatesForLength2 = [];
+      List<Tuple2<String, int>> startCoordinatesForLength3 = [];
+      List<Tuple2<String, int>> startCoordinatesForLength4 = [];
+      switch (direction.split('diagonal ')[1]) {
+        case 'up left':
+          startCoordinatesForLength2 = [
+            const Tuple2('a', 3),
+            const Tuple2('c', 4),
+            const Tuple2('d', 6)
+          ];
+          startCoordinatesForLength3 = [
+            const Tuple2('b', 4),
+            const Tuple2('c', 5)
+          ];
+          startCoordinatesForLength4 = [
+            const Tuple2('a', 4),
+            const Tuple2('c', 6)
+          ];
+          break;
+        case 'down left':
+          startCoordinatesForLength2 = [
+            const Tuple2('c', 6),
+            const Tuple2('d', 4),
+            const Tuple2('f', 3)
+          ];
+          startCoordinatesForLength3 = [
+            const Tuple2('d', 5),
+            const Tuple2('e', 4)
+          ];
+          startCoordinatesForLength4 = [
+            const Tuple2('d', 6),
+            const Tuple2('f', 4)
+          ];
+          break;
+        case 'up right':
+          startCoordinatesForLength2 = [
+            const Tuple2('a', 4),
+            const Tuple2('c', 3),
+            const Tuple2('d', 1)
+          ];
+          startCoordinatesForLength3 = [
+            const Tuple2('b', 3),
+            const Tuple2('c', 2)
+          ];
+          startCoordinatesForLength4 = [
+            const Tuple2('a', 3),
+            const Tuple2('c', 1)
+          ];
+          break;
+        case 'down right':
+          startCoordinatesForLength2 = [
+            const Tuple2('c', 1),
+            const Tuple2('d', 3),
+            const Tuple2('f', 4)
+          ];
+          startCoordinatesForLength3 = [
+            const Tuple2('d', 2),
+            const Tuple2('e', 3)
+          ];
+          startCoordinatesForLength4 = [
+            const Tuple2('d', 1),
+            const Tuple2('f', 3)
+          ];
+          break;
+        default:
+          stdout.writeln('Impossible diagonal');
+          break;
+      }
+        if (startCoordinatesForLength2
+                .contains(selectedButton.first.position) &&
+            selectedButton.length == 2) {
+          return ':';
+        } else if (startCoordinatesForLength3
+                .contains(selectedButton.first.position) &&
+            selectedButton.length == 3) {
+          return ':';
+        } else if (startCoordinatesForLength4
+                .contains(selectedButton.first.position) &&
+            selectedButton.length == 4) {
+          return ':';
+        }
+      }
+    return selectedButton.length.toString();
   }
 }

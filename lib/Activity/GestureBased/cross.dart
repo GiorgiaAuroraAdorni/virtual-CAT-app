@@ -165,9 +165,7 @@ class CrossWidgetState extends State<CrossWidget> {
   /// the pointer.
   void endPan(details) {
     //TODO: check if all line/column/diagonal/zigzag/square
-    bool allCell = details.velocity == Velocity.zero;
-    widget.params.gestureHomeState.confirmSelection(allCell);
-    widget.params.nextColors.clear();
+    widget.params.gestureHomeState.confirmSelection();
   }
 
   /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new map

@@ -50,12 +50,16 @@ dependencies:
 #  audio_waveforms: ^0.1.1
   audio_waveforms:
     git:
-      url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
+      url: git@github.com:SimformSolutionsPvtLtd/audio_waveforms.git
       ref: hotfix/flutter_version3.0.0
 
 
+#  interpreter:
+#    path: ../CAT-symbolic-programming-language-interpreter/
   interpreter:
-    path: ../CAT-symbolic-programming-language-interpreter/
+    git:
+      url: git@github.com:vladimir98vk/CAT-symbolic-programming-language-interpreter.git
+      ref: main
 
 dev_dependencies:
   test: ^1.18.2

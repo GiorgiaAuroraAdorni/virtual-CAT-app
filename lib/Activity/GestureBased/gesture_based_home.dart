@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cross_array_task_app/Activity/GestureBased/parameters.dart';
 import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
 import 'package:dartx/dartx.dart';
@@ -97,44 +99,52 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Args:
   ///   allCell (bool): if true, the user wants to select all the cells in the
   /// row/column
-  void confirmSelection(bool allCell) {
+  void confirmSelection() async {
     if (checkColorSelected()) {
-      var recognisedCommands = widget.params.analyzePattern();
+      List<String> recognisedCommands = widget.params.analyzePattern();
       if (recognisedCommands.length == 1) {
-        num j = -1;
-        var numOfColor = widget.params.nextColors.length;
-        for (CrossButton element in widget.params.selectedButtons) {
-          j = (j + 1) % numOfColor;
-          element.changeColorFromIndex(j.toInt());
-          element.deselect();
-        }
-        var colors = widget.params.analyzeColor();
-        var length = allCell ? ':' : widget.params.selectedButtons.length;
-        var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
+        String numOfCells =
+            widget.params.numberOfCell(recognisedCommands.first);
+        String colors = widget.params.analyzeColor();
+        String goCommand =
+            'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})';
+        String command =
+            'PAINT($colors, $numOfCells, ${recognisedCommands[0]})';
         if (widget.params.selectionMode == SelectionModes.mirror ||
             widget.params.selectionMode == SelectionModes.copy) {
-          widget.params.addTemporaryCommand(
-              'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
+          widget.params.addTemporaryCommand(goCommand);
           widget.params.addTemporaryCommand(command);
+          num j = -1;
+          var numOfColor = widget.params.nextColors.length;
+          for (CrossButton element in widget.params.selectedButtons) {
+            j = (j + 1) % numOfColor;
+            element.changeColorFromIndex(j.toInt());
+            element.deselect();
+          }
         } else {
-          widget.params.addCommand(
-              'GO(${widget.params.selectedButtons[0].position.item1}${widget.params.selectedButtons[0].position.item2})');
+          widget.params.addCommand(goCommand);
           widget.params.addCommand(command);
+          Pair<Results, CatError> resultPair = widget.params.checkSchema();
+          CatError error = resultPair.second;
+          Results results = resultPair.first;
+          if (error == CatError.none) {
+            activeCross.fromSchema(results.getStates.last);
+          } else {
+            message("Errore:", error.name);
+          }
         }
         message("Comando riconsociuto:", command);
         widget.params.resetAnalyzer();
-        setState(() {
-          widget.params.selectedButtons.clear();
-        });
+        widget.params.nextColors.clear();
       } else if (recognisedCommands.isEmpty) {
         message("Nessun commando riconsociuto",
             "Non è stato possible riconoscere alcun comando");
       } else {
         message("Comando ambiguo:",
             'Comandi riconsociuti: ${recognisedCommands.toString()}');
-        widget.params.removeSelection();
       }
     }
+    widget.params.removeSelection();
   }
 
   @override
@@ -155,29 +165,46 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Args:
   ///   title (String): The title of the dialog.
   ///   message (String): The message you want to display.
-  void message(String title, String message) {
-    showCupertinoDialog<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: <CupertinoDialogAction>[
-          CupertinoDialogAction(
-            child: const Text('Close'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          // CupertinoDialogAction(
-          //   child: const Text('Yes'),
-          //   isDestructiveAction: true,
-          //   onPressed: () {
-          //     // Do something destructive.
-          //   },
-          // )
-        ],
-      ),
-    );
+  Future<bool?> message(String title, String message, {bool confirm = false}) {
+    if (confirm) {
+      return showCupertinoDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              onPressed: <bool>() {
+                Navigator.pop(context, true);
+              },
+              child: const Text('Sí'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: const Text('No'),
+            )
+          ],
+        ),
+      );
+    } else {
+      return showCupertinoDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            )
+          ],
+        ),
+      );
+    }
   }
 
   /// It returns a list of widgets that are used to build the basic buttons
@@ -550,19 +577,20 @@ class GestureImplementationState extends State<GestureImplementation> {
             'La croce è stata colorata correttamente \n comandi: ${results.getCommands.except([
                   'None'
                 ])} \n croce ${results.completed ? 'corretta' : 'sbagliata'}');
+        widget.params.jsonParser.addDataForSchema(true, widget.params.visible,
+            widget.params.currentSchema, widget.params.commands);
+        setState(() {
+          _recreateCross();
+          widget.params.nextSchema();
+        });
       } else {
         message('Errore durante la validazione della croce',
             'Errore: ${error.name}');
       }
-      widget.params.jsonParser.addDataForSchema(true, widget.params.visible,
-          widget.params.currentSchema, widget.params.commands);
-      setState(() {
-        _recreateCross();
-        widget.params.nextSchema();
-      });
     } else {
       message('Nesun comando eseguito',
           'Eseguire almeno un comando prima di confermare');
     }
+    stdout.writeln(widget.params.commands);
   }
 }

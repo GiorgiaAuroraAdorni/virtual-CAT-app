@@ -108,6 +108,10 @@ class Parameters {
     return analyzer.analyzePattern(selectedButtons);
   }
 
+  String numberOfCell(String recognisedCommand){
+    return analyzer.analyzeNumberOfCell(selectedButtons, recognisedCommand);
+  }
+
   void changeVisibility() {
     visible = true;
   }
@@ -262,7 +266,24 @@ class Parameters {
         Tuple2<String, int> startPosition = Tuple2(stringY[y], x+1);
         String coordinates = temporaryCommands[i].split('GO(')[1].split(')')[0];
         Tuple2<String, int> endPosition = Tuple2(coordinates.split('')[0], int.parse(coordinates.split('')[1]));
-        var movements = analyzer.analyzeMovement(startPosition, endPosition);
+        bool onlyHorizontal = false;
+        bool onlyVertical = false;
+        if(temporaryCommands.length >= i+1) {
+          List<String> nextCommandParameters = temporaryCommands[i + 1].split('(').last.split(')').first.split(',');
+          String nextCommandDirection = nextCommandParameters.last.trim();
+          String nextCommandLength = nextCommandParameters[1].trim();
+          if(nextCommandDirection == 'up' || nextCommandDirection == 'down'){
+            if(nextCommandLength == ':'){
+              onlyHorizontal = true;
+            }
+          }
+          if(nextCommandDirection == 'left' || nextCommandDirection == 'right'){
+            if(nextCommandLength == ':'){
+              onlyVertical = true;
+            }
+          }
+        }
+        var movements = analyzer.analyzeMovement(startPosition, endPosition, onlyHorizontal: onlyHorizontal, onlyVertical: onlyVertical);
         resultPair = catInterpreter.validateOnScheme(movements.toString(), currentSchema);
         newCommands.addAll(movements);
       } else {
