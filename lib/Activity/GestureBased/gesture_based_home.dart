@@ -216,7 +216,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     return <Widget>[
       CupertinoButton(
         key: const Key('Erase cross'),
-        onPressed: _recreateCross,
+        onPressed: recreateCross,
         borderRadius: BorderRadius.circular(45.0),
         minSize: 40.0,
         padding: const EdgeInsets.all(0.0),
@@ -559,7 +559,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   /// It creates a new cross widget with a new key, and resets all the parameters
-  void _recreateCross() {
+  void recreateCross() {
     setState(() {
       widget.params.reset();
       ++_crossKey;
@@ -583,7 +583,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 ])} \n croce ${results.completed ? 'corretta' : 'sbagliata'}');
         widget.params.saveCommandsForJson();
         setState(() {
-          _recreateCross();
+          recreateCross();
           widget.params.nextSchema();
         });
       } else {

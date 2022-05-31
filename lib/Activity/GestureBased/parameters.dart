@@ -143,6 +143,8 @@ class Parameters {
     pupilData = PupilData(name: 'test');
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
     currentSchema = 1;
+    reset();
+    gestureHomeState.recreateCross();
   }
 
   /// It removes a color from the list of colors that will be used to generate the
