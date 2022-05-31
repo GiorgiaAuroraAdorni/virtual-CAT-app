@@ -65,6 +65,15 @@ class JsonParser {
 
   void addDataForSchema(bool gesture, bool visible, int schema, List<String> commands) {
     String commandsString = commands.toString();
+    for (var element in activity){
+      if(element['schema'] == schema){
+        element['used gesture'] = gesture;
+        element['cross visible'] = visible;
+        element['commands'] = commandsString.substring(1, commandsString.length - 1);
+        saveData();
+        return;
+      }
+    }
     activity.add(
         {
           'schema' : schema,
@@ -72,6 +81,7 @@ class JsonParser {
           'cross visible' : visible,
           'commands' : commandsString.substring(1, commandsString.length - 1),
         });
+    saveData();
   }
 void saveData() {
     data['activity']=[];

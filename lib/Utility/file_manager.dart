@@ -17,7 +17,6 @@ class FileManager {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     File file = File('${documentDirectory.path}/pupil$id.json');
     file.writeAsString(json);
-    stdout.writeln(file.path);
   }
 
 

@@ -114,6 +114,7 @@ class Parameters {
 
   void changeVisibility() {
     visible = true;
+    saveCommandsForJson();
   }
 
   /// If the current schema is less than 12, increment it by 1, otherwise set it to
@@ -307,6 +308,10 @@ class Parameters {
     var resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     cross.fromSchema(resultPair.first.getStates.last);
     catInterpreter.reset();
+  }
+
+  void saveCommandsForJson(){
+    jsonParser.addDataForSchema(true, visible, currentSchema, commands);
   }
 
   // TODO: create commandsToString to return a [].tostring() without '[....]'

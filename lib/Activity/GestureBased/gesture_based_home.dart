@@ -134,6 +134,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           }
         }
         message("Comando riconsociuto:", command);
+        widget.params.saveCommandsForJson();
         widget.params.resetAnalyzer();
         widget.params.nextColors.clear();
       } else if (recognisedCommands.isEmpty) {
@@ -359,6 +360,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       widget.params.reloadCross(activeCross);
       widget.params.temporaryCommands.clear();
       message('Comando COPIA', 'Comando eseguito correttamente');
+      widget.params.saveCommandsForJson();
     }
     setState(() {});
   }
@@ -378,6 +380,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       String colors = widget.params.analyzeColor();
       message('Comando RIEMPI',
           'Tutti i punti grigi sono stati colorati di ${colors.substring(1, colors.length - 1)}');
+      widget.params.saveCommandsForJson();
       setState(() {});
     }
   }
@@ -537,6 +540,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           message('Comando SPECCHIA',
               'Comando eseguito correttamente su tutta la croce');
         }
+        widget.params.saveCommandsForJson();
       } else {
         message('Nessun asse selezionato',
             'Selezionare un asse (V = verticale, O = orizontale');
@@ -577,8 +581,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             'La croce è stata colorata correttamente \n comandi: ${results.getCommands.except([
                   'None'
                 ])} \n croce ${results.completed ? 'corretta' : 'sbagliata'}');
-        widget.params.jsonParser.addDataForSchema(true, widget.params.visible,
-            widget.params.currentSchema, widget.params.commands);
+        widget.params.saveCommandsForJson();
         setState(() {
           _recreateCross();
           widget.params.nextSchema();
