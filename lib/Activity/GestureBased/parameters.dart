@@ -29,7 +29,6 @@ class Parameters {
 
   late JsonParser jsonParser;
 
-
   /// > The function `Parameters()` initializes the `Parameters` class
   Parameters({this.visible = false, this.currentSchema = 1}) {
     nextColors = [];
@@ -41,12 +40,17 @@ class Parameters {
       catInterpreter = CATInterpreter(value);
     });
     temporaryCommands = [];
-    sessionData = SessionData(schoolName: 'USI', grade: 0, section: 'A', date: DateTime.now(), supervisor: 'test');
+    sessionData = SessionData(
+        schoolName: 'USI',
+        grade: 0,
+        section: 'A',
+        date: DateTime.now(),
+        supervisor: 'test');
     pupilData = PupilData(name: 'test');
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
-  Parameters.forAnalyzerTest(){
+  Parameters.forAnalyzerTest() {
     nextColors = [];
     selectionMode = SelectionModes.base;
     selectedButtons = [];
@@ -62,10 +66,9 @@ class Parameters {
   ///   A Future<String>
   Future<String> _readSchemasJSON() async {
     String future =
-    await rootBundle.loadString('resources/sequence/schemas.json');
+        await rootBundle.loadString('resources/sequence/schemas.json');
     return future;
   }
-
 
   /// Add the button to the list of selected buttons.
   ///
@@ -108,7 +111,7 @@ class Parameters {
     return analyzer.analyzePattern(selectedButtons);
   }
 
-  String numberOfCell(String recognisedCommand){
+  String numberOfCell(String recognisedCommand) {
     return analyzer.analyzeNumberOfCell(selectedButtons, recognisedCommand);
   }
 
@@ -128,7 +131,8 @@ class Parameters {
       ++currentSchema;
       reset();
     } else {
-      gestureHomeState.message('Ultimo schema completato', 'Passaggio al pupillo successivo');
+      gestureHomeState.message(
+          'Ultimo schema completato', 'Passaggio al pupillo successivo');
       jsonParser.saveData();
       pupilData = PupilData(name: 'test');
       jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
@@ -137,7 +141,7 @@ class Parameters {
     return currentSchema;
   }
 
-  void nextPupil(){
+  void nextPupil() {
     jsonParser.saveData();
     gestureHomeState.message('Dati salvati', 'Passaggio al pupillo successivo');
     pupilData = PupilData(name: 'test');
@@ -210,7 +214,6 @@ class Parameters {
     analyzer = Analyzer();
   }
 
-
   /// "Check if the length of the nextColors list is between min and max
   /// (inclusive)."
   ///
@@ -225,8 +228,8 @@ class Parameters {
   ///
   /// Returns:
   ///   A boolean value.
-  bool checkColorLength({required int min, int max=-1}) {
-    if(max == -1){
+  bool checkColorLength({required int min, int max = -1}) {
+    if (max == -1) {
       return nextColors.length >= min;
     } else {
       return nextColors.length >= min && nextColors.length <= max;
@@ -243,9 +246,9 @@ class Parameters {
     selectedButtons.clear();
   }
 
-  Pair<Results, CatError> checkSchema(){
-    final resultPair = catInterpreter.validateOnScheme(
-        commands.toString(), currentSchema);
+  Pair<Results, CatError> checkSchema() {
+    final resultPair =
+        catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     // for (int i =0; i<resultPair.first.getCommands.length; i++) {
     //   var state = resultPair.first.getStates[i];
     //   var command = resultPair.first.getCommands[i];
@@ -253,66 +256,73 @@ class Parameters {
     return resultPair;
   }
 
-  void modifyCommandForCopy(){
+  void modifyCommandForCopy() {
     List<String> stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
     List<String> newCommands = [];
-    List<String> destination =[];
-    Pair<Results, CatError> resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
-    if(temporaryCommands[0].startsWith('GO(')){
-      resultPair = catInterpreter.validateOnScheme(temporaryCommands[0].toString(), currentSchema);
+    List<String> destination = [];
+    Pair<Results, CatError> resultPair =
+        catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    if (temporaryCommands[0].startsWith('GO(')) {
+      resultPair = catInterpreter.validateOnScheme(
+          temporaryCommands[0].toString(), currentSchema);
       destination.add(temporaryCommands[0].split('GO(')[1].split(')')[0]);
     }
-    for(int i = 1; i<temporaryCommands.length; i++){
-      if(temporaryCommands[i].startsWith('GO(')) {
+    for (int i = 1; i < temporaryCommands.length; i++) {
+      if (temporaryCommands[i].startsWith('GO(')) {
         int y = resultPair.first.getPositions.last.first;
         int x = resultPair.first.getPositions.last.second;
-        Tuple2<String, int> startPosition = Tuple2(stringY[y], x+1);
+        Tuple2<String, int> startPosition = Tuple2(stringY[y], x + 1);
         String coordinates = temporaryCommands[i].split('GO(')[1].split(')')[0];
-        Tuple2<String, int> endPosition = Tuple2(coordinates.split('')[0], int.parse(coordinates.split('')[1]));
+        Tuple2<String, int> endPosition = Tuple2(
+            coordinates.split('')[0], int.parse(coordinates.split('')[1]));
         bool onlyHorizontal = false;
         bool onlyVertical = false;
-        if(temporaryCommands.length >= i+1) {
-          List<String> nextCommandParameters = temporaryCommands[i + 1].split('(').last.split(')').first.split(',');
-          String nextCommandDirection = nextCommandParameters.last.trim();
-          String nextCommandLength = nextCommandParameters[1].trim();
-          if(nextCommandDirection == 'up' || nextCommandDirection == 'down'){
-            if(nextCommandLength == ':'){
-              onlyHorizontal = true;
-            }
-          }
-          if(nextCommandDirection == 'left' || nextCommandDirection == 'right'){
-            if(nextCommandLength == ':'){
-              onlyVertical = true;
-            }
+        if (temporaryCommands.length >= i + 1) {
+          List<String> nextCommandParameters = temporaryCommands[i + 1]
+              .split('(').last.split(')').first.split(',');
+          if (nextCommandParameters.length >= 3) {
+            String nextCommandDirection = nextCommandParameters.last.trim();
+            String nextCommandLength =
+                nextCommandParameters[nextCommandParameters.length - 1].trim();
+            onlyHorizontal = (nextCommandDirection == 'up' ||
+                    nextCommandDirection == 'down') &&
+                nextCommandLength == ':';
+            onlyVertical = (nextCommandDirection == 'left' ||
+                    nextCommandDirection == 'right') &&
+                nextCommandLength == ':';
           }
         }
-        var movements = analyzer.analyzeMovement(startPosition, endPosition, onlyHorizontal: onlyHorizontal, onlyVertical: onlyVertical);
-        resultPair = catInterpreter.validateOnScheme(movements.toString(), currentSchema);
+        var movements = analyzer.analyzeMovement(startPosition, endPosition,
+            onlyHorizontal: onlyHorizontal, onlyVertical: onlyVertical);
+        resultPair = catInterpreter.validateOnScheme(
+            movements.toString(), currentSchema);
         newCommands.addAll(movements);
       } else {
-        resultPair = catInterpreter.validateOnScheme(temporaryCommands[i], currentSchema);
+        resultPair = catInterpreter.validateOnScheme(
+            temporaryCommands[i], currentSchema);
         newCommands.add(temporaryCommands[i]);
       }
-
     }
     catInterpreter.reset();
-    for(var button in selectedButtons){
+    for (var button in selectedButtons) {
       destination.add('${button.position.item1}${button.position.item2}');
     }
 
-    String resultCommand = 'COPY({${newCommands.toString().substring(1,newCommands.toString().length-1)}}, {${destination.toString().substring(1,destination.toString().length-1)} })';
+    String resultCommand =
+        'COPY({${newCommands.toString().substring(1, newCommands.toString().length - 1)}}, {${destination.toString().substring(1, destination.toString().length - 1)} })';
     commands.add(resultCommand);
     removeSelection();
   }
 
-  void reloadCross(CrossWidget cross){
+  void reloadCross(CrossWidget cross) {
     catInterpreter.reset();
-    var resultPair = catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    var resultPair =
+        catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     cross.fromSchema(resultPair.first.getStates.last);
     catInterpreter.reset();
   }
 
-  void saveCommandsForJson(){
+  void saveCommandsForJson() {
     jsonParser.addDataForSchema(true, visible, currentSchema, commands);
   }
 
