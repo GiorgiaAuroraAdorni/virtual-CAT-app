@@ -1,71 +1,60 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:tuple/tuple.dart';
+import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/foundation.dart";
+import "package:tuple/tuple.dart";
 
-import 'cross_button.dart';
-
+/// Class to analyze some input and modify to some desidered output
 class Analyzer {
-  late List<String> _possiblePattern;
-
   /// It creates a list of possible patterns that the dart can take
   Analyzer() {
-    _possiblePattern = [
-      'right',
-      'left',
-      'up',
-      'down',
-      'diagonal up left',
-      'diagonal down left',
-      'diagonal up right',
-      'diagonal down right'
+    _possiblePattern = <String>[
+      "right",
+      "left",
+      "up",
+      "down",
+      "diagonal up left",
+      "diagonal down left",
+      "diagonal up right",
+      "diagonal down right",
     ];
   }
 
-  /// It takes a list of colors and returns a string representation of the colors
+  /// Declaring a private variable that is a list of strings.
+  late List<String> _possiblePattern;
+
+  /// It takes a list of colors and returns a string representation
+  /// of the colors
   ///
   /// Args:
   ///   nextColors: The list of colors that the user has to press.
   ///
   /// Returns:
   ///   A string that represents the colors of the next sequence.
-  String analyzeColor(nextColors) {
+  String analyzeColor(List<CupertinoDynamicColor> nextColors) {
     String colors;
     // if (nextColors.length > 1) {
-    colors = '{';
-    nextColors.forEach((currentColor) {
+    colors = "{";
+    for (final CupertinoDynamicColor currentColor in nextColors) {
       if (currentColor == CupertinoColors.systemBlue) {
-        colors += 'blue, ';
+        colors += "blue, ";
       } else if (currentColor == CupertinoColors.systemRed) {
-        colors += 'red, ';
+        colors += "red, ";
       } else if (currentColor == CupertinoColors.systemGreen) {
-        colors += 'green, ';
+        colors += "green, ";
       } else if (currentColor == CupertinoColors.systemYellow) {
-        colors += 'yellow, ';
+        colors += "yellow, ";
       } else {
-        throw Exception('Invalid color');
+        throw Exception("Invalid color");
       }
-    });
-    colors = colors.replaceRange(colors.length - 2, null, '}');
-    // } else {
-    //   if (nextColors.contains(CupertinoColors.systemBlue)) {
-    //     colors = 'blue';
-    //   } else if (nextColors.contains(CupertinoColors.systemRed)) {
-    //     colors = 'red';
-    //   } else if (nextColors.contains(CupertinoColors.systemGreen)) {
-    //     colors = 'green';
-    //   } else if (nextColors.contains(CupertinoColors.systemYellow)) {
-    //     colors = 'yellow';
-    //   } else {
-    //     throw Exception('Invalid color');
-    //   }
-    // }
-    return colors;
+    }
+
+    return colors.replaceRange(colors.length - 2, null, "}");
   }
 
-  /// > Given a start and end position, return a list of directions to get from the
-  /// start to the end
+  /// > Given a start and end position, return a list of directions to get
+  /// from the start to the end
   ///
   /// Args:
   ///   startPosition (Tuple2<String, int>): The starting position of the robot.
@@ -74,29 +63,37 @@ class Analyzer {
   /// Returns:
   ///   A list of strings.
   List<String> analyzeMovement(
-      Tuple2<String, int> startPosition, Tuple2<String, int> endPosition, {bool onlyHorizontal=false, bool onlyVertical=false}) {
-    var yStart = startPosition.item1.toLowerCase().codeUnits[0];
-    var yEnd = endPosition.item1.toLowerCase().codeUnits[0];
-    var xStart = startPosition.item2;
-    var xEnd = endPosition.item2;
-    List<String> result = [];
+    Tuple2<String, int> startPosition,
+    Tuple2<String, int> endPosition, {
+    bool onlyHorizontal = false,
+    bool onlyVertical = false,
+  }) {
+    final int yStart = startPosition.item1.toLowerCase().codeUnits[0];
+    final int yEnd = endPosition.item1.toLowerCase().codeUnits[0];
+    final int xStart = startPosition.item2;
+    final int xEnd = endPosition.item2;
+    final List<String> result = <String>[];
 
-    if(!onlyVertical){
-    if (xStart < xEnd) {
-      result.add('GO(${xEnd - xStart} right)');
-    } else if (xStart > xEnd) {
-      result.add('GO(${xStart - xEnd} left)');
-    }}
-    if(!onlyHorizontal){
-    if (yStart < yEnd) {
-      result.add('GO(${yEnd - yStart} up)');
-    } else if (yStart > yEnd) {
-      result.add('GO(${yStart - yEnd} down)');
-    }}
+    if (!onlyVertical) {
+      if (xStart < xEnd) {
+        result.add("GO(${xEnd - xStart} right)");
+      } else if (xStart > xEnd) {
+        result.add("GO(${xStart - xEnd} left)");
+      }
+    }
+    if (!onlyHorizontal) {
+      if (yStart < yEnd) {
+        result.add("GO(${yEnd - yStart} up)");
+      } else if (yStart > yEnd) {
+        result.add("GO(${yStart - yEnd} down)");
+      }
+    }
+
     return result;
   }
 
-  /// It takes a list of selected buttons and returns a list of possible patterns.
+  /// It takes a list of selected buttons and returns a list
+  /// of possible patterns.
   ///
   /// Args:
   ///   selectedButton (List<CrossButton>): List of CrossButton objects that are
@@ -105,7 +102,8 @@ class Analyzer {
   /// Returns:
   ///   A list of strings.
   List<String> analyzePattern(List<CrossButton> selectedButtons) {
-    var selectedButtonsCoordinates = _generateCoordinates(selectedButtons);
+    final List<Map<String, dynamic>> selectedButtonsCoordinates =
+        _generateCoordinates(selectedButtons);
     if (selectedButtonsCoordinates.length > 1 &&
         selectedButtonsCoordinates.length <= 6) {
       _analyzeHorizontal(selectedButtonsCoordinates);
@@ -114,39 +112,40 @@ class Analyzer {
       _analyzeSquare(selectedButtonsCoordinates, selectedButtons);
       _analyzeL(selectedButtonsCoordinates);
       _analyzeZigZag(selectedButtonsCoordinates);
+
       return _possiblePattern;
     } else {
-      return [];
+      return <String>[];
     }
   }
 
-  /// If the possible pattern contains a diagonal, check if the diagonal is
-  /// possible. If it is, do nothing. If it isn't, remove it from the possible
-  /// pattern
+
+  /// _analyzeDiagonal() checks if the selected buttons are
+  /// in a diagonal pattern
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons
-  void _analyzeDiagonal(List<Map> selectedButtonsCoordinates) {
-    if (_possiblePattern.contains('diagonal up left')) {
-      _diagonalUpLeft(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('diagonal up left');
+  ///   selectedButtonsCoordinates (List<Map<String, dynamic>>): List of
+  /// coordinates of the selected buttons
+  void _analyzeDiagonal(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    if (_possiblePattern.contains("diagonal up left")) {
+      if (!_diagonalUpLeft(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("diagonal up left");
+      }
     }
-    if (_possiblePattern.contains('diagonal up right')) {
-      _diagonalUpRight(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('diagonal up right');
+    if (_possiblePattern.contains("diagonal up right")) {
+      if (!_diagonalUpRight(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("diagonal up right");
+      }
     }
-    if (_possiblePattern.contains('diagonal down left')) {
-      _diagonalDownLeft(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('diagonal down left');
+    if (_possiblePattern.contains("diagonal down left")) {
+      if (!_diagonalDownLeft(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("diagonal down left");
+      }
     }
-    if (_possiblePattern.contains('diagonal down right')) {
-      _diagonalDownRight(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('diagonal down right');
+    if (_possiblePattern.contains("diagonal down right")) {
+      if (!_diagonalDownRight(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("diagonal down right");
+      }
     }
   }
 
@@ -154,92 +153,98 @@ class Analyzer {
   /// remove it from the possible patterns
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the buttons
-  /// that have been selected.
-  void _analyzeHorizontal(List<Map> selectedButtonsCoordinates) {
-    if (_possiblePattern.contains('right')) {
-      _right(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('right');
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates
+  /// of the buttons that have been selected.
+  void _analyzeHorizontal(
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+  ) {
+    if (_possiblePattern.contains("right")) {
+      if (!_right(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("right");
+      }
     }
-    if (_possiblePattern.contains('left')) {
-      _left(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('left');
+    if (_possiblePattern.contains("left")) {
+      if (!_left(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("left");
+      }
     }
   }
 
-  /// If the number of coordinates is 5, then check if the coordinates match any of
-  /// the L patterns. If the number of coordinates is greater than 5, then remove
-  /// all L patterns from the possible patterns list
+  /// If the number of coordinates is 5, then check if the coordinates
+  /// match any of the L patterns. If the number of coordinates is greater
+  /// than 5, then remove all L patterns from the possible patterns list.
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): List of Map containing the
   /// coordinates of the selected buttons.
-  void _analyzeL(List<Map> selectedButtonsCoordinates) {
+  void _analyzeL(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     if (selectedButtonsCoordinates.length == 5) {
-      (_lUpLeft(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L up left'))
-          ? _possiblePattern.add('L up left')
-          : null;
-      (_lUpRight(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L up right'))
-          ? _possiblePattern.add('L up right')
-          : null;
-      (_lDownLeft(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L down left'))
-          ? _possiblePattern.add('L down left')
-          : null;
-      (_lDownRight(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L down right'))
-          ? _possiblePattern.add('L down right')
-          : null;
-      (_lLeftUp(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L left up'))
-          ? _possiblePattern.add('L left up')
-          : null;
-      (_lLeftDown(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L left down'))
-          ? _possiblePattern.add('L left down')
-          : null;
-      (_lRightUp(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L right up'))
-          ? _possiblePattern.add('L right up')
-          : null;
-      (_lRightDown(selectedButtonsCoordinates) &&
-              !_possiblePattern.contains('L right down'))
-          ? _possiblePattern.add('L right down')
-          : null;
+      if (_lUpLeft(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L up left")) {
+        _possiblePattern.add("L up left");
+      }
+      if (_lUpRight(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L up right")) {
+        _possiblePattern.add("L up right");
+      }
+      if (_lDownLeft(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L down left")) {
+        _possiblePattern.add("L down left");
+      }
+      if (_lDownRight(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L down right")) {
+        _possiblePattern.add("L down right");
+      }
+      if (_lLeftUp(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L left up")) {
+        _possiblePattern.add("L left up");
+      }
+      if (_lLeftDown(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L left down")) {
+        _possiblePattern.add("L left down");
+      }
+      if (_lRightUp(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L right up")) {
+        _possiblePattern.add("L right up");
+      }
+      if (_lRightDown(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("L right down")) {
+        _possiblePattern.add("L right down");
+      }
     } else if (selectedButtonsCoordinates.length > 5) {
-      _possiblePattern.remove('L up left');
-      _possiblePattern.remove('L up right');
-      _possiblePattern.remove('L down left');
-      _possiblePattern.remove('L down right');
-      _possiblePattern.remove('L left up');
-      _possiblePattern.remove('L left down');
-      _possiblePattern.remove('L right up');
-      _possiblePattern.remove('L right down');
+      _possiblePattern
+        ..remove("L up left")
+        ..remove("L up right")
+        ..remove("L down left")
+        ..remove("L down right")
+        ..remove("L left up")
+        ..remove("L left down")
+        ..remove("L right up")
+        ..remove("L right down");
     }
   }
 
-  /// If the selected buttons form a square, add 'square' to the list of possible
-  /// patterns
+  /// If the selected buttons form a square, add 'square' to the list
+  /// of possible patterns
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates
+  /// of the selected buttons.
   void _analyzeSquare(
-      List<Map> selectedButtonsCoordinates, List<CrossButton> selectedButtons) {
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+    List<CrossButton> selectedButtons,
+  ) {
     if (selectedButtonsCoordinates.length == 4) {
-      List<Map> tempCoordinates = [];
-      tempCoordinates.addAll(selectedButtonsCoordinates);
-      if (_square(tempCoordinates) && !_possiblePattern.contains('square')) {
+      final List<Map<String, dynamic>> tempCoordinate = <Map<String, dynamic>>[
+        ...selectedButtonsCoordinates,
+      ];
+      if (_square(tempCoordinate) && !_possiblePattern.contains("square")) {
         _sortCoordinates(selectedButtonsCoordinates);
         _sortButtons(selectedButtons);
-        _possiblePattern.add('square');
+        _possiblePattern.add("square");
       }
     } else if (selectedButtonsCoordinates.length > 4) {
-      _possiblePattern.remove('square');
+      _possiblePattern.remove("square");
     }
   }
 
@@ -249,74 +254,85 @@ class Analyzer {
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contains the
   /// coordinates of the selected buttons.
-  void _analyzeVertical(List<Map> selectedButtonsCoordinates) {
-    if (_possiblePattern.contains('up')) {
-      _up(selectedButtonsCoordinates) ? null : _possiblePattern.remove('up');
+  void _analyzeVertical(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    if (_possiblePattern.contains("up")) {
+      if (!_up(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("up");
+      }
     }
-    if (_possiblePattern.contains('down')) {
-      _down(selectedButtonsCoordinates)
-          ? null
-          : _possiblePattern.remove('down');
+    if (_possiblePattern.contains("down")) {
+      if (!_down(selectedButtonsCoordinates)) {
+        _possiblePattern.remove("down");
+      }
     }
   }
 
-  /// If the user has drawn at least 3 lines, check if the user has drawn a zig-zag
-  /// pattern in any of the 8 possible directions. If the user has drawn a zig-zag
-  /// pattern in any of the 8 possible directions, add that pattern to the list of
-  /// possible patterns. If the user has not drawn a zig-zag pattern in any of the 8
-  /// possible directions, remove that pattern from the list of possible patterns
+  /// If the user has drawn at least 3 lines, check if the user has
+  /// drawn a zig-zag pattern in any of the 8 possible directions.
+  /// If the user has drawn a zig-zag pattern in any of the 8 possible
+  /// directions, add that pattern to the list of possible patterns.
+  /// If the user has not drawn a zig-zag pattern in any of the 8 possible
+  /// directions, remove that pattern from the list of possible patterns
   ///
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): List of maps containing the
   /// coordinates of the buttons selected by the user.
-  void _analyzeZigZag(List<Map> selectedButtonsCoordinates) {
+  void _analyzeZigZag(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     if (selectedButtonsCoordinates.length >= 3) {
-      _zigLeftUpDown(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag left up down')
-              ? _possiblePattern.add('zig-zag left up down')
-              : null
-          : _possiblePattern.remove('zig-zag left up down');
-      _zigLeftDownUp(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag left down up')
-              ? _possiblePattern.add('zig-zag left down up')
-              : null
-          : _possiblePattern.remove('zig-zag left down up');
-      _zigRightUpDown(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag right up down')
-              ? _possiblePattern.add('zig-zag right up down')
-              : null
-          : _possiblePattern.remove('zig-zag right up down');
-      _zigRightDownUp(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag right down up')
-              ? _possiblePattern.add('zig-zag right down up')
-              : null
-          : _possiblePattern.remove('zig-zag right down up');
-      _zigUpLeftRight(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag up left right')
-              ? _possiblePattern.add('zig-zag up left right')
-              : null
-          : _possiblePattern.remove('zig-zag up left right');
-      _zigUpRightLeft(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag up right left')
-              ? _possiblePattern.add('zig-zag up right left')
-              : null
-          : _possiblePattern.remove('zig-zag up right left');
-      _zigDownRightLeft(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag down right left')
-              ? _possiblePattern.add('zig-zag down right left')
-              : null
-          : _possiblePattern.remove('zig-zag down right left');
-      _zigDownLeftRight(selectedButtonsCoordinates)
-          ? !_possiblePattern.contains('zig-zag down left right')
-              ? _possiblePattern.add('zig-zag down left right')
-              : null
-          : _possiblePattern.remove('zig-zag down left right');
+      if (_zigLeftUpDown(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag left up down")) {
+        _possiblePattern.add("zig-zag left up down");
+      } else {
+        _possiblePattern.remove("zig-zag left up down");
+      }
+      if (_zigLeftDownUp(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag left down up")) {
+        _possiblePattern.add("zig-zag left down up");
+      } else {
+        _possiblePattern.remove("zig-zag left down up");
+      }
+      if (_zigRightUpDown(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag right up down")) {
+        _possiblePattern.add("zig-zag right up down");
+      } else {
+        _possiblePattern.remove("zig-zag right up down");
+      }
+      if (_zigRightDownUp(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag right down up")) {
+        _possiblePattern.add("zig-zag right down up");
+      } else {
+        _possiblePattern.remove("zig-zag right down up");
+      }
+      if (_zigUpLeftRight(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag up left right")) {
+        _possiblePattern.add("zig-zag up left right");
+      } else {
+        _possiblePattern.remove("zig-zag up left right");
+      }
+      if (_zigUpRightLeft(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag up right left")) {
+        _possiblePattern.add("zig-zag up right left");
+      } else {
+        _possiblePattern.remove("zig-zag up right left");
+      }
+      if (_zigDownRightLeft(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag down right left")) {
+        _possiblePattern.add("zig-zag down right left");
+      } else {
+        _possiblePattern.remove("zig-zag down right left");
+      }
+      if (_zigDownLeftRight(selectedButtonsCoordinates) &&
+          !_possiblePattern.contains("zig-zag down left right")) {
+        _possiblePattern.add("zig-zag down left right");
+      } else {
+        _possiblePattern.remove("zig-zag down left right");
+      }
     }
   }
 
-  /// If the next button is not the one that is one row below and one column to the
-  /// left of the current button, then the function returns false
+  /// If the next button is not the one that is one row below and one
+  /// column to the left of the current button, then the function returns false
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -324,32 +340,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _diagonalDownLeft(List<Map> selectedButtonsCoordinates) {
+  bool _diagonalDownLeft(
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+  ) {
     bool correct = false;
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
-      if (mapEquals(selectedButtonsCoordinates[i], {'y': 'c', 'x': 6})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 4});
-      } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'f', 'x': 3})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 1});
+      if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "c", "x": 6},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "a", "x": 4},
+        );
+      } else if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "f", "x": 3},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "d", "x": 1},
+        );
       } else {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(
-              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
-          'x': selectedButtonsCoordinates[i]['x'] - 1
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+          "y": String.fromCharCode(
+            (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) - 1,
+          ),
+          "x": (selectedButtonsCoordinates[i]["x"] as int) - 1,
         });
       }
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
-  /// If the next button is not the one that is one row below and one column to the
-  /// right of the current button, then the selection is not correct
+  /// If the next button is not the one that is one row below and one column
+  /// to the right of the current button, then the selection is not correct
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -357,32 +388,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _diagonalDownRight(List<Map> selectedButtonsCoordinates) {
+  bool _diagonalDownRight(
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+  ) {
     bool correct = false;
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
-      if (mapEquals(selectedButtonsCoordinates[i], {'y': 'c', 'x': 1})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'a', 'x': 3});
-      } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'f', 'x': 4})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'd', 'x': 6});
+      if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "c", "x": 1},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "a", "x": 3},
+        );
+      } else if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "f", "x": 4},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "d", "x": 6},
+        );
       } else {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(
-              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
-          'x': selectedButtonsCoordinates[i]['x'] + 1
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+          "y": String.fromCharCode(
+            (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) - 1,
+          ),
+          "x": (selectedButtonsCoordinates[i]["x"] as int) + 1,
         });
       }
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
-  /// If the next button is not the one above and to the left of the current button,
-  /// then the selection is not correct
+  /// If the next button is not the one above and to the left of
+  /// the current button, then the selection is not correct
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -390,32 +436,45 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _diagonalUpLeft(List<Map> selectedButtonsCoordinates) {
+  bool _diagonalUpLeft(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
-      if (mapEquals(selectedButtonsCoordinates[i], {'y': 'a', 'x': 3})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 1});
-      } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'd', 'x': 6})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 4});
+      if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "a", "x": 3},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "c", "x": 1},
+        );
+      } else if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "d", "x": 6},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "f", "x": 4},
+        );
       } else {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(
-              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
-          'x': selectedButtonsCoordinates[i]['x'] - 1
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+          "y": String.fromCharCode(
+            (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) + 1,
+          ),
+          "x": (selectedButtonsCoordinates[i]["x"] as int) - 1,
         });
       }
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
-  /// If the next button is not the one that is one row and one column higher than
-  /// the current button, then the move is not correct
+  /// If the next button is not the one that is one row and one column
+  /// higher than the current button, then the move is not correct
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -423,33 +482,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _diagonalUpRight(List<Map> selectedButtonsCoordinates) {
+  bool _diagonalUpRight(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
       correct = false;
-      if (mapEquals(selectedButtonsCoordinates[i], {'y': 'a', 'x': 4})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'c', 'x': 6});
-      } else if (mapEquals(selectedButtonsCoordinates[i], {'y': 'd', 'x': 1})) {
-        correct =
-            mapEquals(selectedButtonsCoordinates[i + 1], {'y': 'f', 'x': 3});
+      if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "a", "x": 4},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "c", "x": 6},
+        );
+      } else if (mapEquals(
+        selectedButtonsCoordinates[i],
+        <String, dynamic>{"y": "d", "x": 1},
+      )) {
+        correct = mapEquals(
+          selectedButtonsCoordinates[i + 1],
+          <String, dynamic>{"y": "f", "x": 3},
+        );
       } else {
-        correct = mapEquals(selectedButtonsCoordinates[i + 1], {
-          'y': String.fromCharCode(
-              selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
-          'x': selectedButtonsCoordinates[i]['x'] + 1
+        correct =
+            mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+          "y": String.fromCharCode(
+            (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) + 1,
+          ),
+          "x": (selectedButtonsCoordinates[i]["x"] as int) + 1,
         });
       }
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
-  /// > If the x coordinate of the first button is equal to the x coordinate of the
-  /// second button and the y coordinate of the second button is one less than the y
-  /// coordinate of the first button, then the selection is correct
+  /// > If the x coordinate of the first button is equal to the x coordinate
+  /// of the second button and the y coordinate of the second button is one
+  /// less than the y coordinate of the first button, then the selection
+  /// is correct
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -457,38 +530,46 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _down(List<Map> selectedButtonsCoordinates) {
+  bool _down(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
-    var x = selectedButtonsCoordinates[0]['x'];
+    final int x = selectedButtonsCoordinates[0]["x"];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      correct = (x == selectedButtonsCoordinates[i]['x'] &&
-          mapEquals(selectedButtonsCoordinates[i + 1], {
-            'y': String.fromCharCode(
-                selectedButtonsCoordinates[i]['y'].codeUnitAt(0) - 1),
-            'x': x
-          }));
+      correct = x == (selectedButtonsCoordinates[i]["x"] as int) &&
+          mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+            "y": String.fromCharCode(
+              (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) - 1,
+            ),
+            "x": x,
+          });
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
-  /// It takes a list of CrossButton objects and returns a list of maps with the y
-  /// and x coordinates of each button
+  /// It takes a list of CrossButton objects and returns a list of maps
+  /// with the y and x coordinates of each button
   ///
   /// Args:
-  ///   selectedButton (List<CrossButton>): List of CrossButton that are selected by
-  /// the user.
+  ///   selectedButton (List<CrossButton>): List of CrossButton that are
+  /// selected by the user.
   ///
   /// Returns:
   ///   A list of maps.
-  List<Map> _generateCoordinates(List<CrossButton> selectedButton) {
-    List<Map> result = [];
-    for (var button in selectedButton) {
-      var position = button.position;
-      result.add({'y': position.item1.toLowerCase(), 'x': position.item2});
+  List<Map<String, dynamic>> _generateCoordinates(
+    List<CrossButton> selectedButton,
+  ) {
+    final List<Map<String, dynamic>> result = <Map<String, dynamic>>[];
+    for (final CrossButton button in selectedButton) {
+      final Tuple2<String, int> position = button.position;
+      result.add(<String, dynamic>{
+        "y": position.item1.toLowerCase(),
+        "x": position.item2,
+      });
     }
+
     return result;
   }
 
@@ -496,45 +577,43 @@ class Analyzer {
   /// buttons are in a leftward direction, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// selected buttons.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lDownLeft(List<Map> selectedButtonsCoordinates) {
-    return (_down([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _left([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lDownLeft(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _down(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _left(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
   /// If the first three buttons are in a downward direction and the last three
   /// buttons are in a rightward direction, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of
+  /// the selected buttons.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lDownRight(List<Map> selectedButtonsCoordinates) {
-    return (_down([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _right([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lDownRight(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _down(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _right(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
   /// It checks if the selected buttons are in a straight line and in the left
   /// direction.
@@ -545,25 +624,26 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _left(List<Map> selectedButtonsCoordinates) {
+  bool _left(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
-    var y = selectedButtonsCoordinates[0]['y'];
+    final String y = selectedButtonsCoordinates[0]["y"];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      if ((selectedButtonsCoordinates[i]['y'] == y &&
-              y == selectedButtonsCoordinates[i + 1]['y']) &&
-          selectedButtonsCoordinates[i]['x'] - 1 ==
-              selectedButtonsCoordinates[i + 1]['x']) {
+      if (((selectedButtonsCoordinates[i]["y"] as String) == y &&
+              y == selectedButtonsCoordinates[i + 1]["y"]) &&
+          (selectedButtonsCoordinates[i]["x"] as int) - 1 ==
+              selectedButtonsCoordinates[i + 1]["x"]) {
         correct = true;
       } else {
         correct = false;
         break;
       }
     }
+
     return correct;
   }
 
-  /// If the first three buttons are in a left pattern and the last three buttons
-  /// are in a down pattern, then return true
+  /// If the first three buttons are in a left pattern and the last
+  /// three buttons are in a down pattern, then return true
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of the coordinates of the
@@ -571,128 +651,122 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lLeftDown(List<Map> selectedButtonsCoordinates) {
-    return (_left([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _down([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lLeftDown(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _left(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _down(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
-  /// If the first three buttons are in a left direction and the last three buttons
-  /// are in an up direction, then return true
+  /// If the first three buttons are in a left direction and the last
+  /// three buttons are in an up direction, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the buttons
-  /// that are selected.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of
+  /// the buttons that are selected.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lLeftUp(List<Map> selectedButtonsCoordinates) {
-    return (_left([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _up([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lLeftUp(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _left(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _up(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
-  /// If the first three buttons are in a right direction and the last three buttons
-  /// are in a down direction, then return true
+  /// If the first three buttons are in a right direction
+  /// and the last three buttons are in a down direction, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the buttons
-  /// selected by the user.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// buttons selected by the user.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lRightDown(List<Map> selectedButtonsCoordinates) {
-    return (_right([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _down([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lRightDown(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _right(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _down(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
-  /// If the first three buttons are in a right direction and the last three buttons
-  /// are in an up direction, then return true
+  /// If the first three buttons are in a right direction and the last three
+  /// buttons are in an up direction, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the buttons
-  /// selected by the user.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// buttons selected by the user.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lRightUp(List<Map> selectedButtonsCoordinates) {
-    return (_right([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _up([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lRightUp(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _right(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _up(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
-  /// If the first three buttons are in a straight line going up and the last three
-  /// buttons are in a straight line going left, then return true
+  /// If the first three buttons are in a straight line going up and the last
+  /// three buttons are in a straight line going left, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// selected buttons.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lUpLeft(List<Map> selectedButtonsCoordinates) {
-    return (_up([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _left([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lUpLeft(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _up(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _left(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
-  /// If the first three buttons are in a straight line going up and the last three
-  /// buttons are in a straight line going right, then return true
+  /// If the first three buttons are in a straight line going up and the last
+  /// three buttons are in a straight line going right, then return true
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// selected buttons.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _lUpRight(List<Map> selectedButtonsCoordinates) {
-    return (_up([
-          selectedButtonsCoordinates[0],
-          selectedButtonsCoordinates[1],
-          selectedButtonsCoordinates[2]
-        ]) &&
-        _right([
-          selectedButtonsCoordinates[2],
-          selectedButtonsCoordinates[3],
-          selectedButtonsCoordinates[4]
-        ]));
-  }
+  bool _lUpRight(List<Map<String, dynamic>> selectedButtonsCoordinates) =>
+      _up(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[0],
+        selectedButtonsCoordinates[1],
+        selectedButtonsCoordinates[2],
+      ]) &&
+      _right(<Map<String, dynamic>>[
+        selectedButtonsCoordinates[2],
+        selectedButtonsCoordinates[3],
+        selectedButtonsCoordinates[4],
+      ]);
 
   /// It checks if the selected buttons are in a straight line and in the right
   /// direction.
@@ -703,20 +777,21 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _right(List<Map> selectedButtonsCoordinates) {
+  bool _right(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
-    var y = selectedButtonsCoordinates[0]['y'];
+    final String y = selectedButtonsCoordinates[0]["y"];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      if ((selectedButtonsCoordinates[i]['y'] == y &&
-              y == selectedButtonsCoordinates[i + 1]['y']) &&
-          selectedButtonsCoordinates[i]['x'] + 1 ==
-              selectedButtonsCoordinates[i + 1]['x']) {
+      if (((selectedButtonsCoordinates[i]["y"] as String) == y &&
+              y == selectedButtonsCoordinates[i + 1]["y"]) &&
+          (selectedButtonsCoordinates[i]["x"] as int) + 1 ==
+              selectedButtonsCoordinates[i + 1]["x"]) {
         correct = true;
       } else {
         correct = false;
         break;
       }
     }
+
     return correct;
   }
 
@@ -727,12 +802,15 @@ class Analyzer {
   /// currently selected.
   ///
   void _sortButtons(List<CrossButton> selectedButtons) {
-    selectedButtons.sort((a, b) {
-      var r = a.position.item1.compareTo(b.position.item1);
-      if (r != 0) return r;
+    selectedButtons.sort((CrossButton a, CrossButton b) {
+      final int r = a.position.item1.compareTo(b.position.item1);
+      if (r != 0) {
+        return r;
+      }
+
       return a.position.item2.compareTo(b.position.item2);
     });
-    var last = selectedButtons[3];
+    final CrossButton last = selectedButtons[3];
     selectedButtons[3] = selectedButtons[2];
     selectedButtons[2] = last;
   }
@@ -740,37 +818,56 @@ class Analyzer {
   /// Sort the list of coordinates to be in the correct order for a square.
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the selected
-  /// buttons.
+  ///   selectedButtonsCoordinates (List<Map>): List of coordinates of the
+  /// selected buttons.
   ///
-  void _sortCoordinates(List<Map> selectedButtonsCoordinates) {
-    selectedButtonsCoordinates.sort((a, b) {
-      var r = a["y"].compareTo(b["y"]);
-      if (r != 0) return r;
-      return a["x"].compareTo(b["x"]);
+  void _sortCoordinates(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    selectedButtonsCoordinates
+        .sort((Map<String, dynamic> a, Map<String, dynamic> b) {
+      final int r = (a["y"] as String).compareTo(b["y"]);
+      if (r != 0) {
+        return r;
+      }
+
+      return (a["x"] as int).compareTo(b["x"]);
     });
-    var last = selectedButtonsCoordinates[3];
+    final Map<String, dynamic> last = selectedButtonsCoordinates[3];
     selectedButtonsCoordinates[3] = selectedButtonsCoordinates[2];
     selectedButtonsCoordinates[2] = last;
   }
 
-  /// If the first two buttons are right of each other, the second two buttons are
-  /// above each other, the third two buttons are left of each other, and the fourth
-  /// two buttons are below each other, then the buttons form a square
+  /// If the first two buttons are right of each other, the second two buttons
+  /// are above each other, the third two buttons are left of each other, and
+  /// the fourth two buttons are below each other,
+  /// then the buttons form a square
   ///
   /// Args:
-  ///   selectedButtonsCoordinates (List<Map>): A list of maps, each map containing
-  /// the x and y coordinates of the selected buttons.
+  ///   selectedButtonsCoordinates (List<Map>): A list of maps, each map
+  /// containing the x and y coordinates of the selected buttons.
   ///
   /// Returns:
   ///   A boolean value.
-  bool _square(List<Map> selectedButtonsCoordinates) {
+  bool _square(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     _sortCoordinates(selectedButtonsCoordinates);
-    return (_right(
-            [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
-        _up([selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]) &&
-        _left([selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]) &&
-        _down([selectedButtonsCoordinates[3], selectedButtonsCoordinates[0]]));
+
+    return _right(
+          <Map<String, dynamic>>[
+            selectedButtonsCoordinates[0],
+            selectedButtonsCoordinates[1],
+          ],
+        ) &&
+        _up(<Map<String, dynamic>>[
+          selectedButtonsCoordinates[1],
+          selectedButtonsCoordinates[2],
+        ]) &&
+        _left(<Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ]) &&
+        _down(<Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[0],
+        ]);
   }
 
   /// It checks if the selected buttons are in a straight line and in the same
@@ -782,20 +879,22 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _up(List<Map> selectedButtonsCoordinates) {
+  bool _up(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     bool correct = false;
-    var x = selectedButtonsCoordinates[0]['x'];
+    final int x = selectedButtonsCoordinates[0]["x"];
     for (int i = 0; i < selectedButtonsCoordinates.length - 1; i++) {
-      correct = correct = (x == selectedButtonsCoordinates[i]['x'] &&
-          mapEquals(selectedButtonsCoordinates[i + 1], {
-            'y': String.fromCharCode(
-                selectedButtonsCoordinates[i]['y'].codeUnitAt(0) + 1),
-            'x': x
-          }));
+      correct = correct = x == (selectedButtonsCoordinates[i]["x"] as int) &&
+          mapEquals(selectedButtonsCoordinates[i + 1], <String, dynamic>{
+            "y": String.fromCharCode(
+              (selectedButtonsCoordinates[i]["y"] as String).codeUnitAt(0) + 1,
+            ),
+            "x": x,
+          });
       if (!correct) {
         break;
       }
     }
+
     return correct;
   }
 
@@ -807,26 +906,49 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigDownLeftRight(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigDownLeftRight(
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+  ) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalDownLeft(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalDownRight(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -838,32 +960,55 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigDownRightLeft(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigDownRightLeft(
+    List<Map<String, dynamic>> selectedButtonsCoordinates,
+  ) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalDownRight(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalDownLeft(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
   /// _zigLeftDownUp() checks if the selected buttons are in a zigzag pattern,
-  /// starting with a diagonal down left, then a diagonal up left, then a diagonal
-  /// down left, then a diagonal up left, then a diagonal down left
+  /// starting with a diagonal down left, then a diagonal up left, then a
+  /// diagonal down left, then a diagonal up left, then a diagonal down left
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -871,26 +1016,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigLeftDownUp(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigLeftDownUp(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalDownLeft(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalUpLeft(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -902,26 +1068,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigLeftUpDown(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigLeftUpDown(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalUpLeft(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalDownLeft(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalDownLeft(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -933,37 +1120,59 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigRightDownUp(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigRightDownUp(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalDownRight(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalUpRight(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
-  /// If the length of the list of coordinates is greater than or equal to 3, check
-  /// if the first two coordinates are diagonal up right, and the second and third
-  /// coordinates are diagonal down right. If the length of the list of coordinates
-  /// is greater than or equal to 4, check if the third and fourth coordinates are
-  /// diagonal up right. If the length of the list of coordinates is greater than or
-  /// equal to 5, check if the fourth and fifth coordinates are diagonal down right.
-  /// If the length of the list of coordinates is equal to 6, check if the fifth and
-  /// sixth coordinates are diagonal up right
+  /// If the length of the list of coordinates is greater than or equal to 3,
+  /// check if the first two coordinates are diagonal up right, and the second
+  /// and third coordinates are diagonal down right. If the length of the list
+  /// of coordinates is greater than or equal to 4, check if the third and
+  /// fourth coordinates are diagonal up right. If the length of the list of
+  /// coordinates is greater than or equal to 5, check if the fourth and fifth
+  /// coordinates are diagonal down right. If the length of the list of
+  /// coordinates is equal to 6, check if the fifth and sixth coordinates
+  /// are diagonal up right
   ///
   /// Args:
   ///   selectedButtonsCoordinates (List<Map>): A list of maps that contain the
@@ -971,26 +1180,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigRightUpDown(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigRightUpDown(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalUpRight(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalDownRight(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalDownRight(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -1002,26 +1232,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigUpLeftRight(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigUpLeftRight(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalUpLeft(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalUpRight(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -1033,26 +1284,47 @@ class Analyzer {
   ///
   /// Returns:
   ///   A boolean value.
-  bool _zigUpRightLeft(List<Map> selectedButtonsCoordinates) {
-    var correct = false;
+  bool _zigUpRightLeft(List<Map<String, dynamic>> selectedButtonsCoordinates) {
+    bool correct = false;
     if (selectedButtonsCoordinates.length >= 3) {
       correct = _diagonalUpRight(
-              [selectedButtonsCoordinates[0], selectedButtonsCoordinates[1]]) &&
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[0],
+              selectedButtonsCoordinates[1],
+            ],
+          ) &&
           _diagonalUpLeft(
-              [selectedButtonsCoordinates[1], selectedButtonsCoordinates[2]]);
+            <Map<String, dynamic>>[
+              selectedButtonsCoordinates[1],
+              selectedButtonsCoordinates[2],
+            ],
+          );
     }
     if (selectedButtonsCoordinates.length >= 4 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[2], selectedButtonsCoordinates[3]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[2],
+          selectedButtonsCoordinates[3],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length >= 5 && correct) {
       correct = _diagonalUpLeft(
-          [selectedButtonsCoordinates[3], selectedButtonsCoordinates[4]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[3],
+          selectedButtonsCoordinates[4],
+        ],
+      );
     }
     if (selectedButtonsCoordinates.length == 6 && correct) {
       correct = _diagonalUpRight(
-          [selectedButtonsCoordinates[4], selectedButtonsCoordinates[5]]);
+        <Map<String, dynamic>>[
+          selectedButtonsCoordinates[4],
+          selectedButtonsCoordinates[5],
+        ],
+      );
     }
+
     return correct;
   }
 
@@ -1061,121 +1333,133 @@ class Analyzer {
   /// starting cell
   ///
   /// Args:
-  ///   selectedButton (List<CrossButton>): The list of buttons that were selected.
+  ///   selectedButton (List<CrossButton>): The list of buttons that were
+  /// selected.
   ///   direction (String): The direction of the swipe.
   ///
   /// Returns:
   ///   A string that represents the number of cells in the selectedButton list.
   String analyzeNumberOfCell(
-      List<CrossButton> selectedButton, String direction) {
-    if (direction == 'up' || direction == 'down') {
-      if ([1, 2, 5, 6].contains(selectedButton.first.position.item2) &&
+    List<CrossButton> selectedButton,
+    String direction,
+  ) {
+    if (direction == "up" || direction == "down") {
+      if (<int>[1, 2, 5, 6].contains(selectedButton.first.position.item2) &&
           selectedButton.length == 2) {
-        return ':';
+        return ":";
       } else if (selectedButton.length == 6) {
-        return ':';
+        return ":";
       }
     }
-    if (direction == 'right' || direction == 'left') {
-      if (['a', 'b', 'e', 'f'].contains(selectedButton.first.position.item1) &&
+    if (direction == "right" || direction == "left") {
+      if (<String>["a", "b", "e", "f"]
+              .contains(selectedButton.first.position.item1) &&
           selectedButton.length == 2) {
-        return ':';
+        return ":";
       } else if (selectedButton.length == 6) {
-        return ':';
+        return ":";
       }
     }
-    if (direction.startsWith('L') && selectedButton.length == 5) {
-      return ':';
+    if (direction.startsWith("L") && selectedButton.length == 5) {
+      return ":";
     }
-    if (direction.startsWith('zig-zag') && selectedButton.length == 6) {
-      return ':';
+    if (direction.startsWith("zig-zag") && selectedButton.length == 6) {
+      return ":";
     }
-    if (direction == 'square' && selectedButton.length == 4) {
-      return ':';
+    if (direction == "square" && selectedButton.length == 4) {
+      return ":";
     }
-    if (direction.startsWith('diagonal')) {
-      List<Tuple2<String, int>> startCoordinatesForLength2 = [];
-      List<Tuple2<String, int>> startCoordinatesForLength3 = [];
-      List<Tuple2<String, int>> startCoordinatesForLength4 = [];
-      switch (direction.split('diagonal ')[1]) {
-        case 'up left':
-          startCoordinatesForLength2 = [
-            const Tuple2('a', 3),
-            const Tuple2('c', 4),
-            const Tuple2('d', 6)
-          ];
-          startCoordinatesForLength3 = [
-            const Tuple2('b', 4),
-            const Tuple2('c', 5)
-          ];
-          startCoordinatesForLength4 = [
-            const Tuple2('a', 4),
-            const Tuple2('c', 6)
-          ];
-          break;
-        case 'down left':
-          startCoordinatesForLength2 = [
-            const Tuple2('c', 6),
-            const Tuple2('d', 4),
-            const Tuple2('f', 3)
-          ];
-          startCoordinatesForLength3 = [
-            const Tuple2('d', 5),
-            const Tuple2('e', 4)
-          ];
-          startCoordinatesForLength4 = [
-            const Tuple2('d', 6),
-            const Tuple2('f', 4)
-          ];
-          break;
-        case 'up right':
-          startCoordinatesForLength2 = [
-            const Tuple2('a', 4),
-            const Tuple2('c', 3),
-            const Tuple2('d', 1)
-          ];
-          startCoordinatesForLength3 = [
-            const Tuple2('b', 3),
-            const Tuple2('c', 2)
-          ];
-          startCoordinatesForLength4 = [
-            const Tuple2('a', 3),
-            const Tuple2('c', 1)
-          ];
-          break;
-        case 'down right':
-          startCoordinatesForLength2 = [
-            const Tuple2('c', 1),
-            const Tuple2('d', 3),
-            const Tuple2('f', 4)
-          ];
-          startCoordinatesForLength3 = [
-            const Tuple2('d', 2),
-            const Tuple2('e', 3)
-          ];
-          startCoordinatesForLength4 = [
-            const Tuple2('d', 1),
-            const Tuple2('f', 3)
-          ];
-          break;
-        default:
-          stdout.writeln('Impossible diagonal');
-          break;
+    if (direction.startsWith("diagonal")) {
+      final List<List<Tuple2<String, int>>> startCoordinates =
+          _generateTupleForDiagonal(direction);
+
+      if (startCoordinates[0].contains(selectedButton.first.position) &&
+          selectedButton.length == 2) {
+        return ":";
+      } else if (startCoordinates[1].contains(selectedButton.first.position) &&
+          selectedButton.length == 3) {
+        return ":";
+      } else if (startCoordinates[2].contains(selectedButton.first.position) &&
+          selectedButton.length == 4) {
+        return ":";
       }
-        if (startCoordinatesForLength2
-                .contains(selectedButton.first.position) &&
-            selectedButton.length == 2) {
-          return ':';
-        } else if (startCoordinatesForLength3
-                .contains(selectedButton.first.position) &&
-            selectedButton.length == 3) {
-          return ':';
-        } else if (startCoordinatesForLength4
-                .contains(selectedButton.first.position) &&
-            selectedButton.length == 4) {
-          return ':';
-        }
-      }
+    }
+
     return selectedButton.length.toString();
+  }
+
+  /// It returns a list of lists of tuples, where each list of tuples represents
+  /// a diagonal of a certain length, and each tuple represents the starting
+  /// cell of the diagonal
+  ///
+  /// Args:
+  ///   direction (String): the direction of the diagonal
+  ///
+  /// Returns:
+  ///   A list of lists of tuples.
+  List<List<Tuple2<String, int>>> _generateTupleForDiagonal(String direction) {
+    final List<Tuple2<String, int>> length2 = <Tuple2<String, int>>[];
+    final List<Tuple2<String, int>> length3 = <Tuple2<String, int>>[];
+    final List<Tuple2<String, int>> length4 = <Tuple2<String, int>>[];
+    switch (direction.split("diagonal ")[1]) {
+      case "up left":
+        length2
+          ..add(const Tuple2<String, int>("a", 3))
+          ..add(const Tuple2<String, int>("c", 4))
+          ..add(const Tuple2<String, int>("d", 6));
+        length3
+          ..add(const Tuple2<String, int>("b", 4))
+          ..add(const Tuple2<String, int>("c", 5));
+        length4
+          ..add(const Tuple2<String, int>("a", 4))
+          ..add(const Tuple2<String, int>("c", 6));
+        break;
+      case "down left":
+        length2
+          ..add(const Tuple2<String, int>("c", 6))
+          ..add(const Tuple2<String, int>("d", 4))
+          ..add(const Tuple2<String, int>("f", 3));
+        length3
+          ..add(const Tuple2<String, int>("d", 5))
+          ..add(const Tuple2<String, int>("e", 4));
+        length4
+          ..add(const Tuple2<String, int>("d", 6))
+          ..add(const Tuple2<String, int>("f", 4));
+        break;
+      case "up right":
+        length2
+          ..add(const Tuple2<String, int>("a", 4))
+          ..add(const Tuple2<String, int>("c", 3))
+          ..add(const Tuple2<String, int>("d", 1));
+        length3
+          ..add(const Tuple2<String, int>("b", 3))
+          ..add(const Tuple2<String, int>("c", 2));
+        length4
+          ..add(const Tuple2<String, int>("a", 3))
+          ..add(const Tuple2<String, int>("c", 1));
+        break;
+      case "down right":
+        length2
+          ..add(const Tuple2<String, int>("c", 1))
+          ..add(const Tuple2<String, int>("d", 3))
+          ..add(const Tuple2<String, int>("f", 4));
+        length3
+          ..add(const Tuple2<String, int>("d", 2))
+          ..add(const Tuple2<String, int>("e", 3));
+        length4
+          ..add(const Tuple2<String, int>("d", 1))
+          ..add(const Tuple2<String, int>("f", 3));
+        break;
+      default:
+        stdout.writeln("Impossible diagonal");
+        break;
+    }
+    final List<List<Tuple2<String, int>>> result = <List<Tuple2<String, int>>>[
+      length2,
+      length3,
+      length4,
+    ];
+
+    return result;
   }
 }

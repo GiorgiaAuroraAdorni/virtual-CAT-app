@@ -1,88 +1,95 @@
-import 'package:flutter/cupertino.dart';
+import "package:flutter/cupertino.dart";
 
-
-class SchoolForm extends StatefulWidget{
+/// `SchoolForm` is a stateful widget that creates a `SchoolFormState` object
+class SchoolForm extends StatefulWidget {
+  /// A constructor.
   const SchoolForm({Key? key}) : super(key: key);
 
   @override
   SchoolFormState createState() => SchoolFormState();
-
 }
 
 /// Form for save the data of the class and the school
 class SchoolFormState extends State<SchoolForm> {
-
+  /// A key that is used to identify the form.
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(context) {
-    return Form(
+  Widget build(BuildContext context) => Form(
         key: formKey,
-        child: ListView(padding: EdgeInsets.zero, children: [
-          CupertinoFormSection(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            CupertinoFormSection(
               header: const Text("Inserire i dati della scuola"),
-              children: [
+              children: <Widget>[
                 CupertinoFormRow(
-                  prefix: const Text('Scuola:', textAlign: TextAlign.right),
+                  prefix: const Text("Scuola:", textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire il nome della scuola',
+                    placeholder: "Inserire il nome della scuola",
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return 'Inserire il nome della scuola';
+                        return "Inserire il nome della scuola";
                       }
+
                       return null;
                     },
                   ),
                 ),
                 CupertinoFormRow(
                   prefix: const Text(
-                    'Classe:',
+                    "Classe:",
                     textAlign: TextAlign.right,
                   ),
                   child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la classe',
+                    placeholder: "Inserire la classe",
                     keyboardType: TextInputType.number,
                     validator: (String? value) {
                       if (value == null) {
-                        return 'Inserire la classe della scuola';
+                        return "Inserire la classe della scuola";
                       }
+
                       return null;
                     },
                   ),
                 ),
                 CupertinoFormRow(
-                  prefix: const Text('Sezione:', textAlign: TextAlign.right),
+                  prefix: const Text("Sezione:", textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la sezione',
+                    placeholder: "Inserire la sezione",
                   ),
                 ),
-              ]),
-          CupertinoFormSection(
+              ],
+            ),
+            CupertinoFormSection(
               header: const Text("Inserire i dati della sessione"),
-              children: [
+              children: <Widget>[
                 CupertinoFormRow(
-                  prefix: const Text('Supervisore:', textAlign: TextAlign.right),
+                  prefix:
+                      const Text("Supervisore:", textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire il nome e cognome del supervisore',
+                    placeholder: "Inserire il nome e cognome del supervisore",
                   ),
                 ),
                 CupertinoFormRow(
-                  prefix: const Text('Data:', textAlign: TextAlign.right),
+                  prefix: const Text("Data:", textAlign: TextAlign.right),
                   child: CupertinoTextFormFieldRow(
-                    placeholder: 'Inserire la data di esequzione dell\'attività',
+                    placeholder: "Inserire la data di esequzione dell'attività",
                     keyboardType: TextInputType.datetime,
                     validator: (String? value) {
                       if (value == null) {
-                        return 'Inserire una data valida';
+                        return "Inserire una data valida";
                       }
+
                       return null;
                     },
                   ),
                 ),
-              ])
-        ])
-    );
-  }
+              ],
+            ),
+          ],
+        ),
+      );
 
 // void showDatePicker()
 // {  showCupertinoModalPopup(

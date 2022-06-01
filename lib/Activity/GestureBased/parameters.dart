@@ -1,63 +1,92 @@
-import 'package:cross_array_task_app/Activity/GestureBased/cross.dart';
-import 'package:cross_array_task_app/Activity/GestureBased/selection_mode.dart';
-import 'package:dartx/dartx.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:interpreter/cat_interpreter.dart';
-import 'package:tuple/tuple.dart';
+import "package:cross_array_task_app/Activity/GestureBased/analyzer.dart";
+import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
+import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
+import "package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart";
+import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/Activity/activity_home.dart";
+import "package:cross_array_task_app/Utility/data_manager.dart";
+import "package:dartx/dartx.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/services.dart";
+import "package:interpreter/cat_interpreter.dart";
+import "package:tuple/tuple.dart";
 
-import '../../Utility/data_manager.dart';
-import '../activity_home.dart';
-import 'analyzer.dart';
-import 'cross_button.dart';
-import 'gesture_based_home.dart';
-
+/// `Parameters` is a class that
+/// contains all the parameters that are used in the activity
 class Parameters {
-  late List<CupertinoDynamicColor> nextColors;
-  late bool visible;
-  late SelectionModes selectionMode;
-  late List<CrossButton> selectedButtons;
-  late Analyzer analyzer;
-  late List<String> commands;
-  late List<String> temporaryCommands;
-  late GestureImplementationState gestureHomeState;
-  late int currentSchema;
-  late ActivityHomeState activityHomeState;
-  late CATInterpreter catInterpreter;
-  late SessionData sessionData;
-  late PupilData pupilData;
-
-  late JsonParser jsonParser;
-
   /// > The function `Parameters()` initializes the `Parameters` class
   Parameters({this.visible = false, this.currentSchema = 1}) {
-    nextColors = [];
+    nextColors = <CupertinoDynamicColor>[];
     selectionMode = SelectionModes.base;
-    selectedButtons = [];
+    selectedButtons = <CrossButton>[];
     analyzer = Analyzer();
-    commands = [];
-    _readSchemasJSON().then((value) {
+    commands = <String>[];
+    temporaryCommands = <String>[];
+    _readSchemasJSON().then((String value) {
       catInterpreter = CATInterpreter(value);
     });
-    temporaryCommands = [];
     sessionData = SessionData(
-        schoolName: 'USI',
-        grade: 0,
-        section: 'A',
-        date: DateTime.now(),
-        supervisor: 'test');
-    pupilData = PupilData(name: 'test');
+      schoolName: "USI",
+      grade: 0,
+      section: "A",
+      date: DateTime.now(),
+      supervisor: "test",
+    );
+    pupilData = PupilData(name: "test");
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
+  /// A constructor for the `Parameters` class.
   Parameters.forAnalyzerTest() {
-    nextColors = [];
+    nextColors = <CupertinoDynamicColor>[];
     selectionMode = SelectionModes.base;
-    selectedButtons = [];
+    selectedButtons = <CrossButton>[];
     analyzer = Analyzer();
-    commands = [];
-    temporaryCommands = [];
+    commands = <String>[];
+    temporaryCommands = <String>[];
   }
+
+  /// A list of colors that will be used to color the cross.
+  late List<CupertinoDynamicColor> nextColors;
+
+  /// A boolean variable that is used to check if the cross is visible or not.
+  late bool visible;
+
+  /// A variable that is used to store the current selection mode.
+  late SelectionModes selectionMode;
+
+  /// List that contain
+  late List<CrossButton> selectedButtons;
+
+  /// Analyzer
+  late Analyzer analyzer;
+
+  /// Completed commands done by the user
+  late List<String> commands;
+
+  /// Temporary commends done by the user (used for MIRROR and COPY)
+  late List<String> temporaryCommands;
+
+  /// State of the GestureImplementation used for calling some method
+  late GestureImplementationState gestureHomeState;
+
+  /// The current schema to be solved.
+  late int currentSchema;
+
+  /// State of the ActivityHome used for calling some method
+  late ActivityHomeState activityHomeState;
+
+  /// Interpreter for the language
+  late CATInterpreter catInterpreter;
+
+  /// Data of the current session
+  late SessionData sessionData;
+
+  /// Data of the current pupil
+  late PupilData pupilData;
+
+  /// Parser for the current data
+  late JsonParser jsonParser;
 
   /// `readJson()` is an asynchronous function that returns a `Future<String>`
   /// object
@@ -65,8 +94,9 @@ class Parameters {
   /// Returns:
   ///   A Future<String>
   Future<String> _readSchemasJSON() async {
-    String future =
-        await rootBundle.loadString('resources/sequence/schemas.json');
+    final String future =
+        await rootBundle.loadString("resources/sequence/schemas.json");
+
     return future;
   }
 
@@ -78,11 +108,11 @@ class Parameters {
     selectedButtons.add(button);
   }
 
-  /// It adds a color to the list of colors that will be used to generate the next
-  /// color
+  /// It adds a color to the list of colors that will be used to color the cross
   ///
   /// Args:
-  ///   color (CupertinoDynamicColor): The color to be added to the list of colors.
+  ///   color (CupertinoDynamicColor):
+  /// The color to be added to the list of colors.
   void addColor(CupertinoDynamicColor color) {
     nextColors.add(color);
   }
@@ -95,6 +125,10 @@ class Parameters {
     commands.add(command);
   }
 
+  /// It adds a command to the list of temporary commands
+  ///
+  /// Args:
+  ///   command (String): The command to be added to the list of commands.
   void addTemporaryCommand(String command) {
     temporaryCommands.add(command);
   }
@@ -103,28 +137,32 @@ class Parameters {
   ///
   /// Returns:
   ///   The return value is the result of the analyzeColor() method.
-  String analyzeColor() {
-    return analyzer.analyzeColor(nextColors);
-  }
+  String analyzeColor() => analyzer.analyzeColor(nextColors);
 
-  List<String> analyzePattern() {
-    return analyzer.analyzePattern(selectedButtons);
-  }
+  /// It takes the selected buttons and passes them to the analyzer
+  List<String> analyzePattern() => analyzer.analyzePattern(selectedButtons);
 
-  String numberOfCell(String recognisedCommand) {
-    return analyzer.analyzeNumberOfCell(selectedButtons, recognisedCommand);
-  }
+  /// It takes a recognised command and returns the number of the cell that the
+  /// command is referring to
+  ///
+  /// Args:
+  ///   recognisedCommand (String): The command that was recognized from
+  ///  the gesture.
+  String numberOfCell(String recognisedCommand) =>
+      analyzer.analyzeNumberOfCell(selectedButtons, recognisedCommand);
 
+  /// It changes the visibility of the cross and then saves the commands
+  /// to a JSON file
   void changeVisibility() {
     visible = true;
     saveCommandsForJson();
   }
 
-  /// If the current schema is less than 12, increment it by 1, otherwise set it to
-  /// 1
+  /// It increments the currentSchema variable, resets the state of the app, and
+  /// returns the new value of currentSchema
   ///
   /// Returns:
-  ///   The currentSchema is being returned.
+  ///   The current schema number.
   int nextSchema() {
     activityHomeState.setStateFromOutside();
     if (currentSchema < catInterpreter.schemes.schemas.length) {
@@ -132,27 +170,29 @@ class Parameters {
       reset();
     } else {
       gestureHomeState.message(
-          'Ultimo schema completato', 'Passaggio al pupillo successivo');
-      jsonParser.saveData();
-      pupilData = PupilData(name: 'test');
-      jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
-      currentSchema = 1;
+        "Ultimo schema completato",
+        "Passaggio al pupillo successivo",
+      );
+      nextPupil();
     }
+
     return currentSchema;
   }
 
+  /// It saves the data of the current pupil, resets the current schema to 1,
+  /// resets the current state of the game, and recreates the cross
   void nextPupil() {
     jsonParser.saveData();
-    gestureHomeState.message('Dati salvati', 'Passaggio al pupillo successivo');
-    pupilData = PupilData(name: 'test');
+    gestureHomeState.message("Dati salvati", "Passaggio al pupillo successivo");
+    pupilData = PupilData(name: "test");
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
     currentSchema = 1;
     reset();
     gestureHomeState.recreateCross();
   }
 
-  /// It removes a color from the list of colors that will be used to generate the
-  /// next color
+  /// It removes a color from the list of colors that will be used to generate
+  /// the next color
   ///
   /// Args:
   ///   color (CupertinoDynamicColor): The color to be removed from the list of
@@ -166,50 +206,14 @@ class Parameters {
     nextColors.clear();
     visible = false;
     selectionMode = SelectionModes.base;
-    selectedButtons.clear;
+    selectedButtons.clear();
     analyzer = Analyzer();
     commands.clear();
     catInterpreter.reset();
     temporaryCommands.clear();
   }
 
-  // void confirmSelection(){
-  //   if (_checkColorSelected()) {
-  //     var recognisedCommands = analyzer.analyzePattern('selectedButton');
-  //     if (recognisedCommands.length == 1) {
-  //       num j = -1;
-  //       var numOfColor = _params['nextColors'].length;
-  //       for (CrossButton element in _params['selectedButton']) {
-  //         j = (j + 1) % numOfColor;
-  //         element.changeColor(j.toInt());
-  //         element.deselect();
-  //       }
-  //
-  //       var colors = _params['analyzer'].analyzeColor(_params['nextColors']);
-  //       _params['commands'].add(
-  //           'GO(${_params['selectedButton'][0].position.item1}${_params['selectedButton'][0].position.item2})');
-  //       var length = allCell ? ':' : _params['selectedButton'].length;
-  //       var command = 'PAINT($colors, $length, ${recognisedCommands[0]})';
-  //       _params['commands'].add(command);
-  //       message("Comando riconsociuto:", command);
-  //       _params['analyzer'] = Analyzer();
-  //       setState(() {
-  //         _params['selectedButton'].clear();
-  //       });
-  //     } else if (recognisedCommands.length == 0) {
-  //       message("Nessun commando riconsociuto",
-  //           "Non è stato possible riconoscere alcun comando");
-  //       _removeSelection();
-  //     } else {
-  //       message("Comando ambiguo:",
-  //           'Comandi riconsociuti: ${recognisedCommands.toString()}');
-  //       _removeSelection();
-  //     }
-  //   } else {
-  //     _removeSelection();
-  //   }
-  // }
-
+  /// It resets the analyzer
   void resetAnalyzer() {
     analyzer = Analyzer();
   }
@@ -217,113 +221,146 @@ class Parameters {
   /// "Check if the length of the nextColors list is between min and max
   /// (inclusive)."
   ///
-  /// The function takes two parameters: min and max. The min parameter is required,
-  /// but the max parameter is optional. If the max parameter is not provided, it
-  /// will default to -1
+  /// The function takes two parameters: min and max. The min parameter is
+  /// required, but the max parameter is optional. If the max parameter is not
+  /// provided, it will default to -1
   ///
   /// Args:
   ///   min (int): The minimum number of colors that can be in the list.
-  ///   max (int): The maximum number of colors that can be in the list. Defaults to
-  /// -1
+  ///   max (int): The maximum number of colors that can be in the list.
+  /// Defaults to -1
   ///
   /// Returns:
   ///   A boolean value.
-  bool checkColorLength({required int min, int max = -1}) {
-    if (max == -1) {
-      return nextColors.length >= min;
-    } else {
-      return nextColors.length >= min && nextColors.length <= max;
-    }
-  }
+  bool checkColorLength({required int min, int max = -1}) => max == -1
+      ? nextColors.length >= min
+      : nextColors.length >= min && nextColors.length <= max;
 
   /// It removes the selection from all the buttons in the selectedButtons list,
   /// resets the analyzer, and clears the selectedButtons list
   void removeSelection() {
-    for (var element in selectedButtons) {
+    for (final CrossButton element in selectedButtons) {
       element.deselect();
     }
     resetAnalyzer();
     selectedButtons.clear();
   }
 
+  /// It takes the commands that the user has entered, and checks them against
+  /// the current schema
+  ///
+  /// Returns:
+  ///   A pair of results and an error.
   Pair<Results, CatError> checkSchema() {
-    final resultPair =
+    final Pair<Results, CatError> resultPair =
         catInterpreter.validateOnScheme(commands.toString(), currentSchema);
-    // for (int i =0; i<resultPair.first.getCommands.length; i++) {
-    //   var state = resultPair.first.getStates[i];
-    //   var command = resultPair.first.getCommands[i];
-    // }
+
     return resultPair;
   }
 
+  /// It takes the commands that were recorded in the temporaryCommands list and
+  /// modifies them to be able to be used in the COPY command
   void modifyCommandForCopy() {
-    List<String> stringY = ['f', 'e', 'd', 'c', 'b', 'a'];
-    List<String> newCommands = [];
-    List<String> destination = [];
+    final List<String> stringY = <String>["f", "e", "d", "c", "b", "a"];
+    final List<String> newCommands = <String>[];
+    final List<String> destination = <String>[];
     Pair<Results, CatError> resultPair =
         catInterpreter.validateOnScheme(commands.toString(), currentSchema);
-    if (temporaryCommands[0].startsWith('GO(')) {
+    if (temporaryCommands[0].startsWith("GO(")) {
       resultPair = catInterpreter.validateOnScheme(
-          temporaryCommands[0].toString(), currentSchema);
-      destination.add(temporaryCommands[0].split('GO(')[1].split(')')[0]);
+        temporaryCommands[0],
+        currentSchema,
+      );
+      destination.add(temporaryCommands[0].split("GO(")[1].split(")")[0]);
     }
     for (int i = 1; i < temporaryCommands.length; i++) {
-      if (temporaryCommands[i].startsWith('GO(')) {
-        int y = resultPair.first.getPositions.last.first;
-        int x = resultPair.first.getPositions.last.second;
-        Tuple2<String, int> startPosition = Tuple2(stringY[y], x + 1);
-        String coordinates = temporaryCommands[i].split('GO(')[1].split(')')[0];
-        Tuple2<String, int> endPosition = Tuple2(
-            coordinates.split('')[0], int.parse(coordinates.split('')[1]));
+      if (temporaryCommands[i].startsWith("GO(")) {
+        final int y = resultPair.first.getPositions.last.first;
+        final int x = resultPair.first.getPositions.last.second;
+        final Tuple2<String, int> startPosition =
+            Tuple2<String, int>(stringY[y], x + 1);
+        final String coordinates =
+            temporaryCommands[i].split("GO(")[1].split(")")[0];
+        final Tuple2<String, int> endPosition = Tuple2<String, int>(
+          coordinates.split("")[0],
+          int.parse(coordinates.split("")[1]),
+        );
         bool onlyHorizontal = false;
         bool onlyVertical = false;
         if (temporaryCommands.length >= i + 1) {
-          List<String> nextCommandParameters = temporaryCommands[i + 1]
-              .split('(').last.split(')').first.split(',');
+          final List<String> nextCommandParameters = temporaryCommands[i + 1]
+              .split("(")
+              .last
+              .split(")")
+              .first
+              .split(",");
           if (nextCommandParameters.length >= 3) {
-            String nextCommandDirection = nextCommandParameters.last.trim();
-            String nextCommandLength =
+            final String nextCommandDirection =
+                nextCommandParameters.last.trim();
+            final String nextCommandLength =
                 nextCommandParameters[nextCommandParameters.length - 1].trim();
-            onlyHorizontal = (nextCommandDirection == 'up' ||
-                    nextCommandDirection == 'down') &&
-                nextCommandLength == ':';
-            onlyVertical = (nextCommandDirection == 'left' ||
-                    nextCommandDirection == 'right') &&
-                nextCommandLength == ':';
+            onlyHorizontal = (nextCommandDirection == "up" ||
+                    nextCommandDirection == "down") &&
+                nextCommandLength == ":";
+            onlyVertical = (nextCommandDirection == "left" ||
+                    nextCommandDirection == "right") &&
+                nextCommandLength == ":";
           }
         }
-        var movements = analyzer.analyzeMovement(startPosition, endPosition,
-            onlyHorizontal: onlyHorizontal, onlyVertical: onlyVertical);
+        final List<String> movements = analyzer.analyzeMovement(
+          startPosition,
+          endPosition,
+          onlyHorizontal: onlyHorizontal,
+          onlyVertical: onlyVertical,
+        );
         resultPair = catInterpreter.validateOnScheme(
-            movements.toString(), currentSchema);
+          movements.toString(),
+          currentSchema,
+        );
         newCommands.addAll(movements);
       } else {
         resultPair = catInterpreter.validateOnScheme(
-            temporaryCommands[i], currentSchema);
+          temporaryCommands[i],
+          currentSchema,
+        );
         newCommands.add(temporaryCommands[i]);
       }
     }
     catInterpreter.reset();
-    for (var button in selectedButtons) {
-      destination.add('${button.position.item1}${button.position.item2}');
+    for (final CrossButton button in selectedButtons) {
+      destination.add("${button.position.item1}${button.position.item2}");
     }
 
-    String resultCommand =
-        'COPY({${newCommands.toString().substring(1, newCommands.toString().length - 1)}}, {${destination.toString().substring(1, destination.toString().length - 1)} })';
-    commands.add(resultCommand);
+    final String commandsString =
+        newCommands.toString().substring(1, newCommands.toString().length - 1);
+    final String destinations =
+        destination.toString().substring(1, destination.toString().length - 1);
+    commands.add("COPY({$commandsString}, {$destinations)");
     removeSelection();
   }
 
+  /// It takes a cross widget, resets the interpreter, validates the commands,
+  /// and then updates the cross widget with the last state of the interpreter
+  ///
+  /// Args:
+  ///   cross (CrossWidget): The CrossWidget object that will be updated.
   void reloadCross(CrossWidget cross) {
     catInterpreter.reset();
-    var resultPair =
+    final Pair<Results, CatError> resultPair =
         catInterpreter.validateOnScheme(commands.toString(), currentSchema);
     cross.fromSchema(resultPair.first.getStates.last);
     catInterpreter.reset();
   }
 
+  /// It takes the current schema, the commands, and the visibility of the
+  /// schema and adds it to the jsonParser
   void saveCommandsForJson() {
-    jsonParser.addDataForSchema(true, visible, currentSchema, commands);
+    jsonParser.addDataForSchema(
+      gesture: true,
+      visible: visible,
+      schema: currentSchema,
+      commands: commands,
+    );
   }
 
   // TODO: create commandsToString to return a [].tostring() without '[....]'
