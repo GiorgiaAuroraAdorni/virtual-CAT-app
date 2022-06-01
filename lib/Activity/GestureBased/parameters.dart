@@ -298,7 +298,7 @@ class Parameters {
             final String nextCommandDirection =
                 nextCommandParameters.last.trim();
             final String nextCommandLength =
-                nextCommandParameters[nextCommandParameters.length - 1].trim();
+                nextCommandParameters[nextCommandParameters.length - 2].trim();
             onlyHorizontal = (nextCommandDirection == "up" ||
                     nextCommandDirection == "down") &&
                 nextCommandLength == ":";
@@ -335,7 +335,8 @@ class Parameters {
         newCommands.toString().substring(1, newCommands.toString().length - 1);
     final String destinations =
         destination.toString().substring(1, destination.toString().length - 1);
-    commands.add("COPY({$commandsString}, {$destinations)");
+    print("COPY({$commandsString}, {$destinations})");
+    commands.add("COPY({$commandsString}, {$destinations})");
     removeSelection();
   }
 
