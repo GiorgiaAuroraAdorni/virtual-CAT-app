@@ -105,7 +105,7 @@ lib/generated_plugin_registrant.dart
 .LSOverride
 
 # Icon must end with two \r
-Icon
+#Icon
 
 
 # Thumbnails
@@ -149,7 +149,6 @@ out/
 # Gradle files
 .gradle
 .gradle/
-build/
 
 # Signing files
 .signing/
@@ -265,7 +264,5 @@ metrics/
 *.output
 
 .scannerwork/
-
-resources/blockly/.idea/
 
 .idea/

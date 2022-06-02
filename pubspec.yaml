@@ -65,6 +65,8 @@ dev_dependencies:
 
   dart_code_metrics: ^4.11.0
 
+  flutter_launcher_icons_maker: "^0.10.1"
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -74,6 +76,8 @@ dev_dependencies:
 
   flutter_test:
     sdk: flutter
+
+
 
   test: ^1.18.2
 
@@ -112,3 +116,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  android: true
+  ios: true
+  macos: true
+  windows: true
+  web: true
+  image_path: "resources/icon/cat.png"
