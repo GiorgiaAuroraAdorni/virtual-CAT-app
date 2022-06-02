@@ -16,7 +16,7 @@
 [Follow this guide](https://docs.flutter.dev/get-started/editor?tab=androidstudio)
 
 ## How to run
-**Requirements** \
+**Requirements** 
 For build and run the application is necessary to have another one repo: [CAT-symbolic-programming-language-interpreter](https://github.com/vladimir98vk/CAT-symbolic-programming-language-interpreter)
 ### Directory tree
 The files **must** have the following structures:
