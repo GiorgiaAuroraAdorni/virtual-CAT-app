@@ -29,17 +29,19 @@ void main() {
             buttonDimension: 10.0);
       }
     }
+
+    final List<CupertinoDynamicColor> nextColors = [CupertinoColors.systemBlue, CupertinoColors.systemRed, CupertinoColors.systemGreen, CupertinoColors.systemYellow];
     group('Empty result', () {
       test('Empty List', () {
-        expect(Analyzer().analyzePattern([]), []);
+        expect(Analyzer().analyzePattern([], nextColors), []);
       });
       test('One element List', () {
-        expect(Analyzer().analyzePattern([buttons['a'][3]]), []);
+        expect(Analyzer().analyzePattern([buttons['a'][3]], nextColors), []);
       });
       test('No existing command', () {
         expect(
             Analyzer().analyzePattern(
-                [buttons['a'][3], buttons['b'][3], buttons['c'][4]]),
+                [buttons['a'][3], buttons['b'][3], buttons['c'][4]], nextColors),
             []);
       });
     });
@@ -47,13 +49,13 @@ void main() {
     group('Horizontal', () {
       group('right', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['f'][3], buttons['f'][4]]),
+          expect(Analyzer().analyzePattern([buttons['f'][3], buttons['f'][4]], nextColors),
               ['right']);
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][1], buttons['c'][2], buttons['c'][3]]),
+                  [buttons['c'][1], buttons['c'][2], buttons['c'][3]], nextColors),
               ['right']);
         });
         test('4', () {
@@ -63,7 +65,7 @@ void main() {
                 buttons['c'][2],
                 buttons['c'][3],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['right']);
         });
         test('5', () {
@@ -74,7 +76,7 @@ void main() {
                 buttons['c'][3],
                 buttons['c'][4],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['right']);
         });
         test('6', () {
@@ -86,7 +88,7 @@ void main() {
                 buttons['c'][4],
                 buttons['c'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['right']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -102,13 +104,13 @@ void main() {
       });
       group('left', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['a'][4], buttons['a'][3]]),
+          expect(Analyzer().analyzePattern([buttons['a'][4], buttons['a'][3]], nextColors),
               ['left']);
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][3], buttons['d'][2], buttons['d'][1]]),
+                  [buttons['d'][3], buttons['d'][2], buttons['d'][1]], nextColors),
               ['left']);
         });
         test('4', () {
@@ -118,7 +120,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['left']);
         });
         test('5', () {
@@ -129,7 +131,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['left']);
         });
         test('6', () {
@@ -141,7 +143,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['left']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -160,13 +162,13 @@ void main() {
     group('Vertical', () {
       group('up', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['a'][3], buttons['b'][3]]),
+          expect(Analyzer().analyzePattern([buttons['a'][3], buttons['b'][3]], nextColors),
               ['up']);
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['a'][3], buttons['b'][3], buttons['c'][3]]),
+                  [buttons['a'][3], buttons['b'][3], buttons['c'][3]], nextColors),
               ['up']);
         });
         test('4', () {
@@ -176,7 +178,7 @@ void main() {
                 buttons['b'][3],
                 buttons['c'][3],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['up']);
         });
         test('5', () {
@@ -187,7 +189,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][3],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['up']);
         });
         test('6', () {
@@ -199,7 +201,7 @@ void main() {
                 buttons['d'][3],
                 buttons['e'][3],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['up']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -215,13 +217,13 @@ void main() {
       });
       group('down', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['d'][1], buttons['c'][1]]),
+          expect(Analyzer().analyzePattern([buttons['d'][1], buttons['c'][1]], nextColors),
               ['down']);
         });
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['f'][4], buttons['e'][4], buttons['d'][4]]),
+                  [buttons['f'][4], buttons['e'][4], buttons['d'][4]], nextColors),
               ['down']);
         });
         test('4', () {
@@ -231,7 +233,7 @@ void main() {
                 buttons['e'][4],
                 buttons['d'][4],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['down']);
         });
         test('5', () {
@@ -242,7 +244,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][4],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['down']);
         });
         test('6', () {
@@ -254,7 +256,7 @@ void main() {
                 buttons['c'][4],
                 buttons['b'][4],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['down']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -273,7 +275,7 @@ void main() {
     group('diagonal', () {
       group('up left', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['a'][3], buttons['c'][1]]),
+          expect(Analyzer().analyzePattern([buttons['a'][3], buttons['c'][1]], nextColors),
               ['diagonal up left']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -283,7 +285,7 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['b'][4], buttons['c'][3], buttons['d'][2]]),
+                  [buttons['b'][4], buttons['c'][3], buttons['d'][2]], nextColors),
               ['diagonal up left']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -300,7 +302,7 @@ void main() {
                 buttons['d'][5],
                 buttons['e'][4],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['diagonal up left']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -314,7 +316,7 @@ void main() {
       });
       group('up right', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['d'][1], buttons['f'][3]]),
+          expect(Analyzer().analyzePattern([buttons['d'][1], buttons['f'][3]], nextColors),
               ['diagonal up right']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -324,7 +326,7 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][2], buttons['d'][3], buttons['e'][4]]),
+                  [buttons['c'][2], buttons['d'][3], buttons['e'][4]], nextColors),
               ['diagonal up right']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -339,7 +341,7 @@ void main() {
                 buttons['b'][4],
                 buttons['c'][5],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['diagonal up right']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -353,7 +355,7 @@ void main() {
       });
       group('down left', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['c'][6], buttons['a'][4]]),
+          expect(Analyzer().analyzePattern([buttons['c'][6], buttons['a'][4]], nextColors),
               ['diagonal down left']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -363,7 +365,7 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][5], buttons['c'][4], buttons['b'][3]]),
+                  [buttons['d'][5], buttons['c'][4], buttons['b'][3]], nextColors),
               ['diagonal down left']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -378,7 +380,7 @@ void main() {
                 buttons['e'][3],
                 buttons['d'][2],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['diagonal down left']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -392,7 +394,7 @@ void main() {
       });
       group('down right', () {
         test('2', () {
-          expect(Analyzer().analyzePattern([buttons['c'][1], buttons['a'][3]]),
+          expect(Analyzer().analyzePattern([buttons['c'][1], buttons['a'][3]], nextColors),
               ['diagonal down right']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -402,7 +404,7 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['e'][3], buttons['d'][4], buttons['c'][5]]),
+                  [buttons['e'][3], buttons['d'][4], buttons['c'][5]], nextColors),
               ['diagonal down right']);
           expect(
               Analyzer().analyzeNumberOfCell(
@@ -417,7 +419,7 @@ void main() {
                 buttons['e'][4],
                 buttons['d'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['diagonal down right']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -440,7 +442,7 @@ void main() {
                 buttons['a'][4],
                 buttons['b'][4],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -448,7 +450,7 @@ void main() {
                 buttons['b'][4],
                 buttons['c'][4],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -456,7 +458,7 @@ void main() {
                 buttons['c'][2],
                 buttons['d'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -464,7 +466,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][3],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -472,7 +474,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][4],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -480,7 +482,7 @@ void main() {
                 buttons['c'][5],
                 buttons['d'][5],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -488,7 +490,7 @@ void main() {
                 buttons['c'][6],
                 buttons['d'][6],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -496,7 +498,7 @@ void main() {
                 buttons['d'][4],
                 buttons['e'][4],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -504,7 +506,7 @@ void main() {
                 buttons['e'][4],
                 buttons['f'][4],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -522,7 +524,7 @@ void main() {
                 buttons['b'][4],
                 buttons['b'][3],
                 buttons['a'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -530,7 +532,7 @@ void main() {
                 buttons['c'][4],
                 buttons['c'][3],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -538,7 +540,7 @@ void main() {
                 buttons['d'][2],
                 buttons['d'][1],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -546,7 +548,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][2],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -554,7 +556,7 @@ void main() {
                 buttons['d'][4],
                 buttons['d'][3],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -562,7 +564,7 @@ void main() {
                 buttons['d'][5],
                 buttons['d'][4],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -570,7 +572,7 @@ void main() {
                 buttons['d'][6],
                 buttons['d'][5],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -578,7 +580,7 @@ void main() {
                 buttons['e'][4],
                 buttons['e'][3],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -586,7 +588,7 @@ void main() {
                 buttons['f'][4],
                 buttons['f'][3],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -604,7 +606,7 @@ void main() {
                 buttons['b'][3],
                 buttons['a'][3],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -612,7 +614,7 @@ void main() {
                 buttons['c'][3],
                 buttons['b'][3],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -620,7 +622,7 @@ void main() {
                 buttons['d'][1],
                 buttons['c'][1],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -628,7 +630,7 @@ void main() {
                 buttons['d'][2],
                 buttons['c'][2],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -636,7 +638,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][3],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -644,7 +646,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][4],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -652,7 +654,7 @@ void main() {
                 buttons['d'][5],
                 buttons['c'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -660,7 +662,7 @@ void main() {
                 buttons['e'][3],
                 buttons['d'][3],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -668,7 +670,7 @@ void main() {
                 buttons['f'][3],
                 buttons['e'][3],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -686,7 +688,7 @@ void main() {
                 buttons['a'][3],
                 buttons['a'][4],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -694,7 +696,7 @@ void main() {
                 buttons['b'][3],
                 buttons['b'][4],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -702,7 +704,7 @@ void main() {
                 buttons['c'][1],
                 buttons['c'][2],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -710,7 +712,7 @@ void main() {
                 buttons['c'][2],
                 buttons['c'][3],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -718,7 +720,7 @@ void main() {
                 buttons['c'][3],
                 buttons['c'][4],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -726,7 +728,7 @@ void main() {
                 buttons['c'][4],
                 buttons['c'][5],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -734,7 +736,7 @@ void main() {
                 buttons['c'][5],
                 buttons['c'][6],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -742,7 +744,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][4],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -750,7 +752,7 @@ void main() {
                 buttons['e'][3],
                 buttons['e'][4],
                 buttons['f'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -770,7 +772,7 @@ void main() {
                 buttons['b'][4],
                 buttons['a'][4],
                 buttons['a'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -778,7 +780,7 @@ void main() {
                 buttons['c'][4],
                 buttons['b'][4],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -786,7 +788,7 @@ void main() {
                 buttons['d'][2],
                 buttons['c'][2],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -794,7 +796,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][3],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -802,7 +804,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][4],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -810,7 +812,7 @@ void main() {
                 buttons['d'][5],
                 buttons['c'][5],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -818,7 +820,7 @@ void main() {
                 buttons['d'][6],
                 buttons['c'][6],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -826,7 +828,7 @@ void main() {
                 buttons['e'][4],
                 buttons['d'][4],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -834,7 +836,7 @@ void main() {
                 buttons['f'][4],
                 buttons['e'][4],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -852,7 +854,7 @@ void main() {
                 buttons['a'][4],
                 buttons['a'][3],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -860,7 +862,7 @@ void main() {
                 buttons['b'][4],
                 buttons['b'][3],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -868,7 +870,7 @@ void main() {
                 buttons['c'][2],
                 buttons['c'][1],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -876,7 +878,7 @@ void main() {
                 buttons['c'][3],
                 buttons['c'][2],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -884,7 +886,7 @@ void main() {
                 buttons['c'][4],
                 buttons['c'][3],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -892,7 +894,7 @@ void main() {
                 buttons['c'][5],
                 buttons['c'][4],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -900,7 +902,7 @@ void main() {
                 buttons['c'][6],
                 buttons['c'][5],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -908,7 +910,7 @@ void main() {
                 buttons['d'][4],
                 buttons['d'][3],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -916,7 +918,7 @@ void main() {
                 buttons['e'][4],
                 buttons['e'][3],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -934,7 +936,7 @@ void main() {
                 buttons['a'][3],
                 buttons['b'][3],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -942,7 +944,7 @@ void main() {
                 buttons['b'][3],
                 buttons['c'][3],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -950,7 +952,7 @@ void main() {
                 buttons['c'][1],
                 buttons['d'][1],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -958,7 +960,7 @@ void main() {
                 buttons['c'][2],
                 buttons['d'][2],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -966,7 +968,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][3],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -974,7 +976,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][4],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -982,7 +984,7 @@ void main() {
                 buttons['c'][5],
                 buttons['d'][5],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -990,7 +992,7 @@ void main() {
                 buttons['d'][3],
                 buttons['e'][3],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -998,7 +1000,7 @@ void main() {
                 buttons['e'][3],
                 buttons['f'][3],
                 buttons['f'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -1016,7 +1018,7 @@ void main() {
                 buttons['b'][3],
                 buttons['b'][4],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1024,7 +1026,7 @@ void main() {
                 buttons['c'][3],
                 buttons['c'][4],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1032,7 +1034,7 @@ void main() {
                 buttons['d'][1],
                 buttons['d'][2],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1040,7 +1042,7 @@ void main() {
                 buttons['d'][2],
                 buttons['d'][3],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1048,7 +1050,7 @@ void main() {
                 buttons['d'][3],
                 buttons['d'][4],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1056,7 +1058,7 @@ void main() {
                 buttons['d'][4],
                 buttons['d'][5],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1064,7 +1066,7 @@ void main() {
                 buttons['d'][5],
                 buttons['d'][6],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1072,7 +1074,7 @@ void main() {
                 buttons['e'][3],
                 buttons['e'][4],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzePattern([
@@ -1080,7 +1082,7 @@ void main() {
                 buttons['f'][3],
                 buttons['f'][4],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['square']);
           expect(
               Analyzer().analyzeNumberOfCell([
@@ -1103,7 +1105,7 @@ void main() {
               buttons['c'][3],
               buttons['c'][2],
               buttons['c'][1]
-            ]),
+            ], nextColors),
             ['L up left']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1123,7 +1125,7 @@ void main() {
               buttons['c'][4],
               buttons['c'][5],
               buttons['c'][6]
-            ]),
+            ], nextColors),
             ['L up right']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1143,7 +1145,7 @@ void main() {
               buttons['d'][3],
               buttons['d'][2],
               buttons['d'][1]
-            ]),
+            ], nextColors),
             ['L down left']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1163,7 +1165,7 @@ void main() {
               buttons['d'][4],
               buttons['d'][5],
               buttons['d'][6]
-            ]),
+            ], nextColors),
             ['L down right']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1183,7 +1185,7 @@ void main() {
               buttons['d'][4],
               buttons['e'][4],
               buttons['f'][4]
-            ]),
+            ], nextColors),
             ['L left up']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1203,7 +1205,7 @@ void main() {
               buttons['c'][4],
               buttons['b'][4],
               buttons['a'][4]
-            ]),
+            ], nextColors),
             ['L left down']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1223,7 +1225,7 @@ void main() {
               buttons['d'][3],
               buttons['e'][3],
               buttons['f'][3]
-            ]),
+            ], nextColors),
             ['L right up']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1243,7 +1245,7 @@ void main() {
               buttons['c'][3],
               buttons['b'][3],
               buttons['a'][3]
-            ]),
+            ], nextColors),
             ['L right down']);
         expect(
             Analyzer().analyzeNumberOfCell([
@@ -1262,19 +1264,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][6], buttons['d'][5], buttons['c'][4]]),
+                  [buttons['c'][6], buttons['d'][5], buttons['c'][4]], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][5], buttons['d'][4], buttons['c'][3]]),
+                  [buttons['c'][5], buttons['d'][4], buttons['c'][3]], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][4], buttons['d'][3], buttons['c'][2]]),
+                  [buttons['c'][4], buttons['d'][3], buttons['c'][2]], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][3], buttons['d'][2], buttons['c'][1]]),
+                  [buttons['c'][3], buttons['d'][2], buttons['c'][1]], nextColors),
               ['zig-zag left up down']);
         });
         test('4', () {
@@ -1284,7 +1286,7 @@ void main() {
                 buttons['d'][5],
                 buttons['c'][4],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1292,7 +1294,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][3],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1300,7 +1302,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
         });
         test('5', () {
@@ -1311,7 +1313,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][3],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1320,7 +1322,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][2],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
         });
         test('6', () {
@@ -1332,7 +1334,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left up down']);
         });
       });
@@ -1340,19 +1342,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][6], buttons['c'][5], buttons['d'][4]]),
+                  [buttons['d'][6], buttons['c'][5], buttons['d'][4]], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][5], buttons['c'][4], buttons['d'][3]]),
+                  [buttons['d'][5], buttons['c'][4], buttons['d'][3]], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][4], buttons['c'][3], buttons['d'][2]]),
+                  [buttons['d'][4], buttons['c'][3], buttons['d'][2]], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][3], buttons['c'][2], buttons['d'][1]]),
+                  [buttons['d'][3], buttons['c'][2], buttons['d'][1]], nextColors),
               ['zig-zag left down up']);
         });
         test('4', () {
@@ -1362,7 +1364,7 @@ void main() {
                 buttons['c'][5],
                 buttons['d'][4],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1370,7 +1372,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][3],
                 buttons['c'][2]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1378,7 +1380,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][2],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
         });
         test('5', () {
@@ -1389,7 +1391,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][3],
                 buttons['d'][2]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1398,7 +1400,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][2],
                 buttons['d'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
         });
         test('6', () {
@@ -1410,7 +1412,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][2],
                 buttons['c'][1]
-              ]),
+              ], nextColors),
               ['zig-zag left down up']);
         });
       });
@@ -1418,19 +1420,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][1], buttons['d'][2], buttons['c'][3]]),
+                  [buttons['c'][1], buttons['d'][2], buttons['c'][3]], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][2], buttons['d'][3], buttons['c'][4]]),
+                  [buttons['c'][2], buttons['d'][3], buttons['c'][4]], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][3], buttons['d'][4], buttons['c'][5]]),
+                  [buttons['c'][3], buttons['d'][4], buttons['c'][5]], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][4], buttons['d'][5], buttons['c'][6]]),
+                  [buttons['c'][4], buttons['d'][5], buttons['c'][6]], nextColors),
               ['zig-zag right up down']);
         });
         test('4', () {
@@ -1440,7 +1442,7 @@ void main() {
                 buttons['d'][2],
                 buttons['c'][3],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1448,7 +1450,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][4],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1456,7 +1458,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][5],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
         });
         test('5', () {
@@ -1467,7 +1469,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][4],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
           expect(
               Analyzer().analyzePattern([
@@ -1476,7 +1478,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
         });
         test('6', () {
@@ -1488,7 +1490,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][5],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right up down']);
         });
       });
@@ -1496,19 +1498,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][1], buttons['c'][2], buttons['d'][3]]),
+                  [buttons['d'][1], buttons['c'][2], buttons['d'][3]], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][2], buttons['c'][3], buttons['d'][4]]),
+                  [buttons['d'][2], buttons['c'][3], buttons['d'][4]], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][3], buttons['c'][4], buttons['d'][5]]),
+                  [buttons['d'][3], buttons['c'][4], buttons['d'][5]], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][4], buttons['c'][5], buttons['d'][6]]),
+                  [buttons['d'][4], buttons['c'][5], buttons['d'][6]], nextColors),
               ['zig-zag right down up']);
         });
         test('4', () {
@@ -1518,7 +1520,7 @@ void main() {
                 buttons['c'][2],
                 buttons['d'][3],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1526,7 +1528,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][4],
                 buttons['c'][5]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1534,7 +1536,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
         });
         test('5', () {
@@ -1545,7 +1547,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][4],
                 buttons['d'][5]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
           expect(
               Analyzer().analyzePattern([
@@ -1554,7 +1556,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][5],
                 buttons['d'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
         });
         test('6', () {
@@ -1566,7 +1568,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][5],
                 buttons['c'][6]
-              ]),
+              ], nextColors),
               ['zig-zag right down up']);
         });
       });
@@ -1574,19 +1576,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['a'][4], buttons['b'][3], buttons['c'][4]]),
+                  [buttons['a'][4], buttons['b'][3], buttons['c'][4]], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['b'][4], buttons['c'][3], buttons['d'][4]]),
+                  [buttons['b'][4], buttons['c'][3], buttons['d'][4]], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][4], buttons['d'][3], buttons['e'][4]]),
+                  [buttons['c'][4], buttons['d'][3], buttons['e'][4]], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][4], buttons['e'][3], buttons['f'][4]]),
+                  [buttons['d'][4], buttons['e'][3], buttons['f'][4]], nextColors),
               ['zig-zag up left right']);
         });
         test('4', () {
@@ -1596,7 +1598,7 @@ void main() {
                 buttons['b'][3],
                 buttons['c'][4],
                 buttons['d'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1604,7 +1606,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][4],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1612,7 +1614,7 @@ void main() {
                 buttons['d'][3],
                 buttons['e'][4],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
         });
         test('5', () {
@@ -1623,7 +1625,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][3],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1632,7 +1634,7 @@ void main() {
                 buttons['d'][4],
                 buttons['e'][3],
                 buttons['f'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
         });
         test('6', () {
@@ -1644,7 +1646,7 @@ void main() {
                 buttons['d'][3],
                 buttons['e'][4],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up left right']);
         });
       });
@@ -1652,19 +1654,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['a'][3], buttons['b'][4], buttons['c'][3]]),
+                  [buttons['a'][3], buttons['b'][4], buttons['c'][3]], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['b'][3], buttons['c'][4], buttons['d'][3]]),
+                  [buttons['b'][3], buttons['c'][4], buttons['d'][3]], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][3], buttons['d'][4], buttons['e'][3]]),
+                  [buttons['c'][3], buttons['d'][4], buttons['e'][3]], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][3], buttons['e'][4], buttons['f'][3]]),
+                  [buttons['d'][3], buttons['e'][4], buttons['f'][3]], nextColors),
               ['zig-zag up right left']);
         });
         test('4', () {
@@ -1674,7 +1676,7 @@ void main() {
                 buttons['b'][4],
                 buttons['c'][3],
                 buttons['d'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1682,7 +1684,7 @@ void main() {
                 buttons['c'][4],
                 buttons['d'][3],
                 buttons['e'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1690,7 +1692,7 @@ void main() {
                 buttons['d'][4],
                 buttons['e'][3],
                 buttons['f'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
         });
         test('5', () {
@@ -1701,7 +1703,7 @@ void main() {
                 buttons['c'][3],
                 buttons['d'][4],
                 buttons['e'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1710,7 +1712,7 @@ void main() {
                 buttons['d'][3],
                 buttons['e'][4],
                 buttons['f'][3]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
         });
         test('6', () {
@@ -1722,7 +1724,7 @@ void main() {
                 buttons['d'][4],
                 buttons['e'][3],
                 buttons['f'][4]
-              ]),
+              ], nextColors),
               ['zig-zag up right left']);
         });
       });
@@ -1730,19 +1732,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['f'][4], buttons['e'][3], buttons['d'][4]]),
+                  [buttons['f'][4], buttons['e'][3], buttons['d'][4]], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['e'][4], buttons['d'][3], buttons['c'][4]]),
+                  [buttons['e'][4], buttons['d'][3], buttons['c'][4]], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][4], buttons['c'][3], buttons['b'][4]]),
+                  [buttons['d'][4], buttons['c'][3], buttons['b'][4]], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][4], buttons['b'][3], buttons['a'][4]]),
+                  [buttons['c'][4], buttons['b'][3], buttons['a'][4]], nextColors),
               ['zig-zag down left right']);
         });
         test('4', () {
@@ -1752,7 +1754,7 @@ void main() {
                 buttons['e'][3],
                 buttons['d'][4],
                 buttons['c'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1760,7 +1762,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][4],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1768,7 +1770,7 @@ void main() {
                 buttons['c'][3],
                 buttons['b'][4],
                 buttons['a'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
         });
         test('5', () {
@@ -1779,7 +1781,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][3],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
           expect(
               Analyzer().analyzePattern([
@@ -1788,7 +1790,7 @@ void main() {
                 buttons['c'][4],
                 buttons['b'][3],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
         });
         test('6', () {
@@ -1800,7 +1802,7 @@ void main() {
                 buttons['c'][3],
                 buttons['b'][4],
                 buttons['a'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down left right']);
         });
       });
@@ -1808,19 +1810,19 @@ void main() {
         test('3', () {
           expect(
               Analyzer().analyzePattern(
-                  [buttons['f'][3], buttons['e'][4], buttons['d'][3]]),
+                  [buttons['f'][3], buttons['e'][4], buttons['d'][3]], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['e'][3], buttons['d'][4], buttons['c'][3]]),
+                  [buttons['e'][3], buttons['d'][4], buttons['c'][3]], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['d'][3], buttons['c'][4], buttons['b'][3]]),
+                  [buttons['d'][3], buttons['c'][4], buttons['b'][3]], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern(
-                  [buttons['c'][3], buttons['b'][4], buttons['a'][3]]),
+                  [buttons['c'][3], buttons['b'][4], buttons['a'][3]], nextColors),
               ['zig-zag down right left']);
         });
         test('4', () {
@@ -1830,7 +1832,7 @@ void main() {
                 buttons['e'][4],
                 buttons['d'][3],
                 buttons['c'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1838,7 +1840,7 @@ void main() {
                 buttons['d'][4],
                 buttons['c'][3],
                 buttons['b'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1846,7 +1848,7 @@ void main() {
                 buttons['c'][4],
                 buttons['b'][3],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
         });
         test('5', () {
@@ -1857,7 +1859,7 @@ void main() {
                 buttons['d'][3],
                 buttons['c'][4],
                 buttons['b'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
           expect(
               Analyzer().analyzePattern([
@@ -1866,7 +1868,7 @@ void main() {
                 buttons['c'][3],
                 buttons['b'][4],
                 buttons['a'][3]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
         });
         test('6', () {
@@ -1878,7 +1880,7 @@ void main() {
                 buttons['c'][4],
                 buttons['b'][3],
                 buttons['a'][4]
-              ]),
+              ], nextColors),
               ['zig-zag down right left']);
         });
       });

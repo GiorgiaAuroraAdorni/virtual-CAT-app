@@ -68,7 +68,7 @@ class Parameters {
   late List<String> temporaryCommands;
 
   /// State of the GestureImplementation used for calling some method
-  late GestureImplementationState gestureHomeState;
+  late GestureImplementation gestureHome;
 
   /// The current schema to be solved.
   late int currentSchema;
@@ -88,8 +88,9 @@ class Parameters {
   /// Parser for the current data
   late JsonParser jsonParser;
 
-  /// `readJson()` is an asynchronous function that returns a `Future<String>`
-  /// object
+
+  /// Read the schemas.json file from the resources/sequence folder and return the
+  /// contents as a string
   ///
   /// Returns:
   ///   A Future<String>
@@ -140,7 +141,8 @@ class Parameters {
   String analyzeColor() => analyzer.analyzeColor(nextColors);
 
   /// It takes the selected buttons and passes them to the analyzer
-  List<String> analyzePattern() => analyzer.analyzePattern(selectedButtons);
+  List<String> analyzePattern() =>
+      analyzer.analyzePattern(selectedButtons, nextColors);
 
   /// It takes a recognised command and returns the number of the cell that the
   /// command is referring to
@@ -169,7 +171,7 @@ class Parameters {
       ++currentSchema;
       reset();
     } else {
-      gestureHomeState.message(
+      gestureHome.showMessage(
         "Ultimo schema completato",
         "Passaggio al pupillo successivo",
       );
@@ -183,12 +185,12 @@ class Parameters {
   /// resets the current state of the game, and recreates the cross
   void nextPupil() {
     jsonParser.saveData();
-    gestureHomeState.message("Dati salvati", "Passaggio al pupillo successivo");
+    gestureHome.showMessage("Dati salvati", "Passaggio al pupillo successivo");
     pupilData = PupilData(name: "test");
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
     currentSchema = 1;
     reset();
-    gestureHomeState.recreateCross();
+    gestureHome.recreateCross();
   }
 
   /// It removes a color from the list of colors that will be used to generate
@@ -232,9 +234,27 @@ class Parameters {
   ///
   /// Returns:
   ///   A boolean value.
-  bool checkColorLength({required int min, int max = -1}) => max == -1
-      ? nextColors.length >= min
-      : nextColors.length >= min && nextColors.length <= max;
+  bool checkColorLength({required int min, int max = -1}) {
+    if (nextColors.length < min) {
+      gestureHome.showMessage(
+        "Nessun colore selezionato",
+        "Selezionare un colore per poter eseguire questa operazione",
+      );
+
+      return false;
+    }
+    if ((max != -1) && (nextColors.length < min || nextColors.length > max)) {
+      gestureHome.showMessage(
+        "Troppi colori selezionati",
+        "Per poter eseguire questa operazione è necessario selezionare "
+            "un solo colore",
+      );
+
+      return false;
+    }
+
+    return true;
+  }
 
   /// It removes the selection from all the buttons in the selectedButtons list,
   /// resets the analyzer, and clears the selectedButtons list
@@ -335,7 +355,6 @@ class Parameters {
         newCommands.toString().substring(1, newCommands.toString().length - 1);
     final String destinations =
         destination.toString().substring(1, destination.toString().length - 1);
-    print("COPY({$commandsString}, {$destinations})");
     commands.add("COPY({$commandsString}, {$destinations})");
     removeSelection();
   }
@@ -362,6 +381,67 @@ class Parameters {
       schema: currentSchema,
       commands: commands,
     );
+  }
+
+  /// It checks if the selected buttons are all of the same color, if so it
+  /// checks if the pattern is recognized, if so it adds the command to the
+  /// list of commands and clears the selection,
+  /// if not it shows an error message
+  ///
+  /// Args:
+  ///   allCell (bool): if true, the user wants to select all the cells in the
+  /// row/column
+  void confirmSelection() {
+    if (checkColorLength(min: 1)) {
+      final List<String> recognisedCommands = analyzePattern();
+      if (recognisedCommands.length == 1) {
+        final String numOfCells = numberOfCell(recognisedCommands.first);
+        final String colors = analyzeColor();
+        final String goCommand = "GO(${selectedButtons[0].position.item1}"
+            "${selectedButtons[0].position.item2})";
+        final String command =
+            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
+        if (selectionMode == SelectionModes.mirror ||
+            selectionMode == SelectionModes.copy) {
+          addTemporaryCommand(goCommand);
+          addTemporaryCommand(command);
+          num j = -1;
+          final int numOfColor = nextColors.length;
+          for (final CrossButton element in selectedButtons) {
+            j = (j + 1) % numOfColor;
+            element
+              ..changeColorFromIndex(j.toInt())
+              ..deselect();
+          }
+        } else {
+          addCommand(goCommand);
+          addCommand(command);
+          final Pair<Results, CatError> resultPair = checkSchema();
+          final CatError error = resultPair.second;
+          final Results results = resultPair.first;
+          if (error == CatError.none) {
+            gestureHome.reloadCrossFromSchema(results.getStates.last);
+          } else {
+            gestureHome.showMessage("Errore:", error.name);
+          }
+        }
+        saveCommandsForJson();
+        resetAnalyzer();
+        nextColors.clear();
+        gestureHome.showMessage("Comando riconsociuto:", command);
+      } else if (recognisedCommands.isEmpty) {
+        gestureHome.showMessage(
+          "Nessun commando riconsociuto",
+          "Non è stato possible riconoscere alcun comando",
+        );
+      } else {
+        gestureHome.showMessage(
+          "Comando ambiguo:",
+          "Comandi riconsociuti: ${recognisedCommands.toString()}",
+        );
+      }
+    }
+    removeSelection();
   }
 
   // TODO: create commandsToString to return a [].tostring() without '[....]'

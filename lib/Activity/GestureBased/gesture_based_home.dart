@@ -1,7 +1,6 @@
 import "dart:io";
 
 import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
-import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
 import "package:dartx/dartx.dart";
@@ -12,11 +11,14 @@ import "package:interpreter/cat_interpreter.dart";
 /// and has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
   /// Creating a constructor for the GestureImplementation class.
-  const GestureImplementation({required this.params, Key? key})
-      : super(key: key);
+  const GestureImplementation({required this.params, required this.globalKey})
+      : super(key: globalKey);
 
   /// Declaring a variable called params of type Parameters.
   final Parameters params;
+
+  /// It's a key that is used to access the state of the widget.
+  final GlobalKey<GestureImplementationState> globalKey;
 
   /// `createState()` is a function that returns a state object
   ///
@@ -24,6 +26,25 @@ class GestureImplementation extends StatefulWidget {
   ///   A new instance of the GestureImplementationState class.
   @override
   GestureImplementationState createState() => GestureImplementationState();
+
+  /// If the globalKey is not null, then call the message function on the
+  /// globalKey's current state
+  ///
+  /// Args:
+  ///   title (String): The title of the message.
+  ///   message (String): The message to be displayed.
+  void showMessage(String title, String message) =>
+      globalKey.currentState?.message(title, message);
+
+  /// Recreate the activeCross in the current state
+  void recreateCross() => globalKey.currentState?.recreateCross();
+
+  /// Reload the activeCross in the current state from the given schema
+  ///
+  /// Args:
+  ///   schema (Cross): the schema from wich load the cross
+  void reloadCrossFromSchema(Cross schema) =>
+      globalKey.currentState?.activeCross.fromSchema(schema);
 }
 
 /// It's a stateful widget that
@@ -54,130 +75,33 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///
   /// Returns:
   ///   A widget.
-  Widget build(BuildContext context) {
-    widget.params.gestureHomeState = this;
-
-    return Row(
-      children: <Widget>[
-        const SizedBox(width: 50),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Image(
-              image: AssetImage(
-                "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
+  Widget build(BuildContext context) => Row(
+        children: <Widget>[
+          const SizedBox(width: 50),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image(
+                image: AssetImage(
+                  "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
+                ),
               ),
-            ),
-            // solutionCross,
-            const SizedBox(height: 50),
-            Row(children: _basicButtonsBuild()),
-            const SizedBox(height: 20),
-            Row(children: _colorButtonsBuild()),
-            const SizedBox(height: 20),
-            Row(children: _instructionsButtonsBuild()),
-          ],
-        ),
-        const SizedBox(width: 80),
-        activeCross,
-      ],
-    );
-    // );
-  }
-
-  /// If the list of colors is empty, show a message and return false, otherwise
-  /// return true
-  ///
-  /// Returns:
-  ///   A boolean value.
-  bool checkColorSelected({bool checkExactlyOne = false}) {
-    if (!widget.params.checkColorLength(min: 1)) {
-      message(
-        "Nessun colore selezionato",
-        "Selezionare un colore per poter eseguire questa operazione",
+              // solutionCross,
+              const SizedBox(height: 50),
+              Row(children: _basicButtonsBuild()),
+              const SizedBox(height: 20),
+              Row(children: _colorButtonsBuild()),
+              const SizedBox(height: 20),
+              Row(children: _instructionsButtonsBuild()),
+            ],
+          ),
+          const SizedBox(width: 80),
+          activeCross,
+        ],
       );
-
-      return false;
-    }
-    if (checkExactlyOne && !widget.params.checkColorLength(min: 1, max: 1)) {
-      message(
-        "Troppi colori selezionati",
-        "Per poter eseguire questa operazione è necessario selezionare "
-            "un solo colore",
-      );
-
-      return false;
-    }
-
-    return true;
-  }
-
-  /// It checks if the selected buttons are all of the same color, if so it
-  /// checks if the pattern is recognized, if so it adds the command to the
-  /// list of commands and clears the selection,
-  /// if not it shows an error message
-  ///
-  /// Args:
-  ///   allCell (bool): if true, the user wants to select all the cells in the
-  /// row/column
-  Future<void> confirmSelection() async {
-    if (checkColorSelected()) {
-      final List<String> recognisedCommands = widget.params.analyzePattern();
-      if (recognisedCommands.length == 1) {
-        final String numOfCells =
-            widget.params.numberOfCell(recognisedCommands.first);
-        final String colors = widget.params.analyzeColor();
-        final String goCommand =
-            "GO(${widget.params.selectedButtons[0].position.item1}"
-            "${widget.params.selectedButtons[0].position.item2})";
-        final String command =
-            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
-        if (widget.params.selectionMode == SelectionModes.mirror ||
-            widget.params.selectionMode == SelectionModes.copy) {
-          widget.params.addTemporaryCommand(goCommand);
-          widget.params.addTemporaryCommand(command);
-          num j = -1;
-          final int numOfColor = widget.params.nextColors.length;
-          for (final CrossButton element in widget.params.selectedButtons) {
-            j = (j + 1) % numOfColor;
-            element
-              ..changeColorFromIndex(j.toInt())
-              ..deselect();
-          }
-        } else {
-          widget.params.addCommand(goCommand);
-          widget.params.addCommand(command);
-          final Pair<Results, CatError> resultPair =
-              widget.params.checkSchema();
-          final CatError error = resultPair.second;
-          final Results results = resultPair.first;
-          if (error == CatError.none) {
-            activeCross.fromSchema(results.getStates.last);
-          } else {
-            await message("Errore:", error.name);
-          }
-        }
-        await message("Comando riconsociuto:", command);
-        widget.params.saveCommandsForJson();
-        widget.params.resetAnalyzer();
-        widget.params.nextColors.clear();
-      } else if (recognisedCommands.isEmpty) {
-        await message(
-          "Nessun commando riconsociuto",
-          "Non è stato possible riconoscere alcun comando",
-        );
-      } else {
-        await message(
-          "Comando ambiguo:",
-          "Comandi riconsociuti: ${recognisedCommands.toString()}",
-        );
-      }
-    }
-    widget.params.removeSelection();
-  }
-
-  @override
 
   /// > The CrossWidget is initialized with a GlobalKey and the params object
+  @override
   void initState() {
     activeCross = CrossWidget(
       globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
@@ -197,22 +121,24 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Args:
   ///   title (String): The title of the dialog.
   ///   message (String): The message you want to display.
-  Future<bool?> message(String title, String message, {bool confirm = false}) =>
-      showCupertinoDialog<bool>(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: <CupertinoDialogAction>[
-            CupertinoDialogAction(
-              child: const Text("Close"),
-              onPressed: () {
-                Navigator.pop(context, false);
-              },
-            ),
-          ],
-        ),
-      );
+  void message(String title, String message, {bool confirm = false}) {
+    showCupertinoDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            child: const Text("Close"),
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+          ),
+        ],
+      ),
+    );
+    setState(() {});
+  }
 
   /// It shows a dialog box with a title and a message.
   /// The dialog box can be confirmed or no and it return,
@@ -313,8 +239,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 children: <Widget>[
                   const Icon(CupertinoIcons.circle_fill),
                   Text(
-                    " ${widget.params.nextColors
-                        .indexOf(CupertinoColors.systemBlue) + 1}",
+                    " ${_getColorIndex(CupertinoColors.systemBlue)}",
                     style: textStyle,
                   ),
                 ],
@@ -334,8 +259,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 children: <Widget>[
                   const Icon(CupertinoIcons.circle_fill),
                   Text(
-                    " ${widget.params.nextColors
-                        .indexOf(CupertinoColors.systemRed) + 1}",
+                    " ${_getColorIndex(CupertinoColors.systemRed)}",
                     style: textStyle,
                   ),
                 ],
@@ -355,8 +279,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 children: <Widget>[
                   const Icon(CupertinoIcons.circle_fill),
                   Text(
-                    " ${widget.params.nextColors
-                        .indexOf(CupertinoColors.systemGreen) + 1}",
+                    " ${_getColorIndex(CupertinoColors.systemGreen)}",
                     style: textStyle,
                   ),
                 ],
@@ -376,8 +299,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                 children: <Widget>[
                   const Icon(CupertinoIcons.circle_fill),
                   Text(
-                    " ${widget.params.nextColors
-                        .indexOf(CupertinoColors.systemYellow) + 1}",
+                    " ${_getColorIndex(CupertinoColors.systemYellow)}",
                     style: textStyle,
                   ),
                 ],
@@ -386,6 +308,9 @@ class GestureImplementationState extends State<GestureImplementation> {
       ),
     ];
   }
+
+  int _getColorIndex(CupertinoDynamicColor color) =>
+      widget.params.nextColors.indexOf(color) + 1;
 
   /// It takes a color as a parameter, and if the color is already in the list
   /// of colors, it removes it, otherwise it adds it
@@ -438,7 +363,7 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   /// If the color is selected, fill the empty cells with the selected color
   void _fillEmpty() {
-    if (checkColorSelected(checkExactlyOne: true)) {
+    if (widget.params.checkColorLength(min: 1, max: 1)) {
       activeCross.fillEmpty();
       final String colors = widget.params.analyzeColor();
       message(
@@ -594,38 +519,40 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _mirrorConfirm() {
     //TODO: implementare selezione celle singole
-    setState(() {if (widget.params.selectionMode == SelectionModes.mirror) {
-      widget.params.selectionMode = SelectionModes.base;
-      String command = "";
-      if (widget.params.temporaryCommands.isNotEmpty) {
-        command = widget.params.temporaryCommands.toString();
-        command = "{${command.substring(1, command.length - 1)}}";
-      }
-      if (mirroring.second != "") {
-        widget.params.temporaryCommands.clear();
-        widget.params.addCommand("MIRROR($command, ${mirroring.second})");
-        mirroring = const Pair<bool, String>(false, "");
-        widget.params.reloadCross(activeCross);
+    setState(() {
+      if (widget.params.selectionMode == SelectionModes.mirror) {
+        widget.params.selectionMode = SelectionModes.base;
+        String command = "";
         if (widget.params.temporaryCommands.isNotEmpty) {
-          message(
-            "Comando SPECCHIA",
-            "Comando eseguito correttamente sui comandi: $command",
-          );
+          command = widget.params.temporaryCommands.toString();
+          command = "{${command.substring(1, command.length - 1)}}";
+        }
+        if (mirroring.second != "") {
+          widget.params.temporaryCommands.clear();
+          widget.params.addCommand("MIRROR($command, ${mirroring.second})");
+          mirroring = const Pair<bool, String>(false, "");
+          widget.params.reloadCross(activeCross);
+          if (widget.params.temporaryCommands.isNotEmpty) {
+            message(
+              "Comando SPECCHIA",
+              "Comando eseguito correttamente sui comandi: $command",
+            );
+          } else {
+            message(
+              "Comando SPECCHIA",
+              "Comando eseguito correttamente su tutta la croce",
+            );
+          }
+          widget.params.saveCommandsForJson();
         } else {
           message(
-            "Comando SPECCHIA",
-            "Comando eseguito correttamente su tutta la croce",
+            "Nessun asse selezionato",
+            "Selezionare un asse (V = verticale, O = orizontale",
           );
+          widget.params.selectionMode = SelectionModes.mirror;
         }
-        widget.params.saveCommandsForJson();
-      } else {
-        message(
-          "Nessun asse selezionato",
-          "Selezionare un asse (V = verticale, O = orizontale",
-        );
-        widget.params.selectionMode = SelectionModes.mirror;
       }
-    }});
+    });
   }
 
   void _mirrorInit() {
@@ -664,7 +591,9 @@ class GestureImplementationState extends State<GestureImplementation> {
         message(
           "Croce colorata correttamente",
           "La croce è stata colorata correttamente \n "
-              'comandi: ${results.getCommands.except(<String>['None',])}'
+              'comandi: ${results.getCommands.except(<String>[
+                'None',
+              ])}'
               ' \n croce ${results.completed ? 'corretta' : 'sbagliata'}',
         );
         widget.params.saveCommandsForJson();

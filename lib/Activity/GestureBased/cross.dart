@@ -75,7 +75,7 @@ class CrossWidget extends StatefulWidget {
 class CrossWidgetState extends State<CrossWidget> {
   // ignore: always_specify_types
   late final Map _buttons = {};
-  final double _buttonDimension = 50;
+  late final double _buttonDimension = 50;
 
   /// A function that returns a widget.
   ///
@@ -179,7 +179,7 @@ class CrossWidgetState extends State<CrossWidget> {
   /// Args:
   ///   details (DragEndDetails): The details of the drag event.
   void endPan(DragEndDetails details) {
-    widget.params.gestureHomeState.confirmSelection();
+    widget.params.confirmSelection();
   }
 
   /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new
@@ -189,6 +189,7 @@ class CrossWidgetState extends State<CrossWidget> {
   /// values are [3, 4]. Otherwise, the possible x values are [1, 2, 3, 4, 5, 6]
   @override
   void initState() {
+    // _buttonDimension = widget.crossDimension / 10;
     for (final String y in <String>["a", "b", "c", "d", "e", "f"]) {
       // ignore: always_specify_types
       _buttons[y] = {};

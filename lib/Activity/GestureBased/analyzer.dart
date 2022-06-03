@@ -101,7 +101,10 @@ class Analyzer {
   ///
   /// Returns:
   ///   A list of strings.
-  List<String> analyzePattern(List<CrossButton> selectedButtons) {
+  List<String> analyzePattern(
+    List<CrossButton> selectedButtons,
+    List<CupertinoDynamicColor> nextColors,
+  ) {
     final List<Map<String, dynamic>> selectedButtonsCoordinates =
         _generateCoordinates(selectedButtons);
     if (selectedButtonsCoordinates.length > 1 &&
@@ -109,16 +112,20 @@ class Analyzer {
       _analyzeHorizontal(selectedButtonsCoordinates);
       _analyzeVertical(selectedButtonsCoordinates);
       _analyzeDiagonal(selectedButtonsCoordinates);
-      _analyzeSquare(selectedButtonsCoordinates, selectedButtons);
+      _analyzeSquare(selectedButtonsCoordinates);
       _analyzeL(selectedButtonsCoordinates);
       _analyzeZigZag(selectedButtonsCoordinates);
+
+      if (_possiblePattern.length == 1 && _possiblePattern.contains("square")) {
+        _sortButtonsAndColors(selectedButtons, nextColors);
+      }
+
 
       return _possiblePattern;
     } else {
       return <String>[];
     }
   }
-
 
   /// _analyzeDiagonal() checks if the selected buttons are
   /// in a diagonal pattern
@@ -232,15 +239,12 @@ class Analyzer {
   /// of the selected buttons.
   void _analyzeSquare(
     List<Map<String, dynamic>> selectedButtonsCoordinates,
-    List<CrossButton> selectedButtons,
   ) {
     if (selectedButtonsCoordinates.length == 4) {
       final List<Map<String, dynamic>> tempCoordinate = <Map<String, dynamic>>[
         ...selectedButtonsCoordinates,
       ];
       if (_square(tempCoordinate) && !_possiblePattern.contains("square")) {
-        _sortCoordinates(selectedButtonsCoordinates);
-        _sortButtons(selectedButtons);
         _possiblePattern.add("square");
       }
     } else if (selectedButtonsCoordinates.length > 4) {
@@ -280,51 +284,59 @@ class Analyzer {
   /// coordinates of the buttons selected by the user.
   void _analyzeZigZag(List<Map<String, dynamic>> selectedButtonsCoordinates) {
     if (selectedButtonsCoordinates.length >= 3) {
-      if (_zigLeftUpDown(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag left up down")) {
-        _possiblePattern.add("zig-zag left up down");
+      if (_zigLeftUpDown(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag left up down")) {
+          _possiblePattern.add("zig-zag left up down");
+        }
       } else {
         _possiblePattern.remove("zig-zag left up down");
       }
-      if (_zigLeftDownUp(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag left down up")) {
-        _possiblePattern.add("zig-zag left down up");
+      if (_zigLeftDownUp(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag left down up")) {
+          _possiblePattern.add("zig-zag left down up");
+        }
       } else {
         _possiblePattern.remove("zig-zag left down up");
       }
-      if (_zigRightUpDown(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag right up down")) {
-        _possiblePattern.add("zig-zag right up down");
+      if (_zigRightUpDown(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag right up down")) {
+          _possiblePattern.add("zig-zag right up down");
+        }
       } else {
         _possiblePattern.remove("zig-zag right up down");
       }
-      if (_zigRightDownUp(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag right down up")) {
-        _possiblePattern.add("zig-zag right down up");
+      if (_zigRightDownUp(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag right down up")) {
+          _possiblePattern.add("zig-zag right down up");
+        }
       } else {
         _possiblePattern.remove("zig-zag right down up");
       }
-      if (_zigUpLeftRight(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag up left right")) {
-        _possiblePattern.add("zig-zag up left right");
+      if (_zigUpLeftRight(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag up left right")) {
+          _possiblePattern.add("zig-zag up left right");
+        }
       } else {
         _possiblePattern.remove("zig-zag up left right");
       }
-      if (_zigUpRightLeft(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag up right left")) {
-        _possiblePattern.add("zig-zag up right left");
+      if (_zigUpRightLeft(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag up right left")) {
+          _possiblePattern.add("zig-zag up right left");
+        }
       } else {
         _possiblePattern.remove("zig-zag up right left");
       }
-      if (_zigDownRightLeft(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag down right left")) {
-        _possiblePattern.add("zig-zag down right left");
+      if (_zigDownRightLeft(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag down right left")) {
+          _possiblePattern.add("zig-zag down right left");
+        }
       } else {
         _possiblePattern.remove("zig-zag down right left");
       }
-      if (_zigDownLeftRight(selectedButtonsCoordinates) &&
-          !_possiblePattern.contains("zig-zag down left right")) {
-        _possiblePattern.add("zig-zag down left right");
+      if (_zigDownLeftRight(selectedButtonsCoordinates)) {
+        if (!_possiblePattern.contains("zig-zag down left right")) {
+          _possiblePattern.add("zig-zag down left right");
+        }
       } else {
         _possiblePattern.remove("zig-zag down left right");
       }
@@ -801,18 +813,40 @@ class Analyzer {
   ///   selectedButtons (List<CrossButton>): A list of the buttons that are
   /// currently selected.
   ///
-  void _sortButtons(List<CrossButton> selectedButtons) {
-    selectedButtons.sort((CrossButton a, CrossButton b) {
-      final int r = a.position.item1.compareTo(b.position.item1);
-      if (r != 0) {
-        return r;
-      }
+  void _sortButtonsAndColors(
+    List<CrossButton> selectedButtons,
+    List<CupertinoDynamicColor> nextColors,
+  ) {
+    final List<CrossButton> tempButton = <CrossButton>[
+      ...selectedButtons,
+    ]..sort((CrossButton a, CrossButton b) {
+        final int r = a.position.item1.compareTo(b.position.item1);
+        if (r != 0) {
+          return r;
+        }
 
-      return a.position.item2.compareTo(b.position.item2);
-    });
-    final CrossButton last = selectedButtons[3];
-    selectedButtons[3] = selectedButtons[2];
-    selectedButtons[2] = last;
+        return a.position.item2.compareTo(b.position.item2);
+      });
+    final CrossButton last = tempButton[3];
+    tempButton[3] = tempButton[2];
+    tempButton[2] = last;
+
+    final int numOfColor = nextColors.length;
+    final List<CupertinoDynamicColor> tempColor = <CupertinoDynamicColor>[
+      ...nextColors,
+    ];
+    for (int i = 0; i < selectedButtons.length; i++) {
+      final int oldColorIndex = i % numOfColor;
+      final int newColorIndex =
+          tempButton.indexOf(selectedButtons[i]) % numOfColor;
+      tempColor[newColorIndex] = nextColors[oldColorIndex];
+    }
+    nextColors
+      ..clear()
+      ..addAll(tempColor);
+    selectedButtons
+      ..clear()
+      ..addAll(tempButton);
   }
 
   /// Sort the list of coordinates to be in the correct order for a square.

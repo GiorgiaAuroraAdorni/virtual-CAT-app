@@ -105,7 +105,7 @@ Future<void> initializeTest(WidgetTester tester) async {
   await tester.binding.setSurfaceSize(const Size(2224, 1668));
   await tester.pumpWidget(CupertinoApp(
       home: GestureImplementation(
-        key: const Key('testing'),
+        globalKey: GlobalKey<GestureImplementationState>(debugLabel: 'testing'),
         params: Parameters(),
       ),
       theme: const CupertinoThemeData(

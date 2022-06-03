@@ -193,8 +193,7 @@ class CrossButtonState extends State<CrossButton> {
       select();
     } else if (widget.params.selectionMode == SelectionModes.copy ||
         widget.params.selectionMode == SelectionModes.mirror) {
-      if (widget.params.gestureHomeState
-          .checkColorSelected(checkExactlyOne: true)) {
+      if (widget.params.checkColorLength(min: 1, max: 1)) {
         changeColorFromIndex(0);
         widget.params.addTemporaryCommand(
             "GO(${widget.position.item1}${widget.position.item2})",);
@@ -202,8 +201,7 @@ class CrossButtonState extends State<CrossButton> {
             .addTemporaryCommand("PAINT(${widget.params.analyzeColor()})");
       }
     } else {
-      if (widget.params.gestureHomeState
-          .checkColorSelected(checkExactlyOne: true)) {
+      if (widget.params.checkColorLength(min: 1, max: 1)) {
         changeColorFromIndex(0);
         widget.params
             .addCommand("GO(${widget.position.item1}${widget.position.item2})");
