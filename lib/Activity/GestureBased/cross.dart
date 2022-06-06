@@ -179,7 +179,7 @@ class CrossWidgetState extends State<CrossWidget> {
   /// Args:
   ///   details (DragEndDetails): The details of the drag event.
   void endPan(DragEndDetails details) {
-    widget.params.confirmSelection();
+    widget.params.confirmCommands();
   }
 
   /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new

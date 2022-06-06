@@ -7,6 +7,8 @@ import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
+import 'cross_button.dart';
+
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
@@ -45,6 +47,13 @@ class GestureImplementation extends StatefulWidget {
   ///   schema (Cross): the schema from wich load the cross
   void reloadCrossFromSchema(Cross schema) =>
       globalKey.currentState?.activeCross.fromSchema(schema);
+
+  /// Confirm the command done on the current cross
+  void confirmCommand() => globalKey.currentState?._confirmCommands();
+
+  /// Reload the image with the correct cross by getting the image from the
+  /// assets folder and setting the state.
+  void reloadImage() => globalKey.currentState?.reloadImage();
 }
 
 /// It's a stateful widget that
@@ -66,6 +75,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// command COPY.
   bool copying = false;
 
+  /// Widget containing the image of the solution cross
+  late Image image;
+
   @override
 
   /// It builds the UI for the home screen
@@ -81,11 +93,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image(
-                image: AssetImage(
-                  "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
-                ),
-              ),
+              image,
               // solutionCross,
               const SizedBox(height: 50),
               Row(children: _basicButtonsBuild()),
@@ -113,7 +121,23 @@ class GestureImplementationState extends State<GestureImplementation> {
     //          visible: true,
     //          currentSchema:widget.params.currentSchema));
     // solutionCross.fromSchema(Schemes.fromJson());
+    image = Image(
+      image: AssetImage(
+        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
+      ),
+    );
     super.initState();
+  }
+
+  /// Reload the image by getting the image from the assets folder and setting
+  /// the state.
+  void reloadImage() {
+    image = Image(
+      image: AssetImage(
+        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
+      ),
+    );
+    setState(() {});
   }
 
   /// It shows a dialog box with a title and a message.
@@ -614,5 +638,69 @@ class GestureImplementationState extends State<GestureImplementation> {
       );
     }
     stdout.writeln(widget.params.commands);
+  }
+
+  /// It checks if the selected buttons are all of the same color, if so it
+  /// checks if the pattern is recognized, if so it adds the command to the
+  /// list of commands and clears the selection,
+  /// if not it shows an error message
+  ///
+  /// Args:
+  ///   allCell (bool): if true, the user wants to select all the cells in the
+  /// row/column
+  void _confirmCommands() {
+    if (widget.params.checkColorLength(min: 1)) {
+      final List<String> recognisedCommands = widget.params.analyzePattern();
+      if (recognisedCommands.length == 1) {
+        final String numOfCells =
+        widget.params.numberOfCell(recognisedCommands.first);
+        final String colors = widget.params.analyzeColor();
+        final String goCommand =
+            "GO(${widget.params.selectedButtons[0].position.item1}"
+            "${widget.params.selectedButtons[0].position.item2})";
+        final String command =
+            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
+        if (widget.params.selectionMode == SelectionModes.mirror ||
+            widget.params.selectionMode == SelectionModes.copy) {
+          widget.params.addTemporaryCommand(goCommand);
+          widget.params.addTemporaryCommand(command);
+          num j = -1;
+          final int numOfColor = widget.params.nextColors.length;
+          for (final CrossButton element in widget.params.selectedButtons) {
+            j = (j + 1) % numOfColor;
+            element
+              ..changeColorFromIndex(j.toInt())
+              ..deselect();
+          }
+        } else {
+          widget.params.addCommand(goCommand);
+          widget.params.addCommand(command);
+          final Pair<Results, CatError> resultPair =
+          widget.params.checkSchema();
+          final CatError error = resultPair.second;
+          final Results results = resultPair.first;
+          if (error == CatError.none) {
+            activeCross.fromSchema(results.getStates.last);
+          } else {
+            message("Errore:", error.name);
+          }
+        }
+        message("Comando riconsociuto:", command);
+        widget.params.saveCommandsForJson();
+        widget.params.resetAnalyzer();
+        widget.params.nextColors.clear();
+      } else if (recognisedCommands.isEmpty) {
+        message(
+          "Nessun commando riconsociuto",
+          "Non è stato possible riconoscere alcun comando",
+        );
+      } else {
+        message(
+          "Comando ambiguo:",
+          "Comandi riconsociuti: ${recognisedCommands.toString()}",
+        );
+      }
+    }
+    widget.params.removeSelection();
   }
 }

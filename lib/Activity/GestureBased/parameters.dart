@@ -177,7 +177,9 @@ class Parameters {
       );
       nextPupil();
     }
-
+    activityHomeState.setStateFromOutside();
+    gestureHome.reloadImage();
+    
     return currentSchema;
   }
 
@@ -383,65 +385,10 @@ class Parameters {
     );
   }
 
-  /// It checks if the selected buttons are all of the same color, if so it
-  /// checks if the pattern is recognized, if so it adds the command to the
-  /// list of commands and clears the selection,
-  /// if not it shows an error message
-  ///
-  /// Args:
-  ///   allCell (bool): if true, the user wants to select all the cells in the
-  /// row/column
-  void confirmSelection() {
-    if (checkColorLength(min: 1)) {
-      final List<String> recognisedCommands = analyzePattern();
-      if (recognisedCommands.length == 1) {
-        final String numOfCells = numberOfCell(recognisedCommands.first);
-        final String colors = analyzeColor();
-        final String goCommand = "GO(${selectedButtons[0].position.item1}"
-            "${selectedButtons[0].position.item2})";
-        final String command =
-            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
-        if (selectionMode == SelectionModes.mirror ||
-            selectionMode == SelectionModes.copy) {
-          addTemporaryCommand(goCommand);
-          addTemporaryCommand(command);
-          num j = -1;
-          final int numOfColor = nextColors.length;
-          for (final CrossButton element in selectedButtons) {
-            j = (j + 1) % numOfColor;
-            element
-              ..changeColorFromIndex(j.toInt())
-              ..deselect();
-          }
-        } else {
-          addCommand(goCommand);
-          addCommand(command);
-          final Pair<Results, CatError> resultPair = checkSchema();
-          final CatError error = resultPair.second;
-          final Results results = resultPair.first;
-          if (error == CatError.none) {
-            gestureHome.reloadCrossFromSchema(results.getStates.last);
-          } else {
-            gestureHome.showMessage("Errore:", error.name);
-          }
-        }
-        saveCommandsForJson();
-        resetAnalyzer();
-        nextColors.clear();
-        gestureHome.showMessage("Comando riconsociuto:", command);
-      } else if (recognisedCommands.isEmpty) {
-        gestureHome.showMessage(
-          "Nessun commando riconsociuto",
-          "Non è stato possible riconoscere alcun comando",
-        );
-      } else {
-        gestureHome.showMessage(
-          "Comando ambiguo:",
-          "Comandi riconsociuti: ${recognisedCommands.toString()}",
-        );
-      }
-    }
-    removeSelection();
+
+  /// If the user has made a gesture, confirm the command
+  void confirmCommands() {
+    gestureHome.confirmCommand();
   }
 
   // TODO: create commandsToString to return a [].tostring() without '[....]'
