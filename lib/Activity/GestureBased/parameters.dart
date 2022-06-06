@@ -177,9 +177,9 @@ class Parameters {
       );
       nextPupil();
     }
-    activityHomeState.setStateFromOutside();
     gestureHome.reloadImage();
-    
+    activityHomeState.setStateFromOutside();
+
     return currentSchema;
   }
 
@@ -191,8 +191,9 @@ class Parameters {
     pupilData = PupilData(name: "test");
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
     currentSchema = 1;
+    gestureHome.reloadImage();
+    activityHomeState.setStateFromOutside();
     reset();
-    gestureHome.recreateCross();
   }
 
   /// It removes a color from the list of colors that will be used to generate
@@ -215,6 +216,7 @@ class Parameters {
     commands.clear();
     catInterpreter.reset();
     temporaryCommands.clear();
+    gestureHome.recreateCross();
   }
 
   /// It resets the analyzer

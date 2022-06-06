@@ -596,7 +596,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// the parameters
   void recreateCross() {
     setState(() {
-      widget.params.reset();
       ++_crossKey;
       activeCross = CrossWidget(
         globalKey:
@@ -604,6 +603,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         params: widget.params,
       );
     });
+
   }
 
   void _schemaCompleted() {
