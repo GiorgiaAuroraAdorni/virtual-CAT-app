@@ -1,13 +1,12 @@
 import "dart:io";
 
 import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
+import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
-
-import 'cross_button.dart';
 
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
@@ -95,7 +94,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             children: <Widget>[
               image,
               // solutionCross,
-              const SizedBox(height: 50),
+              const SizedBox(height: 80),
               Row(children: _basicButtonsBuild()),
               const SizedBox(height: 20),
               Row(children: _colorButtonsBuild()),
@@ -103,7 +102,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               Row(children: _instructionsButtonsBuild()),
             ],
           ),
-          const SizedBox(width: 80),
+          const SizedBox(width: 50),
           activeCross,
         ],
       );
@@ -201,9 +200,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _basicButtonsBuild() => <Widget>[
         CupertinoButton(
           key: const Key("Erase cross"),
-          onPressed: recreateCross,
+          onPressed: widget.params.reset,
           borderRadius: BorderRadius.circular(45),
-          minSize: 40,
+          minSize: 50,
           padding: EdgeInsets.zero,
           color: CupertinoColors.systemFill,
           child: const Icon(
@@ -216,7 +215,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           key: const Key("Schema completed"),
           onPressed: _schemaCompleted,
           borderRadius: BorderRadius.circular(45),
-          minSize: 40,
+          minSize: 50,
           color: CupertinoColors.systemGreen,
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.checkmark),
@@ -225,7 +224,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           key: const Key("Visibility Button"),
           onPressed: widget.params.visible ? null : _changeVisibility,
-          minSize: 40,
+          minSize: 50,
           padding: EdgeInsets.zero,
           child: widget.params.visible
               ? const Icon(CupertinoIcons.eye_slash_fill, size: 40)
@@ -255,7 +254,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key("ColorButtonBlue"),
         onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
         borderRadius: BorderRadius.circular(45),
-        minSize: 40,
+        minSize: 50,
         color: CupertinoColors.systemBlue,
         padding: EdgeInsets.zero,
         child: widget.params.nextColors.contains(CupertinoColors.systemBlue)
@@ -275,7 +274,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key("ColorButtonRed"),
         onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
         borderRadius: BorderRadius.circular(45),
-        minSize: 40,
+        minSize: 50,
         color: CupertinoColors.systemRed,
         padding: EdgeInsets.zero,
         child: widget.params.nextColors.contains(CupertinoColors.systemRed)
@@ -295,7 +294,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key("ColorButtonGreen"),
         onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
         borderRadius: BorderRadius.circular(45),
-        minSize: 40,
+        minSize: 50,
         color: CupertinoColors.systemGreen,
         padding: EdgeInsets.zero,
         child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
@@ -315,7 +314,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         key: const Key("ColorButtonYellow"),
         onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
         borderRadius: BorderRadius.circular(45),
-        minSize: 40,
+        minSize: 50,
         color: CupertinoColors.systemYellow,
         padding: EdgeInsets.zero,
         child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
@@ -409,7 +408,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           onPressed: _fillEmpty,
           borderRadius: BorderRadius.circular(45),
-          minSize: 40,
+          minSize: 50,
           padding: EdgeInsets.zero,
           color: CupertinoColors.systemFill,
           child: const Icon(
@@ -421,7 +420,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           onPressed: _copyInit,
           borderRadius: BorderRadius.circular(45),
-          minSize: 40,
+          minSize: 50,
           padding: EdgeInsets.zero,
           color: CupertinoColors.systemFill,
           child: const Icon(
@@ -436,7 +435,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               key: const Key("Confirm Copy"),
               onPressed: copying ? _copyConfirm : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemGreen,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.checkmark),
@@ -453,7 +452,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                       }
                   : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemRed,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.multiply),
@@ -464,7 +463,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         CupertinoButton(
           onPressed: _mirrorInit,
           borderRadius: BorderRadius.circular(45),
-          minSize: 40,
+          minSize: 50,
           padding: EdgeInsets.zero,
           color: CupertinoColors.systemFill,
           child: const Icon(
@@ -479,7 +478,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               key: const Key("Confirm Mirror"),
               onPressed: mirroring.first ? _mirrorConfirm : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemGreen,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.checkmark),
@@ -496,7 +495,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                       }
                   : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemRed,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.multiply),
@@ -517,7 +516,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                       }
                   : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemGrey,
               padding: EdgeInsets.zero,
               child: const Text("V"),
@@ -532,7 +531,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                       }
                   : null,
               borderRadius: BorderRadius.circular(45),
-              minSize: 40,
+              minSize: 50,
               color: CupertinoColors.systemGrey,
               padding: EdgeInsets.zero,
               child: const Text("O"),
@@ -595,15 +594,12 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// It creates a new cross widget with a new key, and resets all
   /// the parameters
   void recreateCross() {
-    setState(() {
-      ++_crossKey;
-      activeCross = CrossWidget(
-        globalKey:
-            GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
-        params: widget.params,
-      );
-    });
-
+    ++_crossKey;
+    activeCross = CrossWidget(
+      globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
+      params: widget.params,
+    );
+    setState(() {});
   }
 
   void _schemaCompleted() {
@@ -653,7 +649,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       final List<String> recognisedCommands = widget.params.analyzePattern();
       if (recognisedCommands.length == 1) {
         final String numOfCells =
-        widget.params.numberOfCell(recognisedCommands.first);
+            widget.params.numberOfCell(recognisedCommands.first);
         final String colors = widget.params.analyzeColor();
         final String goCommand =
             "GO(${widget.params.selectedButtons[0].position.item1}"
@@ -676,7 +672,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           widget.params.addCommand(goCommand);
           widget.params.addCommand(command);
           final Pair<Results, CatError> resultPair =
-          widget.params.checkSchema();
+              widget.params.checkSchema();
           final CatError error = resultPair.second;
           final Results results = resultPair.first;
           if (error == CatError.none) {

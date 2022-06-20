@@ -22,7 +22,7 @@ class ActivityHome extends StatefulWidget {
 /// and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
   late final RecorderController _recorderController;
-  late String _path;
+  // late String _path;
   late final GestureImplementation _gestureImplementation;
   late final Parameters _params = Parameters();
 
@@ -42,6 +42,7 @@ class ActivityHomeState extends State<ActivityHome> {
       children: <Widget>[
         Row(
           children: <Widget>[
+            const SizedBox(width: 10),
             Text("Current schema: ${_params.currentSchema}"),
             CupertinoButton(
               onPressed: _params.nextSchema,
@@ -71,10 +72,10 @@ class ActivityHomeState extends State<ActivityHome> {
             ),
             CupertinoButton(
               onPressed: () async {
-                _path = (await _recorderController.stop())!;
-                // stdout.writeln(path);
-                // stdout.writeln(await FileSaver.instance.saveFile('AudioTest',
-                //     File(path.split('file://')[1]).readAsBytesSync(), 'aac'));
+                await _recorderController.stop();
+                // _path = (await _recorderController.stop())!;
+                // await FileSaver.instance.saveFile("AudioTest",
+                //     File(_path.split("file://")[1]).readAsBytesSync(), 'aac',);
               },
               child: const Icon(CupertinoIcons.stop_fill),
             ),

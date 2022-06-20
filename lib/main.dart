@@ -14,6 +14,10 @@ import "package:flutter/services.dart";
 /// we try to set the preferred orientation
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: <SystemUiOverlay>[
+        SystemUiOverlay.bottom, //This line is used for showing the bottom bar
+      ],);
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
@@ -55,7 +59,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
           primaryColor: CupertinoColors.systemOrange,
         ),
-        debugShowCheckedModeBanner: false,
+        // debugShowCheckedModeBanner: false,
       );
 }
 
@@ -83,13 +87,14 @@ class _HomePageState extends State<HomePage> {
               case 2:
                 return ActivityHome(
                   sessionData: SessionData(
-                      schoolName: "USI",
-                      grade: 0,
-                      section: "A",
-                      date: DateTime.now(),
-                      supervisor: "test",),
+                    schoolName: "USI",
+                    grade: 0,
+                    section: "A",
+                    date: DateTime.now(),
+                    supervisor: "test",
+                  ),
                 );
-                //TODO: add check for session data exist and complete the form
+              //TODO: add check for session data exist and complete the form
             }
             throw Exception("Index $index is not supported");
           },

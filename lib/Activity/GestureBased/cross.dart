@@ -75,7 +75,7 @@ class CrossWidget extends StatefulWidget {
 class CrossWidgetState extends State<CrossWidget> {
   // ignore: always_specify_types
   late final Map _buttons = {};
-  late final double _buttonDimension = 50;
+  late final double _buttonDimension = 70;
 
   /// A function that returns a widget.
   ///
