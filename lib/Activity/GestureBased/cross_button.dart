@@ -135,8 +135,7 @@ class CrossButtonState extends State<CrossButton> {
         padding: EdgeInsets.zero,
         child: selected
             ? const Icon(CupertinoIcons.circle_fill)
-            : const Text(
-                "",), //Text('${widget.position.item1}${widget.position.item2}')
+            : const Text("",),
       );
 
   /// When the user clicks on a button, change the color of the button to the

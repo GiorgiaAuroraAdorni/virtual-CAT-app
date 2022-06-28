@@ -43,16 +43,16 @@ class ActivityHomeState extends State<ActivityHome> {
         Row(
           children: <Widget>[
             const SizedBox(width: 10),
-            Text("Current schema: ${_params.currentSchema}"),
+            Text("Schema da risolvere: ${_params.currentSchema}"),
             CupertinoButton(
               onPressed: _params.nextSchema,
-              child: const Text("Next schema"),
+              child: const Text("Prossimo schema"),
             ),
             CupertinoButton(
               onPressed: () {
                 setState(_params.nextPupil);
               },
-              child: const Text("Prossimo pupillo"),
+              child: const Text("Prossimo studente"),
             ),
           ],
         ),
