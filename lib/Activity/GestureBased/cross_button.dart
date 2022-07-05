@@ -5,14 +5,6 @@ import "package:tuple/tuple.dart";
 
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
-  /// It's the constructor of the class.
-  const CrossButton({
-    required this.globalKey,
-    required this.position,
-    required this.params,
-    required this.buttonDimension,
-  }) : super(key: globalKey);
-
   /// It's the size of the button
   final double buttonDimension;
 
@@ -25,14 +17,13 @@ class CrossButton extends StatefulWidget {
   /// It's a way to access the parameters of the widget from outside the widget.
   final Parameters params;
 
-  /// When the user clicks on a button, change the color of the text in the
-  /// TextField.
-  ///
-  ///
-  /// Args:
-  ///   index (int): The index of the color you want to change to.
-  void changeColorFromIndex(int index) =>
-      _changeColorFromIndex(globalKey, index);
+  /// It's the constructor of the class.
+  const CrossButton({
+    required this.globalKey,
+    required this.position,
+    required this.params,
+    required this.buttonDimension,
+  }) : super(key: globalKey);
 
   /// Change the color of the
   /// widget with the given global key to the given color.
@@ -41,6 +32,15 @@ class CrossButton extends StatefulWidget {
   ///   color (Color): The color to change to.
   void changeColorFromColor(Color color) =>
       _changeColorFromColor(globalKey, color);
+
+  /// When the user clicks on a button, change the color of the text in the
+  /// TextField.
+  ///
+  ///
+  /// Args:
+  ///   index (int): The index of the color you want to change to.
+  void changeColorFromIndex(int index) =>
+      _changeColorFromIndex(globalKey, index);
 
   /// It takes a global key, and then calls the _changeVisibility function
   /// with thatckey
@@ -63,6 +63,13 @@ class CrossButton extends StatefulWidget {
 
   /// Select the button corresponding to the given GlobalKey
   void select() => _select(globalKey);
+
+  void _changeColorFromColor(
+    GlobalKey<CrossButtonState> globalKey,
+    Color color,
+  ) {
+    globalKey.currentState?.changeColorFromColor(color);
+  }
 
   void _changeColorFromIndex(GlobalKey<CrossButtonState> globalKey, int index) {
     globalKey.currentState?.changeColorFromIndex(index);
@@ -102,11 +109,6 @@ class CrossButton extends StatefulWidget {
 
     return Offset.zero;
   }
-
-  void _changeColorFromColor(
-      GlobalKey<CrossButtonState> globalKey, Color color,) {
-    globalKey.currentState?.changeColorFromColor(color);
-  }
 }
 
 /// `CrossButtonState` is a class that extends `State` and is used to create
@@ -135,8 +137,20 @@ class CrossButtonState extends State<CrossButton> {
         padding: EdgeInsets.zero,
         child: selected
             ? const Icon(CupertinoIcons.circle_fill)
-            : const Text("",),
+            : const Text(
+                "",
+              ),
       );
+
+  /// Change the color of the button to the given color.
+  ///
+  /// Args:
+  ///   color (Color): The color that the button will change to.
+  void changeColorFromColor(Color color) {
+    setState(() {
+      buttonColor = color;
+    });
+  }
 
   /// When the user clicks on a button, change the color of the button to the
   /// color in the list corresponding to the given index
@@ -146,16 +160,6 @@ class CrossButtonState extends State<CrossButton> {
   void changeColorFromIndex(int index) {
     setState(() {
       buttonColor = widget.params.nextColors[index];
-    });
-  }
-
-  /// Change the color of the button to the given color.
-  ///
-  /// Args:
-  ///   color (Color): The color that the button will change to.
-  void changeColorFromColor(Color color) {
-    setState(() {
-      buttonColor = color;
     });
   }
 
@@ -195,7 +199,8 @@ class CrossButtonState extends State<CrossButton> {
       if (widget.params.checkColorLength(min: 1, max: 1)) {
         changeColorFromIndex(0);
         widget.params.addTemporaryCommand(
-            "GO(${widget.position.item1}${widget.position.item2})",);
+          "GO(${widget.position.item1}${widget.position.item2})",
+        );
         widget.params
             .addTemporaryCommand("PAINT(${widget.params.analyzeColor()})");
       }

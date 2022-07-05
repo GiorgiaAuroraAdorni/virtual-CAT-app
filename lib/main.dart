@@ -14,10 +14,12 @@ import "package:flutter/services.dart";
 /// we try to set the preferred orientation
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: <SystemUiOverlay>[
-        SystemUiOverlay.bottom, //This line is used for showing the bottom bar
-      ],);
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: <SystemUiOverlay>[
+      SystemUiOverlay.bottom, //This line is used for showing the bottom bar
+    ],
+  );
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,

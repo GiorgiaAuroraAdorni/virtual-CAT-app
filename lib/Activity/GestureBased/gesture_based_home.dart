@@ -11,15 +11,18 @@ import "package:interpreter/cat_interpreter.dart";
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
-  /// Creating a constructor for the GestureImplementation class.
-  const GestureImplementation({required this.params, required this.globalKey})
-      : super(key: globalKey);
-
   /// Declaring a variable called params of type Parameters.
   final Parameters params;
 
   /// It's a key that is used to access the state of the widget.
   final GlobalKey<GestureImplementationState> globalKey;
+
+  /// Creating a constructor for the GestureImplementation class.
+  const GestureImplementation({required this.params, required this.globalKey})
+      : super(key: globalKey);
+
+  /// Confirm the command done on the current cross
+  void confirmCommand() => globalKey.currentState?._confirmCommands();
 
   /// `createState()` is a function that returns a state object
   ///
@@ -27,15 +30,6 @@ class GestureImplementation extends StatefulWidget {
   ///   A new instance of the GestureImplementationState class.
   @override
   GestureImplementationState createState() => GestureImplementationState();
-
-  /// If the globalKey is not null, then call the message function on the
-  /// globalKey's current state
-  ///
-  /// Args:
-  ///   title (String): The title of the message.
-  ///   message (String): The message to be displayed.
-  void showMessage(String title, String message) =>
-      globalKey.currentState?.message(title, message);
 
   /// Recreate the activeCross in the current state
   void recreateCross() => globalKey.currentState?.recreateCross();
@@ -47,12 +41,18 @@ class GestureImplementation extends StatefulWidget {
   void reloadCrossFromSchema(Cross schema) =>
       globalKey.currentState?.activeCross.fromSchema(schema);
 
-  /// Confirm the command done on the current cross
-  void confirmCommand() => globalKey.currentState?._confirmCommands();
-
   /// Reload the image with the correct cross by getting the image from the
   /// assets folder and setting the state.
   void reloadImage() => globalKey.currentState?.reloadImage();
+
+  /// If the globalKey is not null, then call the message function on the
+  /// globalKey's current state
+  ///
+  /// Args:
+  ///   title (String): The title of the message.
+  ///   message (String): The message to be displayed.
+  void showMessage(String title, String message) =>
+      globalKey.currentState?.message(title, message);
 }
 
 /// It's a stateful widget that
@@ -128,17 +128,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     super.initState();
   }
 
-  /// Reload the image by getting the image from the assets folder and setting
-  /// the state.
-  void reloadImage() {
-    image = Image(
-      image: AssetImage(
-        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
-      ),
-    );
-    setState(() {});
-  }
-
   /// It shows a dialog box with a title and a message.
   ///
   /// Args:
@@ -192,6 +181,28 @@ class GestureImplementationState extends State<GestureImplementation> {
           ],
         ),
       );
+
+  /// It creates a new cross widget with a new key, and resets all
+  /// the parameters
+  void recreateCross() {
+    ++_crossKey;
+    activeCross = CrossWidget(
+      globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
+      params: widget.params,
+    );
+    setState(() {});
+  }
+
+  /// Reload the image by getting the image from the assets folder and setting
+  /// the state.
+  void reloadImage() {
+    image = Image(
+      image: AssetImage(
+        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
+      ),
+    );
+    setState(() {});
+  }
 
   /// It returns a list of widgets that are used to build the basic buttons
   ///
@@ -332,9 +343,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     ];
   }
 
-  int _getColorIndex(CupertinoDynamicColor color) =>
-      widget.params.nextColors.indexOf(color) + 1;
-
   /// It takes a color as a parameter, and if the color is already in the list
   /// of colors, it removes it, otherwise it adds it
   ///
@@ -349,6 +357,70 @@ class GestureImplementationState extends State<GestureImplementation> {
         widget.params.addColor(color);
       }
     });
+  }
+
+  /// It checks if the selected buttons are all of the same color, if so it
+  /// checks if the pattern is recognized, if so it adds the command to the
+  /// list of commands and clears the selection,
+  /// if not it shows an error message
+  ///
+  /// Args:
+  ///   allCell (bool): if true, the user wants to select all the cells in the
+  /// row/column
+  void _confirmCommands() {
+    if (widget.params.checkColorLength(min: 1)) {
+      final List<String> recognisedCommands = widget.params.analyzePattern();
+      if (recognisedCommands.length == 1) {
+        final String numOfCells =
+            widget.params.numberOfCell(recognisedCommands.first);
+        final String colors = widget.params.analyzeColor();
+        final String goCommand =
+            "GO(${widget.params.selectedButtons[0].position.item1}"
+            "${widget.params.selectedButtons[0].position.item2})";
+        final String command =
+            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
+        if (widget.params.selectionMode == SelectionModes.mirror ||
+            widget.params.selectionMode == SelectionModes.copy) {
+          widget.params.addTemporaryCommand(goCommand);
+          widget.params.addTemporaryCommand(command);
+          num j = -1;
+          final int numOfColor = widget.params.nextColors.length;
+          for (final CrossButton element in widget.params.selectedButtons) {
+            j = (j + 1) % numOfColor;
+            element
+              ..changeColorFromIndex(j.toInt())
+              ..deselect();
+          }
+        } else {
+          widget.params.addCommand(goCommand);
+          widget.params.addCommand(command);
+          final Pair<Results, CatError> resultPair =
+              widget.params.checkSchema();
+          final CatError error = resultPair.second;
+          final Results results = resultPair.first;
+          if (error == CatError.none) {
+            activeCross.fromSchema(results.getStates.last);
+          } else {
+            message("Errore:", error.name);
+          }
+        }
+        message("Comando riconsociuto:", command);
+        widget.params.saveCommandsForJson();
+        widget.params.resetAnalyzer();
+        widget.params.nextColors.clear();
+      } else if (recognisedCommands.isEmpty) {
+        message(
+          "Nessun commando riconsociuto",
+          "Non è stato possible riconoscere alcun comando",
+        );
+      } else {
+        message(
+          "Comando ambiguo:",
+          "Comandi riconsociuti: ${recognisedCommands.toString()}",
+        );
+      }
+    }
+    widget.params.removeSelection();
   }
 
   void _copyConfirm() {
@@ -399,6 +471,9 @@ class GestureImplementationState extends State<GestureImplementation> {
       });
     }
   }
+
+  int _getColorIndex(CupertinoDynamicColor color) =>
+      widget.params.nextColors.indexOf(color) + 1;
 
   /// It returns a list of widgets.
   ///
@@ -591,17 +666,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  /// It creates a new cross widget with a new key, and resets all
-  /// the parameters
-  void recreateCross() {
-    ++_crossKey;
-    activeCross = CrossWidget(
-      globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
-      params: widget.params,
-    );
-    setState(() {});
-  }
-
   void _schemaCompleted() {
     if (widget.params.commands.isNotEmpty) {
       final Pair<Results, CatError> resultPair = widget.params.checkSchema();
@@ -634,69 +698,5 @@ class GestureImplementationState extends State<GestureImplementation> {
       );
     }
     stdout.writeln(widget.params.commands);
-  }
-
-  /// It checks if the selected buttons are all of the same color, if so it
-  /// checks if the pattern is recognized, if so it adds the command to the
-  /// list of commands and clears the selection,
-  /// if not it shows an error message
-  ///
-  /// Args:
-  ///   allCell (bool): if true, the user wants to select all the cells in the
-  /// row/column
-  void _confirmCommands() {
-    if (widget.params.checkColorLength(min: 1)) {
-      final List<String> recognisedCommands = widget.params.analyzePattern();
-      if (recognisedCommands.length == 1) {
-        final String numOfCells =
-            widget.params.numberOfCell(recognisedCommands.first);
-        final String colors = widget.params.analyzeColor();
-        final String goCommand =
-            "GO(${widget.params.selectedButtons[0].position.item1}"
-            "${widget.params.selectedButtons[0].position.item2})";
-        final String command =
-            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
-        if (widget.params.selectionMode == SelectionModes.mirror ||
-            widget.params.selectionMode == SelectionModes.copy) {
-          widget.params.addTemporaryCommand(goCommand);
-          widget.params.addTemporaryCommand(command);
-          num j = -1;
-          final int numOfColor = widget.params.nextColors.length;
-          for (final CrossButton element in widget.params.selectedButtons) {
-            j = (j + 1) % numOfColor;
-            element
-              ..changeColorFromIndex(j.toInt())
-              ..deselect();
-          }
-        } else {
-          widget.params.addCommand(goCommand);
-          widget.params.addCommand(command);
-          final Pair<Results, CatError> resultPair =
-              widget.params.checkSchema();
-          final CatError error = resultPair.second;
-          final Results results = resultPair.first;
-          if (error == CatError.none) {
-            activeCross.fromSchema(results.getStates.last);
-          } else {
-            message("Errore:", error.name);
-          }
-        }
-        message("Comando riconsociuto:", command);
-        widget.params.saveCommandsForJson();
-        widget.params.resetAnalyzer();
-        widget.params.nextColors.clear();
-      } else if (recognisedCommands.isEmpty) {
-        message(
-          "Nessun commando riconsociuto",
-          "Non è stato possible riconoscere alcun comando",
-        );
-      } else {
-        message(
-          "Comando ambiguo:",
-          "Comandi riconsociuti: ${recognisedCommands.toString()}",
-        );
-      }
-    }
-    widget.params.removeSelection();
   }
 }

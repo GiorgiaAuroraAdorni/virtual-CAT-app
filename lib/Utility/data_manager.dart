@@ -4,83 +4,20 @@ import "dart:io";
 import "package:cross_array_task_app/Utility/file_manager.dart";
 import "package:path_provider/path_provider.dart";
 
-/// It's a class that contains the data that will be stored in the database
-class SessionData {
-  /// A constructor for the class SessionData.
-  SessionData({
-    required this.schoolName,
-    required this.grade,
-    required this.section,
-    required this.date,
-    required this.supervisor,
-  });
-
-  /// It's a variable that contains the name of the school.
-  String schoolName;
-
-  /// It's a variable that contains the grade of the pupil.
-  int grade;
-
-  /// It's a variable that contains the section of the pupil.
-  String section;
-
-  /// It's a variable that contains the date of the session.
-  DateTime date;
-
-  /// It's a variable that contains the name of the supervisor.
-  String supervisor;
-
-  /// It converts the object into a map
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        "school": schoolName,
-        "class": grade,
-        "section": section,
-        "date": date.toString().split(" ")[0],
-        "supervisor": supervisor,
-      };
-}
-
-/// It's a class that contains the data of a pupil
-class PupilData {
-  /// A constructor for the PupilData class. It takes a required parameter of
-  /// name and sets the id.
-  ///
-  /// Args:
-  ///   : required - this is a required parameter.
-  PupilData({required this.name}) {
-    setId();
-  }
-
-  /// It's a variable that contains the name of the pupil.
-  String name;
-
-  /// It's a variable that contains the gender of the pupil.
-  late String gender = "";
-
-  /// It's a variable that contains the date of birth of the pupil.
-  late DateTime dateOfBirth = DateTime(1);
-
-  /// It's a variable that contains the id of the pupil.
-  late int id = 0;
-
-  /// It converts the object into a map
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        "name": name,
-        "gender": (gender != "") ? gender : "",
-        "date of birth":
-            (dateOfBirth.year != 1) ? dateOfBirth.toString().split(" ")[0] : "",
-      };
-
-  /// It gets the number of files in the directory and sets the
-  /// id to that number
-  Future<void> setId() async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    id = await directory.list().length;
-  }
-}
-
 /// It takes the session and pupil data and saves it in a json file
 class JsonParser {
+  /// It's a variable that contains the session data.
+  SessionData sessionData;
+
+  /// It's a variable that contains the pupil data.
+  PupilData pupilData;
+
+  /// It is a variable that contains the data to be saved in the json file.
+  late Map<String, dynamic> data;
+
+  /// It's creating a list of maps.
+  List<Map<String, dynamic>> activity = <Map<String, dynamic>>[];
+
   /// It takes in two parameters, sessionData and pupilData, and creates a new
   /// JsonParser object.
   ///
@@ -93,18 +30,6 @@ class JsonParser {
       "pupil": pupilData.toJson(),
     };
   }
-
-  /// It's a variable that contains the session data.
-  SessionData sessionData;
-
-  /// It's a variable that contains the pupil data.
-  PupilData pupilData;
-
-  /// It is a variable that contains the data to be saved in the json file.
-  late Map<String, dynamic> data;
-
-  /// It's creating a list of maps.
-  List<Map<String, dynamic>> activity = <Map<String, dynamic>>[];
 
   /// It adds data to the activity list
   ///
@@ -153,4 +78,79 @@ class JsonParser {
     // data["activity"].addAll(activity);
     FileManager().saveJson(jsonEncode(data), pupilData.id);
   }
+}
+
+/// It's a class that contains the data of a pupil
+class PupilData {
+  /// It's a variable that contains the name of the pupil.
+  String name;
+
+  /// It's a variable that contains the gender of the pupil.
+  late String gender = "";
+
+  /// It's a variable that contains the date of birth of the pupil.
+  late DateTime dateOfBirth = DateTime(1);
+
+  /// It's a variable that contains the id of the pupil.
+  late int id = 0;
+
+  /// A constructor for the PupilData class. It takes a required parameter of
+  /// name and sets the id.
+  ///
+  /// Args:
+  ///   : required - this is a required parameter.
+  PupilData({required this.name}) {
+    setId();
+  }
+
+  /// It gets the number of files in the directory and sets the
+  /// id to that number
+  Future<void> setId() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    id = await directory.list().length;
+  }
+
+  /// It converts the object into a map
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        "name": name,
+        "gender": (gender != "") ? gender : "",
+        "date of birth":
+            (dateOfBirth.year != 1) ? dateOfBirth.toString().split(" ")[0] : "",
+      };
+}
+
+/// It's a class that contains the data that will be stored in the database
+class SessionData {
+  /// It's a variable that contains the name of the school.
+  String schoolName;
+
+  /// It's a variable that contains the grade of the pupil.
+  int grade;
+
+  /// It's a variable that contains the section of the pupil.
+  String section;
+
+  /// It's a variable that contains the date of the session.
+  DateTime date;
+
+  /// It's a variable that contains the name of the supervisor.
+  String supervisor;
+
+  /// A constructor for the class SessionData.
+  SessionData({
+    required this.schoolName,
+    required this.grade,
+    required this.section,
+    required this.date,
+    required this.supervisor,
+  });
+
+  /// It converts the object into a map
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        "school": schoolName,
+        "class": grade,
+        "section": section,
+        "date": date.toString().split(" ")[0],
+        "supervisor": supervisor,
+      };
 }

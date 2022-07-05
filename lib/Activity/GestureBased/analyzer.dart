@@ -7,6 +7,9 @@ import "package:tuple/tuple.dart";
 
 /// Class to analyze some input and modify to some desidered output
 class Analyzer {
+  /// Declaring a private variable that is a list of strings.
+  late List<String> _possiblePattern;
+
   /// It creates a list of possible patterns that the dart can take
   Analyzer() {
     _possiblePattern = <String>[
@@ -20,9 +23,6 @@ class Analyzer {
       "diagonal down right",
     ];
   }
-
-  /// Declaring a private variable that is a list of strings.
-  late List<String> _possiblePattern;
 
   /// It takes a list of colors and returns a string representation
   /// of the colors
@@ -92,6 +92,66 @@ class Analyzer {
     return result;
   }
 
+  /// It returns the number of cells in a
+  /// row/column/diagonal/zig-zag/square/L-shape, given the direction and the
+  /// starting cell
+  ///
+  /// Args:
+  ///   selectedButton (List<CrossButton>): The list of buttons that were
+  /// selected.
+  ///   direction (String): The direction of the swipe.
+  ///
+  /// Returns:
+  ///   A string that represents the number of cells in the selectedButton list.
+  String analyzeNumberOfCell(
+    List<CrossButton> selectedButton,
+    String direction,
+  ) {
+    if (direction == "up" || direction == "down") {
+      if (<int>[1, 2, 5, 6].contains(selectedButton.first.position.item2) &&
+          selectedButton.length == 2) {
+        return ":";
+      } else if (selectedButton.length == 6) {
+        return ":";
+      }
+    }
+    if (direction == "right" || direction == "left") {
+      if (<String>["a", "b", "e", "f"]
+              .contains(selectedButton.first.position.item1) &&
+          selectedButton.length == 2) {
+        return ":";
+      } else if (selectedButton.length == 6) {
+        return ":";
+      }
+    }
+    if (direction.startsWith("L") && selectedButton.length == 5) {
+      return ":";
+    }
+    if (direction.startsWith("zig-zag") && selectedButton.length == 6) {
+      return ":";
+    }
+    if (direction == "square" && selectedButton.length == 4) {
+      return ":";
+    }
+    if (direction.startsWith("diagonal")) {
+      final List<List<Tuple2<String, int>>> startCoordinates =
+          _generateTupleForDiagonal(direction);
+
+      if (startCoordinates[0].contains(selectedButton.first.position) &&
+          selectedButton.length == 2) {
+        return ":";
+      } else if (startCoordinates[1].contains(selectedButton.first.position) &&
+          selectedButton.length == 3) {
+        return ":";
+      } else if (startCoordinates[2].contains(selectedButton.first.position) &&
+          selectedButton.length == 4) {
+        return ":";
+      }
+    }
+
+    return selectedButton.length.toString();
+  }
+
   /// It takes a list of selected buttons and returns a list
   /// of possible patterns.
   ///
@@ -119,7 +179,6 @@ class Analyzer {
       if (_possiblePattern.length == 1 && _possiblePattern.contains("square")) {
         _sortButtonsAndColors(selectedButtons, nextColors);
       }
-
 
       return _possiblePattern;
     } else {
@@ -581,6 +640,81 @@ class Analyzer {
         "x": position.item2,
       });
     }
+
+    return result;
+  }
+
+  /// It returns a list of lists of tuples, where each list of tuples represents
+  /// a diagonal of a certain length, and each tuple represents the starting
+  /// cell of the diagonal
+  ///
+  /// Args:
+  ///   direction (String): the direction of the diagonal
+  ///
+  /// Returns:
+  ///   A list of lists of tuples.
+  List<List<Tuple2<String, int>>> _generateTupleForDiagonal(String direction) {
+    final List<Tuple2<String, int>> length2 = <Tuple2<String, int>>[];
+    final List<Tuple2<String, int>> length3 = <Tuple2<String, int>>[];
+    final List<Tuple2<String, int>> length4 = <Tuple2<String, int>>[];
+    switch (direction.split("diagonal ")[1]) {
+      case "up left":
+        length2
+          ..add(const Tuple2<String, int>("a", 3))
+          ..add(const Tuple2<String, int>("c", 4))
+          ..add(const Tuple2<String, int>("d", 6));
+        length3
+          ..add(const Tuple2<String, int>("b", 4))
+          ..add(const Tuple2<String, int>("c", 5));
+        length4
+          ..add(const Tuple2<String, int>("a", 4))
+          ..add(const Tuple2<String, int>("c", 6));
+        break;
+      case "down left":
+        length2
+          ..add(const Tuple2<String, int>("c", 6))
+          ..add(const Tuple2<String, int>("d", 4))
+          ..add(const Tuple2<String, int>("f", 3));
+        length3
+          ..add(const Tuple2<String, int>("d", 5))
+          ..add(const Tuple2<String, int>("e", 4));
+        length4
+          ..add(const Tuple2<String, int>("d", 6))
+          ..add(const Tuple2<String, int>("f", 4));
+        break;
+      case "up right":
+        length2
+          ..add(const Tuple2<String, int>("a", 4))
+          ..add(const Tuple2<String, int>("c", 3))
+          ..add(const Tuple2<String, int>("d", 1));
+        length3
+          ..add(const Tuple2<String, int>("b", 3))
+          ..add(const Tuple2<String, int>("c", 2));
+        length4
+          ..add(const Tuple2<String, int>("a", 3))
+          ..add(const Tuple2<String, int>("c", 1));
+        break;
+      case "down right":
+        length2
+          ..add(const Tuple2<String, int>("c", 1))
+          ..add(const Tuple2<String, int>("d", 3))
+          ..add(const Tuple2<String, int>("f", 4));
+        length3
+          ..add(const Tuple2<String, int>("d", 2))
+          ..add(const Tuple2<String, int>("e", 3));
+        length4
+          ..add(const Tuple2<String, int>("d", 1))
+          ..add(const Tuple2<String, int>("f", 3));
+        break;
+      default:
+        stdout.writeln("Impossible diagonal");
+        break;
+    }
+    final List<List<Tuple2<String, int>>> result = <List<Tuple2<String, int>>>[
+      length2,
+      length3,
+      length4,
+    ];
 
     return result;
   }
@@ -1360,140 +1494,5 @@ class Analyzer {
     }
 
     return correct;
-  }
-
-  /// It returns the number of cells in a
-  /// row/column/diagonal/zig-zag/square/L-shape, given the direction and the
-  /// starting cell
-  ///
-  /// Args:
-  ///   selectedButton (List<CrossButton>): The list of buttons that were
-  /// selected.
-  ///   direction (String): The direction of the swipe.
-  ///
-  /// Returns:
-  ///   A string that represents the number of cells in the selectedButton list.
-  String analyzeNumberOfCell(
-    List<CrossButton> selectedButton,
-    String direction,
-  ) {
-    if (direction == "up" || direction == "down") {
-      if (<int>[1, 2, 5, 6].contains(selectedButton.first.position.item2) &&
-          selectedButton.length == 2) {
-        return ":";
-      } else if (selectedButton.length == 6) {
-        return ":";
-      }
-    }
-    if (direction == "right" || direction == "left") {
-      if (<String>["a", "b", "e", "f"]
-              .contains(selectedButton.first.position.item1) &&
-          selectedButton.length == 2) {
-        return ":";
-      } else if (selectedButton.length == 6) {
-        return ":";
-      }
-    }
-    if (direction.startsWith("L") && selectedButton.length == 5) {
-      return ":";
-    }
-    if (direction.startsWith("zig-zag") && selectedButton.length == 6) {
-      return ":";
-    }
-    if (direction == "square" && selectedButton.length == 4) {
-      return ":";
-    }
-    if (direction.startsWith("diagonal")) {
-      final List<List<Tuple2<String, int>>> startCoordinates =
-          _generateTupleForDiagonal(direction);
-
-      if (startCoordinates[0].contains(selectedButton.first.position) &&
-          selectedButton.length == 2) {
-        return ":";
-      } else if (startCoordinates[1].contains(selectedButton.first.position) &&
-          selectedButton.length == 3) {
-        return ":";
-      } else if (startCoordinates[2].contains(selectedButton.first.position) &&
-          selectedButton.length == 4) {
-        return ":";
-      }
-    }
-
-    return selectedButton.length.toString();
-  }
-
-  /// It returns a list of lists of tuples, where each list of tuples represents
-  /// a diagonal of a certain length, and each tuple represents the starting
-  /// cell of the diagonal
-  ///
-  /// Args:
-  ///   direction (String): the direction of the diagonal
-  ///
-  /// Returns:
-  ///   A list of lists of tuples.
-  List<List<Tuple2<String, int>>> _generateTupleForDiagonal(String direction) {
-    final List<Tuple2<String, int>> length2 = <Tuple2<String, int>>[];
-    final List<Tuple2<String, int>> length3 = <Tuple2<String, int>>[];
-    final List<Tuple2<String, int>> length4 = <Tuple2<String, int>>[];
-    switch (direction.split("diagonal ")[1]) {
-      case "up left":
-        length2
-          ..add(const Tuple2<String, int>("a", 3))
-          ..add(const Tuple2<String, int>("c", 4))
-          ..add(const Tuple2<String, int>("d", 6));
-        length3
-          ..add(const Tuple2<String, int>("b", 4))
-          ..add(const Tuple2<String, int>("c", 5));
-        length4
-          ..add(const Tuple2<String, int>("a", 4))
-          ..add(const Tuple2<String, int>("c", 6));
-        break;
-      case "down left":
-        length2
-          ..add(const Tuple2<String, int>("c", 6))
-          ..add(const Tuple2<String, int>("d", 4))
-          ..add(const Tuple2<String, int>("f", 3));
-        length3
-          ..add(const Tuple2<String, int>("d", 5))
-          ..add(const Tuple2<String, int>("e", 4));
-        length4
-          ..add(const Tuple2<String, int>("d", 6))
-          ..add(const Tuple2<String, int>("f", 4));
-        break;
-      case "up right":
-        length2
-          ..add(const Tuple2<String, int>("a", 4))
-          ..add(const Tuple2<String, int>("c", 3))
-          ..add(const Tuple2<String, int>("d", 1));
-        length3
-          ..add(const Tuple2<String, int>("b", 3))
-          ..add(const Tuple2<String, int>("c", 2));
-        length4
-          ..add(const Tuple2<String, int>("a", 3))
-          ..add(const Tuple2<String, int>("c", 1));
-        break;
-      case "down right":
-        length2
-          ..add(const Tuple2<String, int>("c", 1))
-          ..add(const Tuple2<String, int>("d", 3))
-          ..add(const Tuple2<String, int>("f", 4));
-        length3
-          ..add(const Tuple2<String, int>("d", 2))
-          ..add(const Tuple2<String, int>("e", 3));
-        length4
-          ..add(const Tuple2<String, int>("d", 1))
-          ..add(const Tuple2<String, int>("f", 3));
-        break;
-      default:
-        stdout.writeln("Impossible diagonal");
-        break;
-    }
-    final List<List<Tuple2<String, int>>> result = <List<Tuple2<String, int>>>[
-      length2,
-      length3,
-      length4,
-    ];
-
-    return result;
   }
 }

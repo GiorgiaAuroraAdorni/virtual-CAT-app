@@ -4,14 +4,11 @@ import "package:path_provider/path_provider.dart";
 
 /// Class to manage saving and reading from files
 class FileManager {
-  /// It writes the content to the file.
-  ///
-  /// Args:
-  ///   content (String): The content to be written to the file.
-  ///   fileName (String): The name of the file you want to write to.
-  Future<void> writeString(String content, String fileName) async {
-    final File file = await _localFilePath(fileName);
-    await file.writeAsString(content);
+  /// Getting the path to the local directory and returning a string.
+  Future<String> get _localPath async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
   }
 
   /// It saves the json string to a file in the application's
@@ -27,11 +24,14 @@ class FileManager {
     await file.writeAsString(json);
   }
 
-  /// Getting the path to the local directory and returning a string.
-  Future<String> get _localPath async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
+  /// It writes the content to the file.
+  ///
+  /// Args:
+  ///   content (String): The content to be written to the file.
+  ///   fileName (String): The name of the file you want to write to.
+  Future<void> writeString(String content, String fileName) async {
+    final File file = await _localFilePath(fileName);
+    await file.writeAsString(content);
   }
 
   /// It returns the path to the file.

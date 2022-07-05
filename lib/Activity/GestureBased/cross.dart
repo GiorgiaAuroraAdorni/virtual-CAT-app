@@ -8,6 +8,12 @@ import "package:tuple/tuple.dart";
 /// It's a stateful widget that has a global key, a map of parameters, and
 /// a bunch of methods that call the state's methods
 class CrossWidget extends StatefulWidget {
+  /// It's a map of parameters that is passed to the stateful widget.
+  final Parameters params;
+
+  /// It's a key that is used to access the state of the widget.
+  final GlobalKey<CrossWidgetState> globalKey;
+
   /// It's a constructor that takes two parameters, a global key and a map of
   /// parameters.
   const CrossWidget({
@@ -15,19 +21,32 @@ class CrossWidget extends StatefulWidget {
     required this.params,
   }) : super(key: globalKey);
 
-  /// It's a map of parameters that is passed to the stateful widget.
-  final Parameters params;
-
-  /// It's a key that is used to access the state of the widget.
-  final GlobalKey<CrossWidgetState> globalKey;
-
   /// It takes a global key, and then calls the _changeVisibility function
   /// with that key
   void changeVisibility() => _changeVisibility(globalKey);
 
+  /// `createState()` is a function that returns a state object
+  @override
+  CrossWidgetState createState() => CrossWidgetState();
+
   /// It takes the global key of the widget that you want to fill, and then
   /// it fills it
   void fillEmpty() => _fillEmpty(globalKey);
+
+  /// It takes a schema and update the color of the button of this cross
+  ///
+  /// Args:
+  ///   schema (Cross): The schema to be converted to a dart class.
+  void fromSchema(Cross schema) => _fromSchema(globalKey, schema);
+
+  /// Change the visibility of the cross with the given globalKey
+  ///
+  /// Args:
+  ///   globalKey (GlobalKey<CrossWidgetState>): The global key of the
+  /// CrossWidget.
+  void _changeVisibility(GlobalKey<CrossWidgetState> globalKey) {
+    globalKey.currentState?.changeVisibility();
+  }
 
   /// `_fillEmpty` is a function that takes a `GlobalKey<CrossWidgetState>`
   /// as an argument and calls the `fillEmpty` function on the
@@ -39,25 +58,6 @@ class CrossWidget extends StatefulWidget {
   void _fillEmpty(GlobalKey<CrossWidgetState> globalKey) {
     globalKey.currentState?.fillEmpty();
   }
-
-  /// `createState()` is a function that returns a state object
-  @override
-  CrossWidgetState createState() => CrossWidgetState();
-
-  /// Change the visibility of the cross with the given globalKey
-  ///
-  /// Args:
-  ///   globalKey (GlobalKey<CrossWidgetState>): The global key of the
-  /// CrossWidget.
-  void _changeVisibility(GlobalKey<CrossWidgetState> globalKey) {
-    globalKey.currentState?.changeVisibility();
-  }
-
-  /// It takes a schema and update the color of the button of this cross
-  ///
-  /// Args:
-  ///   schema (Cross): The schema to be converted to a dart class.
-  void fromSchema(Cross schema) => _fromSchema(globalKey, schema);
 
   /// > It takes a global key and a schema, and then calls the `fromSchema`
   /// function on the widget that the global key is pointing to
@@ -104,31 +104,6 @@ class CrossWidgetState extends State<CrossWidget> {
           children: _buildCross(),
         ),
       );
-
-  /// It creates a list of widgets that represent the cross
-  ///
-  /// Returns:
-  ///   A list of widgets.
-  List<Widget> _buildCross() {
-    final List<Widget> result = <Widget>[];
-    for (final String y in <String>["f", "e", "d", "c", "b", "a"]) {
-      final List<Widget> rowChildren = <Widget>[];
-      for (final int x in <int>[1, 2, 3, 4, 5, 6]) {
-        if (_buttons[y][x] != null) {
-          rowChildren.add(_buttons[y][x]);
-          if (x != 6 || (!<String>["f", "e", "b", "a"].contains(y) && x != 4)) {
-            rowChildren.add(const SizedBox(width: 35));
-          }
-        }
-      }
-      result.add(Row(children: rowChildren));
-      if (y != "a") {
-        result.add(const SizedBox(height: 35));
-      }
-    }
-    
-    return result;
-  }
 
   /// For each row and column, if there is a button at that location, change its
   /// visibility
@@ -180,39 +155,6 @@ class CrossWidgetState extends State<CrossWidget> {
   ///   details (DragEndDetails): The details of the drag event.
   void endPan(DragEndDetails details) {
     widget.params.confirmCommands();
-  }
-
-  /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new
-  /// map with the letter as the key and a map of integers as the value.
-  /// The integers are the possible x values for the buttons.
-  /// If the letter is in the list ['a','b','e','f'], then the possible x
-  /// values are [3, 4]. Otherwise, the possible x values are [1, 2, 3, 4, 5, 6]
-  @override
-  void initState() {
-    // _buttonDimension = widget.crossDimension / 10;
-    for (final String y in <String>["a", "b", "c", "d", "e", "f"]) {
-      // ignore: always_specify_types
-      _buttons[y] = {};
-      List<int> possibleXs = <int>[];
-      if (<String>["a", "b", "e", "f"].contains(y)) {
-        possibleXs = <int>[3, 4];
-        _buttons[y][1] = null;
-        _buttons[y][2] = null;
-        _buttons[y][5] = null;
-        _buttons[y][6] = null;
-      } else {
-        possibleXs = <int>[1, 2, 3, 4, 5, 6];
-      }
-      for (final int x in possibleXs) {
-        _buttons[y][x] = CrossButton(
-          globalKey: GlobalKey<CrossButtonState>(),
-          position: Tuple2<String, int>(y, x),
-          params: widget.params,
-          buttonDimension: _buttonDimension,
-        );
-      }
-    }
-    super.initState();
   }
 
   /// It fills all the empty spaces with the color selected by the user
@@ -277,5 +219,63 @@ class CrossWidgetState extends State<CrossWidget> {
         }
       }
     }
+  }
+
+  /// For each letter in the list ['a', 'b', 'c', 'd', 'e', 'f'], create a new
+  /// map with the letter as the key and a map of integers as the value.
+  /// The integers are the possible x values for the buttons.
+  /// If the letter is in the list ['a','b','e','f'], then the possible x
+  /// values are [3, 4]. Otherwise, the possible x values are [1, 2, 3, 4, 5, 6]
+  @override
+  void initState() {
+    // _buttonDimension = widget.crossDimension / 10;
+    for (final String y in <String>["a", "b", "c", "d", "e", "f"]) {
+      // ignore: always_specify_types
+      _buttons[y] = {};
+      List<int> possibleXs = <int>[];
+      if (<String>["a", "b", "e", "f"].contains(y)) {
+        possibleXs = <int>[3, 4];
+        _buttons[y][1] = null;
+        _buttons[y][2] = null;
+        _buttons[y][5] = null;
+        _buttons[y][6] = null;
+      } else {
+        possibleXs = <int>[1, 2, 3, 4, 5, 6];
+      }
+      for (final int x in possibleXs) {
+        _buttons[y][x] = CrossButton(
+          globalKey: GlobalKey<CrossButtonState>(),
+          position: Tuple2<String, int>(y, x),
+          params: widget.params,
+          buttonDimension: _buttonDimension,
+        );
+      }
+    }
+    super.initState();
+  }
+
+  /// It creates a list of widgets that represent the cross
+  ///
+  /// Returns:
+  ///   A list of widgets.
+  List<Widget> _buildCross() {
+    final List<Widget> result = <Widget>[];
+    for (final String y in <String>["f", "e", "d", "c", "b", "a"]) {
+      final List<Widget> rowChildren = <Widget>[];
+      for (final int x in <int>[1, 2, 3, 4, 5, 6]) {
+        if (_buttons[y][x] != null) {
+          rowChildren.add(_buttons[y][x]);
+          if (x != 6 || (!<String>["f", "e", "b", "a"].contains(y) && x != 4)) {
+            rowChildren.add(const SizedBox(width: 35));
+          }
+        }
+      }
+      result.add(Row(children: rowChildren));
+      if (y != "a") {
+        result.add(const SizedBox(height: 35));
+      }
+    }
+
+    return result;
   }
 }

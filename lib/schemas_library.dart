@@ -19,8 +19,10 @@ class SchemasLibraryState extends State<SchemasLibrary> {
         ? GridView.count(crossAxisCount: 3, children: generateImages())
         : Center(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[Text("No images available")],),);
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[Text("No images available")],
+            ),
+          );
   }
 
   /// It creates a list of widgets, each of which is a column containing a text

@@ -7,11 +7,11 @@ import "package:flutter/cupertino.dart";
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`
 /// object
 class ActivityHome extends StatefulWidget {
-  /// It's a constructor for the ActivityHome class.
-  const ActivityHome({required this.sessionData, Key? key}) : super(key: key);
-
   /// It's a variable that stores the data of the session.
   final SessionData sessionData;
+
+  /// It's a constructor for the ActivityHome class.
+  const ActivityHome({required this.sessionData, Key? key}) : super(key: key);
 
   @override
   ActivityHomeState createState() => ActivityHomeState();
@@ -39,61 +39,61 @@ class ActivityHomeState extends State<ActivityHome> {
   ///   A Column widget with a Row widget with a Text widget and a
   /// CupertinoButton widget.
   Widget build(BuildContext context) => Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            const SizedBox(width: 10),
-            Text("Schema da risolvere: ${_params.currentSchema}"),
-            CupertinoButton(
-              onPressed: _params.nextSchema,
-              child: const Text("Prossimo schema"),
-            ),
-            CupertinoButton(
-              onPressed: () {
-                setState(_params.nextPupil);
-              },
-              child: const Text("Prossimo studente"),
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            CupertinoButton(
-              onPressed: () async {
-                await _recorderController.record();
-              },
-              child: const Icon(CupertinoIcons.mic_fill),
-            ),
-            CupertinoButton(
-              onPressed: () async {
-                await _recorderController.pause();
-              },
-              child: const Icon(CupertinoIcons.pause),
-            ),
-            CupertinoButton(
-              onPressed: () async {
-                await _recorderController.stop();
-                // _path = (await _recorderController.stop())!;
-                // await FileSaver.instance.saveFile("AudioTest",
-                //     File(_path.split("file://")[1]).readAsBytesSync(), 'aac',);
-              },
-              child: const Icon(CupertinoIcons.stop_fill),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height - 120,
-          // child: block
-          //     ? const BlockBasedImplementation()
-          //     : GestureImplementation(
-          //         key: Key(_params.currentSchema.toString()),
-          //                    params: _params),
-          child: _gestureImplementation,
-        ),
-      ],
-    );
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              const SizedBox(width: 10),
+              Text("Schema da risolvere: ${_params.currentSchema}"),
+              CupertinoButton(
+                onPressed: _params.nextSchema,
+                child: const Text("Prossimo schema"),
+              ),
+              CupertinoButton(
+                onPressed: () {
+                  setState(_params.nextPupil);
+                },
+                child: const Text("Prossimo studente"),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              CupertinoButton(
+                onPressed: () async {
+                  await _recorderController.record();
+                },
+                child: const Icon(CupertinoIcons.mic_fill),
+              ),
+              CupertinoButton(
+                onPressed: () async {
+                  await _recorderController.pause();
+                },
+                child: const Icon(CupertinoIcons.pause),
+              ),
+              CupertinoButton(
+                onPressed: () async {
+                  await _recorderController.stop();
+                  // _path = (await _recorderController.stop())!;
+                  // await FileSaver.instance.saveFile("AudioTest",
+                  //     File(_path.split("file://")[1]).readAsBytesSync(), 'aac',);
+                },
+                child: const Icon(CupertinoIcons.stop_fill),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 120,
+            // child: block
+            //     ? const BlockBasedImplementation()
+            //     : GestureImplementation(
+            //         key: Key(_params.currentSchema.toString()),
+            //                    params: _params),
+            child: _gestureImplementation,
+          ),
+        ],
+      );
 
   /// It initializes the recorder and player controllers.
   @override
@@ -105,7 +105,8 @@ class ActivityHomeState extends State<ActivityHome> {
       ..sessionData = widget.sessionData; //TODO: add form for student data
     _gestureImplementation = GestureImplementation(
       globalKey: GlobalKey<GestureImplementationState>(
-          debugLabel: _params.currentSchema.toString(),),
+        debugLabel: _params.currentSchema.toString(),
+      ),
       params: _params,
     );
     _params.gestureHome = _gestureImplementation;

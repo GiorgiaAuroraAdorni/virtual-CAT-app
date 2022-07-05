@@ -88,7 +88,6 @@ class Parameters {
   /// Parser for the current data
   late JsonParser jsonParser;
 
-
   /// Read the schemas.json file from the resources/sequence folder and return the
   /// contents as a string
   ///
@@ -167,7 +166,7 @@ class Parameters {
   ///   The current schema number.
   int nextSchema() {
     activityHomeState.setStateFromOutside();
-    if (currentSchema < catInterpreter.schemes.schemas.length) {
+    if (currentSchema < catInterpreter.schemes.getData.length) {
       ++currentSchema;
       reset();
     } else {
@@ -386,7 +385,6 @@ class Parameters {
       commands: commands,
     );
   }
-
 
   /// If the user has made a gesture, confirm the command
   void confirmCommands() {
