@@ -1,9 +1,8 @@
-import "package:cross_array_task_app/Activity/activity_home.dart";
-import "package:cross_array_task_app/Utility/data_manager.dart";
 import "package:cross_array_task_app/forms.dart";
-import "package:cross_array_task_app/schemas_library.dart";
+import 'package:cross_array_task_app/schemas_library.dart';
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// "Set the preferred orientation of the app to landscape, then run the app."
 ///
@@ -78,49 +77,94 @@ class _HomePageState extends State<HomePage> {
   ///
   /// Returns:
   ///   A CupertinoTabScaffold
-  Widget build(BuildContext context) => CupertinoTabScaffold(
-        tabBuilder: (BuildContext context, int index) => CupertinoTabView(
-          builder: (BuildContext context) {
-            switch (index) {
-              case 0:
-                return const SchoolForm();
-              case 1:
-                return const SchemasLibrary();
-              case 2:
-                return ActivityHome(
-                  sessionData: SessionData(
-                    schoolName: "USI",
-                    grade: 0,
-                    section: "A",
-                    date: DateTime.now(),
-                    supervisor: "test",
+  Widget build(BuildContext context) {
+    Schemes schemes = Schemes(schemas: <int, Cross>{1: Cross()});
+    _readSchemasJSON().then((String value) {
+      schemes = schemesFromJson(value);
+    });
+
+    return CupertinoPageScaffold(
+      child: CustomScrollView(
+        slivers: <Widget>[
+          CupertinoSliverNavigationBar(
+            largeTitle: const Text("Amministrazione"),
+            trailing: CupertinoButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute<Widget>(
+                    builder: (BuildContext context) => SchemasLibrary(
+                      schemes: schemes,
+                    ),
                   ),
                 );
-              //TODO: add check for session data exist and complete the form
-            }
-            throw Exception("Index $index is not supported");
-          },
-        ),
-        // It's the bottom navigation bar.
-        tabBar: CupertinoTabBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.lock_circle),
-              label: "Amministrazione",
-              backgroundColor: CupertinoColors.lightBackgroundGray,
+              },
+              child: const Icon(CupertinoIcons.add_circled),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.play_rectangle),
-              label: "Tutorial",
-              backgroundColor: CupertinoColors.lightBackgroundGray,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.game_controller),
-              label: "Attività",
-              backgroundColor: CupertinoColors.lightBackgroundGray,
-            ),
-          ],
-          activeColor: CupertinoColors.activeBlue,
-        ),
-      );
+          ),
+          const SliverFillRemaining(
+            child: SchoolForm(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Read the schemas.json file from the resources/sequence folder and return the
+  /// contents as a string
+  ///
+  /// Returns:
+  ///   A Future<String>
+  Future<String> _readSchemasJSON() async {
+    final String future =
+        await rootBundle.loadString("resources/sequence/schemas.json");
+
+    return future;
+  }
+
+  // CupertinoTabScaffold(
+  //   tabBuilder: (BuildContext context, int index) => CupertinoTabView(
+  //     builder: (BuildContext context) {
+  //       switch (index) {
+  //         case 0:
+  //           return const SchoolForm();
+  //         case 1:
+  //           return const SchemasLibrary();
+  //         case 2:
+  //           return ActivityHome(
+  //             sessionData: SessionData(
+  //               schoolName: "USI",
+  //               grade: 0,
+  //               section: "A",
+  //               date: DateTime.now(),
+  //               supervisor: "test",
+  //             ),
+  //           );
+  //         //TODO: add check for session data exist and complete the form
+  //       }
+  //       throw Exception("Index $index is not supported");
+  //     },
+  //   ),
+  //   // It's the bottom navigation bar.
+  //   tabBar: CupertinoTabBar(
+  //     items: const <BottomNavigationBarItem>[
+  //       BottomNavigationBarItem(
+  //         icon: Icon(CupertinoIcons.lock_circle),
+  //         label: "Amministrazione",
+  //         backgroundColor: CupertinoColors.lightBackgroundGray,
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(CupertinoIcons.play_rectangle),
+  //         label: "Tutorial",
+  //         backgroundColor: CupertinoColors.lightBackgroundGray,
+  //       ),
+  //       BottomNavigationBarItem(
+  //         icon: Icon(CupertinoIcons.game_controller),
+  //         label: "Attività",
+  //         backgroundColor: CupertinoColors.lightBackgroundGray,
+  //       ),
+  //     ],
+  //     activeColor: CupertinoColors.activeBlue,
+  //   ),
+  // );
 }

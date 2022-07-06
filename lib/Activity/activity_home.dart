@@ -3,15 +3,23 @@ import "package:cross_array_task_app/Activity/GestureBased/gesture_based_home.da
 import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Utility/data_manager.dart";
 import "package:flutter/cupertino.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`
 /// object
 class ActivityHome extends StatefulWidget {
+  /// It's a constructor for the ActivityHome class.
+  const ActivityHome({
+    required this.sessionData,
+    required this.schemas,
+    super.key,
+  });
+
   /// It's a variable that stores the data of the session.
   final SessionData sessionData;
 
-  /// It's a constructor for the ActivityHome class.
-  const ActivityHome({required this.sessionData, Key? key}) : super(key: key);
+  /// It's a variable that stores the schemas that the student has to solve.
+  final Schemes schemas;
 
   @override
   ActivityHomeState createState() => ActivityHomeState();
@@ -28,8 +36,6 @@ class ActivityHomeState extends State<ActivityHome> {
 
   // bool block = true;
 
-  @override
-
   /// It creates a column with a row of buttons and a row of waveforms.
   ///
   /// Args:
@@ -38,6 +44,7 @@ class ActivityHomeState extends State<ActivityHome> {
   /// Returns:
   ///   A Column widget with a Row widget with a Text widget and a
   /// CupertinoButton widget.
+  @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
           Row(
@@ -108,6 +115,7 @@ class ActivityHomeState extends State<ActivityHome> {
         debugLabel: _params.currentSchema.toString(),
       ),
       params: _params,
+      schemes: widget.schemas,
     );
     _params.gestureHome = _gestureImplementation;
   }

@@ -167,7 +167,7 @@ class Parameters {
   int nextSchema() {
     activityHomeState.setStateFromOutside();
     if (currentSchema < catInterpreter.schemes.getData.length) {
-      ++currentSchema;
+      currentSchema++;
       reset();
     } else {
       gestureHome.showMessage(

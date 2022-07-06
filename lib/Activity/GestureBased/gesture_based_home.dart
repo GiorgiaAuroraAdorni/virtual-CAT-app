@@ -4,6 +4,7 @@ import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
 import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/Activity/cross.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -11,15 +12,21 @@ import "package:interpreter/cat_interpreter.dart";
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
 class GestureImplementation extends StatefulWidget {
+  /// Creating a constructor for the GestureImplementation class.
+  const GestureImplementation({
+    required this.params,
+    required this.globalKey,
+    required this.schemes,
+  }) : super(key: globalKey);
+
   /// Declaring a variable called params of type Parameters.
   final Parameters params;
 
   /// It's a key that is used to access the state of the widget.
   final GlobalKey<GestureImplementationState> globalKey;
 
-  /// Creating a constructor for the GestureImplementation class.
-  const GestureImplementation({required this.params, required this.globalKey})
-      : super(key: globalKey);
+  /// Creating a new instance of the Schemes class.
+  final Schemes schemes;
 
   /// Confirm the command done on the current cross
   void confirmCommand() => globalKey.currentState?._confirmCommands();
@@ -64,6 +71,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Creating a new instance of the CrossWidget class.
   late CrossWidget activeCross;
 
+  late ValueNotifier<Cross> _result;
+  late CrossWidgetSimple crossWidgetSimple;
+
   // late CrossWidget solutionCross;
 
   /// Creating a constant Pair object with the values false and "" for the
@@ -77,8 +87,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Widget containing the image of the solution cross
   late Image image;
 
-  @override
-
   /// It builds the UI for the home screen
   ///
   /// Args:
@@ -86,13 +94,14 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///
   /// Returns:
   ///   A widget.
+  @override
   Widget build(BuildContext context) => Row(
         children: <Widget>[
           const SizedBox(width: 50),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              image,
+              crossWidgetSimple,
               // solutionCross,
               const SizedBox(height: 80),
               Row(children: _basicButtonsBuild()),
@@ -110,22 +119,15 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// > The CrossWidget is initialized with a GlobalKey and the params object
   @override
   void initState() {
+    super.initState();
     activeCross = CrossWidget(
       globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
       params: widget.params,
     );
-    // solutionCross = CrossWidget(
-    //    globalKey: GlobalKey<CrossWidgetState>(),
-    //    params: Parameters(
-    //          visible: true,
-    //          currentSchema:widget.params.currentSchema));
-    // solutionCross.fromSchema(Schemes.fromJson());
-    image = Image(
-      image: AssetImage(
-        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
-      ),
+    _result = ValueNotifier<Cross>(
+      widget.schemes.getData[widget.params.currentSchema]!,
     );
-    super.initState();
+    crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
   }
 
   /// It shows a dialog box with a title and a message.
@@ -193,15 +195,9 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {});
   }
 
-  /// Reload the image by getting the image from the assets folder and setting
-  /// the state.
+  /// Reload the image by getting the reference schema.
   void reloadImage() {
-    image = Image(
-      image: AssetImage(
-        "resources/sequence/image/S${widget.params.currentSchema.toString()}.png",
-      ),
-    );
-    setState(() {});
+    _result.value = widget.schemes.getData[widget.params.currentSchema]!;
   }
 
   /// It returns a list of widgets that are used to build the basic buttons

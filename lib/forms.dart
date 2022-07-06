@@ -17,10 +17,9 @@ class SchoolFormState extends State<SchoolForm> {
   @override
   Widget build(BuildContext context) => Form(
         key: formKey,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: <Widget>[
-            CupertinoFormSection(
+            CupertinoFormSection.insetGrouped(
               header: const Text("Inserire i dati della scuola"),
               children: <Widget>[
                 CupertinoFormRow(
@@ -61,7 +60,7 @@ class SchoolFormState extends State<SchoolForm> {
                 ),
               ],
             ),
-            CupertinoFormSection(
+            CupertinoFormSection.insetGrouped(
               header: const Text("Inserire i dati della sessione"),
               children: <Widget>[
                 CupertinoFormRow(

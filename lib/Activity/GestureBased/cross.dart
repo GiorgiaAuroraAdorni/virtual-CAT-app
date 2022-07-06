@@ -8,18 +8,18 @@ import "package:tuple/tuple.dart";
 /// It's a stateful widget that has a global key, a map of parameters, and
 /// a bunch of methods that call the state's methods
 class CrossWidget extends StatefulWidget {
-  /// It's a map of parameters that is passed to the stateful widget.
-  final Parameters params;
-
-  /// It's a key that is used to access the state of the widget.
-  final GlobalKey<CrossWidgetState> globalKey;
-
   /// It's a constructor that takes two parameters, a global key and a map of
   /// parameters.
   const CrossWidget({
     required this.globalKey,
     required this.params,
   }) : super(key: globalKey);
+
+  /// It's a map of parameters that is passed to the stateful widget.
+  final Parameters params;
+
+  /// It's a key that is used to access the state of the widget.
+  final GlobalKey<CrossWidgetState> globalKey;
 
   /// It takes a global key, and then calls the _changeVisibility function
   /// with that key
