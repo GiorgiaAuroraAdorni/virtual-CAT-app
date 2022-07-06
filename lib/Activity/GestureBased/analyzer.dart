@@ -530,11 +530,13 @@ class Analyzer {
     final List<CupertinoDynamicColor> tempColor = <CupertinoDynamicColor>[
       ...nextColors,
     ];
-    for (int i = 0; i < selectedButtons.length; i++) {
-      final int oldColorIndex = i % numOfColor;
-      final int newColorIndex =
-          tempButton.indexOf(selectedButtons[i]) % numOfColor;
-      tempColor[newColorIndex] = nextColors[oldColorIndex];
+    if (numOfColor != 0) {
+      for (int i = 0; i < selectedButtons.length; i++) {
+        final int oldColorIndex = i % numOfColor;
+        final int newColorIndex =
+            tempButton.indexOf(selectedButtons[i]) % numOfColor;
+        tempColor[newColorIndex] = nextColors[oldColorIndex];
+      }
     }
     nextColors
       ..clear()
