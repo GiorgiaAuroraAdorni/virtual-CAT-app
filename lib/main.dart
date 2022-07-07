@@ -87,7 +87,8 @@ class _HomePageState extends State<HomePage> {
       child: CustomScrollView(
         slivers: <Widget>[
           CupertinoSliverNavigationBar(
-            largeTitle: const Text("Amministrazione"),
+            transitionBetweenRoutes: false,
+            largeTitle: const Text("Sessione"),
             trailing: CupertinoButton(
               onPressed: () {
                 Navigator.push(

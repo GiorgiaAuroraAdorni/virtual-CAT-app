@@ -33,12 +33,13 @@ dependencies:
     git:
       url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
       ref: hotfix/flutter_version3.0.0
+  flutter_screen_lock: ^7.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
 
-  dartx: ^1.0.0
+  dartx: ^1.1.0
 
   flutter:
     sdk: flutter
@@ -51,7 +52,7 @@ dependencies:
       ref: main
 
   # A package that provides a platform-agnostic way to get commonly used locations on the filesystem.
-  path_provider: ^2.0.9
+  path_provider: ^2.0.11
 
   # A package that allows you to create tuples.
   tuple: ^2.0.0
@@ -63,7 +64,7 @@ dependencies:
 
 dev_dependencies:
 
-  dart_code_metrics: ^4.11.0
+  dart_code_metrics: ^4.16.0
 
   flutter_launcher_icons_maker: "^0.10.1"
 
@@ -90,7 +91,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: false
+  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

@@ -1,4 +1,6 @@
 import "package:flutter/cupertino.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import "package:interpreter/cat_interpreter.dart";
 
 import 'Activity/activity_home.dart';
@@ -33,38 +35,54 @@ class SchemasLibraryState extends State<SchemasLibrary> {
             ),
           );
 
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: const Text("Tutorial"),
-            trailing: CupertinoButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => CupertinoPageScaffold(
-                      child: ActivityHome(
-                        sessionData: SessionData(
-                          schoolName: "USI",
-                          grade: 0,
-                          section: "A",
-                          date: DateTime.now(),
-                          supervisor: "test",
+    return WillPopScope(
+      onWillPop: () async {
+        await showCupertinoModalPopup(
+          context: context,
+          builder: (BuildContext context) => ScreenLock(
+            correctString: "1234",
+            didCancelled: Navigator.of(context).pop,
+            didUnlocked: () => Navigator.of(context)
+              ..pop()
+              ..pop(),
+          ),
+        );
+
+        return false;
+      },
+      child: CupertinoPageScaffold(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            CupertinoSliverNavigationBar(
+              largeTitle: const Text("Tutorial"),
+              trailing: CupertinoButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) => CupertinoPageScaffold(
+                        child: ActivityHome(
+                          sessionData: SessionData(
+                            schoolName: "USI",
+                            grade: 0,
+                            section: "A",
+                            date: DateTime.now(),
+                            supervisor: "test",
+                          ),
+                          schemas: widget.schemes,
                         ),
-                        schemas: widget.schemes,
                       ),
                     ),
-                  ),
-                );
-              },
-              child: const Icon(CupertinoIcons.arrow_right),
+                  );
+                },
+                child: const Icon(CupertinoIcons.arrow_right),
+              ),
             ),
-          ),
-          SliverFillRemaining(
-            child: el,
-          ),
-        ],
+            SliverFillRemaining(
+              child: el,
+            ),
+          ],
+        ),
       ),
     );
   }
