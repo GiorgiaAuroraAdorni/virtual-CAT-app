@@ -22,7 +22,7 @@ class CrossWidgetSimple extends StatefulWidget {
 class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   /// Creating a map that maps the integer values of the cross to the colors that
   /// they should be displayed as.
-  Map colors = {
+  Map<int, CupertinoDynamicColor> colors = <int, CupertinoDynamicColor>{
     0: CupertinoColors.systemGrey,
     1: CupertinoColors.systemGreen,
     2: CupertinoColors.systemRed,

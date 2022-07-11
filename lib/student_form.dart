@@ -171,9 +171,10 @@ class StudentsFormState extends State<StudentsForm> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final Text text = _genders[value];
-            _gender = text.data.toString();
-            setState(() {});
+            setState(() {
+              final Text text = _genders[value];
+              _gender = text.data.toString();
+            });
           },
           itemExtent: 25,
           diameterRatio: 1,

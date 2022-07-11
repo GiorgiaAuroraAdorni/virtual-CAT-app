@@ -266,13 +266,13 @@ class CrossWidgetState extends State<CrossWidget> {
         if (_buttons[y][x] != null) {
           rowChildren.add(_buttons[y][x]);
           if (x != 6 || (!<String>["f", "e", "b", "a"].contains(y) && x != 4)) {
-            rowChildren.add(const SizedBox(width: 35));
+            rowChildren.add(const SizedBox(width: 15));
           }
         }
       }
       result.add(Row(children: rowChildren));
       if (y != "a") {
-        result.add(const SizedBox(height: 35));
+        result.add(const SizedBox(height: 15));
       }
     }
 
