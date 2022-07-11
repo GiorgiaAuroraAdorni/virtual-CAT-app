@@ -72,7 +72,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   late CrossWidget activeCross;
 
   late ValueNotifier<Cross> _result;
-  late CrossWidgetSimple crossWidgetSimple;
+  late CrossWidgetSimple _crossWidgetSimple;
 
   // late CrossWidget solutionCross;
 
@@ -101,7 +101,7 @@ class GestureImplementationState extends State<GestureImplementation> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              crossWidgetSimple,
+              _crossWidgetSimple,
               // solutionCross,
               const SizedBox(height: 80),
               Row(children: _basicButtonsBuild()),
@@ -127,7 +127,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     _result = ValueNotifier<Cross>(
       widget.schemes.getData[widget.params.currentSchema]!,
     );
-    crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
+    _crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
   }
 
   /// It shows a dialog box with a title and a message.

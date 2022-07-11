@@ -62,10 +62,10 @@ class Parameters {
   late Analyzer analyzer;
 
   /// Completed commands done by the user
-  late List<String> commands;
+  List<String> commands = [];
 
   /// Temporary commends done by the user (used for MIRROR and COPY)
-  late List<String> temporaryCommands;
+  List<String> temporaryCommands = [];
 
   /// State of the GestureImplementation used for calling some method
   late GestureImplementation gestureHome;
