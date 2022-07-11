@@ -1,5 +1,5 @@
-import "package:cross_array_task_app/forms.dart";
-import 'package:cross_array_task_app/schemas_library.dart';
+import 'package:cross_array_task_app/student_form.dart';
+import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => SchemasLibrary(
+                    builder: (BuildContext context) => StudentsForm(
                       schemes: schemes,
                     ),
                   ),
