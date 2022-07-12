@@ -1,8 +1,9 @@
 import "package:cross_array_task_app/Utility/localizations.dart";
-import 'package:cross_array_task_app/tutor_form.dart';
+import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
+import 'package:flutter_svg/svg.dart';
 import "package:provider/provider.dart";
 import 'package:provider/single_child_widget.dart';
 
@@ -129,32 +130,52 @@ class _HomePageState extends State<HomePage> {
               SliverFillRemaining(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CupertinoButton.filled(
-                      child: const Text("English"),
-                      onPressed: () {
-                        provider.setLocale(const Locale("en", ""));
-                        _changePage();
-                      },
-                    ),
-                    CupertinoButton.filled(
-                      child: const Text("Italiano"),
+                  children: <Widget>[
+                    CupertinoButton(
                       onPressed: () {
                         provider.setLocale(const Locale("it", ""));
                         _changePage();
                       },
+                      child: SvgPicture.asset(
+                        "resources/icon/it.svg",
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                    CupertinoButton.filled(
-                      child: const Text("Deutsch"),
+                    CupertinoButton(
+                      child: SvgPicture.asset(
+                        "resources/icon/de.svg",
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
                       onPressed: () {
                         provider.setLocale(const Locale("de", ""));
                         _changePage();
                       },
                     ),
-                    CupertinoButton.filled(
-                      child: const Text("Français"),
+                    CupertinoButton(
+                      child: SvgPicture.asset(
+                        "resources/icon/fr.svg",
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
                       onPressed: () {
                         provider.setLocale(const Locale("fr", ""));
+                        _changePage();
+                      },
+                    ),
+                    CupertinoButton(
+                      child: SvgPicture.asset(
+                        "resources/icon/gb.svg",
+                        width: 150,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
+                      onPressed: () {
+                        provider.setLocale(const Locale("en", ""));
                         _changePage();
                       },
                     ),

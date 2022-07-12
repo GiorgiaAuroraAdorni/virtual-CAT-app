@@ -1,0 +1,31 @@
+import "package:flutter/cupertino.dart";
+
+/// List containing all the Swiss cantons
+const List<Text> cantons = <Text>[
+  Text("Vaud (VD)"),
+  Text("Neuchâtel (NE)"),
+  Text("Giura (JU)"),
+  Text("Ginevra (GE)"),
+  Text("Ticino (TI)"),
+  Text("Zurigo (ZH)"),
+  Text("Zugo (ZG)"),
+  Text("Uri (UR)"),
+  Text("Turgovia (TG)"),
+  Text("San Gallo (SG)"),
+  Text("Soletta (SO)"),
+  Text("Svitto (SZ)"),
+  Text("Sciaffusa (SH)"),
+  Text("Obvaldo (OW)"),
+  Text("Nidvaldo (NW)"),
+  Text("Lucerna (LU)"),
+  Text("Glarona (GL)"),
+  Text("Basilea Città (BS)"),
+  Text("Basilea Campagna (BL)"),
+  Text("Appenzello Interno (AI)"),
+  Text("Appenzello Esterno (AR)"),
+  Text("Argovia (AG)"),
+  Text("Vallese (VS)"),
+  Text("Friburgo (FR)"),
+  Text("Berna (BE)"),
+  Text("Grigioni (GR)"),
+];

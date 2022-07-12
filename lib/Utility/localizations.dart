@@ -22,6 +22,14 @@ class CATLocalizations {
     "de": de,
   };
 
+  static final Map<String, List<Text>> _localizedSchoolType =
+      <String, List<Text>>{
+    "en": schoolTypeEn,
+    "it": schoolTypeIt,
+    "fr": schoolTypeFr,
+    "de": schoolTypeDe,
+  };
+
   /// Returns a list of all supported languages
   static List<String> languages() => _localizedValues.keys.toList();
 
@@ -35,10 +43,6 @@ class CATLocalizations {
   /// It's a getter that returns the localized string for the key "formDescription"
   String get formDescription =>
       _localizedValues[_locale.languageCode]!["formDescription"]!;
-
-  /// It's a getter that returns the localized string for the key "formDescription1"
-  String get formDescription1 =>
-      _localizedValues[_locale.languageCode]!["formDescription1"]!;
 
   /// It's a getter that returns the localized string for the key "grade"
   String get grade => _localizedValues[_locale.languageCode]!["grade"]!;
@@ -56,6 +60,18 @@ class CATLocalizations {
   /// It's a getter that returns the localized string for the key "schoolPlaceholder"
   String get schoolPlaceholder =>
       _localizedValues[_locale.languageCode]!["schoolPlaceholder"]!;
+
+  /// It's a getter that returns the localized string for the key "canton"
+  String get canton => _localizedValues[_locale.languageCode]!["canton"]!;
+
+  /// It's a getter that returns the localized string for the key "canton"
+  String get selection => _localizedValues[_locale.languageCode]!["selection"]!;
+
+  /// It's a getter that returns the localized list for the key "level"
+  String get level => _localizedValues[_locale.languageCode]!["level"]!;
+
+  /// It's a getter that returns the localized list for the school type
+  List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 }
 
 /// It's a delegate that loads the localized strings for a given locale

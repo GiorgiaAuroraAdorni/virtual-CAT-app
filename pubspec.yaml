@@ -45,7 +45,9 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
   provider: ^6.0.3
+  flutter_svg: ^1.1.1+1
 
 #  interpreter:
 #    path: ../CAT-symbolic-programming-language-interpreter/
@@ -59,10 +61,6 @@ dependencies:
 
   # A package that allows you to create tuples.
   tuple: ^2.0.0
-
-  # A package that allows you to embed a webview in your app.
-  webview_flutter_plus: ^0.3.0+2
-
 
 
 dev_dependencies:
@@ -99,6 +97,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - resources/sequence/
+    - resources/icon/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
