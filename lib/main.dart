@@ -132,23 +132,37 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     CupertinoButton(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/it.svg",
+                            width: 150,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                          const Text("Italiano"),
+                        ],
+                      ),
                       onPressed: () {
                         provider.setLocale(const Locale("it", ""));
                         _changePage();
                       },
-                      child: SvgPicture.asset(
-                        "resources/icon/it.svg",
-                        width: 150,
-                        height: 100,
-                        fit: BoxFit.fill,
-                      ),
                     ),
                     CupertinoButton(
-                      child: SvgPicture.asset(
-                        "resources/icon/de.svg",
-                        width: 150,
-                        height: 100,
-                        fit: BoxFit.fill,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/de.svg",
+                            width: 150,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                          const Text("Deutsch"),
+                        ],
                       ),
                       onPressed: () {
                         provider.setLocale(const Locale("de", ""));
@@ -156,11 +170,18 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     CupertinoButton(
-                      child: SvgPicture.asset(
-                        "resources/icon/fr.svg",
-                        width: 150,
-                        height: 100,
-                        fit: BoxFit.fill,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/fr.svg",
+                            width: 150,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                          const Text("Français"),
+                        ],
                       ),
                       onPressed: () {
                         provider.setLocale(const Locale("fr", ""));
@@ -168,11 +189,18 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     CupertinoButton(
-                      child: SvgPicture.asset(
-                        "resources/icon/gb.svg",
-                        width: 150,
-                        height: 100,
-                        fit: BoxFit.fill,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/gb.svg",
+                            width: 150,
+                            height: 100,
+                            fit: BoxFit.fill,
+                          ),
+                          const Text("English"),
+                        ],
                       ),
                       onPressed: () {
                         provider.setLocale(const Locale("en", ""));
