@@ -33,7 +33,7 @@ class SchoolFormState extends State<SchoolForm> {
         slivers: <Widget>[
           CupertinoSliverNavigationBar(
             transitionBetweenRoutes: false,
-            largeTitle: Text(CATLocalizations.of(context).title),
+            largeTitle: Text(CATLocalizations.of(context).tutorialTitle),
             trailing: CupertinoButton(
               onPressed: () {
                 Navigator.push(
@@ -55,15 +55,17 @@ class SchoolFormState extends State<SchoolForm> {
                 child: Column(
                   children: <Widget>[
                     CupertinoFormSection.insetGrouped(
-                      header: const Text("Inserire i dati della scuola"),
+                      header:
+                          Text(CATLocalizations.of(context).formDescription),
                       children: <Widget>[
                         CupertinoFormRow(
-                          prefix: const Text(
-                            "Scuola:",
+                          prefix: Text(
+                            "${CATLocalizations.of(context).school}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
-                            placeholder: "Inserire il nome della scuola",
+                            placeholder:
+                                CATLocalizations.of(context).schoolPlaceholder,
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return "Inserire il nome della scuola";
@@ -71,11 +73,12 @@ class SchoolFormState extends State<SchoolForm> {
 
                               return null;
                             },
+                            prefix: null,
                           ),
                         ),
                         CupertinoFormRow(
-                          prefix: const Text(
-                            "Classe:",
+                          prefix: Text(
+                            "${CATLocalizations.of(context).grade}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -91,8 +94,8 @@ class SchoolFormState extends State<SchoolForm> {
                           ),
                         ),
                         CupertinoFormRow(
-                          prefix: const Text(
-                            "Sezione:",
+                          prefix: Text(
+                            "${CATLocalizations.of(context).section}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -102,11 +105,12 @@ class SchoolFormState extends State<SchoolForm> {
                       ],
                     ),
                     CupertinoFormSection.insetGrouped(
-                      header: const Text("Inserire i dati della sessione"),
+                      header:
+                          Text(CATLocalizations.of(context).formDescription1),
                       children: <Widget>[
                         CupertinoFormRow(
-                          prefix: const Text(
-                            "Supervisore:",
+                          prefix: Text(
+                            "${CATLocalizations.of(context).supervisor}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -115,8 +119,8 @@ class SchoolFormState extends State<SchoolForm> {
                           ),
                         ),
                         CupertinoFormRow(
-                          prefix: const Text(
-                            "Data:",
+                          prefix: Text(
+                            "${CATLocalizations.of(context).data}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(

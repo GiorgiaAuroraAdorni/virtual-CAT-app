@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                     CupertinoButton.filled(
                       child: const Text("Français"),
                       onPressed: () {
-                        provider.setLocale(const Locale("fe", ""));
+                        provider.setLocale(const Locale("fr", ""));
                         _changePage();
                       },
                     ),
