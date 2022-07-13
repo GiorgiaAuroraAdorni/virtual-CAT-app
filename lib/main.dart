@@ -142,7 +142,13 @@ class _HomePageState extends State<HomePage> {
                             height: 100,
                             fit: BoxFit.fill,
                           ),
-                          const Text("Italiano"),
+                          const Text(
+                            "Italiano",
+                            style: TextStyle(
+                              color: CupertinoColors.black,
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       ),
                       onPressed: () {
@@ -161,7 +167,13 @@ class _HomePageState extends State<HomePage> {
                             height: 100,
                             fit: BoxFit.fill,
                           ),
-                          const Text("Deutsch"),
+                          const Text(
+                            "Deutsch",
+                            style: TextStyle(
+                              color: CupertinoColors.black,
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       ),
                       onPressed: () {
@@ -180,7 +192,13 @@ class _HomePageState extends State<HomePage> {
                             height: 100,
                             fit: BoxFit.fill,
                           ),
-                          const Text("Français"),
+                          const Text(
+                            "Français",
+                            style: TextStyle(
+                              color: CupertinoColors.black,
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       ),
                       onPressed: () {
@@ -199,7 +217,13 @@ class _HomePageState extends State<HomePage> {
                             height: 100,
                             fit: BoxFit.fill,
                           ),
-                          const Text("English"),
+                          const Text(
+                            "English",
+                            style: TextStyle(
+                              color: CupertinoColors.black,
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       ),
                       onPressed: () {

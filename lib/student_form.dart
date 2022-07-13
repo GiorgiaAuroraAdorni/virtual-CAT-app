@@ -4,6 +4,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";
 
+import 'Utility/localizations.dart';
+
 /// Implementation for the gestures-based GUI
 class StudentsForm extends StatefulWidget {
   /// A constructor for the class SchemasLibrary.
@@ -22,8 +24,8 @@ class StudentsForm extends StatefulWidget {
 /// State for the gesture-based GUI
 class StudentsFormState extends State<StudentsForm> {
   DateTime _selectedDate = DateTime.now();
-  String _gender = "Maschio";
-  final List<Text> _genders = [Text("Maschio"), Text("Femmina")];
+  final TextEditingController _controllerDate = TextEditingController();
+  final TextEditingController _gender = TextEditingController();
 
   @override
   Widget build(BuildContext context) => WillPopScope(
@@ -45,7 +47,7 @@ class StudentsFormState extends State<StudentsForm> {
           child: CustomScrollView(
             slivers: <Widget>[
               CupertinoSliverNavigationBar(
-                largeTitle: const Text("Dati studente"),
+                largeTitle: Text(CATLocalizations.of(context).secondFormTitle),
                 trailing: CupertinoButton(
                   onPressed: () {
                     Navigator.push(
@@ -83,62 +85,69 @@ class StudentsFormState extends State<StudentsForm> {
   ///
   /// Returns:
   ///   A list of widgets.
-  Widget generateForm() => Form(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              CupertinoFormSection.insetGrouped(
-                header: const Text("Inserire i dati dello studente"),
-                children: <Widget>[
-                  CupertinoFormRow(
-                    prefix: const Text(
-                      "Nome:",
-                      textAlign: TextAlign.right,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: "Inserire il nome dello studente",
-                      validator: (String? value) {},
-                    ),
-                  ),
-                  CupertinoFormRow(
-                    prefix: const Text(
-                      "Cognome:",
-                      textAlign: TextAlign.right,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: "Inserire il cognome dello studente",
-                      validator: (String? value) {},
-                    ),
-                  ),
-                  CupertinoFormRow(
-                    prefix: const Text(
-                      "Sesso:",
-                      textAlign: TextAlign.right,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: _gender,
-                      readOnly: true,
-                      onTap: _showPicker,
-                    ),
-                  ),
-                  CupertinoFormRow(
-                    prefix: const Text(
-                      "Data di nasicta:",
-                      textAlign: TextAlign.right,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      readOnly: true,
-                      placeholder:
-                          "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}",
-                      onTap: _dataPicker,
-                    ),
-                  ),
-                ],
+  Widget generateForm() {
+    _controllerDate.text =
+        "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
+
+    return Form(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            CupertinoFormSection.insetGrouped(
+              header: const SizedBox(
+                height: 10,
               ),
-            ],
-          ),
+              children: <Widget>[
+                CupertinoFormRow(
+                  prefix: Text(
+                    "${CATLocalizations.of(context).name}:",
+                    textAlign: TextAlign.right,
+                  ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: CATLocalizations.of(context).inputName,
+                    validator: (String? value) {},
+                  ),
+                ),
+                CupertinoFormRow(
+                  prefix: Text(
+                    "${CATLocalizations.of(context).surname}:",
+                    textAlign: TextAlign.right,
+                  ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: CATLocalizations.of(context).inputSurname,
+                    validator: (String? value) {},
+                  ),
+                ),
+                CupertinoFormRow(
+                  prefix: Text(
+                    "${CATLocalizations.of(context).gender}:",
+                    textAlign: TextAlign.right,
+                  ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: CATLocalizations.of(context).inputGender,
+                    readOnly: true,
+                    onTap: _showPicker,
+                    controller: _gender,
+                  ),
+                ),
+                CupertinoFormRow(
+                  prefix: Text(
+                    "${CATLocalizations.of(context).birth}:",
+                    textAlign: TextAlign.right,
+                  ),
+                  child: CupertinoTextFormFieldRow(
+                    readOnly: true,
+                    onTap: _dataPicker,
+                    controller: _controllerDate,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   void _dataPicker() {
     showCupertinoModalPopup(
@@ -172,15 +181,15 @@ class StudentsFormState extends State<StudentsForm> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              final Text text = _genders[value];
-              _gender = text.data.toString();
+              final Text text = CATLocalizations.of(context).genderType[value];
+              _gender.text = text.data.toString();
             });
           },
           itemExtent: 25,
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: _genders,
+          children: CATLocalizations.of(context).genderType,
         ),
       ),
     );
