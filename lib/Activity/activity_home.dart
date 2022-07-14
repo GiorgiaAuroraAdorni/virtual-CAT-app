@@ -47,20 +47,21 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               const SizedBox(width: 10),
               Text("Schema da risolvere: ${_params.currentSchema}"),
-              CupertinoButton(
-                onPressed: _params.nextSchema,
-                child: const Text("Prossimo schema"),
-              ),
-              CupertinoButton(
-                onPressed: () {
-                  setState(_params.nextPupil);
-                },
-                child: const Text("Prossimo studente"),
-              ),
+              // CupertinoButton(
+              //   onPressed: _params.nextSchema,
+              //   child: const Text("Prossimo schema"),
+              // ),
+              // CupertinoButton(
+              //   onPressed: () {
+              //     setState(_params.nextPupil);
+              //   },
+              //   child: const Text("Prossimo studente"),
+              // ),
             ],
           ),
           Row(

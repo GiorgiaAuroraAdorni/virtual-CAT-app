@@ -39,6 +39,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
 
+  uiblock: ^2.0.2
+
   dartx: ^1.1.0
 
   flutter:
@@ -98,6 +100,7 @@ flutter:
   assets:
     - resources/sequence/
     - resources/icon/
+    - resources/gifs/
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

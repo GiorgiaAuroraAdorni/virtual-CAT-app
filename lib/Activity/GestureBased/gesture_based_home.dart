@@ -8,6 +8,7 @@ import "package:cross_array_task_app/Activity/cross.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
+import 'package:uiblock/uiblock.dart';
 
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
@@ -96,8 +97,8 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   A widget.
   @override
   Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          const SizedBox(width: 50),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -111,7 +112,6 @@ class GestureImplementationState extends State<GestureImplementation> {
               Row(children: _instructionsButtonsBuild()),
             ],
           ),
-          const SizedBox(width: 50),
           activeCross,
         ],
       );
@@ -665,26 +665,58 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _schemaCompleted() {
     if (widget.params.commands.isNotEmpty) {
       final Pair<Results, CatError> resultPair = widget.params.checkSchema();
-      final CatError error = resultPair.second;
       final Results results = resultPair.first;
-      if (error == CatError.none) {
-        message(
-          "Croce colorata correttamente",
-          "La croce è stata colorata correttamente \n "
-              'comandi: ${results.getCommands.except(<String>[
-                'None',
-              ])}'
-              ' \n croce ${results.completed ? 'corretta' : 'sbagliata'}',
+      _changeVisibility();
+      if (results.completed) {
+        UIBlock.block(
+          context,
+          customLoaderChild: Image.asset(
+            "resources/gifs/sun.gif",
+            height: 250,
+            width: 250,
+          ),
+          loadingTextWidget: Column(
+            children: [
+              const SizedBox(
+                height: 15,
+              ),
+              CupertinoButton.filled(
+                child: const Text("Next"),
+                onPressed: () {
+                  widget.params.saveCommandsForJson();
+                  setState(
+                    () {
+                      recreateCross();
+                      widget.params.nextSchema();
+                    },
+                  );
+                  UIBlock.unblock(context);
+                },
+              ),
+            ],
+          ),
         );
-        widget.params.saveCommandsForJson();
-        setState(() {
-          recreateCross();
-          widget.params.nextSchema();
-        });
       } else {
-        message(
-          "Errore durante la validazione della croce",
-          "Errore: ${error.name}",
+        UIBlock.block(
+          context,
+          customLoaderChild: Image.asset(
+            "resources/gifs/rain.gif",
+            height: 250,
+            width: 250,
+          ),
+          loadingTextWidget: CupertinoButton.filled(
+            child: const Text("Next"),
+            onPressed: () {
+              widget.params.saveCommandsForJson();
+              setState(
+                () {
+                  recreateCross();
+                  widget.params.nextSchema();
+                },
+              );
+              UIBlock.unblock(context);
+            },
+          ),
         );
       }
     } else {
