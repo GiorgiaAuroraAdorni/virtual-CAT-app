@@ -32,7 +32,7 @@ const Map<String, String> _secondForm = <String, String>{
   "surname": "Nom de famille",
   "gender": "Genre",
   "birth": "Date de naissance",
-  "inputName": "Entrez votre nom (facultatif)",
+  "inputName": "Entrez votre prénom (facultatif)",
   "inputSurname": "Entrez votre nom de famille (facultatif)",
   "inputGender": "Entrez votre genre",
 };
