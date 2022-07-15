@@ -423,29 +423,29 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       if (widget.params.selectionMode == SelectionModes.copy) {
         widget.params.selectionMode = SelectionModes.multiple;
-        message(
-          "Comando COPIA",
-          "Seleziona i punti dove vuoi incollare quello che hai fatto. ",
-          // "Comandi riconosciuti: ${widget.params.temporaryCommands}",
-        );
+        // message(
+        //   "Comando COPIA",
+        //   "Seleziona i punti dove vuoi incollare quello che hai fatto. ",
+        //   // "Comandi riconosciuti: ${widget.params.temporaryCommands}",
+        // );
       } else if (widget.params.selectionMode == SelectionModes.multiple) {
         widget.params.selectionMode = SelectionModes.base;
         copying = false;
         widget.params.modifyCommandForCopy();
         widget.params.reloadCross(activeCross);
         widget.params.temporaryCommands.clear();
-        message("Comando COPIA", "Comando eseguito correttamente");
+        // message("Comando COPIA", "Comando eseguito correttamente");
         widget.params.saveCommandsForJson();
       }
     });
   }
 
   void _copyInit() {
-    message(
-      "Comando COPIA",
-      "Esegui quello che vuoi copiare e poi clicca il tasto "
-          "verde vicino al tasto copia",
-    );
+    // message(
+    //   "Comando COPIA",
+    //   "Esegui quello che vuoi copiare e poi clicca il tasto "
+    //       "verde vicino al tasto copia",
+    // );
     setState(() {
       widget.params.selectionMode = SelectionModes.copy;
       copying = true;
@@ -457,11 +457,11 @@ class GestureImplementationState extends State<GestureImplementation> {
     if (widget.params.checkColorLength(min: 1, max: 1)) {
       activeCross.fillEmpty();
       final String colors = widget.params.analyzeColor();
-      message(
-        "Comando RIEMPI",
-        "Tutti i punti grigi sono stati colorati di "
-            "${colors.substring(1, colors.length - 1)}",
-      );
+      // message(
+      //   "Comando RIEMPI",
+      //   "Tutti i punti grigi sono stati colorati di "
+      //       "${colors.substring(1, colors.length - 1)}",
+      // );
       setState(() {
         widget.params.saveCommandsForJson();
       });
@@ -637,10 +637,10 @@ class GestureImplementationState extends State<GestureImplementation> {
           //     "Comando eseguito correttamente su tutta la croce",
           //   );
           // }
-          message(
-            "Comando SPECCHIA",
-            "Comando eseguito correttamente.",
-          );
+          // message(
+          //   "Comando SPECCHIA",
+          //   "Comando eseguito correttamente.",
+          // );
           widget.params.saveCommandsForJson();
         } else {
           message(
@@ -655,12 +655,12 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _mirrorInit() {
     widget.params.selectionMode = SelectionModes.mirror;
-    message(
-      "Comando SPECCHIA",
-      "Seleziona l'asse (V=verticale, O=orizontale), esegui quello che vuoi "
-          "specchiare (o nulla se vuoi specchiare tutto) e poi "
-          "clicca il tasto verde vicino al tasto specchia",
-    );
+    // message(
+    //   "Comando SPECCHIA",
+    //   "Seleziona l'asse (V=verticale, O=orizontale), esegui quello che vuoi "
+    //       "specchiare (o nulla se vuoi specchiare tutto) e poi "
+    //       "clicca il tasto verde vicino al tasto specchia",
+    // );
     setState(() {
       mirroring = Pair<bool, String>(true, mirroring.second);
     });
