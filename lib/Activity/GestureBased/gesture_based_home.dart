@@ -663,61 +663,53 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   Future<void> _schemaCompleted() async {
-    int result = 0;
-    if (widget.params.commands.isNotEmpty) {
-      final Pair<Results, CatError> resultPair = widget.params.checkSchema();
-      final Results results = resultPair.first;
-      final bool wasVisible = widget.params.visible;
-      _changeVisibility();
-      result = results.completed
-          ? await UIBlock.blockWithData(
-              context,
-              customLoaderChild: Image.asset(
-                "resources/gifs/sun.gif",
-                height: 250,
-                width: 250,
-              ),
-              loadingTextWidget: Column(
-                children: [
-                  const SizedBox(height: 15),
-                  CupertinoButton.filled(
-                    child: const Text("Next"),
-                    onPressed: () {
-                      widget.params.visible = wasVisible;
-                      widget.params.saveCommandsForJson();
-                      setState(recreateCross);
-                      UIBlock.unblockWithData(
-                        context,
-                        widget.params.nextSchema(),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            )
-          : await UIBlock.blockWithData(
-              context,
-              customLoaderChild: Image.asset(
-                "resources/gifs/rain.gif",
-                height: 250,
-                width: 250,
-              ),
-              loadingTextWidget: CupertinoButton.filled(
-                child: const Text("Next"),
-                onPressed: () {
-                  widget.params.visible = wasVisible;
-                  widget.params.saveCommandsForJson();
-                  setState(recreateCross);
-                  UIBlock.unblockWithData(context, widget.params.nextSchema());
-                },
-              ),
-            );
-    } else {
-      message(
-        "Nesun comando eseguito",
-        "Eseguire almeno un comando prima di confermare",
-      );
-    }
+    final Pair<Results, CatError> resultPair = widget.params.checkSchema();
+    final Results results = resultPair.first;
+    final bool wasVisible = widget.params.visible;
+    _changeVisibility();
+    final int result = results.completed
+        ? await UIBlock.blockWithData(
+            context,
+            customLoaderChild: Image.asset(
+              "resources/gifs/sun.gif",
+              height: 250,
+              width: 250,
+            ),
+            loadingTextWidget: Column(
+              children: [
+                const SizedBox(height: 15),
+                CupertinoButton.filled(
+                  child: const Text("Next"),
+                  onPressed: () {
+                    widget.params.visible = wasVisible;
+                    widget.params.saveCommandsForJson();
+                    setState(recreateCross);
+                    UIBlock.unblockWithData(
+                      context,
+                      widget.params.nextSchema(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
+        : await UIBlock.blockWithData(
+            context,
+            customLoaderChild: Image.asset(
+              "resources/gifs/rain.gif",
+              height: 250,
+              width: 250,
+            ),
+            loadingTextWidget: CupertinoButton.filled(
+              child: const Text("Next"),
+              onPressed: () {
+                widget.params.visible = wasVisible;
+                widget.params.saveCommandsForJson();
+                setState(recreateCross);
+                UIBlock.unblockWithData(context, widget.params.nextSchema());
+              },
+            ),
+          );
     if (result == -1) {
       Navigator.pop(context);
     }
