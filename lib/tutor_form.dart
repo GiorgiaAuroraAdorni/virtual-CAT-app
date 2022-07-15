@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/Utility/cantons_list.dart";
+import 'package:cross_array_task_app/Utility/data_manager.dart';
 import "package:cross_array_task_app/Utility/localizations.dart";
 import "package:cross_array_task_app/Utility/supervisor.dart";
 import "package:cross_array_task_app/student_form.dart";
@@ -24,8 +25,11 @@ class SchoolFormState extends State<SchoolForm> {
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _canton = TextEditingController();
   final TextEditingController _schoolType = TextEditingController();
+  final TextEditingController _school = TextEditingController();
   final TextEditingController _grade = TextEditingController();
   final TextEditingController _level = TextEditingController();
+  final TextEditingController _section = TextEditingController();
+  final TextEditingController _notes = TextEditingController();
   Key _schoolKey = const Key("0");
   final TextEditingController _supervisor = TextEditingController();
 
@@ -50,6 +54,17 @@ class SchoolFormState extends State<SchoolForm> {
                   CupertinoPageRoute<Widget>(
                     builder: (BuildContext context) => StudentsForm(
                       schemes: schemes,
+                      sessionData: SessionData(
+                        date: _selectedDate,
+                        grade: int.tryParse(_grade.text) ?? 0,
+                        section: _section.text,
+                        schoolName: _school.text,
+                        supervisor: _supervisor.text,
+                        notes: _notes.text,
+                        level: int.tryParse(_level.text) ?? 0,
+                        schoolType: _schoolType.text,
+                        canton: _canton.text,
+                      ),
                     ),
                   ),
                 );
@@ -83,7 +98,7 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations.of(context).school}:",
+                            "${CATLocalizations.of(context).schoolName}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -91,6 +106,19 @@ class SchoolFormState extends State<SchoolForm> {
                                 CATLocalizations.of(context).selectionSchool,
                             readOnly: true,
                             onTap: _schoolPicker,
+                            controller: _school,
+                          ),
+                        ),
+                        CupertinoFormRow(
+                          prefix: Text(
+                            "${CATLocalizations.of(context).school}:",
+                            textAlign: TextAlign.right,
+                          ),
+                          child: CupertinoTextFormFieldRow(
+                            placeholder:
+                                CATLocalizations.of(context).selectionSchool,
+                            readOnly: true,
+                            onTap: _schoolTypePicker,
                             controller: _schoolType,
                           ),
                         ),
@@ -128,6 +156,7 @@ class SchoolFormState extends State<SchoolForm> {
                           child: CupertinoTextFormFieldRow(
                             placeholder:
                                 CATLocalizations.of(context).sectionName,
+                            controller: _section,
                           ),
                         ),
                         CupertinoFormRow(
@@ -169,6 +198,7 @@ class SchoolFormState extends State<SchoolForm> {
                           child: CupertinoTextFormFieldRow(
                             maxLines: null,
                             expands: true,
+                            controller: _notes,
                           ),
                         ),
                       ],
@@ -218,7 +248,7 @@ class SchoolFormState extends State<SchoolForm> {
     } else {
       grades = <Text>[for (int i = 0; i < 12; i += 1) Text("$i")];
     }
-    if (_canton == "Ticino (TI)") {
+    if (_canton.text == "Ticino (TI)") {
       if (grades.length == 2) {
         grades.insert(0, const Text("0"));
       } else if (grades.length == 6) {
@@ -253,7 +283,7 @@ class SchoolFormState extends State<SchoolForm> {
     final List<Text> grades = <Text>[
       for (int i = 1; i < 12; i += 1) Text("$i"),
     ];
-    if (_canton == "Ticino (TI)") {
+    if (_canton.text == "Ticino (TI)") {
       grades.insert(0, const Text("0"));
     }
     showCupertinoModalPopup(
@@ -328,7 +358,7 @@ class SchoolFormState extends State<SchoolForm> {
     );
   }
 
-  void _schoolPicker() {
+  void _schoolTypePicker() {
     setState(() {
       final Text text = CATLocalizations.of(context).schoolType.first;
       if (_schoolType.text == "") {
@@ -354,6 +384,34 @@ class SchoolFormState extends State<SchoolForm> {
           useMagnifier: true,
           magnification: 1.3,
           children: CATLocalizations.of(context).schoolType,
+        ),
+      ),
+    );
+  }
+
+  void _schoolPicker() {
+    const List<Text> schools = <Text>[
+      Text("Scuola Media Castione"),
+      Text("Scuola dell’Infanzia Monte Carasso"),
+      Text("Scuola Elementare Bellinzona Nord"),
+    ];
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              final Text text = schools[value];
+              _school.text = text.data.toString();
+            });
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: schools,
         ),
       ),
     );

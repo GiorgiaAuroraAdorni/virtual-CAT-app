@@ -11,11 +11,15 @@ class StudentsForm extends StatefulWidget {
   /// A constructor for the class SchemasLibrary.
   const StudentsForm({
     required this.schemes,
+    required this.sessionData,
     super.key,
   });
 
   /// A variable that is used to store the schemes.
   final Schemes schemes;
+
+  /// A variable that is used to store the session data.
+  final SessionData sessionData;
 
   @override
   StudentsFormState createState() => StudentsFormState();
@@ -26,6 +30,8 @@ class StudentsFormState extends State<StudentsForm> {
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _gender = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _surname = TextEditingController();
 
   @override
   Widget build(BuildContext context) => WillPopScope(
@@ -56,12 +62,12 @@ class StudentsFormState extends State<StudentsForm> {
                         builder: (BuildContext context) =>
                             CupertinoPageScaffold(
                           child: ActivityHome(
-                            sessionData: SessionData(
-                              schoolName: "USI",
-                              grade: 0,
-                              section: "A",
-                              date: DateTime.now(),
-                              supervisor: "test",
+                            sessionData: widget.sessionData,
+                            pupilData: PupilData(
+                              name: _name.text,
+                              surname: _surname.text,
+                              gender: _gender.text,
+                              creationDateTime: _selectedDate,
                             ),
                             schemas: widget.schemes,
                           ),
@@ -105,7 +111,7 @@ class StudentsFormState extends State<StudentsForm> {
                   ),
                   child: CupertinoTextFormFieldRow(
                     placeholder: CATLocalizations.of(context).inputName,
-                    validator: (String? value) {},
+                    controller: _name,
                   ),
                 ),
                 CupertinoFormRow(
@@ -115,7 +121,7 @@ class StudentsFormState extends State<StudentsForm> {
                   ),
                   child: CupertinoTextFormFieldRow(
                     placeholder: CATLocalizations.of(context).inputSurname,
-                    validator: (String? value) {},
+                    controller: _surname,
                   ),
                 ),
                 CupertinoFormRow(

@@ -24,6 +24,7 @@ const Map<String, String> _firsForm = <String, String>{
   "selectionClass": "Wählen Sie die Klasse",
   "sectionName": "Geben Sie den Namen des Abschnitts ein",
   "supervisorInformation": "Vor- und Nachname des Betreuers eingeben",
+  "schoolName": "Name der Schule",
 };
 
 const Map<String, String> _secondForm = <String, String>{

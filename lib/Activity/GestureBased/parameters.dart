@@ -15,7 +15,13 @@ import "package:tuple/tuple.dart";
 /// contains all the parameters that are used in the activity
 class Parameters {
   /// > The function `Parameters()` initializes the `Parameters` class
-  Parameters({this.visible = false, this.currentSchema = 1}) {
+  Parameters({
+    required this.sessionData,
+    required this.pupilData,
+    required this.context,
+    this.visible = false,
+    this.currentSchema = 1,
+  }) {
     nextColors = <CupertinoDynamicColor>[];
     selectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];
@@ -25,26 +31,21 @@ class Parameters {
     _readSchemasJSON().then((String value) {
       catInterpreter = CATInterpreter(value);
     });
-    sessionData = SessionData(
-      schoolName: "USI",
-      grade: 0,
-      section: "A",
-      date: DateTime.now(),
-      supervisor: "test",
-    );
-    pupilData = PupilData(name: "test");
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
-  /// A constructor for the `Parameters` class.
-  Parameters.forAnalyzerTest() {
-    nextColors = <CupertinoDynamicColor>[];
-    selectionMode = SelectionModes.base;
-    selectedButtons = <CrossButton>[];
-    analyzer = Analyzer();
-    commands = <String>[];
-    temporaryCommands = <String>[];
-  }
+  // /// A constructor for the `Parameters` class.
+  // Parameters.forAnalyzerTest() {
+  //   nextColors = <CupertinoDynamicColor>[];
+  //   selectionMode = SelectionModes.base;
+  //   selectedButtons = <CrossButton>[];
+  //   analyzer = Analyzer();
+  //   commands = <String>[];
+  //   temporaryCommands = <String>[];
+  // }
+
+  /// Declaring a variable called context of type BuildContext.
+  BuildContext context;
 
   /// A list of colors that will be used to color the cross.
   late List<CupertinoDynamicColor> nextColors;
@@ -62,10 +63,10 @@ class Parameters {
   late Analyzer analyzer;
 
   /// Completed commands done by the user
-  List<String> commands = [];
+  List<String> commands = <String>[];
 
   /// Temporary commends done by the user (used for MIRROR and COPY)
-  List<String> temporaryCommands = [];
+  List<String> temporaryCommands = <String>[];
 
   /// State of the GestureImplementation used for calling some method
   late GestureImplementation gestureHome;
@@ -170,29 +171,14 @@ class Parameters {
       currentSchema++;
       reset();
     } else {
-      gestureHome.showMessage(
-        "Ultimo schema completato",
-        "Passaggio al pupillo successivo",
-      );
-      nextPupil();
+      jsonParser.saveData();
+
+      return -1;
     }
     gestureHome.reloadImage();
     activityHomeState.setStateFromOutside();
 
     return currentSchema;
-  }
-
-  /// It saves the data of the current pupil, resets the current schema to 1,
-  /// resets the current state of the game, and recreates the cross
-  void nextPupil() {
-    jsonParser.saveData();
-    gestureHome.showMessage("Dati salvati", "Passaggio al pupillo successivo");
-    pupilData = PupilData(name: "test");
-    jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
-    currentSchema = 1;
-    gestureHome.reloadImage();
-    activityHomeState.setStateFromOutside();
-    reset();
   }
 
   /// It removes a color from the list of colors that will be used to generate

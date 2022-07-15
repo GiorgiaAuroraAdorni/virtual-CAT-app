@@ -43,7 +43,7 @@ class CrossButton extends StatefulWidget {
       _changeColorFromIndex(globalKey, index);
 
   /// It takes a global key, and then calls the _changeVisibility function
-  /// with thatckey
+  /// with that key
   void changeVisibility() => _changeVisibility(globalKey);
 
   /// It creates a state object for the CrossButton widget.
@@ -163,7 +163,7 @@ class CrossButtonState extends State<CrossButton> {
     });
   }
 
-  /// change tha visibility of the button.
+  /// change the visibility of the button.
   void changeVisibility() {
     setState(() {});
   }

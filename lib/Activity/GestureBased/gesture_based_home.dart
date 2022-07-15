@@ -8,7 +8,7 @@ import "package:cross_array_task_app/Activity/cross.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
-import 'package:uiblock/uiblock.dart';
+import "package:uiblock/uiblock.dart";
 
 /// `GestureImplementation` is a class that extends the `StatefulWidget` class
 /// and has a constructor that takes in a `schema` parameter
@@ -662,68 +662,64 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  void _schemaCompleted() {
+  Future<void> _schemaCompleted() async {
+    int result = 0;
     if (widget.params.commands.isNotEmpty) {
       final Pair<Results, CatError> resultPair = widget.params.checkSchema();
       final Results results = resultPair.first;
+      final bool wasVisible = widget.params.visible;
       _changeVisibility();
-      if (results.completed) {
-        UIBlock.block(
-          context,
-          customLoaderChild: Image.asset(
-            "resources/gifs/sun.gif",
-            height: 250,
-            width: 250,
-          ),
-          loadingTextWidget: Column(
-            children: [
-              const SizedBox(
-                height: 15,
+      result = results.completed
+          ? await UIBlock.blockWithData(
+              context,
+              customLoaderChild: Image.asset(
+                "resources/gifs/sun.gif",
+                height: 250,
+                width: 250,
               ),
-              CupertinoButton.filled(
+              loadingTextWidget: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  CupertinoButton.filled(
+                    child: const Text("Next"),
+                    onPressed: () {
+                      widget.params.visible = wasVisible;
+                      widget.params.saveCommandsForJson();
+                      setState(recreateCross);
+                      UIBlock.unblockWithData(
+                        context,
+                        widget.params.nextSchema(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            )
+          : await UIBlock.blockWithData(
+              context,
+              customLoaderChild: Image.asset(
+                "resources/gifs/rain.gif",
+                height: 250,
+                width: 250,
+              ),
+              loadingTextWidget: CupertinoButton.filled(
                 child: const Text("Next"),
                 onPressed: () {
+                  widget.params.visible = wasVisible;
                   widget.params.saveCommandsForJson();
-                  setState(
-                    () {
-                      recreateCross();
-                      widget.params.nextSchema();
-                    },
-                  );
-                  UIBlock.unblock(context);
+                  setState(recreateCross);
+                  UIBlock.unblockWithData(context, widget.params.nextSchema());
                 },
               ),
-            ],
-          ),
-        );
-      } else {
-        UIBlock.block(
-          context,
-          customLoaderChild: Image.asset(
-            "resources/gifs/rain.gif",
-            height: 250,
-            width: 250,
-          ),
-          loadingTextWidget: CupertinoButton.filled(
-            child: const Text("Next"),
-            onPressed: () {
-              widget.params.saveCommandsForJson();
-              setState(
-                () {
-                  recreateCross();
-                  widget.params.nextSchema();
-                },
-              );
-              UIBlock.unblock(context);
-            },
-          ),
-        );
-      }
+            );
     } else {
       message(
         "Nesun comando eseguito",
         "Eseguire almeno un comando prima di confermare",
       );
+    }
+    if (result == -1) {
+      Navigator.pop(context);
     }
     stdout.writeln(widget.params.commands);
   }

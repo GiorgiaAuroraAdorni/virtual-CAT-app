@@ -11,12 +11,16 @@ class ActivityHome extends StatefulWidget {
   /// It's a constructor for the ActivityHome class.
   const ActivityHome({
     required this.sessionData,
+    required this.pupilData,
     required this.schemas,
     super.key,
   });
 
   /// It's a variable that stores the data of the session.
   final SessionData sessionData;
+
+  /// It's a variable that stores the data of the session.
+  final PupilData pupilData;
 
   /// It's a variable that stores the schemas that the student has to solve.
   final Schemes schemas;
@@ -32,7 +36,11 @@ class ActivityHomeState extends State<ActivityHome> {
   late final RecorderController _recorderController;
   // late String _path;
   late final GestureImplementation _gestureImplementation;
-  late final Parameters _params = Parameters();
+  late final Parameters _params = Parameters(
+    sessionData: widget.sessionData,
+    pupilData: widget.pupilData,
+    context: context,
+  );
 
   // bool block = true;
 
@@ -56,7 +64,7 @@ class ActivityHomeState extends State<ActivityHome> {
               //   onPressed: _params.nextSchema,
               //   child: const Text("Prossimo schema"),
               // ),
-              // CupertinoButton(
+              // // CupertinoButton(
               //   onPressed: () {
               //     setState(_params.nextPupil);
               //   },
