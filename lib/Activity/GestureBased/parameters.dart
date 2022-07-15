@@ -18,7 +18,6 @@ class Parameters {
   Parameters({
     required this.sessionData,
     required this.pupilData,
-    required this.context,
     this.visible = false,
     this.currentSchema = 1,
   }) {
@@ -34,18 +33,15 @@ class Parameters {
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }
 
-  // /// A constructor for the `Parameters` class.
-  // Parameters.forAnalyzerTest() {
-  //   nextColors = <CupertinoDynamicColor>[];
-  //   selectionMode = SelectionModes.base;
-  //   selectedButtons = <CrossButton>[];
-  //   analyzer = Analyzer();
-  //   commands = <String>[];
-  //   temporaryCommands = <String>[];
-  // }
-
-  /// Declaring a variable called context of type BuildContext.
-  BuildContext context;
+  /// A constructor for the `Parameters` class.
+  Parameters.forAnalyzerTest() {
+    nextColors = <CupertinoDynamicColor>[];
+    selectionMode = SelectionModes.base;
+    selectedButtons = <CrossButton>[];
+    analyzer = Analyzer();
+    commands = <String>[];
+    temporaryCommands = <String>[];
+  }
 
   /// A list of colors that will be used to color the cross.
   late List<CupertinoDynamicColor> nextColors;

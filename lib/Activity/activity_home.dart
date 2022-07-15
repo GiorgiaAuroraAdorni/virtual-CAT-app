@@ -39,7 +39,6 @@ class ActivityHomeState extends State<ActivityHome> {
   late final Parameters _params = Parameters(
     sessionData: widget.sessionData,
     pupilData: widget.pupilData,
-    context: context,
   );
 
   // bool block = true;

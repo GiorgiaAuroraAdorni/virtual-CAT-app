@@ -400,7 +400,7 @@ class GestureImplementationState extends State<GestureImplementation> {
             message("Errore:", error.name);
           }
         }
-        message("Comando riconsociuto:", command);
+        // message("Comando riconsociuto:", command);
         widget.params.saveCommandsForJson();
         widget.params.resetAnalyzer();
         widget.params.nextColors.clear();
