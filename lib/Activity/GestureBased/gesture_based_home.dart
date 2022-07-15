@@ -425,8 +425,8 @@ class GestureImplementationState extends State<GestureImplementation> {
         widget.params.selectionMode = SelectionModes.multiple;
         message(
           "Comando COPIA",
-          "Seleziona i punti dove vuoi incollare quello che hai fatto: \n "
-              "Comandi riconosciuti: ${widget.params.temporaryCommands}",
+          "Seleziona i punti dove vuoi incollare quello che hai fatto. ",
+          // "Comandi riconosciuti: ${widget.params.temporaryCommands}",
         );
       } else if (widget.params.selectionMode == SelectionModes.multiple) {
         widget.params.selectionMode = SelectionModes.base;
@@ -626,17 +626,21 @@ class GestureImplementationState extends State<GestureImplementation> {
           widget.params.addCommand("MIRROR($command, ${mirroring.second})");
           mirroring = const Pair<bool, String>(false, "");
           widget.params.reloadCross(activeCross);
-          if (widget.params.temporaryCommands.isNotEmpty) {
-            message(
-              "Comando SPECCHIA",
-              "Comando eseguito correttamente sui comandi: $command",
-            );
-          } else {
-            message(
-              "Comando SPECCHIA",
-              "Comando eseguito correttamente su tutta la croce",
-            );
-          }
+          // if (widget.params.temporaryCommands.isNotEmpty) {
+          //   message(
+          //     "Comando SPECCHIA",
+          //     "Comando eseguito correttamente sui comandi: $command",
+          //   );
+          // } else {
+          //   message(
+          //     "Comando SPECCHIA",
+          //     "Comando eseguito correttamente su tutta la croce",
+          //   );
+          // }
+          message(
+            "Comando SPECCHIA",
+            "Comando eseguito correttamente.",
+          );
           widget.params.saveCommandsForJson();
         } else {
           message(
