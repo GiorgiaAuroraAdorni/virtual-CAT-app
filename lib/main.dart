@@ -7,6 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import "package:provider/provider.dart";
 import 'package:provider/single_child_widget.dart';
 
+import 'Utility/helper.dart';
+
 /// "Set the preferred orientation of the app to landscape, then run the app."
 ///
 /// The first line of the function is a call to
@@ -94,6 +96,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               primaryColor: CupertinoColors.systemOrange,
             ),
+            navigatorObservers: [Helper.routeObserver],
             locale: provider.locale,
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               AppLocalizationsDelegate(),

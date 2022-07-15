@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/Activity/activity_home.dart";
 import "package:cross_array_task_app/Utility/data_manager.dart";
+import 'package:cross_array_task_app/Utility/helper.dart';
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -26,7 +27,27 @@ class StudentsForm extends StatefulWidget {
 }
 
 /// State for the gesture-based GUI
-class StudentsFormState extends State<StudentsForm> {
+class StudentsFormState extends State<StudentsForm> with RouteAware {
+  @override
+  void didPopNext() {
+    _name.text = "";
+    _gender.text = "";
+    _surname.text = "";
+    _selectedDate = DateTime.now();
+    _controllerDate.text =
+        "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
+    super.didPopNext();
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      Helper.routeObserver
+          .subscribe(this, ModalRoute.of(context)! as PageRoute);
+    });
+    super.initState();
+  }
+
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _gender = TextEditingController();
