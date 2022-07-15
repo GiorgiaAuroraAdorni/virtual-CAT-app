@@ -50,3 +50,9 @@ const List<Text> genderTypeFr = <Text>[
   Text("Homme"),
   Text("Femme"),
 ];
+
+/// A map that converts the gender from French to English.
+const Map<String, String> conversionFrToEn = <String, String>{
+  "Homme": "Male",
+  "Femme": "Female",
+};

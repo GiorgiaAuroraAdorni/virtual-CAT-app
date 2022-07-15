@@ -38,6 +38,13 @@ class CATLocalizations {
     "de": genderTypeDe,
   };
 
+  /// It's a map that contains all the translations from the other languages to
+  /// English.
+  static final Map<String, String> mapToEn = <String, String>{}
+    ..addAll(conversionDeToEn)
+    ..addAll(conversionFrToEn)
+    ..addAll(conversionItToEn);
+
   /// Returns a list of all supported languages
   static List<String> languages() => _localizedValues.keys.toList();
 

@@ -50,3 +50,9 @@ const List<Text> genderTypeDe = <Text>[
   Text("Männlich"),
   Text("Weiblich"),
 ];
+
+/// A map that converts the german gender to english.
+const Map<String, String> conversionDeToEn = <String, String>{
+  "Männlich": "Male",
+  "Weiblich": "Female",
+};

@@ -47,6 +47,12 @@ const List<Text> schoolTypeIt = <Text>[
 
 /// A list of school types.
 const List<Text> genderTypeIt = <Text>[
-  Text("Machio"),
+  Text("Maschio"),
   Text("Femmina"),
 ];
+
+/// A map that converts the gender from italian to english.
+const Map<String, String> conversionItToEn = <String, String>{
+  "Maschio": "Male",
+  "Femmina": "Female",
+};
