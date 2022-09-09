@@ -264,10 +264,9 @@ class CrossWidgetState extends State<CrossWidget> {
       final List<Widget> rowChildren = <Widget>[];
       for (final int x in <int>[1, 2, 3, 4, 5, 6]) {
         if (_buttons[y][x] != null) {
-          rowChildren.add(_buttons[y][x]);
-          if (x != 6 || (!<String>["f", "e", "b", "a"].contains(y) && x != 4)) {
-            rowChildren.add(const SizedBox(width: 15));
-          }
+          rowChildren
+            ..add(const SizedBox(width: 15))
+            ..add(_buttons[y][x]);
         }
       }
       result.add(Row(children: rowChildren));

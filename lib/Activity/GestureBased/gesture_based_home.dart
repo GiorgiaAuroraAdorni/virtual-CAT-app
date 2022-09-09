@@ -112,7 +112,26 @@ class GestureImplementationState extends State<GestureImplementation> {
               Row(children: _instructionsButtonsBuild()),
             ],
           ),
-          activeCross,
+          Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const SizedBox(width: 15),
+                  CupertinoButton(
+                    key: const Key("Visibility Button"),
+                    onPressed: widget.params.visible ? null : _changeVisibility,
+                    // minSize: 50,
+                    padding: EdgeInsets.zero,
+                    child: widget.params.visible
+                        ? const Icon(CupertinoIcons.eye_slash_fill, size: 50)
+                        : const Icon(CupertinoIcons.eye_fill, size: 50),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              activeCross,
+            ],
+          ),
         ],
       );
 
@@ -226,16 +245,6 @@ class GestureImplementationState extends State<GestureImplementation> {
           color: CupertinoColors.systemGreen,
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.checkmark),
-        ),
-        const SizedBox(width: 20),
-        CupertinoButton(
-          key: const Key("Visibility Button"),
-          onPressed: widget.params.visible ? null : _changeVisibility,
-          minSize: 50,
-          padding: EdgeInsets.zero,
-          child: widget.params.visible
-              ? const Icon(CupertinoIcons.eye_slash_fill, size: 40)
-              : const Icon(CupertinoIcons.eye_fill, size: 40),
         ),
       ];
 
@@ -423,29 +432,18 @@ class GestureImplementationState extends State<GestureImplementation> {
     setState(() {
       if (widget.params.selectionMode == SelectionModes.copy) {
         widget.params.selectionMode = SelectionModes.multiple;
-        // message(
-        //   "Comando COPIA",
-        //   "Seleziona i punti dove vuoi incollare quello che hai fatto. ",
-        //   // "Comandi riconosciuti: ${widget.params.temporaryCommands}",
-        // );
       } else if (widget.params.selectionMode == SelectionModes.multiple) {
         widget.params.selectionMode = SelectionModes.base;
         copying = false;
         widget.params.modifyCommandForCopy();
         widget.params.reloadCross(activeCross);
         widget.params.temporaryCommands.clear();
-        // message("Comando COPIA", "Comando eseguito correttamente");
         widget.params.saveCommandsForJson();
       }
     });
   }
 
   void _copyInit() {
-    // message(
-    //   "Comando COPIA",
-    //   "Esegui quello che vuoi copiare e poi clicca il tasto "
-    //       "verde vicino al tasto copia",
-    // );
     setState(() {
       widget.params.selectionMode = SelectionModes.copy;
       copying = true;
@@ -457,11 +455,6 @@ class GestureImplementationState extends State<GestureImplementation> {
     if (widget.params.checkColorLength(min: 1, max: 1)) {
       activeCross.fillEmpty();
       final String colors = widget.params.analyzeColor();
-      // message(
-      //   "Comando RIEMPI",
-      //   "Tutti i punti grigi sono stati colorati di "
-      //       "${colors.substring(1, colors.length - 1)}",
-      // );
       setState(() {
         widget.params.saveCommandsForJson();
       });
@@ -507,7 +500,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               onPressed: copying ? _copyConfirm : null,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
-              color: CupertinoColors.systemGreen,
+              color: CupertinoColors.systemGreen.highContrastColor,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.checkmark),
             ),
@@ -524,7 +517,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                   : null,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
-              color: CupertinoColors.systemRed,
+              color: CupertinoColors.systemRed.highContrastColor,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.multiply),
             ),
@@ -550,7 +543,7 @@ class GestureImplementationState extends State<GestureImplementation> {
               onPressed: mirroring.first ? _mirrorConfirm : null,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
-              color: CupertinoColors.systemGreen,
+              color: CupertinoColors.systemGreen.highContrastColor,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.checkmark),
             ),
@@ -567,7 +560,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                   : null,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
-              color: CupertinoColors.systemRed,
+              color: CupertinoColors.systemRed.highContrastColor,
               padding: EdgeInsets.zero,
               child: const Icon(CupertinoIcons.multiply),
             ),
@@ -626,21 +619,6 @@ class GestureImplementationState extends State<GestureImplementation> {
           widget.params.addCommand("MIRROR($command, ${mirroring.second})");
           mirroring = const Pair<bool, String>(false, "");
           widget.params.reloadCross(activeCross);
-          // if (widget.params.temporaryCommands.isNotEmpty) {
-          //   message(
-          //     "Comando SPECCHIA",
-          //     "Comando eseguito correttamente sui comandi: $command",
-          //   );
-          // } else {
-          //   message(
-          //     "Comando SPECCHIA",
-          //     "Comando eseguito correttamente su tutta la croce",
-          //   );
-          // }
-          // message(
-          //   "Comando SPECCHIA",
-          //   "Comando eseguito correttamente.",
-          // );
           widget.params.saveCommandsForJson();
         } else {
           message(
@@ -655,12 +633,6 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _mirrorInit() {
     widget.params.selectionMode = SelectionModes.mirror;
-    // message(
-    //   "Comando SPECCHIA",
-    //   "Seleziona l'asse (V=verticale, O=orizontale), esegui quello che vuoi "
-    //       "specchiare (o nulla se vuoi specchiare tutto) e poi "
-    //       "clicca il tasto verde vicino al tasto specchia",
-    // );
     setState(() {
       mirroring = Pair<bool, String>(true, mirroring.second);
     });

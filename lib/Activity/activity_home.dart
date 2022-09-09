@@ -1,4 +1,3 @@
-import "package:audio_waveforms/audio_waveforms.dart";
 import "package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart";
 import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Utility/data_manager.dart";
@@ -29,12 +28,9 @@ class ActivityHome extends StatefulWidget {
   ActivityHomeState createState() => ActivityHomeState();
 }
 
-/// It's a stateful widget that displays a button to change the schema,
-/// a button to record audio, a button to play audio,
+/// It's a stateful widget that displays a button to change the schema
 /// and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
-  late final RecorderController _recorderController;
-  // late String _path;
   late final GestureImplementation _gestureImplementation;
   late final Parameters _params = Parameters(
     sessionData: widget.sessionData,
@@ -43,7 +39,7 @@ class ActivityHomeState extends State<ActivityHome> {
 
   // bool block = true;
 
-  /// It creates a column with a row of buttons and a row of waveforms.
+  /// It creates a column with a row of buttons.
   ///
   /// Args:
   ///   context: The context of the widget.
@@ -54,57 +50,17 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           Row(
             children: <Widget>[
               const SizedBox(width: 10),
               Text("Schema da risolvere: ${_params.currentSchema}"),
-              // CupertinoButton(
-              //   onPressed: _params.nextSchema,
-              //   child: const Text("Prossimo schema"),
-              // ),
-              // // CupertinoButton(
-              //   onPressed: () {
-              //     setState(_params.nextPupil);
-              //   },
-              //   child: const Text("Prossimo studente"),
-              // ),
             ],
           ),
-          Row(
-            children: <Widget>[
-              CupertinoButton(
-                onPressed: () async {
-                  await _recorderController.record();
-                },
-                child: const Icon(CupertinoIcons.mic_fill),
-              ),
-              CupertinoButton(
-                onPressed: () async {
-                  await _recorderController.pause();
-                },
-                child: const Icon(CupertinoIcons.pause),
-              ),
-              CupertinoButton(
-                onPressed: () async {
-                  await _recorderController.stop();
-                  // _path = (await _recorderController.stop())!;
-                  // await FileSaver.instance.saveFile("AudioTest",
-                  //     File(_path.split("file://")[1]).readAsBytesSync(), 'aac',);
-                },
-                child: const Icon(CupertinoIcons.stop_fill),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height - 120,
-            // child: block
-            //     ? const BlockBasedImplementation()
-            //     : GestureImplementation(
-            //         key: Key(_params.currentSchema.toString()),
-            //                    params: _params),
             child: _gestureImplementation,
           ),
         ],
@@ -114,7 +70,6 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   void initState() {
     super.initState();
-    _recorderController = RecorderController();
     _params
       ..activityHomeState = this
       ..sessionData = widget.sessionData; //TODO: add form for student data
