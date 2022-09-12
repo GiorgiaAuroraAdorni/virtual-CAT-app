@@ -2,7 +2,7 @@ import "dart:convert";
 import "dart:io";
 
 import "package:cross_array_task_app/Utility/file_manager.dart";
-import 'package:cross_array_task_app/Utility/localizations.dart';
+import "package:cross_array_task_app/Utility/localizations.dart";
 import "package:path_provider/path_provider.dart";
 
 /// It takes the session and pupil data and saves it in a json file

@@ -8,9 +8,6 @@ import "package:tuple/tuple.dart";
 
 /// Class to analyze some input and modify to some desidered output
 class Analyzer {
-  /// Declaring a private variable that is a list of strings.
-  late List<String> _possiblePattern;
-
   /// It creates a list of possible patterns that the dart can take
   Analyzer() {
     _possiblePattern = <String>[
@@ -24,6 +21,9 @@ class Analyzer {
       "diagonal down right",
     ];
   }
+
+  /// Declaring a private variable that is a list of strings.
+  late List<String> _possiblePattern;
 
   /// It takes a list of colors and returns a string representation
   /// of the colors

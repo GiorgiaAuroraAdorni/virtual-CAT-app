@@ -5,6 +5,14 @@ import "package:tuple/tuple.dart";
 
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
+  /// It's the constructor of the class.
+  const CrossButton({
+    required this.globalKey,
+    required this.position,
+    required this.params,
+    required this.buttonDimension,
+  }) : super(key: globalKey);
+
   /// It's the size of the button
   final double buttonDimension;
 
@@ -16,14 +24,6 @@ class CrossButton extends StatefulWidget {
 
   /// It's a way to access the parameters of the widget from outside the widget.
   final Parameters params;
-
-  /// It's the constructor of the class.
-  const CrossButton({
-    required this.globalKey,
-    required this.position,
-    required this.params,
-    required this.buttonDimension,
-  }) : super(key: globalKey);
 
   /// Change the color of the
   /// widget with the given global key to the given color.

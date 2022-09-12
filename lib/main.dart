@@ -56,6 +56,13 @@ class LocaleProvider with ChangeNotifier {
     const Locale("it", ""),
   ];
 
+  final Map<Locale, List<String>> _localeMap = <Locale, List<String>>{
+    const Locale("it", ""): <String>["resources/icon/it.svg", "Italiano"],
+    const Locale("de", ""): <String>["resources/icon/de.svg", "Deutsch"],
+    const Locale("fr", ""): <String>["resources/icon/fr.svg", "Français"],
+    const Locale("en", ""): <String>["resources/icon/gb.svg", "English"],
+  };
+
   void setLocale(Locale locale) {
     if (!_languages.contains(locale)) {
       return;
@@ -105,12 +112,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               DefaultCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const <Locale>[
-              Locale("en", ""),
-              Locale("de", ""),
-              Locale("fr", ""),
-              Locale("it", ""),
-            ],
+            supportedLocales: LocaleProvider()._languages,
           ),
         ),
       );
@@ -134,106 +136,33 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    CupertinoButton(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/it.svg",
-                            width: 150,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                          const Text(
-                            "Italiano",
-                            style: TextStyle(
-                              color: CupertinoColors.black,
-                              fontSize: 18,
+                    for (final Locale locale
+                        in LocaleProvider()._localeMap.keys)
+                      CupertinoButton(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              LocaleProvider()._localeMap[locale]![0],
+                              width: 150,
+                              height: 100,
+                              fit: BoxFit.fill,
                             ),
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        provider.setLocale(const Locale("it", ""));
-                        _changePage();
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/de.svg",
-                            width: 150,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                          const Text(
-                            "Deutsch",
-                            style: TextStyle(
-                              color: CupertinoColors.black,
-                              fontSize: 18,
+                            Text(
+                              LocaleProvider()._localeMap[locale]![1],
+                              style: const TextStyle(
+                                color: CupertinoColors.black,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        onPressed: () {
+                          provider.setLocale(locale);
+                          _changePage();
+                        },
                       ),
-                      onPressed: () {
-                        provider.setLocale(const Locale("de", ""));
-                        _changePage();
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/fr.svg",
-                            width: 150,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                          const Text(
-                            "Français",
-                            style: TextStyle(
-                              color: CupertinoColors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        provider.setLocale(const Locale("fr", ""));
-                        _changePage();
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/gb.svg",
-                            width: 150,
-                            height: 100,
-                            fit: BoxFit.fill,
-                          ),
-                          const Text(
-                            "English",
-                            style: TextStyle(
-                              color: CupertinoColors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        provider.setLocale(const Locale("en", ""));
-                        _changePage();
-                      },
-                    ),
                   ],
                 ),
               ),

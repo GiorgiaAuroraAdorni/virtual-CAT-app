@@ -264,88 +264,40 @@ class GestureImplementationState extends State<GestureImplementation> {
   List<Widget> _colorButtonsBuild() {
     const TextStyle textStyle =
         TextStyle(color: CupertinoColors.black, fontSize: 20);
+    final Map<CupertinoDynamicColor, String> colors =
+        <CupertinoDynamicColor, String>{
+      CupertinoColors.systemBlue: "ColorButtonBlue",
+      CupertinoColors.systemRed: "ColorButtonRed",
+      CupertinoColors.systemGreen: "ColorButtonGreen",
+      CupertinoColors.systemYellow: "ColorButtonYellow",
+    };
 
-    return <Widget>[
-      CupertinoButton(
-        key: const Key("ColorButtonBlue"),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemBlue),
-        borderRadius: BorderRadius.circular(45),
-        minSize: 50,
-        color: CupertinoColors.systemBlue,
-        padding: EdgeInsets.zero,
-        child: widget.params.nextColors.contains(CupertinoColors.systemBlue)
-            ? Stack(
-                children: <Widget>[
-                  const Icon(CupertinoIcons.circle_fill),
-                  Text(
-                    " ${_getColorIndex(CupertinoColors.systemBlue)}",
-                    style: textStyle,
-                  ),
-                ],
-              ) //const Icon(CupertinoIcons.circle_fill)
-            : const Text(""),
-      ),
-      const SizedBox(width: 20),
-      CupertinoButton(
-        key: const Key("ColorButtonRed"),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemRed),
-        borderRadius: BorderRadius.circular(45),
-        minSize: 50,
-        color: CupertinoColors.systemRed,
-        padding: EdgeInsets.zero,
-        child: widget.params.nextColors.contains(CupertinoColors.systemRed)
-            ? Stack(
-                children: <Widget>[
-                  const Icon(CupertinoIcons.circle_fill),
-                  Text(
-                    " ${_getColorIndex(CupertinoColors.systemRed)}",
-                    style: textStyle,
-                  ),
-                ],
-              )
-            : const Text(""),
-      ),
-      const SizedBox(width: 20),
-      CupertinoButton(
-        key: const Key("ColorButtonGreen"),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemGreen),
-        borderRadius: BorderRadius.circular(45),
-        minSize: 50,
-        color: CupertinoColors.systemGreen,
-        padding: EdgeInsets.zero,
-        child: widget.params.nextColors.contains(CupertinoColors.systemGreen)
-            ? Stack(
-                children: <Widget>[
-                  const Icon(CupertinoIcons.circle_fill),
-                  Text(
-                    " ${_getColorIndex(CupertinoColors.systemGreen)}",
-                    style: textStyle,
-                  ),
-                ],
-              )
-            : const Text(""),
-      ),
-      const SizedBox(width: 20),
-      CupertinoButton(
-        key: const Key("ColorButtonYellow"),
-        onPressed: () => _colorButtonTap(CupertinoColors.systemYellow),
-        borderRadius: BorderRadius.circular(45),
-        minSize: 50,
-        color: CupertinoColors.systemYellow,
-        padding: EdgeInsets.zero,
-        child: widget.params.nextColors.contains(CupertinoColors.systemYellow)
-            ? Stack(
-                children: <Widget>[
-                  const Icon(CupertinoIcons.circle_fill),
-                  Text(
-                    " ${_getColorIndex(CupertinoColors.systemYellow)}",
-                    style: textStyle,
-                  ),
-                ],
-              )
-            : const Text(""),
-      ),
-    ];
+    return colors.keys
+        .map(
+          (CupertinoDynamicColor color) => Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: CupertinoButton(
+              key: Key(colors[color]!),
+              onPressed: () => _colorButtonTap(color),
+              borderRadius: BorderRadius.circular(45),
+              minSize: 50,
+              color: color,
+              padding: EdgeInsets.zero,
+              child: widget.params.nextColors.contains(color)
+                  ? Stack(
+                      children: <Widget>[
+                        const Icon(CupertinoIcons.circle_fill),
+                        Text(
+                          " ${_getColorIndex(color)}",
+                          style: textStyle,
+                        ),
+                      ],
+                    ) //const Icon(CupertinoIcons.circle_fill)
+                  : const Text(""),
+            ),
+          ),
+        )
+        .toList();
   }
 
   /// It takes a color as a parameter, and if the color is already in the list

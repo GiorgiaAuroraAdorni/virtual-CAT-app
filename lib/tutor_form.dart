@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/Utility/cantons_list.dart";
-import 'package:cross_array_task_app/Utility/data_manager.dart';
+import "package:cross_array_task_app/Utility/data_manager.dart";
 import "package:cross_array_task_app/Utility/localizations.dart";
 import "package:cross_array_task_app/Utility/supervisor.dart";
 import "package:cross_array_task_app/student_form.dart";
@@ -135,19 +135,19 @@ class SchoolFormState extends State<SchoolForm> {
                             controller: _grade,
                           ),
                         ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).level}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            placeholder:
-                                CATLocalizations.of(context).selectionLevel,
-                            readOnly: true,
-                            // onTap: _levelPicker,
-                            controller: _level,
-                          ),
-                        ),
+                        // CupertinoFormRow(
+                        //   prefix: Text(
+                        //     "${CATLocalizations.of(context).level}:",
+                        //     textAlign: TextAlign.right,
+                        //   ),
+                        //   child: CupertinoTextFormFieldRow(
+                        //     placeholder:
+                        //         CATLocalizations.of(context).selectionLevel,
+                        //     readOnly: true,
+                        //     // onTap: _levelPicker,
+                        //     controller: _level,
+                        //   ),
+                        // ),
                         CupertinoFormRow(
                           prefix: Text(
                             "${CATLocalizations.of(context).section}:",
