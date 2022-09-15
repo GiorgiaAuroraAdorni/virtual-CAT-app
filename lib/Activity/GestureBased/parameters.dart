@@ -28,7 +28,7 @@ class Parameters {
     commands = <String>[];
     temporaryCommands = <String>[];
     _readSchemasJSON().then((String value) {
-      catInterpreter = CATInterpreter(value);
+      catInterpreter = CATInterpreter(value, Shape.cross);
     });
     jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
   }

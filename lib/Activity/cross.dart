@@ -77,8 +77,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
                 width: containerDimension,
                 height: containerDimension,
                 decoration: BoxDecoration(
-                  color:
-                      colors[widget.resultValueNotifier.value.getCross[y][x]],
+                  color: colors[widget.resultValueNotifier.value.getGrid[y][x]],
                   borderRadius: const BorderRadius.all(Radius.circular(45)),
                 ),
                 child: const Center(

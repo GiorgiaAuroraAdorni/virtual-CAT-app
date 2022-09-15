@@ -37,7 +37,7 @@ class CrossWidget extends StatefulWidget {
   ///
   /// Args:
   ///   schema (Cross): The schema to be converted to a dart class.
-  void fromSchema(Cross schema) => _fromSchema(globalKey, schema);
+  void fromSchema(BasicShape schema) => _fromSchema(globalKey, schema);
 
   /// Change the visibility of the cross with the given globalKey
   ///
@@ -65,7 +65,7 @@ class CrossWidget extends StatefulWidget {
   /// Args:
   ///   globalKey (GlobalKey<CrossWidgetState>): The global key of the widget.
   ///   schema (Cross): The schema to be used to build the widget.
-  void _fromSchema(GlobalKey<CrossWidgetState> globalKey, Cross schema) {
+  void _fromSchema(GlobalKey<CrossWidgetState> globalKey, BasicShape schema) {
     globalKey.currentState?.fromSchema(schema);
   }
 }
@@ -185,8 +185,8 @@ class CrossWidgetState extends State<CrossWidget> {
   ///
   /// Args:
   ///   schema (Cross): The schema to be converted to a cross.
-  void fromSchema(Cross schema) {
-    final List<List<int>> cross = schema.getCross;
+  void fromSchema(BasicShape schema) {
+    final List<List<int>> cross = schema.getGrid;
     final List<String> stringY = <String>["f", "e", "d", "c", "b", "a"];
     for (int y = 0; y < cross.length; y++) {
       for (int x = 0; x < cross[y].length; x++) {
