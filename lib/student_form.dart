@@ -1,11 +1,10 @@
 import "package:cross_array_task_app/Activity/activity_home.dart";
 import "package:cross_array_task_app/Utility/data_manager.dart";
-import 'package:cross_array_task_app/Utility/helper.dart';
+import "package:cross_array_task_app/Utility/helper.dart";
+import "package:cross_array_task_app/Utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";
-
-import 'Utility/localizations.dart';
 
 /// Implementation for the gestures-based GUI
 class StudentsForm extends StatefulWidget {
