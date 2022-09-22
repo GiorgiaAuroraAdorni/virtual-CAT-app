@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
-import "package:cross_array_task_app/utility/session_data.dart";
+import "package:cross_array_task_app/model/session.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
@@ -16,7 +16,7 @@ class ActivityHome extends StatefulWidget {
   });
 
   /// It's a variable that stores the data of the session.
-  final SessionData sessionData;
+  final Session sessionData;
 
   /// It's a variable that stores the schemas that the student has to solve.
   final Schemes schemas;

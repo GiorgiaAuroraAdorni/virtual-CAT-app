@@ -1,7 +1,7 @@
 /// It's a class that contains the data that will be stored in the database
-class SessionData {
+class Session {
   /// A constructor for the class SessionData.
-  SessionData({
+  Session({
     required this.schoolName,
     required this.grade,
     required this.section,

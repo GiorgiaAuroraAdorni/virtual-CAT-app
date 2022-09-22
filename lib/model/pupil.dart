@@ -4,13 +4,13 @@ import "package:cross_array_task_app/Utility/localizations.dart";
 import "package:path_provider/path_provider.dart";
 
 /// It's a class that contains the data of a pupil
-class PupilData {
+class Pupil {
   /// A constructor for the PupilData class. It takes a required parameter of
   /// name and sets the id.
   ///
   /// Args:
   ///   : required - this is a required parameter.
-  PupilData({
+  Pupil({
     required this.name,
     required this.surname,
     this.gender = "",

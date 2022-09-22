@@ -4,9 +4,11 @@ import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/utility/data_manager.dart";
-import 'package:cross_array_task_app/utility/pupil_data.dart';
-import "package:cross_array_task_app/utility/session_data.dart";
+import 'package:cross_array_task_app/model/data_collection.dart';
+import 'package:cross_array_task_app/model/dummy_data_collection.dart';
+import "package:cross_array_task_app/model/pupil.dart";
+import "package:cross_array_task_app/model/session.dart";
+import "package:cross_array_task_app/model/session_to_json.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
@@ -32,7 +34,7 @@ class Parameters {
     _readSchemasJSON().then((String value) {
       catInterpreter = CATInterpreter(value, Shape.cross);
     });
-    jsonParser = JsonParser(sessionData: sessionData, pupilData: pupilData);
+    jsonParser = SessionToJson(sessionData: sessionData, pupilData: pupilData);
   }
 
   /// A constructor for the `Parameters` class.
@@ -43,6 +45,10 @@ class Parameters {
     analyzer = Analyzer();
     commands = <String>[];
     temporaryCommands = <String>[];
+    _readSchemasJSON().then((String value) {
+      catInterpreter = CATInterpreter(value, Shape.cross);
+    });
+    jsonParser = DummyDataCollection();
   }
 
   /// A list of colors that will be used to color the cross.
@@ -79,13 +85,13 @@ class Parameters {
   late CATInterpreter catInterpreter;
 
   /// Data of the current session
-  late SessionData sessionData;
+  late Session sessionData;
 
   /// Data of the current pupil
-  late PupilData pupilData;
+  late Pupil pupilData;
 
   /// Parser for the current data
-  late JsonParser jsonParser;
+  late DataColletion jsonParser;
 
   /// Read the schemas.json file from the resources/sequence folder and return the
   /// contents as a string

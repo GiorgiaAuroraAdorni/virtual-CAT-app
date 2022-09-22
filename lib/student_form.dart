@@ -1,9 +1,9 @@
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
+import "package:cross_array_task_app/model/pupil.dart";
+import "package:cross_array_task_app/model/session.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
-import 'package:cross_array_task_app/utility/pupil_data.dart';
-import "package:cross_array_task_app/utility/session_data.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -21,7 +21,7 @@ class StudentsForm extends StatefulWidget {
   final Schemes schemes;
 
   /// A variable that is used to store the session data.
-  final SessionData sessionData;
+  final Session sessionData;
 
   @override
   StudentsFormState createState() => StudentsFormState();
@@ -88,7 +88,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                             schemas: widget.schemes,
                             params: Parameters(
                               sessionData: widget.sessionData,
-                              pupilData: PupilData(
+                              pupilData: Pupil(
                                 name: _name.text,
                                 surname: _surname.text,
                                 gender: _gender.text,
