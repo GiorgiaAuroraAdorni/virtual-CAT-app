@@ -1,10 +1,10 @@
 import "dart:io";
 
-import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
-import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
-import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
-import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
-import "package:cross_array_task_app/Activity/cross.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/activities/cross.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";

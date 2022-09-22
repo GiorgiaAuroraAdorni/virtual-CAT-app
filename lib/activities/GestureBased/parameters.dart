@@ -1,10 +1,12 @@
-import "package:cross_array_task_app/Activity/GestureBased/analyzer.dart";
-import "package:cross_array_task_app/Activity/GestureBased/cross.dart";
-import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
-import "package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart";
-import "package:cross_array_task_app/Activity/GestureBased/selection_mode.dart";
-import "package:cross_array_task_app/Activity/activity_home.dart";
-import "package:cross_array_task_app/Utility/data_manager.dart";
+import "package:cross_array_task_app/activities/GestureBased/analyzer.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/activities/activity_home.dart";
+import "package:cross_array_task_app/utility/data_manager.dart";
+import 'package:cross_array_task_app/utility/pupil_data.dart';
+import "package:cross_array_task_app/utility/session_data.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
@@ -34,7 +36,7 @@ class Parameters {
   }
 
   /// A constructor for the `Parameters` class.
-  Parameters.forAnalyzerTest({this.currentSchema=1, this.visible = false}) {
+  Parameters.forAnalyzerTest({this.currentSchema = 1, this.visible = false}) {
     nextColors = <CupertinoDynamicColor>[];
     selectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];

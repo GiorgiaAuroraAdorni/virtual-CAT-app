@@ -1,8 +1,8 @@
-import "package:cross_array_task_app/Utility/cantons_list.dart";
-import "package:cross_array_task_app/Utility/data_manager.dart";
-import "package:cross_array_task_app/Utility/localizations.dart";
-import "package:cross_array_task_app/Utility/supervisor.dart";
 import "package:cross_array_task_app/student_form.dart";
+import "package:cross_array_task_app/utility/cantons_list.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/session_data.dart";
+import "package:cross_array_task_app/utility/supervisor.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:interpreter/cat_interpreter.dart";

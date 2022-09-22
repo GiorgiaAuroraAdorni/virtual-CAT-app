@@ -1,8 +1,8 @@
 import "dart:io";
 
-import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
-import "package:cross_array_task_app/Activity/GestureBased/pattern_advanced.dart";
-import "package:cross_array_task_app/Activity/GestureBased/pattern_base.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/pattern_advanced.dart";
+import "package:cross_array_task_app/activities/GestureBased/pattern_base.dart";
 import "package:flutter/cupertino.dart";
 import "package:tuple/tuple.dart";
 

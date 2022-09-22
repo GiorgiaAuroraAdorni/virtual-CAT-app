@@ -1,8 +1,9 @@
-import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
-import "package:cross_array_task_app/Activity/activity_home.dart";
-import "package:cross_array_task_app/Utility/data_manager.dart";
-import "package:cross_array_task_app/Utility/helper.dart";
-import "package:cross_array_task_app/Utility/localizations.dart";
+import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
+import "package:cross_array_task_app/activities/activity_home.dart";
+import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
+import 'package:cross_array_task_app/utility/pupil_data.dart';
+import "package:cross_array_task_app/utility/session_data.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";

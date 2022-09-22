@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/Activity/GestureBased/pattern_base.dart";
+import "package:cross_array_task_app/activities/GestureBased/pattern_base.dart";
 
 /// If the first three buttons are in a downward direction and the last three
 /// buttons are in a leftward direction, then return true

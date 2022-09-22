@@ -1,6 +1,6 @@
-import "package:cross_array_task_app/Activity/GestureBased/gesture_based_home.dart";
-import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
-import "package:cross_array_task_app/Utility/data_manager.dart";
+import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
+import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
+import "package:cross_array_task_app/utility/session_data.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 

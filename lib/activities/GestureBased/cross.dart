@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
-import "package:cross_array_task_app/Activity/GestureBased/cross_button.dart";
-import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
+import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:tuple/tuple.dart";
