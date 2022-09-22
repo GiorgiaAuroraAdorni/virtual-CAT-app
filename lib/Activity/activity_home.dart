@@ -10,19 +10,19 @@ class ActivityHome extends StatefulWidget {
   /// It's a constructor for the ActivityHome class.
   const ActivityHome({
     required this.sessionData,
-    required this.pupilData,
     required this.schemas,
+    required this.params,
     super.key,
   });
 
   /// It's a variable that stores the data of the session.
   final SessionData sessionData;
 
-  /// It's a variable that stores the data of the session.
-  final PupilData pupilData;
-
   /// It's a variable that stores the schemas that the student has to solve.
   final Schemes schemas;
+
+  /// It's a variable that stores the parameters of the activity.
+  final Parameters params;
 
   @override
   ActivityHomeState createState() => ActivityHomeState();
@@ -32,10 +32,7 @@ class ActivityHome extends StatefulWidget {
 /// and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
   late final GestureImplementation _gestureImplementation;
-  late final Parameters _params = Parameters(
-    sessionData: widget.sessionData,
-    pupilData: widget.pupilData,
-  );
+  late final Parameters _params = widget.params;
 
   // bool block = true;
 

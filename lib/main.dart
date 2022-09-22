@@ -1,13 +1,12 @@
+import "package:cross_array_task_app/Utility/helper.dart";
 import "package:cross_array_task_app/Utility/localizations.dart";
-import 'package:cross_array_task_app/mode_selection.dart';
+import "package:cross_array_task_app/mode_selection.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
-import 'package:flutter_svg/svg.dart';
+import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
-import 'package:provider/single_child_widget.dart';
-
-import 'Utility/helper.dart';
+import "package:provider/single_child_widget.dart";
 
 /// "Set the preferred orientation of the app to landscape, then run the app."
 ///

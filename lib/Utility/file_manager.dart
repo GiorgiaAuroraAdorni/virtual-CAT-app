@@ -17,9 +17,13 @@ class FileManager {
   /// Args:
   ///   json (String): The json string to be saved.
   ///   id (int): The id of the pupil.
+  // TODO: write to file
   Future<void> saveJson(String json, int id) async {
     final Directory documentDirectory =
         await getApplicationDocumentsDirectory();
+
+    print(documentDirectory.path);
+
     final File file = File("${documentDirectory.path}/pupil$id.json");
     await file.writeAsString(json);
   }

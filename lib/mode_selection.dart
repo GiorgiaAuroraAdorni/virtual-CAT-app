@@ -1,7 +1,9 @@
-import 'package:cross_array_task_app/tutor_form.dart';
+import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
+import "package:cross_array_task_app/Activity/activity_home.dart";
+import "package:cross_array_task_app/Utility/data_manager.dart";
+import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";
-
-import 'Utility/localizations.dart';
+import "package:interpreter/cat_interpreter.dart";
 
 class ModeSelection extends StatelessWidget {
   const ModeSelection({super.key});
@@ -10,12 +12,13 @@ class ModeSelection extends StatelessWidget {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         child: CustomScrollView(
           slivers: <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(CATLocalizations.of(context).tutorialTitle),
+            const CupertinoSliverNavigationBar(
+              largeTitle: Text("Mode"),
             ),
             SliverFillRemaining(
               child: Row(
-                children: [
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                   CupertinoButton.filled(
                     onPressed: () {
                       Navigator.push(
@@ -25,11 +28,51 @@ class ModeSelection extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text('Session'),
+                    child: const Text("Session"),
+                  ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   CupertinoButton.filled(
-                    onPressed: () {},
-                    child: const Text('Test application'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute<Widget>(
+                          builder: (BuildContext context) =>
+                              CupertinoPageScaffold(
+                            child: ActivityHome(
+                              sessionData: SessionData(
+                                schoolName: "",
+                                grade: 0,
+                                section: "",
+                                date: DateTime.now(),
+                                supervisor: "",
+                                notes: "",
+                                level: 0,
+                                schoolType: "",
+                                canton: "",
+                              ),
+                              schemas: Schemes(
+                                schemas: {
+                                  1: Cross.fromList(
+                                    [
+                                      [0, 0, 3, 3, 0, 0],
+                                      [0, 0, 3, 3, 0, 0],
+                                      [3, 3, 3, 3, 3, 3],
+                                      [3, 3, 3, 3, 3, 3],
+                                      [0, 0, 3, 3, 0, 0],
+                                      [0, 0, 3, 3, 0, 0],
+                                    ],
+                                  ),
+                                },
+                              ),
+                              params: Parameters.forAnalyzerTest(),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text("Test application"),
                   ),
                 ],
               ),

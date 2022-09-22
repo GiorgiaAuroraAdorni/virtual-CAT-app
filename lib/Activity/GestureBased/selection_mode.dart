@@ -9,5 +9,7 @@ enum SelectionModes {
   /// Selection mode for when it's necessary to do the COPY command.
   copy,
   /// Selection mode for when it's necessary to do the MIRROR command.
-  mirror
+  mirror,
+  /// Selection mode for when it's necessary to do select the cells.
+  select,
 }

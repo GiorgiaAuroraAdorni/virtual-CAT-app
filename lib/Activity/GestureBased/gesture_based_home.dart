@@ -96,40 +96,80 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Returns:
   ///   A widget.
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _crossWidgetSimple,
-              // solutionCross,
-              const SizedBox(height: 80),
-              Row(children: _basicButtonsBuild()),
-              const SizedBox(height: 20),
-              Row(children: _colorButtonsBuild()),
-              const SizedBox(height: 20),
-              Row(children: _instructionsButtonsBuild()),
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const SizedBox(width: 15),
-                  CupertinoButton(
-                    key: const Key("Visibility Button"),
-                    onPressed: widget.params.visible ? null : _changeVisibility,
-                    // minSize: 50,
-                    padding: EdgeInsets.zero,
-                    child: widget.params.visible
-                        ? const Icon(CupertinoIcons.eye_slash_fill, size: 50)
-                        : const Icon(CupertinoIcons.eye_fill, size: 50),
+                  _crossWidgetSimple,
+                  // solutionCross,
+                  const SizedBox(height: 80),
+                  Row(children: _colorButtonsBuild()),
+                  const SizedBox(height: 20),
+                  Row(children: _instructionsButtonsBuild()),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(width: 15),
+                      CupertinoButton(
+                        key: const Key("Visibility Button"),
+                        onPressed:
+                            widget.params.visible ? null : _changeVisibility,
+                        minSize: 40,
+                        padding: EdgeInsets.zero,
+                        child: widget.params.visible
+                            ? const Icon(
+                                CupertinoIcons.eye_slash_fill,
+                                size: 40,
+                              )
+                            : const Icon(CupertinoIcons.eye_fill, size: 40),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  activeCross,
+                  const SizedBox(height: 20),
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(width: 15),
+                      CupertinoButton(
+                        key: const Key("Erase cross"),
+                        onPressed: widget.params.reset,
+                        borderRadius: BorderRadius.circular(45),
+                        minSize: 45,
+                        padding: EdgeInsets.zero,
+                        color: CupertinoColors.systemFill,
+                        child: const Icon(
+                          CupertinoIcons.trash_fill,
+                          color: CupertinoColors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
-              activeCross,
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CupertinoButton(
+                key: const Key("Schema completed"),
+                onPressed: _schemaCompleted,
+                borderRadius: BorderRadius.circular(45),
+                minSize: 45,
+                color: CupertinoColors.systemGreen.highContrastColor,
+                child: const Icon(
+                  CupertinoIcons.arrow_right,
+                ),
+              ),
             ],
           ),
         ],
@@ -218,35 +258,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   void reloadImage() {
     _result.value = widget.schemes.getData[widget.params.currentSchema]!;
   }
-
-  /// It returns a list of widgets that are used to build the basic buttons
-  ///
-  /// Returns:
-  ///   A list of widgets.
-  List<Widget> _basicButtonsBuild() => <Widget>[
-        CupertinoButton(
-          key: const Key("Erase cross"),
-          onPressed: widget.params.reset,
-          borderRadius: BorderRadius.circular(45),
-          minSize: 50,
-          padding: EdgeInsets.zero,
-          color: CupertinoColors.systemFill,
-          child: const Icon(
-            CupertinoIcons.trash_fill,
-            color: CupertinoColors.black,
-          ),
-        ),
-        const SizedBox(width: 20),
-        CupertinoButton(
-          key: const Key("Schema completed"),
-          onPressed: _schemaCompleted,
-          borderRadius: BorderRadius.circular(45),
-          minSize: 50,
-          color: CupertinoColors.systemGreen,
-          padding: EdgeInsets.zero,
-          child: const Icon(CupertinoIcons.checkmark),
-        ),
-      ];
 
   /// _changeVisibility() is a function that sets the visibility of the cross to
   /// true and then calls the cross.changeVisibility() function

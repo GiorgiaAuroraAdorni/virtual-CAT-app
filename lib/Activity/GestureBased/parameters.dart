@@ -34,7 +34,7 @@ class Parameters {
   }
 
   /// A constructor for the `Parameters` class.
-  Parameters.forAnalyzerTest() {
+  Parameters.forAnalyzerTest({this.currentSchema=1, this.visible = false}) {
     nextColors = <CupertinoDynamicColor>[];
     selectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];

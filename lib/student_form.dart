@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/Activity/GestureBased/parameters.dart";
 import "package:cross_array_task_app/Activity/activity_home.dart";
 import "package:cross_array_task_app/Utility/data_manager.dart";
 import "package:cross_array_task_app/Utility/helper.dart";
@@ -83,13 +84,16 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                             CupertinoPageScaffold(
                           child: ActivityHome(
                             sessionData: widget.sessionData,
-                            pupilData: PupilData(
-                              name: _name.text,
-                              surname: _surname.text,
-                              gender: _gender.text,
-                              creationDateTime: _selectedDate,
-                            ),
                             schemas: widget.schemes,
+                            params: Parameters(
+                              sessionData: widget.sessionData,
+                              pupilData: PupilData(
+                                name: _name.text,
+                                surname: _surname.text,
+                                gender: _gender.text,
+                                creationDateTime: _selectedDate,
+                              ),
+                            ),
                           ),
                         ),
                       ),
