@@ -471,7 +471,6 @@ class GestureImplementationState extends State<GestureImplementation> {
         // message("Comando riconsociuto:", command);
         widget.params.saveCommandsForJson();
         widget.params.resetAnalyzer();
-        widget.params.nextColors.clear();
       } else if (recognisedCommands.isEmpty) {
         message(
           "Nessun commando riconsociuto",
@@ -485,6 +484,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       }
     }
     setState(() {
+      widget.params.nextColors.clear();
       widget.params.removeSelection();
     });
   }
@@ -522,6 +522,8 @@ class GestureImplementationState extends State<GestureImplementation> {
       // final String colors = widget.params.analyzeColor();
       setState(() {
         widget.params.saveCommandsForJson();
+        widget.params.removeSelection();
+        widget.params.nextColors.clear();
       });
     }
   }
@@ -612,7 +614,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                   "Punteggio total: $_totalScore",
                   style: const TextStyle(
                     color: CupertinoColors.white,
-                    fontSize: 15,
+                    fontSize: 18,
                   ),
                 ),
                 const SizedBox(height: 18),
