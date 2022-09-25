@@ -8,6 +8,7 @@ import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/widget/copy/copy_button.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_vertical.dart";
+import 'package:cross_array_task_app/widget/selection/selection_button.dart';
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -101,6 +102,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       mirroring = Pair<bool, String>(mirroring.first, "horizontal");
       _mirrorVerticalButtonKey.currentState?.deSelect();
       _copyButtonKey.currentState?.deSelect();
+      _selectionButtonKey.currentState?.deSelect();
     },
     onDismiss: () => <void>{
       setState(() {
@@ -119,12 +121,32 @@ class GestureImplementationState extends State<GestureImplementation> {
       mirroring = Pair<bool, String>(mirroring.first, "vertical");
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _copyButtonKey.currentState?.deSelect();
+      _selectionButtonKey.currentState?.deSelect();
     },
     onDismiss: () => <void>{
       setState(() {
         widget.params.removeSelection();
         mirroring = const Pair<bool, String>(false, "");
       }),
+    },
+  );
+
+  final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
+  late final SelectionButton _selectionButton = SelectionButton(
+    onSelect: () {
+      setState(() {
+        widget.params.selectionMode = SelectionModes.select;
+      });
+      _mirrorHorizontalButtonKey.currentState?.deSelect();
+      _mirrorVerticalButtonKey.currentState?.deSelect();
+      _copyButtonKey.currentState?.deSelect();
+    },
+    onDismiss: () {
+      setState(() {
+        widget.params.selectionMode = SelectionModes.base;
+        widget.params.removeSelection();
+        widget.params.selectedButtons.clear();
+      });
     },
   );
 
@@ -151,7 +173,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Text("Punteggio ${widget.params.catScore * 100}"),
+          Text("Punteggio: ${widget.params.catScore * 100}"),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -512,6 +534,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       mirroring = const Pair<bool, String>(false, "");
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _mirrorVerticalButtonKey.currentState?.deSelect();
+      _selectionButtonKey.currentState?.deSelect();
     });
   }
 
@@ -547,6 +570,8 @@ class GestureImplementationState extends State<GestureImplementation> {
             color: CupertinoColors.black,
           ),
         ),
+        const SizedBox(width: 10),
+        _selectionButton,
         const SizedBox(width: 10),
         _copyButton,
         const SizedBox(width: 10),

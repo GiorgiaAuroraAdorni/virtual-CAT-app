@@ -64,6 +64,9 @@ class CrossButton extends StatefulWidget {
   /// Select the button corresponding to the given GlobalKey
   void select() => _select(globalKey);
 
+  /// Select for repetition the button corresponding to the given GlobalKey
+  void selectRepeat() => _selectRepeat(globalKey);
+
   void _changeColorFromColor(
     GlobalKey<CrossButtonState> globalKey,
     Color color,
@@ -96,6 +99,10 @@ class CrossButton extends StatefulWidget {
     globalKey.currentState?.select();
   }
 
+  void _selectRepeat(GlobalKey<CrossButtonState> globalKey) {
+    globalKey.currentState?.selectRepeat();
+  }
+
   static Offset _getPositionFromKey(
     GlobalKey<CrossButtonState> globalKey,
     double offset,
@@ -120,6 +127,8 @@ class CrossButtonState extends State<CrossButton> {
   /// It's setting the selected variable to false.
   bool selected = false;
 
+  bool selectionRepeate = false;
+
   /// It creates a rounded button.
   ///
   /// Args:
@@ -135,18 +144,25 @@ class CrossButtonState extends State<CrossButton> {
         minSize: widget.buttonDimension,
         color: widget.params.visible ? buttonColor : CupertinoColors.systemGrey,
         padding: EdgeInsets.zero,
-        child: selected
-            ? const Icon(CupertinoIcons.circle_fill)
-            : const Text(
-                "",
-              ),
+        child: _widget(),
       );
+
+  Widget _widget() {
+    if (selected) {
+      return const Icon(CupertinoIcons.circle_fill);
+    } else if (selectionRepeate) {
+      return const Icon(CupertinoIcons.circle);
+    } else {
+      return const Text("");
+    }
+  }
 
   /// Change the color of the button to the given color.
   ///
   /// Args:
   ///   color (Color): The color that the button will change to.
   void changeColorFromColor(Color color) {
+    Icon(CupertinoIcons.circle);
     setState(() {
       buttonColor = color;
     });
@@ -172,6 +188,7 @@ class CrossButtonState extends State<CrossButton> {
   void deselect() {
     setState(() {
       selected = false;
+      selectionRepeate = false;
     });
   }
 
@@ -184,6 +201,18 @@ class CrossButtonState extends State<CrossButton> {
       }
       widget.params.analyzePattern();
       selected = true;
+      selectionRepeate = false;
+    });
+  }
+
+  /// If the widget is not already in the list of selected buttons
+  void selectRepeat() {
+    setState(() {
+      if (!widget.params.selectedButtons.contains(widget)) {
+        widget.params.selectedButtons.add(widget);
+      }
+      selected = false;
+      selectionRepeate = true;
     });
   }
 
@@ -194,6 +223,8 @@ class CrossButtonState extends State<CrossButton> {
   void _onTap() {
     if (widget.params.selectionMode == SelectionModes.multiple) {
       select();
+    } else if (widget.params.selectionMode == SelectionModes.select) {
+      selectRepeat();
     } else if (widget.params.selectionMode == SelectionModes.copy ||
         widget.params.selectionMode == SelectionModes.mirror) {
       if (widget.params.checkColorLength(min: 1, max: 1)) {
