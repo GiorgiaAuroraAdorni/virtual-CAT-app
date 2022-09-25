@@ -48,13 +48,6 @@ class ActivityHomeState extends State<ActivityHome> {
   Widget build(BuildContext context) => Column(
         children: <Widget>[
           const SizedBox(height: 30),
-          Row(
-            children: <Widget>[
-              const SizedBox(width: 10),
-              Text("Schema da risolvere: ${_params.currentSchema}"),
-            ],
-          ),
-          const SizedBox(height: 30),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height - 120,

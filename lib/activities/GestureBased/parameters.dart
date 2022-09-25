@@ -93,6 +93,9 @@ class Parameters {
   /// Parser for the current data
   late DataColletion jsonParser;
 
+  /// CAT score value
+  int catScore = 1;
+
   /// Read the schemas.json file from the resources/sequence folder and return the
   /// contents as a string
   ///
@@ -206,6 +209,7 @@ class Parameters {
     catInterpreter.reset();
     temporaryCommands.clear();
     gestureHome.recreateCross();
+    catScore = 1;
   }
 
   /// It resets the analyzer
@@ -374,11 +378,41 @@ class Parameters {
       schema: currentSchema,
       commands: commands,
     );
+    catScore = _catScore();
   }
 
   /// If the user has made a gesture, confirm the command
   void confirmCommands() {
     gestureHome.confirmCommand();
+  }
+
+  int _catScore() {
+    int score = 0;
+    score += visible ? 0 : 1;
+    int partScore = 0;
+    for (String s in commands) {
+      int lineScore = 0;
+      List<String> tokenized = splitCommand(s.toLowerCase());
+      switch (tokenized.first) {
+        case "paint":
+          lineScore = tokenized.length == 2 ? 0 : 1;
+          break;
+        case "fill_empty":
+          lineScore = 1;
+          break;
+        case "copy":
+          lineScore = 2;
+          break;
+        case "mirror":
+          lineScore = 2;
+          break;
+        default:
+          continue;
+      }
+      partScore = lineScore > score ? lineScore : score;
+    }
+
+    return score + partScore;
   }
 
   // TODO: create commandsToString to return a [].tostring() without '[....]'
