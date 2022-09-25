@@ -484,7 +484,9 @@ class GestureImplementationState extends State<GestureImplementation> {
         );
       }
     }
-    widget.params.removeSelection();
+    setState(() {
+      widget.params.removeSelection();
+    });
   }
 
   void _copyConfirm() {
