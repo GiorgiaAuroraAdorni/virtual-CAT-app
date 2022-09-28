@@ -8,7 +8,7 @@ import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/widget/copy/copy_button.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_vertical.dart";
-import 'package:cross_array_task_app/widget/selection/selection_button.dart';
+import "package:cross_array_task_app/widget/selection/selection_button.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -86,7 +86,12 @@ class GestureImplementationState extends State<GestureImplementation> {
     onSelect: _copyInit,
     onDismiss: () => <void>{
       setState(() {
-        widget.params.removeSelection();
+        if (widget.params.primarySelectionMode == SelectionModes.select) {
+          widget.params.secondarySelectionMode = SelectionModes.base;
+        } else {
+          widget.params.primarySelectionMode = SelectionModes.base;
+          widget.params.removeSelection();
+        }
         copying = false;
       }),
     },
@@ -102,11 +107,15 @@ class GestureImplementationState extends State<GestureImplementation> {
       mirroring = Pair<bool, String>(mirroring.first, "horizontal");
       _mirrorVerticalButtonKey.currentState?.deSelect();
       _copyButtonKey.currentState?.deSelect();
-      _selectionButtonKey.currentState?.deSelect();
     },
     onDismiss: () => <void>{
       setState(() {
-        widget.params.removeSelection();
+        if (widget.params.primarySelectionMode == SelectionModes.select) {
+          widget.params.secondarySelectionMode = SelectionModes.base;
+        } else {
+          widget.params.primarySelectionMode = SelectionModes.base;
+          widget.params.removeSelection();
+        }
         mirroring = const Pair<bool, String>(false, "");
       }),
     },
@@ -121,11 +130,15 @@ class GestureImplementationState extends State<GestureImplementation> {
       mirroring = Pair<bool, String>(mirroring.first, "vertical");
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _copyButtonKey.currentState?.deSelect();
-      _selectionButtonKey.currentState?.deSelect();
     },
     onDismiss: () => <void>{
       setState(() {
-        widget.params.removeSelection();
+        if (widget.params.primarySelectionMode == SelectionModes.select) {
+          widget.params.secondarySelectionMode = SelectionModes.base;
+        } else {
+          widget.params.primarySelectionMode = SelectionModes.base;
+          widget.params.removeSelection();
+        }
         mirroring = const Pair<bool, String>(false, "");
       }),
     },
@@ -133,9 +146,10 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
   late final SelectionButton _selectionButton = SelectionButton(
+    key: _selectionButtonKey,
     onSelect: () {
       setState(() {
-        widget.params.selectionMode = SelectionModes.select;
+        widget.params.primarySelectionMode = SelectionModes.select;
       });
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _mirrorVerticalButtonKey.currentState?.deSelect();
@@ -143,9 +157,12 @@ class GestureImplementationState extends State<GestureImplementation> {
     },
     onDismiss: () {
       setState(() {
-        widget.params.selectionMode = SelectionModes.base;
+        widget.params.primarySelectionMode = SelectionModes.base;
         widget.params.removeSelection();
         widget.params.selectedButtons.clear();
+        _copyButtonKey.currentState?.deSelect();
+        _mirrorHorizontalButtonKey.currentState?.deSelect();
+        _mirrorVerticalButtonKey.currentState?.deSelect();
       });
     },
   );
@@ -465,8 +482,8 @@ class GestureImplementationState extends State<GestureImplementation> {
             "${widget.params.selectedButtons[0].position.item2})";
         final String command =
             "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
-        if (widget.params.selectionMode == SelectionModes.mirror ||
-            widget.params.selectionMode == SelectionModes.copy) {
+        if (widget.params.primarySelectionMode == SelectionModes.mirror ||
+            widget.params.primarySelectionMode == SelectionModes.copy) {
           widget.params.addTemporaryCommand(goCommand);
           widget.params.addTemporaryCommand(command);
           num j = -1;
@@ -513,10 +530,11 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _copyConfirm() {
     setState(() {
-      if (widget.params.selectionMode == SelectionModes.copy) {
-        widget.params.selectionMode = SelectionModes.multiple;
-      } else if (widget.params.selectionMode == SelectionModes.multiple) {
-        widget.params.selectionMode = SelectionModes.base;
+      if (widget.params.primarySelectionMode == SelectionModes.copy) {
+        widget.params.primarySelectionMode = SelectionModes.multiple;
+      } else if (widget.params.primarySelectionMode ==
+          SelectionModes.multiple) {
+        widget.params.primarySelectionMode = SelectionModes.base;
         copying = false;
         widget.params.modifyCommandForCopy();
         widget.params.reloadCross(activeCross);
@@ -529,12 +547,15 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _copyInit() {
     setState(() {
-      widget.params.selectionMode = SelectionModes.copy;
+      if (widget.params.primarySelectionMode == SelectionModes.select) {
+        widget.params.secondarySelectionMode = SelectionModes.copy;
+      } else {
+        widget.params.primarySelectionMode = SelectionModes.copy;
+      }
       copying = true;
       mirroring = const Pair<bool, String>(false, "");
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _mirrorVerticalButtonKey.currentState?.deSelect();
-      _selectionButtonKey.currentState?.deSelect();
     });
   }
 
@@ -582,11 +603,11 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _mirrorConfirm() {
     //TODO: implementare selezione celle singole
+    String command = "";
     setState(
       () {
-        if (widget.params.selectionMode == SelectionModes.mirror) {
-          widget.params.selectionMode = SelectionModes.base;
-          String command = "";
+        if (widget.params.primarySelectionMode == SelectionModes.mirror) {
+          widget.params.primarySelectionMode = SelectionModes.base;
           if (widget.params.temporaryCommands.isNotEmpty) {
             command = widget.params.temporaryCommands.toString();
             command = "{${command.substring(1, command.length - 1)}}";
@@ -602,17 +623,42 @@ class GestureImplementationState extends State<GestureImplementation> {
               "Nessun asse selezionato",
               "Selezionare un asse (V = verticale, O = orizontale",
             );
-            widget.params.selectionMode = SelectionModes.mirror;
+            widget.params.primarySelectionMode = SelectionModes.mirror;
           }
+        } else if (widget.params.primarySelectionMode ==
+                SelectionModes.select &&
+            widget.params.secondarySelectionMode == SelectionModes.mirror) {
+          widget.params.primarySelectionMode = SelectionModes.base;
+          widget.params.secondarySelectionMode = SelectionModes.base;
+          if (widget.params.selectedButtons.isNotEmpty) {
+            final List<String> cells = <String>[];
+            for (final CrossButton i in widget.params.selectedButtons) {
+              cells.add("${i.position.item1}${i.position.item2}");
+            }
+            final StringBuffer stringCells = StringBuffer()
+              ..writeAll(cells, ",");
+            widget.params.addCommand(
+              "MIRROR({${stringCells.toString()}}, ${mirroring.second})",
+            );
+            widget.params.reloadCross(activeCross);
+            widget.params.saveCommandsForJson();
+          }
+          mirroring = const Pair<bool, String>(false, "");
+          _selectionButtonKey.currentState?.deSelect();
         }
         _mirrorHorizontalButtonKey.currentState?.deSelect();
         _mirrorVerticalButtonKey.currentState?.deSelect();
+        widget.params.removeSelection();
       },
     );
   }
 
   void _mirrorInit() {
-    widget.params.selectionMode = SelectionModes.mirror;
+    if (widget.params.primarySelectionMode == SelectionModes.select) {
+      widget.params.secondarySelectionMode = SelectionModes.mirror;
+    } else {
+      widget.params.primarySelectionMode = SelectionModes.mirror;
+    }
     setState(() {
       copying = false;
       mirroring = Pair<bool, String>(true, mirroring.second);

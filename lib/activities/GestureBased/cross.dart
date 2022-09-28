@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_dynamic_calls
 import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
-import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:flutter/cupertino.dart";
+import 'package:flutter/material.dart';
 import "package:interpreter/cat_interpreter.dart";
 import "package:tuple/tuple.dart";
 
@@ -144,9 +145,11 @@ class CrossWidgetState extends State<CrossWidget> {
     }
     setState(() {
       if (coordinates != null) {
-        if (widget.params.selectionMode == SelectionModes.select) {
+        if (widget.params.primarySelectionMode == SelectionModes.select) {
           (_buttons[coordinates.item1][coordinates.item2] as CrossButton)
               .selectRepeat();
+
+          // print(widget.params.selectedButtons.first.position);
         } else {
           (_buttons[coordinates.item1][coordinates.item2] as CrossButton)
               .select();
@@ -160,7 +163,7 @@ class CrossWidgetState extends State<CrossWidget> {
   /// Args:
   ///   details (DragEndDetails): The details of the drag event.
   void endPan(DragEndDetails details) {
-    if (widget.params.selectionMode != SelectionModes.select) {
+    if (widget.params.primarySelectionMode != SelectionModes.select) {
       widget.params.confirmCommands();
     }
   }

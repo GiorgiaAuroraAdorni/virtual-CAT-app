@@ -4,8 +4,8 @@ import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
-import 'package:cross_array_task_app/model/data_collection.dart';
-import 'package:cross_array_task_app/model/dummy_data_collection.dart';
+import "package:cross_array_task_app/model/data_collection.dart";
+import "package:cross_array_task_app/model/dummy_data_collection.dart";
 import "package:cross_array_task_app/model/pupil.dart";
 import "package:cross_array_task_app/model/session.dart";
 import "package:cross_array_task_app/model/session_to_json.dart";
@@ -26,7 +26,7 @@ class Parameters {
     this.currentSchema = 1,
   }) {
     nextColors = <CupertinoDynamicColor>[];
-    selectionMode = SelectionModes.base;
+    primarySelectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];
     analyzer = Analyzer();
     commands = <String>[];
@@ -40,7 +40,8 @@ class Parameters {
   /// A constructor for the `Parameters` class.
   Parameters.forAnalyzerTest({this.currentSchema = 1, this.visible = false}) {
     nextColors = <CupertinoDynamicColor>[];
-    selectionMode = SelectionModes.base;
+    primarySelectionMode = SelectionModes.base;
+    secondarySelectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];
     analyzer = Analyzer();
     commands = <String>[];
@@ -58,7 +59,10 @@ class Parameters {
   late bool visible;
 
   /// A variable that is used to store the current selection mode.
-  late SelectionModes selectionMode;
+  late SelectionModes primarySelectionMode;
+
+  /// Declaring a variable called secondarySelectionMode of type SelectionModes.
+  late SelectionModes secondarySelectionMode;
 
   /// List that contain
   late List<CrossButton> selectedButtons;
@@ -202,7 +206,8 @@ class Parameters {
   void reset() {
     nextColors.clear();
     visible = false;
-    selectionMode = SelectionModes.base;
+    primarySelectionMode = SelectionModes.base;
+    secondarySelectionMode = SelectionModes.base;
     selectedButtons.clear();
     analyzer = Analyzer();
     commands.clear();
@@ -390,9 +395,9 @@ class Parameters {
     int score = 0;
     score += visible ? 0 : 1;
     int partScore = 0;
-    for (String s in commands) {
+    for (final String s in commands) {
       int lineScore = 0;
-      List<String> tokenized = splitCommand(s.toLowerCase());
+      final List<String> tokenized = splitCommand(s.toLowerCase());
       switch (tokenized.first) {
         case "paint":
           lineScore = tokenized.length == 2 ? 0 : 1;

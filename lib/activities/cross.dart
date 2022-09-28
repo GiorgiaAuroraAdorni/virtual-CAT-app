@@ -31,7 +31,10 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   };
 
   /// A variable that is used to store the buttons of the cross.
-  late Map buttons = {};
+  late List<List<Widget>> buttons = List<List<Widget>>.generate(
+    6,
+    (int i) => List<Widget>.filled(6, _buildDummy()),
+  );
 
   /// A variable that is used to store the dimension of the container.
   late double containerDimension;
@@ -60,30 +63,14 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
       child: AnimatedBuilder(
         animation: widget.resultValueNotifier,
         builder: (BuildContext context, Widget? child) {
-          for (int y in [0, 1, 2, 3, 4, 5]) {
-            buttons[y] = {};
-            List<int> possibleXs = [];
-            if ([0, 1, 4, 5].contains(y)) {
-              possibleXs = [2, 3];
-              buttons[y][0] = null;
-              buttons[y][1] = null;
-              buttons[y][4] = null;
-              buttons[y][5] = null;
+          for (int y = 0; y < buttons.length; y++) {
+            if (<int>[0, 1, 4, 5].contains(y)) {
+              buttons[y][2] = _buttonBuilder(2, y);
+              buttons[y][3] = _buttonBuilder(3, y);
             } else {
-              possibleXs = [0, 1, 2, 3, 4, 5];
-            }
-            for (int x in possibleXs) {
-              buttons[y][x] = Container(
-                width: containerDimension,
-                height: containerDimension,
-                decoration: BoxDecoration(
-                  color: colors[widget.resultValueNotifier.value.getGrid[y][x]],
-                  borderRadius: const BorderRadius.all(Radius.circular(45)),
-                ),
-                child: const Center(
-                  child: Text(""),
-                ),
-              );
+              for (int x = 0; x < buttons[y].length; x++) {
+                buttons[y][x] = _buttonBuilder(x, y);
+              }
             }
           }
 
@@ -99,23 +86,10 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   ///   A list of widgets.
   List<Widget> _buildCross() {
     final List<Widget> result = [];
-    for (int y in [0, 1, 2, 3, 4, 5]) {
+    for (int y = 0; y < buttons.length; y++) {
       final List<Widget> rowChildren = [];
-      for (int x in [0, 1, 2, 3, 4, 5]) {
-        if (buttons[y][x] != null) {
-          rowChildren.add(buttons[y][x]);
-        } else {
-          rowChildren.add(
-            Container(
-              width: containerDimension,
-              height: containerDimension,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.all(Radius.circular(24)),
-              ),
-            ),
-          );
-        }
+      for (int x = 0; x < buttons[y].length; x++) {
+        rowChildren.add(buttons[y][x]);
         if (x != 5) {
           rowChildren.add(SizedBox(width: sizeBoxDimension));
         }
@@ -128,4 +102,25 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
 
     return result;
   }
+
+  Widget _buttonBuilder(int y, int x) => Container(
+        width: containerDimension,
+        height: containerDimension,
+        decoration: BoxDecoration(
+          color: colors[widget.resultValueNotifier.value.getGrid[y][x]],
+          borderRadius: const BorderRadius.all(Radius.circular(45)),
+        ),
+        child: const Center(
+          child: Text(""),
+        ),
+      );
+
+  Widget _buildDummy() => Container(
+        width: containerDimension,
+        height: containerDimension,
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+        ),
+      );
 }

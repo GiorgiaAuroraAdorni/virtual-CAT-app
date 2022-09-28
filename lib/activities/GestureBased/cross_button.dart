@@ -127,7 +127,9 @@ class CrossButtonState extends State<CrossButton> {
   /// It's setting the selected variable to false.
   bool selected = false;
 
-  bool selectionRepeate = false;
+  /// It's a variable that is used to determine if the button is selected for
+  /// repetition.
+  bool selectionRepeat = false;
 
   /// It creates a rounded button.
   ///
@@ -150,7 +152,7 @@ class CrossButtonState extends State<CrossButton> {
   Widget _widget() {
     if (selected) {
       return const Icon(CupertinoIcons.circle_fill);
-    } else if (selectionRepeate) {
+    } else if (selectionRepeat) {
       return const Icon(CupertinoIcons.circle);
     } else {
       return const Text("");
@@ -162,7 +164,6 @@ class CrossButtonState extends State<CrossButton> {
   /// Args:
   ///   color (Color): The color that the button will change to.
   void changeColorFromColor(Color color) {
-    Icon(CupertinoIcons.circle);
     setState(() {
       buttonColor = color;
     });
@@ -188,7 +189,7 @@ class CrossButtonState extends State<CrossButton> {
   void deselect() {
     setState(() {
       selected = false;
-      selectionRepeate = false;
+      selectionRepeat = false;
     });
   }
 
@@ -201,7 +202,7 @@ class CrossButtonState extends State<CrossButton> {
       }
       widget.params.analyzePattern();
       selected = true;
-      selectionRepeate = false;
+      selectionRepeat = false;
     });
   }
 
@@ -212,7 +213,7 @@ class CrossButtonState extends State<CrossButton> {
         widget.params.selectedButtons.add(widget);
       }
       selected = false;
-      selectionRepeate = true;
+      selectionRepeat = true;
     });
   }
 
@@ -221,12 +222,12 @@ class CrossButtonState extends State<CrossButton> {
   /// so it calls the changeColor function and adds the GO and PAINT commands
   /// to the list of commands, otherwise it shows an error message
   void _onTap() {
-    if (widget.params.selectionMode == SelectionModes.multiple) {
+    if (widget.params.primarySelectionMode == SelectionModes.multiple) {
       select();
-    } else if (widget.params.selectionMode == SelectionModes.select) {
+    } else if (widget.params.primarySelectionMode == SelectionModes.select) {
       selectRepeat();
-    } else if (widget.params.selectionMode == SelectionModes.copy ||
-        widget.params.selectionMode == SelectionModes.mirror) {
+    } else if (widget.params.primarySelectionMode == SelectionModes.copy ||
+        widget.params.primarySelectionMode == SelectionModes.mirror) {
       if (widget.params.checkColorLength(min: 1, max: 1)) {
         changeColorFromIndex(0);
         widget.params.addTemporaryCommand(
