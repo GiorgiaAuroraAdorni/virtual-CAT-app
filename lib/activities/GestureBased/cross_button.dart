@@ -67,6 +67,14 @@ class CrossButton extends StatefulWidget {
   /// Select for repetition the button corresponding to the given GlobalKey
   void selectRepeat() => _selectRepeat(globalKey);
 
+  /// It's a getter that returns the value of the selected variable in the
+  /// CrossButtonState class.
+  bool? get selected => globalKey.currentState?.selected;
+
+  /// It's a getter that returns the value of the selectionRepeat variable in the
+  /// CrossButtonState class.
+  bool? get selectionRepeat => globalKey.currentState?.selectionRepeat;
+
   void _changeColorFromColor(
     GlobalKey<CrossButtonState> globalKey,
     Color color,
@@ -188,6 +196,9 @@ class CrossButtonState extends State<CrossButton> {
   /// If the selected variable is true, set it to false.
   void deselect() {
     setState(() {
+      if (!widget.params.selectedButtons.contains(widget)) {
+        widget.params.selectedButtons.remove(widget);
+      }
       selected = false;
       selectionRepeat = false;
     });
@@ -225,7 +236,11 @@ class CrossButtonState extends State<CrossButton> {
     if (widget.params.primarySelectionMode == SelectionModes.multiple) {
       select();
     } else if (widget.params.primarySelectionMode == SelectionModes.select) {
-      selectRepeat();
+      if (selectionRepeat) {
+        deselect();
+      } else {
+        selectRepeat();
+      }
     } else if (widget.params.primarySelectionMode == SelectionModes.copy ||
         widget.params.primarySelectionMode == SelectionModes.mirror) {
       if (widget.params.checkColorLength(min: 1, max: 1)) {

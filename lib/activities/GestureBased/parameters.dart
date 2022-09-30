@@ -288,6 +288,25 @@ class Parameters {
     final List<String> destination = <String>[];
     Pair<Results, CatError> resultPair =
         catInterpreter.validateOnScheme(commands.toString(), currentSchema);
+    if (temporaryCommands.isEmpty) {
+      final List<String> selectionNormal = <String>[];
+      final List<String> selectionRepeat = <String>[];
+      for (CrossButton i in selectedButtons) {
+        if (i.selected ?? true) {
+          selectionNormal.add("${i.position.item1}${i.position.item2}");
+        }
+        if (i.selectionRepeat ?? true) {
+          selectionRepeat.add("${i.position.item1}${i.position.item2}");
+        }
+      }
+      commands.add(
+        "COPY({${selectionRepeat.joinToString(separator: ",")}},"
+        "{${selectionNormal.joinToString(separator: ",")}})",
+      );
+      removeSelection();
+
+      return;
+    }
     if (temporaryCommands[0].startsWith("GO(")) {
       resultPair = catInterpreter.validateOnScheme(
         temporaryCommands[0],
@@ -420,5 +439,5 @@ class Parameters {
     return score + partScore;
   }
 
-  // TODO: create commandsToString to return a [].tostring() without '[....]'
+// TODO: create commandsToString to return a [].tostring() without '[....]'
 }

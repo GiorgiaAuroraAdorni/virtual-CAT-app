@@ -145,14 +145,12 @@ class CrossWidgetState extends State<CrossWidget> {
     }
     setState(() {
       if (coordinates != null) {
+        CrossButton button =
+            _buttons[coordinates.item1][coordinates.item2] as CrossButton;
         if (widget.params.primarySelectionMode == SelectionModes.select) {
-          (_buttons[coordinates.item1][coordinates.item2] as CrossButton)
-              .selectRepeat();
-
-          // print(widget.params.selectedButtons.first.position);
+          button.selectRepeat();
         } else {
-          (_buttons[coordinates.item1][coordinates.item2] as CrossButton)
-              .select();
+          button.select();
         }
       }
     });

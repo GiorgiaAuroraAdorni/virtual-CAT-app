@@ -386,6 +386,10 @@ class GestureImplementationState extends State<GestureImplementation> {
       globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
       params: widget.params,
     );
+    _mirrorHorizontalButtonKey.currentState?.deSelect();
+    _mirrorVerticalButtonKey.currentState?.deSelect();
+    _selectionButtonKey.currentState?.deSelect();
+    _copyButtonKey.currentState?.deSelect();
     setState(() {});
   }
 
@@ -530,7 +534,10 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   void _copyConfirm() {
     setState(() {
-      if (widget.params.primarySelectionMode == SelectionModes.copy) {
+      if (widget.params.primarySelectionMode == SelectionModes.select) {
+        widget.params.secondarySelectionMode = SelectionModes.base;
+        widget.params.primarySelectionMode = SelectionModes.multiple;
+      } else if (widget.params.primarySelectionMode == SelectionModes.copy) {
         widget.params.primarySelectionMode = SelectionModes.multiple;
       } else if (widget.params.primarySelectionMode ==
           SelectionModes.multiple) {
@@ -648,6 +655,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         }
         _mirrorHorizontalButtonKey.currentState?.deSelect();
         _mirrorVerticalButtonKey.currentState?.deSelect();
+        _selectionButtonKey.currentState?.deSelect();
         widget.params.removeSelection();
       },
     );
