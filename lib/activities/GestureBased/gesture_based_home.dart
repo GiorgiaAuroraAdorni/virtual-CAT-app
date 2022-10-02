@@ -5,6 +5,7 @@ import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/cross.dart";
+import 'package:cross_array_task_app/model/shake_widget.dart';
 import "package:cross_array_task_app/widget/copy/copy_button.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_vertical.dart";
@@ -56,6 +57,9 @@ class GestureImplementation extends StatefulWidget {
   /// Reload the image with the correct cross by getting the image from the
   /// assets folder and setting the state.
   void reloadImage() => globalKey.currentState?.reloadImage();
+
+  /// Getting the active cross from the global key.
+  CrossWidget? get activeCross => globalKey.currentState?.activeCross;
 
   /// If the globalKey is not null, then call the message function on the
   /// globalKey's current state
@@ -230,7 +234,16 @@ class GestureImplementationState extends State<GestureImplementation> {
                   const SizedBox(height: 10),
                   Row(
                     children: <Widget>[
-                      activeCross,
+                      ShakeWidget(
+                        // 4. pass the GlobalKey as an argument
+                        key: widget.params.shakeKey,
+                        // 5. configure the animation parameters
+                        shakeCount: 3,
+                        shakeOffset: 10,
+                        shakeDuration: const Duration(milliseconds: 400),
+                        // 6. Add the child widget that will be animated
+                        child: activeCross,
+                      ),
                       const SizedBox(width: 10),
                       SizedBox(
                         width: 50,

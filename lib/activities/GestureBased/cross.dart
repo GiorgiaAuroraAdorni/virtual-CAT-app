@@ -27,6 +27,50 @@ class CrossWidget extends StatefulWidget {
   /// with that key
   void changeVisibility() => _changeVisibility(globalKey);
 
+  /// "If the button at the given coordinates is selected, return true, if it's not
+  /// selected, return false, if the button doesn't exist, return null."
+  ///
+  /// The function is a bit more complicated than that, but that's the gist of it
+  ///
+  /// Args:
+  ///   y (String): The text to display on the button.
+  ///   x (int): The x coordinate of the button.
+  bool? selectButton(String y, int x, {bool add = true}) =>
+      _selectButton(y, x, globalKey, add: add);
+
+  /// If the button is not null, then return the button
+  ///
+  /// Args:
+  ///   y (String): The row of the button.
+  ///   x (int): The x coordinate of the button.
+  CrossButton? getButton(String y, int x) => _getButton(y, x, globalKey);
+
+  bool? _selectButton(
+    String y,
+    int x,
+    GlobalKey<CrossWidgetState> globalKey, {
+    bool add: true,
+  }) =>
+      globalKey.currentState?.selectButton(y, x, add: add);
+
+  CrossButton? _getButton(
+    String y,
+    int x,
+    GlobalKey<CrossWidgetState> globalKey,
+  ) =>
+      globalKey.currentState?._buttons[y][x];
+
+  /// "If the user has selected
+  /// a button, unselect all buttons that are not in the selected button's group."
+  ///
+  /// The function is called from the `onPressed` callback of the `RaisedButton`
+  /// widget
+  void unselectNotInSelectedButtons() =>
+      _unselectNotInSelectedButtons(globalKey);
+
+  void _unselectNotInSelectedButtons(GlobalKey<CrossWidgetState> globalKey) =>
+      globalKey.currentState?.unselectNotInSelectedButtons();
+
   /// `createState()` is a function that returns a state object
   @override
   CrossWidgetState createState() => CrossWidgetState();
@@ -119,6 +163,24 @@ class CrossWidgetState extends State<CrossWidget> {
     }
   }
 
+  /// If the button at the given coordinates is not null, select it
+  ///
+  /// Args:
+  ///   y (String): The row of the button
+  ///   x (int): The x coordinate of the button
+  ///
+  /// Returns:
+  ///   A boolean value.
+  bool selectButton(String y, int x, {bool add = true}) {
+    if (_buttons[y][x] != null) {
+      (_buttons[y][x] as CrossButton).select(add: add);
+
+      return true;
+    }
+
+    return false;
+  }
+
   /// It checks the distance between the current position of the finger and the
   /// position of each button, and if the distance is less than a certain value,
   /// it selects the button
@@ -145,7 +207,7 @@ class CrossWidgetState extends State<CrossWidget> {
     }
     setState(() {
       if (coordinates != null) {
-        CrossButton button =
+        final CrossButton button =
             _buttons[coordinates.item1][coordinates.item2] as CrossButton;
         if (widget.params.primarySelectionMode == SelectionModes.select) {
           button.selectRepeat();
@@ -285,5 +347,19 @@ class CrossWidgetState extends State<CrossWidget> {
     }
 
     return result;
+  }
+
+  /// For each button that is not in the selectedButtons list, deselect it.
+  void unselectNotInSelectedButtons() {
+    for (final String y in <String>["f", "e", "d", "c", "b", "a"]) {
+      for (final int x in <int>[1, 2, 3, 4, 5, 6]) {
+        final CrossButton? button = _buttons[y][x];
+        if (button != null) {
+          if (!widget.params.selectedButtons.contains(button)) {
+            button.deselect();
+          }
+        }
+      }
+    }
   }
 }

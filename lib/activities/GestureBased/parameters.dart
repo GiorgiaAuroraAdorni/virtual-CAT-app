@@ -9,6 +9,7 @@ import "package:cross_array_task_app/model/dummy_data_collection.dart";
 import "package:cross_array_task_app/model/pupil.dart";
 import "package:cross_array_task_app/model/session.dart";
 import "package:cross_array_task_app/model/session_to_json.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
@@ -96,6 +97,9 @@ class Parameters {
 
   /// Parser for the current data
   late DataColletion jsonParser;
+
+  /// Creating a GlobalKey object of type ShakeWidgetState.
+  final GlobalKey<ShakeWidgetState> shakeKey = GlobalKey<ShakeWidgetState>();
 
   /// CAT score value
   int catScore = 1;
@@ -304,6 +308,7 @@ class Parameters {
         "{${selectionNormal.joinToString(separator: ",")}})",
       );
       removeSelection();
+      gestureHome.activeCross?.unselectNotInSelectedButtons();
 
       return;
     }
