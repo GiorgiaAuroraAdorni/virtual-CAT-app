@@ -45,15 +45,13 @@ class ActivityHomeState extends State<ActivityHome> {
   ///   A Column widget with a Row widget with a Text widget and a
   /// CupertinoButton widget.
   @override
-  Widget build(BuildContext context) => Column(
-        children: <Widget>[
-          const SizedBox(height: 30),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 120,
-            child: _gestureImplementation,
-          ),
-        ],
+  Widget build(BuildContext context) => CupertinoPageScaffold(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _gestureImplementation,
+          ],
+        ),
       );
 
   /// It initializes the recorder and player controllers.

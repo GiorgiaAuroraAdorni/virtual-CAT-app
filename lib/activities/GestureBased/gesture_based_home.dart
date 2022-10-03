@@ -1,17 +1,17 @@
-import "dart:io";
-
 import "package:cross_array_task_app/activities/GestureBased/cross.dart";
 import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/cross.dart";
-import 'package:cross_array_task_app/model/shake_widget.dart';
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/widget/copy/copy_button.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/mirror/mirror_button_vertical.dart";
+import "package:cross_array_task_app/widget/repeat/repeat_button.dart";
 import "package:cross_array_task_app/widget/selection/selection_button.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
 
@@ -35,7 +35,8 @@ class GestureImplementation extends StatefulWidget {
   final Schemes schemes;
 
   /// Confirm the command done on the current cross
-  void confirmCommand() => globalKey.currentState?._confirmCommands();
+  void confirmCommand(String m1, String m2) =>
+      globalKey.currentState?._confirmCommands(m1, m2);
 
   /// `createState()` is a function that returns a state object
   ///
@@ -84,33 +85,24 @@ class GestureImplementationState extends State<GestureImplementation> {
 
   late ValueNotifier<Cross> _result;
   late CrossWidgetSimple _crossWidgetSimple;
-  final GlobalKey<CopyButtonState> _copyButtonKey = GlobalKey();
-  late final CopyButton _copyButton = CopyButton(
-    key: _copyButtonKey,
-    onSelect: _copyInit,
-    onDismiss: () => <void>{
-      setState(() {
-        if (widget.params.primarySelectionMode == SelectionModes.select) {
-          widget.params.secondarySelectionMode = SelectionModes.base;
-        } else {
-          widget.params.primarySelectionMode = SelectionModes.base;
-          widget.params.removeSelection();
-        }
-        copying = false;
-      }),
-    },
-  );
 
   final GlobalKey<MirrorButtonHorizontalState> _mirrorHorizontalButtonKey =
       GlobalKey();
   late final MirrorButtonHorizontal _mirrorButtonHorizontal =
       MirrorButtonHorizontal(
     key: _mirrorHorizontalButtonKey,
-    onSelect: () {
-      _mirrorInit();
-      mirroring = Pair<bool, String>(mirroring.first, "horizontal");
-      _mirrorVerticalButtonKey.currentState?.deSelect();
-      _copyButtonKey.currentState?.deSelect();
+    onSelect: () => <void>{
+      setState(() {
+        _mirrorInit();
+        mirroring = Pair<bool, String>(mirroring.first, "horizontal");
+        _mirrorVerticalButtonKey.currentState?.deSelect();
+        _repeatButtonKey.currentState?.deSelect();
+        if (widget.params.primarySelectionMode == SelectionModes.mirror) {
+          _mirrorVerticalButtonKey.currentState?.deActivate();
+          _selectionButtonKey.currentState?.deActivate();
+          _repeatButtonKey.currentState?.deActivate();
+        }
+      }),
     },
     onDismiss: () => <void>{
       setState(() {
@@ -119,6 +111,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         } else {
           widget.params.primarySelectionMode = SelectionModes.base;
           widget.params.removeSelection();
+          _resetButtons();
         }
         mirroring = const Pair<bool, String>(false, "");
       }),
@@ -129,11 +122,18 @@ class GestureImplementationState extends State<GestureImplementation> {
       GlobalKey();
   late final MirrorButtonVertical _mirrorButtonVertical = MirrorButtonVertical(
     key: _mirrorVerticalButtonKey,
-    onSelect: () {
-      _mirrorInit();
-      mirroring = Pair<bool, String>(mirroring.first, "vertical");
-      _mirrorHorizontalButtonKey.currentState?.deSelect();
-      _copyButtonKey.currentState?.deSelect();
+    onSelect: () => <void>{
+      setState(() {
+        _mirrorInit();
+        mirroring = Pair<bool, String>(mirroring.first, "vertical");
+        _mirrorHorizontalButtonKey.currentState?.deSelect();
+        _repeatButtonKey.currentState?.deSelect();
+        if (widget.params.primarySelectionMode == SelectionModes.mirror) {
+          _mirrorHorizontalButtonKey.currentState?.deActivate();
+          _selectionButtonKey.currentState?.deActivate();
+          _repeatButtonKey.currentState?.deActivate();
+        }
+      }),
     },
     onDismiss: () => <void>{
       setState(() {
@@ -142,6 +142,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         } else {
           widget.params.primarySelectionMode = SelectionModes.base;
           widget.params.removeSelection();
+          _resetButtons();
         }
         mirroring = const Pair<bool, String>(false, "");
       }),
@@ -151,35 +152,75 @@ class GestureImplementationState extends State<GestureImplementation> {
   final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
   late final SelectionButton _selectionButton = SelectionButton(
     key: _selectionButtonKey,
-    onSelect: () {
+    onSelect: () => <void>{
       setState(() {
         widget.params.primarySelectionMode = SelectionModes.select;
-      });
-      _mirrorHorizontalButtonKey.currentState?.deSelect();
-      _mirrorVerticalButtonKey.currentState?.deSelect();
-      _copyButtonKey.currentState?.deSelect();
+        _copyButtonKey.currentState?.activate();
+        _mirrorHorizontalButtonKey.currentState?.deSelect();
+        _mirrorVerticalButtonKey.currentState?.deSelect();
+        _repeatButtonKey.currentState?.deSelect();
+        _repeatButtonKey.currentState?.deActivate();
+      }),
     },
-    onDismiss: () {
+    onDismiss: () => <void>{
       setState(() {
         widget.params.primarySelectionMode = SelectionModes.base;
         widget.params.removeSelection();
         widget.params.selectedButtons.clear();
-        _copyButtonKey.currentState?.deSelect();
-        _mirrorHorizontalButtonKey.currentState?.deSelect();
-        _mirrorVerticalButtonKey.currentState?.deSelect();
-      });
+        _resetButtons();
+      }),
     },
   );
+
+  final GlobalKey<CopyButtonState> _copyButtonKey = GlobalKey();
+  late final CopyButton _copyButton = CopyButton(
+    key: _copyButtonKey,
+    onSelect: () => <void>{
+      setState(() {
+        widget.params.primarySelectionMode = SelectionModes.multiple;
+        widget.params.secondarySelectionMode = SelectionModes.select;
+      }),
+    },
+    onDismiss: () => <void>{
+      setState(() {
+        widget.params.primarySelectionMode = SelectionModes.select;
+        widget.params.secondarySelectionMode = SelectionModes.base;
+      }),
+    },
+  );
+
+  final GlobalKey<RepeatButtonState> _repeatButtonKey = GlobalKey();
+  late final RepeatButton _repeatButton = RepeatButton(
+    key: _repeatButtonKey,
+    onSelect: _repeatInit,
+    onDismiss: () => <void>{
+      setState(() {
+        widget.params.primarySelectionMode = SelectionModes.base;
+        widget.params.removeSelection();
+        _resetButtons();
+      }),
+    },
+  );
+
+  /// > The CrossWidget is initialized with a GlobalKey and the params object
+  @override
+  void initState() {
+    activeCross = CrossWidget(
+      globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
+      params: widget.params,
+    );
+    _result = ValueNotifier<Cross>(
+      widget.schemes.getData[widget.params.currentSchema]!,
+    );
+    _crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
+    super.initState();
+  }
 
   // late CrossWidget solutionCross;
 
   /// Creating a constant Pair object with the values false and "" for the
   /// MIRROR command.
   Pair<bool, String> mirroring = const Pair<bool, String>(false, "");
-
-  /// Declaring a variable assigning it the value of false for the
-  /// command COPY.
-  bool copying = false;
 
   /// Widget containing the image of the solution cross
   late Image image;
@@ -203,7 +244,6 @@ class GestureImplementationState extends State<GestureImplementation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _crossWidgetSimple,
-                  // solutionCross,
                   const SizedBox(height: 80),
                   Row(children: _colorButtonsBuild()),
                   const SizedBox(height: 20),
@@ -214,7 +254,6 @@ class GestureImplementationState extends State<GestureImplementation> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      // const SizedBox(width: 15),
                       CupertinoButton(
                         key: const Key("Visibility Button"),
                         onPressed:
@@ -235,13 +274,10 @@ class GestureImplementationState extends State<GestureImplementation> {
                   Row(
                     children: <Widget>[
                       ShakeWidget(
-                        // 4. pass the GlobalKey as an argument
                         key: widget.params.shakeKey,
-                        // 5. configure the animation parameters
                         shakeCount: 3,
                         shakeOffset: 10,
                         shakeDuration: const Duration(milliseconds: 400),
-                        // 6. Add the child widget that will be animated
                         child: activeCross,
                       ),
                       const SizedBox(width: 10),
@@ -249,35 +285,7 @@ class GestureImplementationState extends State<GestureImplementation> {
                         width: 50,
                         height: 50,
                         child: Column(
-                          children: <Widget>[
-                            Visibility(
-                              visible: copying,
-                              child: CupertinoButton(
-                                key: const Key("Confirm Copy"),
-                                onPressed: copying ? _copyConfirm : null,
-                                borderRadius: BorderRadius.circular(45),
-                                minSize: 50,
-                                color: CupertinoColors
-                                    .systemGreen.highContrastColor,
-                                padding: EdgeInsets.zero,
-                                child: const Icon(CupertinoIcons.checkmark),
-                              ),
-                            ),
-                            Visibility(
-                              visible: mirroring.first,
-                              child: CupertinoButton(
-                                key: const Key("Confirm Mirror"),
-                                onPressed:
-                                    mirroring.first ? _mirrorConfirm : null,
-                                borderRadius: BorderRadius.circular(45),
-                                minSize: 50,
-                                color: CupertinoColors
-                                    .systemGreen.highContrastColor,
-                                padding: EdgeInsets.zero,
-                                child: const Icon(CupertinoIcons.checkmark),
-                              ),
-                            ),
-                          ],
+                          children: _sideButtons(),
                         ),
                       ),
                     ],
@@ -310,7 +318,13 @@ class GestureImplementationState extends State<GestureImplementation> {
             children: <Widget>[
               CupertinoButton(
                 key: const Key("Schema completed"),
-                onPressed: _schemaCompleted,
+                onPressed: () async {
+                  await _schemaCompleted().then((int result) {
+                    if (result == -1) {
+                      Navigator.pop(context);
+                    }
+                  });
+                },
                 borderRadius: BorderRadius.circular(45),
                 minSize: 45,
                 color: CupertinoColors.systemGreen.highContrastColor,
@@ -322,20 +336,6 @@ class GestureImplementationState extends State<GestureImplementation> {
           ),
         ],
       );
-
-  /// > The CrossWidget is initialized with a GlobalKey and the params object
-  @override
-  void initState() {
-    super.initState();
-    activeCross = CrossWidget(
-      globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
-      params: widget.params,
-    );
-    _result = ValueNotifier<Cross>(
-      widget.schemes.getData[widget.params.currentSchema]!,
-    );
-    _crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
-  }
 
   /// It shows a dialog box with a title and a message.
   ///
@@ -360,6 +360,62 @@ class GestureImplementationState extends State<GestureImplementation> {
     );
     setState(() {});
   }
+
+  List<Widget> _sideButtons() => <Widget>[
+        Visibility(
+          visible: widget.params.primarySelectionMode == SelectionModes.base,
+          child: CupertinoButton(
+            onPressed: null,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            color: CupertinoColors.systemGreen.highContrastColor,
+            padding: EdgeInsets.zero,
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+        ),
+        Visibility(
+          visible: widget.params.primarySelectionMode == SelectionModes.copy,
+          child: CupertinoButton(
+            key: const Key("Confirm Repeate"),
+            onPressed: widget.params.primarySelectionMode == SelectionModes.copy
+                ? _repeatConfirm
+                : null,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            color: CupertinoColors.systemGreen.highContrastColor,
+            padding: EdgeInsets.zero,
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+        ),
+        Visibility(
+          visible:
+              widget.params.primarySelectionMode == SelectionModes.multiple,
+          child: CupertinoButton(
+            key: const Key("Confirm Copy"),
+            onPressed:
+                widget.params.primarySelectionMode == SelectionModes.multiple
+                    ? _copyConfirm
+                    : null,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            color: CupertinoColors.systemGreen.highContrastColor,
+            padding: EdgeInsets.zero,
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+        ),
+        Visibility(
+          visible: mirroring.first,
+          child: CupertinoButton(
+            key: const Key("Confirm Mirror"),
+            onPressed: mirroring.first ? _mirrorConfirm : null,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            color: CupertinoColors.systemGreen.highContrastColor,
+            padding: EdgeInsets.zero,
+            child: const Icon(CupertinoIcons.checkmark),
+          ),
+        ),
+      ];
 
   /// It shows a dialog box with a title and a message.
   /// The dialog box can be confirmed or no and it return,
@@ -399,10 +455,7 @@ class GestureImplementationState extends State<GestureImplementation> {
       globalKey: GlobalKey<CrossWidgetState>(debugLabel: _crossKey.toString()),
       params: widget.params,
     );
-    _mirrorHorizontalButtonKey.currentState?.deSelect();
-    _mirrorVerticalButtonKey.currentState?.deSelect();
-    _selectionButtonKey.currentState?.deSelect();
-    _copyButtonKey.currentState?.deSelect();
+    _resetButtons();
     setState(() {});
   }
 
@@ -425,8 +478,10 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Returns:
   ///   A list of buttons.
   List<Widget> _colorButtonsBuild() {
-    const TextStyle textStyle =
-        TextStyle(color: CupertinoColors.black, fontSize: 20);
+    const TextStyle textStyle = TextStyle(
+      color: CupertinoColors.black,
+      fontFamily: "CupertinoIcons",
+    );
     final Map<CupertinoDynamicColor, String> colors =
         <CupertinoDynamicColor, String>{
       CupertinoColors.systemBlue: "ColorButtonBlue",
@@ -441,17 +496,22 @@ class GestureImplementationState extends State<GestureImplementation> {
             margin: const EdgeInsets.only(right: 20),
             child: CupertinoButton(
               key: Key(colors[color]!),
-              onPressed: () => _colorButtonTap(color),
+              onPressed: (widget.params.primarySelectionMode ==
+                          SelectionModes.base ||
+                      widget.params.primarySelectionMode == SelectionModes.copy)
+                  ? () => _colorButtonTap(color)
+                  : null,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
               color: color,
               padding: EdgeInsets.zero,
               child: widget.params.nextColors.contains(color)
                   ? Stack(
+                      alignment: AlignmentDirectional.center,
                       children: <Widget>[
-                        const Icon(CupertinoIcons.circle_fill),
+                        const Icon(CupertinoIcons.circle_filled),
                         Text(
-                          " ${_getColorIndex(color)}",
+                          "${widget.params.getColorIndex(color)}",
                           style: textStyle,
                         ),
                       ],
@@ -470,7 +530,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   color (Color): the color of the button
   void _colorButtonTap(CupertinoDynamicColor color) {
     setState(() {
-      //TODO: ask to Giorgia if it possible to erase a cell (set color to grey)
       if (widget.params.nextColors.contains(color)) {
         widget.params.removeColor(color);
       } else {
@@ -487,57 +546,9 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Args:
   ///   allCell (bool): if true, the user wants to select all the cells in the
   /// row/column
-  void _confirmCommands() {
-    if (widget.params.checkColorLength(min: 1)) {
-      final List<String> recognisedCommands = widget.params.analyzePattern();
-      if (recognisedCommands.length == 1) {
-        final String numOfCells =
-            widget.params.numberOfCell(recognisedCommands.first);
-        final String colors = widget.params.analyzeColor();
-        final String goCommand =
-            "GO(${widget.params.selectedButtons[0].position.item1}"
-            "${widget.params.selectedButtons[0].position.item2})";
-        final String command =
-            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
-        if (widget.params.primarySelectionMode == SelectionModes.mirror ||
-            widget.params.primarySelectionMode == SelectionModes.copy) {
-          widget.params.addTemporaryCommand(goCommand);
-          widget.params.addTemporaryCommand(command);
-          num j = -1;
-          final int numOfColor = widget.params.nextColors.length;
-          for (final CrossButton element in widget.params.selectedButtons) {
-            j = (j + 1) % numOfColor;
-            element
-              ..changeColorFromIndex(j.toInt())
-              ..deselect();
-          }
-        } else {
-          widget.params.addCommand(goCommand);
-          widget.params.addCommand(command);
-          final Pair<Results, CatError> resultPair =
-              widget.params.checkSchema();
-          final CatError error = resultPair.second;
-          final Results results = resultPair.first;
-          if (error == CatError.none) {
-            activeCross.fromSchema(results.getStates.last);
-          } else {
-            message("Errore:", error.name);
-          }
-        }
-        // message("Comando riconsociuto:", command);
-        widget.params.saveCommandsForJson();
-        widget.params.resetAnalyzer();
-      } else if (recognisedCommands.isEmpty) {
-        message(
-          "Nessun commando riconsociuto",
-          "Non è stato possible riconoscere alcun comando",
-        );
-      } else {
-        message(
-          "Comando ambiguo:",
-          "Comandi riconsociuti: ${recognisedCommands.toString()}",
-        );
-      }
+  void _confirmCommands(String m1, String m2) {
+    if (m1.isNotEmpty || m2.isNotEmpty) {
+      message(m1, m2);
     }
     setState(() {
       widget.params.nextColors.clear();
@@ -545,38 +556,44 @@ class GestureImplementationState extends State<GestureImplementation> {
     });
   }
 
-  void _copyConfirm() {
+  void _repeatConfirm() {
     setState(() {
-      if (widget.params.primarySelectionMode == SelectionModes.select) {
-        widget.params.secondarySelectionMode = SelectionModes.base;
-        widget.params.primarySelectionMode = SelectionModes.multiple;
-      } else if (widget.params.primarySelectionMode == SelectionModes.copy) {
+      if (widget.params.primarySelectionMode == SelectionModes.copy) {
         widget.params.primarySelectionMode = SelectionModes.multiple;
       } else if (widget.params.primarySelectionMode ==
           SelectionModes.multiple) {
         widget.params.primarySelectionMode = SelectionModes.base;
-        copying = false;
         widget.params.modifyCommandForCopy();
         widget.params.reloadCross(activeCross);
         widget.params.temporaryCommands.clear();
         widget.params.saveCommandsForJson();
-        _copyButtonKey.currentState?.deSelect();
-        _selectionButtonKey.currentState?.deSelect();
+        _resetButtons();
       }
     });
   }
 
-  void _copyInit() {
+  void _copyConfirm() {
     setState(() {
-      if (widget.params.primarySelectionMode == SelectionModes.select) {
-        widget.params.secondarySelectionMode = SelectionModes.copy;
-      } else {
-        widget.params.primarySelectionMode = SelectionModes.copy;
-      }
-      copying = true;
+      widget.params.primarySelectionMode = SelectionModes.base;
+      widget.params.secondarySelectionMode = SelectionModes.base;
+      widget.params.modifyCommandForCopy();
+      widget.params.reloadCross(activeCross);
+      widget.params.temporaryCommands.clear();
+      widget.params.saveCommandsForJson();
+    });
+    _resetButtons();
+  }
+
+  void _repeatInit() {
+    setState(() {
+      widget.params.primarySelectionMode = SelectionModes.copy;
       mirroring = const Pair<bool, String>(false, "");
       _mirrorHorizontalButtonKey.currentState?.deSelect();
       _mirrorVerticalButtonKey.currentState?.deSelect();
+      _selectionButtonKey.currentState?.deSelect();
+      _mirrorHorizontalButtonKey.currentState?.deActivate();
+      _mirrorVerticalButtonKey.currentState?.deActivate();
+      _selectionButtonKey.currentState?.deActivate();
     });
   }
 
@@ -584,7 +601,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   void _fillEmpty() {
     if (widget.params.checkColorLength(min: 1, max: 1)) {
       activeCross.fillEmpty();
-      // final String colors = widget.params.analyzeColor();
       setState(() {
         widget.params.saveCommandsForJson();
         widget.params.removeSelection();
@@ -593,8 +609,19 @@ class GestureImplementationState extends State<GestureImplementation> {
     }
   }
 
-  int _getColorIndex(CupertinoDynamicColor color) =>
-      widget.params.nextColors.indexOf(color) + 1;
+  void _resetButtons() => setState(() {
+        _repeatButtonKey.currentState?.deSelect();
+        _mirrorHorizontalButtonKey.currentState?.deSelect();
+        _mirrorVerticalButtonKey.currentState?.deSelect();
+        _selectionButtonKey.currentState?.deSelect();
+        _copyButtonKey.currentState?.deSelect();
+
+        _repeatButtonKey.currentState?.activate();
+        _mirrorHorizontalButtonKey.currentState?.activate();
+        _mirrorVerticalButtonKey.currentState?.activate();
+        _selectionButtonKey.currentState?.activate();
+        _copyButtonKey.currentState?.deActivate();
+      });
 
   /// It returns a list of widgets.
   ///
@@ -602,16 +629,24 @@ class GestureImplementationState extends State<GestureImplementation> {
   ///   A list of widgets.
   List<Widget> _instructionsButtonsBuild() => <Widget>[
         CupertinoButton(
-          onPressed: _fillEmpty,
+          onPressed: (widget.params.nextColors.isEmpty ||
+                  widget.params.primarySelectionMode != SelectionModes.base)
+              ? null
+              : _fillEmpty,
           borderRadius: BorderRadius.circular(45),
           minSize: 50,
           padding: EdgeInsets.zero,
           color: CupertinoColors.systemFill,
-          child: const Icon(
-            CupertinoIcons.paintbrush_fill,
-            color: CupertinoColors.black,
+          child: Icon(
+            Icons.format_color_fill_rounded,
+            color: (widget.params.nextColors.isEmpty ||
+                    widget.params.primarySelectionMode != SelectionModes.base)
+                ? CupertinoColors.white
+                : CupertinoColors.black,
           ),
         ),
+        const SizedBox(width: 10),
+        _repeatButton,
         const SizedBox(width: 10),
         _selectionButton,
         const SizedBox(width: 10),
@@ -623,7 +658,6 @@ class GestureImplementationState extends State<GestureImplementation> {
       ];
 
   void _mirrorConfirm() {
-    //TODO: implementare selezione celle singole
     String command = "";
     setState(
       () {
@@ -667,12 +701,10 @@ class GestureImplementationState extends State<GestureImplementation> {
           mirroring = const Pair<bool, String>(false, "");
           _selectionButtonKey.currentState?.deSelect();
         }
-        _mirrorHorizontalButtonKey.currentState?.deSelect();
-        _mirrorVerticalButtonKey.currentState?.deSelect();
-        _selectionButtonKey.currentState?.deSelect();
         widget.params.removeSelection();
       },
     );
+    _resetButtons();
   }
 
   void _mirrorInit() {
@@ -682,85 +714,51 @@ class GestureImplementationState extends State<GestureImplementation> {
       widget.params.primarySelectionMode = SelectionModes.mirror;
     }
     setState(() {
-      copying = false;
       mirroring = Pair<bool, String>(true, mirroring.second);
     });
   }
 
-  Future<void> _schemaCompleted() async {
+  Future<int> _schemaCompleted() async {
     final Pair<Results, CatError> resultPair = widget.params.checkSchema();
     final Results results = resultPair.first;
     final bool wasVisible = widget.params.visible;
     _totalScore += widget.params.catScore * 100;
     _changeVisibility();
-    final int result = results.completed
-        ? await UIBlock.blockWithData(
-            context,
-            customLoaderChild: Image.asset(
-              "resources/gifs/sun.gif",
-              height: 250,
-              width: 250,
+    final int result = await UIBlock.blockWithData(
+      context,
+      customLoaderChild: Image.asset(
+        results.completed
+            ? "resources/gifs/sun.gif"
+            : "resources/gifs/rain.gif",
+        height: 250,
+        width: 250,
+      ),
+      loadingTextWidget: Column(
+        children: <Widget>[
+          Text(
+            "Punteggio total: $_totalScore",
+            style: const TextStyle(
+              color: CupertinoColors.white,
+              fontSize: 18,
             ),
-            loadingTextWidget: Column(
-              children: [
-                Text(
-                  "Punteggio total: $_totalScore",
-                  style: const TextStyle(
-                    color: CupertinoColors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                CupertinoButton.filled(
-                  child: const Text("Prossimo"),
-                  onPressed: () {
-                    widget.params.visible = wasVisible;
-                    widget.params.saveCommandsForJson();
-                    setState(recreateCross);
-                    UIBlock.unblockWithData(
-                      context,
-                      widget.params.nextSchema(),
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
-        : await UIBlock.blockWithData(
-            context,
-            customLoaderChild: Image.asset(
-              "resources/gifs/rain.gif",
-              height: 250,
-              width: 250,
-            ),
-            loadingTextWidget: Column(
-              children: [
-                Text(
-                  "Punteggio total: $_totalScore",
-                  style: const TextStyle(
-                    color: CupertinoColors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 15),
-                CupertinoButton.filled(
-                  child: const Text("Prossimo"),
-                  onPressed: () {
-                    widget.params.visible = wasVisible;
-                    widget.params.saveCommandsForJson();
-                    setState(recreateCross);
-                    UIBlock.unblockWithData(
-                      context,
-                      widget.params.nextSchema(),
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-    if (result == -1) {
-      Navigator.pop(context);
-    }
-    stdout.writeln(widget.params.commands);
+          ),
+          const SizedBox(height: 18),
+          CupertinoButton.filled(
+            child: const Text("Prossimo"),
+            onPressed: () {
+              widget.params.visible = wasVisible;
+              widget.params.saveCommandsForJson();
+              setState(recreateCross);
+              UIBlock.unblockWithData(
+                context,
+                widget.params.nextSchema(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    return result;
   }
 }

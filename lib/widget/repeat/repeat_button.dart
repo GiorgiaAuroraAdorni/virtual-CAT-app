@@ -1,7 +1,8 @@
 import "package:flutter/cupertino.dart";
 
-class CopyButton extends StatefulWidget {
-  const CopyButton({
+/// A button that repeats a callback while it is held down
+class RepeatButton extends StatefulWidget {
+  const RepeatButton({
     super.key,
     required this.onSelect,
     required this.onDismiss,
@@ -11,12 +12,12 @@ class CopyButton extends StatefulWidget {
   final Function() onDismiss;
 
   @override
-  CopyButtonState createState() => CopyButtonState();
+  RepeatButtonState createState() => RepeatButtonState();
 }
 
-class CopyButtonState extends State<CopyButton> {
+class RepeatButtonState extends State<RepeatButton> {
   bool _selected = false;
-  bool _active = false;
+  bool _active = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class CopyButtonState extends State<CopyButton> {
         minSize: 50,
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(45),
-        child: const Icon(CupertinoIcons.doc_on_doc),
+        child: const Icon(CupertinoIcons.repeat),
       );
     }
 
@@ -51,7 +52,7 @@ class CopyButtonState extends State<CopyButton> {
       color:
           _selected ? CupertinoColors.activeOrange : CupertinoColors.systemFill,
       child: Icon(
-        CupertinoIcons.doc_on_doc,
+        CupertinoIcons.repeat,
         color: _selected ? CupertinoColors.white : CupertinoColors.black,
       ),
     );

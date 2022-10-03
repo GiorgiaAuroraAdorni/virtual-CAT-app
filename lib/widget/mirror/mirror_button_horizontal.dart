@@ -16,41 +16,43 @@ class MirrorButtonHorizontal extends StatefulWidget {
 
 class MirrorButtonHorizontalState extends State<MirrorButtonHorizontal> {
   bool _selected = false;
+  bool _active = true;
+
   @override
   Widget build(BuildContext context) {
-    if (_selected) {
+    if (!_active) {
       return CupertinoButton(
-        onPressed: () {
-          widget.onDismiss.call();
-          setState(() {
-            _selected = false;
-          });
-        },
-        borderRadius: BorderRadius.circular(45),
+        onPressed: null,
+        color: CupertinoColors.systemFill,
         minSize: 50,
         padding: EdgeInsets.zero,
-        color: CupertinoColors.activeOrange,
-        child: const Icon(
-          CupertinoIcons.rectangle_grid_1x2,
-          color: CupertinoColors.white,
-        ),
+        borderRadius: BorderRadius.circular(45),
+        child: const Icon(CupertinoIcons.rectangle_grid_1x2),
       );
     }
 
     return CupertinoButton(
-      onPressed: () {
-        widget.onSelect.call();
-        setState(() {
-          _selected = true;
-        });
-      },
+      onPressed: _selected
+          ? () {
+              widget.onDismiss.call();
+              setState(() {
+                _selected = false;
+              });
+            }
+          : () {
+              widget.onSelect.call();
+              setState(() {
+                _selected = true;
+              });
+            },
       borderRadius: BorderRadius.circular(45),
       minSize: 50,
       padding: EdgeInsets.zero,
-      color: CupertinoColors.systemFill,
-      child: const Icon(
+      color:
+          _selected ? CupertinoColors.activeOrange : CupertinoColors.systemFill,
+      child: Icon(
         CupertinoIcons.rectangle_grid_1x2,
-        color: CupertinoColors.black,
+        color: _selected ? CupertinoColors.white : CupertinoColors.black,
       ),
     );
   }
@@ -58,6 +60,18 @@ class MirrorButtonHorizontalState extends State<MirrorButtonHorizontal> {
   void deSelect() {
     setState(() {
       _selected = false;
+    });
+  }
+
+  void activate() {
+    setState(() {
+      _active = true;
+    });
+  }
+
+  void deActivate() {
+    setState(() {
+      _active = false;
     });
   }
 }

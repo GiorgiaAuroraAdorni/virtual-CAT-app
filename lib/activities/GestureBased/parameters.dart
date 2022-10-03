@@ -412,8 +412,62 @@ class Parameters {
 
   /// If the user has made a gesture, confirm the command
   void confirmCommands() {
-    gestureHome.confirmCommand();
+    String m1 = "";
+    String m2 = "";
+    if (checkColorLength(min: 1)) {
+      final List<String> recognisedCommands = analyzePattern();
+      if (recognisedCommands.length == 1) {
+        final String numOfCells = numberOfCell(recognisedCommands.first);
+        final String colors = analyzeColor();
+        final String goCommand = "GO(${selectedButtons[0].position.item1}"
+            "${selectedButtons[0].position.item2})";
+        final String command =
+            "PAINT($colors, $numOfCells, ${recognisedCommands[0]})";
+        if (primarySelectionMode == SelectionModes.mirror ||
+            primarySelectionMode == SelectionModes.copy) {
+          addTemporaryCommand(goCommand);
+          addTemporaryCommand(command);
+          num j = -1;
+          final int numOfColor = nextColors.length;
+          for (final CrossButton element in selectedButtons) {
+            j = (j + 1) % numOfColor;
+            element
+              ..changeColorFromIndex(j.toInt())
+              ..deselect();
+          }
+        } else {
+          addCommand(goCommand);
+          addCommand(command);
+          final Pair<Results, CatError> resultPair = checkSchema();
+          final CatError error = resultPair.second;
+          final Results results = resultPair.first;
+          if (error == CatError.none) {
+            gestureHome.activeCross?.fromSchema(results.getStates.last);
+          } else {
+            m1 = "Errore:";
+            m2 = error.name;
+          }
+        }
+        saveCommandsForJson();
+        resetAnalyzer();
+      } else if (recognisedCommands.isEmpty) {
+        m1 = "Nessun commando riconsociuto";
+        m2 = "Non è stato possible riconoscere alcun comando";
+      } else {
+        m1 = "Comando ambiguo:";
+        m2 = "Comandi riconsociuti: ${recognisedCommands.toString()}";
+      }
+    }
+    gestureHome.confirmCommand(m1, m2);
   }
+
+  /// It takes a CupertinoDynamicColor and returns the index of that color in the
+  /// nextColors list
+  ///
+  /// Args:
+  ///   color (CupertinoDynamicColor): The color to be converted to an index.
+  int getColorIndex(CupertinoDynamicColor color) =>
+      nextColors.indexOf(color) + 1;
 
   int _catScore() {
     int score = 0;
