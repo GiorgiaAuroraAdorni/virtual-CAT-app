@@ -31,10 +31,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   };
 
   /// A variable that is used to store the buttons of the cross.
-  late List<List<Widget>> buttons = List<List<Widget>>.generate(
-    6,
-    (int i) => List<Widget>.filled(6, _buildDummy()),
-  );
+  late List<List<Widget>> buttons;
 
   /// A variable that is used to store the dimension of the container.
   late double containerDimension;
@@ -56,6 +53,10 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
     sizeBoxDimension = MediaQuery.of(context).size.width / 200;
     final double widgetDimension =
         (6 * containerDimension) + (sizeBoxDimension * 5);
+    buttons = List<List<Widget>>.generate(
+      6,
+      (int i) => List<Widget>.filled(6, _buildDummy()),
+    );
 
     return SizedBox(
       width: widgetDimension,
@@ -121,6 +122,9 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
         decoration: const BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(24)),
+        ),
+        child: const Center(
+          child: Text(""),
         ),
       );
 }

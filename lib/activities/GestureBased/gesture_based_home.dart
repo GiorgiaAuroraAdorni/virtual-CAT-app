@@ -561,6 +561,7 @@ class GestureImplementationState extends State<GestureImplementation> {
         widget.params.temporaryCommands.clear();
         widget.params.saveCommandsForJson();
         _copyButtonKey.currentState?.deSelect();
+        _selectionButtonKey.currentState?.deSelect();
       }
     });
   }
