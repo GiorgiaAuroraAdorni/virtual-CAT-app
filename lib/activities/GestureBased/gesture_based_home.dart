@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import "package:cross_array_task_app/activities/GestureBased/cross.dart";
 import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
@@ -213,6 +216,15 @@ class GestureImplementationState extends State<GestureImplementation> {
       widget.schemes.getData[widget.params.currentSchema]!,
     );
     _crossWidgetSimple = CrossWidgetSimple(resultValueNotifier: _result);
+    const Duration oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        setState(() {
+          _startTime++;
+        });
+      },
+    );
     super.initState();
   }
 
@@ -225,6 +237,22 @@ class GestureImplementationState extends State<GestureImplementation> {
   /// Widget containing the image of the solution cross
   late Image image;
 
+  late Timer _timer;
+
+  int _startTime = 0;
+  int _globalTime = 0;
+
+  String _timeFormat(int time) {
+    final int h = time ~/ 3600;
+    final int m = (time - h * 3600) ~/ 60;
+    final int s = time - (h * 3600) - (m * 60);
+    final String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
+    final String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
+    final String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
+
+    return "$hourLeft:$minuteLeft:$secondsLeft";
+  }
+
   /// It builds the UI for the home screen
   ///
   /// Args:
@@ -235,13 +263,28 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          Text("Punteggio: ${widget.params.catScore * 100}"),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 1.2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Punteggio: ${widget.params.catScore * 100}"),
+                Text(
+                  "Tempo: ${_timeFormat(_startTime)}",
+                  style: const TextStyle(
+                    fontFeatures: <FontFeature>[
+                      FontFeature.tabularFigures(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _crossWidgetSimple,
                   const SizedBox(height: 80),
@@ -493,7 +536,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     return colors.keys
         .map(
           (CupertinoDynamicColor color) => Container(
-            margin: const EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 10, left: 10),
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: (widget.params.primarySelectionMode ==
@@ -724,6 +767,7 @@ class GestureImplementationState extends State<GestureImplementation> {
     final bool wasVisible = widget.params.visible;
     _totalScore += widget.params.catScore * 100;
     _changeVisibility();
+    _globalTime += _startTime;
     final int result = await UIBlock.blockWithData(
       context,
       customLoaderChild: Image.asset(
@@ -737,6 +781,14 @@ class GestureImplementationState extends State<GestureImplementation> {
         children: <Widget>[
           Text(
             "Punteggio total: $_totalScore",
+            style: const TextStyle(
+              color: CupertinoColors.white,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            "Tempo total: ${_timeFormat(_globalTime)}",
             style: const TextStyle(
               color: CupertinoColors.white,
               fontSize: 18,
@@ -758,7 +810,16 @@ class GestureImplementationState extends State<GestureImplementation> {
         ],
       ),
     );
+    setState(() {
+      _startTime = 0;
+    });
 
     return result;
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
