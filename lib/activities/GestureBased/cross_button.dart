@@ -306,7 +306,8 @@ class CrossButtonState extends State<CrossButton> {
       for (final Tuple2<int, int> j in origin) {
         final int row =
             (j.item1 + (i.item1 - j.item1)) + (j.item1 - origin.first.item1);
-        final int column = i.item2 + (i.item2 - (i.item2 - j.item2));
+        final int column =
+            (j.item2 + (i.item2 - j.item2)) + (j.item2 - origin.first.item2);
         final Iterable<String> rowKeys =
             _rows.filterValues((int p0) => p0 == row).keys;
         if (rowKeys.isEmpty) {
