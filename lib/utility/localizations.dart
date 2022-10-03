@@ -11,6 +11,11 @@ class CATLocalizations {
   CATLocalizations(this._locale);
   final Locale _locale;
 
+  /// Get the CATLocalizations object for the given context.
+  ///
+  /// Args:
+  ///   context (BuildContext): The context from which we want to obtain the
+  /// localizations.
   static CATLocalizations of(BuildContext context) =>
       Localizations.of<CATLocalizations>(context, CATLocalizations)!;
 
@@ -48,7 +53,8 @@ class CATLocalizations {
   /// Returns a list of all supported languages
   static List<String> languages() => _localizedValues.keys.toList();
 
-  /// It's a getter that returns the localized string for the key "tutorialTitle"
+  /// It's a getter that returns the localized string for
+  /// the key "tutorialTitle"
   String get tutorialTitle =>
       _localizedValues[_locale.languageCode]!["tutorialTitle"]!;
 
@@ -68,7 +74,8 @@ class CATLocalizations {
   /// It's a getter that returns the localized string for the key "data"
   String get data => _localizedValues[_locale.languageCode]!["data"]!;
 
-  /// It's a getter that returns the localized string for the key "schoolPlaceholder"
+  /// It's a getter that returns the localized string for
+  /// the key "schoolPlaceholder"
   String get schoolPlaceholder =>
       _localizedValues[_locale.languageCode]!["schoolPlaceholder"]!;
 
@@ -84,27 +91,33 @@ class CATLocalizations {
   /// It's a getter that returns the localized list for the key "notes"
   String get notes => _localizedValues[_locale.languageCode]!["notes"]!;
 
-  /// It's a getter that returns the localized list for the key "selectionCanton"
+  /// It's a getter that returns the localized list for
+  /// the key "selectionCanton"
   String get selectionCanton =>
       _localizedValues[_locale.languageCode]!["selectionCanton"]!;
 
-  /// It's a getter that returns the localized list for the key "selectionSchool"
+  /// It's a getter that returns the localized list for
+  /// the key "selectionSchool"
   String get selectionSchool =>
       _localizedValues[_locale.languageCode]!["selectionSchool"]!;
 
-  /// It's a getter that returns the localized list for the key "selectionSchool"
+  /// It's a getter that returns the localized list for
+  /// the key "selectionSchool"
   String get selectionLevel =>
       _localizedValues[_locale.languageCode]!["selectionLevel"]!;
 
-  /// It's a getter that returns the localized list for the key "selectionSchool"
+  /// It's a getter that returns the localized list for
+  /// the key "selectionSchool"
   String get selectionClass =>
       _localizedValues[_locale.languageCode]!["selectionClass"]!;
 
-  /// It's a getter that returns the localized list for the key "sectionName"
+  /// It's a getter that returns the localized list for
+  /// the key "sectionName"
   String get sectionName =>
       _localizedValues[_locale.languageCode]!["sectionName"]!;
 
-  /// It's a getter that returns the localized list for the key "supervisorInformation"
+  /// It's a getter that returns the localized list for
+  /// the key "supervisorInformation"
   String get supervisorInformation =>
       _localizedValues[_locale.languageCode]!["supervisorInformation"]!;
 
@@ -120,7 +133,8 @@ class CATLocalizations {
   /// It's a getter that returns the localized list for the key "birth"
   String get birth => _localizedValues[_locale.languageCode]!["birth"]!;
 
-  /// It's a getter that returns the localized list for the key "secondFormTitle"
+  /// It's a getter that returns the localized list for
+  /// the key "secondFormTitle"
   String get secondFormTitle =>
       _localizedValues[_locale.languageCode]!["secondFormTitle"]!;
 

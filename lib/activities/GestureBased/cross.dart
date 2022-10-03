@@ -3,7 +3,6 @@ import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:flutter/cupertino.dart";
-import 'package:flutter/material.dart';
 import "package:interpreter/cat_interpreter.dart";
 import "package:tuple/tuple.dart";
 
@@ -27,10 +26,12 @@ class CrossWidget extends StatefulWidget {
   /// with that key
   void changeVisibility() => _changeVisibility(globalKey);
 
-  /// "If the button at the given coordinates is selected, return true, if it's not
-  /// selected, return false, if the button doesn't exist, return null."
+  /// "If the button at the given coordinates is selected, return true,
+  /// if it's not selected, return false,
+  /// if the button doesn't exist, return null."
   ///
-  /// The function is a bit more complicated than that, but that's the gist of it
+  /// The function is a bit more complicated than that,
+  /// but that's the gist of it
   ///
   /// Args:
   ///   y (String): The text to display on the button.
@@ -49,7 +50,7 @@ class CrossWidget extends StatefulWidget {
     String y,
     int x,
     GlobalKey<CrossWidgetState> globalKey, {
-    bool add: true,
+    bool add = true,
   }) =>
       globalKey.currentState?.selectButton(y, x, add: add);
 
@@ -60,8 +61,8 @@ class CrossWidget extends StatefulWidget {
   ) =>
       globalKey.currentState?._buttons[y][x];
 
-  /// "If the user has selected
-  /// a button, unselect all buttons that are not in the selected button's group."
+  /// "If the user has selected a button,
+  /// unselect all buttons that are not in the selected button's group."
   ///
   /// The function is called from the `onPressed` callback of the `RaisedButton`
   /// widget

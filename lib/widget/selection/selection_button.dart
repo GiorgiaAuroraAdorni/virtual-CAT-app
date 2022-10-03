@@ -2,19 +2,25 @@ import "package:flutter/cupertino.dart";
 
 /// A button that can be selected or not
 class SelectionButton extends StatefulWidget {
+  /// A constructor.
   const SelectionButton({
-    super.key,
     required this.onSelect,
     required this.onDismiss,
+    super.key,
   });
 
+  /// A function that takes no arguments and returns nothing.
   final Function() onSelect;
+
+  /// A function that takes no arguments and returns nothing.
   final Function() onDismiss;
 
   @override
   SelectionButtonState createState() => SelectionButtonState();
 }
 
+/// It's a button that changes color when pressed
+/// and calls a function when pressed
 class SelectionButtonState extends State<SelectionButton> {
   bool _selected = false;
   bool _active = true;
@@ -58,21 +64,18 @@ class SelectionButtonState extends State<SelectionButton> {
     );
   }
 
-  void deSelect() {
-    setState(() {
-      _selected = false;
-    });
-  }
+  /// Deselect from external widget
+  void deSelect() => setState(() {
+        _selected = false;
+      });
 
-  void activate() {
-    setState(() {
-      _active = true;
-    });
-  }
+  /// Activate from external widget
+  void activate() => setState(() {
+        _active = true;
+      });
 
-  void deActivate() {
-    setState(() {
-      _active = false;
-    });
-  }
+  /// Deactivate from external widget
+  void deActivate() => setState(() {
+        _active = false;
+      });
 }

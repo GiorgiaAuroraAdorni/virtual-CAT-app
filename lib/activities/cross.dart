@@ -20,8 +20,8 @@ class CrossWidgetSimple extends StatefulWidget {
 /// It builds a cross of 6x6 buttons, with the buttons' colors and text being
 /// determined by the result value notifier.
 class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
-  /// Creating a map that maps the integer values of the cross to the colors that
-  /// they should be displayed as.
+  /// Creating a map that maps the integer values of
+  /// the cross to the colors that they should be displayed as.
   Map<int, CupertinoDynamicColor> colors = <int, CupertinoDynamicColor>{
     0: CupertinoColors.systemGrey,
     1: CupertinoColors.systemGreen,
@@ -86,9 +86,9 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   /// Returns:
   ///   A list of widgets.
   List<Widget> _buildCross() {
-    final List<Widget> result = [];
+    final List<Widget> result = <Widget>[];
     for (int y = 0; y < buttons.length; y++) {
-      final List<Widget> rowChildren = [];
+      final List<Widget> rowChildren = <Widget>[];
       for (int x = 0; x < buttons[y].length; x++) {
         rowChildren.add(buttons[y][x]);
         if (x != 5) {

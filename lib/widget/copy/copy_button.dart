@@ -1,19 +1,26 @@
 import "package:flutter/cupertino.dart";
 
+/// CopyButton is a stateful widget that has two functions,
+/// onSelect and onDismiss
 class CopyButton extends StatefulWidget {
+  /// A constructor.
   const CopyButton({
-    super.key,
     required this.onSelect,
     required this.onDismiss,
+    super.key,
   });
 
+  /// It's a function that takes no arguments and returns nothing.
   final Function() onSelect;
+
+  /// It's a function that takes no arguments and returns nothing.
   final Function() onDismiss;
 
   @override
   CopyButtonState createState() => CopyButtonState();
 }
 
+/// It's a button that can be selected or not, and active or not
 class CopyButtonState extends State<CopyButton> {
   bool _selected = false;
   bool _active = false;
@@ -57,21 +64,18 @@ class CopyButtonState extends State<CopyButton> {
     );
   }
 
-  void deSelect() {
-    setState(() {
-      _selected = false;
-    });
-  }
+  /// Deselect from external widget
+  void deSelect() => setState(() {
+        _selected = false;
+      });
 
-  void activate() {
-    setState(() {
-      _active = true;
-    });
-  }
+  /// Activate from external widget
+  void activate() => setState(() {
+        _active = true;
+      });
 
-  void deActivate() {
-    setState(() {
-      _active = false;
-    });
-  }
+  /// Deactivate from external widget
+  void deActivate() => setState(() {
+        _active = false;
+      });
 }

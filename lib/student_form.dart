@@ -43,8 +43,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
-      Helper.routeObserver
-          .subscribe(this, ModalRoute.of(context)! as PageRoute);
+      routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
     });
     super.initState();
   }

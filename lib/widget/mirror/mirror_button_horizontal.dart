@@ -1,19 +1,27 @@
 import "package:flutter/cupertino.dart";
 
+/// `MirrorButtonHorizontal` is a stateful widget that displays a
+/// horizontal row of buttons that can be used to select or dismiss a mirror
 class MirrorButtonHorizontal extends StatefulWidget {
+  /// A constructor that takes in a key, onSelect, and onDismiss.
   const MirrorButtonHorizontal({
-    super.key,
     required this.onSelect,
     required this.onDismiss,
+    super.key,
   });
 
+  /// A function that takes in no parameters and returns nothing.
   final Function() onSelect;
+
+  /// A function that takes in no parameters and returns nothing.
   final Function() onDismiss;
 
   @override
   MirrorButtonHorizontalState createState() => MirrorButtonHorizontalState();
 }
 
+/// It's a button that can be selected or deselected, and it can be activated or
+/// deactivated
 class MirrorButtonHorizontalState extends State<MirrorButtonHorizontal> {
   bool _selected = false;
   bool _active = true;
@@ -57,21 +65,18 @@ class MirrorButtonHorizontalState extends State<MirrorButtonHorizontal> {
     );
   }
 
-  void deSelect() {
-    setState(() {
-      _selected = false;
-    });
-  }
+  /// Deselect from external widget
+  void deSelect() => setState(() {
+        _selected = false;
+      });
 
-  void activate() {
-    setState(() {
-      _active = true;
-    });
-  }
+  /// Activate from external widget
+  void activate() => setState(() {
+        _active = true;
+      });
 
-  void deActivate() {
-    setState(() {
-      _active = false;
-    });
-  }
+  /// Deactivate from external widget
+  void deActivate() => setState(() {
+        _active = false;
+      });
 }

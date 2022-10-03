@@ -46,6 +46,8 @@ class HomePage extends StatefulWidget {
 /// It provides a locale and notifies listeners when the locale changes
 class LocaleProvider with ChangeNotifier {
   Locale? _locale;
+
+  /// It's a getter that returns the value of the variable `_locale`.
   Locale? get locale => _locale;
 
   final List<Locale> _languages = <Locale>[
@@ -62,6 +64,15 @@ class LocaleProvider with ChangeNotifier {
     const Locale("en", ""): <String>["resources/icon/gb.svg", "English"],
   };
 
+  /// `setLocale` is a function that takes a `Locale` object as
+  /// a parameter and sets the `_locale` variable
+  /// to the value of the `Locale` object
+  ///
+  /// Args:
+  ///   locale (Locale): The locale to be set.
+  ///
+  /// Returns:
+  ///   The current locale.
   void setLocale(Locale locale) {
     if (!_languages.contains(locale)) {
       return;
@@ -102,7 +113,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               primaryColor: CupertinoColors.systemOrange,
             ),
-            navigatorObservers: [Helper.routeObserver],
+            navigatorObservers: <NavigatorObserver>[routeObserver],
             locale: provider.locale,
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               AppLocalizationsDelegate(),

@@ -2,19 +2,25 @@ import "package:flutter/cupertino.dart";
 
 /// A button that repeats a callback while it is held down
 class RepeatButton extends StatefulWidget {
+  /// It's a constructor.
   const RepeatButton({
-    super.key,
     required this.onSelect,
     required this.onDismiss,
+    super.key,
   });
 
+  /// It's a function that takes no arguments and returns nothing.
   final Function() onSelect;
+
+  /// It's a function that takes no arguments and returns nothing.
   final Function() onDismiss;
 
   @override
   RepeatButtonState createState() => RepeatButtonState();
 }
 
+/// It's a button that can be selected or deselected, and when selected,
+/// it calls a function
 class RepeatButtonState extends State<RepeatButton> {
   bool _selected = false;
   bool _active = true;
@@ -58,21 +64,18 @@ class RepeatButtonState extends State<RepeatButton> {
     );
   }
 
-  void deSelect() {
-    setState(() {
-      _selected = false;
-    });
-  }
+  /// Deselect from external widget
+  void deSelect() => setState(() {
+        _selected = false;
+      });
 
-  void activate() {
-    setState(() {
-      _active = true;
-    });
-  }
+  /// Activate from external widget
+  void activate() => setState(() {
+        _active = true;
+      });
 
-  void deActivate() {
-    setState(() {
-      _active = false;
-    });
-  }
+  /// Deactivate from external widget
+  void deActivate() => setState(() {
+        _active = false;
+      });
 }

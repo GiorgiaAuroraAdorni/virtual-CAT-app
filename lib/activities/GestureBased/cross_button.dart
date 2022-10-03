@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
-import 'package:dartx/dartx.dart';
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:tuple/tuple.dart";
 
@@ -72,8 +72,9 @@ class CrossButton extends StatefulWidget {
   /// CrossButtonState class.
   bool? get selected => globalKey.currentState?.selected;
 
-  /// It's a getter that returns the value of the selectionRepeat variable in the
-  /// CrossButtonState class.
+  /// It's a getter that returns the value of
+  /// the selectionRepeat variable in
+  /// the CrossButtonState class.
   bool? get selectionRepeat => globalKey.currentState?.selectionRepeat;
 
   void _changeColorFromColor(

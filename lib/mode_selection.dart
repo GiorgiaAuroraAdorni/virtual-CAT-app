@@ -6,7 +6,10 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:interpreter/cat_interpreter.dart";
 
+/// It's a page that allows the user to select between the two modes of the
+/// application
 class ModeSelection extends StatelessWidget {
+  /// It's a constructor that takes a key as a parameter.
   const ModeSelection({super.key});
 
   @override

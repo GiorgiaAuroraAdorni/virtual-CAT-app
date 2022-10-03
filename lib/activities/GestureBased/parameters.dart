@@ -295,7 +295,7 @@ class Parameters {
     if (temporaryCommands.isEmpty) {
       final List<String> selectionNormal = <String>[];
       final List<String> selectionRepeat = <String>[];
-      for (CrossButton i in selectedButtons) {
+      for (final CrossButton i in selectedButtons) {
         if (i.selected ?? true) {
           selectionNormal.add("${i.position.item1}${i.position.item2}");
         }
@@ -461,8 +461,8 @@ class Parameters {
     gestureHome.confirmCommand(m1, m2);
   }
 
-  /// It takes a CupertinoDynamicColor and returns the index of that color in the
-  /// nextColors list
+  /// It takes a CupertinoDynamicColor
+  /// and returns the index of that color in the nextColors list
   ///
   /// Args:
   ///   color (CupertinoDynamicColor): The color to be converted to an index.
