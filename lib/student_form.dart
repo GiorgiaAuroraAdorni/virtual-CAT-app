@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
+import 'package:cross_array_task_app/activities/GestureBased/parameters_builder.dart';
 import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/pupil.dart";
 import "package:cross_array_task_app/model/session.dart";
@@ -7,6 +7,8 @@ import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
 import "package:interpreter/cat_interpreter.dart";
+
+import 'model/session_to_json.dart';
 
 /// Implementation for the gestures-based GUI
 class StudentsForm extends StatefulWidget {
@@ -85,15 +87,28 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                           child: ActivityHome(
                             sessionData: widget.sessionData,
                             schemas: widget.schemes,
-                            params: Parameters(
-                              sessionData: widget.sessionData,
-                              pupilData: Pupil(
-                                name: _name.text,
-                                surname: _surname.text,
-                                gender: _gender.text,
-                                creationDateTime: _selectedDate,
-                              ),
-                            ),
+                            params: ParametersBuilder()
+                                .dataCollector(
+                                  SessionToJson(
+                                    sessionData: widget.sessionData,
+                                    pupilData: Pupil(
+                                      name: _name.text,
+                                      surname: _surname.text,
+                                      gender: _gender.text,
+                                      creationDateTime: _selectedDate,
+                                    ),
+                                  ),
+                                )
+                                .build(),
+                            // params: Parameters(
+                            //   sessionData: widget.sessionData,
+                            //   pupilData: Pupil(
+                            //     name: _name.text,
+                            //     surname: _surname.text,
+                            //     gender: _gender.text,
+                            //     creationDateTime: _selectedDate,
+                            //   ),
+                            // ),
                           ),
                         ),
                       ),

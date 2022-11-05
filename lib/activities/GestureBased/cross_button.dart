@@ -287,8 +287,8 @@ class CrossButtonState extends State<CrossButton> {
   }
 
   bool _multipleSelectionOnRepeat() {
-    List<Tuple2<int, int>> origin = <Tuple2<int, int>>[];
-    List<Tuple2<int, int>> destination = <Tuple2<int, int>>[];
+    final List<Tuple2<int, int>> origin = <Tuple2<int, int>>[];
+    final List<Tuple2<int, int>> destination = <Tuple2<int, int>>[];
     for (final CrossButton i in widget.params.selectedButtons) {
       if (i.selectionRepeat!) {
         origin.add(
@@ -300,8 +300,8 @@ class CrossButtonState extends State<CrossButton> {
         );
       }
     }
-    origin = _sortCells(origin);
-    destination = _sortCells(destination);
+    // origin = _sortCells(origin);
+    // destination = _sortCells(destination);
     final List<Tuple2<String, int>> newDestinations = <Tuple2<String, int>>[];
     for (final Tuple2<int, int> i in destination) {
       for (final Tuple2<int, int> j in origin) {
@@ -329,13 +329,4 @@ class CrossButtonState extends State<CrossButton> {
 
     return true;
   }
-
-  List<Tuple2<int, int>> _sortCells(List<Tuple2<int, int>> input) => input
-    ..sort((Tuple2<int, int> a, Tuple2<int, int> b) {
-      if (a.item1 == b.item1 && a.item2 == b.item2) {
-        return 0;
-      }
-
-      return ((6 - a.item1) + a.item2) < ((6 - b.item1) + b.item2) ? -1 : 1;
-    });
 }

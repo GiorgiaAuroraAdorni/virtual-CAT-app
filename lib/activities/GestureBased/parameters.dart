@@ -2,13 +2,12 @@ import "package:cross_array_task_app/activities/GestureBased/analyzer.dart";
 import "package:cross_array_task_app/activities/GestureBased/cross.dart";
 import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
+import "package:cross_array_task_app/activities/GestureBased/parameters_builder.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/data_collection.dart";
-import "package:cross_array_task_app/model/dummy_data_collection.dart";
 import "package:cross_array_task_app/model/pupil.dart";
 import "package:cross_array_task_app/model/session.dart";
-import "package:cross_array_task_app/model/session_to_json.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -20,37 +19,19 @@ import "package:tuple/tuple.dart";
 /// contains all the parameters that are used in the activity
 class Parameters {
   /// > The function `Parameters()` initializes the `Parameters` class
-  Parameters({
-    required this.sessionData,
-    required this.pupilData,
-    this.visible = false,
-    this.currentSchema = 1,
-  }) {
+  Parameters(ParametersBuilder builder) {
     nextColors = <CupertinoDynamicColor>[];
     primarySelectionMode = SelectionModes.base;
     selectedButtons = <CrossButton>[];
-    analyzer = Analyzer();
+    analyzer = builder.a;
     commands = <String>[];
     temporaryCommands = <String>[];
     _readSchemasJSON().then((String value) {
       catInterpreter = CATInterpreter(value, Shape.cross);
     });
-    jsonParser = SessionToJson(sessionData: sessionData, pupilData: pupilData);
-  }
-
-  /// A constructor for the `Parameters` class.
-  Parameters.forAnalyzerTest({this.currentSchema = 1, this.visible = false}) {
-    nextColors = <CupertinoDynamicColor>[];
-    primarySelectionMode = SelectionModes.base;
-    secondarySelectionMode = SelectionModes.base;
-    selectedButtons = <CrossButton>[];
-    analyzer = Analyzer();
-    commands = <String>[];
-    temporaryCommands = <String>[];
-    _readSchemasJSON().then((String value) {
-      catInterpreter = CATInterpreter(value, Shape.cross);
-    });
-    jsonParser = DummyDataCollection();
+    jsonParser = builder.jsonParser;
+    visible = builder.visible;
+    currentSchema = builder.currentSchema;
   }
 
   /// A list of colors that will be used to color the cross.

@@ -225,6 +225,19 @@ class GestureImplementationState extends State<GestureImplementation> {
         });
       },
     );
+    _timerZoom = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+      setState(() {
+        _visible = false;
+      });
+      // _updateButtons();
+      _timerZoomInner = Timer(
+        const Duration(milliseconds: 400),
+        () => setState(() {
+          _visible = true;
+        }),
+      );
+      // _update_buttons();
+    });
     super.initState();
   }
 
@@ -252,6 +265,10 @@ class GestureImplementationState extends State<GestureImplementation> {
 
     return "$hourLeft:$minuteLeft:$secondsLeft";
   }
+
+  late Timer _timerZoom;
+  Timer _timerZoomInner = Timer(Duration.zero, () {});
+  bool _visible = true;
 
   /// It builds the UI for the home screen
   ///
@@ -284,14 +301,17 @@ class GestureImplementationState extends State<GestureImplementation> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  _crossWidgetSimple,
-                  const SizedBox(height: 80),
-                  Row(children: _colorButtonsBuild()),
-                  const SizedBox(height: 20),
-                  Row(children: _instructionsButtonsBuild()),
-                ],
+              AnimatedContainer(
+                duration: const Duration(microseconds: 300),
+                child: Column(
+                  children: <Widget>[
+                    _crossWidgetSimple,
+                    const SizedBox(height: 80),
+                    Row(children: _colorButtonsBuild()),
+                    const SizedBox(height: 20),
+                    Row(children: _instructionsButtonsBuild()),
+                  ],
+                ),
               ),
               Column(
                 children: <Widget>[
@@ -537,29 +557,34 @@ class GestureImplementationState extends State<GestureImplementation> {
         .map(
           (CupertinoDynamicColor color) => Container(
             margin: const EdgeInsets.only(right: 10, left: 10),
-            child: CupertinoButton(
-              key: Key(colors[color]!),
-              onPressed: (widget.params.primarySelectionMode ==
-                          SelectionModes.base ||
-                      widget.params.primarySelectionMode == SelectionModes.copy)
-                  ? () => _colorButtonTap(color)
-                  : null,
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              color: color,
-              padding: EdgeInsets.zero,
-              child: widget.params.nextColors.contains(color)
-                  ? Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: <Widget>[
-                        const Icon(CupertinoIcons.circle_filled),
-                        Text(
-                          "${widget.params.getColorIndex(color)}",
-                          style: textStyle,
-                        ),
-                      ],
-                    ) //const Icon(CupertinoIcons.circle_fill)
-                  : const Text(""),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 400),
+              opacity: _visible ? 1.0 : 0.0,
+              child: CupertinoButton(
+                key: Key(colors[color]!),
+                onPressed: (widget.params.primarySelectionMode ==
+                            SelectionModes.base ||
+                        widget.params.primarySelectionMode ==
+                            SelectionModes.copy)
+                    ? () => _colorButtonTap(color)
+                    : null,
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                color: color,
+                padding: EdgeInsets.zero,
+                child: widget.params.nextColors.contains(color)
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          const Icon(CupertinoIcons.circle_filled),
+                          Text(
+                            "${widget.params.getColorIndex(color)}",
+                            style: textStyle,
+                          ),
+                        ],
+                      ) //const Icon(CupertinoIcons.circle_fill)
+                    : const Text(""),
+              ),
             ),
           ),
         )
@@ -820,6 +845,8 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   void dispose() {
     _timer.cancel();
+    _timerZoomInner.cancel();
+    _timerZoom.cancel();
     super.dispose();
   }
 }
