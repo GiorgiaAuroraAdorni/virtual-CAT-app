@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/GestureBased/parameters_builder.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/session.dart";
+import 'package:cross_array_task_app/model/session_builder.dart';
 import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
@@ -51,17 +51,7 @@ class ModeSelection extends StatelessWidget {
                         builder: (BuildContext context) =>
                             CupertinoPageScaffold(
                           child: ActivityHome(
-                            sessionData: Session(
-                              schoolName: "",
-                              grade: 0,
-                              section: "",
-                              date: DateTime.now(),
-                              supervisor: "",
-                              notes: "",
-                              level: 0,
-                              schoolType: "",
-                              canton: "",
-                            ),
+                            sessionData: SessionBuilder().build(),
                             schemas: schemes,
                             params: ParametersBuilder().build(),
                           ),

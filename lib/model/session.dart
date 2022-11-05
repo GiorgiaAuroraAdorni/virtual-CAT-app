@@ -1,44 +1,47 @@
+import "package:cross_array_task_app/model/session_builder.dart";
+
 /// It's a class that contains the data that will be stored in the database
 class Session {
   /// A constructor for the class SessionData.
-  Session({
-    required this.schoolName,
-    required this.grade,
-    required this.section,
-    required this.date,
-    required this.supervisor,
-    required this.notes,
-    required this.level,
-    required this.schoolType,
-    required this.canton,
-  });
+
+  Session(SessionBuilder build) {
+    schoolName = build.schoolName;
+    grade = build.grade;
+    section = build.section;
+    date = build.date;
+    supervisor = build.supervisor;
+    notes = build.notes;
+    level = build.level;
+    schoolType = build.schoolType;
+    canton = build.canton;
+  }
 
   /// It's a variable that contains the name of the school.
-  String schoolName;
+  late String schoolName;
 
   /// It's a variable that contains the grade of the pupil.
-  int grade;
+  late int grade;
 
   /// It's a variable that contains the section of the pupil.
-  String section;
+  late String section;
 
   /// It's a variable that contains the date of the session.
-  DateTime date;
+  late DateTime date;
 
   /// It's a variable that contains the name of the supervisor.
-  String supervisor;
+  late String supervisor;
 
   /// It's a variable that contains the notes of the session.
-  String notes;
+  late String notes;
 
   /// It's a variable that contains the school type.
-  String schoolType;
+  late String schoolType;
 
   /// It's a variable that contains the canton.
-  String canton;
+  late String canton;
 
   /// It's not doing anything. It's just a variable that is not being used.
-  int level;
+  late int level;
 
   /// It converts the object into a map
   Map<String, dynamic> toJson() => <String, dynamic>{
