@@ -2,7 +2,7 @@ import "dart:async";
 import "dart:ui";
 
 import "package:cross_array_task_app/activities/GestureBased/cross.dart";
-import "package:cross_array_task_app/activities/GestureBased/cross_button.dart";
+import 'package:cross_array_task_app/activities/GestureBased/model/cross_button.dart';
 import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/cross.dart";
@@ -225,19 +225,6 @@ class GestureImplementationState extends State<GestureImplementation> {
         });
       },
     );
-    _timerZoom = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      setState(() {
-        _visible = false;
-      });
-      // _updateButtons();
-      _timerZoomInner = Timer(
-        const Duration(milliseconds: 400),
-        () => setState(() {
-          _visible = true;
-        }),
-      );
-      // _update_buttons();
-    });
     super.initState();
   }
 
@@ -267,8 +254,7 @@ class GestureImplementationState extends State<GestureImplementation> {
   }
 
   late Timer _timerZoom;
-  Timer _timerZoomInner = Timer(Duration.zero, () {});
-  bool _visible = true;
+  final bool _visible = true;
 
   /// It builds the UI for the home screen
   ///
@@ -845,7 +831,6 @@ class GestureImplementationState extends State<GestureImplementation> {
   @override
   void dispose() {
     _timer.cancel();
-    _timerZoomInner.cancel();
     _timerZoom.cancel();
     super.dispose();
   }

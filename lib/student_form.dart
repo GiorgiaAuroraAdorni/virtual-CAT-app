@@ -1,8 +1,5 @@
-import 'package:cross_array_task_app/activities/GestureBased/parameters_builder.dart';
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/pupil.dart";
 import "package:cross_array_task_app/model/session.dart";
-import "package:cross_array_task_app/model/session_to_json.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
@@ -86,19 +83,19 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                           child: ActivityHome(
                             sessionData: widget.sessionData,
                             schemas: widget.schemes,
-                            params: ParametersBuilder()
-                                .dataCollector(
-                                  SessionToJson(
-                                    sessionData: widget.sessionData,
-                                    pupilData: Pupil(
-                                      name: _name.text,
-                                      surname: _surname.text,
-                                      gender: _gender.text,
-                                      creationDateTime: _selectedDate,
-                                    ),
-                                  ),
-                                )
-                                .build(),
+                            // params: ParametersBuilder()
+                            //     .dataCollector(
+                            //       SessionToJson(
+                            //         sessionData: widget.sessionData,
+                            //         pupilData: Pupil(
+                            //           name: _name.text,
+                            //           surname: _surname.text,
+                            //           gender: _gender.text,
+                            //           creationDateTime: _selectedDate,
+                            //         ),
+                            //       ),
+                            //     )
+                            //     .build(),
                           ),
                         ),
                       ),

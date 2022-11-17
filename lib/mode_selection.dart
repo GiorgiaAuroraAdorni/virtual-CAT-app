@@ -1,4 +1,3 @@
-import "package:cross_array_task_app/activities/GestureBased/parameters_builder.dart";
 import "package:cross_array_task_app/activities/activity_home.dart";
 import 'package:cross_array_task_app/model/session_builder.dart';
 import "package:cross_array_task_app/tutor_form.dart";
@@ -53,7 +52,7 @@ class ModeSelection extends StatelessWidget {
                           child: ActivityHome(
                             sessionData: SessionBuilder().build(),
                             schemas: schemes,
-                            params: ParametersBuilder().build(),
+                            // params: ParametersBuilder().build(),
                           ),
                         ),
                       ),

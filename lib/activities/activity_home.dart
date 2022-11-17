@@ -1,5 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/gesture_based_home.dart";
-import "package:cross_array_task_app/activities/GestureBased/parameters.dart";
+import "package:cross_array_task_app/activities/GestureBased/gesture_home.dart";
 import "package:cross_array_task_app/model/session.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -11,7 +10,6 @@ class ActivityHome extends StatefulWidget {
   const ActivityHome({
     required this.sessionData,
     required this.schemas,
-    required this.params,
     super.key,
   });
 
@@ -21,9 +19,6 @@ class ActivityHome extends StatefulWidget {
   /// It's a variable that stores the schemas that the student has to solve.
   final Schemes schemas;
 
-  /// It's a variable that stores the parameters of the activity.
-  final Parameters params;
-
   @override
   ActivityHomeState createState() => ActivityHomeState();
 }
@@ -31,8 +26,7 @@ class ActivityHome extends StatefulWidget {
 /// It's a stateful widget that displays a button to change the schema
 /// and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
-  late final GestureImplementation _gestureImplementation;
-  late final Parameters _params = widget.params;
+  late final GestureHome _gestureImplementation;
 
   // bool block = true;
 
@@ -58,17 +52,9 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   void initState() {
     super.initState();
-    _params
-      ..activityHomeState = this
-      ..sessionData = widget.sessionData; //TODO: add form for student data
-    _gestureImplementation = GestureImplementation(
-      globalKey: GlobalKey<GestureImplementationState>(
-        debugLabel: _params.currentSchema.toString(),
-      ),
-      params: _params,
-      schemes: widget.schemas,
-    );
-    _params.gestureHome = _gestureImplementation;
+    _gestureImplementation = GestureHome(
+        // schemes: widget.schemas,
+        );
   }
 
   /// SetStateFromOutside() is a function that calls setState()
