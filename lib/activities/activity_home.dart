@@ -40,12 +40,7 @@ class ActivityHomeState extends State<ActivityHome> {
   /// CupertinoButton widget.
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _gestureImplementation,
-          ],
-        ),
+        child: _gestureImplementation,
       );
 
   /// It initializes the recorder and player controllers.

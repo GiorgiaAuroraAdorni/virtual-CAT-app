@@ -49,7 +49,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   ///   A widget that displays the cross.
   @override
   Widget build(BuildContext context) {
-    containerDimension = MediaQuery.of(context).size.width / 30;
+    containerDimension = MediaQuery.of(context).size.width / 27;
     sizeBoxDimension = MediaQuery.of(context).size.width / 200;
     final double widgetDimension =
         (6 * containerDimension) + (sizeBoxDimension * 5);

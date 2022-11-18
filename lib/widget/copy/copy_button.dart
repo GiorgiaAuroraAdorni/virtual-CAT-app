@@ -23,7 +23,7 @@ class CopyButton extends StatefulWidget {
 /// It's a button that can be selected or not, and active or not
 class CopyButtonState extends State<CopyButton> {
   bool _selected = false;
-  bool _active = false;
+  bool _active = true;
 
   @override
   Widget build(BuildContext context) {
