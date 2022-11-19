@@ -4,7 +4,7 @@ import "package:flutter/cupertino.dart";
 /// `Cross` is a `BasicShape` that has a `_CrossState` state class
 class Cross extends BasicShape {
   /// A constructor that is calling the constructor of the super class.
-  const Cross({super.key});
+  const Cross({required super.interpreter, super.key});
 
   /// `createState()` is a function that returns a state object
   @override

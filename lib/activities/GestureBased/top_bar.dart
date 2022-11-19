@@ -3,11 +3,14 @@ import "dart:ui";
 
 import "package:flutter/cupertino.dart";
 
+/// `TopBar` is a stateful widget that has a `createState` method that returns a
+/// `_TopBarState` object
 class TopBar extends StatefulWidget {
+  /// A named constructor.
   const TopBar({super.key});
 
   @override
-  _TopBarState createState() => _TopBarState();
+  State<StatefulWidget> createState() => _TopBarState();
 }
 
 class _TopBarState extends State<TopBar> {

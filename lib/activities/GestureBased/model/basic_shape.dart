@@ -2,16 +2,22 @@ import "package:cross_array_task_app/activities/GestureBased/model/cross_button.
 import "package:cross_array_task_app/activities/GestureBased/model/dummy_button.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// `BasicShape` is an abstract class that extends `StatefulWidget` and has a
 /// `createState` method that returns a `BasicShapeState` object
 abstract class BasicShape extends StatefulWidget {
   /// A constructor that takes a `key` as a parameter.
-  const BasicShape({super.key});
+  const BasicShape({
+    required this.interpreter,
+    super.key,
+  });
 
-  @override
+  /// A variable that is used to store the interpreter object.
+  final ValueNotifier<CATInterpreter> interpreter;
 
   /// Creating a state object.
+  @override
   BasicShapeState<BasicShape> createState();
 }
 

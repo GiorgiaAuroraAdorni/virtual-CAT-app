@@ -10,7 +10,12 @@ import "package:flutter/cupertino.dart";
 /// `_SideMenuState`
 class SideMenu extends StatefulWidget {
   /// A constructor.
-  const SideMenu({super.key});
+  const SideMenu({
+    required this.selectedColor,
+    super.key,
+  });
+
+  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   @override
   State<StatefulWidget> createState() => _SideMenuState();
@@ -104,14 +109,34 @@ class _SideMenuState extends State<SideMenu> {
         .map(
           (CupertinoDynamicColor color) => Padding(
             padding: EdgeInsets.all(_paddingSize),
-            child: CupertinoButton(
-              key: Key(colors[color]!),
-              onPressed: () {},
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              color: color,
-              padding: EdgeInsets.zero,
-              child: const Text(""),
+            child: AnimatedBuilder(
+              animation: widget.selectedColor,
+              builder: (BuildContext context, Widget? child) => CupertinoButton(
+                key: Key(colors[color]!),
+                onPressed: () => setState(() {
+                  if (widget.selectedColor.value.contains(color)) {
+                    widget.selectedColor.value.remove(color);
+                  } else {
+                    widget.selectedColor.value.add(color);
+                  }
+                }),
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                color: color,
+                padding: EdgeInsets.zero,
+                child: widget.selectedColor.value.contains(color)
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          const Icon(CupertinoIcons.circle_filled),
+                          Text(
+                            "${widget.selectedColor.value.indexOf(color) + 1}",
+                            style: textStyle,
+                          ),
+                        ],
+                      )
+                    : const Text(""),
+              ),
             ),
           ),
         )

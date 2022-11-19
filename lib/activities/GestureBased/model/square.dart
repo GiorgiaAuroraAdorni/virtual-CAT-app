@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 /// `Square` is a `BasicShape` that has a `_SquareState` state class
 class Square extends BasicShape {
   /// This is the constructor of the Square class.
-  const Square({super.key});
+  const Square({required super.interpreter, super.key});
 
   /// `createState()` is a function that returns a new instance of the
   /// `_SquareState` class

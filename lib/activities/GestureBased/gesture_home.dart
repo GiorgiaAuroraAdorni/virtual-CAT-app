@@ -4,7 +4,6 @@ import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
-import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
@@ -27,6 +26,18 @@ class GestureHomeState extends State<GestureHome> {
     Cross(),
   );
 
+  /// Creating a ValueNotifier that will be used to update the result cross.
+  final ValueNotifier<CATInterpreter> interpreter =
+      ValueNotifier<CATInterpreter>(
+    CATInterpreter.fromSchemes(
+      SchemasReader().schemes,
+      Shape.cross,
+    ),
+  );
+
+  final ValueNotifier<List<CupertinoDynamicColor>> _selectedColor =
+      ValueNotifier<List<CupertinoDynamicColor>>(<CupertinoDynamicColor>[]);
+
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
@@ -34,8 +45,12 @@ class GestureHomeState extends State<GestureHome> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const SideMenu(),
-              const GestureBoard(),
+              SideMenu(
+                selectedColor: _selectedColor,
+              ),
+              GestureBoard(
+                interpreter: interpreter,
+              ),
               SideBar(
                 reference: reference,
                 result: result,
@@ -49,10 +64,7 @@ class GestureHomeState extends State<GestureHome> {
       );
 
   Future<bool> schemaCompleted() async {
-    final Pair<Results, CatError> resultPair =
-        CATInterpreter.fromSchemes(SchemasReader().schemes, Shape.cross)
-            .validateOnScheme("", 1);
-    final Results results = resultPair.first;
+    final Results results = interpreter.value.getResults;
     final bool result = await UIBlock.blockWithData(
       context,
       customLoaderChild: Image.asset(

@@ -41,6 +41,9 @@ class SchemasReader {
   /// index, otherwise return the first index.
   Cross current() => _schemes.getData[_index]!;
 
+  /// It returns the current index of the page.
+  int currentIndex() => _index;
+
   /// `reset()` sets the value to the first entry.
   void reset() {
     _index = 1;
