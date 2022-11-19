@@ -8,6 +8,8 @@ import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
 
+import '../../model/shake_widget.dart';
+
 class GestureHome extends StatefulWidget {
   const GestureHome({super.key});
 
@@ -38,6 +40,8 @@ class GestureHomeState extends State<GestureHome> {
   final ValueNotifier<List<CupertinoDynamicColor>> _selectedColor =
       ValueNotifier<List<CupertinoDynamicColor>>(<CupertinoDynamicColor>[]);
 
+  final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
+
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
@@ -51,6 +55,7 @@ class GestureHomeState extends State<GestureHome> {
               GestureBoard(
                 selectedColor: _selectedColor,
                 interpreter: interpreter,
+                shakeKey: _shakeKey,
               ),
               SideBar(
                 interpreter: interpreter,

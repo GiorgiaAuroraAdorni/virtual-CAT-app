@@ -6,6 +6,7 @@ class Cross extends BasicShape {
   const Cross({
     required super.interpreter,
     required super.selectedColor,
+    required super.shakeKey,
     super.key,
   });
 

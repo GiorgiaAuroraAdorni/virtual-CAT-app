@@ -6,6 +6,7 @@ class Square extends BasicShape {
   const Square({
     required super.interpreter,
     required super.selectedColor,
+    required super.shakeKey,
     super.key,
   });
 

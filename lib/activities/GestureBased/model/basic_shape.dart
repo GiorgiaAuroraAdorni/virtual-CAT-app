@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/model/dummy_button.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -13,6 +14,7 @@ abstract class BasicShape extends StatefulWidget {
   const BasicShape({
     required this.interpreter,
     required this.selectedColor,
+    required this.shakeKey,
     super.key,
   });
 
@@ -21,6 +23,9 @@ abstract class BasicShape extends StatefulWidget {
 
   /// List of selected colors.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
+
+  /// It's a key that is used to access the state of the `ShakeWidget`
+  final GlobalKey<ShakeWidgetState> shakeKey;
 
   /// Creating a state object.
   @override
@@ -84,15 +89,21 @@ abstract class BasicShapeState<T extends StatefulWidget>
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onPanStart: (DragStartDetails details) =>
-            _checkPosition(details.globalPosition, buttonDimension / 2),
-        onPanUpdate: (DragUpdateDetails details) =>
-            _checkPosition(details.globalPosition, buttonDimension / 2),
-        onPanEnd: _endPan,
-        child: Flex(
-          direction: Axis.vertical,
-          children: buttons,
+  Widget build(BuildContext context) => ShakeWidget(
+        key: widget.shakeKey,
+        shakeCount: 3,
+        shakeOffset: 10,
+        shakeDuration: const Duration(milliseconds: 400),
+        child: GestureDetector(
+          onPanStart: (DragStartDetails details) =>
+              _checkPosition(details.globalPosition, buttonDimension / 2),
+          onPanUpdate: (DragUpdateDetails details) =>
+              _checkPosition(details.globalPosition, buttonDimension / 2),
+          onPanEnd: _endPan,
+          child: Flex(
+            direction: Axis.vertical,
+            children: buttons,
+          ),
         ),
       );
 
@@ -128,6 +139,13 @@ abstract class BasicShapeState<T extends StatefulWidget>
 
   void _endPan(DragEndDetails details) {
     final List<String> colors = analyzeColor(widget.selectedColor.value);
+    if (colors.isEmpty) {
+      for (final CrossButton i in _selectedButtons) {
+        i.unSelect();
+      }
+      _selectedButtons.clear();
+      widget.shakeKey.currentState?.shake();
+    }
     int j = 0;
     for (final CrossButton i in _selectedButtons) {
       j = (j + 1) % colors.length;
