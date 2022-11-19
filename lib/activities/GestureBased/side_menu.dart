@@ -1,106 +1,90 @@
-import "package:cross_array_task_app/widget/copy/copy_button.dart";
-import "package:cross_array_task_app/widget/mirror/mirror_button_horizontal.dart";
-import "package:cross_array_task_app/widget/mirror/mirror_button_vertical.dart";
-import "package:cross_array_task_app/widget/repeat/repeat_button.dart";
-import "package:cross_array_task_app/widget/selection/selection_button.dart";
+import "package:cross_array_task_app/widget/buttons/copy_button.dart";
+import "package:cross_array_task_app/widget/buttons/fill_empty.dart";
+import "package:cross_array_task_app/widget/buttons/mirror_button_horizontal.dart";
+import "package:cross_array_task_app/widget/buttons/mirror_button_vertical.dart";
+import "package:cross_array_task_app/widget/buttons/repeat_button.dart";
+import "package:cross_array_task_app/widget/buttons/selection_button.dart";
 import "package:flutter/cupertino.dart";
 
+/// `SideMenu` is a stateful widget that creates a state object of type
+/// `_SideMenuState`
 class SideMenu extends StatefulWidget {
+  /// A constructor.
   const SideMenu({super.key});
 
   @override
-  _SideMenuState createState() => _SideMenuState();
+  State<StatefulWidget> createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
   final double _paddingSize = 5;
-
   final GlobalKey<MirrorButtonHorizontalState> _mirrorHorizontalButtonKey =
       GlobalKey();
-  late final Padding _mirrorButtonHorizontal = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: MirrorButtonHorizontal(
-      key: _mirrorHorizontalButtonKey,
-      onSelect: () => <void>{
-        setState(() {}),
-      },
-      onDismiss: () => <void>{
-        setState(() {}),
-      },
-    ),
+  late final MirrorButtonHorizontal _mirrorButtonHorizontal =
+      MirrorButtonHorizontal(
+    key: _mirrorHorizontalButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
   final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKey =
       GlobalKey();
-  late final Padding _mirrorButtonVertical = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: MirrorButtonVertical(
-      key: _mirrorVerticalButtonKey,
-      onSelect: () => <void>{
-        setState(() {}),
-      },
-      onDismiss: () => <void>{
-        setState(() {}),
-      },
-    ),
+  late final MirrorButtonVertical _mirrorButtonVertical = MirrorButtonVertical(
+    key: _mirrorVerticalButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
   final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
-  late final Padding _selectionButton = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: SelectionButton(
-      key: _selectionButtonKey,
-      onSelect: () => <void>{
-        setState(() {}),
-      },
-      onDismiss: () => <void>{
-        setState(() {}),
-      },
-    ),
+  late final SelectionButton _selectionButton = SelectionButton(
+    key: _selectionButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
   final GlobalKey<CopyButtonState> _copyButtonKey = GlobalKey();
-  late final Padding _copyButton = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: CopyButton(
-      key: _copyButtonKey,
-      onSelect: () => <void>{
-        setState(() {}),
-      },
-      onDismiss: () => <void>{
-        setState(() {}),
-      },
-    ),
+  late final CopyButton _copyButton = CopyButton(
+    key: _copyButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
   final GlobalKey<RepeatButtonState> _repeatButtonKey = GlobalKey();
-  late final Padding _repeatButton = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: RepeatButton(
-      key: _repeatButtonKey,
-      onSelect: () => <void>{
-        setState(() {}),
-      },
-      onDismiss: () => <void>{
-        setState(() {}),
-      },
-    ),
+  late final RepeatButton _repeatButton = RepeatButton(
+    key: _repeatButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
-  late final Padding _eraseCross = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: CupertinoButton(
-      key: const Key("Erase cross"),
-      onPressed: () {},
-      borderRadius: BorderRadius.circular(45),
-      minSize: 50,
-      padding: EdgeInsets.zero,
-      color: CupertinoColors.systemFill,
-      child: const Icon(
-        CupertinoIcons.trash_fill,
-        color: CupertinoColors.black,
-      ),
-    ),
+  final GlobalKey<FillEmptyState> _fillEmptyButtonKey = GlobalKey();
+  late final FillEmpty _fillEmptyButton = FillEmpty(
+    key: _fillEmptyButtonKey,
+    onSelect: () => <void>{
+      setState(() {}),
+    },
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
   );
 
   List<Widget> _colorButtonsBuild() {
@@ -142,12 +126,12 @@ class _SideMenuState extends State<SideMenu> {
             Column(
               children: <Widget>[
                 ..._colorButtonsBuild(),
+                _fillEmptyButton,
                 _repeatButton,
                 _selectionButton,
                 _copyButton,
                 _mirrorButtonHorizontal,
                 _mirrorButtonVertical,
-                _eraseCross,
               ],
             ),
             Column(

@@ -3,16 +3,24 @@ import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
 class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  /// A constructor for the SideBar class.
+  const SideBar({
+    super.key,
+    required this.reference,
+    required this.result,
+  });
+
+  /// A reference to the cross that is being edited.
+  final ValueNotifier<Cross> reference;
+
+  /// A reference to the cross that is being edited.
+  final ValueNotifier<Cross> result;
 
   @override
-  _SideBarState createState() => _SideBarState();
+  State<StatefulWidget> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> {
-  final ValueNotifier<Cross> _result = ValueNotifier<Cross>(
-    Cross(),
-  );
   final double _paddingSize = 5;
   final bool _visible = false;
   late final Padding _showCross = Padding(
@@ -31,6 +39,18 @@ class _SideBarState extends State<SideBar> {
           : const Icon(CupertinoIcons.eye_fill, size: 35),
     ),
   );
+  late final CupertinoButton _eraseCross = CupertinoButton(
+    key: const Key("Erase cross"),
+    onPressed: () {},
+    borderRadius: BorderRadius.circular(45),
+    minSize: 45,
+    padding: EdgeInsets.zero,
+    color: CupertinoColors.systemFill,
+    child: const Icon(
+      CupertinoIcons.trash_fill,
+      color: CupertinoColors.black,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -40,16 +60,23 @@ class _SideBarState extends State<SideBar> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CrossWidgetSimple(
-                resultValueNotifier: _result,
+                resultValueNotifier: widget.reference,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
+              child: Stack(
                 children: <Widget>[
-                  _showCross,
+                  Positioned(
+                    top: 0,
+                    child: _showCross,
+                  ),
                   CrossWidgetSimple(
-                    resultValueNotifier: _result,
+                    resultValueNotifier: widget.result,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: _eraseCross,
                   ),
                 ],
               ),

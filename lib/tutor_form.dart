@@ -5,7 +5,6 @@ import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/supervisor.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
-import "package:interpreter/cat_interpreter.dart";
 
 /// `SchoolForm` is a stateful widget that creates a `SchoolFormState` object
 class SchoolForm extends StatefulWidget {
@@ -37,10 +36,6 @@ class SchoolFormState extends State<SchoolForm> {
   Widget build(BuildContext context) {
     _controllerDate.text =
         "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
-    Schemes schemes = Schemes(schemas: <int, Cross>{1: Cross()});
-    _readSchemasJSON().then((String value) {
-      schemes = schemesFromJson(value);
-    });
 
     return CupertinoPageScaffold(
       child: CustomScrollView(
@@ -53,7 +48,6 @@ class SchoolFormState extends State<SchoolForm> {
                   context,
                   CupertinoPageRoute<Widget>(
                     builder: (BuildContext context) => StudentsForm(
-                      schemes: schemes,
                       sessionData: SessionBuilder()
                           .setDate(_selectedDate)
                           .setGrade(int.tryParse(_grade.text) ?? 0)
@@ -436,17 +430,5 @@ class SchoolFormState extends State<SchoolForm> {
         ),
       ),
     );
-  }
-
-  /// Read the schemas.json file from the resources/sequence folder and return the
-  /// contents as a string
-  ///
-  /// Returns:
-  ///   A Future<String>
-  Future<String> _readSchemasJSON() async {
-    final String future =
-        await rootBundle.loadString("resources/sequence/schemas.json");
-
-    return future;
   }
 }

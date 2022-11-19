@@ -12,7 +12,7 @@ abstract class BasicShape extends StatefulWidget {
   @override
 
   /// Creating a state object.
-  BasicShapeState createState();
+  BasicShapeState<BasicShape> createState();
 }
 
 /// It's a class that is used to store the state of the buttons in the game

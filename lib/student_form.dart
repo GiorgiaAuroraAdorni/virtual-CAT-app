@@ -4,19 +4,14 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_screen_lock/flutter_screen_lock.dart";
-import "package:interpreter/cat_interpreter.dart";
 
 /// Implementation for the gestures-based GUI
 class StudentsForm extends StatefulWidget {
   /// A constructor for the class SchemasLibrary.
   const StudentsForm({
-    required this.schemes,
     required this.sessionData,
     super.key,
   });
-
-  /// A variable that is used to store the schemes.
-  final Schemes schemes;
 
   /// A variable that is used to store the session data.
   final Session sessionData;
@@ -82,7 +77,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                             CupertinoPageScaffold(
                           child: ActivityHome(
                             sessionData: widget.sessionData,
-                            schemas: widget.schemes,
                             // params: ParametersBuilder()
                             //     .dataCollector(
                             //       SessionToJson(

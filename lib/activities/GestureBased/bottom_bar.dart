@@ -1,10 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import "package:cross_array_task_app/activities/GestureBased/gesture_home.dart";
+import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:flutter/cupertino.dart";
 
+/// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {
-  const BottomBar({super.key});
+  /// A constructor that takes a key.
+  const BottomBar({required this.home, super.key});
+
+  /// A reference to the parent widget.
+  final GestureHomeState home;
 
   @override
-  _BottomBarState createState() => _BottomBarState();
+  State<StatefulWidget> createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
@@ -17,11 +24,13 @@ class _BottomBarState extends State<BottomBar> {
             child: CupertinoButton(
               key: const Key("Schema completed"),
               onPressed: () async {
-                // await _schemaCompleted().then((int result) {
-                //   if (result == -1) {
-                //     Navigator.pop(context);
-                //   }
-                // });
+                await widget.home.schemaCompleted().then((bool result) {
+                  if (result) {
+                    widget.home.reference.value = SchemasReader().next();
+                  } else {
+                    Navigator.pop(context);
+                  }
+                });
               },
               borderRadius: BorderRadius.circular(45),
               minSize: 45,
