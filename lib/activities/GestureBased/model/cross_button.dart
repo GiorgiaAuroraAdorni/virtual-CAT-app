@@ -1,5 +1,7 @@
+import 'package:cross_array_task_app/model/schemas/SchemasReader.dart';
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
@@ -8,6 +10,8 @@ class CrossButton extends StatefulWidget {
     required this.globalKey,
     required this.position,
     required this.buttonDimension,
+    required this.interpreter,
+    required this.selectedColor,
   }) : super(key: globalKey);
 
   /// It's the size of the button
@@ -19,6 +23,11 @@ class CrossButton extends StatefulWidget {
   /// It's a way to access the state of the button from outside the widget.
   final GlobalKey<CrossButtonState> globalKey;
 
+  /// A variable that is used to store the interpreter object.
+  final ValueNotifier<CATInterpreter> interpreter;
+
+  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
+
   /// It creates a state object for the CrossButton widget.
   @override
   State<CrossButton> createState() => CrossButtonState();
@@ -27,6 +36,15 @@ class CrossButton extends StatefulWidget {
 /// `CrossButtonState` is a class that extends `State` and is used to create
 /// a state for the `CrossButton` widget
 class CrossButtonState extends State<CrossButton> {
+  final Map<int, String> _rows = <int, String>{
+    0: "f",
+    1: "e",
+    2: "d",
+    3: "c",
+    4: "b",
+    5: "a",
+  };
+
   /// It's setting the color of the button to grey.
   Color buttonColor = CupertinoColors.systemGrey;
 
@@ -46,7 +64,15 @@ class CrossButtonState extends State<CrossButton> {
   ///   A CupertinoButton with a child of either an Icon or a Text widget.
   @override
   Widget build(BuildContext context) => CupertinoButton(
-        onPressed: () {},
+        onPressed: () {
+          String code =
+              "go(${_rows[widget.position.second]}${widget.position.first + 1})";
+          final List<String> colors = _analyzeColor(widget.selectedColor.value);
+          code += " paint(${colors.first})";
+          widget.interpreter.value
+              .validateOnScheme(code, SchemasReader().currentIndex);
+          widget.interpreter.notifyListeners();
+        },
         borderRadius: BorderRadius.circular(45),
         minSize: widget.buttonDimension,
         color: CupertinoColors.systemGrey,
@@ -72,5 +98,24 @@ class CrossButtonState extends State<CrossButton> {
     setState(() {
       buttonColor = color;
     });
+  }
+
+  List<String> _analyzeColor(List<CupertinoDynamicColor> nextColors) {
+    final List<String> colors = [];
+    for (final CupertinoDynamicColor currentColor in nextColors) {
+      if (currentColor == CupertinoColors.systemBlue) {
+        colors.add("blue");
+      } else if (currentColor == CupertinoColors.systemRed) {
+        colors.add("red");
+      } else if (currentColor == CupertinoColors.systemGreen) {
+        colors.add("green");
+      } else if (currentColor == CupertinoColors.systemYellow) {
+        colors.add("yellow");
+      } else {
+        throw Exception("Invalid color");
+      }
+    }
+
+    return colors;
   }
 }

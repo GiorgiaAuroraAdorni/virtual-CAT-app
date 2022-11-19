@@ -10,11 +10,15 @@ abstract class BasicShape extends StatefulWidget {
   /// A constructor that takes a `key` as a parameter.
   const BasicShape({
     required this.interpreter,
+    required this.selectedColor,
     super.key,
   });
 
   /// A variable that is used to store the interpreter object.
   final ValueNotifier<CATInterpreter> interpreter;
+
+  /// List of selected colors.
+  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   /// Creating a state object.
   @override
@@ -22,7 +26,8 @@ abstract class BasicShape extends StatefulWidget {
 }
 
 /// It's a class that is used to store the state of the buttons in the game
-abstract class BasicShapeState<T extends StatefulWidget> extends State<T> {
+abstract class BasicShapeState<T extends StatefulWidget>
+    extends State<BasicShape> {
   final double _padding = 7;
 
   /// A variable that is used to set the size of the buttons.
@@ -44,9 +49,11 @@ abstract class BasicShapeState<T extends StatefulWidget> extends State<T> {
             Padding(
               padding: EdgeInsets.all(_padding),
               child: CrossButton(
+                selectedColor: widget.selectedColor,
                 globalKey: GlobalKey<CrossButtonState>(),
                 position: Pair<int, int>(i, j),
                 buttonDimension: buttonDimension,
+                interpreter: widget.interpreter,
               ),
             ),
           );

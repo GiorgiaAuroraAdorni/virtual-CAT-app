@@ -18,7 +18,7 @@ class GestureHome extends StatefulWidget {
 class GestureHomeState extends State<GestureHome> {
   /// Creating a ValueNotifier that will be used to update the reference cross.
   final ValueNotifier<Cross> reference = ValueNotifier<Cross>(
-    SchemasReader().current(),
+    SchemasReader().current,
   );
 
   /// Creating a ValueNotifier that will be used to update the result cross.
@@ -49,9 +49,11 @@ class GestureHomeState extends State<GestureHome> {
                 selectedColor: _selectedColor,
               ),
               GestureBoard(
+                selectedColor: _selectedColor,
                 interpreter: interpreter,
               ),
               SideBar(
+                interpreter: interpreter,
                 reference: reference,
                 result: result,
               ),

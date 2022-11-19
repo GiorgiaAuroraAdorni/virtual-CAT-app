@@ -39,10 +39,10 @@ class SchemasReader {
 
   /// If the current index is less than the length of the list, return the current
   /// index, otherwise return the first index.
-  Cross current() => _schemes.getData[_index]!;
+  Cross get current => _schemes.getData[_index]!;
 
   /// It returns the current index of the page.
-  int currentIndex() => _index;
+  int get currentIndex => _index;
 
   /// `reset()` sets the value to the first entry.
   void reset() {

@@ -7,6 +7,7 @@ class SideBar extends StatefulWidget {
   const SideBar({
     required this.reference,
     required this.result,
+    required this.interpreter,
     super.key,
   });
 
@@ -15,6 +16,9 @@ class SideBar extends StatefulWidget {
 
   /// A reference to the cross that is being edited.
   final ValueNotifier<Cross> result;
+
+  /// A reference to the interpreter that is used to interpret the cross.
+  final ValueNotifier<CATInterpreter> interpreter;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -36,6 +40,12 @@ class _SideBarState extends State<SideBar> {
             ? null
             : () {
                 _visible.value = true;
+                widget.result.value =
+                    widget.interpreter.value.getResults.getStates.last as Cross;
+                widget.interpreter.addListener(() {
+                  widget.result.value = widget
+                      .interpreter.value.getResults.getStates.last as Cross;
+                });
               },
         borderRadius: BorderRadius.circular(45),
         minSize: 45,
