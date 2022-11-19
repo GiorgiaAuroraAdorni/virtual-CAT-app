@@ -1,5 +1,4 @@
 import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.dart";
-import "package:flutter/cupertino.dart";
 
 /// `Cross` is a `BasicShape` that has a `_CrossState` state class
 class Cross extends BasicShape {
@@ -16,12 +15,6 @@ class Cross extends BasicShape {
 }
 
 class _CrossState extends BasicShapeState<Cross> {
-  @override
-  Widget build(BuildContext context) => Flex(
-        direction: Axis.vertical,
-        children: super.buttons,
-      );
-
   @override
   bool validatePosition(int row, int column) {
     if (row > 5 || row < 0 || column > 5 || column < 0) {

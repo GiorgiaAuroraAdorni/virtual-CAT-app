@@ -20,7 +20,7 @@ class _BottomBarState extends State<BottomBar> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.only(right: 5),
             child: CupertinoButton(
               key: const Key("Schema completed"),
               onPressed: () async {

@@ -63,45 +63,42 @@ class _SideBarState extends State<SideBar> {
     ),
   );
 
-  late final CupertinoButton _eraseCross = CupertinoButton(
-    key: const Key("Erase cross"),
-    onPressed: () {},
-    borderRadius: BorderRadius.circular(45),
-    minSize: 45,
-    padding: EdgeInsets.zero,
-    color: CupertinoColors.systemFill,
-    child: const Icon(
-      CupertinoIcons.trash_fill,
-      color: CupertinoColors.black,
+  late final Padding _eraseCross = Padding(
+    padding: EdgeInsets.all(_paddingSize),
+    child: CupertinoButton(
+      key: const Key("Erase cross"),
+      onPressed: () {},
+      borderRadius: BorderRadius.circular(45),
+      minSize: 45,
+      padding: EdgeInsets.zero,
+      color: CupertinoColors.systemFill,
+      child: const Icon(
+        CupertinoIcons.trash_fill,
+        color: CupertinoColors.black,
+      ),
     ),
   );
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
               child: CrossWidgetSimple(
                 resultValueNotifier: widget.reference,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: Stack(
+              padding: const EdgeInsets.all(5),
+              child: Column(
                 children: <Widget>[
+                  _showCross,
                   CrossWidgetSimple(
                     resultValueNotifier: widget.result,
                   ),
-                  Positioned(
-                    top: 0,
-                    child: _showCross,
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: _eraseCross,
-                  ),
+                  _eraseCross,
                 ],
               ),
             ),
