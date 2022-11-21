@@ -1,9 +1,12 @@
 import "package:cross_array_task_app/activities/GestureBased/model/cross.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart" as CAT;
+import "package:interpreter/cat_interpreter.dart" as cat;
 
+/// It's a widget that displays a grid of buttons that can be tapped to change the
+/// color of the selected color
 class GestureBoard extends StatefulWidget {
+  /// It's a constructor.
   const GestureBoard({
     required this.interpreter,
     required this.selectedColor,
@@ -11,12 +14,12 @@ class GestureBoard extends StatefulWidget {
     super.key,
   });
 
-  final ValueNotifier<CAT.CATInterpreter> interpreter;
+  final ValueNotifier<cat.CATInterpreter> interpreter;
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
   final GlobalKey<ShakeWidgetState> shakeKey;
 
   @override
-  _GestureBoardState createState() => _GestureBoardState();
+  State<StatefulWidget> createState() => _GestureBoardState();
 }
 
 class _GestureBoardState extends State<GestureBoard> {

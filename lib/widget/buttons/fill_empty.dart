@@ -23,4 +23,9 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
     super.icon = Icons.format_color_fill_rounded;
     super.initState();
   }
+
+  @override
+  void whenNotSelected() {
+    widget.onSelect.call();
+  }
 }

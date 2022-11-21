@@ -56,19 +56,7 @@ abstract class ActionButtonState<T extends StatefulWidget>
     return Padding(
       padding: EdgeInsets.all(_paddingSize),
       child: CupertinoButton(
-        onPressed: _selected
-            ? () {
-                widget.onDismiss.call();
-                setState(() {
-                  _selected = false;
-                });
-              }
-            : () {
-                widget.onSelect.call();
-                setState(() {
-                  _selected = true;
-                });
-              },
+        onPressed: _selected ? whenSelected : whenNotSelected,
         borderRadius: BorderRadius.circular(45),
         minSize: 50,
         padding: EdgeInsets.zero,
@@ -84,6 +72,24 @@ abstract class ActionButtonState<T extends StatefulWidget>
         ),
       ),
     );
+  }
+
+  /// When the user selects a suggestion, the onDismiss callback is called, and the
+  /// selected state is set to false
+  void whenSelected() {
+    widget.onDismiss.call();
+    setState(() {
+      _selected = false;
+    });
+  }
+
+  /// When the widget is not selected, call the onSelect function and set the state
+  /// to selected
+  void whenNotSelected() {
+    widget.onSelect.call();
+    setState(() {
+      _selected = true;
+    });
   }
 
   /// Deselect from external widget

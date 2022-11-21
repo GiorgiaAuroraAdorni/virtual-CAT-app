@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -13,6 +14,7 @@ class CrossButton extends StatefulWidget {
     required this.buttonDimension,
     required this.interpreter,
     required this.selectedColor,
+    required this.shakeKey,
   }) : super(key: globalKey);
 
   /// It's the size of the button
@@ -29,6 +31,9 @@ class CrossButton extends StatefulWidget {
 
   /// It's a way to store the current color of the button.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
+
+  /// It's a key that is used to access the state of the `ShakeWidget`
+  final GlobalKey<ShakeWidgetState> shakeKey;
 
   /// Get the position of the button from the global key
   Offset getPosition() => _getPositionFromKey(globalKey, buttonDimension / 2);
@@ -102,10 +107,16 @@ class CrossButtonState extends State<CrossButton> {
         padding: EdgeInsets.all(_padding),
         child: CupertinoButton(
           onPressed: () {
-            String code =
-                "go(${rows[widget.position.first]}${widget.position.second + 1})";
             final List<String> colors =
                 analyzeColor(widget.selectedColor.value);
+            if (colors.length != 1) {
+              widget.shakeKey.currentState?.shake();
+
+              return;
+            }
+            String code =
+                "go(${rows[widget.position.first]}${widget.position.second + 1})";
+
             code += " paint(${colors.first})";
             widget.interpreter.value
                 .validateOnScheme(code, SchemasReader().currentIndex);
@@ -127,16 +138,6 @@ class CrossButtonState extends State<CrossButton> {
     } else {
       return const Text("");
     }
-  }
-
-  /// Change the color of the button to the given color.
-  ///
-  /// Args:
-  ///   color (Color): The color that the button will change to.
-  void changeColorFromColor(Color color) {
-    setState(() {
-      buttonColor = color;
-    });
   }
 
   void select({bool add = true}) {

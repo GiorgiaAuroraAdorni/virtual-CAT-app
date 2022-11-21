@@ -4,11 +4,10 @@ import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
-
-import '../../model/shake_widget.dart';
 
 class GestureHome extends StatefulWidget {
   const GestureHome({super.key});
@@ -24,12 +23,12 @@ class GestureHomeState extends State<GestureHome> {
   );
 
   /// Creating a ValueNotifier that will be used to update the result cross.
-  final ValueNotifier<Cross> result = ValueNotifier<Cross>(
+  final ValueNotifier<Cross> _result = ValueNotifier<Cross>(
     Cross(),
   );
 
   /// Creating a ValueNotifier that will be used to update the result cross.
-  final ValueNotifier<CATInterpreter> interpreter =
+  final ValueNotifier<CATInterpreter> _interpreter =
       ValueNotifier<CATInterpreter>(
     CATInterpreter.fromSchemes(
       SchemasReader().schemes,
@@ -51,16 +50,18 @@ class GestureHomeState extends State<GestureHome> {
             children: <Widget>[
               SideMenu(
                 selectedColor: _selectedColor,
+                interpreter: _interpreter,
+                shakeKey: _shakeKey,
               ),
               GestureBoard(
                 selectedColor: _selectedColor,
-                interpreter: interpreter,
+                interpreter: _interpreter,
                 shakeKey: _shakeKey,
               ),
               SideBar(
-                interpreter: interpreter,
+                interpreter: _interpreter,
                 reference: reference,
-                result: result,
+                result: _result,
               ),
             ],
           ),
@@ -71,7 +72,7 @@ class GestureHomeState extends State<GestureHome> {
       );
 
   Future<bool> schemaCompleted() async {
-    final Results results = interpreter.value.getResults;
+    final Results results = _interpreter.value.getResults;
     final bool result = await UIBlock.blockWithData(
       context,
       customLoaderChild: Image.asset(

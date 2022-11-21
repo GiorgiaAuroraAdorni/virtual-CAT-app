@@ -56,6 +56,7 @@ abstract class BasicShapeState<T extends StatefulWidget>
         if (validatePosition(i, j)) {
           rowChildren.add(
             CrossButton(
+              shakeKey: widget.shakeKey,
               selectedColor: widget.selectedColor,
               globalKey: GlobalKey<CrossButtonState>(),
               position: Pair<int, int>(j, i),
