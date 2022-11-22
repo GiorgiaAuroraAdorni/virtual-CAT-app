@@ -8,6 +8,8 @@ class SideBar extends StatefulWidget {
     required this.reference,
     required this.result,
     required this.interpreter,
+    required this.visible,
+    required this.erase,
     super.key,
   });
 
@@ -17,8 +19,14 @@ class SideBar extends StatefulWidget {
   /// A reference to the cross that is being edited.
   final ValueNotifier<Cross> result;
 
+  /// A reference to the visibility of the cross.
+  final ValueNotifier<bool> visible;
+
   /// A reference to the interpreter that is used to interpret the cross.
   final ValueNotifier<CATInterpreter> interpreter;
+
+  /// A function that is called when the user presses the erase button.
+  final void Function() erase;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -26,31 +34,39 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   final double _paddingSize = 5;
-  final ValueNotifier<bool> _visible = ValueNotifier<bool>(
-    false,
-  );
+
+  void _interpreterListener() {
+    if (widget.visible.value) {
+      widget.result.value =
+          widget.interpreter.value.getResults.getStates.last as Cross;
+      widget.interpreter.addListener(_interpreterListener);
+    } else {
+      widget.interpreter.removeListener(_interpreterListener);
+    }
+  }
+
+  @override
+  void initState() {
+    widget.visible.addListener(_interpreterListener);
+    super.initState();
+  }
 
   late final Padding _showCross = Padding(
     padding: EdgeInsets.all(_paddingSize),
     child: AnimatedBuilder(
-      animation: _visible,
+      animation: widget.visible,
       builder: (BuildContext context, Widget? child) => CupertinoButton(
         key: const Key("Visibility Button"),
-        onPressed: _visible.value
+        onPressed: widget.visible.value
             ? null
             : () {
-                _visible.value = true;
-                widget.result.value =
-                    widget.interpreter.value.getResults.getStates.last as Cross;
-                widget.interpreter.addListener(() {
-                  widget.result.value = widget
-                      .interpreter.value.getResults.getStates.last as Cross;
-                });
+                widget.visible.value = true;
+                widget.visible.notifyListeners();
               },
         borderRadius: BorderRadius.circular(45),
         minSize: 45,
         padding: EdgeInsets.zero,
-        child: _visible.value
+        child: widget.visible.value
             ? const Icon(
                 CupertinoIcons.eye_slash_fill,
                 size: 35,
@@ -67,7 +83,7 @@ class _SideBarState extends State<SideBar> {
     padding: EdgeInsets.all(_paddingSize),
     child: CupertinoButton(
       key: const Key("Erase cross"),
-      onPressed: () {},
+      onPressed: widget.erase,
       borderRadius: BorderRadius.circular(45),
       minSize: 45,
       padding: EdgeInsets.zero,

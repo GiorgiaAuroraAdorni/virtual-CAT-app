@@ -1,20 +1,35 @@
 import "dart:async";
 import "dart:ui";
 
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:flutter/cupertino.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// `TopBar` is a stateful widget that has a `createState` method that returns a
 /// `_TopBarState` object
 class TopBar extends StatefulWidget {
   /// A named constructor.
-  const TopBar({super.key});
+  const TopBar({
+    required this.interpreter,
+    required this.visible,
+    required this.time,
+    super.key,
+  });
+
+  /// A variable that is used to store the interpreter object.
+  final ValueNotifier<CATInterpreter> interpreter;
+
+  /// A reference to the visibility of the cross.
+  final ValueNotifier<bool> visible;
+
+  /// A reference to the timer of the cross.
+  final ValueNotifier<int> time;
 
   @override
   State<StatefulWidget> createState() => _TopBarState();
 }
 
 class _TopBarState extends State<TopBar> {
-  int _startTime = 0;
   late Timer _timer;
 
   @override
@@ -25,21 +40,10 @@ class _TopBarState extends State<TopBar> {
       oneSec,
       (Timer timer) {
         setState(() {
-          _startTime++;
+          widget.time.value++;
         });
       },
     );
-  }
-
-  String _timeFormat(int time) {
-    final int h = time ~/ 3600;
-    final int m = (time - h * 3600) ~/ 60;
-    final int s = time - (h * 3600) - (m * 60);
-    final String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
-    final String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
-    final String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
-
-    return "$hourLeft:$minuteLeft:$secondsLeft";
   }
 
   @override
@@ -48,9 +52,16 @@ class _TopBarState extends State<TopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text("Punteggio: ${1 * 100}"),
             Text(
-              "Tempo: ${_timeFormat(_startTime)}",
+              "Punteggio: ${catScore(
+                    commands: List<String>.from(
+                      widget.interpreter.value.getResults.getCommands,
+                    ),
+                    visible: widget.visible.value,
+                  ) * 100}",
+            ),
+            Text(
+              "Tempo: ${timeFormat(widget.time.value)}",
               style: const TextStyle(
                 fontFeatures: <FontFeature>[
                   FontFeature.tabularFigures(),

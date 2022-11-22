@@ -5,6 +5,7 @@ import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import 'package:cross_array_task_app/utility/helper.dart';
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
@@ -39,12 +40,27 @@ class GestureHomeState extends State<GestureHome> {
   final ValueNotifier<List<CupertinoDynamicColor>> _selectedColor =
       ValueNotifier<List<CupertinoDynamicColor>>(<CupertinoDynamicColor>[]);
 
+  final ValueNotifier<bool> _visible = ValueNotifier<bool>(
+    false,
+  );
+
+  final ValueNotifier<int> _time = ValueNotifier<int>(
+    0,
+  );
+
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
+
+  int _totalScore = 0;
+  int _globalTime = 0;
 
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
-          const TopBar(),
+          TopBar(
+            interpreter: _interpreter,
+            visible: _visible,
+            time: _time,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -62,17 +78,28 @@ class GestureHomeState extends State<GestureHome> {
                 interpreter: _interpreter,
                 reference: reference,
                 result: _result,
+                visible: _visible,
+                erase: _reset,
               ),
             ],
           ),
           BottomBar(
             home: this,
+            interpreter: _interpreter,
           ),
         ],
       );
 
   Future<bool> schemaCompleted() async {
     final Results results = _interpreter.value.getResults;
+    _totalScore += catScore(
+      commands: List<String>.from(
+        _interpreter.value.getResults.getCommands,
+      ),
+      visible: _visible.value,
+    );
+    _globalTime += _time.value;
+    _visible.value = true;
     final bool result = await UIBlock.blockWithData(
       context,
       customLoaderChild: Image.asset(
@@ -85,8 +112,7 @@ class GestureHomeState extends State<GestureHome> {
       loadingTextWidget: Column(
         children: <Widget>[
           Text(
-            // "Punteggio total: $_totalScore"
-            "",
+            "Punteggio total: ${_totalScore * 100}",
             style: const TextStyle(
               color: CupertinoColors.white,
               fontSize: 18,
@@ -94,8 +120,7 @@ class GestureHomeState extends State<GestureHome> {
           ),
           const SizedBox(height: 18),
           Text(
-            // "Tempo total: ${_timeFormat(_globalTime)}",
-            "",
+            "Tempo total: ${timeFormat(_globalTime)}",
             style: const TextStyle(
               color: CupertinoColors.white,
               fontSize: 18,
@@ -116,7 +141,23 @@ class GestureHomeState extends State<GestureHome> {
         ],
       ),
     );
+    _reset();
+    _time.value = 0;
+    _time.notifyListeners();
 
     return result;
+  }
+
+  void _reset() {
+    _visible
+      ..value = false
+      ..notifyListeners();
+    _interpreter.value.reset();
+    _interpreter.notifyListeners();
+    _result
+      ..value = Cross()
+      ..notifyListeners();
+    _selectedColor.value.clear();
+    _selectedColor.notifyListeners();
   }
 }
