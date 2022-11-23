@@ -1,6 +1,4 @@
-import "dart:math" as math;
-
-import 'package:cross_array_task_app/widget/buttons/action_button.dart';
+import "package:cross_array_task_app/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
 /// `MirrorButtonVertical` is a stateful widget that displays a vertical mirror
@@ -23,7 +21,11 @@ class MirrorButtonVerticalState
   @override
   void initState() {
     super.icon = CupertinoIcons.rectangle_grid_1x2;
-    super.angle = 90 * math.pi / 180;
     super.initState();
+  }
+
+  @override
+  void whenNotSelected() {
+    widget.onSelect.call();
   }
 }

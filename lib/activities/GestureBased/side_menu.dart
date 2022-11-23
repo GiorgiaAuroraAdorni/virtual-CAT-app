@@ -44,8 +44,11 @@ class _SideMenuState extends State<SideMenu> {
   late final MirrorButtonHorizontal _mirrorButtonHorizontal =
       MirrorButtonHorizontal(
     key: _mirrorHorizontalButtonKey,
-    onSelect: () => <void>{
-      setState(() {}),
+    onSelect: () {
+      String code = "mirror(horizontal)";
+      widget.interpreter.value
+          .validateOnScheme(code, SchemasReader().currentIndex);
+      widget.interpreter.notifyListeners();
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -56,8 +59,11 @@ class _SideMenuState extends State<SideMenu> {
       GlobalKey();
   late final MirrorButtonVertical _mirrorButtonVertical = MirrorButtonVertical(
     key: _mirrorVerticalButtonKey,
-    onSelect: () => <void>{
-      setState(() {}),
+    onSelect: () {
+      String code = "mirror(vertical)";
+      widget.interpreter.value
+          .validateOnScheme(code, SchemasReader().currentIndex);
+      widget.interpreter.notifyListeners();
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -111,10 +117,9 @@ class _SideMenuState extends State<SideMenu> {
       widget.interpreter.value
           .validateOnScheme(code, SchemasReader().currentIndex);
       widget.interpreter.notifyListeners();
+      widget.selectedColor.value = <CupertinoDynamicColor>[];
     },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
+    onDismiss: () {},
   );
 
   List<Widget> _colorButtonsBuild() {
