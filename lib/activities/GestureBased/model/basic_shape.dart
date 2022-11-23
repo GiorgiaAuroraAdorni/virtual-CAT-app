@@ -15,6 +15,7 @@ abstract class BasicShape extends StatefulWidget {
     required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
+    required this.width,
     super.key,
   });
 
@@ -27,6 +28,9 @@ abstract class BasicShape extends StatefulWidget {
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
 
+  /// It's a variable that is used to store the width of the widget.
+  final double width;
+
   /// Creating a state object.
   @override
   BasicShapeState<BasicShape> createState();
@@ -35,10 +39,8 @@ abstract class BasicShape extends StatefulWidget {
 /// It's a class that is used to store the state of the buttons in the game
 abstract class BasicShapeState<T extends StatefulWidget>
     extends State<BasicShape> {
-  final double _padding = 7;
-
   /// A variable that is used to set the size of the buttons.
-  final double buttonDimension = 90;
+  late final double buttonDimension;
 
   /// A variable that is used to store the buttons in a 2D array.
   late final List<Row> buttons = <Row>[];
@@ -60,18 +62,12 @@ abstract class BasicShapeState<T extends StatefulWidget>
               selectedColor: widget.selectedColor,
               globalKey: GlobalKey<CrossButtonState>(),
               position: Pair<int, int>(j, i),
-              buttonDimension: buttonDimension,
               interpreter: widget.interpreter,
             ),
           );
         } else {
           rowChildren.add(
-            Padding(
-              padding: EdgeInsets.all(_padding),
-              child: DummyButton(
-                buttonDimension: buttonDimension,
-              ),
-            ),
+            DummyButton(),
           );
         }
       }
@@ -85,28 +81,44 @@ abstract class BasicShapeState<T extends StatefulWidget>
 
   @override
   void initState() {
+    buttonDimension = widget.width / 15;
     generateShape();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) => ShakeWidget(
+  Widget build(BuildContext context) {
+    final double containerDimension = widget.width / 15;
+    final double sizeBoxDimension = widget.width / 50;
+    final double widgetDimension =
+        (6 * containerDimension) + (sizeBoxDimension * 5);
+
+    return SizedBox(
+      width: widgetDimension,
+      height: widgetDimension,
+      child: ShakeWidget(
         key: widget.shakeKey,
         shakeCount: 3,
         shakeOffset: 10,
         shakeDuration: const Duration(milliseconds: 400),
         child: GestureDetector(
-          onPanStart: (DragStartDetails details) =>
-              _checkPosition(details.globalPosition, buttonDimension / 2),
-          onPanUpdate: (DragUpdateDetails details) =>
-              _checkPosition(details.globalPosition, buttonDimension / 2),
+          onPanStart: (DragStartDetails details) => _checkPosition(
+            details.globalPosition,
+            MediaQuery.of(context).size.width / 15 / 2,
+          ),
+          onPanUpdate: (DragUpdateDetails details) => _checkPosition(
+            details.globalPosition,
+            MediaQuery.of(context).size.width / 15 / 2,
+          ),
           onPanEnd: _endPan,
           child: Flex(
             direction: Axis.vertical,
             children: buttons,
           ),
         ),
-      );
+      ),
+    );
+  }
 
   void _checkPosition(Offset globalPosition, double maxDistance) {
     double minDistance = double.infinity;

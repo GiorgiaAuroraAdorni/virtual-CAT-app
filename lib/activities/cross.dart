@@ -109,7 +109,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
         height: containerDimension,
         decoration: BoxDecoration(
           color: colors[widget.resultValueNotifier.value.getGrid[y][x]],
-          borderRadius: const BorderRadius.all(Radius.circular(45)),
+          borderRadius: const BorderRadius.all(Radius.circular(100)),
         ),
         child: const Center(
           child: Text(""),
@@ -121,7 +121,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
         height: containerDimension,
         decoration: const BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.all(Radius.circular(24)),
+          borderRadius: BorderRadius.all(Radius.circular(100)),
         ),
         child: const Center(
           child: Text(""),

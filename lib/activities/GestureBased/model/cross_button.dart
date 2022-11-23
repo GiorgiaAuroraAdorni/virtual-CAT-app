@@ -11,14 +11,10 @@ class CrossButton extends StatefulWidget {
   const CrossButton({
     required this.globalKey,
     required this.position,
-    required this.buttonDimension,
     required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
   }) : super(key: globalKey);
-
-  /// It's the size of the button
-  final double buttonDimension;
 
   /// It's the coordinate of the button in form (y,x)
   final Pair<int, int> position;
@@ -36,7 +32,7 @@ class CrossButton extends StatefulWidget {
   final GlobalKey<ShakeWidgetState> shakeKey;
 
   /// Get the position of the button from the global key
-  Offset getPosition() => _getPositionFromKey(globalKey, buttonDimension / 2);
+  Offset getPosition() => _getPositionFromKey(globalKey);
 
   /// It selects the element with the given global key
   ///
@@ -63,8 +59,8 @@ class CrossButton extends StatefulWidget {
 
   static Offset _getPositionFromKey(
     GlobalKey<CrossButtonState> globalKey,
-    double offset,
   ) {
+    double offset = globalKey.currentState!.dimension / 2;
     final RenderBox? box =
         globalKey.currentContext?.findRenderObject() as RenderBox?;
     final Offset? position = box?.localToGlobal(Offset(offset, offset));
@@ -83,8 +79,6 @@ class CrossButton extends StatefulWidget {
 /// `CrossButtonState` is a class that extends `State` and is used to create
 /// a state for the `CrossButton` widget
 class CrossButtonState extends State<CrossButton> {
-  final double _padding = 7;
-
   /// It's setting the color of the button to grey.
   Color buttonColor = CupertinoColors.systemGrey;
 
@@ -95,6 +89,8 @@ class CrossButtonState extends State<CrossButton> {
   /// repetition.
   bool selectionRepeat = false;
 
+  double dimension = 0;
+
   /// It creates a rounded button.
   ///
   /// Args:
@@ -103,38 +99,47 @@ class CrossButtonState extends State<CrossButton> {
   /// Returns:
   ///   A CupertinoButton with a child of either an Icon or a Text widget.
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.all(_padding),
-        child: CupertinoButton(
-          onPressed: () {
-            final List<String> colors =
-                analyzeColor(widget.selectedColor.value);
-            if (colors.length != 1) {
-              widget.shakeKey.currentState?.shake();
+  Widget build(BuildContext context) {
+    dimension = MediaQuery.of(context).size.width / 15;
 
-              return;
-            }
-            String code =
-                "go(${rows[widget.position.first]}${widget.position.second + 1})";
+    return Padding(
+      padding: EdgeInsets.all(dimension / 10),
+      child: CupertinoButton(
+        onPressed: () {
+          final List<String> colors = analyzeColor(widget.selectedColor.value);
+          if (colors.length != 1) {
+            widget.shakeKey.currentState?.shake();
 
-            code += " paint(${colors.first})";
-            widget.interpreter.value
-                .validateOnScheme(code, SchemasReader().currentIndex);
-            widget.interpreter.notifyListeners();
-          },
-          borderRadius: BorderRadius.circular(45),
-          minSize: widget.buttonDimension,
-          color: CupertinoColors.systemGrey,
-          padding: EdgeInsets.zero,
-          child: _widget(),
-        ),
-      );
+            return;
+          }
+          String code =
+              "go(${rows[widget.position.first]}${widget.position.second + 1})";
+
+          code += " paint(${colors.first})";
+          widget.interpreter.value
+              .validateOnScheme(code, SchemasReader().currentIndex);
+          widget.interpreter.notifyListeners();
+        },
+        borderRadius: BorderRadius.circular(100),
+        minSize: dimension,
+        color: CupertinoColors.systemGrey,
+        padding: EdgeInsets.zero,
+        child: _widget(),
+      ),
+    );
+  }
 
   Widget _widget() {
     if (selected) {
-      return const Icon(CupertinoIcons.circle_fill);
+      return Icon(
+        CupertinoIcons.circle_fill,
+        size: dimension / 3,
+      );
     } else if (selectionRepeat) {
-      return const Icon(CupertinoIcons.circle);
+      return Icon(
+        CupertinoIcons.circle,
+        size: dimension / 3,
+      );
     } else {
       return const Text("");
     }

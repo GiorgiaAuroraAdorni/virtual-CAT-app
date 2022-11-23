@@ -30,6 +30,7 @@ class _GestureBoardState extends State<GestureBoard> {
           interpreter: widget.interpreter,
           selectedColor: widget.selectedColor,
           shakeKey: widget.shakeKey,
+          width: MediaQuery.of(context).size.width,
         ),
       );
 }

@@ -7,6 +7,7 @@ class Cross extends BasicShape {
     required super.interpreter,
     required super.selectedColor,
     required super.shakeKey,
+    required super.width,
     super.key,
   });
 
