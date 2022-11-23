@@ -45,10 +45,14 @@ class _SideMenuState extends State<SideMenu> {
       MirrorButtonHorizontal(
     key: _mirrorHorizontalButtonKey,
     onSelect: () {
-      String code = "mirror(horizontal)";
-      widget.interpreter.value
-          .validateOnScheme(code, SchemasReader().currentIndex);
-      widget.interpreter.notifyListeners();
+      if (widget.interpreter.value.getResults.getCommands.length > 1) {
+        String code = "mirror(horizontal)";
+        widget.interpreter.value
+            .validateOnScheme(code, SchemasReader().currentIndex);
+        widget.interpreter.notifyListeners();
+      } else {
+        widget.shakeKey.currentState?.shake();
+      }
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -60,10 +64,14 @@ class _SideMenuState extends State<SideMenu> {
   late final MirrorButtonVertical _mirrorButtonVertical = MirrorButtonVertical(
     key: _mirrorVerticalButtonKey,
     onSelect: () {
-      String code = "mirror(vertical)";
-      widget.interpreter.value
-          .validateOnScheme(code, SchemasReader().currentIndex);
-      widget.interpreter.notifyListeners();
+      if (widget.interpreter.value.getResults.getCommands.length > 1) {
+        String code = "mirror(vertical)";
+        widget.interpreter.value
+            .validateOnScheme(code, SchemasReader().currentIndex);
+        widget.interpreter.notifyListeners();
+      } else {
+        widget.shakeKey.currentState?.shake();
+      }
     },
     onDismiss: () => <void>{
       setState(() {}),
