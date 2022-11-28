@@ -1,3 +1,4 @@
+import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
 import 'package:cross_array_task_app/model/shake_widget.dart';
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/widget/buttons/copy_button.dart";
@@ -39,6 +40,7 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   final double _paddingSize = 5;
+  SelectionModes _selectionMode = SelectionModes.base;
   final GlobalKey<MirrorButtonHorizontalState> _mirrorHorizontalButtonKey =
       GlobalKey();
   late final MirrorButtonHorizontal _mirrorButtonHorizontal =
@@ -104,10 +106,14 @@ class _SideMenuState extends State<SideMenu> {
   late final RepeatButton _repeatButton = RepeatButton(
     key: _repeatButtonKey,
     onSelect: () => <void>{
-      setState(() {}),
+      setState(() {
+        _selectionMode = SelectionModes.repeat;
+      }),
     },
     onDismiss: () => <void>{
-      setState(() {}),
+      setState(() {
+        _selectionMode = SelectionModes.base;
+      }),
     },
   );
 
@@ -198,7 +204,37 @@ class _SideMenuState extends State<SideMenu> {
               ],
             ),
             Column(
-              children: <Widget>[],
+              children: <Widget>[
+                Visibility(
+                  visible: _selectionMode == SelectionModes.repeat,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(_paddingSize),
+                        child: CupertinoButton(
+                          onPressed: () {},
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          borderRadius: BorderRadius.circular(100),
+                          color: CupertinoColors.systemGreen,
+                          child: const Icon(CupertinoIcons.check_mark),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(_paddingSize),
+                        child: CupertinoButton(
+                          onPressed: () {},
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          borderRadius: BorderRadius.circular(100),
+                          color: CupertinoColors.systemRed,
+                          child: const Icon(CupertinoIcons.xmark),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
