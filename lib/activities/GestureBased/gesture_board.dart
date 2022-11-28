@@ -3,8 +3,8 @@ import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart" as cat;
 
-/// It's a widget that displays a grid of buttons that can be tapped to change the
-/// color of the selected color
+/// It's a widget that displays a grid of buttons that can be tapped to change
+/// the color of the selected color
 class GestureBoard extends StatefulWidget {
   /// It's a constructor.
   const GestureBoard({
@@ -14,8 +14,15 @@ class GestureBoard extends StatefulWidget {
     super.key,
   });
 
+  /// It's a value notifier that is used to notify the interpreter that
+  /// the user has changed the color of a cell.
   final ValueNotifier<cat.CATInterpreter> interpreter;
+
+  /// It's a value notifier that is used to notify that
+  /// the user has selected some colors for coloring.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
+
+  /// It's a key that is used to shake the widget.
   final GlobalKey<ShakeWidgetState> shakeKey;
 
   @override

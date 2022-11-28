@@ -9,7 +9,6 @@ class SideBar extends StatefulWidget {
     required this.result,
     required this.interpreter,
     required this.visible,
-    required this.erase,
     super.key,
   });
 
@@ -24,9 +23,6 @@ class SideBar extends StatefulWidget {
 
   /// A reference to the interpreter that is used to interpret the cross.
   final ValueNotifier<CATInterpreter> interpreter;
-
-  /// A function that is called when the user presses the erase button.
-  final void Function() erase;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -79,22 +75,6 @@ class _SideBarState extends State<SideBar> {
     ),
   );
 
-  late final Padding _eraseCross = Padding(
-    padding: EdgeInsets.all(_paddingSize),
-    child: CupertinoButton(
-      key: const Key("Erase cross"),
-      onPressed: widget.erase,
-      borderRadius: BorderRadius.circular(45),
-      minSize: 45,
-      padding: EdgeInsets.zero,
-      color: CupertinoColors.systemFill,
-      child: const Icon(
-        CupertinoIcons.trash_fill,
-        color: CupertinoColors.black,
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(15),
@@ -114,7 +94,6 @@ class _SideBarState extends State<SideBar> {
                   CrossWidgetSimple(
                     resultValueNotifier: widget.result,
                   ),
-                  _eraseCross,
                 ],
               ),
             ),

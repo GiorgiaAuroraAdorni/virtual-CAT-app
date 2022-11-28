@@ -5,18 +5,23 @@ import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import 'package:cross_array_task_app/utility/helper.dart';
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:uiblock/uiblock.dart";
 
+/// `GestureHome` is a `StatefulWidget` that creates a
+/// `GestureHomeState` when it's built
 class GestureHome extends StatefulWidget {
+  /// It's a constructor that takes a `key` as a parameter.
   const GestureHome({super.key});
 
   @override
   State<StatefulWidget> createState() => GestureHomeState();
 }
 
+/// It's a StatefulWidget that contains a TopBar, a SideMenu, a GestureBoard, a
+/// SideBar and a BottomBar
 class GestureHomeState extends State<GestureHome> {
   /// Creating a ValueNotifier that will be used to update the reference cross.
   final ValueNotifier<Cross> reference = ValueNotifier<Cross>(
@@ -79,17 +84,23 @@ class GestureHomeState extends State<GestureHome> {
                 reference: reference,
                 result: _result,
                 visible: _visible,
-                erase: _reset,
               ),
             ],
           ),
           BottomBar(
             home: this,
             interpreter: _interpreter,
+            erase: _reset,
           ),
         ],
       );
 
+  /// It's a function that is called when the user completes the schema,
+  /// it calculates the score and the time,
+  /// and then it shows a popup with the score and the time
+  ///
+  /// Returns:
+  ///   A Future<bool>
   Future<bool> schemaCompleted() async {
     final Results results = _interpreter.value.getResults;
     _totalScore += catScore(
@@ -142,8 +153,9 @@ class GestureHomeState extends State<GestureHome> {
       ),
     );
     _reset();
-    _time.value = 0;
-    _time.notifyListeners();
+    _time
+      ..value = 0
+      ..notifyListeners();
 
     return result;
   }
