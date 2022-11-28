@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
@@ -49,13 +51,17 @@ class CrossButton extends StatefulWidget {
   ///   add (bool): If true, the item will be added to the list of selected items.
   /// If false, the item will be removed from the list of selected items. Defaults
   /// to true
-  void unSelect({bool add = true}) => _unSelect(globalKey, add: add);
+  void unSelect({bool success = false}) =>
+      _unSelect(globalKey, success: success);
 
   void _select(GlobalKey<CrossButtonState> globalKey, {bool add = true}) =>
       globalKey.currentState?.select(add: add);
 
-  void _unSelect(GlobalKey<CrossButtonState> globalKey, {bool add = true}) =>
-      globalKey.currentState?.unSelect(add: add);
+  void _unSelect(
+    GlobalKey<CrossButtonState> globalKey, {
+    bool success = false,
+  }) =>
+      globalKey.currentState?.unSelect(success: success);
 
   static Offset _getPositionFromKey(
     GlobalKey<CrossButtonState> globalKey,
@@ -89,6 +95,7 @@ class CrossButtonState extends State<CrossButton> {
   /// repetition.
   bool selectionRepeat = false;
 
+  /// It's setting the dimension of the button to 0.
   double dimension = 0;
 
   /// It creates a rounded button.
@@ -105,6 +112,7 @@ class CrossButtonState extends State<CrossButton> {
     return Padding(
       padding: EdgeInsets.all(dimension / 10),
       child: CupertinoButton(
+        pressedOpacity: 1,
         onPressed: () {
           final List<String> colors = analyzeColor(widget.selectedColor.value);
           if (colors.length != 1) {
@@ -119,10 +127,18 @@ class CrossButtonState extends State<CrossButton> {
           widget.interpreter.value
               .validateOnScheme(code, SchemasReader().currentIndex);
           widget.interpreter.notifyListeners();
+          setState(() {
+            buttonColor = CupertinoColors.lightBackgroundGray;
+          });
+          Timer(const Duration(milliseconds: 300), () {
+            setState(() {
+              buttonColor = CupertinoColors.systemGrey;
+            });
+          });
         },
         borderRadius: BorderRadius.circular(100),
         minSize: dimension,
-        color: CupertinoColors.systemGrey,
+        color: buttonColor,
         padding: EdgeInsets.zero,
         child: _widget(),
       ),
@@ -152,10 +168,20 @@ class CrossButtonState extends State<CrossButton> {
     });
   }
 
-  void unSelect({bool add = true}) {
+  void unSelect({bool success = false}) {
     setState(() {
       selected = false;
       selectionRepeat = false;
     });
+    if (success) {
+      setState(() {
+        buttonColor = CupertinoColors.lightBackgroundGray;
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          buttonColor = CupertinoColors.systemGrey;
+        });
+      });
+    }
   }
 }

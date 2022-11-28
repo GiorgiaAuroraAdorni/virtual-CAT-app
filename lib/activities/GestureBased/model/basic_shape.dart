@@ -169,7 +169,7 @@ abstract class BasicShapeState<T extends StatefulWidget>
           .validateOnScheme(code, SchemasReader().currentIndex);
     }
     for (final CrossButton i in _selectedButtons) {
-      i.unSelect();
+      i.unSelect(success: true);
     }
     widget.interpreter.notifyListeners();
     _selectedButtons.clear();
