@@ -8,6 +8,7 @@ class CopyButton extends ActionButton {
   const CopyButton({
     required super.onSelect,
     required super.onDismiss,
+    super.displayColoring,
     super.key,
   });
 

@@ -7,6 +7,7 @@ class RepeatButton extends ActionButton {
   const RepeatButton({
     required super.onSelect,
     required super.onDismiss,
+    super.displayColoring,
     super.key,
   });
 

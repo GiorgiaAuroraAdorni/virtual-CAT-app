@@ -7,6 +7,7 @@ abstract class ActionButton extends StatefulWidget {
   const ActionButton({
     required this.onSelect,
     required this.onDismiss,
+    this.displayColoring = true,
     super.key,
   });
 
@@ -15,6 +16,10 @@ abstract class ActionButton extends StatefulWidget {
 
   /// It's a function that takes no arguments and returns nothing.
   final Function() onDismiss;
+
+  /// It's a variable that is used to determine whether or not to display the
+  /// coloring of the button.
+  final bool displayColoring;
 
   @override
   ActionButtonState<ActionButton> createState();
@@ -87,9 +92,11 @@ abstract class ActionButtonState<T extends StatefulWidget>
   /// to selected
   void whenNotSelected() {
     widget.onSelect.call();
-    setState(() {
-      _selected = true;
-    });
+    if (widget.displayColoring) {
+      setState(() {
+        _selected = true;
+      });
+    }
   }
 
   /// Deselect from external widget

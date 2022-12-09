@@ -7,6 +7,7 @@ class SelectionButton extends ActionButton {
   const SelectionButton({
     required super.onSelect,
     required super.onDismiss,
+    super.displayColoring,
     super.key,
   });
 

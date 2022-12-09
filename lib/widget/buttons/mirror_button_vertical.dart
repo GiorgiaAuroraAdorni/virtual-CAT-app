@@ -8,6 +8,7 @@ class MirrorButtonVertical extends ActionButton {
   const MirrorButtonVertical({
     required super.onSelect,
     required super.onDismiss,
+    super.displayColoring,
     super.key,
   });
 
@@ -22,10 +23,5 @@ class MirrorButtonVerticalState
   void initState() {
     super.icon = CupertinoIcons.rectangle_grid_1x2;
     super.initState();
-  }
-
-  @override
-  void whenNotSelected() {
-    widget.onSelect.call();
   }
 }

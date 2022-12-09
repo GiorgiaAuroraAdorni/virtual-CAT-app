@@ -10,6 +10,7 @@ class MirrorButtonHorizontal extends ActionButton {
   const MirrorButtonHorizontal({
     required super.onSelect,
     required super.onDismiss,
+    super.displayColoring,
     super.key,
   });
 
@@ -26,10 +27,5 @@ class MirrorButtonHorizontalState
     super.icon = CupertinoIcons.rectangle_grid_1x2;
     super.angle = 90 * math.pi / 180;
     super.initState();
-  }
-
-  @override
-  void whenNotSelected() {
-    widget.onSelect.call();
   }
 }

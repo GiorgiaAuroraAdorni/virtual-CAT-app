@@ -1,5 +1,6 @@
-import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
-import 'package:cross_array_task_app/model/shake_widget.dart';
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/widget/buttons/copy_button.dart";
 import "package:cross_array_task_app/widget/buttons/fill_empty.dart";
@@ -9,8 +10,6 @@ import "package:cross_array_task_app/widget/buttons/repeat_button.dart";
 import "package:cross_array_task_app/widget/buttons/selection_button.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart" as cat;
-
-import '../../model/schemas/SchemasReader.dart';
 
 /// `SideMenu` is a stateful widget that creates a state object of type
 /// `_SideMenuState`
@@ -41,11 +40,12 @@ class SideMenu extends StatefulWidget {
 class _SideMenuState extends State<SideMenu> {
   final double _paddingSize = 5;
   SelectionModes _selectionMode = SelectionModes.base;
-  final GlobalKey<MirrorButtonHorizontalState> _mirrorHorizontalButtonKey =
-      GlobalKey();
-  late final MirrorButtonHorizontal _mirrorButtonHorizontal =
+  final GlobalKey<MirrorButtonHorizontalState>
+      _mirrorHorizontalButtonKeyPrimary = GlobalKey();
+  late final MirrorButtonHorizontal _mirrorButtonHorizontalPrimary =
       MirrorButtonHorizontal(
-    key: _mirrorHorizontalButtonKey,
+    key: _mirrorHorizontalButtonKeyPrimary,
+    displayColoring: false,
     onSelect: () {
       if (widget.interpreter.value.getResults.getCommands.length > 1) {
         String code = "mirror(horizontal)";
@@ -61,10 +61,12 @@ class _SideMenuState extends State<SideMenu> {
     },
   );
 
-  final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKey =
+  final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKeyPrimary =
       GlobalKey();
-  late final MirrorButtonVertical _mirrorButtonVertical = MirrorButtonVertical(
-    key: _mirrorVerticalButtonKey,
+  late final MirrorButtonVertical _mirrorButtonVerticalPrimary =
+      MirrorButtonVertical(
+    key: _mirrorVerticalButtonKeyPrimary,
+    displayColoring: false,
     onSelect: () {
       if (widget.interpreter.value.getResults.getCommands.length > 1) {
         String code = "mirror(vertical)";
@@ -80,14 +82,40 @@ class _SideMenuState extends State<SideMenu> {
     },
   );
 
+  final GlobalKey<MirrorButtonHorizontalState>
+      _mirrorHorizontalButtonKeySecondary = GlobalKey();
+  late final MirrorButtonHorizontal _mirrorButtonHorizontalSecondary =
+      MirrorButtonHorizontal(
+    key: _mirrorHorizontalButtonKeySecondary,
+    onSelect: () {},
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
+  );
+
+  final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKeySecondary =
+      GlobalKey();
+  late final MirrorButtonVertical _mirrorButtonVerticalSecondary =
+      MirrorButtonVertical(
+    key: _mirrorVerticalButtonKeySecondary,
+    onSelect: () {},
+    onDismiss: () => <void>{
+      setState(() {}),
+    },
+  );
+
   final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
   late final SelectionButton _selectionButton = SelectionButton(
     key: _selectionButtonKey,
     onSelect: () => <void>{
-      setState(() {}),
+      setState(() {
+        _selectionMode = SelectionModes.select;
+      }),
     },
     onDismiss: () => <void>{
-      setState(() {}),
+      setState(() {
+        _selectionMode = SelectionModes.base;
+      }),
     },
   );
 
@@ -120,6 +148,7 @@ class _SideMenuState extends State<SideMenu> {
   final GlobalKey<FillEmptyState> _fillEmptyButtonKey = GlobalKey();
   late final FillEmpty _fillEmptyButton = FillEmpty(
     key: _fillEmptyButtonKey,
+    displayColoring: false,
     onSelect: () {
       final List<String> colors = analyzeColor(widget.selectedColor.value);
       if (colors.length != 1) {
@@ -191,22 +220,29 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Column(
               children: <Widget>[
                 ..._colorButtonsBuild(),
                 _fillEmptyButton,
+                _mirrorButtonHorizontalPrimary,
+                _mirrorButtonVerticalPrimary,
                 _repeatButton,
                 _selectionButton,
-                _copyButton,
-                _mirrorButtonHorizontal,
-                _mirrorButtonVertical,
               ],
             ),
             Column(
               children: <Widget>[
                 Visibility(
                   visible: _selectionMode == SelectionModes.repeat,
+                  replacement: Padding(
+                    padding: EdgeInsets.all(_paddingSize),
+                    child: SizedBox.fromSize(
+                      size: const Size(50, 50),
+                    ),
+                  ),
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -223,7 +259,47 @@ class _SideMenuState extends State<SideMenu> {
                       Padding(
                         padding: EdgeInsets.all(_paddingSize),
                         child: CupertinoButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectionMode = SelectionModes.base;
+                            });
+                          },
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          borderRadius: BorderRadius.circular(100),
+                          color: CupertinoColors.systemRed,
+                          child: const Icon(CupertinoIcons.xmark),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: _selectionMode == SelectionModes.select,
+                  child: Column(
+                    children: <Widget>[
+                      _copyButton,
+                      _mirrorButtonHorizontalSecondary,
+                      _mirrorButtonVerticalSecondary,
+                      Padding(
+                        padding: EdgeInsets.all(_paddingSize),
+                        child: CupertinoButton(
                           onPressed: () {},
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          borderRadius: BorderRadius.circular(100),
+                          color: CupertinoColors.systemGreen,
+                          child: const Icon(CupertinoIcons.check_mark),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(_paddingSize),
+                        child: CupertinoButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectionMode = SelectionModes.base;
+                            });
+                          },
                           minSize: 50,
                           padding: EdgeInsets.zero,
                           borderRadius: BorderRadius.circular(100),
