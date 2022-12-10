@@ -1,5 +1,7 @@
 import "package:cross_array_task_app/activities/GestureBased/bottom_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_board.dart";
+import 'package:cross_array_task_app/activities/GestureBased/model/cross_button.dart';
+import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
 import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
@@ -45,6 +47,17 @@ class GestureHomeState extends State<GestureHome> {
   final ValueNotifier<List<CupertinoDynamicColor>> _selectedColor =
       ValueNotifier<List<CupertinoDynamicColor>>(<CupertinoDynamicColor>[]);
 
+  final ValueNotifier<List<CrossButton>> _coloredButtons =
+      ValueNotifier<List<CrossButton>>(<CrossButton>[]);
+
+  final ValueNotifier<List<CrossButton>> _selectedButtons =
+      ValueNotifier<List<CrossButton>>(<CrossButton>[]);
+
+  final ValueNotifier<SelectionModes> _selectionMode =
+      ValueNotifier<SelectionModes>(SelectionModes.base);
+
+  final ValueNotifier<bool> _resetCross = ValueNotifier<bool>(false);
+
   final ValueNotifier<bool> _visible = ValueNotifier<bool>(
     false,
   );
@@ -73,11 +86,19 @@ class GestureHomeState extends State<GestureHome> {
                 selectedColor: _selectedColor,
                 interpreter: _interpreter,
                 shakeKey: _shakeKey,
+                selectionMode: _selectionMode,
+                coloredButtons: _coloredButtons,
+                selectedButtons: _selectedButtons,
+                resetShape: _resetCross,
               ),
               GestureBoard(
                 selectedColor: _selectedColor,
                 interpreter: _interpreter,
                 shakeKey: _shakeKey,
+                selectionMode: _selectionMode,
+                coloredButtons: _coloredButtons,
+                selectedButtons: _selectedButtons,
+                resetSignal: _resetCross,
               ),
               SideBar(
                 interpreter: _interpreter,

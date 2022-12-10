@@ -7,6 +7,8 @@ import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
+import '../selection_mode.dart';
+
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
   /// It's the constructor of the class.
@@ -16,6 +18,10 @@ class CrossButton extends StatefulWidget {
     required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
+    required this.selectionMode,
+    required this.coloredButtons,
+    required this.selectedButtons,
+    required this.buttons,
   }) : super(key: globalKey);
 
   /// It's the coordinate of the button in form (y,x)
@@ -30,8 +36,19 @@ class CrossButton extends StatefulWidget {
   /// It's a way to store the current color of the button.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
+  /// It's a variable that is used to store the current selection mode.
+  final ValueNotifier<SelectionModes> selectionMode;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> coloredButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> selectedButtons;
+
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
+
+  final List<Row> buttons;
 
   /// Get the position of the button from the global key
   Offset getPosition() => _getPositionFromKey(globalKey);
@@ -42,7 +59,11 @@ class CrossButton extends StatefulWidget {
   ///   add (bool): If true, the selection will be added to the current selection.
   /// If false, the selection will be cleared and the new selection will be added.
   /// Defaults to true
-  void select({bool add = true}) => _select(globalKey, add: add);
+  void select() => _select(globalKey);
+
+  /// > The function `_selectRepeat` is called with the `globalKey` of the `State`
+  /// object
+  void selectRepeat() => _selectRepeat(globalKey);
 
   /// > Unselects the current selection, and optionally adds the current selection
   /// to the list of selections
@@ -54,8 +75,11 @@ class CrossButton extends StatefulWidget {
   void unSelect({bool success = false}) =>
       _unSelect(globalKey, success: success);
 
-  void _select(GlobalKey<CrossButtonState> globalKey, {bool add = true}) =>
-      globalKey.currentState?.select(add: add);
+  void _select(GlobalKey<CrossButtonState> globalKey) =>
+      globalKey.currentState?.select();
+
+  void _selectRepeat(GlobalKey<CrossButtonState> globalKey) =>
+      globalKey.currentState?.selectRepeat();
 
   void _unSelect(
     GlobalKey<CrossButtonState> globalKey, {
@@ -107,34 +131,19 @@ class CrossButtonState extends State<CrossButton> {
   ///   A CupertinoButton with a child of either an Icon or a Text widget.
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size.width / 15;
+    dimension = MediaQuery.of(context).size.width / 14;
 
     return Padding(
       padding: EdgeInsets.all(dimension / 10),
       child: CupertinoButton(
         pressedOpacity: 1,
         onPressed: () {
-          final List<String> colors = analyzeColor(widget.selectedColor.value);
-          if (colors.length != 1) {
-            widget.shakeKey.currentState?.shake();
+          if (widget.selectionMode.value == SelectionModes.select) {
+            _selection();
 
             return;
           }
-          String code =
-              "go(${rows[widget.position.first]}${widget.position.second + 1})";
-
-          code += " paint(${colors.first})";
-          widget.interpreter.value
-              .validateOnScheme(code, SchemasReader().currentIndex);
-          widget.interpreter.notifyListeners();
-          setState(() {
-            buttonColor = CupertinoColors.lightBackgroundGray;
-          });
-          Timer(const Duration(milliseconds: 300), () {
-            setState(() {
-              buttonColor = CupertinoColors.systemGrey;
-            });
-          });
+          _normalColoring();
         },
         borderRadius: BorderRadius.circular(100),
         minSize: dimension,
@@ -161,10 +170,93 @@ class CrossButtonState extends State<CrossButton> {
     }
   }
 
-  void select({bool add = true}) {
+  void _selection() {
+    if (selectionRepeat && widget.selectedButtons.value.contains(widget)) {
+      widget.selectedButtons.value.remove(widget);
+    } else if (selectionRepeat) {
+      return;
+    } else {
+      widget.selectedButtons.value.add(widget);
+    }
+    for (Row i in widget.buttons) {
+      for (Widget j in i.children) {
+        if (j is CrossButton) {
+          if (j.globalKey.currentState!.selectionRepeat) {
+            j.unSelect();
+          }
+        }
+      }
+    }
+    final List<Widget> found = <Widget>[];
+    for (final CrossButton b in widget.selectedButtons.value) {
+      Pair<int, int> i = b.position;
+      for (final CrossButton s in widget.coloredButtons.value) {
+        Pair<int, int> j = s.position;
+        final int row = (j.first + (i.first - j.first)) +
+            (j.first - widget.coloredButtons.value.first.position.first);
+        final int column = (j.second + (i.second - j.second)) +
+            (j.second - widget.coloredButtons.value.first.position.second);
+        found.add(widget.buttons[column].children[row]);
+      }
+    }
+    for (final Widget f in found) {
+      if (widget.coloredButtons.value.contains(f)) {
+        for (final Widget f in found) {
+          if (f is CrossButton && !widget.coloredButtons.value.contains(f)) {
+            f.unSelect();
+          }
+        }
+        widget.selectedButtons.value.remove(widget);
+        widget.shakeKey.currentState?.shake();
+      } else if (f is CrossButton) {
+        f.selectRepeat();
+      } else {
+        for (final Widget f in found) {
+          if (f is CrossButton) {
+            f.unSelect();
+          }
+        }
+        widget.selectedButtons.value.remove(widget);
+        widget.shakeKey.currentState?.shake();
+      }
+    }
+  }
+
+  void _normalColoring() {
+    final List<String> colors = analyzeColor(widget.selectedColor.value);
+    if (colors.length != 1) {
+      widget.shakeKey.currentState?.shake();
+
+      return;
+    }
+    String code =
+        "go(${rows[widget.position.first]}${widget.position.second + 1})";
+
+    code += " paint(${colors.first})";
+    widget.interpreter.value
+        .validateOnScheme(code, SchemasReader().currentIndex);
+    widget.interpreter.notifyListeners();
+    setState(() {
+      buttonColor = CupertinoColors.lightBackgroundGray;
+    });
+    Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        buttonColor = CupertinoColors.systemGrey;
+      });
+    });
+  }
+
+  void select() {
     setState(() {
       selected = true;
       selectionRepeat = false;
+    });
+  }
+
+  void selectRepeat() {
+    setState(() {
+      selected = false;
+      selectionRepeat = true;
     });
   }
 

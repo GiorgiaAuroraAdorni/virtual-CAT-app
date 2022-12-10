@@ -9,6 +9,8 @@ class MirrorButtonVertical extends ActionButton {
     required super.onSelect,
     required super.onDismiss,
     super.displayColoring,
+    super.selectionColor,
+    super.background,
     super.key,
   });
 

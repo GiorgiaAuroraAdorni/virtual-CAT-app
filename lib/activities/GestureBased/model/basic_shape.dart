@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/model/dummy_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
@@ -16,6 +17,10 @@ abstract class BasicShape extends StatefulWidget {
     required this.selectedColor,
     required this.shakeKey,
     required this.width,
+    required this.selectionMode,
+    required this.coloredButtons,
+    required this.selectedButtons,
+    required this.resetSignal,
     super.key,
   });
 
@@ -25,11 +30,23 @@ abstract class BasicShape extends StatefulWidget {
   /// List of selected colors.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
+  /// It's a variable that is used to store the current selection mode.
+  final ValueNotifier<SelectionModes> selectionMode;
+
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
 
   /// It's a variable that is used to store the width of the widget.
   final double width;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> coloredButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> selectedButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<bool> resetSignal;
 
   /// Creating a state object.
   @override
@@ -39,9 +56,6 @@ abstract class BasicShape extends StatefulWidget {
 /// It's a class that is used to store the state of the buttons in the game
 abstract class BasicShapeState<T extends StatefulWidget>
     extends State<BasicShape> {
-  /// A variable that is used to set the size of the buttons.
-  late final double buttonDimension;
-
   /// A variable that is used to store the buttons in a 2D array.
   late final List<Row> buttons = <Row>[];
 
@@ -63,11 +77,15 @@ abstract class BasicShapeState<T extends StatefulWidget>
               globalKey: GlobalKey<CrossButtonState>(),
               position: Pair<int, int>(j, i),
               interpreter: widget.interpreter,
+              selectionMode: widget.selectionMode,
+              coloredButtons: widget.coloredButtons,
+              selectedButtons: widget.selectedButtons,
+              buttons: buttons,
             ),
           );
         } else {
           rowChildren.add(
-            DummyButton(),
+            const DummyButton(),
           );
         }
       }
@@ -81,14 +99,22 @@ abstract class BasicShapeState<T extends StatefulWidget>
 
   @override
   void initState() {
-    buttonDimension = widget.width / 15;
     generateShape();
+    widget.resetSignal.addListener(() {
+      for (Row i in buttons) {
+        for (Widget j in i.children) {
+          if (j is CrossButton) {
+            j.unSelect();
+          }
+        }
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double containerDimension = widget.width / 15;
+    final double containerDimension = widget.width / 14;
     final double sizeBoxDimension = widget.width / 50;
     final double widgetDimension =
         (6 * containerDimension) + (sizeBoxDimension * 5);
@@ -104,11 +130,11 @@ abstract class BasicShapeState<T extends StatefulWidget>
         child: GestureDetector(
           onPanStart: (DragStartDetails details) => _checkPosition(
             details.globalPosition,
-            MediaQuery.of(context).size.width / 15 / 2,
+            containerDimension / 2,
           ),
           onPanUpdate: (DragUpdateDetails details) => _checkPosition(
             details.globalPosition,
-            MediaQuery.of(context).size.width / 15 / 2,
+            containerDimension / 2,
           ),
           onPanEnd: _endPan,
           child: Flex(
@@ -140,10 +166,16 @@ abstract class BasicShapeState<T extends StatefulWidget>
 
     setState(() {
       if (coordinates != null) {
-        final CrossButton button = (buttons[coordinates.first]
-            .children[coordinates.second] as CrossButton)
-          ..select();
-        if (!_selectedButtons.contains(button)) {
+        final CrossButton button = buttons[coordinates.first]
+            .children[coordinates.second] as CrossButton;
+        if (widget.selectionMode.value != SelectionModes.select) {
+          button.select();
+        } else {
+          return;
+        }
+
+        if (!_selectedButtons.contains(button) &&
+            !widget.coloredButtons.value.contains(button)) {
           _selectedButtons.add(button);
         }
       }
@@ -153,11 +185,21 @@ abstract class BasicShapeState<T extends StatefulWidget>
   void _endPan(DragEndDetails details) {
     final List<String> colors = analyzeColor(widget.selectedColor.value);
     if (colors.isEmpty) {
-      for (final CrossButton i in _selectedButtons) {
-        i.unSelect();
+      if (widget.selectionMode.value == SelectionModes.base) {
+        for (final CrossButton i in _selectedButtons) {
+          i.unSelect();
+        }
+      } else if (widget.selectionMode.value == SelectionModes.repeat) {
+        for (final CrossButton i in _selectedButtons) {
+          if (!widget.coloredButtons.value.contains(i)) {
+            i.unSelect();
+          }
+        }
       }
       _selectedButtons.clear();
-      widget.shakeKey.currentState?.shake();
+      if (widget.selectionMode.value != SelectionModes.select) {
+        widget.shakeKey.currentState?.shake();
+      }
     }
     int j = 0;
     for (final CrossButton i in _selectedButtons) {
@@ -168,11 +210,16 @@ abstract class BasicShapeState<T extends StatefulWidget>
       widget.interpreter.value
           .validateOnScheme(code, SchemasReader().currentIndex);
     }
-    for (final CrossButton i in _selectedButtons) {
-      i.unSelect(success: true);
+    if (widget.selectionMode.value == SelectionModes.base) {
+      for (final CrossButton i in _selectedButtons) {
+        i.unSelect(success: true);
+      }
+      _selectedButtons.clear();
+    } else if (widget.selectionMode.value == SelectionModes.repeat) {
+      widget.coloredButtons.value.addAll(_selectedButtons);
+      _selectedButtons.clear();
     }
     widget.interpreter.notifyListeners();
-    _selectedButtons.clear();
     widget.selectedColor.value = <CupertinoDynamicColor>[];
   }
 }

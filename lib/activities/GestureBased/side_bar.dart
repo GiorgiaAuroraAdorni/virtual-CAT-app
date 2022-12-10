@@ -62,14 +62,18 @@ class _SideBarState extends State<SideBar> {
         borderRadius: BorderRadius.circular(45),
         minSize: 45,
         padding: EdgeInsets.zero,
+        color: widget.visible.value
+            ? CupertinoColors.systemFill
+            : CupertinoColors.activeOrange,
         child: widget.visible.value
             ? const Icon(
                 CupertinoIcons.eye_slash_fill,
-                size: 35,
+                color: CupertinoColors.inactiveGray,
+                size: 30,
               )
             : const Icon(
                 CupertinoIcons.eye_fill,
-                size: 35,
+                size: 30,
               ),
       ),
     ),

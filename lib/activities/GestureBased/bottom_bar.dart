@@ -32,11 +32,11 @@ class _BottomBarState extends State<BottomBar> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 10),
             child: CupertinoButton(
               onPressed: widget.erase,
               borderRadius: BorderRadius.circular(45),
-              minSize: 45,
+              minSize: 50,
               padding: EdgeInsets.zero,
               color: CupertinoColors.systemRed.highContrastColor,
               child: const Icon(
@@ -45,7 +45,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 10),
             child: CupertinoButton(
               onPressed: () async {
                 await widget.home.schemaCompleted().then((bool result) {
@@ -57,7 +57,7 @@ class _BottomBarState extends State<BottomBar> {
                 });
               },
               borderRadius: BorderRadius.circular(45),
-              minSize: 45,
+              minSize: 50,
               padding: EdgeInsets.zero,
               color: CupertinoColors.systemGreen.highContrastColor,
               child: const Icon(
