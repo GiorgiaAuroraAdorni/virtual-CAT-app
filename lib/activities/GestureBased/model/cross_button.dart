@@ -200,7 +200,7 @@ class CrossButtonState extends State<CrossButton> {
       }
     }
     for (final Widget f in found) {
-      if (widget.coloredButtons.value.contains(f)) {
+      if (widget.coloredButtons.value.contains(f) || f is! CrossButton) {
         for (final Widget f in found) {
           if (f is CrossButton && !widget.coloredButtons.value.contains(f)) {
             f.unSelect();
@@ -208,17 +208,10 @@ class CrossButtonState extends State<CrossButton> {
         }
         widget.selectedButtons.value.remove(widget);
         widget.shakeKey.currentState?.shake();
-      } else if (f is CrossButton) {
-        f.selectRepeat();
-      } else {
-        for (final Widget f in found) {
-          if (f is CrossButton) {
-            f.unSelect();
-          }
-        }
-        widget.selectedButtons.value.remove(widget);
-        widget.shakeKey.currentState?.shake();
+
+        return;
       }
+      f.selectRepeat();
     }
   }
 
