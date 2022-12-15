@@ -8,6 +8,7 @@ import "package:cross_array_task_app/widget/buttons/fill_empty.dart";
 import "package:cross_array_task_app/widget/buttons/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/buttons/mirror_button_vertical.dart";
 import "package:cross_array_task_app/widget/buttons/repeat_button.dart";
+import 'package:cross_array_task_app/widget/buttons/selection_action_button.dart';
 import "package:cross_array_task_app/widget/buttons/selection_button.dart";
 import 'package:dartx/dartx.dart';
 import "package:flutter/cupertino.dart";
@@ -108,7 +109,11 @@ class _SideMenuState extends State<SideMenu> {
     onSelect: () => <void>{
       setState(() {
         _repeatButtonKey.currentState?.deSelect();
-        widget.selectionMode.value = SelectionModes.select;
+        widget.selectionMode.value = SelectionModes.multiple;
+        _copyButtonKey.currentState?.deActivate();
+        _mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
+        _mirrorVerticalButtonKeySecondary.currentState?.deActivate();
+        _selectionActionButtonKey.currentState?.select();
       }),
     },
     onDismiss: () => <void>{
@@ -162,6 +167,21 @@ class _SideMenuState extends State<SideMenu> {
     },
     onDismiss: () => <void>{
       _colorActionButtonKey.currentState?.select(),
+    },
+  );
+
+  final GlobalKey<SelectionActionButtonState> _selectionActionButtonKey =
+      GlobalKey();
+  late final SelectionActionButton _selectionActionButton =
+      SelectionActionButton(
+    key: _selectionActionButtonKey,
+    selectionColor: CupertinoColors.systemIndigo,
+    background: null,
+    onSelect: () => <void>{
+      _selectionActionButtonKey.currentState?.deSelect(),
+    },
+    onDismiss: () => <void>{
+      _selectionActionButtonKey.currentState?.select(),
     },
   );
 
@@ -356,9 +376,12 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.selectionMode.value == SelectionModes.select,
+                  visible:
+                      widget.selectionMode.value == SelectionModes.multiple,
+                  maintainState: true,
                   child: Column(
                     children: <Widget>[
+                      _selectionActionButton,
                       const Divider(
                         height: 20,
                       ),
@@ -371,7 +394,20 @@ class _SideMenuState extends State<SideMenu> {
                       Padding(
                         padding: EdgeInsets.all(_paddingSize),
                         child: CupertinoButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (widget.coloredButtons.value.isNotEmpty) {
+                              _copyButtonKey.currentState?.activate();
+                              _mirrorHorizontalButtonKeySecondary.currentState
+                                  ?.activate();
+                              _mirrorVerticalButtonKeySecondary.currentState
+                                  ?.activate();
+                              _selectionActionButtonKey.currentState
+                                  ?.deSelect();
+
+                              return;
+                            }
+                            widget.shakeKey.currentState?.shake();
+                          },
                           minSize: 50,
                           padding: EdgeInsets.zero,
                           borderRadius: BorderRadius.circular(100),
@@ -411,30 +447,34 @@ class _SideMenuState extends State<SideMenu> {
       widget.selectionMode.value = SelectionModes.select;
     } else if (widget.selectedButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.select) {
-      final List<Pair<int, int>> origins = <Pair<int, int>>[];
-      final List<Pair<int, int>> destinations = <Pair<int, int>>[];
-      for (CrossButton b in widget.coloredButtons.value) {
-        origins.add(b.position);
-      }
-      for (CrossButton b in widget.selectedButtons.value) {
-        destinations.add(b.position);
-      }
-      final List<String> originsPosition = <String>[];
-      final List<String> destinationPosition = <String>[];
-      for (final Pair<int, int> i in origins) {
-        originsPosition.add("${rows[i.first]}${i.second + 1}");
-      }
-      for (final Pair<int, int> i in destinations) {
-        destinationPosition.add("${rows[i.first]}${i.second + 1}");
-      }
-      String code = "COPY({${originsPosition.joinToString(separator: ",")}},"
-          "{${destinationPosition.joinToString(separator: ",")}})";
-      widget.interpreter.value
-          .validateOnScheme(code, SchemasReader().currentIndex);
-      widget.interpreter.notifyListeners();
-      _repeatButtonKey.currentState?.whenSelected();
+      _copyCells();
     } else {
       widget.shakeKey.currentState?.shake();
     }
+  }
+
+  void _copyCells() {
+    final List<Pair<int, int>> origins = <Pair<int, int>>[];
+    final List<Pair<int, int>> destinations = <Pair<int, int>>[];
+    for (CrossButton b in widget.coloredButtons.value) {
+      origins.add(b.position);
+    }
+    for (CrossButton b in widget.selectedButtons.value) {
+      destinations.add(b.position);
+    }
+    final List<String> originsPosition = <String>[];
+    final List<String> destinationPosition = <String>[];
+    for (final Pair<int, int> i in origins) {
+      originsPosition.add("${rows[i.first]}${i.second + 1}");
+    }
+    for (final Pair<int, int> i in destinations) {
+      destinationPosition.add("${rows[i.first]}${i.second + 1}");
+    }
+    String code = "COPY({${originsPosition.joinToString(separator: ",")}},"
+        "{${destinationPosition.joinToString(separator: ",")}})";
+    widget.interpreter.value
+        .validateOnScheme(code, SchemasReader().currentIndex);
+    widget.interpreter.notifyListeners();
+    _repeatButtonKey.currentState?.whenSelected();
   }
 }

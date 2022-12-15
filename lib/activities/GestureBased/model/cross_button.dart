@@ -142,6 +142,20 @@ class CrossButtonState extends State<CrossButton> {
             _selection();
 
             return;
+          } else if (widget.selectionMode.value == SelectionModes.multiple) {
+            if (widget.selectedColor.value.isEmpty) {
+              _selectionMultiple();
+            } else {
+              widget.shakeKey.currentState?.shake();
+            }
+
+            return;
+          } else if (widget.selectionMode.value == SelectionModes.repeat) {
+            _normalColoring(
+              selected: widget.selectionMode.value == SelectionModes.repeat,
+            );
+
+            return;
           }
           _normalColoring();
         },
@@ -215,7 +229,7 @@ class CrossButtonState extends State<CrossButton> {
     }
   }
 
-  void _normalColoring() {
+  void _normalColoring({bool selected = false}) {
     final List<String> colors = analyzeColor(widget.selectedColor.value);
     if (colors.length != 1) {
       widget.shakeKey.currentState?.shake();
@@ -229,6 +243,12 @@ class CrossButtonState extends State<CrossButton> {
     widget.interpreter.value
         .validateOnScheme(code, SchemasReader().currentIndex);
     widget.interpreter.notifyListeners();
+    if (selected) {
+      select();
+      widget.coloredButtons.value.add(widget);
+
+      return;
+    }
     setState(() {
       buttonColor = CupertinoColors.lightBackgroundGray;
     });
@@ -237,6 +257,17 @@ class CrossButtonState extends State<CrossButton> {
         buttonColor = CupertinoColors.systemGrey;
       });
     });
+  }
+
+  void _selectionMultiple() {
+    if (selected) {
+      unSelect();
+      widget.coloredButtons.value.remove(widget);
+
+      return;
+    }
+    select();
+    widget.coloredButtons.value.add(widget);
   }
 
   void select() {
