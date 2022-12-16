@@ -190,12 +190,9 @@ class _SideMenuState extends State<SideMenu> {
     key: _copyButtonKey,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      setState(
-        () {
-          _mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
-          _mirrorVerticalButtonKeySecondary.currentState?.deSelect();
-        },
-      ),
+      _mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
+      _mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
+      widget.selectionMode.value = SelectionModes.select,
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -209,12 +206,8 @@ class _SideMenuState extends State<SideMenu> {
     key: _mirrorHorizontalButtonKeySecondary,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      setState(
-        () {
-          _copyButtonKey.currentState?.deSelect();
-          _mirrorVerticalButtonKeySecondary.currentState?.deSelect();
-        },
-      ),
+      _copyButtonKey.currentState?.deSelect(),
+      _mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -228,12 +221,8 @@ class _SideMenuState extends State<SideMenu> {
     key: _mirrorVerticalButtonKeySecondary,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      setState(
-        () {
-          _copyButtonKey.currentState?.deSelect();
-          _mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
-        },
-      ),
+      _copyButtonKey.currentState?.deSelect(),
+      _mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
     },
     onDismiss: () => <void>{
       setState(() {}),
@@ -395,7 +384,9 @@ class _SideMenuState extends State<SideMenu> {
                         padding: EdgeInsets.all(_paddingSize),
                         child: CupertinoButton(
                           onPressed: () {
-                            if (widget.coloredButtons.value.isNotEmpty) {
+                            if (widget.coloredButtons.value.isNotEmpty &&
+                                widget.selectionMode.value ==
+                                    SelectionModes.multiple) {
                               _copyButtonKey.currentState?.activate();
                               _mirrorHorizontalButtonKeySecondary.currentState
                                   ?.activate();
@@ -403,6 +394,16 @@ class _SideMenuState extends State<SideMenu> {
                                   ?.activate();
                               _selectionActionButtonKey.currentState
                                   ?.deSelect();
+                              widget.selectionMode.value =
+                                  SelectionModes.transition;
+
+                              return;
+                            }
+                            if (widget.selectedButtons.value.isNotEmpty &&
+                                widget.selectionMode.value ==
+                                    SelectionModes.select) {
+                              _copyCells();
+                              _selectionButtonKey.currentState?.whenSelected();
 
                               return;
                             }
@@ -448,6 +449,7 @@ class _SideMenuState extends State<SideMenu> {
     } else if (widget.selectedButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.select) {
       _copyCells();
+      _repeatButtonKey.currentState?.whenSelected();
     } else {
       widget.shakeKey.currentState?.shake();
     }
@@ -475,6 +477,5 @@ class _SideMenuState extends State<SideMenu> {
     widget.interpreter.value
         .validateOnScheme(code, SchemasReader().currentIndex);
     widget.interpreter.notifyListeners();
-    _repeatButtonKey.currentState?.whenSelected();
   }
 }

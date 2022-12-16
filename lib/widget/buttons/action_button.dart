@@ -128,6 +128,7 @@ abstract class ActionButtonState<T extends StatefulWidget>
 
   /// Deactivate from external widget
   void deActivate() => setState(() {
+        _selected = false;
         _active = false;
       });
 }

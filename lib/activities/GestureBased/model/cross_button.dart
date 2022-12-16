@@ -138,6 +138,11 @@ class CrossButtonState extends State<CrossButton> {
       child: CupertinoButton(
         pressedOpacity: 1,
         onPressed: () {
+          if (widget.selectionMode.value == SelectionModes.transition) {
+            widget.shakeKey.currentState?.shake();
+
+            return;
+          }
           if (widget.selectionMode.value == SelectionModes.select) {
             _selection();
 
@@ -150,7 +155,8 @@ class CrossButtonState extends State<CrossButton> {
             }
 
             return;
-          } else if (widget.selectionMode.value == SelectionModes.repeat) {
+          }
+          if (widget.selectionMode.value == SelectionModes.repeat) {
             _normalColoring(
               selected: widget.selectionMode.value == SelectionModes.repeat,
             );

@@ -147,6 +147,12 @@ abstract class BasicShapeState<T extends StatefulWidget>
   }
 
   void _checkPosition(Offset globalPosition, double maxDistance) {
+    if (widget.selectionMode.value != SelectionModes.repeat &&
+        widget.selectionMode.value != SelectionModes.base) {
+      widget.shakeKey.currentState?.shake();
+
+      return;
+    }
     double minDistance = double.infinity;
     Pair<int, int>? coordinates;
     for (int i = 0; i < 6; i++) {
@@ -183,6 +189,10 @@ abstract class BasicShapeState<T extends StatefulWidget>
   }
 
   void _endPan(DragEndDetails details) {
+    if (widget.selectionMode.value != SelectionModes.repeat &&
+        widget.selectionMode.value != SelectionModes.base) {
+      return;
+    }
     final List<String> colors = analyzeColor(widget.selectedColor.value);
     if (colors.isEmpty) {
       if (widget.selectionMode.value == SelectionModes.base) {

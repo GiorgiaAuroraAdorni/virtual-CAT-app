@@ -1,10 +1,9 @@
 import "package:cross_array_task_app/activities/GestureBased/model/cross.dart";
-import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
+import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart" as cat;
-
-import 'model/cross_button.dart';
 
 /// It's a widget that displays a grid of buttons that can be tapped to change
 /// the color of the selected color
