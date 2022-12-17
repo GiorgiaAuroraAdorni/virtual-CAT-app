@@ -26,6 +26,12 @@ class GestureHome extends StatefulWidget {
 /// It's a StatefulWidget that contains a TopBar, a SideMenu, a GestureBoard, a
 /// SideBar and a BottomBar
 class GestureHomeState extends State<GestureHome> {
+  @override
+  void initState() {
+    CatInterpreter().reset();
+    super.initState();
+  }
+
   /// Creating a ValueNotifier that will be used to update the reference cross.
   final ValueNotifier<Cross> reference = ValueNotifier<Cross>(
     SchemasReader().current,

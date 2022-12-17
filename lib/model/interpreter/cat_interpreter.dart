@@ -40,6 +40,10 @@ class CatInterpreter {
     notifier.notifyListeners();
   }
 
+  void reset() {
+    resetInterpreter();
+  }
+
   void paint(int a, int b, String color) {
     String code = "go(${rows[a]}${b + 1})";
     code += " paint($color)";
