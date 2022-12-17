@@ -1,10 +1,11 @@
 import "package:cross_array_task_app/activities/GestureBased/bottom_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_board.dart";
-import 'package:cross_array_task_app/activities/GestureBased/model/cross_button.dart';
-import 'package:cross_array_task_app/activities/GestureBased/selection_mode.dart';
+import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
@@ -33,15 +34,6 @@ class GestureHomeState extends State<GestureHome> {
   /// Creating a ValueNotifier that will be used to update the result cross.
   final ValueNotifier<Cross> _result = ValueNotifier<Cross>(
     Cross(),
-  );
-
-  /// Creating a ValueNotifier that will be used to update the result cross.
-  final ValueNotifier<CATInterpreter> _interpreter =
-      ValueNotifier<CATInterpreter>(
-    CATInterpreter.fromSchemes(
-      SchemasReader().schemes,
-      Shape.cross,
-    ),
   );
 
   final ValueNotifier<List<CupertinoDynamicColor>> _selectedColor =
@@ -75,7 +67,6 @@ class GestureHomeState extends State<GestureHome> {
   Widget build(BuildContext context) => Column(
         children: <Widget>[
           TopBar(
-            interpreter: _interpreter,
             visible: _visible,
             time: _time,
           ),
@@ -84,7 +75,6 @@ class GestureHomeState extends State<GestureHome> {
             children: <Widget>[
               SideMenu(
                 selectedColor: _selectedColor,
-                interpreter: _interpreter,
                 shakeKey: _shakeKey,
                 selectionMode: _selectionMode,
                 coloredButtons: _coloredButtons,
@@ -93,7 +83,6 @@ class GestureHomeState extends State<GestureHome> {
               ),
               GestureBoard(
                 selectedColor: _selectedColor,
-                interpreter: _interpreter,
                 shakeKey: _shakeKey,
                 selectionMode: _selectionMode,
                 coloredButtons: _coloredButtons,
@@ -101,7 +90,6 @@ class GestureHomeState extends State<GestureHome> {
                 resetSignal: _resetCross,
               ),
               SideBar(
-                interpreter: _interpreter,
                 reference: reference,
                 result: _result,
                 visible: _visible,
@@ -110,7 +98,6 @@ class GestureHomeState extends State<GestureHome> {
           ),
           BottomBar(
             home: this,
-            interpreter: _interpreter,
             erase: _reset,
           ),
         ],
@@ -123,10 +110,10 @@ class GestureHomeState extends State<GestureHome> {
   /// Returns:
   ///   A Future<bool>
   Future<bool> schemaCompleted() async {
-    final Results results = _interpreter.value.getResults;
+    final Results results = CatInterpreter().getResults;
     _totalScore += catScore(
       commands: List<String>.from(
-        _interpreter.value.getResults.getCommands,
+        results.getCommands,
       ),
       visible: _visible.value,
     );
@@ -185,8 +172,7 @@ class GestureHomeState extends State<GestureHome> {
     _visible
       ..value = false
       ..notifyListeners();
-    _interpreter.value.reset();
-    _interpreter.notifyListeners();
+    CatInterpreter().resetInterpreter();
     _result
       ..value = Cross()
       ..notifyListeners();

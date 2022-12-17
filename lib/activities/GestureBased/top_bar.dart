@@ -1,23 +1,19 @@
 import "dart:async";
 import "dart:ui";
 
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart";
 
 /// `TopBar` is a stateful widget that has a `createState` method that returns a
 /// `_TopBarState` object
 class TopBar extends StatefulWidget {
   /// A named constructor.
   const TopBar({
-    required this.interpreter,
     required this.visible,
     required this.time,
     super.key,
   });
-
-  /// A variable that is used to store the interpreter object.
-  final ValueNotifier<CATInterpreter> interpreter;
 
   /// A reference to the visibility of the cross.
   final ValueNotifier<bool> visible;
@@ -55,7 +51,7 @@ class _TopBarState extends State<TopBar> {
             Text(
               "Punteggio: ${catScore(
                     commands: List<String>.from(
-                      widget.interpreter.value.getResults.getCommands,
+                      CatInterpreter().getResults.getCommands,
                     ),
                     visible: widget.visible.value,
                   ) * 100}",

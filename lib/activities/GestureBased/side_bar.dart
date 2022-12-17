@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/cross.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
@@ -7,7 +8,6 @@ class SideBar extends StatefulWidget {
   const SideBar({
     required this.reference,
     required this.result,
-    required this.interpreter,
     required this.visible,
     super.key,
   });
@@ -21,9 +21,6 @@ class SideBar extends StatefulWidget {
   /// A reference to the visibility of the cross.
   final ValueNotifier<bool> visible;
 
-  /// A reference to the interpreter that is used to interpret the cross.
-  final ValueNotifier<CATInterpreter> interpreter;
-
   @override
   State<StatefulWidget> createState() => _SideBarState();
 }
@@ -33,11 +30,10 @@ class _SideBarState extends State<SideBar> {
 
   void _interpreterListener() {
     if (widget.visible.value) {
-      widget.result.value =
-          widget.interpreter.value.getResults.getStates.last as Cross;
-      widget.interpreter.addListener(_interpreterListener);
+      widget.result.value = CatInterpreter().getLastState as Cross;
+      CatInterpreter().notifier.addListener(_interpreterListener);
     } else {
-      widget.interpreter.removeListener(_interpreterListener);
+      CatInterpreter().notifier.removeListener(_interpreterListener);
     }
   }
 

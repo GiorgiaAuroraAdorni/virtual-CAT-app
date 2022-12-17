@@ -66,11 +66,11 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
         builder: (BuildContext context, Widget? child) {
           for (int y = 0; y < buttons.length; y++) {
             if (<int>[0, 1, 4, 5].contains(y)) {
-              buttons[y][2] = _buttonBuilder(2, y);
-              buttons[y][3] = _buttonBuilder(3, y);
+              buttons[y][2] = _buttonBuilder(y, 2);
+              buttons[y][3] = _buttonBuilder(y, 3);
             } else {
               for (int x = 0; x < buttons[y].length; x++) {
-                buttons[y][x] = _buttonBuilder(x, y);
+                buttons[y][x] = _buttonBuilder(y, x);
               }
             }
           }

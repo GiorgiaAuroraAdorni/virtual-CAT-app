@@ -5,8 +5,8 @@ import "package:flutter/cupertino.dart";
 abstract class ActionButton extends StatefulWidget {
   /// It's a constructor.
   const ActionButton({
-    required this.onSelect,
-    required this.onDismiss,
+    this.onSelect,
+    this.onDismiss,
     this.displayColoring = true,
     this.selectionColor = CupertinoColors.activeOrange,
     this.background = CupertinoColors.systemFill,
@@ -14,10 +14,10 @@ abstract class ActionButton extends StatefulWidget {
   });
 
   /// It's a function that takes no arguments and returns nothing.
-  final Function() onSelect;
+  final Function()? onSelect;
 
   /// It's a function that takes no arguments and returns nothing.
-  final Function() onDismiss;
+  final Function()? onDismiss;
 
   /// It's a variable that is used to determine whether or not to display the
   /// coloring of the button.
@@ -37,8 +37,7 @@ abstract class ActionButton extends StatefulWidget {
 
 /// It's a button that can be selected or deselected, and it can be activated or
 /// deactivated
-abstract class ActionButtonState<T extends StatefulWidget>
-    extends State<ActionButton> {
+abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   final double _paddingSize = 5;
   bool _selected = false;
   bool _active = true;
@@ -93,7 +92,7 @@ abstract class ActionButtonState<T extends StatefulWidget>
     setState(() {
       _selected = false;
     });
-    widget.onDismiss.call();
+    widget.onDismiss?.call();
   }
 
   /// When the widget is not selected, call the onSelect function and set the state
@@ -104,7 +103,7 @@ abstract class ActionButtonState<T extends StatefulWidget>
         _selected = true;
       });
     }
-    widget.onSelect.call();
+    widget.onSelect?.call();
   }
 
   /// Deselect from external widget

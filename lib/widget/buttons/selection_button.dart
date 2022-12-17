@@ -1,3 +1,5 @@
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
@@ -5,13 +7,38 @@ import "package:flutter/cupertino.dart";
 class SelectionButton extends ActionButton {
   /// A constructor.
   const SelectionButton({
-    required super.onSelect,
-    required super.onDismiss,
+    required this.state,
+    super.onSelect,
+    super.onDismiss,
     super.displayColoring,
     super.selectionColor,
     super.background,
     super.key,
   });
+
+  /// A reference to the state of the side menu.
+  final SideMenuState state;
+
+  @override
+  Function()? get onSelect => () {
+        state.setState(() {
+          state.repeatButtonKey.currentState?.deSelect();
+          state.widget.selectionMode.value = SelectionModes.multiple;
+          state.copyButtonKey.currentState?.deActivate();
+          state.mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
+          state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
+          state.selectionActionButtonKey.currentState?.select();
+        });
+      };
+
+  @override
+  Function()? get onDismiss => () {
+        state.setState(() {
+          state.widget.selectionMode.value = SelectionModes.base;
+          state.widget.selectedButtons.value.clear();
+          state.widget.resetShape.notifyListeners();
+        });
+      };
 
   @override
   SelectionButtonState createState() => SelectionButtonState();

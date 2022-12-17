@@ -1,5 +1,7 @@
 import "dart:math" as math;
 
+import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
@@ -8,13 +10,26 @@ import "package:flutter/cupertino.dart";
 class MirrorButtonHorizontal extends ActionButton {
   /// A constructor that takes in a key, onSelect, and onDismiss.
   const MirrorButtonHorizontal({
-    required super.onSelect,
-    required super.onDismiss,
-    super.displayColoring,
+    required this.state,
+    super.onSelect,
+    super.onDismiss,
+    super.displayColoring = false,
     super.selectionColor,
     super.background,
     super.key,
   });
+
+  /// A reference to the state of the side menu.
+  final SideMenuState state;
+
+  @override
+  Function()? get onSelect => () {
+        if (CatInterpreter().executedCommands > 1) {
+          CatInterpreter().mirror("horizontal");
+        } else {
+          state.widget.shakeKey.currentState?.shake();
+        }
+      };
 
   @override
   MirrorButtonHorizontalState createState() => MirrorButtonHorizontalState();

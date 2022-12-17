@@ -1,19 +1,17 @@
 import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/model/dummy_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart";
 
 /// `BasicShape` is an abstract class that extends `StatefulWidget` and has a
 /// `createState` method that returns a `BasicShapeState` object
 abstract class BasicShape extends StatefulWidget {
   /// A constructor that takes a `key` as a parameter.
   const BasicShape({
-    required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
     required this.width,
@@ -23,9 +21,6 @@ abstract class BasicShape extends StatefulWidget {
     required this.resetSignal,
     super.key,
   });
-
-  /// A variable that is used to store the interpreter object.
-  final ValueNotifier<CATInterpreter> interpreter;
 
   /// List of selected colors.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
@@ -54,8 +49,7 @@ abstract class BasicShape extends StatefulWidget {
 }
 
 /// It's a class that is used to store the state of the buttons in the game
-abstract class BasicShapeState<T extends StatefulWidget>
-    extends State<BasicShape> {
+abstract class BasicShapeState<T extends BasicShape> extends State<T> {
   /// A variable that is used to store the buttons in a 2D array.
   late final List<Row> buttons = <Row>[];
 
@@ -75,8 +69,7 @@ abstract class BasicShapeState<T extends StatefulWidget>
               shakeKey: widget.shakeKey,
               selectedColor: widget.selectedColor,
               globalKey: GlobalKey<CrossButtonState>(),
-              position: Pair<int, int>(j, i),
-              interpreter: widget.interpreter,
+              position: Pair<int, int>(i, j),
               selectionMode: widget.selectionMode,
               coloredButtons: widget.coloredButtons,
               selectedButtons: widget.selectedButtons,
@@ -212,14 +205,14 @@ abstract class BasicShapeState<T extends StatefulWidget>
       }
     }
     int j = 0;
+    final List<Pair<int, int>> positions = <Pair<int, int>>[];
+    final List<String> allColors = <String>[];
     for (final CrossButton i in _selectedButtons) {
       j = (j + 1) % colors.length;
-      final Pair<int, int> position = i.position;
-      String code = "go(${rows[position.first]}${position.second + 1})";
-      code += " paint(${colors[j]})";
-      widget.interpreter.value
-          .validateOnScheme(code, SchemasReader().currentIndex);
+      positions.add(i.position);
+      allColors.add(colors[j]);
     }
+    CatInterpreter().paintMultiple(positions, allColors);
     if (widget.selectionMode.value == SelectionModes.base) {
       for (final CrossButton i in _selectedButtons) {
         i.unSelect(success: true);
@@ -229,7 +222,6 @@ abstract class BasicShapeState<T extends StatefulWidget>
       widget.coloredButtons.value.addAll(_selectedButtons);
       _selectedButtons.clear();
     }
-    widget.interpreter.notifyListeners();
     widget.selectedColor.value = <CupertinoDynamicColor>[];
   }
 }

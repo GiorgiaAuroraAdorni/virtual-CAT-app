@@ -3,14 +3,12 @@ import "package:cross_array_task_app/activities/GestureBased/model/cross_button.
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart" as cat;
 
 /// It's a widget that displays a grid of buttons that can be tapped to change
 /// the color of the selected color
 class GestureBoard extends StatefulWidget {
   /// It's a constructor.
   const GestureBoard({
-    required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
     required this.selectionMode,
@@ -19,10 +17,6 @@ class GestureBoard extends StatefulWidget {
     required this.resetSignal,
     super.key,
   });
-
-  /// It's a value notifier that is used to notify the interpreter that
-  /// the user has changed the color of a cell.
-  final ValueNotifier<cat.CATInterpreter> interpreter;
 
   /// It's a value notifier that is used to notify that
   /// the user has selected some colors for coloring.
@@ -52,7 +46,6 @@ class _GestureBoardState extends State<GestureBoard> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(20),
         child: Cross(
-          interpreter: widget.interpreter,
           selectedColor: widget.selectedColor,
           shakeKey: widget.shakeKey,
           width: MediaQuery.of(context).size.width,

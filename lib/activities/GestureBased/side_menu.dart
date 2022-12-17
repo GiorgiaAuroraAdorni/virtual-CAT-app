@@ -1,21 +1,18 @@
+import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/widget/buttons/color_action_button.dart";
 import "package:cross_array_task_app/widget/buttons/copy_button.dart";
 import "package:cross_array_task_app/widget/buttons/fill_empty.dart";
 import "package:cross_array_task_app/widget/buttons/mirror_button_horizontal.dart";
 import "package:cross_array_task_app/widget/buttons/mirror_button_vertical.dart";
 import "package:cross_array_task_app/widget/buttons/repeat_button.dart";
-import 'package:cross_array_task_app/widget/buttons/selection_action_button.dart';
+import "package:cross_array_task_app/widget/buttons/selection_action_button.dart";
 import "package:cross_array_task_app/widget/buttons/selection_button.dart";
-import 'package:dartx/dartx.dart';
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:interpreter/cat_interpreter.dart" as cat;
-
-import "model/cross_button.dart";
 
 /// `SideMenu` is a stateful widget that creates a state object of type
 /// `_SideMenuState`
@@ -23,7 +20,6 @@ class SideMenu extends StatefulWidget {
   /// A constructor.
   const SideMenu({
     required this.selectedColor,
-    required this.interpreter,
     required this.shakeKey,
     required this.selectionMode,
     required this.coloredButtons,
@@ -35,10 +31,6 @@ class SideMenu extends StatefulWidget {
   /// A value notifier that is used to notify the interpreter that the user has
   /// selected a color.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
-
-  /// A value notifier that is used to notify the interpreter that the user has
-  /// selected a color.
-  final ValueNotifier<cat.CATInterpreter> interpreter;
 
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
@@ -56,93 +48,17 @@ class SideMenu extends StatefulWidget {
   final ValueNotifier<bool> resetShape;
 
   @override
-  State<StatefulWidget> createState() => _SideMenuState();
+  State<StatefulWidget> createState() => SideMenuState();
 }
 
-class _SideMenuState extends State<SideMenu> {
+class SideMenuState extends State<SideMenu> {
   final double _paddingSize = 5;
-  final GlobalKey<MirrorButtonHorizontalState>
-      _mirrorHorizontalButtonKeyPrimary = GlobalKey();
-  late final MirrorButtonHorizontal _mirrorButtonHorizontalPrimary =
-      MirrorButtonHorizontal(
-    key: _mirrorHorizontalButtonKeyPrimary,
-    displayColoring: false,
-    onSelect: () {
-      if (widget.interpreter.value.getResults.getCommands.length > 1) {
-        String code = "mirror(horizontal)";
-        widget.interpreter.value
-            .validateOnScheme(code, SchemasReader().currentIndex);
-        widget.interpreter.notifyListeners();
-      } else {
-        widget.shakeKey.currentState?.shake();
-      }
-    },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
-  );
 
-  final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKeyPrimary =
-      GlobalKey();
-  late final MirrorButtonVertical _mirrorButtonVerticalPrimary =
-      MirrorButtonVertical(
-    key: _mirrorVerticalButtonKeyPrimary,
-    displayColoring: false,
-    onSelect: () {
-      if (widget.interpreter.value.getResults.getCommands.length > 1) {
-        String code = "mirror(vertical)";
-        widget.interpreter.value
-            .validateOnScheme(code, SchemasReader().currentIndex);
-        widget.interpreter.notifyListeners();
-      } else {
-        widget.shakeKey.currentState?.shake();
-      }
-    },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
-  );
+  /// Creating a GlobalKey for the SelectionButton widget.
+  final GlobalKey<SelectionButtonState> selectionButtonKey = GlobalKey();
 
-  final GlobalKey<SelectionButtonState> _selectionButtonKey = GlobalKey();
-  late final SelectionButton _selectionButton = SelectionButton(
-    key: _selectionButtonKey,
-    onSelect: () => <void>{
-      setState(() {
-        _repeatButtonKey.currentState?.deSelect();
-        widget.selectionMode.value = SelectionModes.multiple;
-        _copyButtonKey.currentState?.deActivate();
-        _mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
-        _mirrorVerticalButtonKeySecondary.currentState?.deActivate();
-        _selectionActionButtonKey.currentState?.select();
-      }),
-    },
-    onDismiss: () => <void>{
-      setState(() {
-        widget.selectionMode.value = SelectionModes.base;
-        widget.selectedButtons.value.clear();
-        widget.resetShape.notifyListeners();
-      }),
-    },
-  );
-
-  final GlobalKey<RepeatButtonState> _repeatButtonKey = GlobalKey();
-  late final RepeatButton _repeatButton = RepeatButton(
-    key: _repeatButtonKey,
-    onSelect: () => <void>{
-      setState(() {
-        _selectionButtonKey.currentState?.deSelect();
-        widget.selectionMode.value = SelectionModes.repeat;
-      }),
-    },
-    onDismiss: () => <void>{
-      setState(() {
-        widget.selectionMode.value = SelectionModes.base;
-        widget.selectedButtons.value.clear();
-        widget.coloredButtons.value.clear();
-        widget.resetShape.notifyListeners();
-      }),
-    },
-  );
+  /// Creating a GlobalKey for the RepeatButton widget.
+  final GlobalKey<RepeatButtonState> repeatButtonKey = GlobalKey();
 
   final GlobalKey<CopyButtonState> _copyButtonSecondaryKey = GlobalKey();
   late final CopyButton _copyButtonSecondary = CopyButton(
@@ -170,28 +86,29 @@ class _SideMenuState extends State<SideMenu> {
     },
   );
 
-  final GlobalKey<SelectionActionButtonState> _selectionActionButtonKey =
+  /// Creating a global key for the selection action button.
+  final GlobalKey<SelectionActionButtonState> selectionActionButtonKey =
       GlobalKey();
   late final SelectionActionButton _selectionActionButton =
       SelectionActionButton(
-    key: _selectionActionButtonKey,
+    key: selectionActionButtonKey,
     selectionColor: CupertinoColors.systemIndigo,
     background: null,
     onSelect: () => <void>{
-      _selectionActionButtonKey.currentState?.deSelect(),
+      selectionActionButtonKey.currentState?.deSelect(),
     },
     onDismiss: () => <void>{
-      _selectionActionButtonKey.currentState?.select(),
+      selectionActionButtonKey.currentState?.select(),
     },
   );
 
-  final GlobalKey<CopyButtonState> _copyButtonKey = GlobalKey();
+  final GlobalKey<CopyButtonState> copyButtonKey = GlobalKey();
   late final CopyButton _copyButton = CopyButton(
-    key: _copyButtonKey,
+    key: copyButtonKey,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      _mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
-      _mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
+      mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
+      mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
       widget.selectionMode.value = SelectionModes.select,
     },
     onDismiss: () => <void>{
@@ -199,54 +116,38 @@ class _SideMenuState extends State<SideMenu> {
     },
   );
 
+  /// Creating a GlobalKey for the MirrorButtonHorizontal widget.
   final GlobalKey<MirrorButtonHorizontalState>
-      _mirrorHorizontalButtonKeySecondary = GlobalKey();
+      mirrorHorizontalButtonKeySecondary = GlobalKey();
   late final MirrorButtonHorizontal _mirrorButtonHorizontalSecondary =
       MirrorButtonHorizontal(
-    key: _mirrorHorizontalButtonKeySecondary,
+    state: this,
+    key: mirrorHorizontalButtonKeySecondary,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      _copyButtonKey.currentState?.deSelect(),
-      _mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
+      copyButtonKey.currentState?.deSelect(),
+      mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
     },
     onDismiss: () => <void>{
       setState(() {}),
     },
   );
 
-  final GlobalKey<MirrorButtonVerticalState> _mirrorVerticalButtonKeySecondary =
+  /// Creating a GlobalKey for the MirrorButtonVertical widget.
+  final GlobalKey<MirrorButtonVerticalState> mirrorVerticalButtonKeySecondary =
       GlobalKey();
   late final MirrorButtonVertical _mirrorButtonVerticalSecondary =
       MirrorButtonVertical(
-    key: _mirrorVerticalButtonKeySecondary,
+    state: this,
+    key: mirrorVerticalButtonKeySecondary,
     selectionColor: CupertinoColors.systemIndigo,
     onSelect: () => <void>{
-      _copyButtonKey.currentState?.deSelect(),
-      _mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
+      copyButtonKey.currentState?.deSelect(),
+      mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
     },
     onDismiss: () => <void>{
       setState(() {}),
     },
-  );
-
-  final GlobalKey<FillEmptyState> _fillEmptyButtonKey = GlobalKey();
-  late final FillEmpty _fillEmptyButton = FillEmpty(
-    key: _fillEmptyButtonKey,
-    displayColoring: false,
-    onSelect: () {
-      final List<String> colors = analyzeColor(widget.selectedColor.value);
-      if (colors.length != 1) {
-        widget.shakeKey.currentState?.shake();
-
-        return;
-      }
-      String code = "fill_empty(${colors.first})";
-      widget.interpreter.value
-          .validateOnScheme(code, SchemasReader().currentIndex);
-      widget.interpreter.notifyListeners();
-      widget.selectedColor.value = <CupertinoDynamicColor>[];
-    },
-    onDismiss: () {},
   );
 
   List<Widget> _colorButtonsBuild() {
@@ -310,11 +211,23 @@ class _SideMenuState extends State<SideMenu> {
             Column(
               children: <Widget>[
                 ..._colorButtonsBuild(),
-                _fillEmptyButton,
-                _mirrorButtonHorizontalPrimary,
-                _mirrorButtonVerticalPrimary,
-                _repeatButton,
-                _selectionButton,
+                FillEmpty(
+                  state: this,
+                ),
+                MirrorButtonHorizontal(
+                  state: this,
+                ),
+                MirrorButtonVertical(
+                  state: this,
+                ),
+                RepeatButton(
+                  state: this,
+                  key: repeatButtonKey,
+                ),
+                SelectionButton(
+                  state: this,
+                  key: selectionButtonKey,
+                ),
               ],
             ),
             Column(
@@ -352,7 +265,7 @@ class _SideMenuState extends State<SideMenu> {
                         padding: EdgeInsets.all(_paddingSize),
                         child: CupertinoButton(
                           onPressed: () {
-                            _repeatButtonKey.currentState?.whenSelected();
+                            repeatButtonKey.currentState?.whenSelected();
                           },
                           minSize: 50,
                           padding: EdgeInsets.zero,
@@ -387,13 +300,12 @@ class _SideMenuState extends State<SideMenu> {
                             if (widget.coloredButtons.value.isNotEmpty &&
                                 widget.selectionMode.value ==
                                     SelectionModes.multiple) {
-                              _copyButtonKey.currentState?.activate();
-                              _mirrorHorizontalButtonKeySecondary.currentState
+                              copyButtonKey.currentState?.activate();
+                              mirrorHorizontalButtonKeySecondary.currentState
                                   ?.activate();
-                              _mirrorVerticalButtonKeySecondary.currentState
+                              mirrorVerticalButtonKeySecondary.currentState
                                   ?.activate();
-                              _selectionActionButtonKey.currentState
-                                  ?.deSelect();
+                              selectionActionButtonKey.currentState?.deSelect();
                               widget.selectionMode.value =
                                   SelectionModes.transition;
 
@@ -403,7 +315,7 @@ class _SideMenuState extends State<SideMenu> {
                                 widget.selectionMode.value ==
                                     SelectionModes.select) {
                               _copyCells();
-                              _selectionButtonKey.currentState?.whenSelected();
+                              selectionButtonKey.currentState?.whenSelected();
 
                               return;
                             }
@@ -421,7 +333,7 @@ class _SideMenuState extends State<SideMenu> {
                         child: CupertinoButton(
                           onPressed: () {
                             setState(() {
-                              _selectionButtonKey.currentState?.whenSelected();
+                              selectionButtonKey.currentState?.whenSelected();
                             });
                           },
                           minSize: 50,
@@ -449,7 +361,7 @@ class _SideMenuState extends State<SideMenu> {
     } else if (widget.selectedButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.select) {
       _copyCells();
-      _repeatButtonKey.currentState?.whenSelected();
+      repeatButtonKey.currentState?.whenSelected();
     } else {
       widget.shakeKey.currentState?.shake();
     }
@@ -464,18 +376,6 @@ class _SideMenuState extends State<SideMenu> {
     for (CrossButton b in widget.selectedButtons.value) {
       destinations.add(b.position);
     }
-    final List<String> originsPosition = <String>[];
-    final List<String> destinationPosition = <String>[];
-    for (final Pair<int, int> i in origins) {
-      originsPosition.add("${rows[i.first]}${i.second + 1}");
-    }
-    for (final Pair<int, int> i in destinations) {
-      destinationPosition.add("${rows[i.first]}${i.second + 1}");
-    }
-    String code = "COPY({${originsPosition.joinToString(separator: ",")}},"
-        "{${destinationPosition.joinToString(separator: ",")}})";
-    widget.interpreter.value
-        .validateOnScheme(code, SchemasReader().currentIndex);
-    widget.interpreter.notifyListeners();
+    CatInterpreter().copyCells(origins, destinations);
   }
 }

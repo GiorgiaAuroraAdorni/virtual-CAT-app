@@ -1,23 +1,18 @@
 import "package:cross_array_task_app/activities/GestureBased/gesture_home.dart";
 import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart";
 
 /// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {
   /// A constructor that takes a key.
   const BottomBar({
     required this.home,
-    required this.interpreter,
     required this.erase,
     super.key,
   });
 
   /// A reference to the parent widget.
   final GestureHomeState home;
-
-  /// A variable that is used to store the interpreter object.
-  final ValueNotifier<CATInterpreter> interpreter;
 
   /// A function that is called when the user presses the erase button.
   final void Function() erase;

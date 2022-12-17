@@ -1,13 +1,11 @@
-import 'dart:async';
+import "dart:async";
 
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
-import "package:interpreter/cat_interpreter.dart";
-
-import '../selection_mode.dart';
 
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
@@ -15,7 +13,6 @@ class CrossButton extends StatefulWidget {
   const CrossButton({
     required this.globalKey,
     required this.position,
-    required this.interpreter,
     required this.selectedColor,
     required this.shakeKey,
     required this.selectionMode,
@@ -29,9 +26,6 @@ class CrossButton extends StatefulWidget {
 
   /// It's a way to access the state of the button from outside the widget.
   final GlobalKey<CrossButtonState> globalKey;
-
-  /// A variable that is used to store the interpreter object.
-  final ValueNotifier<CATInterpreter> interpreter;
 
   /// It's a way to store the current color of the button.
   final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
@@ -242,13 +236,11 @@ class CrossButtonState extends State<CrossButton> {
 
       return;
     }
-    String code =
-        "go(${rows[widget.position.first]}${widget.position.second + 1})";
-
-    code += " paint(${colors.first})";
-    widget.interpreter.value
-        .validateOnScheme(code, SchemasReader().currentIndex);
-    widget.interpreter.notifyListeners();
+    CatInterpreter().paint(
+      widget.position.first,
+      widget.position.second,
+      colors.first,
+    );
     if (selected) {
       select();
       widget.coloredButtons.value.add(widget);
