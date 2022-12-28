@@ -42,6 +42,7 @@ class CrossButton extends StatefulWidget {
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
 
+  /// It's a list of rows that are used to access the buttons in the grid.
   final List<Row> buttons;
 
   /// Get the position of the button from the global key
@@ -84,7 +85,7 @@ class CrossButton extends StatefulWidget {
   static Offset _getPositionFromKey(
     GlobalKey<CrossButtonState> globalKey,
   ) {
-    double offset = globalKey.currentState!.dimension / 2;
+    final double offset = globalKey.currentState!.dimension / 2;
     final RenderBox? box =
         globalKey.currentContext?.findRenderObject() as RenderBox?;
     final Offset? position = box?.localToGlobal(Offset(offset, offset));
@@ -192,8 +193,8 @@ class CrossButtonState extends State<CrossButton> {
     } else {
       widget.selectedButtons.value.add(widget);
     }
-    for (Row i in widget.buttons) {
-      for (Widget j in i.children) {
+    for (final Row i in widget.buttons) {
+      for (final Widget j in i.children) {
         if (j is CrossButton) {
           if (j.globalKey.currentState!.selectionRepeat) {
             j.unSelect();
@@ -203,9 +204,9 @@ class CrossButtonState extends State<CrossButton> {
     }
     final List<Widget> found = <Widget>[];
     for (final CrossButton b in widget.selectedButtons.value) {
-      Pair<int, int> i = b.position;
+      final Pair<int, int> i = b.position;
       for (final CrossButton s in widget.coloredButtons.value) {
-        Pair<int, int> j = s.position;
+        final Pair<int, int> j = s.position;
         final int row = (j.first + (i.first - j.first)) +
             (j.first - widget.coloredButtons.value.first.position.first);
         final int column = (j.second + (i.second - j.second)) +

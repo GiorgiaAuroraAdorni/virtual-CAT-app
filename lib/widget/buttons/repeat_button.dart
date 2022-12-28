@@ -8,8 +8,6 @@ class RepeatButton extends ActionButton {
   /// It's a constructor.
   const RepeatButton({
     required this.state,
-    super.onSelect,
-    super.onDismiss,
     super.displayColoring,
     super.selectionColor,
     super.background,
@@ -20,22 +18,22 @@ class RepeatButton extends ActionButton {
   final SideMenuState state;
 
   @override
-  Function()? get onSelect => () {
-        state.setState(() {
-          state.selectionButtonKey.currentState?.deSelect();
-          state.widget.selectionMode.value = SelectionModes.repeat;
-        });
-      };
+  void onSelect() {
+    state.setState(() {
+      state.selectionButtonKey.currentState?.deSelect();
+      state.widget.selectionMode.value = SelectionModes.repeat;
+    });
+  }
 
   @override
-  Function()? get onDismiss => () {
-        state.setState(() {
-          state.widget.selectionMode.value = SelectionModes.base;
-          state.widget.selectedButtons.value.clear();
-          state.widget.coloredButtons.value.clear();
-          state.widget.resetShape.notifyListeners();
-        });
-      };
+  void onDismiss() {
+    state.setState(() {
+      state.widget.selectionMode.value = SelectionModes.base;
+      state.widget.selectedButtons.value.clear();
+      state.widget.coloredButtons.value.clear();
+      state.widget.resetShape.notifyListeners();
+    });
+  }
 
   @override
   RepeatButtonState createState() => RepeatButtonState();

@@ -9,8 +9,6 @@ class MirrorButtonVertical extends ActionButton {
   /// A constructor.
   const MirrorButtonVertical({
     required this.state,
-    super.onSelect,
-    super.onDismiss,
     super.displayColoring = false,
     super.selectionColor,
     super.background,
@@ -21,16 +19,39 @@ class MirrorButtonVertical extends ActionButton {
   final SideMenuState state;
 
   @override
-  Function()? get onSelect => () {
-        if (CatInterpreter().executedCommands > 1) {
-          CatInterpreter().mirror("vertical");
-        } else {
-          state.widget.shakeKey.currentState?.shake();
-        }
-      };
+  void onSelect() {
+    if (CatInterpreter().executedCommands > 1) {
+      CatInterpreter().mirror("vertical");
+    } else {
+      state.widget.shakeKey.currentState?.shake();
+    }
+  }
 
   @override
   MirrorButtonVerticalState createState() => MirrorButtonVerticalState();
+
+  @override
+  void onDismiss() {
+    // TODO: implement onDismiss
+  }
+}
+
+/// It's a button that mirrors the image vertically
+class MirrorButtonVerticalSecondary extends MirrorButtonVertical {
+  /// It's a constructor.
+  const MirrorButtonVerticalSecondary({
+    required super.state,
+    super.displayColoring = true,
+    super.selectionColor,
+    super.background,
+    super.key,
+  });
+
+  @override
+  void onSelect() {
+    super.state.copyButtonKey.currentState?.deSelect();
+    super.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
+  }
 }
 
 /// It's a button that rotates 90 degrees and changes color when pressed

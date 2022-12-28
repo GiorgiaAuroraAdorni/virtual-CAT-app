@@ -12,8 +12,6 @@ class FillEmpty extends ActionButton {
   /// A constructor.
   const FillEmpty({
     required this.state,
-    super.onSelect,
-    super.onDismiss,
     super.displayColoring = false,
     super.selectionColor,
     super.background,
@@ -24,20 +22,24 @@ class FillEmpty extends ActionButton {
   final SideMenuState state;
 
   @override
-  Function() get onSelect => () {
-        final List<String> colors =
-            analyzeColor(state.widget.selectedColor.value);
-        if (colors.length != 1) {
-          state.widget.shakeKey.currentState?.shake();
+  void onSelect() {
+    final List<String> colors = analyzeColor(state.widget.selectedColor.value);
+    if (colors.length != 1) {
+      state.widget.shakeKey.currentState?.shake();
 
-          return;
-        }
-        CatInterpreter().fillEmpty(colors.first);
-        state.widget.selectedColor.value = <CupertinoDynamicColor>[];
-      };
+      return;
+    }
+    CatInterpreter().fillEmpty(colors.first);
+    state.widget.selectedColor.value = <CupertinoDynamicColor>[];
+  }
 
   @override
   FillEmptyState createState() => FillEmptyState();
+
+  @override
+  void onDismiss() {
+    // TODO: implement onDismiss
+  }
 }
 
 /// `FillEmptyState` is a state class for the `FillEmpty` action button

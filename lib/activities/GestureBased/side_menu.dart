@@ -60,95 +60,26 @@ class SideMenuState extends State<SideMenu> {
   /// Creating a GlobalKey for the RepeatButton widget.
   final GlobalKey<RepeatButtonState> repeatButtonKey = GlobalKey();
 
-  final GlobalKey<CopyButtonState> _copyButtonSecondaryKey = GlobalKey();
-  late final CopyButton _copyButtonSecondary = CopyButton(
-    key: _copyButtonSecondaryKey,
-    selectionColor: CupertinoColors.systemIndigo,
-    background: null,
-    onSelect: () => <void>{
-      _copyButtonSecondaryKey.currentState?.deSelect(),
-    },
-    onDismiss: () => <void>{
-      _copyButtonSecondaryKey.currentState?.select(),
-    },
-  );
+  /// Creating a GlobalKey for the CopyButton widget.
+  final GlobalKey<CopyButtonState> copyButtonSecondaryKey = GlobalKey();
 
-  final GlobalKey<ColorActionButtonState> _colorActionButtonKey = GlobalKey();
-  late final ColorActionButton _colorActionButton = ColorActionButton(
-    key: _colorActionButtonKey,
-    selectionColor: CupertinoColors.systemIndigo,
-    background: null,
-    onSelect: () => <void>{
-      _colorActionButtonKey.currentState?.deSelect(),
-    },
-    onDismiss: () => <void>{
-      _colorActionButtonKey.currentState?.select(),
-    },
-  );
+  /// Creating a GlobalKey for the ColorActionButton widget.
+  final GlobalKey<ColorActionButtonState> colorActionButtonKey = GlobalKey();
 
   /// Creating a global key for the selection action button.
   final GlobalKey<SelectionActionButtonState> selectionActionButtonKey =
       GlobalKey();
-  late final SelectionActionButton _selectionActionButton =
-      SelectionActionButton(
-    key: selectionActionButtonKey,
-    selectionColor: CupertinoColors.systemIndigo,
-    background: null,
-    onSelect: () => <void>{
-      selectionActionButtonKey.currentState?.deSelect(),
-    },
-    onDismiss: () => <void>{
-      selectionActionButtonKey.currentState?.select(),
-    },
-  );
 
+  /// Creating a global key for the CopyButton widget.
   final GlobalKey<CopyButtonState> copyButtonKey = GlobalKey();
-  late final CopyButton _copyButton = CopyButton(
-    key: copyButtonKey,
-    selectionColor: CupertinoColors.systemIndigo,
-    onSelect: () => <void>{
-      mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
-      mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
-      widget.selectionMode.value = SelectionModes.select,
-    },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
-  );
 
   /// Creating a GlobalKey for the MirrorButtonHorizontal widget.
   final GlobalKey<MirrorButtonHorizontalState>
       mirrorHorizontalButtonKeySecondary = GlobalKey();
-  late final MirrorButtonHorizontal _mirrorButtonHorizontalSecondary =
-      MirrorButtonHorizontal(
-    state: this,
-    key: mirrorHorizontalButtonKeySecondary,
-    selectionColor: CupertinoColors.systemIndigo,
-    onSelect: () => <void>{
-      copyButtonKey.currentState?.deSelect(),
-      mirrorVerticalButtonKeySecondary.currentState?.deSelect(),
-    },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
-  );
 
   /// Creating a GlobalKey for the MirrorButtonVertical widget.
   final GlobalKey<MirrorButtonVerticalState> mirrorVerticalButtonKeySecondary =
       GlobalKey();
-  late final MirrorButtonVertical _mirrorButtonVerticalSecondary =
-      MirrorButtonVertical(
-    state: this,
-    key: mirrorVerticalButtonKeySecondary,
-    selectionColor: CupertinoColors.systemIndigo,
-    onSelect: () => <void>{
-      copyButtonKey.currentState?.deSelect(),
-      mirrorHorizontalButtonKeySecondary.currentState?.deSelect(),
-    },
-    onDismiss: () => <void>{
-      setState(() {}),
-    },
-  );
 
   List<Widget> _colorButtonsBuild() {
     const TextStyle textStyle = TextStyle(
@@ -242,11 +173,21 @@ class SideMenuState extends State<SideMenu> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _colorActionButton,
+                      ColorActionButton(
+                        key: colorActionButtonKey,
+                        selectionColor: CupertinoColors.systemIndigo,
+                        state: this,
+                        background: null,
+                      ),
                       const Divider(
                         height: 20,
                       ),
-                      _copyButtonSecondary,
+                      CopyButtonSecondary(
+                        key: copyButtonSecondaryKey,
+                        selectionColor: CupertinoColors.systemIndigo,
+                        background: null,
+                        state: this,
+                      ),
                       const Divider(
                         height: 20,
                       ),
@@ -283,13 +224,30 @@ class SideMenuState extends State<SideMenu> {
                   maintainState: true,
                   child: Column(
                     children: <Widget>[
-                      _selectionActionButton,
+                      SelectionActionButton(
+                        key: selectionActionButtonKey,
+                        selectionColor: CupertinoColors.systemIndigo,
+                        background: null,
+                        state: this,
+                      ),
                       const Divider(
                         height: 20,
                       ),
-                      _copyButton,
-                      _mirrorButtonHorizontalSecondary,
-                      _mirrorButtonVerticalSecondary,
+                      CopyButton(
+                        key: copyButtonKey,
+                        selectionColor: CupertinoColors.systemIndigo,
+                        state: this,
+                      ),
+                      MirrorButtonHorizontalSecondary(
+                        state: this,
+                        key: mirrorHorizontalButtonKeySecondary,
+                        selectionColor: CupertinoColors.systemIndigo,
+                      ),
+                      MirrorButtonVerticalSecondary(
+                        state: this,
+                        key: mirrorVerticalButtonKeySecondary,
+                        selectionColor: CupertinoColors.systemIndigo,
+                      ),
                       const Divider(
                         height: 20,
                       ),
@@ -355,8 +313,8 @@ class SideMenuState extends State<SideMenu> {
   void repeatAdvancement() {
     if (widget.coloredButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.repeat) {
-      _colorActionButtonKey.currentState?.deSelect();
-      _copyButtonSecondaryKey.currentState?.select();
+      colorActionButtonKey.currentState?.deSelect();
+      copyButtonSecondaryKey.currentState?.select();
       widget.selectionMode.value = SelectionModes.select;
     } else if (widget.selectedButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.select) {
@@ -370,10 +328,10 @@ class SideMenuState extends State<SideMenu> {
   void _copyCells() {
     final List<Pair<int, int>> origins = <Pair<int, int>>[];
     final List<Pair<int, int>> destinations = <Pair<int, int>>[];
-    for (CrossButton b in widget.coloredButtons.value) {
+    for (final CrossButton b in widget.coloredButtons.value) {
       origins.add(b.position);
     }
-    for (CrossButton b in widget.selectedButtons.value) {
+    for (final CrossButton b in widget.selectedButtons.value) {
       destinations.add(b.position);
     }
     CatInterpreter().copyCells(origins, destinations);

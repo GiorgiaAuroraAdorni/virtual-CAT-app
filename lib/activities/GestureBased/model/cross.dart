@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.dart";
 
-/// `Cross` is a `BasicShape` that has a `_CrossState` state class
+/// `Cross` is a `BasicShape` that has a `CrossState` state class
 class Cross extends BasicShape {
   /// A constructor that is calling the constructor of the super class.
   const Cross({
@@ -16,7 +16,7 @@ class Cross extends BasicShape {
 
   /// `createState()` is a function that returns a state object
   @override
-  _CrossState createState() => _CrossState();
+  BasicShapeState<Cross> createState() => _CrossState();
 }
 
 class _CrossState extends BasicShapeState<Cross> {

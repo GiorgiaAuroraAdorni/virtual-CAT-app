@@ -11,8 +11,6 @@ class MirrorButtonHorizontal extends ActionButton {
   /// A constructor that takes in a key, onSelect, and onDismiss.
   const MirrorButtonHorizontal({
     required this.state,
-    super.onSelect,
-    super.onDismiss,
     super.displayColoring = false,
     super.selectionColor,
     super.background,
@@ -23,16 +21,40 @@ class MirrorButtonHorizontal extends ActionButton {
   final SideMenuState state;
 
   @override
-  Function()? get onSelect => () {
-        if (CatInterpreter().executedCommands > 1) {
-          CatInterpreter().mirror("horizontal");
-        } else {
-          state.widget.shakeKey.currentState?.shake();
-        }
-      };
+  void onSelect() {
+    if (CatInterpreter().executedCommands > 1) {
+      CatInterpreter().mirror("horizontal");
+    } else {
+      state.widget.shakeKey.currentState?.shake();
+    }
+  }
 
   @override
   MirrorButtonHorizontalState createState() => MirrorButtonHorizontalState();
+
+  @override
+  void onDismiss() {
+    // TODO: implement onDismiss
+  }
+}
+
+/// It's a button that mirrors the state of the other buttons in the horizontal
+/// direction
+class MirrorButtonHorizontalSecondary extends MirrorButtonHorizontal {
+  /// It's a constructor that takes in a key, onSelect, and onDismiss.
+  const MirrorButtonHorizontalSecondary({
+    required super.state,
+    super.displayColoring = true,
+    super.selectionColor,
+    super.background,
+    super.key,
+  });
+
+  @override
+  void onSelect() {
+    super.state.copyButtonKey.currentState?.deSelect();
+    super.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
+  }
 }
 
 /// It's a button that can be selected or deselected, and it can be activated or

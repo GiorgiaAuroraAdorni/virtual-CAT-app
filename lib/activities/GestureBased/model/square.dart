@@ -17,7 +17,7 @@ class Square extends BasicShape {
   /// `createState()` is a function that returns a new instance of the
   /// `_SquareState` class
   @override
-  _SquareState createState() => _SquareState();
+  BasicShapeState<Square> createState() => _SquareState();
 }
 
 class _SquareState extends BasicShapeState<Square> {

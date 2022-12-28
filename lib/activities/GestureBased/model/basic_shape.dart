@@ -94,8 +94,8 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
   void initState() {
     generateShape();
     widget.resetSignal.addListener(() {
-      for (Row i in buttons) {
-        for (Widget j in i.children) {
+      for (final Row i in buttons) {
+        for (final Widget j in i.children) {
           if (j is CrossButton) {
             j.unSelect();
           }

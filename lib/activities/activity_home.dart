@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/GestureBased/gesture_home.dart";
-import 'package:cross_array_task_app/model/schemas/SchemasReader.dart';
+import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
 import "package:cross_array_task_app/model/session.dart";
 import "package:flutter/cupertino.dart";
 

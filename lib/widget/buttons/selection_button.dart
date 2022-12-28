@@ -8,8 +8,6 @@ class SelectionButton extends ActionButton {
   /// A constructor.
   const SelectionButton({
     required this.state,
-    super.onSelect,
-    super.onDismiss,
     super.displayColoring,
     super.selectionColor,
     super.background,
@@ -20,25 +18,25 @@ class SelectionButton extends ActionButton {
   final SideMenuState state;
 
   @override
-  Function()? get onSelect => () {
-        state.setState(() {
-          state.repeatButtonKey.currentState?.deSelect();
-          state.widget.selectionMode.value = SelectionModes.multiple;
-          state.copyButtonKey.currentState?.deActivate();
-          state.mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
-          state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
-          state.selectionActionButtonKey.currentState?.select();
-        });
-      };
+  void onSelect() {
+    state.setState(() {
+      state.repeatButtonKey.currentState?.deSelect();
+      state.widget.selectionMode.value = SelectionModes.multiple;
+      state.copyButtonKey.currentState?.deActivate();
+      state.mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
+      state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
+      state.selectionActionButtonKey.currentState?.select();
+    });
+  }
 
   @override
-  Function()? get onDismiss => () {
-        state.setState(() {
-          state.widget.selectionMode.value = SelectionModes.base;
-          state.widget.selectedButtons.value.clear();
-          state.widget.resetShape.notifyListeners();
-        });
-      };
+  void onDismiss() {
+    state.setState(() {
+      state.widget.selectionMode.value = SelectionModes.base;
+      state.widget.selectedButtons.value.clear();
+      state.widget.resetShape.notifyListeners();
+    });
+  }
 
   @override
   SelectionButtonState createState() => SelectionButtonState();

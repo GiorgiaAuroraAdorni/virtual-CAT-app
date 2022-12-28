@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
@@ -6,16 +7,28 @@ import "package:flutter/cupertino.dart";
 class ColorActionButton extends ActionButton {
   /// A constructor that is calling the super class constructor.
   const ColorActionButton({
-    required super.onSelect,
-    required super.onDismiss,
+    required this.state,
     super.displayColoring,
     super.selectionColor,
     super.background,
     super.key,
   });
 
+  /// A reference to the state of the side menu.
+  final SideMenuState state;
+
   @override
   ColorActionButtonState createState() => ColorActionButtonState();
+
+  @override
+  void onDismiss() {
+    state.colorActionButtonKey.currentState?.select();
+  }
+
+  @override
+  void onSelect() {
+    state.colorActionButtonKey.currentState?.deSelect();
+  }
 }
 
 /// `ColorActionButtonState` is a subclass of `ActionButtonState` that sets the
