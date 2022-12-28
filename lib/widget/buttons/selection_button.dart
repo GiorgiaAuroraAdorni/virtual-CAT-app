@@ -42,6 +42,7 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
     widget.state.setState(() {
       widget.state.widget.selectionMode.value = SelectionModes.base;
       widget.state.widget.selectedButtons.value.clear();
+      widget.state.widget.coloredButtons.value.clear();
       widget.state.widget.resetShape.notifyListeners();
     });
   }

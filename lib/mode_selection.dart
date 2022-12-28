@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/session_builder.dart";
 import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";

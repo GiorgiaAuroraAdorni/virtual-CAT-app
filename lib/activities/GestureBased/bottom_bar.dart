@@ -1,15 +1,14 @@
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/helper.dart";
-import 'package:cross_array_task_app/utility/result_notifier.dart';
+import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 import "package:uiblock/uiblock.dart";
-
-import '../../utility/selected_colors_notifier.dart';
 
 /// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {

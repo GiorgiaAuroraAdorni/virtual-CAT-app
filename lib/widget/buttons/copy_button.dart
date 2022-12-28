@@ -25,9 +25,7 @@ class CopyButton extends ActionButton {
 /// It's a button that can be selected or not, and active or not
 class CopyButtonState extends ActionButtonState<CopyButton> {
   @override
-  void onDismiss() {
-    // TODO: implement onDismiss
-  }
+  void onDismiss() {}
 
   @override
   void onSelect() {

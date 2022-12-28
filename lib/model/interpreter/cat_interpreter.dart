@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -58,7 +58,7 @@ class CatInterpreter with ChangeNotifier {
   }
 
   void fillEmpty(String color) {
-    String code = "fill_empty($color)";
+    final String code = "fill_empty($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     notifyListeners();
   }
@@ -75,7 +75,8 @@ class CatInterpreter with ChangeNotifier {
     for (final Pair<int, int> i in destinations) {
       destinationPosition.add("${rows[i.first]}${i.second + 1}");
     }
-    String code = "COPY({${originsPosition.joinToString(separator: ",")}},"
+    final String code =
+        "COPY({${originsPosition.joinToString(separator: ",")}},"
         "{${destinationPosition.joinToString(separator: ",")}})";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     notifyListeners();
@@ -83,6 +84,17 @@ class CatInterpreter with ChangeNotifier {
 
   void mirror(String direction) {
     final String code = "mirror($direction)";
+    _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    notifyListeners();
+  }
+
+  void mirrorCells(String direction, List<Pair<int, int>> origins) {
+    final List<String> originsPosition = <String>[];
+    for (final Pair<int, int> i in origins) {
+      originsPosition.add("${rows[i.first]}${i.second + 1}");
+    }
+    final String code =
+        "MIRROR({${originsPosition.joinToString(separator: ",")}},$direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     notifyListeners();
   }

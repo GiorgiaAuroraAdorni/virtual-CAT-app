@@ -8,12 +8,8 @@ class DummyDataCollection extends DataColletion {
     required bool visible,
     required int schema,
     required List<String> commands,
-  }) {
-    // TODO: implement addDataForSchema
-  }
+  }) {}
 
   @override
-  void saveData() {
-    // TODO: implement saveData
-  }
+  void saveData() {}
 }

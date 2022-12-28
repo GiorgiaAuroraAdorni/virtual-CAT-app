@@ -274,6 +274,22 @@ class SideMenuState extends State<SideMenu> {
 
                               return;
                             }
+                            if (widget.selectedButtons.value.isEmpty &&
+                                widget.selectionMode.value ==
+                                    SelectionModes.mirrorVertical) {
+                              _mirrorCells("vertical");
+                              selectionButtonKey.currentState?.whenSelected();
+
+                              return;
+                            }
+                            if (widget.selectedButtons.value.isEmpty &&
+                                widget.selectionMode.value ==
+                                    SelectionModes.mirrorHorizontal) {
+                              _mirrorCells("horizontal");
+                              selectionButtonKey.currentState?.whenSelected();
+
+                              return;
+                            }
                             widget.shakeKey.currentState?.shake();
                           },
                           minSize: 50,
@@ -289,6 +305,8 @@ class SideMenuState extends State<SideMenu> {
                           onPressed: () {
                             setState(() {
                               selectionButtonKey.currentState?.whenSelected();
+                              mirrorVerticalButtonKeySecondary.currentState
+                                  ?.whenSelected();
                             });
                           },
                           minSize: 50,
@@ -332,5 +350,13 @@ class SideMenuState extends State<SideMenu> {
       destinations.add(b.position);
     }
     CatInterpreter().copyCells(origins, destinations);
+  }
+
+  void _mirrorCells(String direction) {
+    final List<Pair<int, int>> origins = <Pair<int, int>>[];
+    for (final CrossButton b in widget.coloredButtons.value) {
+      origins.add(b.position);
+    }
+    CatInterpreter().mirrorCells(direction, origins);
   }
 }

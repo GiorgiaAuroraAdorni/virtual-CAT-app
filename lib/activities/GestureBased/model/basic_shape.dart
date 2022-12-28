@@ -4,11 +4,10 @@ import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
-import 'package:provider/provider.dart';
-
-import '../../../utility/selected_colors_notifier.dart';
+import "package:provider/provider.dart";
 
 /// `BasicShape` is an abstract class that extends `StatefulWidget` and has a
 /// `createState` method that returns a `BasicShapeState` object

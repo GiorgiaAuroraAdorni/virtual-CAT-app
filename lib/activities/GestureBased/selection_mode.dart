@@ -14,6 +14,12 @@ enum SelectionModes {
   /// Selection mode for when it's necessary to do the MIRROR command.
   mirror,
 
+  /// Selection mode for when it's necessary to do the MIRROR VERTICAL command.
+  mirrorVertical,
+
+  /// Selection mode for when it's necessary to do the MIRROR HORIZONTAL command.
+  mirrorHorizontal,
+
   /// Selection mode for when it's necessary to do select the cells.
   select,
 

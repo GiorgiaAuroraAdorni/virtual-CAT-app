@@ -1,5 +1,6 @@
 import "dart:math" as math;
 
+import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
@@ -24,6 +25,29 @@ class MirrorButtonVertical extends ActionButton {
   MirrorButtonVerticalState createState() => MirrorButtonVerticalState();
 }
 
+/// It's a button that rotates 90 degrees and changes color when pressed
+class MirrorButtonVerticalState
+    extends ActionButtonState<MirrorButtonVertical> {
+  @override
+  void onSelect() {
+    if (CatInterpreter().executedCommands > 1) {
+      CatInterpreter().mirror("vertical");
+    } else {
+      widget.state.widget.shakeKey.currentState?.shake();
+    }
+  }
+
+  @override
+  void onDismiss() {}
+
+  @override
+  void initState() {
+    super.icon = CupertinoIcons.rectangle_grid_1x2;
+    super.angle = 90 * math.pi / 180;
+    super.initState();
+  }
+}
+
 /// It's a button that mirrors the image vertically
 class MirrorButtonVerticalSecondary extends MirrorButtonVertical {
   /// It's a constructor.
@@ -45,30 +69,11 @@ class MirrorButtonVerticalStateSecondary extends MirrorButtonVerticalState {
   void onSelect() {
     widget.state.copyButtonKey.currentState?.deSelect();
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
-  }
-}
-
-/// It's a button that rotates 90 degrees and changes color when pressed
-class MirrorButtonVerticalState
-    extends ActionButtonState<MirrorButtonVertical> {
-  @override
-  void onSelect() {
-    if (CatInterpreter().executedCommands > 1) {
-      CatInterpreter().mirror("vertical");
-    } else {
-      widget.state.widget.shakeKey.currentState?.shake();
-    }
+    widget.state.widget.selectionMode.value = SelectionModes.mirrorVertical;
   }
 
   @override
   void onDismiss() {
-    // TODO: implement onDismiss
-  }
-
-  @override
-  void initState() {
-    super.icon = CupertinoIcons.rectangle_grid_1x2;
-    super.angle = 90 * math.pi / 180;
-    super.initState();
+    widget.state.widget.selectionMode.value = SelectionModes.transition;
   }
 }

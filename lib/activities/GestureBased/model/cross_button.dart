@@ -205,9 +205,9 @@ class CrossButtonState extends State<CrossButton> {
       final Pair<int, int> i = b.position;
       for (final CrossButton s in widget.coloredButtons.value) {
         final Pair<int, int> j = s.position;
-        final int row = (j.first + (i.first - j.first)) +
+        final int column = (j.first + (i.first - j.first)) +
             (j.first - widget.coloredButtons.value.first.position.first);
-        final int column = (j.second + (i.second - j.second)) +
+        final int row = (j.second + (i.second - j.second)) +
             (j.second - widget.coloredButtons.value.first.position.second);
         found.add(widget.buttons[column].children[row]);
       }

@@ -6,7 +6,7 @@ import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/model/schemas/SchemasReader.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
