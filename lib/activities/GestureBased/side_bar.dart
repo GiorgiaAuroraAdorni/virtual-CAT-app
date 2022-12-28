@@ -1,25 +1,16 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
+import "package:provider/provider.dart";
 
 class SideBar extends StatefulWidget {
   /// A constructor for the SideBar class.
   const SideBar({
-    required this.reference,
-    required this.result,
-    required this.visible,
     super.key,
   });
-
-  /// A reference to the cross that is being edited.
-  final ValueNotifier<Cross> reference;
-
-  /// A reference to the cross that is being edited.
-  final ValueNotifier<Cross> result;
-
-  /// A reference to the visibility of the cross.
-  final ValueNotifier<bool> visible;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -29,39 +20,42 @@ class _SideBarState extends State<SideBar> {
   final double _paddingSize = 5;
 
   void _interpreterListener() {
-    if (widget.visible.value) {
-      widget.result.value = CatInterpreter().getLastState as Cross;
-      CatInterpreter().notifier.addListener(_interpreterListener);
+    if (!mounted) {
+      return;
+    }
+    if (context.read<VisibilityNotifier>().visible) {
+      context.read<ResultNotifier>().cross =
+          CatInterpreter().getLastState as Cross;
+      CatInterpreter().addListener(_interpreterListener);
     } else {
-      CatInterpreter().notifier.removeListener(_interpreterListener);
+      CatInterpreter().removeListener(_interpreterListener);
     }
   }
 
   @override
   void initState() {
-    widget.visible.addListener(_interpreterListener);
+    context.read<VisibilityNotifier>().addListener(_interpreterListener);
     super.initState();
   }
 
   late final Padding _showCross = Padding(
     padding: EdgeInsets.all(_paddingSize),
     child: AnimatedBuilder(
-      animation: widget.visible,
+      animation: context.watch<VisibilityNotifier>(),
       builder: (BuildContext context, Widget? child) => CupertinoButton(
         key: const Key("Visibility Button"),
-        onPressed: widget.visible.value
+        onPressed: context.read<VisibilityNotifier>().visible
             ? null
             : () {
-                widget.visible.value = true;
-                widget.visible.notifyListeners();
+                context.read<VisibilityNotifier>().visible = true;
               },
         borderRadius: BorderRadius.circular(45),
         minSize: 45,
         padding: EdgeInsets.zero,
-        color: widget.visible.value
+        color: context.watch<VisibilityNotifier>().visible
             ? CupertinoColors.systemFill
             : CupertinoColors.activeOrange,
-        child: widget.visible.value
+        child: context.watch<VisibilityNotifier>().visible
             ? const Icon(
                 CupertinoIcons.eye_slash_fill,
                 color: CupertinoColors.inactiveGray,
@@ -83,7 +77,7 @@ class _SideBarState extends State<SideBar> {
             Padding(
               padding: const EdgeInsets.all(5),
               child: CrossWidgetSimple(
-                resultValueNotifier: widget.reference,
+                resultValueNotifier: context.watch<ReferenceNotifier>(),
               ),
             ),
             Padding(
@@ -92,7 +86,7 @@ class _SideBarState extends State<SideBar> {
                 children: <Widget>[
                   _showCross,
                   CrossWidgetSimple(
-                    resultValueNotifier: widget.result,
+                    resultValueNotifier: context.watch<ResultNotifier>(),
                   ),
                 ],
               ),
@@ -100,4 +94,10 @@ class _SideBarState extends State<SideBar> {
           ],
         ),
       );
+
+  @override
+  void dispose() {
+    CatInterpreter().removeListener(_interpreterListener);
+    super.dispose();
+  }
 }

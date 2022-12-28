@@ -1,9 +1,10 @@
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 /// `FillEmpty` is a `StatefulWidget` that displays a `FloatingActionButton` that,
 /// when pressed, displays a `BottomSheet` that contains a `TextField` and a
@@ -22,28 +23,29 @@ class FillEmpty extends ActionButton {
   final SideMenuState state;
 
   @override
+  FillEmptyState createState() => FillEmptyState();
+}
+
+/// `FillEmptyState` is a state class for the `FillEmpty` action button
+class FillEmptyState extends ActionButtonState<FillEmpty> {
+  @override
   void onSelect() {
-    final List<String> colors = analyzeColor(state.widget.selectedColor.value);
+    final List<String> colors =
+        analyzeColor(context.read<SelectedColorsNotifier>().colors);
     if (colors.length != 1) {
-      state.widget.shakeKey.currentState?.shake();
+      widget.state.widget.shakeKey.currentState?.shake();
 
       return;
     }
     CatInterpreter().fillEmpty(colors.first);
-    state.widget.selectedColor.value = <CupertinoDynamicColor>[];
+    context.read<SelectedColorsNotifier>().clear();
   }
-
-  @override
-  FillEmptyState createState() => FillEmptyState();
 
   @override
   void onDismiss() {
     // TODO: implement onDismiss
   }
-}
 
-/// `FillEmptyState` is a state class for the `FillEmpty` action button
-class FillEmptyState extends ActionButtonState<FillEmpty> {
   @override
   void initState() {
     super.icon = Icons.format_color_fill_rounded;

@@ -3,23 +3,18 @@ import "dart:ui";
 
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
+import "package:provider/provider.dart";
 
 /// `TopBar` is a stateful widget that has a `createState` method that returns a
 /// `_TopBarState` object
 class TopBar extends StatefulWidget {
   /// A named constructor.
   const TopBar({
-    required this.visible,
-    required this.time,
     super.key,
   });
-
-  /// A reference to the visibility of the cross.
-  final ValueNotifier<bool> visible;
-
-  /// A reference to the timer of the cross.
-  final ValueNotifier<int> time;
 
   @override
   State<StatefulWidget> createState() => _TopBarState();
@@ -35,9 +30,7 @@ class _TopBarState extends State<TopBar> {
     _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
-        setState(() {
-          widget.time.value++;
-        });
+        context.read<TimeKeeper>().increment();
       },
     );
   }
@@ -53,11 +46,11 @@ class _TopBarState extends State<TopBar> {
                     commands: List<String>.from(
                       CatInterpreter().getResults.getCommands,
                     ),
-                    visible: widget.visible.value,
+                    visible: context.read<VisibilityNotifier>().visible,
                   ) * 100}",
             ),
             Text(
-              "Tempo: ${timeFormat(widget.time.value)}",
+              "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
               style: const TextStyle(
                 fontFeatures: <FontFeature>[
                   FontFeature.tabularFigures(),

@@ -41,24 +41,6 @@ final Map<int, String> rows = <int, String>{
   5: "a",
 };
 
-/// It takes an integer, and returns a string
-///
-/// Args:
-///   time (int): The time in seconds.
-///
-/// Returns:
-///   A string with the format "hh:mm:ss"
-String timeFormat(int time) {
-  final int h = time ~/ 3600;
-  final int m = (time - h * 3600) ~/ 60;
-  final int s = time - (h * 3600) - (m * 60);
-  final String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
-  final String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
-  final String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
-
-  return "$hourLeft:$minuteLeft:$secondsLeft";
-}
-
 /// It returns the number of
 /// commands that are not `paint` commands
 ///

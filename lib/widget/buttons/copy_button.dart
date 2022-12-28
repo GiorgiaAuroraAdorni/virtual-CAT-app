@@ -20,7 +20,10 @@ class CopyButton extends ActionButton {
 
   @override
   CopyButtonState createState() => CopyButtonState();
+}
 
+/// It's a button that can be selected or not, and active or not
+class CopyButtonState extends ActionButtonState<CopyButton> {
   @override
   void onDismiss() {
     // TODO: implement onDismiss
@@ -28,14 +31,20 @@ class CopyButton extends ActionButton {
 
   @override
   void onSelect() {
-    state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
-    state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
-    state.widget.selectionMode.value = SelectionModes.select;
+    widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
+    widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
+    widget.state.widget.selectionMode.value = SelectionModes.select;
+  }
+
+  @override
+  void initState() {
+    super.icon = CupertinoIcons.doc_on_doc;
+    super.initState();
   }
 }
 
 class CopyButtonSecondary extends CopyButton {
-  const CopyButtonSecondary({
+  CopyButtonSecondary({
     required super.state,
     super.displayColoring,
     super.selectionColor,
@@ -44,21 +53,17 @@ class CopyButtonSecondary extends CopyButton {
   });
 
   @override
+  CopyButtonSecondatyState createState() => CopyButtonSecondatyState();
+}
+
+class CopyButtonSecondatyState extends CopyButtonState {
+  @override
   void onSelect() {
-    super.state.copyButtonSecondaryKey.currentState?.deSelect();
+    widget.state.copyButtonSecondaryKey.currentState?.deSelect();
   }
 
   @override
   void onDismiss() {
-    super.state.copyButtonSecondaryKey.currentState?.select();
-  }
-}
-
-/// It's a button that can be selected or not, and active or not
-class CopyButtonState extends ActionButtonState<CopyButton> {
-  @override
-  void initState() {
-    super.icon = CupertinoIcons.doc_on_doc;
-    super.initState();
+    widget.state.copyButtonSecondaryKey.currentState?.select();
   }
 }

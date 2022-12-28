@@ -4,7 +4,6 @@ import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.d
 class Square extends BasicShape {
   /// This is the constructor of the Square class.
   const Square({
-    required super.selectedColor,
     required super.shakeKey,
     required super.width,
     required super.selectionMode,

@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/GestureBased/model/cross_button.
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/widget/buttons/color_action_button.dart";
 import "package:cross_array_task_app/widget/buttons/copy_button.dart";
 import "package:cross_array_task_app/widget/buttons/fill_empty.dart";
@@ -13,13 +14,13 @@ import "package:cross_array_task_app/widget/buttons/selection_button.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 /// `SideMenu` is a stateful widget that creates a state object of type
 /// `_SideMenuState`
 class SideMenu extends StatefulWidget {
   /// A constructor.
   const SideMenu({
-    required this.selectedColor,
     required this.shakeKey,
     required this.selectionMode,
     required this.coloredButtons,
@@ -27,10 +28,6 @@ class SideMenu extends StatefulWidget {
     required this.resetShape,
     super.key,
   });
-
-  /// A value notifier that is used to notify the interpreter that the user has
-  /// selected a color.
-  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
@@ -99,27 +96,27 @@ class SideMenuState extends State<SideMenu> {
           (CupertinoDynamicColor color) => Padding(
             padding: EdgeInsets.all(_paddingSize),
             child: AnimatedBuilder(
-              animation: widget.selectedColor,
+              animation: context.watch<SelectedColorsNotifier>(),
               builder: (BuildContext context, Widget? child) => CupertinoButton(
                 key: Key(colors[color]!),
                 onPressed: () => setState(() {
-                  if (widget.selectedColor.value.contains(color)) {
-                    widget.selectedColor.value.remove(color);
+                  if (context.read<SelectedColorsNotifier>().contains(color)) {
+                    context.read<SelectedColorsNotifier>().remove(color);
                   } else {
-                    widget.selectedColor.value.add(color);
+                    context.read<SelectedColorsNotifier>().add(color);
                   }
                 }),
                 borderRadius: BorderRadius.circular(45),
                 minSize: 50,
                 color: color,
                 padding: EdgeInsets.zero,
-                child: widget.selectedColor.value.contains(color)
+                child: context.read<SelectedColorsNotifier>().contains(color)
                     ? Stack(
                         alignment: AlignmentDirectional.center,
                         children: <Widget>[
                           const Icon(CupertinoIcons.circle_filled),
                           Text(
-                            "${widget.selectedColor.value.indexOf(color) + 1}",
+                            "${context.read<SelectedColorsNotifier>().indexOf(color) + 1}",
                             style: textStyle,
                           ),
                         ],

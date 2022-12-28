@@ -9,7 +9,6 @@ import "package:flutter/cupertino.dart";
 class GestureBoard extends StatefulWidget {
   /// It's a constructor.
   const GestureBoard({
-    required this.selectedColor,
     required this.shakeKey,
     required this.selectionMode,
     required this.coloredButtons,
@@ -17,10 +16,6 @@ class GestureBoard extends StatefulWidget {
     required this.resetSignal,
     super.key,
   });
-
-  /// It's a value notifier that is used to notify that
-  /// the user has selected some colors for coloring.
-  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   /// It's a key that is used to shake the widget.
   final GlobalKey<ShakeWidgetState> shakeKey;
@@ -46,7 +41,6 @@ class _GestureBoardState extends State<GestureBoard> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(20),
         child: Cross(
-          selectedColor: widget.selectedColor,
           shakeKey: widget.shakeKey,
           width: MediaQuery.of(context).size.width,
           selectionMode: widget.selectionMode,

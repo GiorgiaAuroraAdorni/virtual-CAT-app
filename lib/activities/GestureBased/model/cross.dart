@@ -4,7 +4,6 @@ import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.d
 class Cross extends BasicShape {
   /// A constructor that is calling the constructor of the super class.
   const Cross({
-    required super.selectedColor,
     required super.shakeKey,
     required super.width,
     required super.selectionMode,

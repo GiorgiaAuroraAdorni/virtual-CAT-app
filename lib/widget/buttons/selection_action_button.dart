@@ -18,16 +18,6 @@ class SelectionActionButton extends ActionButton {
 
   @override
   SelectionActionButtonState createState() => SelectionActionButtonState();
-
-  @override
-  void onDismiss() {
-    state.selectionActionButtonKey.currentState?.select();
-  }
-
-  @override
-  void onSelect() {
-    state.selectionActionButtonKey.currentState?.deSelect();
-  }
 }
 
 /// `SelectionActionButtonState`
@@ -35,6 +25,16 @@ class SelectionActionButton extends ActionButton {
 /// CupertinoIcons.lasso icon and calls the `select()` method
 class SelectionActionButtonState
     extends ActionButtonState<SelectionActionButton> {
+  @override
+  void onDismiss() {
+    widget.state.selectionActionButtonKey.currentState?.select();
+  }
+
+  @override
+  void onSelect() {
+    widget.state.selectionActionButtonKey.currentState?.deSelect();
+  }
+
   @override
   void initState() {
     super.icon = CupertinoIcons.lasso;

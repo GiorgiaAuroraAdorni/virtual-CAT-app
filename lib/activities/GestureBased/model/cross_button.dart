@@ -4,8 +4,10 @@ import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:provider/provider.dart";
 
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
@@ -13,7 +15,6 @@ class CrossButton extends StatefulWidget {
   const CrossButton({
     required this.globalKey,
     required this.position,
-    required this.selectedColor,
     required this.shakeKey,
     required this.selectionMode,
     required this.coloredButtons,
@@ -26,9 +27,6 @@ class CrossButton extends StatefulWidget {
 
   /// It's a way to access the state of the button from outside the widget.
   final GlobalKey<CrossButtonState> globalKey;
-
-  /// It's a way to store the current color of the button.
-  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   /// It's a variable that is used to store the current selection mode.
   final ValueNotifier<SelectionModes> selectionMode;
@@ -143,7 +141,7 @@ class CrossButtonState extends State<CrossButton> {
 
             return;
           } else if (widget.selectionMode.value == SelectionModes.multiple) {
-            if (widget.selectedColor.value.isEmpty) {
+            if (context.read<SelectedColorsNotifier>().isEmpty) {
               _selectionMultiple();
             } else {
               widget.shakeKey.currentState?.shake();
@@ -231,7 +229,9 @@ class CrossButtonState extends State<CrossButton> {
   }
 
   void _normalColoring({bool selected = false}) {
-    final List<String> colors = analyzeColor(widget.selectedColor.value);
+    final List<String> colors = analyzeColor(
+      context.read<SelectedColorsNotifier>().colors,
+    );
     if (colors.length != 1) {
       widget.shakeKey.currentState?.shake();
 

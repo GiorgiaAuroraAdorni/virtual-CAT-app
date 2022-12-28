@@ -18,33 +18,34 @@ class SelectionButton extends ActionButton {
   final SideMenuState state;
 
   @override
-  void onSelect() {
-    state.setState(() {
-      state.repeatButtonKey.currentState?.deSelect();
-      state.widget.selectionMode.value = SelectionModes.multiple;
-      state.copyButtonKey.currentState?.deActivate();
-      state.mirrorHorizontalButtonKeySecondary.currentState?.deActivate();
-      state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
-      state.selectionActionButtonKey.currentState?.select();
-    });
-  }
-
-  @override
-  void onDismiss() {
-    state.setState(() {
-      state.widget.selectionMode.value = SelectionModes.base;
-      state.widget.selectedButtons.value.clear();
-      state.widget.resetShape.notifyListeners();
-    });
-  }
-
-  @override
   SelectionButtonState createState() => SelectionButtonState();
 }
 
 /// It's a button that changes color when pressed
 /// and calls a function when pressed
 class SelectionButtonState extends ActionButtonState<SelectionButton> {
+  @override
+  void onSelect() {
+    widget.state.setState(() {
+      widget.state.repeatButtonKey.currentState?.deSelect();
+      widget.state.widget.selectionMode.value = SelectionModes.multiple;
+      widget.state.copyButtonKey.currentState?.deActivate();
+      widget.state.mirrorHorizontalButtonKeySecondary.currentState
+          ?.deActivate();
+      widget.state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
+      widget.state.selectionActionButtonKey.currentState?.select();
+    });
+  }
+
+  @override
+  void onDismiss() {
+    widget.state.setState(() {
+      widget.state.widget.selectionMode.value = SelectionModes.base;
+      widget.state.widget.selectedButtons.value.clear();
+      widget.state.widget.resetShape.notifyListeners();
+    });
+  }
+
   @override
   void initState() {
     super.icon = CupertinoIcons.hand_draw;

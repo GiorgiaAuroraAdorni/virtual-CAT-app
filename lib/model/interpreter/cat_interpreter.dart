@@ -6,7 +6,8 @@ import "package:interpreter/cat_interpreter.dart" as cat;
 
 /// `CatInterpreter` is a singleton class that creates a single instance of
 /// `cat.CATInterpreter` when the first call to `CatInterpreter()` is made
-class CatInterpreter {
+// ignore: prefer_mixin
+class CatInterpreter with ChangeNotifier {
   /// `_catInterpreter` is a singleton instance of `CatInterpreter` that is created
   /// when the first call to `CatInterpreter()` is made
   factory CatInterpreter() => _catInterpreter;
@@ -22,10 +23,6 @@ class CatInterpreter {
 
   static late final cat.CATInterpreter _interpreter;
 
-  /// A `ValueNotifier` that is used to notify the UI when the interpreter
-  /// has been updated.
-  final ValueNotifier<bool> notifier = ValueNotifier<bool>(true);
-
   /// A getter that returns the last state of the interpreter.
   cat.BasicShape get getLastState => _interpreter.getResults.getStates.last;
 
@@ -37,7 +34,7 @@ class CatInterpreter {
 
   void resetInterpreter() {
     _interpreter.reset();
-    notifier.notifyListeners();
+    notifyListeners();
   }
 
   void reset() {
@@ -48,7 +45,7 @@ class CatInterpreter {
     String code = "go(${rows[a]}${b + 1})";
     code += " paint($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    notifier.notifyListeners();
+    notifyListeners();
   }
 
   void paintMultiple(List<Pair<int, int>> positions, List<String> colors) {
@@ -57,13 +54,13 @@ class CatInterpreter {
       code += " paint(${colors[i]})";
       _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     }
-    notifier.notifyListeners();
+    notifyListeners();
   }
 
   void fillEmpty(String color) {
     String code = "fill_empty($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    notifier.notifyListeners();
+    notifyListeners();
   }
 
   void copyCells(
@@ -81,13 +78,13 @@ class CatInterpreter {
     String code = "COPY({${originsPosition.joinToString(separator: ",")}},"
         "{${destinationPosition.joinToString(separator: ",")}})";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    notifier.notifyListeners();
+    notifyListeners();
   }
 
   void mirror(String direction) {
     final String code = "mirror($direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    notifier.notifyListeners();
+    notifyListeners();
   }
 }
 

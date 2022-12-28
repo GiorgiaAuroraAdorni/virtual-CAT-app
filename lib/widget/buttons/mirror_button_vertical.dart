@@ -1,3 +1,5 @@
+import "dart:math" as math;
+
 import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/widget/buttons/action_button.dart";
@@ -19,21 +21,7 @@ class MirrorButtonVertical extends ActionButton {
   final SideMenuState state;
 
   @override
-  void onSelect() {
-    if (CatInterpreter().executedCommands > 1) {
-      CatInterpreter().mirror("vertical");
-    } else {
-      state.widget.shakeKey.currentState?.shake();
-    }
-  }
-
-  @override
   MirrorButtonVerticalState createState() => MirrorButtonVerticalState();
-
-  @override
-  void onDismiss() {
-    // TODO: implement onDismiss
-  }
 }
 
 /// It's a button that mirrors the image vertically
@@ -48,9 +36,15 @@ class MirrorButtonVerticalSecondary extends MirrorButtonVertical {
   });
 
   @override
+  MirrorButtonVerticalStateSecondary createState() =>
+      MirrorButtonVerticalStateSecondary();
+}
+
+class MirrorButtonVerticalStateSecondary extends MirrorButtonVerticalState {
+  @override
   void onSelect() {
-    super.state.copyButtonKey.currentState?.deSelect();
-    super.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
+    widget.state.copyButtonKey.currentState?.deSelect();
+    widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
   }
 }
 
@@ -58,8 +52,23 @@ class MirrorButtonVerticalSecondary extends MirrorButtonVertical {
 class MirrorButtonVerticalState
     extends ActionButtonState<MirrorButtonVertical> {
   @override
+  void onSelect() {
+    if (CatInterpreter().executedCommands > 1) {
+      CatInterpreter().mirror("vertical");
+    } else {
+      widget.state.widget.shakeKey.currentState?.shake();
+    }
+  }
+
+  @override
+  void onDismiss() {
+    // TODO: implement onDismiss
+  }
+
+  @override
   void initState() {
     super.icon = CupertinoIcons.rectangle_grid_1x2;
+    super.angle = 90 * math.pi / 180;
     super.initState();
   }
 }

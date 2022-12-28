@@ -11,12 +11,6 @@ abstract class ActionButton extends StatefulWidget {
     super.key,
   });
 
-  /// It's a function that takes no arguments and returns nothing.
-  void onSelect();
-
-  /// It's a function that takes no arguments and returns nothing.
-  void onDismiss();
-
   /// It's a variable that is used to determine whether or not to display the
   /// coloring of the button.
   final bool displayColoring;
@@ -36,6 +30,12 @@ abstract class ActionButton extends StatefulWidget {
 /// It's a button that can be selected or deselected, and it can be activated or
 /// deactivated
 abstract class ActionButtonState<T extends ActionButton> extends State<T> {
+  /// It's a function that takes no arguments and returns nothing.
+  void onSelect();
+
+  /// It's a function that takes no arguments and returns nothing.
+  void onDismiss();
+
   final double _paddingSize = 5;
   bool _selected = false;
   bool _active = true;
@@ -90,7 +90,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
     setState(() {
       _selected = false;
     });
-    widget.onDismiss.call();
+    onDismiss.call();
   }
 
   /// When the widget is not selected, call the onSelect function and set the state
@@ -101,7 +101,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
         _selected = true;
       });
     }
-    widget.onSelect.call();
+    onSelect.call();
   }
 
   /// Deselect from external widget

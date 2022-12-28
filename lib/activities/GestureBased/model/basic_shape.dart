@@ -6,13 +6,15 @@ import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import 'package:provider/provider.dart';
+
+import '../../../utility/selected_colors_notifier.dart';
 
 /// `BasicShape` is an abstract class that extends `StatefulWidget` and has a
 /// `createState` method that returns a `BasicShapeState` object
 abstract class BasicShape extends StatefulWidget {
   /// A constructor that takes a `key` as a parameter.
   const BasicShape({
-    required this.selectedColor,
     required this.shakeKey,
     required this.width,
     required this.selectionMode,
@@ -21,9 +23,6 @@ abstract class BasicShape extends StatefulWidget {
     required this.resetSignal,
     super.key,
   });
-
-  /// List of selected colors.
-  final ValueNotifier<List<CupertinoDynamicColor>> selectedColor;
 
   /// It's a variable that is used to store the current selection mode.
   final ValueNotifier<SelectionModes> selectionMode;
@@ -67,7 +66,6 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
           rowChildren.add(
             CrossButton(
               shakeKey: widget.shakeKey,
-              selectedColor: widget.selectedColor,
               globalKey: GlobalKey<CrossButtonState>(),
               position: Pair<int, int>(i, j),
               selectionMode: widget.selectionMode,
@@ -186,7 +184,9 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         widget.selectionMode.value != SelectionModes.base) {
       return;
     }
-    final List<String> colors = analyzeColor(widget.selectedColor.value);
+    final List<String> colors = analyzeColor(
+      context.read<SelectedColorsNotifier>().colors,
+    );
     if (colors.isEmpty) {
       if (widget.selectionMode.value == SelectionModes.base) {
         for (final CrossButton i in _selectedButtons) {
@@ -222,6 +222,6 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
       widget.coloredButtons.value.addAll(_selectedButtons);
       _selectedButtons.clear();
     }
-    widget.selectedColor.value = <CupertinoDynamicColor>[];
+    context.read<SelectedColorsNotifier>().clear();
   }
 }

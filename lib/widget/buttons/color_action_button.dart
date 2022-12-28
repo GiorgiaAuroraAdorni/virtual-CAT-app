@@ -19,21 +19,21 @@ class ColorActionButton extends ActionButton {
 
   @override
   ColorActionButtonState createState() => ColorActionButtonState();
-
-  @override
-  void onDismiss() {
-    state.colorActionButtonKey.currentState?.select();
-  }
-
-  @override
-  void onSelect() {
-    state.colorActionButtonKey.currentState?.deSelect();
-  }
 }
 
 /// `ColorActionButtonState` is a subclass of `ActionButtonState` that sets the
 /// icon to `CupertinoIcons.paintbrush` in its `initState` method
 class ColorActionButtonState extends ActionButtonState<ColorActionButton> {
+  @override
+  void onDismiss() {
+    widget.state.colorActionButtonKey.currentState?.select();
+  }
+
+  @override
+  void onSelect() {
+    widget.state.colorActionButtonKey.currentState?.deSelect();
+  }
+
   @override
   void initState() {
     super.icon = CupertinoIcons.paintbrush;
