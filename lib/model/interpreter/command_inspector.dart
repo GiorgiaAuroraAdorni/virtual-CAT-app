@@ -20,6 +20,22 @@ class CommandsInspector {
       print("diagonal up right");
     } else if (inspector._diagonalDownLeft(positions)) {
       print("diagonal down left");
+    } else if (inspector._lDownLeft(positions)) {
+      print("l down left");
+    } else if (inspector._lDownRight(positions)) {
+      print("l down right");
+    } else if (inspector._lLeftUp(positions)) {
+      print("l left up");
+    } else if (inspector._lLeftDown(positions)) {
+      print("l left down");
+    } else if (inspector._lRightUp(positions)) {
+      print("l right up");
+    } else if (inspector._lRightDown(positions)) {
+      print("l right down");
+    } else if (inspector._lUpLeft(positions)) {
+      print("l up left");
+    } else if (inspector._lUpRight(positions)) {
+      print("l up right");
     } else {
       print("not found");
     }
@@ -192,4 +208,134 @@ class CommandsInspector {
 
     return true;
   }
+
+  bool _lDownLeft(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_down(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_left(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lDownRight(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_down(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_right(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lLeftDown(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_left(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_down(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lLeftUp(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_left(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_up(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lRightDown(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_right(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_down(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lRightUp(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_right(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_up(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lUpLeft(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_up(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_left(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _lUpRight(List<Pair<int, int>> positions) {
+    if (positions.length != 5) {
+      return false;
+    }
+    if (!_up(positions.sublist(0, 2))) {
+      return false;
+    }
+    if (!_right(positions.sublist(2, 5))) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // TODO: zigzagDownLeftRight
+
+  // TODO: zigzagDownRightLeft
+
+  // TODO: zigzagLeftDownUp
+
+  // TODO: zigzagLeftUpDown
+
+  // TODO: zigzagRightDownUp
+
+  // TODO: zigzagRightUpDown
+
+  // TODO: zigzagUpLeftRight
+
+  // TODO: zigzagUpRightLeft
+
+  // TODO: square
 }

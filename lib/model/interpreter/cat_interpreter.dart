@@ -119,7 +119,7 @@ class CatInterpreter with ChangeNotifier {
   /// Args:
   ///   direction (String): The direction to mirror the image.
   void mirror(String direction) {
-    final String code = "mirror($direction)";
+    final String code = "MIRROR($direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     notifyListeners();
   }
