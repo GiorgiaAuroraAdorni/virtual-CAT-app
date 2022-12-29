@@ -203,15 +203,11 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         widget.shakeKey.currentState?.shake();
       }
     }
-    int j = 0;
     final List<Pair<int, int>> positions = <Pair<int, int>>[];
-    final List<String> allColors = <String>[];
     for (final CrossButton i in _selectedButtons) {
-      j = (j + 1) % colors.length;
       positions.add(i.position);
-      allColors.add(colors[j]);
     }
-    CatInterpreter().paintMultiple(positions, allColors);
+    CatInterpreter().paintMultiple(positions, colors);
     if (widget.selectionMode.value == SelectionModes.base) {
       for (final CrossButton i in _selectedButtons) {
         i.unSelect(success: true);
