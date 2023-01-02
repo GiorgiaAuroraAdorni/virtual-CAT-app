@@ -1,60 +1,108 @@
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 
 class CommandsInspector {
-  static main(List<Pair<int, int>> positions) {
-    final CommandsInspector inspector = CommandsInspector();
-    print(positions);
-    if (inspector._right(positions)) {
-      print("right");
-    } else if (inspector._left(positions)) {
-      print("left");
-    } else if (inspector._up(positions)) {
-      print("up");
-    } else if (inspector._down(positions)) {
-      print("down");
-    } else if (inspector._diagonalDownRight(positions)) {
-      print("diagonal down right");
-    } else if (inspector._diagonalUpLeft(positions)) {
-      print("diagonal up left");
-    } else if (inspector._diagonalUpRight(positions)) {
-      print("diagonal up right");
-    } else if (inspector._diagonalDownLeft(positions)) {
-      print("diagonal down left");
-    } else if (inspector._lDownLeft(positions)) {
-      print("l down left");
-    } else if (inspector._lDownRight(positions)) {
-      print("l down right");
-    } else if (inspector._lLeftUp(positions)) {
-      print("l left up");
-    } else if (inspector._lLeftDown(positions)) {
-      print("l left down");
-    } else if (inspector._lRightUp(positions)) {
-      print("l right up");
-    } else if (inspector._lRightDown(positions)) {
-      print("l right down");
-    } else if (inspector._lUpLeft(positions)) {
-      print("l up left");
-    } else if (inspector._lUpRight(positions)) {
-      print("l up right");
-    } else if (inspector._zigzagRightDownUp(positions)) {
-      print("zigzag right down up");
-    } else if (inspector._zigzagRightUpDown(positions)) {
-      print("zigzag right up down");
-    } else if (inspector._zigzagLeftDownUp(positions)) {
-      print("zigzag left down up");
-    } else if (inspector._zigzagLeftUpDown(positions)) {
-      print("zigzag left up down");
-    } else if (inspector._zigzagDownLeftRight(positions)) {
-      print("zigzag down left right");
-    } else if (inspector._zigzagDownRightLeft(positions)) {
-      print("zigzag down right left");
-    } else if (inspector._zigzagUpLeftRight(positions)) {
-      print("zigzag up left right");
-    } else if (inspector._zigzagUpRightLeft(positions)) {
-      print("zigzag up right left");
-    } else {
-      print("not found");
+  static String main(List<Pair<int, int>> positions, List<String> colors) {
+    if (positions.length < 2 || colors.isEmpty) {
+      return "";
     }
+    final CommandsInspector inspector = CommandsInspector();
+    String direction = "";
+    if (inspector._right(positions)) {
+      direction = "right";
+    } else if (inspector._left(positions)) {
+      direction = "left";
+    } else if (inspector._up(positions)) {
+      direction = "up";
+    } else if (inspector._down(positions)) {
+      direction = "down";
+    } else if (inspector._diagonalDownRight(positions)) {
+      direction = "diagonal down right";
+    } else if (inspector._diagonalUpLeft(positions)) {
+      direction = "diagonal up left";
+    } else if (inspector._diagonalUpRight(positions)) {
+      direction = "diagonal up right";
+    } else if (inspector._diagonalDownLeft(positions)) {
+      direction = "diagonal down left";
+    } else if (inspector._lDownLeft(positions)) {
+      direction = "l down left";
+    } else if (inspector._lDownRight(positions)) {
+      direction = "l down right";
+    } else if (inspector._lLeftUp(positions)) {
+      direction = "l left up";
+    } else if (inspector._lLeftDown(positions)) {
+      direction = "l left down";
+    } else if (inspector._lRightUp(positions)) {
+      direction = "l right up";
+    } else if (inspector._lRightDown(positions)) {
+      direction = "l right down";
+    } else if (inspector._lUpLeft(positions)) {
+      direction = "l up left";
+    } else if (inspector._lUpRight(positions)) {
+      direction = "l up right";
+    } else if (inspector._zigzagRightDownUp(positions)) {
+      direction = "zigzag right down up";
+    } else if (inspector._zigzagRightUpDown(positions)) {
+      direction = "zigzag right up down";
+    } else if (inspector._zigzagLeftDownUp(positions)) {
+      direction = "zigzag left down up";
+    } else if (inspector._zigzagLeftUpDown(positions)) {
+      direction = "zigzag left up down";
+    } else if (inspector._zigzagDownLeftRight(positions)) {
+      direction = "zigzag down left right";
+    } else if (inspector._zigzagDownRightLeft(positions)) {
+      direction = "zigzag down right left";
+    } else if (inspector._zigzagUpLeftRight(positions)) {
+      direction = "zigzag up left right";
+    } else if (inspector._zigzagUpRightLeft(positions)) {
+      direction = "zigzag up right left";
+    } else if (inspector._square(positions)) {
+      direction = "square";
+    }
+    String command = "";
+    if (!direction.isBlank) {
+      if (direction == "square") {
+        int j = 0;
+        final List<String> fullColorsList = <String>[];
+        for (final Pair<int, int> _ in positions) {
+          fullColorsList.add(colors[j]);
+          j = (j + 1) % colors.length;
+        }
+        final List<Pair<int, int>> positionsCopy =
+            List<Pair<int, int>>.from(positions)
+              ..sort(
+                (Pair<int, int> a, Pair<int, int> b) =>
+                    a.second.compareTo(b.second),
+              );
+        final List<String> fullColorsListCopy =
+            List<String>.from(fullColorsList);
+        for (int i = 0; i < fullColorsList.length; i++) {
+          fullColorsListCopy[positionsCopy.indexOf(positions[i])] =
+              fullColorsList[i];
+        }
+        positionsCopy.sort(
+          (Pair<int, int> a, Pair<int, int> b) =>
+              (6 - a.first).compareTo(6 - b.first),
+        );
+        final List<String> fullColorsListCopy2 =
+            List<String>.from(fullColorsListCopy);
+        for (int i = 0; i < fullColorsList.length; i++) {
+          fullColorsListCopy2[positionsCopy.indexOf(positions[i])] =
+              fullColorsListCopy[i];
+        }
+        command +=
+            "go(${rows[positionsCopy.first.first]}${positionsCopy.first.second + 1}), ";
+        command +=
+            "paint({${fullColorsListCopy2.joinToString()}},${positionsCopy.length},$direction)";
+      } else {
+        command +=
+            "go(${rows[positions.first.first]}${positions.first.second + 1}), ";
+        command +=
+            "paint({${colors.joinToString()}},${positions.length},$direction)";
+      }
+    }
+
+    return command;
   }
 
   bool _left(List<Pair<int, int>> positions) {
@@ -489,5 +537,37 @@ class CommandsInspector {
     return true;
   }
 
-  // TODO: square
+  bool _square(List<Pair<int, int>> positions) {
+    if (positions.length != 4) {
+      return false;
+    }
+    if (positions[0].first - positions[1].first != 0 &&
+        positions[0].second - positions[1].second != 0) {
+      return false;
+    }
+    final List<Pair<int, int>> positionsCopy =
+        List<Pair<int, int>>.from(positions)
+          ..sort(
+            (Pair<int, int> a, Pair<int, int> b) =>
+                a.second.compareTo(b.second),
+          )
+          ..sort(
+            (Pair<int, int> a, Pair<int, int> b) =>
+                (6 - a.first).compareTo(6 - b.first),
+          );
+    if (positionsCopy[0].first != positionsCopy[1].first &&
+        positionsCopy[0].second + 1 != positionsCopy[1].second) {
+      return false;
+    }
+    if (positionsCopy[0].first - 1 != positionsCopy[2].first &&
+        positionsCopy[0].second + 1 != positionsCopy[2].second) {
+      return false;
+    }
+    if (positionsCopy[0].first - 1 != positionsCopy[3].first &&
+        positionsCopy[0].second != positionsCopy[3].second) {
+      return false;
+    }
+
+    return true;
+  }
 }
