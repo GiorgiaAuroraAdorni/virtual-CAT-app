@@ -36,6 +36,22 @@ class CommandsInspector {
       print("l up left");
     } else if (inspector._lUpRight(positions)) {
       print("l up right");
+    } else if (inspector._zigzagRightDownUp(positions)) {
+      print("zigzag right down up");
+    } else if (inspector._zigzagRightUpDown(positions)) {
+      print("zigzag right up down");
+    } else if (inspector._zigzagLeftDownUp(positions)) {
+      print("zigzag left down up");
+    } else if (inspector._zigzagLeftUpDown(positions)) {
+      print("zigzag left up down");
+    } else if (inspector._zigzagDownLeftRight(positions)) {
+      print("zigzag down left right");
+    } else if (inspector._zigzagDownRightLeft(positions)) {
+      print("zigzag down right left");
+    } else if (inspector._zigzagUpLeftRight(positions)) {
+      print("zigzag up left right");
+    } else if (inspector._zigzagUpRightLeft(positions)) {
+      print("zigzag up right left");
     } else {
       print("not found");
     }
@@ -321,21 +337,157 @@ class CommandsInspector {
     return true;
   }
 
-  // TODO: zigzagDownLeftRight
+  bool _zigzagDownLeftRight(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalDownLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalDownRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
 
-  // TODO: zigzagDownRightLeft
+    return true;
+  }
 
-  // TODO: zigzagLeftDownUp
+  bool _zigzagDownRightLeft(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalDownRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalDownLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
 
-  // TODO: zigzagLeftUpDown
+    return true;
+  }
 
-  // TODO: zigzagRightDownUp
+  bool _zigzagLeftDownUp(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalDownLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalUpLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
 
-  // TODO: zigzagRightUpDown
+    return true;
+  }
 
-  // TODO: zigzagUpLeftRight
+  bool _zigzagLeftUpDown(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalUpLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalDownLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
 
-  // TODO: zigzagUpRightLeft
+    return true;
+  }
+
+  bool _zigzagRightDownUp(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalDownRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalUpRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  bool _zigzagRightUpDown(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalUpRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalDownRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  bool _zigzagUpLeftRight(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalUpLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalUpRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  bool _zigzagUpRightLeft(List<Pair<int, int>> positions) {
+    if (positions.length < 3) {
+      return false;
+    }
+    for (int i = 0; i < positions.length - 1; i++) {
+      if (i.isEven) {
+        if (!_diagonalUpRight(positions.slice(i, i + 1))) {
+          return false;
+        }
+      } else {
+        if (!_diagonalUpLeft(positions.slice(i, i + 1))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 
   // TODO: square
 }
