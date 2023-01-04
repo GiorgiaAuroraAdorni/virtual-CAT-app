@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
+import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";

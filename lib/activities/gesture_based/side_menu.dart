@@ -1,5 +1,5 @@
-import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
-import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";

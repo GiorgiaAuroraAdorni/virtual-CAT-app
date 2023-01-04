@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/basic_shape.dart";
 
 /// `Cross` is a `BasicShape` that has a `CrossState` state class
 class Cross extends BasicShape {

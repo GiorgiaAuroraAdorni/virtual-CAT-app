@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/gesture_home.dart";
+import "package:cross_array_task_app/activities/gesture_based/gesture_home.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/session.dart";
 import "package:flutter/cupertino.dart";

@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/GestureBased/model/basic_shape.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/basic_shape.dart";
 
 /// `Square` is a `BasicShape` that has a `_SquareState` state class
 class Square extends BasicShape {

@@ -1,5 +1,5 @@
-import 'package:cross_array_task_app/activities/GestureBased/bottom_bar.dart';
 import "package:cross_array_task_app/activities/cross.dart";
+import "package:cross_array_task_app/activities/gesture_based/bottom_bar.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";

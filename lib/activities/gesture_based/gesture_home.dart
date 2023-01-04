@@ -1,9 +1,9 @@
-import "package:cross_array_task_app/activities/GestureBased/gesture_board.dart";
-import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
-import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
-import "package:cross_array_task_app/activities/GestureBased/side_bar.dart";
-import "package:cross_array_task_app/activities/GestureBased/side_menu.dart";
-import "package:cross_array_task_app/activities/GestureBased/top_bar.dart";
+import "package:cross_array_task_app/activities/gesture_based/gesture_board.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
+import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
+import "package:cross_array_task_app/activities/gesture_based/top_bar.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
