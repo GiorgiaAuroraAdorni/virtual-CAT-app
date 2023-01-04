@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
+import 'package:cross_array_task_app/activities/activity_home_block.dart';
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/session_builder.dart";
 import "package:cross_array_task_app/tutor_form.dart";
@@ -54,6 +55,26 @@ class ModeSelection extends StatelessWidget {
                     );
                   },
                   child: const Text("Test application"),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                CupertinoButton.filled(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) =>
+                            CupertinoPageScaffold(
+                          child: ActivityHomeBlock(
+                            sessionData: SessionBuilder().build(),
+                            // params: ParametersBuilder().build(),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text("Test application block"),
                 ),
               ],
             ),

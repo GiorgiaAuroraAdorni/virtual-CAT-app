@@ -5,16 +5,23 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror.da
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:interpreter/cat_interpreter.dart';
+import 'package:provider/provider.dart';
 
-class Canvas extends StatefulWidget {
-  const Canvas({super.key});
+import '../../model/interpreter/cat_interpreter.dart';
+import '../../utility/result_notifier.dart';
+import '../../utility/visibility_notifier.dart';
+
+class BlockCanvas extends StatefulWidget {
+  const BlockCanvas({super.key});
 
   @override
-  _CanvasState createState() => _CanvasState();
+  _BlockCanvasState createState() => _BlockCanvasState();
 }
 
-class _CanvasState extends State<Canvas> {
+class _BlockCanvasState extends State<BlockCanvas> {
   List<Widget> widgets = [];
   List<SimpleContainer> items = [];
 
@@ -142,33 +149,73 @@ class _CanvasState extends State<Canvas> {
     });
   }
 
+  void _interpreterListener() {
+    if (!mounted) {
+      return;
+    }
+    if (context.read<VisibilityNotifier>().visible) {
+      context.read<ResultNotifier>().cross =
+          CatInterpreter().getLastState as Cross;
+      CatInterpreter().addListener(_interpreterListener);
+    } else {
+      CatInterpreter().removeListener(_interpreterListener);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => DragTarget<SimpleContainer>(
-        builder: (
-          BuildContext context,
-          List<SimpleContainer?> candidateItems,
-          List rejectedItems,
-        ) =>
-            Container(
-          color: candidateItems.isNotEmpty
-              ? Colors.redAccent.shade100
-              : Colors.grey,
-          child: ReorderableListView(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            onReorder: (int oldIndex, int newIndex) {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              widgets.insert(newIndex, widgets.removeAt(oldIndex));
-              items.insert(newIndex, items.removeAt(oldIndex));
+  void initState() {
+    context.read<VisibilityNotifier>().addListener(_interpreterListener);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          DragTarget<SimpleContainer>(
+            builder: (
+              BuildContext context,
+              List<SimpleContainer?> candidateItems,
+              List rejectedItems,
+            ) =>
+                Container(
+              width: MediaQuery.of(context).size.width / 2.1,
+              height: MediaQuery.of(context).size.height - 80,
+              color: candidateItems.isNotEmpty
+                  ? Colors.redAccent.shade100
+                  : Colors.grey,
+              child: ReorderableListView(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                onReorder: (int oldIndex, int newIndex) {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  widgets.insert(newIndex, widgets.removeAt(oldIndex));
+                  items.insert(newIndex, items.removeAt(oldIndex));
+                },
+                children: widgets,
+              ),
+            ),
+            onAccept: (SimpleContainer item) {
+              _itemDroppedOnCustomerCart(
+                item: item,
+              );
             },
-            children: widgets,
           ),
-        ),
-        onAccept: (SimpleContainer item) {
-          _itemDroppedOnCustomerCart(
-            item: item,
-          );
-        },
+          CupertinoButton(
+            child: const Text("Execute"),
+            onPressed: () {
+              CatInterpreter().reset();
+              final String command =
+                  items.map((SimpleContainer e) => e.toString()).join(",");
+              CatInterpreter().executeCommands(command);
+            },
+          ),
+        ],
       );
+
+  @override
+  void dispose() {
+    CatInterpreter().removeListener(_interpreterListener);
+    super.dispose();
+  }
 }

@@ -147,6 +147,16 @@ class CatInterpreter with ChangeNotifier {
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     notifyListeners();
   }
+
+  /// It takes a string of commands, validates them against the current schema,
+  /// and then notifies the listeners
+  ///
+  /// Args:
+  ///   commands (String): The commands to be executed.
+  void executeCommands(String commands) {
+    _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
+    notifyListeners();
+  }
 }
 
 class CatBuffer {

@@ -121,6 +121,8 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               DefaultCupertinoLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
             ],
             supportedLocales: LocaleProvider()._languages,
           ),

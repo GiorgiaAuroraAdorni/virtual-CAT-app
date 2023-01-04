@@ -1,10 +1,9 @@
-import 'package:cross_array_task_app/model/session_builder.dart';
+import "package:cross_array_task_app/model/session_builder.dart";
 import "package:cross_array_task_app/student_form.dart";
 import "package:cross_array_task_app/utility/cantons_list.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/supervisor.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/services.dart";
 
 /// `SchoolForm` is a stateful widget that creates a `SchoolFormState` object
 class SchoolForm extends StatefulWidget {

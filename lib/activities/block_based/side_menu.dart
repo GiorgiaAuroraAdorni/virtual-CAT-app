@@ -10,16 +10,17 @@ import "package:cross_array_task_app/activities/block_based/options/color.dart";
 import "package:cross_array_task_app/activities/block_based/options/direction.dart";
 import "package:cross_array_task_app/activities/block_based/types/component_type.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
-class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+class SideMenu extends StatefulWidget {
+  const SideMenu({super.key});
 
   @override
-  _SideBarState createState() => _SideBarState();
+  _SideMenuState createState() => _SideMenuState();
 }
 
-class _SideBarState extends State<SideBar> {
+class _SideMenuState extends State<SideMenu> {
   final GlobalKey _draggableKey = GlobalKey();
 
   /// Creating a list of SimpleContainer objects.
@@ -189,24 +190,11 @@ class _SideBarState extends State<SideBar> {
 
   @override
   Widget build(BuildContext context) => Container(
-        color: Colors.blueGrey,
+        color: CupertinoColors.white,
         child: Column(
           children: <Widget>[
-            const SizedBox(
-              height: 5,
-            ),
-            const Text(
-              "Comandi",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(5),
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: containers.length + components.length,
