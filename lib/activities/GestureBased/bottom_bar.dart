@@ -27,10 +27,9 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
               onPressed: _reset,
               borderRadius: BorderRadius.circular(45),
@@ -43,7 +42,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
               onPressed: () async {
                 await schemaCompleted().then((bool result) {

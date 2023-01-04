@@ -124,7 +124,7 @@ class CrossButtonState extends State<CrossButton> {
   ///   A CupertinoButton with a child of either an Icon or a Text widget.
   @override
   Widget build(BuildContext context) {
-    dimension = MediaQuery.of(context).size.width / 14;
+    dimension = MediaQuery.of(context).size.width / 13;
 
     return Padding(
       padding: EdgeInsets.all(dimension / 10),

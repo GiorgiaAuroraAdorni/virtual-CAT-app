@@ -1,4 +1,3 @@
-import "package:cross_array_task_app/activities/GestureBased/bottom_bar.dart";
 import "package:cross_array_task_app/activities/GestureBased/gesture_board.dart";
 import "package:cross_array_task_app/activities/GestureBased/model/cross_button.dart";
 import "package:cross_array_task_app/activities/GestureBased/selection_mode.dart";
@@ -71,6 +70,7 @@ class GestureHomeState extends State<GestureHome> {
           ),
         ],
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const TopBar(),
             Row(
@@ -93,7 +93,6 @@ class GestureHomeState extends State<GestureHome> {
                 const SideBar(),
               ],
             ),
-            const BottomBar(),
           ],
         ),
       );

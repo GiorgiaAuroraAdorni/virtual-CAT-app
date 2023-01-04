@@ -7,10 +7,10 @@ class DummyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width / 14 / 10),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width / 13 / 10),
         child: Container(
-          width: MediaQuery.of(context).size.width / 14,
-          height: MediaQuery.of(context).size.width / 14,
+          width: MediaQuery.of(context).size.width / 13,
+          height: MediaQuery.of(context).size.width / 13,
           decoration: const BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.all(Radius.circular(100)),

@@ -28,11 +28,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
 
-  #  audio_waveforms: ^0.1.1
-  audio_waveforms:
-    git:
-      url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
-      ref: hotfix/flutter_version3.0.0
   flutter_screen_lock: ^7.0.4
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,9 +43,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  provider: ^6.0.3
+  provider: ^6.0.5
   # A package that allows you to use svg images in your flutter app.
-  flutter_svg: ^1.1.5
+  flutter_svg: ^1.1.6
 
 #  interpreter:
 #    path: ../CAT-symbolic-programming-language-interpreter/
@@ -61,9 +56,6 @@ dependencies:
 
   # A package that provides a platform-agnostic way to get commonly used locations on the filesystem.
   path_provider: ^2.0.11
-
-  # A package that allows you to create tuples.
-  tuple: ^2.0.0
 
 
 dev_dependencies:

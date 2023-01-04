@@ -104,7 +104,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    final double containerDimension = widget.width / 14;
+    final double containerDimension = widget.width / 13;
     final double sizeBoxDimension = widget.width / 50;
     final double widgetDimension =
         (6 * containerDimension) + (sizeBoxDimension * 5);

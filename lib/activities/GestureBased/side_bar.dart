@@ -1,3 +1,4 @@
+import 'package:cross_array_task_app/activities/GestureBased/bottom_bar.dart';
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -74,14 +75,11 @@ class _SideBarState extends State<SideBar> {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: CrossWidgetSimple(
-                resultValueNotifier: context.watch<ReferenceNotifier>(),
-              ),
+            CrossWidgetSimple(
+              resultValueNotifier: context.watch<ReferenceNotifier>(),
             ),
             Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.only(top: 20),
               child: Column(
                 children: <Widget>[
                   _showCross,
@@ -90,6 +88,10 @@ class _SideBarState extends State<SideBar> {
                   ),
                 ],
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: BottomBar(),
             ),
           ],
         ),
