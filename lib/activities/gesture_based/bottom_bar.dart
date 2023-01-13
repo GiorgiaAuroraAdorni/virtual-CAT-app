@@ -92,14 +92,14 @@ class _BottomBarState extends State<BottomBar> {
       ),
       loadingTextWidget: Column(
         children: <Widget>[
-          Text(
-            "Punteggio total: ${_totalScore * 100}",
-            style: const TextStyle(
-              color: CupertinoColors.white,
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 18),
+          // Text(
+          //   "Punteggio total: ${_totalScore * 100}",
+          //   style: const TextStyle(
+          //     color: CupertinoColors.white,
+          //     fontSize: 18,
+          //   ),
+          // ),
+          // const SizedBox(height: 18),
           Text(
             "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
             style: const TextStyle(
