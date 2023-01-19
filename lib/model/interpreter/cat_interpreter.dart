@@ -65,19 +65,8 @@ class CatInterpreter with ChangeNotifier {
   /// represents the row and column of the cell to be painted.
   ///   colors (List<String>): a list of colors to paint the cells with.
   void paintMultiple(List<Pair<int, int>> positions, List<String> colors) {
-    String command = CommandsInspector.main(positions, colors);
-    if (!command.isBlank) {
-      _interpreter.validateOnScheme(command, SchemasReader().currentIndex);
-    } else {
-      int j = 0;
-      for (int i = 0; i < positions.length; i++) {
-        String code =
-            "go(${rows[positions[i].first]}${positions[i].second + 1})";
-        code += " paint(${colors[j]})";
-        _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-        j = (j + 1) % colors.length;
-      }
-    }
+    final String command = CommandsInspector.main(positions, colors);
+    _interpreter.validateOnScheme(command, SchemasReader().currentIndex);
     notifyListeners();
   }
 

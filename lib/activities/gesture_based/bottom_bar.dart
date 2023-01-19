@@ -1,6 +1,5 @@
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -22,7 +21,6 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int _totalScore = 0;
   num _globalTime = 0;
 
   @override
@@ -73,12 +71,6 @@ class _BottomBarState extends State<BottomBar> {
   ///   A Future<bool>
   Future<bool> schemaCompleted() async {
     final Results results = CatInterpreter().getResults;
-    _totalScore += catScore(
-      commands: List<String>.from(
-        results.getCommands,
-      ),
-      visible: context.read<VisibilityNotifier>().visible,
-    );
     _globalTime += context.read<TimeKeeper>().rawTime;
     context.read<VisibilityNotifier>().visible = true;
     final bool result = await UIBlock.blockWithData(
@@ -92,14 +84,6 @@ class _BottomBarState extends State<BottomBar> {
       ),
       loadingTextWidget: Column(
         children: <Widget>[
-          // Text(
-          //   "Punteggio total: ${_totalScore * 100}",
-          //   style: const TextStyle(
-          //     color: CupertinoColors.white,
-          //     fontSize: 18,
-          //   ),
-          // ),
-          // const SizedBox(height: 18),
           Text(
             "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
             style: const TextStyle(

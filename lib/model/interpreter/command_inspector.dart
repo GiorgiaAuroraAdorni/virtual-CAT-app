@@ -58,6 +58,13 @@ class CommandsInspector {
       direction = "zigzag up right left";
     } else if (inspector._square(positions)) {
       direction = "square";
+    } else {
+      final String converted = colors.joinToString();
+      final String cells = positions
+          .map((Pair<int, int> e) => "${rows[e.first]}${e.second + 1}")
+          .joinToString();
+
+      return "paint({$converted},:,{$cells})";
     }
     String command = "";
     if (!direction.isBlank) {
