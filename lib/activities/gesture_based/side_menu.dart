@@ -131,7 +131,7 @@ class SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,

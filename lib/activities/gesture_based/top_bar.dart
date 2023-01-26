@@ -36,7 +36,7 @@ class _TopBarState extends State<TopBar> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             // Text(
             //   "Punteggio: ${catScore(

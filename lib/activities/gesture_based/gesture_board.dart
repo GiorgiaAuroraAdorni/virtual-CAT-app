@@ -39,7 +39,7 @@ class GestureBoard extends StatefulWidget {
 class _GestureBoardState extends State<GestureBoard> {
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         child: Cross(
           shakeKey: widget.shakeKey,
           width: MediaQuery.of(context).size.width,

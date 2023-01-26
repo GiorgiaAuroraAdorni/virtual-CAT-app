@@ -73,25 +73,48 @@ class GestureHomeState extends State<GestureHome> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const TopBar(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SideMenu(
-                  shakeKey: _shakeKey,
-                  selectionMode: _selectionMode,
-                  coloredButtons: _coloredButtons,
-                  selectedButtons: _selectedButtons,
-                  resetShape: _resetCross,
-                ),
-                GestureBoard(
-                  shakeKey: _shakeKey,
-                  selectionMode: _selectionMode,
-                  coloredButtons: _coloredButtons,
-                  selectedButtons: _selectedButtons,
-                  resetSignal: _resetCross,
-                ),
-                const SideBar(),
-              ],
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemTeal,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.systemBackground,
+                        border: Border.all(
+                          color: CupertinoColors.darkBackgroundGray,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          SideMenu(
+                            shakeKey: _shakeKey,
+                            selectionMode: _selectionMode,
+                            coloredButtons: _coloredButtons,
+                            selectedButtons: _selectedButtons,
+                            resetShape: _resetCross,
+                          ),
+                          GestureBoard(
+                            shakeKey: _shakeKey,
+                            selectionMode: _selectionMode,
+                            coloredButtons: _coloredButtons,
+                            selectedButtons: _selectedButtons,
+                            resetSignal: _resetCross,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SideBar(),
+                ],
+              ),
             ),
           ],
         ),
