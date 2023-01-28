@@ -1,10 +1,10 @@
-import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
+import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:interpreter/cat_interpreter.dart';
@@ -31,119 +31,68 @@ class _BlockCanvasState extends State<BlockCanvas> {
     setState(() {
       final UniqueKey key = UniqueKey();
       item.key = key;
-      switch (item.type) {
-        case ContainerType.fillEmpty:
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: FillEmpty(
-                key: UniqueKey(),
-                active: true,
-                item: item,
-                onChange: (Size size) {},
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(
-                  () {
-                    widgets.removeWhere((Widget element) => element.key == key);
-                    items.removeWhere(
-                      (SimpleContainer element) => element.key == key,
-                    );
-                  },
+      if (item is FillEmptyContainer) {
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: FillEmpty(
+              key: UniqueKey(),
+              active: true,
+              item: item,
+              onChange: (Size size) {},
+            ),
+            onDismissed: (DismissDirection direction) {
+              setState(
+                () {
+                  widgets.removeWhere((Widget element) => element.key == key);
+                  items.removeWhere(
+                    (SimpleContainer element) => element.key == key,
+                  );
+                },
+              );
+            },
+          ),
+        );
+      } else if (item is PaintContainer) {
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: Paint(
+              key: UniqueKey(),
+              active: true,
+              item: item,
+              onChange: (Size n) {},
+            ),
+            onDismissed: (DismissDirection direction) {
+              setState(() {
+                widgets.removeWhere((Widget element) => element.key == key);
+                items.removeWhere(
+                  (SimpleContainer element) => element.key == key,
                 );
-              },
+              });
+            },
+          ),
+        );
+      } else if (item is PaintSingleContainer) {
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: PaintSingle(
+              key: UniqueKey(),
+              active: true,
+              item: item,
+              onChange: (Size n) {},
             ),
-          );
-          break;
-        case ContainerType.go:
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: Go(
-                key: UniqueKey(),
-                active: true,
-                item: item,
-                onChange: (Size size) {},
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(
-                  () {
-                    widgets.removeWhere((Widget element) => element.key == key);
-                    items.removeWhere(
-                      (SimpleContainer element) => element.key == key,
-                    );
-                  },
+            onDismissed: (DismissDirection direction) {
+              setState(() {
+                widgets.removeWhere((Widget element) => element.key == key);
+                items.removeWhere(
+                  (SimpleContainer element) => element.key == key,
                 );
-              },
-            ),
-          );
-          break;
-        case ContainerType.paint:
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: Paint(
-                key: UniqueKey(),
-                active: true,
-                item: item,
-                onChange: (Size n) {},
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(() {
-                  widgets.removeWhere((Widget element) => element.key == key);
-                  items.removeWhere(
-                    (SimpleContainer element) => element.key == key,
-                  );
-                });
-              },
-            ),
-          );
-          break;
-        case ContainerType.copy:
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: Copy(
-                key: UniqueKey(),
-                active: true,
-                item: item,
-                onChange: (Size n) {},
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(() {
-                  widgets.removeWhere((Widget element) => element.key == key);
-                  items.removeWhere(
-                    (SimpleContainer element) => element.key == key,
-                  );
-                });
-              },
-            ),
-          );
-          break;
-        case ContainerType.mirror:
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: Mirror(
-                key: UniqueKey(),
-                active: true,
-                item: item,
-                onChange: (Size n) {},
-              ),
-              onDismissed: (DismissDirection direction) {
-                setState(() {
-                  widgets.removeWhere((Widget element) => element.key == key);
-                  items.removeWhere(
-                    (SimpleContainer element) => element.key == key,
-                  );
-                });
-              },
-            ),
-          );
-          break;
-        case ContainerType.none:
-          // TODO: Handle this case.
-          break;
+              });
+            },
+          ),
+        );
       }
       items.add(item);
     });

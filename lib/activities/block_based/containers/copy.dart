@@ -2,6 +2,8 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
+import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/options/cell.dart";
@@ -147,7 +149,7 @@ class _Copy extends State<Copy> {
                                   return FillEmpty(
                                     key: UniqueKey(),
                                     active: true,
-                                    item: container,
+                                    item: container as FillEmptyContainer,
                                     onChange: (Size size) {
                                       setState(() {
                                         sized[key] = size.height;
@@ -169,7 +171,7 @@ class _Copy extends State<Copy> {
                                   return Paint(
                                     key: UniqueKey(),
                                     active: true,
-                                    item: container,
+                                    item: container as PaintContainer,
                                     onChange: (Size size) {
                                       setState(() {
                                         sized[key] = size.height;
@@ -199,6 +201,8 @@ class _Copy extends State<Copy> {
                                     },
                                   );
                                 case ContainerType.none:
+                                  return Container();
+                                case ContainerType.paintSingle:
                                   return Container();
                               }
                             })(),

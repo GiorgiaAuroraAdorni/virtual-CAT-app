@@ -9,11 +9,13 @@ enum ContainerType {
   /// Paint type
   paint,
 
+  /// Paint type
+  paintSingle,
+
   /// Copy type
   copy,
 
   /// Mirror type
   mirror,
-
   none,
 }

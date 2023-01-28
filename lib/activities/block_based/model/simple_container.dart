@@ -36,13 +36,13 @@ class SimpleContainer extends Base {
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> container = <SimpleContainer>[];
 
+  SimpleContainer copy() => SimpleContainer(name: name, type: type);
+
   @override
   String toString() {
     switch (type) {
       case ContainerType.fillEmpty:
-        return "fill_empty(${colors.map(
-              (SimpleComponent e) => e.toString(),
-            ).join(",")})";
+        return "";
       case ContainerType.go:
         if (moves.last.type == ComponentType.cell) {
           return "go(${moves.map(
@@ -94,6 +94,8 @@ class SimpleContainer extends Base {
               (SimpleContainer e) => e.toString(),
             ).join(",")}},$axis)";
       case ContainerType.none:
+        return "";
+      case ContainerType.paintSingle:
         return "";
     }
   }

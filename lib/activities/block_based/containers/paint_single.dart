@@ -1,14 +1,13 @@
-import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 
 /// `FillEmpty` is a stateful widget that displays a `SimpleContainer` and calls a
 /// function when the user clicks on it
-class FillEmpty extends StatefulWidget {
+class PaintSingle extends StatefulWidget {
   /// A constructor that takes in a key, a boolean, a SimpleContainer, and a
   /// function.
-  const FillEmpty({
+  const PaintSingle({
     required this.active,
     required this.item,
     required this.onChange,
@@ -17,7 +16,7 @@ class FillEmpty extends StatefulWidget {
 
   /// This is a named constructor that is used to create a new instance of
   /// the FillEmpty class.
-  const FillEmpty.build({
+  const PaintSingle.build({
     required this.active,
     required this.item,
     required this.onChange,
@@ -29,16 +28,16 @@ class FillEmpty extends StatefulWidget {
 
   /// A variable that is used to store the SimpleContainer that is passed in from
   /// the parent widget.
-  final FillEmptyContainer item;
+  final PaintSingleContainer item;
 
   /// This is a function that is passed in from the parent widget.
   final Function onChange;
 
   @override
-  State<StatefulWidget> createState() => _FillEmpty();
+  State<StatefulWidget> createState() => _PaintSingle();
 }
 
-class _FillEmpty extends State<FillEmpty> {
+class _PaintSingle extends State<PaintSingle> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
@@ -55,7 +54,7 @@ class _FillEmpty extends State<FillEmpty> {
             : MediaQuery.of(context).size.width / 4,
         decoration: BoxDecoration(
           border: Border.all(),
-          color: CupertinoColors.systemPurple,
+          color: CupertinoColors.systemIndigo,
           borderRadius: const BorderRadius.all(Radius.circular(5)),
         ),
         child: Center(
@@ -112,7 +111,7 @@ class _FillEmpty extends State<FillEmpty> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Icon(
-              Icons.format_color_fill_rounded,
+              CupertinoIcons.paintbrush,
               color: CupertinoColors.systemBackground,
             ),
             Row(

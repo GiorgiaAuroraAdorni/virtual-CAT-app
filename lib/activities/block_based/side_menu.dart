@@ -3,6 +3,10 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
+import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/options/cell.dart";
@@ -24,19 +28,22 @@ class _SideMenuState extends State<SideMenu> {
   final GlobalKey _draggableKey = GlobalKey();
 
   /// Creating a list of SimpleContainer objects.
-  List<SimpleContainer> containers = [
-    SimpleContainer(name: "Vai a", type: ContainerType.go),
-    SimpleContainer(name: "Colora", type: ContainerType.paint),
-    SimpleContainer(name: "Riempi vuoti", type: ContainerType.fillEmpty),
-    SimpleContainer(name: "Copia", type: ContainerType.copy),
-    SimpleContainer(name: "Specchia", type: ContainerType.mirror),
+  List<SimpleContainer> containers = <SimpleContainer>[
+    // SimpleContainer(name: "Vai a", type: ContainerType.go),
+    // SimpleContainer(name: "Colora", type: ContainerType.paint),
+    FillEmptyContainer(),
+    PaintContainer(),
+    PaintSingleContainer(),
+    // SimpleContainer(name: "Riempi vuoti", type: ContainerType.fillEmpty),
+    // SimpleContainer(name: "Copia", type: ContainerType.copy),
+    // SimpleContainer(name: "Specchia", type: ContainerType.mirror),
   ];
 
   /// Creating a list of SimpleComponent objects.
   List<SimpleComponent> components = [
-    SimpleComponent(name: "Colore", type: ComponentType.color),
-    SimpleComponent(name: "Cella", type: ComponentType.cell),
-    SimpleComponent(name: "Direzione", type: ComponentType.direction),
+    // SimpleComponent(name: "Colore", type: ComponentType.color),
+    // SimpleComponent(name: "Cella", type: ComponentType.cell),
+    // SimpleComponent(name: "Direzione", type: ComponentType.direction),
   ];
 
   Widget _buildComponentItem({required SimpleComponent component}) {
@@ -122,31 +129,24 @@ class _SideMenuState extends State<SideMenu> {
   Widget _buildLongPressDraggable({
     required SimpleContainer container,
     required Function builder,
-  }) =>
-      Draggable<SimpleContainer>(
-        data: SimpleContainer(name: container.name, type: container.type),
-        feedback: FractionalTranslation(
-          translation: Offset.zero,
-          child: ClipRRect(
-            key: _draggableKey,
-            borderRadius: BorderRadius.circular(15),
-            child: Card(
-              elevation: 20,
-              color: Colors.transparent,
-              child: Function.apply(
-                builder,
-                [],
-                {#active: false, #item: container, #onChange: (Size size) {}},
-              ),
-            ),
-          ),
-        ),
-        child: Function.apply(
-          builder,
-          [],
-          {#active: false, #item: container, #onChange: (Size size) {}},
-        ),
-      );
+  }) {
+    final SimpleContainer copyContainer = container.copy();
+
+    return LongPressDraggable<SimpleContainer>(
+      data: copyContainer,
+      feedback: Function.apply(
+        builder,
+        [],
+        {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+      ),
+      child: Function.apply(
+        builder,
+        [],
+        {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+      ),
+      onDragCompleted: () => setState(() {}),
+    );
+  }
 
   /// It returns a widget that is a draggable version of the widget that is returned
   /// by the builder function that is passed in
@@ -185,6 +185,11 @@ class _SideMenuState extends State<SideMenu> {
         );
       case ContainerType.none:
         return Container();
+      case ContainerType.paintSingle:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: PaintSingle.build,
+        );
     }
   }
 

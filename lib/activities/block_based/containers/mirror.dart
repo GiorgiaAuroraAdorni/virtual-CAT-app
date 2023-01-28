@@ -3,6 +3,8 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/model/base.dart";
+import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/options/cell.dart";
@@ -58,6 +60,7 @@ class _Mirror extends State<Mirror> {
     const Key("ciao"): 0.0,
     const Key("lalala"): 0.0,
   };
+
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
@@ -160,7 +163,7 @@ class _Mirror extends State<Mirror> {
                                     return FillEmpty(
                                       key: UniqueKey(),
                                       active: true,
-                                      item: container,
+                                      item: container as FillEmptyContainer,
                                       onChange: (Size size) {
                                         setState(() {
                                           sized[key] = size.height;
@@ -182,7 +185,7 @@ class _Mirror extends State<Mirror> {
                                     return Paint(
                                       key: UniqueKey(),
                                       active: true,
-                                      item: container,
+                                      item: container as PaintContainer,
                                       onChange: (Size size) {
                                         setState(() {
                                           sized[key] = size.height;
@@ -212,6 +215,8 @@ class _Mirror extends State<Mirror> {
                                       },
                                     );
                                   case ContainerType.none:
+                                    return Container();
+                                  case ContainerType.paintSingle:
                                     return Container();
                                 }
                               })(),

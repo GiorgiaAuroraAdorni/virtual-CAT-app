@@ -1,8 +1,5 @@
-import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
-import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import "package:cross_array_task_app/activities/block_based/options/color.dart";
-import "package:cross_array_task_app/activities/block_based/options/direction.dart";
-import "package:cross_array_task_app/activities/block_based/types/component_type.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 
@@ -29,7 +26,7 @@ class Paint extends StatefulWidget {
   final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
-  final SimpleContainer item;
+  final PaintContainer item;
 
   /// A function that takes in a function as a parameter.
   final Function onChange;
@@ -39,266 +36,235 @@ class Paint extends StatefulWidget {
 }
 
 class _Paint extends State<Paint> {
-  double height = 135;
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
-  List<Widget> widgets = <Widget>[];
-  final double fontSize = 15;
-  int dropdownValue = 1;
-  List<int> items = <int>[
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    -1,
-  ];
+
   @override
   Widget build(BuildContext context) {
-    height = 145.0 + (widget.item.colors.length * 30);
-    widget.item.repetitions = dropdownValue;
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: height,
+        height: 145,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
         decoration: BoxDecoration(
           border: Border.all(),
-          color: Colors.purple,
+          color: CupertinoColors.systemIndigo,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Center(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                widget.item.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: fontSize,
-                ),
-              ),
-              if (widget.active)
-                DragTarget<SimpleComponent>(
-                  builder: (
-                    BuildContext context,
-                    List<SimpleComponent?> candidateItems,
-                    List rejectedItems,
-                  ) =>
-                      LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) =>
-                            Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: candidateItems.isNotEmpty
-                              ? Colors.redAccent.shade100
-                              : Colors.grey,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                          ),
-                        ),
-                        height: (widget.item.colors.length + 1) * 30,
-                        width: constraints.maxWidth - 15,
-                        child: ReorderableListView(
-                          onReorder: (int oldIndex, int newIndex) {
-                            if (oldIndex < newIndex) {
-                              newIndex -= 1;
-                            }
-                            final Widget widgett = widgets.removeAt(oldIndex);
-                            final SimpleComponent item =
-                                widget.item.colors.removeAt(oldIndex);
-                            widgets.insert(newIndex, widgett);
-                            widget.item.colors.insert(newIndex, item);
-                          },
-                          children: widgets,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onAccept: (SimpleComponent el) {
-                    setState(() {
-                      if (el.type == ComponentType.color) {
-                        final UniqueKey key = UniqueKey();
-                        widget.item.colors.add(
-                          SimpleComponent(name: el.name, type: el.type),
-                        );
-                        widget.item.colors.last.key = key;
-                        widgets.add(
-                          Dismissible(
-                            key: key,
-                            child: Color(
-                              key: key,
-                              active: true,
-                              component: widget.item.colors.last,
-                            ),
-                            onDismissed: (DismissDirection direction) {
-                              setState(() {
-                                widgets.removeWhere(
-                                  (Widget element) => element.key == key,
-                                );
-                                widget.item.colors.removeWhere(
-                                  (SimpleComponent element) =>
-                                      element.key == key,
-                                );
-                                height =
-                                    135.0 + (widget.item.colors.length * 30);
-                              });
-                            },
-                          ),
-                        );
-                      }
-                    });
-                  },
-                )
-              else
-                LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) =>
-                      Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                      ),
-                      height: 30,
-                      width: constraints.maxWidth - 15,
-                    ),
-                  ),
-                ),
-              const SizedBox(
-                height: 5,
-              ),
-              if (widget.active)
-                DragTarget<SimpleComponent>(
-                  builder: (
-                    BuildContext context,
-                    List<SimpleComponent?> candidateItems,
-                    List rejectedItems,
-                  ) =>
-                      LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) =>
-                            Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: candidateItems.isNotEmpty
-                              ? Colors.redAccent.shade100
-                              : Colors.grey,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                          ),
-                        ),
-                        height: 30,
-                        width: constraints.maxWidth - 15,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: widget.item.moves.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final UniqueKey key = UniqueKey();
+          child: figure(),
+        ),
+      ),
+    );
+  }
 
-                            return Dismissible(
-                              key: key,
-                              child: Direction(
-                                mode: false,
-                                active: true,
-                                component: widget.item.moves[index],
-                              ),
-                              onDismissed: (DismissDirection direction) {
-                                setState(() {
-                                  widget.item.moves.removeAt(index);
-                                });
-                              },
-                            );
-                          },
+  List<Widget> _colorButtonsBuild() {
+    const TextStyle textStyle = TextStyle(
+      color: CupertinoColors.black,
+      fontFamily: "CupertinoIcons",
+      fontSize: 13,
+    );
+    final Map<CupertinoDynamicColor, String> colors =
+        <CupertinoDynamicColor, String>{
+      CupertinoColors.systemBlue: "ColorButtonBlue",
+      CupertinoColors.systemRed: "ColorButtonRed",
+      CupertinoColors.systemGreen: "ColorButtonGreen",
+      CupertinoColors.systemYellow: "ColorButtonYellow",
+    };
+
+    return colors.keys
+        .map(
+          (CupertinoDynamicColor color) => Padding(
+            padding: const EdgeInsets.all(5),
+            child: CupertinoButton(
+              key: Key(colors[color]!),
+              onPressed: () => setState(() {
+                if (widget.item.selected_colors.contains(color)) {
+                  widget.item.selected_colors.remove(color);
+                } else {
+                  widget.item.selected_colors.add(color);
+                }
+              }),
+              borderRadius: BorderRadius.circular(45),
+              minSize: 30,
+              color: color,
+              padding: EdgeInsets.zero,
+              child: widget.item.selected_colors.contains(color)
+                  ? Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        const Icon(
+                          CupertinoIcons.circle_filled,
+                          size: 20,
                         ),
-                      ),
-                    ),
-                  ),
-                  onAccept: (SimpleComponent el) {
-                    setState(() {
-                      if (el.type == ComponentType.direction) {
-                        if (widget.item.moves.isNotEmpty) {
-                          widget.item.moves.clear();
-                        }
-                        widget.item.moves
-                            .add(SimpleComponent(name: el.name, type: el.type));
-                      }
-                    });
-                  },
-                )
-              else
-                LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) =>
-                      Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
+                        Text(
+                          "${widget.item.selected_colors.indexOf(color) + 1}",
+                          style: textStyle,
                         ),
-                      ),
-                      height: 30,
-                      width: constraints.maxWidth - 15,
+                      ],
+                    )
+                  : const Text(""),
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  Widget figure() => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Icon(
+                  CupertinoIcons.paintbrush,
+                  color: CupertinoColors.systemBackground,
+                ),
+                Row(
+                  children: _colorButtonsBuild(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Icon(
+                  CupertinoIcons.repeat,
+                  color: CupertinoColors.systemBackground,
+                ),
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: _repetitionsPicker,
+                  child: Row(
+                    children: List<Widget>.filled(
+                      widget.item.repetititons,
+                      const Icon(CupertinoIcons.circle_fill),
                     ),
                   ),
                 ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    "Ripetizioni",
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  DropdownButton(
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
-                    dropdownColor: Colors.purple,
-                    value: dropdownValue,
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: widget.active ? Colors.white : Colors.grey,
-                    ),
-                    onChanged: widget.active
-                        ? (int? value) {
-                            setState(() {
-                              dropdownValue = value!;
-                              widget.item.repetitions = value;
-                            });
-                          }
-                        : null,
-                    items: items
-                        .map(
-                          (int items) => DropdownMenuItem(
-                            value: items,
-                            child: Text("$items"),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Icon(
+                  Icons.directions,
+                  color: CupertinoColors.systemBackground,
+                ),
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: _directionPicker,
+                  child: Text(widget.item.direction),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+  void _repetitionsPicker() {
+    final List<Widget> repetitions = <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+    ];
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              widget.item.repetititons = value + 1;
+            });
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: repetitions,
+        ),
+      ),
+    );
+  }
+
+  void _directionPicker() {
+    final List<String> directions = widget.item.items.keys.toList();
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              widget.item.direction = directions[value];
+            });
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: List<Widget>.generate(
+            directions.length,
+            (int index) => Text(
+              directions[index],
+            ),
           ),
         ),
       ),
