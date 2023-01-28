@@ -162,7 +162,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
+        children: <Widget>[
           DragTarget<SimpleContainer>(
             builder: (
               BuildContext context,
@@ -170,21 +170,25 @@ class _BlockCanvasState extends State<BlockCanvas> {
               List rejectedItems,
             ) =>
                 Container(
-              width: MediaQuery.of(context).size.width / 2.1,
-              height: MediaQuery.of(context).size.height - 80,
-              color: candidateItems.isNotEmpty
-                  ? Colors.redAccent.shade100
-                  : Colors.grey,
-              child: ReorderableListView(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                onReorder: (int oldIndex, int newIndex) {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  widgets.insert(newIndex, widgets.removeAt(oldIndex));
-                  items.insert(newIndex, items.removeAt(oldIndex));
-                },
-                children: widgets,
+              width: MediaQuery.of(context).size.width * 0.45,
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemBackground,
+              ),
+              child: Scrollbar(
+                thumbVisibility: true,
+                child: ReorderableListView(
+                  primary: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  onReorder: (int oldIndex, int newIndex) {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    widgets.insert(newIndex, widgets.removeAt(oldIndex));
+                    items.insert(newIndex, items.removeAt(oldIndex));
+                  },
+                  children: widgets,
+                ),
               ),
             ),
             onAccept: (SimpleContainer item) {

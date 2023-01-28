@@ -12,6 +12,7 @@ import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart" as cup;
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -74,20 +75,44 @@ class GestureHomeBlockState extends cup.State<GestureHomeBlock> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const TopBar(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Material(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    child: const SideMenu(),
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemTeal,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.white,
+                      border: Border.all(
+                        color: CupertinoColors.darkBackgroundGray,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        children: <Widget>[
+                          const SideMenu(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.95,
+                            width: 2,
+                            child: const VerticalDivider(
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const BlockCanvas(),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const Material(
-                  child: BlockCanvas(),
-                ),
-                const SideBar(),
-              ],
+                  const SideBar(),
+                ],
+              ),
             ),
           ],
         ),

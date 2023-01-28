@@ -16,7 +16,6 @@ import "package:cross_array_task_app/activities/block_based/options/color.dart";
 import "package:cross_array_task_app/activities/block_based/options/direction.dart";
 import "package:cross_array_task_app/activities/block_based/types/component_type.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 import "containers/go_position.dart";
@@ -73,7 +72,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Cell(
             active: false,
             component:
-            SimpleComponent(type: component.type, name: component.name),
+                SimpleComponent(type: component.type, name: component.name),
           ),
         );
       case ComponentType.color:
@@ -94,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Color(
             active: false,
             component:
-            SimpleComponent(type: component.type, name: component.name),
+                SimpleComponent(type: component.type, name: component.name),
           ),
         );
       case ComponentType.direction:
@@ -109,7 +108,7 @@ class _SideMenuState extends State<SideMenu> {
                 elevation: 20,
                 color: Colors.transparent,
                 child:
-                Direction(active: false, mode: true, component: component),
+                    Direction(active: false, mode: true, component: component),
               ),
             ),
           ),
@@ -117,7 +116,7 @@ class _SideMenuState extends State<SideMenu> {
             active: false,
             mode: true,
             component:
-            SimpleComponent(type: component.type, name: component.name),
+                SimpleComponent(type: component.type, name: component.name),
           ),
         );
     }
@@ -146,10 +145,13 @@ class _SideMenuState extends State<SideMenu> {
         [],
         {#active: false, #item: copyContainer, #onChange: (Size size) {}},
       ),
-      child: Function.apply(
-        builder,
-        [],
-        {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Function.apply(
+          builder,
+          [],
+          {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+        ),
       ),
       onDragCompleted: () => setState(() {}),
     );
@@ -205,30 +207,32 @@ class _SideMenuState extends State<SideMenu> {
     }
   }
 
+  final ScrollController _firstController = ScrollController();
+
   @override
-  Widget build(BuildContext context) =>
-      Container(
-        color: CupertinoColors.white,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: containers.length + components.length,
-                itemBuilder: (BuildContext context, int index) =>
-                index < containers.length
-                    ? _buildContainerItem(container: containers[index])
-                    : _buildComponentItem(
-                  component: components[index - containers.length],
-                ),
-                separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(
-                  height: 5,
-                ),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(5),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.25,
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: Scrollbar(
+            controller: _firstController,
+            thumbVisibility: true,
+            child: ListView.separated(
+              controller: _firstController,
+              itemCount: containers.length + components.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  index < containers.length
+                      ? _buildContainerItem(container: containers[index])
+                      : _buildComponentItem(
+                          component: components[index - containers.length],
+                        ),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(
+                height: 5,
               ),
             ),
-          ],
+          ),
         ),
       );
 }

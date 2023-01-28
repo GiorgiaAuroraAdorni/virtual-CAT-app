@@ -53,9 +53,12 @@ class _FillEmpty extends State<FillEmpty> {
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: CupertinoColors.systemPurple,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.all(
+            color: CupertinoColors.darkBackgroundGray,
+          ),
         ),
         child: Center(
           child: figures(),

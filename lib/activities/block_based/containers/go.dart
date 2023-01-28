@@ -52,9 +52,12 @@ class _Go extends State<Go> {
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: CupertinoColors.systemTeal,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.all(
+            color: CupertinoColors.darkBackgroundGray,
+          ),
         ),
         child: Center(
           child: figure(),
