@@ -7,7 +7,6 @@ class PaintContainer extends SimpleContainer {
   PaintContainer({super.name = "Colora", super.type = ContainerType.paint});
 
   List<CupertinoDynamicColor> selected_colors = [];
-  int repetititons = 1;
 
   String direction = "destra";
 
@@ -44,5 +43,5 @@ class PaintContainer extends SimpleContainer {
 
   @override
   String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"
-      "$repetititons,${items[direction]})";
+      "$repetitions,${items[direction]})";
 }

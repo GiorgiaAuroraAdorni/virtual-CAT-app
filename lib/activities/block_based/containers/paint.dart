@@ -45,14 +45,13 @@ class _Paint extends State<Paint> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: 145,
+        height: 150,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
-        decoration: BoxDecoration(
-          border: Border.all(),
+        decoration: const BoxDecoration(
           color: CupertinoColors.systemIndigo,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         child: Center(
           child: figure(),
@@ -138,12 +137,16 @@ class _Paint extends State<Paint> {
                   color: CupertinoColors.systemBackground,
                 ),
                 CupertinoButton(
-                  padding: EdgeInsets.zero,
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _repetitionsPicker,
                   child: Row(
                     children: List<Widget>.filled(
-                      widget.item.repetititons,
-                      const Icon(CupertinoIcons.circle_fill),
+                      widget.item.repetitions,
+                      const Icon(
+                        CupertinoIcons.circle_fill,
+                        color: CupertinoColors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -157,9 +160,13 @@ class _Paint extends State<Paint> {
                   color: CupertinoColors.systemBackground,
                 ),
                 CupertinoButton(
-                  padding: EdgeInsets.zero,
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _directionPicker,
-                  child: Text(widget.item.direction),
+                  child: Text(
+                    widget.item.direction,
+                    style: const TextStyle(color: CupertinoColors.black),
+                  ),
                 ),
               ],
             ),
@@ -229,7 +236,7 @@ class _Paint extends State<Paint> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.repetititons = value + 1;
+              widget.item.repetitions = value + 1;
             });
           },
           itemExtent: 25,

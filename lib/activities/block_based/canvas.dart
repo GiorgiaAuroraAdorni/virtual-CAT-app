@@ -1,18 +1,21 @@
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
+import "package:cross_array_task_app/activities/block_based/containers/go.dart";
+import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import 'package:flutter/cupertino.dart';
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import 'package:interpreter/cat_interpreter.dart';
-import 'package:provider/provider.dart';
-
-import '../../model/interpreter/cat_interpreter.dart';
-import '../../utility/result_notifier.dart';
-import '../../utility/visibility_notifier.dart';
+import "package:interpreter/cat_interpreter.dart";
+import "package:provider/provider.dart";
 
 class BlockCanvas extends StatefulWidget {
   const BlockCanvas({super.key});
@@ -78,6 +81,46 @@ class _BlockCanvasState extends State<BlockCanvas> {
           Dismissible(
             key: key,
             child: PaintSingle(
+              key: UniqueKey(),
+              active: true,
+              item: item,
+              onChange: (Size n) {},
+            ),
+            onDismissed: (DismissDirection direction) {
+              setState(() {
+                widgets.removeWhere((Widget element) => element.key == key);
+                items.removeWhere(
+                  (SimpleContainer element) => element.key == key,
+                );
+              });
+            },
+          ),
+        );
+      } else if (item is GoContainer) {
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: Go(
+              key: UniqueKey(),
+              active: true,
+              item: item,
+              onChange: (Size n) {},
+            ),
+            onDismissed: (DismissDirection direction) {
+              setState(() {
+                widgets.removeWhere((Widget element) => element.key == key);
+                items.removeWhere(
+                  (SimpleContainer element) => element.key == key,
+                );
+              });
+            },
+          ),
+        );
+      } else if (item is GoPositionContainer) {
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: GoPosition(
               key: UniqueKey(),
               active: true,
               item: item,

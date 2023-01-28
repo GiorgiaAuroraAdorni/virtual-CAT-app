@@ -6,6 +6,9 @@ enum ContainerType {
   /// Go type
   go,
 
+  /// Go type
+  goPosition,
+
   /// Paint type
   paint,
 

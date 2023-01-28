@@ -1,13 +1,12 @@
-import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
-class Go extends StatefulWidget {
+class GoPosition extends StatefulWidget {
   /// A constructor for the `Go` class.
-  const Go({
+  const GoPosition({
     required this.active,
     required this.item,
     required this.onChange,
@@ -16,7 +15,7 @@ class Go extends StatefulWidget {
 
   /// A named constructor that is used to create a new instance of the
   /// Go class.
-  const Go.build({
+  const GoPosition.build({
     required this.active,
     required this.item,
     required this.onChange,
@@ -28,7 +27,7 @@ class Go extends StatefulWidget {
 
   /// A variable that is used to store the `SimpleContainer` that is
   /// passed in as a parameter.
-  final GoContainer item;
+  final GoPositionContainer item;
 
   /// A callback function that is called when the size of the widget changes.
   final Function onChange;
@@ -37,7 +36,7 @@ class Go extends StatefulWidget {
   State<StatefulWidget> createState() => _Go();
 }
 
-class _Go extends State<Go> {
+class _Go extends State<GoPosition> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
@@ -48,7 +47,7 @@ class _Go extends State<Go> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: 110,
+        height: 60,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
@@ -65,46 +64,35 @@ class _Go extends State<Go> {
 
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            const Icon(
+              CupertinoIcons.map_pin,
+              color: CupertinoColors.systemBackground,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Icon(
-                  Icons.directions,
-                  color: CupertinoColors.systemBackground,
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _repetitionsPicker,
+                  child: Text(
+                    widget.item.a,
+                    style: const TextStyle(color: CupertinoColors.black),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _directionPicker,
                   child: Text(
-                    widget.item.direction,
+                    widget.item.b,
                     style: const TextStyle(color: CupertinoColors.black),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Icon(
-                  CupertinoIcons.repeat,
-                  color: CupertinoColors.systemBackground,
-                ),
-                CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _repetitionsPicker,
-                  child: Row(
-                    children: List<Widget>.filled(
-                      widget.item.repetitions,
-                      const Icon(
-                        CupertinoIcons.circle_fill,
-                        color: CupertinoColors.black,
-                      ),
-                    ),
                   ),
                 ),
               ],
@@ -114,61 +102,7 @@ class _Go extends State<Go> {
       );
 
   void _repetitionsPicker() {
-    final List<Widget> repetitions = <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(
-            CupertinoIcons.circle_fill,
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-    ];
+    final List<String> directions = ["a", "b", "c", "d", "e", "f"];
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -177,21 +111,27 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.repetitions = value + 1;
+              widget.item.a = directions[value];
             });
           },
           itemExtent: 25,
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: repetitions,
+          children: List<Widget>.generate(
+            directions.length,
+            (int index) => Text(
+              directions[index],
+            ),
+          ),
         ),
       ),
     );
   }
 
   void _directionPicker() {
-    final List<String> directions = widget.item.items.keys.toList();
+    final List<String> directions =
+        List<String>.generate(6, (int index) => (index + 1).toString());
 
     showCupertinoModalPopup(
       context: context,
@@ -201,7 +141,7 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.direction = directions[value];
+              widget.item.b = directions[value];
             });
           },
           itemExtent: 25,

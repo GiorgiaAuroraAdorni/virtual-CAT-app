@@ -4,6 +4,7 @@ import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/model/base.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -174,7 +175,7 @@ class _Mirror extends State<Mirror> {
                                     return Go(
                                       key: UniqueKey(),
                                       active: true,
-                                      item: container,
+                                      item: container as GoContainer,
                                       onChange: (Size size) {
                                         setState(() {
                                           sized[key] = size.height;
@@ -217,6 +218,8 @@ class _Mirror extends State<Mirror> {
                                   case ContainerType.none:
                                     return Container();
                                   case ContainerType.paintSingle:
+                                    return Container();
+                                  case ContainerType.goPosition:
                                     return Container();
                                 }
                               })(),

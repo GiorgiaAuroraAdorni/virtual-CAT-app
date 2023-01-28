@@ -5,6 +5,8 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror.da
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
@@ -16,6 +18,8 @@ import "package:cross_array_task_app/activities/block_based/types/component_type
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+
+import "containers/go_position.dart";
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -29,11 +33,14 @@ class _SideMenuState extends State<SideMenu> {
 
   /// Creating a list of SimpleContainer objects.
   List<SimpleContainer> containers = <SimpleContainer>[
+    PaintSingleContainer(),
+    GoPositionContainer(),
+    PaintContainer(),
+    GoContainer(),
+    FillEmptyContainer(),
+
     // SimpleContainer(name: "Vai a", type: ContainerType.go),
     // SimpleContainer(name: "Colora", type: ContainerType.paint),
-    FillEmptyContainer(),
-    PaintContainer(),
-    PaintSingleContainer(),
     // SimpleContainer(name: "Riempi vuoti", type: ContainerType.fillEmpty),
     // SimpleContainer(name: "Copia", type: ContainerType.copy),
     // SimpleContainer(name: "Specchia", type: ContainerType.mirror),
@@ -66,7 +73,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Cell(
             active: false,
             component:
-                SimpleComponent(type: component.type, name: component.name),
+            SimpleComponent(type: component.type, name: component.name),
           ),
         );
       case ComponentType.color:
@@ -87,7 +94,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Color(
             active: false,
             component:
-                SimpleComponent(type: component.type, name: component.name),
+            SimpleComponent(type: component.type, name: component.name),
           ),
         );
       case ComponentType.direction:
@@ -102,7 +109,7 @@ class _SideMenuState extends State<SideMenu> {
                 elevation: 20,
                 color: Colors.transparent,
                 child:
-                    Direction(active: false, mode: true, component: component),
+                Direction(active: false, mode: true, component: component),
               ),
             ),
           ),
@@ -110,7 +117,7 @@ class _SideMenuState extends State<SideMenu> {
             active: false,
             mode: true,
             component:
-                SimpleComponent(type: component.type, name: component.name),
+            SimpleComponent(type: component.type, name: component.name),
           ),
         );
     }
@@ -190,11 +197,17 @@ class _SideMenuState extends State<SideMenu> {
           container: container,
           builder: PaintSingle.build,
         );
+      case ContainerType.goPosition:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: GoPosition.build,
+        );
     }
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) =>
+      Container(
         color: CupertinoColors.white,
         child: Column(
           children: <Widget>[
@@ -204,13 +217,13 @@ class _SideMenuState extends State<SideMenu> {
                 shrinkWrap: true,
                 itemCount: containers.length + components.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    index < containers.length
-                        ? _buildContainerItem(container: containers[index])
-                        : _buildComponentItem(
-                            component: components[index - containers.length],
-                          ),
+                index < containers.length
+                    ? _buildContainerItem(container: containers[index])
+                    : _buildComponentItem(
+                  component: components[index - containers.length],
+                ),
                 separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
               ),
