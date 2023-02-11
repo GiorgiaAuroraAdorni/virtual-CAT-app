@@ -1,5 +1,4 @@
 import "dart:async";
-import "dart:ui";
 
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
@@ -37,7 +36,7 @@ class _TopBarState extends State<TopBar> {
         padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
+          children: const <Widget>[
             // Text(
             //   "Punteggio: ${catScore(
             //         commands: List<String>.from(
@@ -46,14 +45,14 @@ class _TopBarState extends State<TopBar> {
             //         visible: context.read<VisibilityNotifier>().visible,
             //       ) * 100}",
             // ),
-            Text(
-              "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
-              style: const TextStyle(
-                fontFeatures: <FontFeature>[
-                  FontFeature.tabularFigures(),
-                ],
-              ),
-            ),
+            // Text(
+            //   "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
+            //   style: const TextStyle(
+            //     fontFeatures: <FontFeature>[
+            //       FontFeature.tabularFigures(),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       );

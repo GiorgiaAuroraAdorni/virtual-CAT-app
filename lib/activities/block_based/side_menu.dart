@@ -1,12 +1,13 @@
 import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
@@ -19,6 +20,9 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 import "package:flutter/material.dart";
 
 import "containers/go_position.dart";
+import "containers/mirror_horizontal.dart";
+import "containers/mirror_vertical.dart";
+import "model/mirror_simple_container.dart";
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -37,12 +41,10 @@ class _SideMenuState extends State<SideMenu> {
     PaintContainer(),
     GoContainer(),
     FillEmptyContainer(),
-
-    // SimpleContainer(name: "Vai a", type: ContainerType.go),
-    // SimpleContainer(name: "Colora", type: ContainerType.paint),
-    // SimpleContainer(name: "Riempi vuoti", type: ContainerType.fillEmpty),
+    MirrorSimpleContainer(type: ContainerType.mirrorVertical),
+    MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
+    MirrorContainerPoints(),
     // SimpleContainer(name: "Copia", type: ContainerType.copy),
-    // SimpleContainer(name: "Specchia", type: ContainerType.mirror),
   ];
 
   /// Creating a list of SimpleComponent objects.
@@ -190,7 +192,7 @@ class _SideMenuState extends State<SideMenu> {
       case ContainerType.mirror:
         return _buildLongPressDraggable(
           container: container,
-          builder: Mirror.build,
+          builder: MirrorPoints.build,
         );
       case ContainerType.none:
         return Container();
@@ -203,6 +205,16 @@ class _SideMenuState extends State<SideMenu> {
         return _buildLongPressDraggable(
           container: container,
           builder: GoPosition.build,
+        );
+      case ContainerType.mirrorHorizontal:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: MirrorHorizontal.build,
+        );
+      case ContainerType.mirrorVertical:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: MirrorVertical.build,
         );
     }
   }

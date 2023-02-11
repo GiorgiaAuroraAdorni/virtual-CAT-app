@@ -73,40 +73,29 @@ class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(5),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: CupertinoColors.systemBackground,
-            border: Border.all(
-              color: CupertinoColors.darkBackgroundGray,
-            ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(5),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: <Widget>[
-                CrossWidgetSimple(
-                  resultValueNotifier: context.watch<ReferenceNotifier>(),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: <Widget>[
+              CrossWidgetSimple(
+                resultValueNotifier: context.watch<ReferenceNotifier>(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Column(
+                  children: <Widget>[
+                    _showCross,
+                    CrossWidgetSimple(
+                      resultValueNotifier: context.watch<ResultNotifier>(),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: <Widget>[
-                      _showCross,
-                      CrossWidgetSimple(
-                        resultValueNotifier: context.watch<ResultNotifier>(),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: BottomBar(),
-                ),
-              ],
-            ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: BottomBar(),
+              ),
+            ],
           ),
         ),
       );

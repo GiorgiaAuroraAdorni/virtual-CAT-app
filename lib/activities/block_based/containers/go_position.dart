@@ -80,21 +80,9 @@ class _Go extends State<GoPosition> {
                 CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _repetitionsPicker,
-                  child: Text(
-                    widget.item.a,
-                    style: const TextStyle(color: CupertinoColors.black),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _directionPicker,
                   child: Text(
-                    widget.item.b,
+                    widget.item.a + widget.item.b,
                     style: const TextStyle(color: CupertinoColors.black),
                   ),
                 ),
@@ -104,59 +92,58 @@ class _Go extends State<GoPosition> {
         ),
       );
 
-  void _repetitionsPicker() {
-    final List<String> directions = ["a", "b", "c", "d", "e", "f"];
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              widget.item.a = directions[value];
-            });
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: List<Widget>.generate(
-            directions.length,
-            (int index) => Text(
-              directions[index],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   void _directionPicker() {
     final List<String> directions =
         List<String>.generate(6, (int index) => (index + 1).toString());
+    final List<String> directions2 = ["A", "B", "C", "D", "E", "F"];
 
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
         height: MediaQuery.of(context).copyWith().size.height * 0.25,
         color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              widget.item.b = directions[value];
-            });
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: List<Widget>.generate(
-            directions.length,
-            (int index) => Text(
-              directions[index],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: CupertinoPicker(
+                onSelectedItemChanged: (int value) {
+                  setState(() {
+                    widget.item.a = directions2[value];
+                  });
+                },
+                itemExtent: 25,
+                diameterRatio: 1,
+                useMagnifier: true,
+                magnification: 1.3,
+                children: List<Widget>.generate(
+                  directions2.length,
+                  (int index) => Text(
+                    directions2[index],
+                  ),
+                ),
+              ),
             ),
-          ),
+            Expanded(
+              child: CupertinoPicker(
+                onSelectedItemChanged: (int value) {
+                  setState(() {
+                    widget.item.b = directions[value];
+                  });
+                },
+                itemExtent: 25,
+                diameterRatio: 1,
+                useMagnifier: true,
+                magnification: 1.3,
+                children: List<Widget>.generate(
+                  directions.length,
+                  (int index) => Text(
+                    directions[index],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,13 +5,15 @@ class GoPositionContainer extends SimpleContainer {
   GoPositionContainer({
     super.name = "Vai a posizione",
     super.type = ContainerType.goPosition,
+    this.a = "C",
+    this.b = "1",
   });
 
-  String a = "d";
-  String b = "3";
+  String a;
+  String b;
 
   @override
-  SimpleContainer copy() => GoPositionContainer();
+  GoPositionContainer copy() => GoPositionContainer(a: a, b: b);
 
   @override
   String toString() => "go($a$b)";

@@ -20,5 +20,11 @@ enum ContainerType {
 
   /// Mirror type
   mirror,
+
+  /// Mirror type
+  mirrorVertical,
+
+  /// Mirror type
+  mirrorHorizontal,
   none,
 }

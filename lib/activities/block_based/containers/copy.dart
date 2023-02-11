@@ -1,6 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
@@ -191,21 +190,16 @@ class _Copy extends State<Copy> {
                                     },
                                   );
                                 case ContainerType.mirror:
-                                  return Mirror(
-                                    key: UniqueKey(),
-                                    active: true,
-                                    item: container,
-                                    onChange: (Size size) {
-                                      setState(() {
-                                        sized[key] = size.height;
-                                      });
-                                    },
-                                  );
+                                  return Container();
                                 case ContainerType.none:
                                   return Container();
                                 case ContainerType.paintSingle:
                                   return Container();
                                 case ContainerType.goPosition:
+                                  return Container();
+                                case ContainerType.mirrorHorizontal:
+                                  return Container();
+                                case ContainerType.mirrorVertical:
                                   return Container();
                               }
                             })(),
