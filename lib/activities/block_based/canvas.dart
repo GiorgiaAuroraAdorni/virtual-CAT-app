@@ -42,178 +42,122 @@ class _BlockCanvasState extends State<BlockCanvas> {
     setState(() {
       final UniqueKey key = UniqueKey();
       item.key = key;
-      if (item is FillEmptyContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: FillEmpty(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size size) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(
-                () {
-                  widgets.removeWhere((Widget element) => element.key == key);
-                  items.removeWhere(
-                    (SimpleContainer element) => element.key == key,
-                  );
-                },
-              );
-            },
+      widgets.add(
+        Dismissible(
+          key: key,
+          child: generateDismiss(
+            item,
+            (Size size) {},
           ),
-        );
-      } else if (item is PaintContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: Paint(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
+          onDismissed: (DismissDirection direction) {
+            setState(
+              () {
                 widgets.removeWhere((Widget element) => element.key == key);
                 items.removeWhere(
                   (SimpleContainer element) => element.key == key,
                 );
-              });
-            },
-          ),
-        );
-      } else if (item is PaintSingleContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: PaintSingle(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      } else if (item is GoContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: Go(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      } else if (item is GoPositionContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: GoPosition(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      } else if (item is MirrorSimpleContainer) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: item.type == ContainerType.mirrorVertical
-                ? MirrorVertical(
-                    key: UniqueKey(),
-                    active: true,
-                    item: item,
-                    onChange: (Size n) {},
-                  )
-                : MirrorHorizontal(
-                    key: UniqueKey(),
-                    active: true,
-                    item: item,
-                    onChange: (Size n) {},
-                  ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      } else if (item is MirrorContainerPoints) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: MirrorPoints(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      } else if (item is MirrorContainerCommands) {
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: MirrorCommands(
-              key: UniqueKey(),
-              active: true,
-              item: item,
-              onChange: (Size n) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              setState(() {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              });
-            },
-          ),
-        );
-      }
+              },
+            );
+          },
+        ),
+      );
       items.add(item);
     });
+  }
+
+  Widget generateDismiss(
+    SimpleContainer container,
+    Function f,
+  ) {
+    switch (container.type) {
+      case ContainerType.fillEmpty:
+        if (container is FillEmptyContainer) {
+          return FillEmpty(
+            active: true,
+            item: container,
+            onChange: f,
+          );
+        }
+        break;
+      case ContainerType.go:
+        if (container is GoContainer) {
+          return Go(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.goPosition:
+        if (container is GoPositionContainer) {
+          return GoPosition(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.paint:
+        if (container is PaintContainer) {
+          return Paint(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.paintSingle:
+        if (container is PaintSingleContainer) {
+          return PaintSingle(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.copy:
+        break;
+      case ContainerType.mirrorVertical:
+        if (container is MirrorSimpleContainer) {
+          return MirrorVertical(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.mirrorHorizontal:
+        if (container is MirrorSimpleContainer) {
+          return MirrorHorizontal(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.none:
+        break;
+      case ContainerType.mirrorPoints:
+        if (container is MirrorContainerPoints) {
+          return MirrorPoints(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.mirrorCommands:
+        if (container is MirrorContainerCommands) {
+          return MirrorCommands(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+    }
+
+    return Container();
   }
 
   void _interpreterListener() {
