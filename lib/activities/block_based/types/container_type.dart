@@ -19,7 +19,10 @@ enum ContainerType {
   copy,
 
   /// Mirror type
-  mirror,
+  mirrorPoints,
+
+  /// Mirror type
+  mirrorCommands,
 
   /// Mirror type
   mirrorVertical,

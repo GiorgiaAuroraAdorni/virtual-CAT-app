@@ -7,6 +7,7 @@ import "package:cross_array_task_app/activities/block_based/containers/paint_sin
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
@@ -20,6 +21,7 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 import "package:flutter/material.dart";
 
 import "containers/go_position.dart";
+import "containers/mirror_commands.dart";
 import "containers/mirror_horizontal.dart";
 import "containers/mirror_vertical.dart";
 import "model/mirror_simple_container.dart";
@@ -44,6 +46,7 @@ class _SideMenuState extends State<SideMenu> {
     MirrorSimpleContainer(type: ContainerType.mirrorVertical),
     MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
     MirrorContainerPoints(),
+    MirrorContainerCommands(),
     // SimpleContainer(name: "Copia", type: ContainerType.copy),
   ];
 
@@ -189,10 +192,15 @@ class _SideMenuState extends State<SideMenu> {
           container: container,
           builder: Copy.build,
         );
-      case ContainerType.mirror:
+      case ContainerType.mirrorPoints:
         return _buildLongPressDraggable(
           container: container,
           builder: MirrorPoints.build,
+        );
+      case ContainerType.mirrorCommands:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: MirrorCommands.build,
         );
       case ContainerType.none:
         return Container();

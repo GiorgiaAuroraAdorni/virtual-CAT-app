@@ -2,10 +2,10 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:flutter/cupertino.dart";
 
-class MirrorContainerPoints extends SimpleContainer {
-  MirrorContainerPoints({
+class MirrorContainerCommands extends SimpleContainer {
+  MirrorContainerCommands({
     super.name = "Specchia",
-    super.type = ContainerType.mirrorPoints,
+    super.type = ContainerType.mirrorCommands,
     this.a = const Icon(
       CupertinoIcons.rectangle_grid_1x2,
       color: CupertinoColors.black,
@@ -17,7 +17,7 @@ class MirrorContainerPoints extends SimpleContainer {
   String b;
 
   @override
-  SimpleContainer copy() => MirrorContainerPoints(
+  SimpleContainer copy() => MirrorContainerCommands(
         a: a,
         b: b,
       );
@@ -28,8 +28,7 @@ class MirrorContainerPoints extends SimpleContainer {
         .map(
           (SimpleContainer e) => e.toString(),
         )
-        .join(",")
-        .replaceAll(RegExp("[go()]"), "");
+        .join(",");
 
     return "mirror({$positions},$b)";
   }

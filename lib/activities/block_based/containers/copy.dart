@@ -189,7 +189,9 @@ class _Copy extends State<Copy> {
                                       });
                                     },
                                   );
-                                case ContainerType.mirror:
+                                case ContainerType.mirrorPoints:
+                                  return Container();
+                                case ContainerType.mirrorCommands:
                                   return Container();
                                 case ContainerType.none:
                                   return Container();
