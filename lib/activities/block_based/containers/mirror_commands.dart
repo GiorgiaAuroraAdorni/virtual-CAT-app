@@ -1,5 +1,7 @@
 import "dart:math" as math;
 
+import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
+import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
@@ -8,6 +10,8 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
@@ -92,7 +96,7 @@ class _Mirror extends State<MirrorCommands> {
   }
 
   Widget figure() => Padding(
-        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+        padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
             Row(
@@ -242,6 +246,13 @@ class _Mirror extends State<MirrorCommands> {
         }
         break;
       case ContainerType.copy:
+        if (container is CopyCommandsContainer) {
+          return CopyCommands(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
         break;
       case ContainerType.mirrorVertical:
         if (container is MirrorSimpleContainer) {
@@ -275,6 +286,15 @@ class _Mirror extends State<MirrorCommands> {
       case ContainerType.mirrorCommands:
         if (container is MirrorContainerCommands) {
           return MirrorCommands(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
+      case ContainerType.copyCells:
+        if (container is CopyCellsContainer) {
+          return CopyCells(
             item: container,
             onChange: f,
             active: true,

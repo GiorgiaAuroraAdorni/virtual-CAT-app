@@ -27,7 +27,7 @@ class SimpleContainer extends Base {
   String axis = "";
 
   /// It's a variable that is used to identify the component in the tree.
-  List<SimpleComponent> moves = <SimpleComponent>[];
+  List<SimpleContainer> moves = <SimpleContainer>[];
 
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleComponent> colors = <SimpleComponent>[];

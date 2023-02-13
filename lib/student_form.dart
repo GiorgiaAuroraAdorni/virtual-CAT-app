@@ -54,8 +54,8 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
             context: context,
             builder: (BuildContext context) => ScreenLock(
               correctString: "1234",
-              didCancelled: Navigator.of(context).pop,
-              didUnlocked: () => Navigator.of(context)
+              onCancelled: Navigator.of(context).pop,
+              onUnlocked: () => Navigator.of(context)
                 ..pop()
                 ..pop(),
             ),

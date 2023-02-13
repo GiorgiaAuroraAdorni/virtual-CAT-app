@@ -1,3 +1,5 @@
+import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
+import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
@@ -7,6 +9,8 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
@@ -116,6 +120,13 @@ class _BlockCanvasState extends State<BlockCanvas> {
         }
         break;
       case ContainerType.copy:
+        if (container is CopyCommandsContainer) {
+          return CopyCommands(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
         break;
       case ContainerType.mirrorVertical:
         if (container is MirrorSimpleContainer) {
@@ -155,6 +166,15 @@ class _BlockCanvasState extends State<BlockCanvas> {
           );
         }
         break;
+      case ContainerType.copyCells:
+        if (container is CopyCellsContainer) {
+          return CopyCells(
+            item: container,
+            onChange: f,
+            active: true,
+          );
+        }
+        break;
     }
 
     return Container();
@@ -179,6 +199,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
     super.initState();
   }
 
+  final ScrollController _firstController = ScrollController();
+
   @override
   Widget build(BuildContext context) => Column(
         children: <Widget>[
@@ -195,9 +217,11 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 color: CupertinoColors.systemBackground,
               ),
               child: Scrollbar(
+                controller: _firstController,
+                interactive: true,
                 thumbVisibility: true,
                 child: ReorderableListView(
-                  primary: true,
+                  scrollController: _firstController,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   onReorder: (int oldIndex, int newIndex) {
                     if (oldIndex < newIndex) {

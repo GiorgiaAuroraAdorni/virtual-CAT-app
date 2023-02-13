@@ -18,6 +18,9 @@ enum ContainerType {
   /// Copy type
   copy,
 
+  /// Copy type
+  copyCells,
+
   /// Mirror type
   mirrorPoints,
 

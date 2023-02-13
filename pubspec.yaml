@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.19.2 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,7 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
 
-  flutter_screen_lock: ^7.0.4
+  flutter_screen_lock: ^9.0.0+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,22 +45,22 @@ dependencies:
 
   provider: ^6.0.5
   # A package that allows you to use svg images in your flutter app.
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.0.0+1
 
-#  interpreter:
-#    path: ../CAT-symbolic-programming-language-interpreter/
+  #  interpreter:
+  #    path: ../CAT-symbolic-programming-language-interpreter/
   interpreter:
     git:
       url: https://github.com/vladimir98vk/CAT-symbolic-programming-language-interpreter.git
       ref: main
 
   # A package that provides a platform-agnostic way to get commonly used locations on the filesystem.
-  path_provider: ^2.0.11
+  path_provider: ^2.0.12
 
 
 dev_dependencies:
 
-  dart_code_metrics: ^4.17.1
+  dart_code_metrics: ^5.6.0
 
   flutter_launcher_icons_maker: ^0.10.2
 
@@ -76,7 +76,8 @@ dev_dependencies:
 
 
 
-  test: ^1.18.2
+  test: ^1.21.0
+  test_api: ^0.4.16
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

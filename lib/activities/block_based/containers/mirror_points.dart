@@ -78,7 +78,7 @@ class _Mirror extends State<MirrorPoints> {
   }
 
   Widget figure() => Padding(
-        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+        padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
             Row(

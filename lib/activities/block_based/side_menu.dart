@@ -1,9 +1,12 @@
 import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
+import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
@@ -47,7 +50,8 @@ class _SideMenuState extends State<SideMenu> {
     MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
     MirrorContainerPoints(),
     MirrorContainerCommands(),
-    // SimpleContainer(name: "Copia", type: ContainerType.copy),
+    CopyCommandsContainer(),
+    CopyCellsContainer(),
   ];
 
   /// Creating a list of SimpleComponent objects.
@@ -190,7 +194,7 @@ class _SideMenuState extends State<SideMenu> {
       case ContainerType.copy:
         return _buildLongPressDraggable(
           container: container,
-          builder: Copy.build,
+          builder: CopyCommands.build,
         );
       case ContainerType.mirrorPoints:
         return _buildLongPressDraggable(
@@ -224,6 +228,11 @@ class _SideMenuState extends State<SideMenu> {
           container: container,
           builder: MirrorVertical.build,
         );
+      case ContainerType.copyCells:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: CopyCells.build,
+        );
     }
   }
 
@@ -237,6 +246,7 @@ class _SideMenuState extends State<SideMenu> {
           height: MediaQuery.of(context).size.height * 0.9,
           child: Scrollbar(
             controller: _firstController,
+            interactive: true,
             thumbVisibility: true,
             child: ListView.separated(
               controller: _firstController,
