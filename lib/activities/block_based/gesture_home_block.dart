@@ -69,6 +69,9 @@ class GestureHomeBlockState extends cup.State<GestureHomeBlock> {
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),
+          ChangeNotifierProvider<BlockUpdateNotifier>(
+            create: (_) => BlockUpdateNotifier(),
+          ),
         ],
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +93,9 @@ class GestureHomeBlockState extends cup.State<GestureHomeBlock> {
                       color: Colors.black,
                     ),
                   ),
-                  const BlockCanvas(),
+                  BlockCanvas(
+                    shakeKey: _shakeKey,
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.95,
                     width: 2,

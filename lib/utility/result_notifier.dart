@@ -22,3 +22,9 @@ class ReferenceNotifier extends ResultNotifier {
     notifyListeners();
   }
 }
+
+class BlockUpdateNotifier extends ChangeNotifier {
+  void update() {
+    notifyListeners();
+  }
+}

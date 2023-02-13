@@ -23,6 +23,9 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
+
+import "../../../utility/result_notifier.dart";
 
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
 class CopyCommands extends StatefulWidget {
@@ -165,9 +168,11 @@ class _Copy extends State<CopyCommands> {
                             );
                             sized.remove(key);
                           });
+                          context.read<BlockUpdateNotifier>().update();
                         },
                       ),
                     );
+                    context.read<BlockUpdateNotifier>().update();
                   },
                 );
               },
@@ -234,6 +239,7 @@ class _Copy extends State<CopyCommands> {
                           widget.item.moves.removeAt(oldIndex);
                       widgets2.insert(newIndex, widgett);
                       widget.item.moves.insert(newIndex, item);
+                      context.read<BlockUpdateNotifier>().update();
                     },
                     children: widgets2,
                   ),
@@ -266,10 +272,12 @@ class _Copy extends State<CopyCommands> {
                         (SimpleContainer element) => element.key == key,
                       );
                     });
+                    context.read<BlockUpdateNotifier>().update();
                   },
                 ),
               );
             });
+            context.read<BlockUpdateNotifier>().update();
           },
         ),
       );

@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
@@ -22,6 +24,7 @@ import "package:cross_array_task_app/activities/block_based/model/paint_single_c
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -31,7 +34,13 @@ import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
 class BlockCanvas extends StatefulWidget {
-  const BlockCanvas({super.key});
+  const BlockCanvas({
+    super.key,
+    required this.shakeKey,
+  });
+
+  /// It's a key that is used to shake the widget.
+  final GlobalKey<ShakeWidgetState> shakeKey;
 
   @override
   _BlockCanvasState createState() => _BlockCanvasState();
@@ -63,6 +72,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 );
               },
             );
+            context.read<BlockUpdateNotifier>().update();
           },
         ),
       );
@@ -168,6 +178,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
     return Container();
   }
 
+  bool added = false;
+
   void _interpreterListener() {
     if (!mounted) {
       return;
@@ -175,7 +187,10 @@ class _BlockCanvasState extends State<BlockCanvas> {
     if (context.read<VisibilityNotifier>().visible) {
       context.read<ResultNotifier>().cross =
           CatInterpreter().getLastState as Cross;
-      CatInterpreter().addListener(_interpreterListener);
+      if (!added) {
+        CatInterpreter().addListener(_interpreterListener);
+        added = !added;
+      }
     } else {
       CatInterpreter().removeListener(_interpreterListener);
     }
@@ -191,70 +206,97 @@ class _BlockCanvasState extends State<BlockCanvas> {
     });
   }
 
+  void _executeCommands() {
+    if (!mounted) {
+      return;
+    }
+    CatInterpreter().reset();
+    runZonedGuarded(
+      () {
+        final String command =
+            items.map((SimpleContainer e) => e.toString()).join(",");
+        if (command.isNotEmpty) {
+          CatInterpreter().executeCommands(command);
+        }
+      },
+      (Object error, StackTrace stackTrace) {
+        widget.shakeKey.currentState?.shake();
+      },
+    );
+  }
+
   @override
   void initState() {
     context.read<VisibilityNotifier>().addListener(_interpreterListener);
     context.read<SelectedColorsNotifier>().addListener(_cleanBlocksListener);
+    context.read<BlockUpdateNotifier>().addListener(_executeCommands);
     super.initState();
   }
 
   final ScrollController _firstController = ScrollController();
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: <Widget>[
-          DragTarget<SimpleContainer>(
-            builder: (
-              BuildContext context,
-              List<SimpleContainer?> candidateItems,
-              List rejectedItems,
-            ) =>
-                Container(
-              width: MediaQuery.of(context).size.width * 0.45,
-              height: MediaQuery.of(context).size.height * 0.85,
-              decoration: const BoxDecoration(
-                color: CupertinoColors.systemBackground,
-              ),
-              child: Scrollbar(
-                controller: _firstController,
-                interactive: true,
-                thumbVisibility: true,
-                child: ReorderableListView(
-                  scrollController: _firstController,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  onReorder: (int oldIndex, int newIndex) {
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    widgets.insert(newIndex, widgets.removeAt(oldIndex));
-                    items.insert(newIndex, items.removeAt(oldIndex));
-                  },
-                  children: widgets,
+  Widget build(BuildContext context) => ShakeWidget(
+        key: widget.shakeKey,
+        shakeCount: 3,
+        shakeOffset: 10,
+        shakeDuration: const Duration(milliseconds: 400),
+        child: Column(
+          children: <Widget>[
+            DragTarget<SimpleContainer>(
+              builder: (
+                BuildContext context,
+                List<SimpleContainer?> candidateItems,
+                List rejectedItems,
+              ) =>
+                  Container(
+                width: MediaQuery.of(context).size.width * 0.45,
+                height: MediaQuery.of(context).size.height * 0.95,
+                decoration: const BoxDecoration(
+                  color: CupertinoColors.systemBackground,
+                ),
+                child: Scrollbar(
+                  controller: _firstController,
+                  interactive: true,
+                  thumbVisibility: true,
+                  child: ReorderableListView(
+                    scrollController: _firstController,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    onReorder: (int oldIndex, int newIndex) {
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      widgets.insert(newIndex, widgets.removeAt(oldIndex));
+                      items.insert(newIndex, items.removeAt(oldIndex));
+                      context.read<BlockUpdateNotifier>().update();
+                    },
+                    children: widgets,
+                  ),
                 ),
               ),
+              onAccept: (SimpleContainer item) {
+                _itemDroppedOnCustomerCart(
+                  item: item,
+                );
+                context.read<BlockUpdateNotifier>().update();
+              },
             ),
-            onAccept: (SimpleContainer item) {
-              _itemDroppedOnCustomerCart(
-                item: item,
-              );
-            },
-          ),
-          CupertinoButton(
-            child: const Text("Execute"),
-            onPressed: () {
-              CatInterpreter().reset();
-              final String command =
-                  items.map((SimpleContainer e) => e.toString()).join(",");
-              CatInterpreter().executeCommands(command);
-            },
-          ),
-        ],
+            // CupertinoButton(
+            //   child: const Text("Execute"),
+            //   onPressed: () {
+            //     CatInterpreter().reset();
+            //     final String command =
+            //         items.map((SimpleContainer e) => e.toString()).join(",");
+            //     CatInterpreter().executeCommands(command);
+            //   },
+            // ),
+          ],
+        ),
       );
 
   @override
   void dispose() {
     CatInterpreter().removeListener(_interpreterListener);
-    context.read<SelectedColorsNotifier>().removeListener(_cleanBlocksListener);
     super.dispose();
   }
 }

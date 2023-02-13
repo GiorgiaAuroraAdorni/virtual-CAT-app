@@ -1,7 +1,9 @@
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
 
 /// `FillEmpty` is a stateful widget that displays a `SimpleContainer` and calls a
 /// function when the user clicks on it
@@ -81,6 +83,7 @@ class _FillEmpty extends State<FillEmpty> {
               key: Key(colors[color]!),
               onPressed: () => setState(() {
                 widget.item.selected = color;
+                context.read<BlockUpdateNotifier>().update();
               }),
               borderRadius: BorderRadius.circular(45),
               minSize: 25,

@@ -1,7 +1,9 @@
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
@@ -175,8 +177,9 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.repetitions = value + 1;
+              widget.item.repetitions = value + 2;
             });
+            context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -201,6 +204,7 @@ class _Go extends State<Go> {
             setState(() {
               widget.item.direction = directions[value];
             });
+            context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
           diameterRatio: 1,

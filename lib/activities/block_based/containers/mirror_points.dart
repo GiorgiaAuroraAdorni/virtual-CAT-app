@@ -7,6 +7,9 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
+
+import "../../../utility/result_notifier.dart";
 
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
 /// `SimpleContainer` `item`, and a `Function` `onChange` and returns a
@@ -147,6 +150,7 @@ class _Mirror extends State<MirrorPoints> {
                           final SimpleContainer item =
                               widget.item.container.removeAt(oldIndex);
                           widget.item.container.insert(newIndex, item);
+                          context.read<BlockUpdateNotifier>().update();
                         },
                         children: widgets,
                       ),
@@ -159,11 +163,9 @@ class _Mirror extends State<MirrorPoints> {
                   () {
                     final UniqueKey key = UniqueKey();
                     final GoPositionContainer container = el.copy();
-                    setState(() {
-                      widget.item.container.add(
-                        container,
-                      );
-                    });
+                    widget.item.container.add(
+                      container,
+                    );
                     container.key = key;
                     widgets.add(
                       Dismissible(
@@ -187,9 +189,11 @@ class _Mirror extends State<MirrorPoints> {
                             );
                             sized.remove(key);
                           });
+                          context.read<BlockUpdateNotifier>().update();
                         },
                       ),
                     );
+                    context.read<BlockUpdateNotifier>().update();
                   },
                 );
               },
@@ -229,6 +233,7 @@ class _Mirror extends State<MirrorPoints> {
               widget.item.a = directions2[value];
               widget.item.b = directions[value];
             });
+            context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
           diameterRatio: 1,

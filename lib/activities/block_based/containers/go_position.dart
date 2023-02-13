@@ -1,6 +1,9 @@
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
+
+import "../../../utility/result_notifier.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
@@ -106,6 +109,7 @@ class _Go extends State<GoPosition> {
                   setState(() {
                     widget.item.a = directions2[value];
                   });
+                  context.read<BlockUpdateNotifier>().update();
                 },
                 itemExtent: 25,
                 diameterRatio: 1,
@@ -125,6 +129,7 @@ class _Go extends State<GoPosition> {
                   setState(() {
                     widget.item.b = directions[value];
                   });
+                  context.read<BlockUpdateNotifier>().update();
                 },
                 itemExtent: 25,
                 diameterRatio: 1,

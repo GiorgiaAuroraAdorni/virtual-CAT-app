@@ -20,6 +20,8 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   final double _paddingSize = 5;
 
+  bool added = false;
+
   void _interpreterListener() {
     if (!mounted) {
       return;
@@ -27,7 +29,10 @@ class _SideBarState extends State<SideBar> {
     if (context.read<VisibilityNotifier>().visible) {
       context.read<ResultNotifier>().cross =
           CatInterpreter().getLastState as Cross;
-      CatInterpreter().addListener(_interpreterListener);
+      if (!added) {
+        CatInterpreter().addListener(_interpreterListener);
+        added = !added;
+      }
     } else {
       CatInterpreter().removeListener(_interpreterListener);
     }

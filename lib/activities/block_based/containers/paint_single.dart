@@ -1,6 +1,8 @@
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
+import "package:provider/provider.dart";
 
 /// `FillEmpty` is a stateful widget that displays a `SimpleContainer` and calls
 /// a function when the user clicks on it
@@ -41,27 +43,23 @@ class _PaintSingle extends State<PaintSingle> {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) =>
-          Container(
-            key: widgetKey,
-            height: 60,
-            width: constraints.maxWidth.isFinite
-                ? constraints.maxWidth
-                : MediaQuery
-                .of(context)
-                .size
-                .width / 4,
-            decoration: BoxDecoration(
-              color: CupertinoColors.systemIndigo,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              border: Border.all(
-                color: CupertinoColors.darkBackgroundGray,
-              ),
-            ),
-            child: Center(
-              child: figures(),
-            ),
+      builder: (BuildContext context, BoxConstraints constraints) => Container(
+        key: widgetKey,
+        height: 60,
+        width: constraints.maxWidth.isFinite
+            ? constraints.maxWidth
+            : MediaQuery.of(context).size.width / 4,
+        decoration: BoxDecoration(
+          color: CupertinoColors.systemIndigo,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.all(
+            color: CupertinoColors.darkBackgroundGray,
           ),
+        ),
+        child: Center(
+          child: figures(),
+        ),
+      ),
     );
   }
 
@@ -69,7 +67,7 @@ class _PaintSingle extends State<PaintSingle> {
 
   List<Widget> _colorButtonsBuild() {
     final Map<CupertinoDynamicColor, String> colors =
-    <CupertinoDynamicColor, String>{
+        <CupertinoDynamicColor, String>{
       CupertinoColors.systemBlue: "ColorButtonBlue",
       CupertinoColors.systemRed: "ColorButtonRed",
       CupertinoColors.systemGreen: "ColorButtonGreen",
@@ -78,38 +76,38 @@ class _PaintSingle extends State<PaintSingle> {
 
     return colors.keys
         .map(
-          (CupertinoDynamicColor color) =>
-          Padding(
+          (CupertinoDynamicColor color) => Padding(
             padding: const EdgeInsets.all(5),
             child: CupertinoButton(
               key: Key(colors[color]!),
-              onPressed: () =>
-                  setState(() {
-                    widget.item.selected = color;
-                  }),
+              onPressed: () {
+                setState(() {
+                  widget.item.selected = color;
+                });
+                context.read<BlockUpdateNotifier>().update();
+              },
               borderRadius: BorderRadius.circular(45),
               minSize: 25,
               color: color,
               padding: EdgeInsets.zero,
               child: widget.item.selected == color
                   ? Stack(
-                alignment: AlignmentDirectional.center,
-                children: const <Widget>[
-                  Icon(
-                    CupertinoIcons.circle_filled,
-                    size: 15,
-                  ),
-                ],
-              )
+                      alignment: AlignmentDirectional.center,
+                      children: const <Widget>[
+                        Icon(
+                          CupertinoIcons.circle_filled,
+                          size: 15,
+                        ),
+                      ],
+                    )
                   : const Text(""),
             ),
           ),
-    )
+        )
         .toList();
   }
 
-  Widget figures() =>
-      Padding(
+  Widget figures() => Padding(
         padding: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
