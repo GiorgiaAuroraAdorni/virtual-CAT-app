@@ -10,7 +10,6 @@ import "package:flutter/scheduler.dart";
 class CopyCells extends StatefulWidget {
   /// A constructor for the Copy class.
   const CopyCells({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -18,14 +17,10 @@ class CopyCells extends StatefulWidget {
 
   /// A constructor for the Copy class.
   const CopyCells.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// Control if widget is active or not.
-  final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
   final CopyCellsContainer item;
@@ -165,7 +160,6 @@ class _Copy extends State<CopyCells> {
                               sized[key] = size.height;
                             });
                           },
-                          active: true,
                         ),
                         onDismissed: (DismissDirection direction) {
                           setState(() {
@@ -268,7 +262,6 @@ class _Copy extends State<CopyCells> {
                     key: UniqueKey(),
                     item: container,
                     onChange: (Size size) {},
-                    active: true,
                   ),
                   onDismissed: (DismissDirection direction) {
                     setState(() {

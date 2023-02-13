@@ -7,7 +7,6 @@ import "package:flutter/scheduler.dart";
 class GoPosition extends StatefulWidget {
   /// A constructor for the `Go` class.
   const GoPosition({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -16,14 +15,10 @@ class GoPosition extends StatefulWidget {
   /// A named constructor that is used to create a new instance of the
   /// Go class.
   const GoPosition.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// A variable that is used to store the `SimpleContainer` that is
   /// passed in as a parameter.
@@ -95,7 +90,7 @@ class _Go extends State<GoPosition> {
   void _directionPicker() {
     final List<String> directions =
         List<String>.generate(6, (int index) => (index + 1).toString());
-    final List<String> directions2 = ["A", "B", "C", "D", "E", "F"];
+    final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
 
     showCupertinoModalPopup(
       context: context,

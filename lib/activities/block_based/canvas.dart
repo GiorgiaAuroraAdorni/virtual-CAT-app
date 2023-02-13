@@ -23,6 +23,7 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -77,7 +78,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {
           return FillEmpty(
-            active: true,
             item: container,
             onChange: f,
           );
@@ -88,7 +88,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return Go(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -97,7 +96,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return GoPosition(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -106,7 +104,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return Paint(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -115,7 +112,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return PaintSingle(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -124,7 +120,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return CopyCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -133,7 +128,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return MirrorVertical(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -142,18 +136,14 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return MirrorHorizontal(
             item: container,
             onChange: f,
-            active: true,
           );
         }
-        break;
-      case ContainerType.none:
         break;
       case ContainerType.mirrorPoints:
         if (container is MirrorContainerPoints) {
           return MirrorPoints(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -162,7 +152,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return MirrorCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -171,7 +160,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
           return CopyCells(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -193,9 +181,20 @@ class _BlockCanvasState extends State<BlockCanvas> {
     }
   }
 
+  void _cleanBlocksListener() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      widgets.clear();
+      items.clear();
+    });
+  }
+
   @override
   void initState() {
     context.read<VisibilityNotifier>().addListener(_interpreterListener);
+    context.read<SelectedColorsNotifier>().addListener(_cleanBlocksListener);
     super.initState();
   }
 
@@ -255,6 +254,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
   @override
   void dispose() {
     CatInterpreter().removeListener(_interpreterListener);
+    context.read<SelectedColorsNotifier>().removeListener(_cleanBlocksListener);
     super.dispose();
   }
 }

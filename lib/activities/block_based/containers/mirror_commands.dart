@@ -32,7 +32,6 @@ import "package:flutter/scheduler.dart";
 class MirrorCommands extends StatefulWidget {
   /// A constructor for the Mirror class.
   const MirrorCommands({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -40,14 +39,10 @@ class MirrorCommands extends StatefulWidget {
 
   /// A constructor for a class called Mirror.
   const MirrorCommands.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
   final MirrorContainerCommands item;
@@ -203,7 +198,6 @@ class _Mirror extends State<MirrorCommands> {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {
           return FillEmpty(
-            active: true,
             item: container,
             onChange: f,
           );
@@ -214,7 +208,6 @@ class _Mirror extends State<MirrorCommands> {
           return Go(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -223,7 +216,6 @@ class _Mirror extends State<MirrorCommands> {
           return GoPosition(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -232,7 +224,6 @@ class _Mirror extends State<MirrorCommands> {
           return Paint(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -241,7 +232,6 @@ class _Mirror extends State<MirrorCommands> {
           return PaintSingle(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -250,7 +240,6 @@ class _Mirror extends State<MirrorCommands> {
           return CopyCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -259,7 +248,6 @@ class _Mirror extends State<MirrorCommands> {
           return MirrorVertical(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -268,18 +256,14 @@ class _Mirror extends State<MirrorCommands> {
           return MirrorHorizontal(
             item: container,
             onChange: f,
-            active: true,
           );
         }
-        break;
-      case ContainerType.none:
         break;
       case ContainerType.mirrorPoints:
         if (container is MirrorContainerPoints) {
           return MirrorPoints(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -288,7 +272,6 @@ class _Mirror extends State<MirrorCommands> {
           return MirrorCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -297,7 +280,6 @@ class _Mirror extends State<MirrorCommands> {
           return CopyCells(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;

@@ -8,7 +8,6 @@ import "package:flutter/scheduler.dart";
 class Go extends StatefulWidget {
   /// A constructor for the `Go` class.
   const Go({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -17,14 +16,10 @@ class Go extends StatefulWidget {
   /// A named constructor that is used to create a new instance of the
   /// Go class.
   const Go.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// A variable that is used to store the `SimpleContainer` that is
   /// passed in as a parameter.

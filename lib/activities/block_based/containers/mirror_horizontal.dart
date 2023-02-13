@@ -7,7 +7,6 @@ import "package:flutter/cupertino.dart";
 class MirrorHorizontal extends StatefulWidget {
   /// A constructor for the Mirror class.
   const MirrorHorizontal({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -15,14 +14,10 @@ class MirrorHorizontal extends StatefulWidget {
 
   /// A constructor for a class called Mirror.
   const MirrorHorizontal.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
   final MirrorSimpleContainer item;

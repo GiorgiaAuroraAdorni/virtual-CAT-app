@@ -2,7 +2,11 @@ import "package:cross_array_task_app/activities/block_based/containers/copy.dart
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
+import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_horizontal.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
@@ -12,22 +16,12 @@ import "package:cross_array_task_app/activities/block_based/model/go_container.d
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import "package:cross_array_task_app/activities/block_based/options/cell.dart";
-import "package:cross_array_task_app/activities/block_based/options/color.dart";
-import "package:cross_array_task_app/activities/block_based/options/direction.dart";
-import "package:cross_array_task_app/activities/block_based/types/component_type.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:flutter/material.dart";
-
-import "containers/go_position.dart";
-import "containers/mirror_commands.dart";
-import "containers/mirror_horizontal.dart";
-import "containers/mirror_vertical.dart";
-import "model/mirror_simple_container.dart";
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -37,8 +31,6 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  final GlobalKey _draggableKey = GlobalKey();
-
   /// Creating a list of SimpleContainer objects.
   List<SimpleContainer> containers = <SimpleContainer>[
     PaintSingleContainer(),
@@ -53,83 +45,6 @@ class _SideMenuState extends State<SideMenu> {
     CopyCommandsContainer(),
     CopyCellsContainer(),
   ];
-
-  /// Creating a list of SimpleComponent objects.
-  List<SimpleComponent> components = [
-    // SimpleComponent(name: "Colore", type: ComponentType.color),
-    // SimpleComponent(name: "Cella", type: ComponentType.cell),
-    // SimpleComponent(name: "Direzione", type: ComponentType.direction),
-  ];
-
-  Widget _buildComponentItem({required SimpleComponent component}) {
-    switch (component.type) {
-      case ComponentType.cell:
-        return Draggable<SimpleComponent>(
-          data: component,
-          feedback: FractionalTranslation(
-            translation: Offset.zero,
-            child: ClipRRect(
-              key: _draggableKey,
-              borderRadius: BorderRadius.circular(15),
-              child: Card(
-                elevation: 20,
-                color: Colors.transparent,
-                child: Cell(active: false, component: component),
-              ),
-            ),
-          ),
-          child: Cell(
-            active: false,
-            component:
-                SimpleComponent(type: component.type, name: component.name),
-          ),
-        );
-      case ComponentType.color:
-        return Draggable<SimpleComponent>(
-          data: component,
-          feedback: FractionalTranslation(
-            translation: Offset.zero,
-            child: ClipRRect(
-              key: _draggableKey,
-              borderRadius: BorderRadius.circular(15),
-              child: Card(
-                elevation: 20,
-                color: Colors.transparent,
-                child: Color(active: false, component: component),
-              ),
-            ),
-          ),
-          child: Color(
-            active: false,
-            component:
-                SimpleComponent(type: component.type, name: component.name),
-          ),
-        );
-      case ComponentType.direction:
-        return Draggable<SimpleComponent>(
-          data: component,
-          feedback: FractionalTranslation(
-            translation: Offset.zero,
-            child: ClipRRect(
-              key: _draggableKey,
-              borderRadius: BorderRadius.circular(15),
-              child: Card(
-                elevation: 20,
-                color: Colors.transparent,
-                child:
-                    Direction(active: false, mode: true, component: component),
-              ),
-            ),
-          ),
-          child: Direction(
-            active: false,
-            mode: true,
-            component:
-                SimpleComponent(type: component.type, name: component.name),
-          ),
-        );
-    }
-  }
 
   /// It returns a Draggable widget that has a feedback widget that is a Card with a
   /// child that is the result of calling the builder function
@@ -152,14 +67,14 @@ class _SideMenuState extends State<SideMenu> {
       feedback: Function.apply(
         builder,
         [],
-        {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+        {#item: copyContainer, #onChange: (Size size) {}},
       ),
       child: Padding(
         padding: const EdgeInsets.only(right: 10),
         child: Function.apply(
           builder,
           [],
-          {#active: false, #item: copyContainer, #onChange: (Size size) {}},
+          {#item: copyContainer, #onChange: (Size size) {}},
         ),
       ),
       onDragCompleted: () => setState(() {}),
@@ -206,8 +121,6 @@ class _SideMenuState extends State<SideMenu> {
           container: container,
           builder: MirrorCommands.build,
         );
-      case ContainerType.none:
-        return Container();
       case ContainerType.paintSingle:
         return _buildLongPressDraggable(
           container: container,
@@ -250,13 +163,9 @@ class _SideMenuState extends State<SideMenu> {
             thumbVisibility: true,
             child: ListView.separated(
               controller: _firstController,
-              itemCount: containers.length + components.length,
+              itemCount: containers.length,
               itemBuilder: (BuildContext context, int index) =>
-                  index < containers.length
-                      ? _buildContainerItem(container: containers[index])
-                      : _buildComponentItem(
-                          component: components[index - containers.length],
-                        ),
+                  _buildContainerItem(container: containers[index]),
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(
                 height: 5,

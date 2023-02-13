@@ -9,7 +9,6 @@ class FillEmpty extends StatefulWidget {
   /// A constructor that takes in a key, a boolean, a SimpleContainer, and a
   /// function.
   const FillEmpty({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -18,14 +17,10 @@ class FillEmpty extends StatefulWidget {
   /// This is a named constructor that is used to create a new instance of
   /// the FillEmpty class.
   const FillEmpty.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// A variable that is used to store the SimpleContainer that is passed in from
   /// the parent widget.

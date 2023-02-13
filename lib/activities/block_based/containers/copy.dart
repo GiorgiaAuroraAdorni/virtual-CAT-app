@@ -28,7 +28,6 @@ import "package:flutter/scheduler.dart";
 class CopyCommands extends StatefulWidget {
   /// A constructor for the Copy class.
   const CopyCommands({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -36,14 +35,10 @@ class CopyCommands extends StatefulWidget {
 
   /// A constructor for the Copy class.
   const CopyCommands.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// Control if widget is active or not.
-  final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
   final CopyCommandsContainer item;
@@ -261,7 +256,6 @@ class _Copy extends State<CopyCommands> {
                     key: UniqueKey(),
                     item: container,
                     onChange: (Size size) {},
-                    active: true,
                   ),
                   onDismissed: (DismissDirection direction) {
                     setState(() {
@@ -288,7 +282,6 @@ class _Copy extends State<CopyCommands> {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {
           return FillEmpty(
-            active: true,
             item: container,
             onChange: f,
           );
@@ -299,7 +292,6 @@ class _Copy extends State<CopyCommands> {
           return Go(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -308,7 +300,6 @@ class _Copy extends State<CopyCommands> {
           return GoPosition(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -317,7 +308,6 @@ class _Copy extends State<CopyCommands> {
           return Paint(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -326,7 +316,6 @@ class _Copy extends State<CopyCommands> {
           return PaintSingle(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -335,7 +324,6 @@ class _Copy extends State<CopyCommands> {
           return CopyCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -344,7 +332,6 @@ class _Copy extends State<CopyCommands> {
           return MirrorVertical(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -353,18 +340,14 @@ class _Copy extends State<CopyCommands> {
           return MirrorHorizontal(
             item: container,
             onChange: f,
-            active: true,
           );
         }
-        break;
-      case ContainerType.none:
         break;
       case ContainerType.mirrorPoints:
         if (container is MirrorContainerPoints) {
           return MirrorPoints(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -373,7 +356,6 @@ class _Copy extends State<CopyCommands> {
           return MirrorCommands(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;
@@ -382,7 +364,6 @@ class _Copy extends State<CopyCommands> {
           return CopyCells(
             item: container,
             onChange: f,
-            active: true,
           );
         }
         break;

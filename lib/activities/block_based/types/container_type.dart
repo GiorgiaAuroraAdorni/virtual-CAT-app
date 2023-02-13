@@ -32,5 +32,4 @@ enum ContainerType {
 
   /// Mirror type
   mirrorHorizontal,
-  none,
 }

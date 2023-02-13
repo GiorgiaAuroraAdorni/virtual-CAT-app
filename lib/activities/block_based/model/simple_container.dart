@@ -1,5 +1,4 @@
 import "package:cross_array_task_app/activities/block_based/model/base.dart";
-import "package:cross_array_task_app/activities/block_based/model/simple_component.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:flutter/foundation.dart";
 
@@ -8,7 +7,7 @@ class SimpleContainer extends Base {
   /// It's a constructor.
   SimpleContainer({
     required this.name,
-    this.type = ContainerType.none,
+    required this.type,
   });
 
   /// It's a key that is used to identify the component in the tree.
@@ -28,9 +27,6 @@ class SimpleContainer extends Base {
 
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> moves = <SimpleContainer>[];
-
-  /// It's a variable that is used to identify the component in the tree.
-  List<SimpleComponent> colors = <SimpleComponent>[];
 
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> container = <SimpleContainer>[];

@@ -3,12 +3,11 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 
-/// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer` and
-/// a `Function` and returns a `State<StatefulWidget>`
+/// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer`
+/// and a `Function` and returns a `State<StatefulWidget>`
 class Paint extends StatefulWidget {
   /// A constructor for the class Paint.
   const Paint({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
@@ -16,14 +15,10 @@ class Paint extends StatefulWidget {
 
   /// A constructor for the class Paint.
   const Paint.build({
-    required this.active,
     required this.item,
     required this.onChange,
     super.key,
   });
-
-  /// A boolean that is used to determine if the widget is active or not.
-  final bool active;
 
   /// Creating a new instance of the SimpleContainer class.
   final PaintContainer item;
