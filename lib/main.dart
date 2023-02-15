@@ -99,7 +99,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: <SingleChildWidget>[
-          ChangeNotifierProvider(create: (_) => LocaleProvider()),
+          ChangeNotifierProvider<LocaleProvider>(
+            create: (_) => LocaleProvider(),
+          ),
         ],
         child: Consumer<LocaleProvider>(
           builder: (

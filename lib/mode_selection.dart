@@ -1,8 +1,8 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import 'package:cross_array_task_app/activities/activity_home_block.dart';
+import "package:cross_array_task_app/activities/activity_home_block.dart";
+import "package:cross_array_task_app/i_p_configuration.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/session_builder.dart";
-import "package:cross_array_task_app/tutor_form.dart";
 import "package:flutter/cupertino.dart";
 
 /// It's a page that allows the user to select between the two modes of the
@@ -30,7 +30,8 @@ class ModeSelection extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => const SchoolForm(),
+                        builder: (BuildContext context) =>
+                            const IPConfiguration(),
                       ),
                     );
                   },

@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/session_builder.dart";
 import "package:cross_array_task_app/student_form.dart";
 import "package:cross_array_task_app/utility/cantons_list.dart";
@@ -43,21 +44,44 @@ class SchoolFormState extends State<SchoolForm> {
             largeTitle: Text(CATLocalizations.of(context).tutorialTitle),
             trailing: CupertinoButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => StudentsForm(
-                      sessionData: SessionBuilder()
-                          .setDate(_selectedDate)
-                          .setGrade(int.tryParse(_grade.text) ?? 0)
-                          .setSection(_section.text)
-                          .setSchoolName(_school.text)
-                          .setSupervisor(_supervisor.text)
-                          .setNotes(_notes.text)
-                          .setLevel(int.tryParse(_level.text) ?? 0)
-                          .setSchoolType(_schoolType.text)
-                          .setCanton(_canton.text)
-                          .build(),
+                int schoolId = 0;
+                int supervisorId = 0;
+                Connection()
+                    .addSchool(_canton.text, _school.text, _schoolType.text)
+                    .then(
+                  (int value) {
+                    schoolId = value;
+
+                    return Connection().addSupervisor(_supervisor.text);
+                  },
+                ).then((int value) {
+                  supervisorId = value;
+
+                  return Connection().addSession(
+                    supervisorId,
+                    schoolId,
+                    int.tryParse(_level.text) ?? 0,
+                    int.tryParse(_grade.text) ?? 0,
+                    _section.text,
+                    _selectedDate,
+                  );
+                }).then(
+                  (value) => Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) => StudentsForm(
+                        sessionData: SessionBuilder()
+                            .setDate(_selectedDate)
+                            .setGrade(int.tryParse(_grade.text) ?? 0)
+                            .setSection(_section.text)
+                            .setSchoolName(_school.text)
+                            .setSupervisor(_supervisor.text)
+                            .setNotes(_notes.text)
+                            .setLevel(int.tryParse(_level.text) ?? 0)
+                            .setSchoolType(_schoolType.text)
+                            .setCanton(_canton.text)
+                            .build(),
+                      ),
                     ),
                   ),
                 );
@@ -97,8 +121,8 @@ class SchoolFormState extends State<SchoolForm> {
                           child: CupertinoTextFormFieldRow(
                             placeholder:
                                 CATLocalizations.of(context).selectionSchool,
-                            readOnly: true,
-                            onTap: _schoolPicker,
+                            // readOnly: true,
+                            // onTap: _schoolPicker,
                             controller: _school,
                           ),
                         ),
@@ -128,19 +152,6 @@ class SchoolFormState extends State<SchoolForm> {
                             controller: _grade,
                           ),
                         ),
-                        // CupertinoFormRow(
-                        //   prefix: Text(
-                        //     "${CATLocalizations.of(context).level}:",
-                        //     textAlign: TextAlign.right,
-                        //   ),
-                        //   child: CupertinoTextFormFieldRow(
-                        //     placeholder:
-                        //         CATLocalizations.of(context).selectionLevel,
-                        //     readOnly: true,
-                        //     // onTap: _levelPicker,
-                        //     controller: _level,
-                        //   ),
-                        // ),
                         CupertinoFormRow(
                           prefix: Text(
                             "${CATLocalizations.of(context).section}:",
@@ -288,61 +299,36 @@ class SchoolFormState extends State<SchoolForm> {
     _level.text = start.toString();
   }
 
-  // void _levelPicker() {
-  //   final List<Text> grades = <Text>[
-  //     for (int i = 1; i < 12; i += 1) Text("$i"),
-  //   ];
-  //   if (_canton.text == "Ticino (TI)") {
-  //     grades.insert(0, const Text("0"));
-  //   }
-  //   showCupertinoModalPopup(
-  //     context: context,
-  //     builder: (BuildContext builder) => Container(
-  //       height: MediaQuery.of(context).copyWith().size.height * 0.25,
-  //       color: CupertinoColors.white,
-  //       child: CupertinoPicker(
-  //         onSelectedItemChanged: (int value) {
-  //           setState(() {
-  //             final Text text = grades[value];
-  //             _level.text = text.data.toString();
-  //           });
-  //         },
-  //         itemExtent: 25,
-  //         diameterRatio: 1,
-  //         useMagnifier: true,
-  //         magnification: 1.3,
-  //         children: grades,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   void _cantonPicker() {
-    setState(
-      () => _canton.text =
-          _canton.text == "" ? cantons.first.data.toString() : _canton.text,
-    );
-    _autoLevel();
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              final Text text = cantons[value];
-              _canton.text = text.data.toString();
-            });
-            _autoLevel();
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: cantons,
-        ),
-      ),
+    cantonsRequest().then(
+      (List<Text> cantons) {
+        setState(
+          () => _canton.text =
+              _canton.text == "" ? cantons.first.data.toString() : _canton.text,
+        );
+        _autoLevel();
+        showCupertinoModalPopup(
+          context: context,
+          builder: (BuildContext builder) => Container(
+            height: MediaQuery.of(context).copyWith().size.height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                setState(() {
+                  final Text text = cantons[value];
+                  _canton.text = text.data.toString();
+                });
+                _autoLevel();
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: cantons,
+            ),
+          ),
+        );
+      },
     );
   }
 
