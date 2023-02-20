@@ -1,14 +1,17 @@
+import "dart:math" as math;
+
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 
 class PaintContainer extends SimpleContainer {
   PaintContainer({super.name = "Colora", super.type = ContainerType.paint});
 
   List<CupertinoDynamicColor> selected_colors = [];
 
-  String direction = "destra";
+  late Widget direction = items2.keys.first;
 
   Map<String, String> items = <String, String>{
     "destra": "right",
@@ -38,10 +41,188 @@ class PaintContainer extends SimpleContainer {
     "zig-zag sotto sinistra destra": "zig-zag down left right",
   };
 
+  Map<Widget, String> items2 = <Widget, String>{
+    Transform.rotate(
+      angle: 0 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "right",
+    Transform.rotate(
+      angle: 180 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "left",
+    Transform.rotate(
+      angle: 270 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "up",
+    Transform.rotate(
+      angle: 90 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "down",
+    Transform.rotate(
+      angle: 225 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "diagonal up left",
+    Transform.rotate(
+      angle: 315 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "diagonal up right",
+    Transform.rotate(
+      angle: 135 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "diagonal down left",
+    Transform.rotate(
+      angle: 45 * math.pi / 180,
+      child: const Icon(
+        Icons.arrow_right_alt,
+        color: Colors.black87,
+      ),
+    ): "diagonal down right",
+    Transform.rotate(
+      angle: 0 * math.pi / 180,
+      child: const Icon(
+        Icons.square_outlined,
+        color: Colors.black87,
+      ),
+    ): "square",
+    Transform.rotate(
+      angle: 0 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "L up left",
+    Transform.rotate(
+      angle: 0 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "L up right",
+    Transform.rotate(
+      angle: 90 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "L right down",
+    Transform.rotate(
+      angle: 90 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "L right up",
+    Transform.rotate(
+      angle: 270 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "L left down",
+    Transform.rotate(
+      angle: 270 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "L left up",
+    Transform.rotate(
+      angle: 180 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "L down left",
+    Transform.rotate(
+      angle: 180 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "L down right",
+    Transform.rotate(
+      angle: 225 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "zig-zag left down up",
+    Transform.rotate(
+      angle: 45 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "zig-zag right up down",
+    Transform.rotate(
+      angle: 135 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "zig-zag down right left",
+    Transform.rotate(
+      angle: 135 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "zig-zag right down up",
+    Transform.rotate(
+      angle: 45 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "zig-zag up right left",
+    Transform.rotate(
+      angle: 225 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "zig-zag down left right",
+    Transform.rotate(
+      angle: 315 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_right,
+        color: Colors.black87,
+      ),
+    ): "zig-zag up left right",
+    Transform.rotate(
+      angle: 315 * math.pi / 180,
+      child: const Icon(
+        Icons.turn_left,
+        color: Colors.black87,
+      ),
+    ): "zig-zag left up down",
+  };
+
   @override
   PaintContainer copy() => PaintContainer();
 
   @override
   String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"
-      "$repetitions,${items[direction]})";
+      "$repetitions,${items2[direction]})";
 }

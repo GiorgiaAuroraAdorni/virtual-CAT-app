@@ -78,11 +78,12 @@ class _Go extends State<Go> {
                 CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPicker,
-                  child: Text(
-                    widget.item.direction,
-                    style: const TextStyle(color: CupertinoColors.black),
-                  ),
+                  onPressed: _directionPickerIcons,
+                  child: widget.item.direction2,
+                  // Text(
+                  //   widget.item.direction,
+                  //   style: const TextStyle(color: CupertinoColors.black),
+                  // ),
                 ),
               ],
             ),
@@ -191,8 +192,33 @@ class _Go extends State<Go> {
     );
   }
 
+  void _directionPickerIcons() {
+    final List<Widget> directions = widget.item.items2.keys.toList();
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              widget.item.direction2 = directions[value];
+            });
+            context.read<BlockUpdateNotifier>().update();
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: directions,
+        ),
+      ),
+    );
+  }
+
   void _directionPicker() {
-    final List<String> directions = widget.item.items.keys.toList();
+    final List<Widget> directions = widget.item.items.keys.toList();
 
     showCupertinoModalPopup(
       context: context,
@@ -210,12 +236,7 @@ class _Go extends State<Go> {
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: List<Widget>.generate(
-            directions.length,
-            (int index) => Text(
-              directions[index],
-            ),
-          ),
+          children: directions,
         ),
       ),
     );

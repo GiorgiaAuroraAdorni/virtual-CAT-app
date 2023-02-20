@@ -10,7 +10,8 @@ class IPConfiguration extends StatefulWidget {
 }
 
 class _IPConfigurationState extends State<IPConfiguration> {
-  final TextEditingController _controllerIP = TextEditingController();
+  final TextEditingController _controllerIP =
+      TextEditingController(text: "192.168.2.1");
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(

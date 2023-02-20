@@ -165,11 +165,8 @@ class _Paint extends State<Paint> {
                 CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPicker,
-                  child: Text(
-                    widget.item.direction,
-                    style: const TextStyle(color: CupertinoColors.black),
-                  ),
+                  onPressed: _directionPickerIcons,
+                  child: widget.item.direction,
                 ),
               ],
             ),
@@ -247,8 +244,8 @@ class _Paint extends State<Paint> {
     );
   }
 
-  void _directionPicker() {
-    final List<String> directions = widget.item.items.keys.toList();
+  void _directionPickerIcons() {
+    final List<Widget> directions = widget.item.items2.keys.toList();
 
     showCupertinoModalPopup(
       context: context,
@@ -266,16 +263,41 @@ class _Paint extends State<Paint> {
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: List<Widget>.generate(
-            directions.length,
-            (int index) => Text(
-              directions[index],
-            ),
-          ),
+          children: directions,
         ),
       ),
     );
   }
+
+  // void _directionPicker() {
+  //   final List<String> directions = widget.item.items.keys.toList();
+  //
+  //   showCupertinoModalPopup(
+  //     context: context,
+  //     builder: (BuildContext builder) => Container(
+  //       height: MediaQuery.of(context).copyWith().size.height * 0.25,
+  //       color: CupertinoColors.white,
+  //       child: CupertinoPicker(
+  //         onSelectedItemChanged: (int value) {
+  //           setState(() {
+  //             widget.item.direction = directions[value];
+  //           });
+  //           context.read<BlockUpdateNotifier>().update();
+  //         },
+  //         itemExtent: 25,
+  //         diameterRatio: 1,
+  //         useMagnifier: true,
+  //         magnification: 1.3,
+  //         children: List<Widget>.generate(
+  //           directions.length,
+  //           (int index) => Text(
+  //             directions[index],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Size? oldSize = Size.zero;
 

@@ -66,7 +66,7 @@ class SchoolFormState extends State<SchoolForm> {
                     _selectedDate,
                   );
                 }).then(
-                  (value) => Navigator.push(
+                  (int value) => Navigator.push(
                     context,
                     CupertinoPageRoute<Widget>(
                       builder: (BuildContext context) => StudentsForm(
