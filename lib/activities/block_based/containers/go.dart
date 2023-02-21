@@ -119,14 +119,6 @@ class _Go extends State<Go> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const <Widget>[
-          Icon(
-            CupertinoIcons.circle_fill,
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
         ],

@@ -1,4 +1,3 @@
-import "package:cross_array_task_app/activities/gesture_based/gesture_board.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
@@ -14,6 +13,10 @@ import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
+
+import "../block_based/canvas.dart";
+import "../block_based/side_menu_block.dart";
+import "gesture_board.dart";
 
 /// `GestureHome` is a `StatefulWidget` that creates a
 /// `GestureHomeState` when it's built
@@ -50,6 +53,8 @@ class GestureHomeState extends State<GestureHome> {
 
   final ValueNotifier<bool> _resetCross = ValueNotifier<bool>(false);
 
+  final ValueNotifier<int> _changeType = ValueNotifier<int>(1);
+
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
 
   @override
@@ -68,53 +73,84 @@ class GestureHomeState extends State<GestureHome> {
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),
+          ChangeNotifierProvider<BlockUpdateNotifier>(
+            create: (_) => BlockUpdateNotifier(),
+          ),
         ],
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const TopBar(),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                  // color: CupertinoColors.systemTeal,
-                  ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SideMenu(
-                    shakeKey: _shakeKey,
-                    selectionMode: _selectionMode,
-                    coloredButtons: _coloredButtons,
-                    selectedButtons: _selectedButtons,
-                    resetShape: _resetCross,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.95,
-                    width: 2,
-                    child: const VerticalDivider(
-                      thickness: 2,
-                      color: Colors.black,
-                    ),
-                  ),
-                  GestureBoard(
-                    shakeKey: _shakeKey,
-                    selectionMode: _selectionMode,
-                    coloredButtons: _coloredButtons,
-                    selectedButtons: _selectedButtons,
-                    resetSignal: _resetCross,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.95,
-                    width: 2,
-                    child: const VerticalDivider(
-                      thickness: 2,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SideBar(),
-                ],
+        child: AnimatedBuilder(
+          animation: _changeType,
+          builder: (BuildContext context, Widget? child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TopBar(
+                mode: _changeType,
               ),
-            ),
-          ],
+              if (_changeType.value > 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    const SideMenuBlock(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      width: 2,
+                      child: const VerticalDivider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                    ),
+                    BlockCanvas(
+                      shakeKey: _shakeKey,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      width: 2,
+                      child: const VerticalDivider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SideBar(),
+                  ],
+                )
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SideMenu(
+                      shakeKey: _shakeKey,
+                      selectionMode: _selectionMode,
+                      coloredButtons: _coloredButtons,
+                      selectedButtons: _selectedButtons,
+                      resetShape: _resetCross,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      width: 2,
+                      child: const VerticalDivider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                    ),
+                    GestureBoard(
+                      shakeKey: _shakeKey,
+                      selectionMode: _selectionMode,
+                      coloredButtons: _coloredButtons,
+                      selectedButtons: _selectedButtons,
+                      resetSignal: _resetCross,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      width: 2,
+                      child: const VerticalDivider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SideBar(),
+                  ],
+                ),
+            ],
+          ),
         ),
       );
 }
