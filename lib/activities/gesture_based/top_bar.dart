@@ -37,7 +37,7 @@ class _TopBarState extends State<TopBar> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -46,8 +46,8 @@ class _TopBarState extends State<TopBar> {
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
                   "resources/icon/block.svg",
-                  height: 52,
-                  width: 52,
+                  height: 42,
+                  width: 42,
                 ),
                 onPressed: () {
                   widget.mode.value -= 1;
