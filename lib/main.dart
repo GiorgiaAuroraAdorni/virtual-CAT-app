@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/mode_selection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -101,6 +102,9 @@ class MyApp extends StatelessWidget {
         providers: <SingleChildWidget>[
           ChangeNotifierProvider<LocaleProvider>(
             create: (_) => LocaleProvider(),
+          ),
+          ChangeNotifierProvider<TypeUpdateNotifier>(
+            create: (_) => TypeUpdateNotifier(),
           ),
         ],
         child: Consumer<LocaleProvider>(

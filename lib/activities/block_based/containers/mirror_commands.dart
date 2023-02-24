@@ -1,5 +1,3 @@
-import "dart:math" as math;
-
 import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
@@ -96,16 +94,25 @@ class _Mirror extends State<MirrorCommands> {
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CupertinoButton(
+            AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) {
+                if (context.read<TypeUpdateNotifier>().state == 2) {
+                  return CupertinoButton(
+                    color: CupertinoColors.systemGrey5,
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    onPressed: _directionPicker,
+                    child: widget.item.directions[widget.item.position],
+                  );
+                }
+
+                return CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPicker,
-                  child: widget.item.a,
-                ),
-              ],
+                  onPressed: _directionPickerIcons,
+                  child: widget.item.directions2[widget.item.position],
+                );
+              },
             ),
             const SizedBox(
               height: 5,
@@ -292,20 +299,6 @@ class _Mirror extends State<MirrorCommands> {
   }
 
   void _directionPicker() {
-    final List<Widget> directions2 = <Widget>[
-      const Icon(
-        CupertinoIcons.rectangle_grid_1x2,
-        color: CupertinoColors.black,
-      ),
-      Transform.rotate(
-        angle: 90 * math.pi / 180,
-        child: const Icon(
-          CupertinoIcons.rectangle_grid_1x2,
-          color: CupertinoColors.black,
-        ),
-      ),
-    ];
-
     final List<String> directions = <String>[
       "horizontal",
       "vertical",
@@ -319,8 +312,8 @@ class _Mirror extends State<MirrorCommands> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.a = directions2[value];
-              widget.item.b = directions[value];
+              widget.item.position = value;
+              widget.item.direction = directions[value];
             });
             context.read<BlockUpdateNotifier>().update();
           },
@@ -328,7 +321,36 @@ class _Mirror extends State<MirrorCommands> {
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: directions2,
+          children: widget.item.directions,
+        ),
+      ),
+    );
+  }
+
+  void _directionPickerIcons() {
+    final List<String> directions = <String>[
+      "horizontal",
+      "vertical",
+    ];
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              widget.item.position = value;
+              widget.item.direction = directions[value];
+            });
+            context.read<BlockUpdateNotifier>().update();
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: widget.item.directions2,
         ),
       ),
     );

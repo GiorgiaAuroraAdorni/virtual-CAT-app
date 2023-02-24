@@ -45,7 +45,6 @@ class _PaintSingle extends State<PaintSingle> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: 60,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
@@ -57,7 +56,16 @@ class _PaintSingle extends State<PaintSingle> {
           ),
         ),
         child: Center(
-          child: figures(),
+          child: AnimatedBuilder(
+            animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) {
+              if (context.read<TypeUpdateNotifier>().state == 2) {
+                return text();
+              }
+
+              return figure();
+            },
+          ),
         ),
       ),
     );
@@ -107,7 +115,26 @@ class _PaintSingle extends State<PaintSingle> {
         .toList();
   }
 
-  Widget figures() => Padding(
+  Widget text() => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              "Colora",
+              style: TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _colorButtonsBuild(),
+            ),
+          ],
+        ),
+      );
+
+  Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

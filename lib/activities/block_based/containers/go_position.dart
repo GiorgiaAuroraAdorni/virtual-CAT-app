@@ -1,9 +1,8 @@
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/result_notifier.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
@@ -45,7 +44,6 @@ class _Go extends State<GoPosition> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: 60,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
@@ -57,11 +55,44 @@ class _Go extends State<GoPosition> {
           ),
         ),
         child: Center(
-          child: figure(),
+          child: AnimatedBuilder(
+            animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) {
+              if (context.read<TypeUpdateNotifier>().state == 2) {
+                return text();
+              }
+
+              return figure();
+            },
+          ),
         ),
       ),
     );
   }
+
+  Widget text() => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text(
+              "Posizione",
+              style: TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            CupertinoButton(
+              color: CupertinoColors.systemGrey5,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              onPressed: _directionPicker,
+              child: Text(
+                widget.item.a + widget.item.b,
+                style: const TextStyle(color: CupertinoColors.black),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),

@@ -1,4 +1,9 @@
+import "dart:async";
+
+import "package:cross_array_task_app/activities/block_based/canvas.dart";
 import "package:cross_array_task_app/activities/block_based/side_bar_block.dart";
+import "package:cross_array_task_app/activities/block_based/side_menu_block.dart";
+import "package:cross_array_task_app/activities/gesture_based/gesture_board.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
@@ -14,10 +19,6 @@ import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
-
-import "../block_based/canvas.dart";
-import "../block_based/side_menu_block.dart";
-import "gesture_board.dart";
 
 /// `GestureHome` is a `StatefulWidget` that creates a
 /// `GestureHomeState` when it's built
@@ -36,6 +37,9 @@ class GestureHomeState extends State<GestureHome> {
   void initState() {
     CatInterpreter().reset();
     super.initState();
+    Timer.run(() {
+      Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
+    });
   }
 
   /// Creating a ValueNotifier that will be used to update the reference cross.
@@ -54,14 +58,14 @@ class GestureHomeState extends State<GestureHome> {
 
   final ValueNotifier<bool> _resetCross = ValueNotifier<bool>(false);
 
-  final ValueNotifier<int> _changeType = ValueNotifier<int>(1);
-
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
 
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: <ChangeNotifierProvider<ChangeNotifier>>[
-          ChangeNotifierProvider<TimeKeeper>(create: (_) => TimeKeeper()),
+          ChangeNotifierProvider<TimeKeeper>(
+            create: (_) => TimeKeeper(),
+          ),
           ChangeNotifierProvider<VisibilityNotifier>(
             create: (_) => VisibilityNotifier(),
           ),
@@ -79,14 +83,12 @@ class GestureHomeState extends State<GestureHome> {
           ),
         ],
         child: AnimatedBuilder(
-          animation: _changeType,
+          animation: context.watch<TypeUpdateNotifier>(),
           builder: (BuildContext context, Widget? child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TopBar(
-                mode: _changeType,
-              ),
-              if (_changeType.value > 0)
+              TopBar(),
+              if (context.read<TypeUpdateNotifier>().state > 0)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[

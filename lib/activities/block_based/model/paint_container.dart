@@ -11,7 +11,9 @@ class PaintContainer extends SimpleContainer {
 
   List<CupertinoDynamicColor> selected_colors = [];
 
-  late Widget direction = items2.keys.first;
+  String direction = "right";
+
+  int repetitions = 2;
 
   Map<String, String> items = <String, String>{
     "destra": "right",
@@ -40,6 +42,11 @@ class PaintContainer extends SimpleContainer {
     "zig-zag sopra destra sinistra": "zig-zag up right left",
     "zig-zag sotto sinistra destra": "zig-zag down left right",
   };
+
+  late Map<String, String> revertedItems = Map<String, String>.fromIterables(
+    items.values,
+    items.keys,
+  );
 
   Map<Widget, String> items2 = <Widget, String>{
     Transform.rotate(
@@ -219,10 +226,15 @@ class PaintContainer extends SimpleContainer {
     ): "zig-zag left up down",
   };
 
+  late Map<String, Widget> revertedItems2 = Map<String, Widget>.fromIterables(
+    items2.values,
+    items2.keys,
+  );
+
   @override
   PaintContainer copy() => PaintContainer();
 
   @override
   String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"
-      "$repetitions,${items2[direction]})";
+      "$repetitions,$direction)";
 }

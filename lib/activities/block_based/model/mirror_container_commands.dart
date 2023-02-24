@@ -1,3 +1,5 @@
+import "dart:math" as math;
+
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:flutter/cupertino.dart";
@@ -6,20 +8,48 @@ class MirrorContainerCommands extends SimpleContainer {
   MirrorContainerCommands({
     super.name = "Specchia",
     super.type = ContainerType.mirrorCommands,
-    this.a = const Icon(
+    this.position = 0,
+    this.direction = "horizontal",
+  });
+
+  int position;
+  String direction;
+
+  static const TextStyle _style = TextStyle(
+    color: CupertinoColors.black,
+  );
+
+  final List<Widget> directions = <Widget>[
+    const Text(
+      "Speccia orizzontale",
+      textAlign: TextAlign.center,
+      style: _style,
+    ),
+    const Text(
+      "Speccia verticale",
+      textAlign: TextAlign.center,
+      style: _style,
+    ),
+  ];
+
+  final List<Widget> directions2 = <Widget>[
+    const Icon(
       CupertinoIcons.rectangle_grid_1x2,
       color: CupertinoColors.black,
     ),
-    this.b = "horizontal",
-  });
-
-  Widget a;
-  String b;
+    Transform.rotate(
+      angle: 90 * math.pi / 180,
+      child: const Icon(
+        CupertinoIcons.rectangle_grid_1x2,
+        color: CupertinoColors.black,
+      ),
+    ),
+  ];
 
   @override
   SimpleContainer copy() => MirrorContainerCommands(
-        a: a,
-        b: b,
+        position: position,
+        direction: direction,
       );
 
   @override
@@ -30,6 +60,6 @@ class MirrorContainerCommands extends SimpleContainer {
         )
         .join(",");
 
-    return "mirror({$positions},$b)";
+    return "mirror({$positions},$direction)";
   }
 }

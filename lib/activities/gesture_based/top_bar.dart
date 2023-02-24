@@ -1,5 +1,6 @@
 import "dart:async";
 
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
@@ -10,11 +11,8 @@ import "package:provider/provider.dart";
 class TopBar extends StatefulWidget {
   /// A named constructor.
   TopBar({
-    required this.mode,
     super.key,
   });
-
-  ValueNotifier<int> mode;
 
   @override
   State<StatefulWidget> createState() => _TopBarState();
@@ -41,7 +39,19 @@ class _TopBarState extends State<TopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (widget.mode.value == 1)
+            if (context.read<TypeUpdateNotifier>().state == 2)
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: SvgPicture.asset(
+                  "resources/icon/code.svg",
+                  height: 42,
+                  width: 42,
+                ),
+                onPressed: () {
+                  context.read<TypeUpdateNotifier>().update();
+                },
+              )
+            else if (context.read<TypeUpdateNotifier>().state == 1)
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
@@ -50,7 +60,7 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
-                  widget.mode.value -= 1;
+                  context.read<TypeUpdateNotifier>().update();
                 },
               )
             else
@@ -58,8 +68,8 @@ class _TopBarState extends State<TopBar> {
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
                   "resources/icon/gesture.svg",
-                  height: 52,
-                  width: 52,
+                  height: 42,
+                  width: 42,
                 ),
                 onPressed: () {},
               ),

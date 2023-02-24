@@ -93,95 +93,110 @@ class _Copy extends State<CopyCommands> {
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
-            const Icon(
-              CupertinoIcons.doc_on_doc,
-              color: CupertinoColors.systemBackground,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            DragTarget<SimpleContainer>(
-              builder: (
-                BuildContext context,
-                List<SimpleContainer?> candidateItems,
-                List<dynamic> rejectedItems,
-              ) =>
-                  LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) =>
-                    Align(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: candidateItems.isNotEmpty
-                          ? Colors.green.shade300
-                          : Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
+            AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) {
+                if (context.read<TypeUpdateNotifier>().state == 2) {
+                  return const Text(
+                    "Copia",
+                    style: TextStyle(
+                      color: CupertinoColors.systemBackground,
                     ),
-                    height: childHeight + 60.0,
-                    width: constraints.maxWidth - 15,
-                    child: ReorderableListView(
-                      onReorder: (int oldIndex, int newIndex) {
-                        if (oldIndex < newIndex) {
-                          newIndex -= 1;
-                        }
-                        final Widget widgett = widgets.removeAt(oldIndex);
-                        final SimpleContainer item =
-                            widget.item.container.removeAt(oldIndex);
-                        widgets.insert(newIndex, widgett);
-                        widget.item.container.insert(newIndex, item);
-                      },
-                      children: widgets,
-                    ),
-                  ),
-                ),
-              ),
-              onAccept: (SimpleContainer el) {
-                setState(
-                  () {
-                    final UniqueKey key = UniqueKey();
-                    final SimpleContainer container = el.copy();
-                    widget.item.container.add(
-                      container,
-                    );
-                    container.key = key;
-                    sized[key] = 0.0;
-                    widgets.add(
-                      Dismissible(
-                        key: key,
-                        child: generateDismiss(
-                          container,
-                          (Size size) {
-                            setState(() {
-                              sized[key] = size.height;
-                            });
-                          },
-                        ),
-                        onDismissed: (DismissDirection direction) {
-                          setState(() {
-                            widget.item.container.removeWhere(
-                              (SimpleContainer e) => e.key == key,
-                            );
-                            widgets.removeWhere(
-                              (Widget element) => element.key == key,
-                            );
-                            sized.remove(key);
-                          });
-                          context.read<BlockUpdateNotifier>().update();
-                        },
-                      ),
-                    );
-                    context.read<BlockUpdateNotifier>().update();
-                  },
+                  );
+                }
+
+                return const Icon(
+                  CupertinoIcons.doc_on_doc,
+                  color: CupertinoColors.systemBackground,
                 );
               },
             ),
             const SizedBox(
               height: 5,
             ),
+            commands(),
+            const SizedBox(
+              height: 5,
+            ),
             positions(),
           ],
         ),
+      );
+
+  Widget commands() => DragTarget<SimpleContainer>(
+        builder: (
+          BuildContext context,
+          List<SimpleContainer?> candidateItems,
+          List<dynamic> rejectedItems,
+        ) =>
+            LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) => Align(
+            child: Container(
+              decoration: BoxDecoration(
+                color: candidateItems.isNotEmpty
+                    ? Colors.green.shade300
+                    : Colors.white,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              height: childHeight + 60.0,
+              width: constraints.maxWidth - 15,
+              child: ReorderableListView(
+                onReorder: (int oldIndex, int newIndex) {
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  final Widget widgett = widgets.removeAt(oldIndex);
+                  final SimpleContainer item =
+                      widget.item.container.removeAt(oldIndex);
+                  widgets.insert(newIndex, widgett);
+                  widget.item.container.insert(newIndex, item);
+                },
+                children: widgets,
+              ),
+            ),
+          ),
+        ),
+        onAccept: (SimpleContainer el) {
+          setState(
+            () {
+              final UniqueKey key = UniqueKey();
+              final SimpleContainer container = el.copy();
+              widget.item.container.add(
+                container,
+              );
+              container.key = key;
+              sized[key] = 0.0;
+              widgets.add(
+                Dismissible(
+                  key: key,
+                  child: generateDismiss(
+                    container,
+                    (Size size) {
+                      setState(() {
+                        sized[key] = size.height;
+                      });
+                    },
+                  ),
+                  onDismissed: (DismissDirection direction) {
+                    setState(() {
+                      widget.item.container.removeWhere(
+                        (SimpleContainer e) => e.key == key,
+                      );
+                      widgets.removeWhere(
+                        (Widget element) => element.key == key,
+                      );
+                      sized.remove(key);
+                    });
+                    context.read<BlockUpdateNotifier>().update();
+                  },
+                ),
+              );
+              context.read<BlockUpdateNotifier>().update();
+            },
+          );
+        },
       );
 
   Widget positions() => Flexible(
@@ -205,11 +220,26 @@ class _Copy extends State<CopyCommands> {
                     ),
                     height: 60 + (widget.item.moves.length * 60),
                     width: constraints.maxWidth - 15,
-                    child: const Center(
-                      child: Icon(
-                        CupertinoIcons.map_pin,
-                        color: CupertinoColors.systemTeal,
-                        size: 30,
+                    child: Center(
+                      child: AnimatedBuilder(
+                        animation: context.watch<TypeUpdateNotifier>(),
+                        builder: (BuildContext context, Widget? child) {
+                          if (context.read<TypeUpdateNotifier>().state == 2) {
+                            return const Text(
+                              "Posizioni di destinazione",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: CupertinoColors.systemTeal,
+                              ),
+                            );
+                          }
+
+                          return const Icon(
+                            CupertinoIcons.map_pin,
+                            color: CupertinoColors.systemTeal,
+                            size: 30,
+                          );
+                        },
                       ),
                     ),
                   ),

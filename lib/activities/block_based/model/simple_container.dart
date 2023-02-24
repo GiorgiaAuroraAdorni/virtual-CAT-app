@@ -20,7 +20,7 @@ class SimpleContainer extends Base {
   final ContainerType type;
 
   /// It's a variable that is used to identify the component in the tree.
-  int repetitions = 2;
+  int repetitions = 1;
 
   /// It's a variable that is used to identify the component in the tree.
   String axis = "";

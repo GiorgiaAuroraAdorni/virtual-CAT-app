@@ -45,7 +45,6 @@ class _Go extends State<Go> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Container(
         key: widgetKey,
-        height: 110,
         width: constraints.maxWidth.isFinite
             ? constraints.maxWidth
             : MediaQuery.of(context).size.width / 4,
@@ -57,11 +56,66 @@ class _Go extends State<Go> {
           ),
         ),
         child: Center(
-          child: figure(),
+          child: AnimatedBuilder(
+            animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) {
+              if (context.read<TypeUpdateNotifier>().state == 2) {
+                return text();
+              }
+
+              return figure();
+            },
+          ),
         ),
       ),
     );
   }
+
+  Widget text() => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          children: <Widget>[
+            const Text(
+              "Direzione",
+              style: TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            CupertinoButton(
+              color: CupertinoColors.systemGrey5,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              onPressed: _directionPicker,
+              child: widget.item.revertedItems[widget.item.direction]!,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              "Ripetizioni",
+              style: TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            CupertinoButton(
+              color: CupertinoColors.systemGrey5,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              onPressed: _repetitionsPicker,
+              child: Text(
+                "${widget.item.repetitions}",
+                style: const TextStyle(
+                  color: CupertinoColors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
@@ -79,13 +133,12 @@ class _Go extends State<Go> {
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _directionPickerIcons,
-                  child: widget.item.direction2,
-                  // Text(
-                  //   widget.item.direction,
-                  //   style: const TextStyle(color: CupertinoColors.black),
-                  // ),
+                  child: widget.item.revertedItems2[widget.item.direction]!,
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +150,7 @@ class _Go extends State<Go> {
                 CupertinoButton(
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _repetitionsPicker,
+                  onPressed: _repetitionsPickerIcon,
                   child: Row(
                     children: List<Widget>.filled(
                       widget.item.repetitions,
@@ -114,8 +167,14 @@ class _Go extends State<Go> {
         ),
       );
 
-  void _repetitionsPicker() {
+  void _repetitionsPickerIcon() {
     final List<Widget> repetitions = <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const <Widget>[
@@ -170,7 +229,38 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.repetitions = value + 2;
+              widget.item.repetitions = value + 1;
+            });
+            context.read<BlockUpdateNotifier>().update();
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: repetitions,
+        ),
+      ),
+    );
+  }
+
+  void _repetitionsPicker() {
+    final List<Widget> repetitions = <Widget>[
+      const Text("1"),
+      const Text("2"),
+      const Text("3"),
+      const Text("4"),
+      const Text("5"),
+      const Text("6"),
+    ];
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
           },
@@ -195,7 +285,7 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.direction2 = directions[value];
+              widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
           },
@@ -220,7 +310,7 @@ class _Go extends State<Go> {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              widget.item.direction = directions[value];
+              widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
           },

@@ -28,3 +28,21 @@ class BlockUpdateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class TypeUpdateNotifier extends ChangeNotifier {
+  int _state = 2;
+
+  int get state => _state;
+
+  void update() {
+    if (_state > 0) {
+      _state--;
+    }
+    notifyListeners();
+  }
+
+  void reset() {
+    _state = 2;
+    notifyListeners();
+  }
+}

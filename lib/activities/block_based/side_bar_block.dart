@@ -83,11 +83,11 @@ class _SideBarBlockState extends State<SideBarBlock> {
             Column(
               children: <Widget>[
                 _numbers(),
-                const SizedBox(height: 5),
+                const SizedBox(height: 15),
                 Row(
                   children: <Widget>[
                     _letters(),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 15),
                     CrossWidgetSimple(
                       resultValueNotifier: context.watch<ReferenceNotifier>(),
                     ),
@@ -96,27 +96,49 @@ class _SideBarBlockState extends State<SideBarBlock> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Column(
+              padding: const EdgeInsets.only(top: 15),
+              child: Row(
                 children: <Widget>[
-                  _showCross,
-                  CrossWidgetSimple(
-                    resultValueNotifier: context.watch<ResultNotifier>(),
+                  const Text(" "),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width / 200),
+                  Column(
+                    children: <Widget>[
+                      _showCross,
+                      CrossWidgetSimple(
+                        resultValueNotifier: context.watch<ResultNotifier>(),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 15),
-              child: BottomBar(),
+            Row(
+              children: [
+                const Text(" "),
+                const SizedBox(
+                  width: 15,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width / 200),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: BottomBar(),
+                ),
+              ],
             ),
           ],
         ),
       );
 
   Widget _numbers() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          const Text(" "),
+          const SizedBox(
+            width: 15,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width / 200),
           SizedBox(
             width: MediaQuery.of(context).size.width / 28,
             child: const Center(
