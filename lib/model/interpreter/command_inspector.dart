@@ -2,9 +2,10 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 
 class CommandsInspector {
-  static String main(List<Pair<int, int>> positions, List<String> colors) {
+  static List<String> main(
+      List<Pair<int, int>> positions, List<String> colors) {
     if (positions.length < 2 || colors.isEmpty) {
-      return "";
+      return <String>[];
     }
     final CommandsInspector inspector = CommandsInspector();
     String direction = "";
@@ -64,9 +65,9 @@ class CommandsInspector {
           .map((Pair<int, int> e) => "${rows[e.first]}${e.second + 1}")
           .joinToString();
 
-      return "paint({$converted},:,{$cells})";
+      return <String>["paint({$converted},:,{$cells})"];
     }
-    String command = "";
+    final List<String> command = <String>[];
     if (!direction.isBlank) {
       if (direction == "square") {
         int j = 0;
@@ -97,15 +98,21 @@ class CommandsInspector {
           fullColorsListCopy2[positionsCopy.indexOf(positions[i])] =
               fullColorsListCopy[i];
         }
-        command +=
-            "go(${rows[positionsCopy.first.first]}${positionsCopy.first.second + 1}), ";
-        command +=
-            "paint({${fullColorsListCopy2.joinToString()}},${positionsCopy.length},$direction)";
+        command
+          ..add(
+            "go(${rows[positionsCopy.first.first]}${positionsCopy.first.second + 1})",
+          )
+          ..add(
+            "paint({${fullColorsListCopy2.joinToString()}},${positionsCopy.length},$direction)",
+          );
       } else {
-        command +=
-            "go(${rows[positions.first.first]}${positions.first.second + 1}), ";
-        command +=
-            "paint({${colors.joinToString()}},${positions.length},$direction)";
+        command
+          ..add(
+            "go(${rows[positions.first.first]}${positions.first.second + 1})",
+          )
+          ..add(
+            "paint({${colors.joinToString()}},${positions.length},$direction)",
+          );
       }
     }
 

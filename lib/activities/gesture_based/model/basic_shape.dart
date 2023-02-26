@@ -207,7 +207,11 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
     for (final CrossButton i in _selectedButtons) {
       positions.add(i.position);
     }
-    CatInterpreter().paintMultiple(positions, colors);
+    CatInterpreter().paintMultiple(
+      positions,
+      colors,
+      copyCommands: widget.selectionMode.value == SelectionModes.repeat,
+    );
     if (widget.selectionMode.value == SelectionModes.base) {
       for (final CrossButton i in _selectedButtons) {
         i.unSelect(success: true);

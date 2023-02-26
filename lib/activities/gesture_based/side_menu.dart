@@ -349,7 +349,9 @@ class SideMenuState extends State<SideMenu> {
     for (final CrossButton b in widget.selectedButtons.value) {
       destinations.add(b.position);
     }
-    CatInterpreter().copyCells(origins, destinations);
+    if (CatInterpreter().copyCells(origins, destinations)) {
+      widget.shakeKey.currentState?.shake();
+    }
   }
 
   void _mirrorCells(String direction) {

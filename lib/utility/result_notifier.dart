@@ -30,7 +30,9 @@ class BlockUpdateNotifier extends ChangeNotifier {
 }
 
 class TypeUpdateNotifier extends ChangeNotifier {
-  int _state = 2;
+  final int _initialState = 0;
+
+  late int _state = _initialState;
 
   int get state => _state;
 
@@ -42,7 +44,7 @@ class TypeUpdateNotifier extends ChangeNotifier {
   }
 
   void reset() {
-    _state = 2;
+    _state = _initialState;
     notifyListeners();
   }
 }

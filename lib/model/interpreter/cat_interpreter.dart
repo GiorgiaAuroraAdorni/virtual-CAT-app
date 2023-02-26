@@ -20,6 +20,10 @@ class CatInterpreter with ChangeNotifier {
     );
   }
 
+  final List<String> _copyCommandsBuffer = <String>[];
+  final List<String> _allCommandsBuffer = <String>[];
+  final List<String> _copyCommandsBufferDestinations = <String>[];
+
   static final CatInterpreter _catInterpreter = CatInterpreter._internal();
 
   static late final cat.CATInterpreter _interpreter;
@@ -36,6 +40,8 @@ class CatInterpreter with ChangeNotifier {
   /// It resets the interpreter and notifies the listeners
   void resetInterpreter() {
     _interpreter.reset();
+    _allCommandsBuffer.clear();
+    _copyCommandsBuffer.clear();
     notifyListeners();
   }
 
@@ -50,10 +56,20 @@ class CatInterpreter with ChangeNotifier {
   ///   a (int): the row number
   ///   b (int): the column number
   ///   color (String): The color to paint the cell.
-  void paint(int a, int b, String color) {
+  void paint(
+    int a,
+    int b,
+    String color, {
+    required bool copyCommands,
+  }) {
     String code = "go(${rows[a]}${b + 1})";
     code += " paint($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    if (copyCommands) {
+      _copyCommandsBuffer.addAll(code.split(","));
+    } else {
+      _allCommandsBuffer.addAll(code.split(","));
+    }
     notifyListeners();
   }
 
@@ -64,9 +80,21 @@ class CatInterpreter with ChangeNotifier {
   ///   positions (List<Pair<int, int>>): A list of pairs of integers. Each pair
   /// represents the row and column of the cell to be painted.
   ///   colors (List<String>): a list of colors to paint the cells with.
-  void paintMultiple(List<Pair<int, int>> positions, List<String> colors) {
-    final String command = CommandsInspector.main(positions, colors);
-    _interpreter.validateOnScheme(command, SchemasReader().currentIndex);
+  void paintMultiple(
+    List<Pair<int, int>> positions,
+    List<String> colors, {
+    required bool copyCommands,
+  }) {
+    final List<String> command = CommandsInspector.main(positions, colors);
+    _interpreter.validateOnScheme(
+      command.joinToString(),
+      SchemasReader().currentIndex,
+    );
+    if (copyCommands) {
+      _copyCommandsBuffer.addAll(command);
+    } else {
+      _allCommandsBuffer.addAll(command);
+    }
     notifyListeners();
   }
 
@@ -78,6 +106,7 @@ class CatInterpreter with ChangeNotifier {
   void fillEmpty(String color) {
     final String code = "fill_empty($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    _allCommandsBuffer.add(code);
     notifyListeners();
   }
 
@@ -87,23 +116,48 @@ class CatInterpreter with ChangeNotifier {
   /// Args:
   ///   origins (List<Pair<int, int>>): The list of cells that will be copied.
   ///   destinations (List<Pair<int, int>>): The list of cells to be copied to.
-  void copyCells(
+  bool copyCells(
     List<Pair<int, int>> origins,
     List<Pair<int, int>> destinations,
   ) {
-    final List<String> originsPosition = <String>[];
     final List<String> destinationPosition = <String>[];
-    for (final Pair<int, int> i in origins) {
-      originsPosition.add("${rows[i.first]}${i.second + 1}");
-    }
     for (final Pair<int, int> i in destinations) {
       destinationPosition.add("${rows[i.first]}${i.second + 1}");
     }
-    final String code =
-        "COPY({${originsPosition.joinToString(separator: ",")}},"
-        "{${destinationPosition.joinToString(separator: ",")}})";
-    _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    String code = "";
+    if (_copyCommandsBuffer.isNotEmpty) {
+      final String firstDestination =
+          _copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
+      destinationPosition.insert(0, firstDestination);
+      code = "COPY({${_copyCommandsBuffer.joinToString(separator: ",")}},"
+          "{${destinationPosition.joinToString(separator: ",")}})";
+      _copyCommandsBuffer.clear();
+    } else {
+      final List<String> originsPosition = <String>[];
+      for (final Pair<int, int> i in origins) {
+        originsPosition.add("${rows[i.first]}${i.second + 1}");
+      }
+      code = "COPY({${originsPosition.joinToString(separator: ",")}},"
+          "{${destinationPosition.joinToString(separator: ",")}})";
+    }
+    _allCommandsBuffer.add(code);
+    _interpreter.reset();
+    final Pair<cat.Results, cat.CatError> res = _interpreter.validateOnScheme(
+      _allCommandsBuffer.joinToString(),
+      SchemasReader().currentIndex,
+    );
+    if (res.second != cat.CatError.none) {
+      _allCommandsBuffer.removeLast();
+      _interpreter
+        ..reset()
+        ..validateOnScheme(
+          _allCommandsBuffer.joinToString(),
+          SchemasReader().currentIndex,
+        );
+    }
     notifyListeners();
+
+    return res.second != cat.CatError.none;
   }
 
   /// It takes a direction as a parameter,
@@ -115,6 +169,7 @@ class CatInterpreter with ChangeNotifier {
   void mirror(String direction) {
     final String code = "MIRROR($direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    _allCommandsBuffer.add(code);
     notifyListeners();
   }
 
@@ -134,6 +189,7 @@ class CatInterpreter with ChangeNotifier {
     final String code =
         "MIRROR({${originsPosition.joinToString(separator: ",")}},$direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
+    _allCommandsBuffer.add(code);
     notifyListeners();
   }
 
@@ -144,6 +200,7 @@ class CatInterpreter with ChangeNotifier {
   ///   commands (String): The commands to be executed.
   void executeCommands(String commands) {
     _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
+    _allCommandsBuffer.add(commands);
     notifyListeners();
   }
 }

@@ -241,6 +241,7 @@ class CrossButtonState extends State<CrossButton> {
       widget.position.first,
       widget.position.second,
       colors.first,
+      copyCommands: widget.selectionMode.value == SelectionModes.repeat,
     );
     if (selected) {
       select();

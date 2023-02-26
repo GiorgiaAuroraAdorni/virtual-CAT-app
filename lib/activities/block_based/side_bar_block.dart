@@ -35,6 +35,7 @@ class _SideBarBlockState extends State<SideBarBlock> {
       }
     } else {
       CatInterpreter().removeListener(_interpreterListener);
+      added = !added;
     }
   }
 
