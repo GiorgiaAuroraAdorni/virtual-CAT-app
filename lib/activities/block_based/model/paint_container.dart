@@ -24,7 +24,7 @@ class PaintContainer extends SimpleContainer {
     "diagonale sopra destra": "diagonal up right",
     "diagonale sotto sinistra": "diagonal down left",
     "diagonale sotto destra": "diagonal down right",
-    "quadrato": "square",
+    "quadrato": "square bottom left",
     "L sopra sinistra": "L up left",
     "L sopra destra": "L up right",
     "L destra sotto": "L right down",

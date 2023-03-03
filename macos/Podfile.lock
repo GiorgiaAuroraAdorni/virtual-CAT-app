@@ -22,7 +22,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   cupertino_http: afa11b9e2786b62da2671e4ddd32caf792503748
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
 
 PODFILE CHECKSUM: c7b3571d07ebc76e420cb25b9ed54c63b8cb7be8
 
