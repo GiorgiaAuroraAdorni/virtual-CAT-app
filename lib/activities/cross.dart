@@ -2,16 +2,21 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
+import "../utility/helper.dart";
+
 /// It's a stateful widget that displays the result of the interpreter
 class CrossWidgetSimple extends StatefulWidget {
   /// A constructor.
   const CrossWidgetSimple({
     required this.resultValueNotifier,
+    this.displayLetters = false,
     super.key,
   });
 
   /// A variable that is used to store the result of the interpreter.
   final ResultNotifier resultValueNotifier;
+
+  final bool displayLetters;
 
   @override
   State<StatefulWidget> createState() => CrossWidgetSimpleState();
@@ -111,8 +116,10 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
           color: colors[widget.resultValueNotifier.cross.getGrid[y][x]],
           borderRadius: const BorderRadius.all(Radius.circular(100)),
         ),
-        child: const Center(
-          child: Text(""),
+        child: Center(
+          child: widget.displayLetters
+              ? Text("${rows[y]!.toUpperCase()}${x + 1}")
+              : const Text(""),
         ),
       );
 

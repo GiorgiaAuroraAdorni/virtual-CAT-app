@@ -30,7 +30,7 @@ class BlockUpdateNotifier extends ChangeNotifier {
 }
 
 class TypeUpdateNotifier extends ChangeNotifier {
-  final int _initialState = 0;
+  final int _initialState = 2;
 
   late int _state = _initialState;
 

@@ -81,37 +81,17 @@ class _SideBarBlockState extends State<SideBarBlock> {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                _numbers(),
-                const SizedBox(height: 15),
-                Row(
-                  children: <Widget>[
-                    _letters(),
-                    const SizedBox(width: 15),
-                    CrossWidgetSimple(
-                      resultValueNotifier: context.watch<ReferenceNotifier>(),
-                    ),
-                  ],
-                ),
-              ],
+            CrossWidgetSimple(
+              displayLetters: true,
+              resultValueNotifier: context.watch<ReferenceNotifier>(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
-              child: Row(
+              child: Column(
                 children: <Widget>[
-                  const Text(" "),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width / 200),
-                  Column(
-                    children: <Widget>[
-                      _showCross,
-                      CrossWidgetSimple(
-                        resultValueNotifier: context.watch<ResultNotifier>(),
-                      ),
-                    ],
+                  _showCross,
+                  CrossWidgetSimple(
+                    resultValueNotifier: context.watch<ResultNotifier>(),
                   ),
                 ],
               ),
@@ -131,113 +111,6 @@ class _SideBarBlockState extends State<SideBarBlock> {
             ),
           ],
         ),
-      );
-
-  Widget _numbers() => Row(
-        children: <Widget>[
-          const Text(" "),
-          const SizedBox(
-            width: 15,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("1"),
-            ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("2"),
-            ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("3"),
-            ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("4"),
-            ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("5"),
-            ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width / 200),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("6"),
-            ),
-          ),
-        ],
-      );
-
-  Widget _letters() => Column(
-        children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("F"),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 200,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("E"),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 200,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("D"),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 200,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("C"),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 200,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("B"),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 200,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.width / 28,
-            child: const Center(
-              child: Text("A"),
-            ),
-          ),
-        ],
       );
 
   @override

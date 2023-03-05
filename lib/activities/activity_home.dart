@@ -1,6 +1,5 @@
 import "package:cross_array_task_app/activities/gesture_based/gesture_home.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/model/session.dart";
 import "package:flutter/cupertino.dart";
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`
@@ -8,12 +7,14 @@ import "package:flutter/cupertino.dart";
 class ActivityHome extends StatefulWidget {
   /// It's a constructor for the ActivityHome class.
   const ActivityHome({
-    required this.sessionData,
+    required this.sessionID,
+    required this.studentID,
     super.key,
   });
 
   /// It's a variable that stores the data of the session.
-  final Session sessionData;
+  final int sessionID;
+  final int studentID;
 
   @override
   ActivityHomeState createState() => ActivityHomeState();

@@ -1,5 +1,4 @@
 import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/model/session_builder.dart";
 import "package:cross_array_task_app/student_form.dart";
 import "package:cross_array_task_app/utility/cantons_list.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -70,17 +69,7 @@ class SchoolFormState extends State<SchoolForm> {
                     context,
                     CupertinoPageRoute<Widget>(
                       builder: (BuildContext context) => StudentsForm(
-                        sessionData: SessionBuilder()
-                            .setDate(_selectedDate)
-                            .setGrade(int.tryParse(_grade.text) ?? 0)
-                            .setSection(_section.text)
-                            .setSchoolName(_school.text)
-                            .setSupervisor(_supervisor.text)
-                            .setNotes(_notes.text)
-                            .setLevel(int.tryParse(_level.text) ?? 0)
-                            .setSchoolType(_schoolType.text)
-                            .setCanton(_canton.text)
-                            .build(),
+                        sessionID: value,
                       ),
                     ),
                   ),

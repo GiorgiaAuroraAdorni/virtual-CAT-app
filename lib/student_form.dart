@@ -1,5 +1,4 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/session.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
@@ -9,12 +8,12 @@ import "package:flutter_screen_lock/flutter_screen_lock.dart";
 class StudentsForm extends StatefulWidget {
   /// A constructor for the class SchemasLibrary.
   const StudentsForm({
-    required this.sessionData,
+    required this.sessionID,
     super.key,
   });
 
   /// A variable that is used to store the session data.
-  final Session sessionData;
+  final int sessionID;
 
   @override
   StudentsFormState createState() => StudentsFormState();
@@ -76,20 +75,8 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                         builder: (BuildContext context) =>
                             CupertinoPageScaffold(
                           child: ActivityHome(
-                            sessionData: widget.sessionData,
-                            // params: ParametersBuilder()
-                            //     .dataCollector(
-                            //       SessionToJson(
-                            //         sessionData: widget.sessionData,
-                            //         pupilData: Pupil(
-                            //           name: _name.text,
-                            //           surname: _surname.text,
-                            //           gender: _gender.text,
-                            //           creationDateTime: _selectedDate,
-                            //         ),
-                            //       ),
-                            //     )
-                            //     .build(),
+                            sessionID: widget.sessionID,
+                            studentID: widget.sessionID,
                           ),
                         ),
                       ),
