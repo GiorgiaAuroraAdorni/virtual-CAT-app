@@ -52,6 +52,8 @@ dependencies:
   # A package that allows you to use svg images in your flutter app.
   flutter_svg: ^2.0.2
 
+  fpdart: ^0.5.0
+
   #  interpreter:
   #    path: ../virtual-CAT-programming-language-interpreter/
   interpreter:

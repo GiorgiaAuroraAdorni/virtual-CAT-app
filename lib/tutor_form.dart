@@ -167,9 +167,6 @@ class SchoolFormState extends State<SchoolForm> {
                                 .supervisorInformation,
                             controller: _supervisor,
                             keyboardType: TextInputType.name,
-                            autofillHints: supervisors
-                                .map((Text e) => e.data.toString())
-                                .toList(),
                           ),
                         ),
                         CupertinoFormRow(
@@ -322,26 +319,28 @@ class SchoolFormState extends State<SchoolForm> {
   }
 
   void _supervisorPicker() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              final Text text = supervisors[value];
-              _supervisor.text = text.data.toString();
-            });
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: supervisors,
+    supervisorsRequest().then((List<Text> supervisors) {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext builder) => Container(
+          height: MediaQuery.of(context).copyWith().size.height * 0.25,
+          color: CupertinoColors.white,
+          child: CupertinoPicker(
+            onSelectedItemChanged: (int value) {
+              setState(() {
+                final Text text = supervisors[value];
+                _supervisor.text = text.data.toString();
+              });
+            },
+            itemExtent: 25,
+            diameterRatio: 1,
+            useMagnifier: true,
+            magnification: 1.3,
+            children: supervisors,
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   void _schoolTypePicker() {

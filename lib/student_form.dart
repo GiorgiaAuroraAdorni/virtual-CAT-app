@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
@@ -23,9 +24,9 @@ class StudentsForm extends StatefulWidget {
 class StudentsFormState extends State<StudentsForm> with RouteAware {
   @override
   void didPopNext() {
-    _name.text = "";
+    // _name.text = "";
     _gender.text = "";
-    _surname.text = "";
+    // _surname.text = "";
     _selectedDate = DateTime.now();
     _controllerDate.text =
         "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
@@ -43,8 +44,11 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _gender = TextEditingController();
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _surname = TextEditingController();
+
+  // final TextEditingController _name = TextEditingController();
+  // final TextEditingController _surname = TextEditingController();
+
+  bool _genderBool = false;
 
   @override
   Widget build(BuildContext context) => WillPopScope(
@@ -69,18 +73,26 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                 largeTitle: Text(CATLocalizations.of(context).secondFormTitle),
                 trailing: CupertinoButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) =>
-                            CupertinoPageScaffold(
-                          child: ActivityHome(
-                            sessionID: widget.sessionID,
-                            studentID: widget.sessionID,
+                    Connection()
+                        .addStudent(
+                          _selectedDate,
+                          _genderBool,
+                          widget.sessionID,
+                        )
+                        .then(
+                          (int studentID) => Navigator.push(
+                            context,
+                            CupertinoPageRoute<Widget>(
+                              builder: (BuildContext context) =>
+                                  CupertinoPageScaffold(
+                                child: ActivityHome(
+                                  sessionID: widget.sessionID,
+                                  studentID: studentID,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
+                        );
                   },
                   child: const Icon(CupertinoIcons.arrow_right),
                 ),
@@ -111,26 +123,26 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                 height: 10,
               ),
               children: <Widget>[
-                CupertinoFormRow(
-                  prefix: Text(
-                    "${CATLocalizations.of(context).name}:",
-                    textAlign: TextAlign.right,
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: CATLocalizations.of(context).inputName,
-                    controller: _name,
-                  ),
-                ),
-                CupertinoFormRow(
-                  prefix: Text(
-                    "${CATLocalizations.of(context).surname}:",
-                    textAlign: TextAlign.right,
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: CATLocalizations.of(context).inputSurname,
-                    controller: _surname,
-                  ),
-                ),
+                // CupertinoFormRow(
+                //   prefix: Text(
+                //     "${CATLocalizations.of(context).name}:",
+                //     textAlign: TextAlign.right,
+                //   ),
+                //   child: CupertinoTextFormFieldRow(
+                //     placeholder: CATLocalizations.of(context).inputName,
+                //     controller: _name,
+                //   ),
+                // ),
+                // CupertinoFormRow(
+                //   prefix: Text(
+                //     "${CATLocalizations.of(context).surname}:",
+                //     textAlign: TextAlign.right,
+                //   ),
+                //   child: CupertinoTextFormFieldRow(
+                //     placeholder: CATLocalizations.of(context).inputSurname,
+                //     controller: _surname,
+                //   ),
+                // ),
                 CupertinoFormRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).gender}:",
@@ -194,6 +206,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
+              _genderBool = !(value == 0);
               final Text text = CATLocalizations.of(context).genderType[value];
               _gender.text = text.data.toString();
             });

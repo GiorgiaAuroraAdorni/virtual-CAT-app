@@ -1,39 +1,33 @@
-import "dart:convert";
-import "dart:io";
+import "package:cross_array_task_app/model/baseConnection.dart";
+import "package:fpdart/fpdart.dart";
 
-import "package:dio/dio.dart";
-import "package:native_dio_adapter/native_dio_adapter.dart";
-
-class Connection {
+class Connection extends BaseConnection {
   factory Connection() => _connection;
 
-  Connection._internal() {
-    _connectionString = _protocol + _ip + _port;
-    if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
-      _dio.httpClientAdapter = NativeAdapter();
-    }
-    _dio.options.baseUrl = _connectionString;
-  }
-
-  String _ip = "127.0.0.1";
-  final String _port = ":8080";
-  final String _protocol = "http://";
-  String _connectionString = "";
-
-  final Dio _dio = Dio();
+  Connection._internal() : super();
 
   Future<dynamic> cantos() async {
-    Response response;
-    response = await _dio.get("/cantons");
+    final Either<String, List<dynamic>> res =
+        await mappingGetRequest("/cantons").run();
 
-    return response.data;
+    return res.getOrElse((String l) => <Map<String, dynamic>>[]);
+  }
+
+  Future<dynamic> supervisors() async {
+    final Either<String, List<dynamic>> res =
+        await mappingGetRequest("/supervisors").run();
+
+    return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<int> addSchool(String canton, String name, String schoolType) async {
-    List<Response<dynamic>> responses;
-    responses = await Future.wait([_dio.get("/school"), _dio.get("/cantons")]);
-    final List<dynamic> schools = responses.first.data;
-    final List<dynamic> cantons = responses.last.data;
+    final List<Either<String, List<dynamic>>> responses = await Future.wait(
+      [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],
+    );
+    final List<dynamic> schools =
+        responses.first.getOrElse((String l) => <Map<String, dynamic>>[]);
+    final List<dynamic> cantons =
+        responses.last.getOrElse((String l) => <Map<String, dynamic>>[]);
     int cantonId = 0;
     for (final Map<String, dynamic> element in cantons) {
       if (element["canton"] == canton) {
@@ -48,19 +42,17 @@ class Connection {
         return element["id"];
       }
     }
-    final Response<Map<String, dynamic>> response = await _dio.post(
-      "/school",
-      data: jsonEncode(
-        {"canton": cantonId, "name": name, "schoolType": schoolType},
-      ),
-      options: Options(
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      ),
-    );
 
-    return response.data!["id"];
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
+      "/school",
+      <String, dynamic>{
+        "canton": cantonId,
+        "name": name,
+        "schoolType": schoolType
+      },
+    ).run();
+
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
   Future<int> addSession(
@@ -71,67 +63,51 @@ class Connection {
     String section,
     DateTime date,
   ) async {
-    Response response;
-    response = await _dio.post(
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/sessions",
-      data: jsonEncode(
-        {
-          "supervisor": supervisor,
-          "school": school,
-          "level": level,
-          "classs": classs,
-          "section": section,
-          "date": date.toIso8601String(),
-        },
-      ),
-      options: Options(
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      ),
-    );
+      <String, dynamic>{
+        "supervisor": supervisor,
+        "school": school,
+        "level": level,
+        "classs": classs,
+        "section": section,
+        "date": date.toIso8601String(),
+      },
+    ).run();
 
-    return response.data!["id"];
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
   Future<int> addSupervisor(String name) async {
-    Response response;
-    response = await _dio.get("/supervisors");
-    final List<dynamic> supervisors = response.data;
+    final List<dynamic> supervisors = await this.supervisors();
     for (final Map<String, dynamic> element in supervisors) {
       if (element["fullName"] == name) {
         return element["id"];
       }
     }
-    response = await _dio.post(
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/supervisors",
-      data: jsonEncode(
-        {"fullName": name},
-      ),
-      options: Options(
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      ),
-    );
+      <String, dynamic>{"fullName": name},
+    ).run();
 
-    return response.data!["id"];
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
-  set ip(String ip) {
-    _ip = ip;
-    _connectionString = _protocol + _ip + _port;
-    _dio.options.baseUrl = _connectionString;
-  }
+  Future<int> addStudent(
+    DateTime date,
+    bool gender,
+    int session,
+  ) async {
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
+      "/students",
+      <String, dynamic>{
+        "date": date.toIso8601String(),
+        "gender": gender,
+        "session": session,
+      },
+    ).run();
 
-  Future<bool> testConnection() async {
-    Response response;
-    response = await _dio.get("/cantons");
-    if (response.statusCode == 200 && response.data.toString().isNotEmpty) {
-      return true;
-    }
-
-    return false;
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
   static final Connection _connection = Connection._internal();
