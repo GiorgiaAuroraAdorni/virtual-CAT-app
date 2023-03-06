@@ -2,8 +2,8 @@ import "dart:math" as math;
 
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
+import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
 /// `MirrorButtonVertical` is a stateful widget that displays a vertical mirror

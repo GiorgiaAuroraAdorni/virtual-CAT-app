@@ -24,9 +24,7 @@ class StudentsForm extends StatefulWidget {
 class StudentsFormState extends State<StudentsForm> with RouteAware {
   @override
   void didPopNext() {
-    // _name.text = "";
     _gender.text = "";
-    // _surname.text = "";
     _selectedDate = DateTime.now();
     _controllerDate.text =
         "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
@@ -44,9 +42,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _gender = TextEditingController();
-
-  // final TextEditingController _name = TextEditingController();
-  // final TextEditingController _surname = TextEditingController();
 
   bool _genderBool = false;
 
@@ -123,26 +118,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                 height: 10,
               ),
               children: <Widget>[
-                // CupertinoFormRow(
-                //   prefix: Text(
-                //     "${CATLocalizations.of(context).name}:",
-                //     textAlign: TextAlign.right,
-                //   ),
-                //   child: CupertinoTextFormFieldRow(
-                //     placeholder: CATLocalizations.of(context).inputName,
-                //     controller: _name,
-                //   ),
-                // ),
-                // CupertinoFormRow(
-                //   prefix: Text(
-                //     "${CATLocalizations.of(context).surname}:",
-                //     textAlign: TextAlign.right,
-                //   ),
-                //   child: CupertinoTextFormFieldRow(
-                //     placeholder: CATLocalizations.of(context).inputSurname,
-                //     controller: _surname,
-                //   ),
-                // ),
                 CupertinoFormRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).gender}:",
