@@ -1,8 +1,10 @@
+import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -72,6 +74,9 @@ class _BottomBarState extends State<BottomBar> {
   Future<bool> schemaCompleted() async {
     final Results results = CatInterpreter().getResults;
     _globalTime += context.read<TimeKeeper>().rawTime;
+    final List<String> commands = List<String>.from(results.getCommands);
+    commands.removeAt(0);
+    final Collector collector = elaborate(commands: commands);
     context.read<VisibilityNotifier>().visible = true;
     final bool result = await UIBlock.blockWithData(
       context,

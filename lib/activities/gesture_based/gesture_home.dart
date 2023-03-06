@@ -1,7 +1,6 @@
 import "dart:async";
 
 import "package:cross_array_task_app/activities/block_based/canvas.dart";
-import "package:cross_array_task_app/activities/block_based/side_bar_block.dart";
 import "package:cross_array_task_app/activities/block_based/side_menu_block.dart";
 import "package:cross_array_task_app/activities/gesture_based/gesture_board.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
@@ -112,7 +111,7 @@ class GestureHomeState extends State<GestureHome> {
                         color: Colors.black,
                       ),
                     ),
-                    const SideBarBlock(),
+                    const SideBar(),
                   ],
                 )
               else

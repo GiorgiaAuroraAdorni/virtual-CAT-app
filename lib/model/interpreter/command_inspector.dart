@@ -79,26 +79,28 @@ class CommandsInspector {
     if (!direction.isBlank) {
       if (direction.startsWith("square")) {
         int s = 0;
-        for (int i = 0; i < positions.length; i++) {
-          s += (positions[(i + 1) % positions.length].first -
-                  positions[i].first) *
-              (positions[i].second +
-                  positions[(i + 1) % positions.length].second);
-        }
-        int j = 0;
-        List<String> fullColorsList = <String>[];
-        if (s.sign >= 0) {
-          for (final Pair<int, int> _ in positions) {
-            fullColorsList.add(colors[j]);
-            j = (j + 1) % colors.length;
+        List<String> fullColorsList = colors;
+        if (colors.length > 1) {
+          for (int i = 0; i < positions.length; i++) {
+            s += (positions[(i + 1) % positions.length].first -
+                    positions[i].first) *
+                (positions[i].second +
+                    positions[(i + 1) % positions.length].second);
           }
-          fullColorsList = <String>[
-            fullColorsList.first,
-            ...fullColorsList.sublist(1).reversed,
-          ];
-        } else {
-          fullColorsList = colors;
+          int j = 0;
+          if (s.sign >= 0) {
+            fullColorsList = <String>[];
+            for (final Pair<int, int> _ in positions) {
+              fullColorsList.add(colors[j]);
+              j = (j + 1) % colors.length;
+            }
+            fullColorsList = <String>[
+              fullColorsList.first,
+              ...fullColorsList.sublist(1).reversed,
+            ];
+          }
         }
+
         command
           ..add(
             "go(${rows[positions.first.first]}${positions.first.second + 1})",
