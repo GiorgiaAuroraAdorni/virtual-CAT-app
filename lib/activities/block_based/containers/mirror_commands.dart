@@ -26,6 +26,8 @@ import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
+import "../../../utility/cat_log.dart";
+
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
 /// `SimpleContainer` `item`, and a `Function` `onChange` and returns a
 /// `State<StatefulWidget>` `_Mirror`
@@ -142,6 +144,7 @@ class _Mirror extends State<MirrorCommands> {
                     width: constraints.maxWidth - 15,
                     child: ReorderableListView(
                       onReorder: (int oldIndex, int newIndex) {
+                        final String prev = widget.item.toString();
                         if (oldIndex < newIndex) {
                           newIndex -= 1;
                         }
@@ -151,6 +154,12 @@ class _Mirror extends State<MirrorCommands> {
                             widget.item.container.removeAt(oldIndex);
                         widget.item.container.insert(newIndex, item);
                         context.read<BlockUpdateNotifier>().update();
+                        CatLogger().addLog(
+                          context: context,
+                          previousCommand: prev,
+                          currentCommand: widget.item.toString(),
+                          description: CatLoggingLevel.reorderCommand,
+                        );
                       },
                       children: widgets,
                     ),
@@ -158,6 +167,7 @@ class _Mirror extends State<MirrorCommands> {
                 ),
               ),
               onAccept: (SimpleContainer el) {
+                final String prev = widget.item.toString();
                 setState(
                   () {
                     final UniqueKey key = UniqueKey();
@@ -178,6 +188,7 @@ class _Mirror extends State<MirrorCommands> {
                           },
                         ),
                         onDismissed: (DismissDirection direction) {
+                          final String prev = widget.item.toString();
                           setState(() {
                             widget.item.container.removeWhere(
                               (SimpleContainer e) => e.key == key,
@@ -188,12 +199,24 @@ class _Mirror extends State<MirrorCommands> {
                             sized.remove(key);
                           });
                           context.read<BlockUpdateNotifier>().update();
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand: prev,
+                            currentCommand: widget.item.toString(),
+                            description: CatLoggingLevel.removeCommand,
+                          );
                         },
                       ),
                     );
                   },
                 );
                 context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.addCommand,
+                );
               },
             ),
           ],
@@ -311,11 +334,18 @@ class _Mirror extends State<MirrorCommands> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -340,11 +370,18 @@ class _Mirror extends State<MirrorCommands> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,

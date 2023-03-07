@@ -96,8 +96,6 @@ class _BottomBarState extends State<BottomBar> {
       context: context,
     )
         .then((int value) async {
-      CatLogger().commitLogs();
-      CatLogger().resetLogs();
       context.read<VisibilityNotifier>().visible = true;
       final bool result = await UIBlock.blockWithData(
         context,
@@ -120,9 +118,7 @@ class _BottomBarState extends State<BottomBar> {
             const SizedBox(height: 18),
             CupertinoButton.filled(
               child: const Text("Prossimo"),
-              onPressed: () {
-                // widget.params.visible = wasVisible;
-                // widget.params.saveCommandsForJson();
+              onPressed: () async {
                 UIBlock.unblockWithData(
                   context,
                   SchemasReader().hasNext(),
@@ -134,6 +130,7 @@ class _BottomBarState extends State<BottomBar> {
       );
       _reset();
       context.read<TimeKeeper>().resetTimer();
+      CatLogger().resetLogs();
 
       return result;
     });
@@ -144,5 +141,11 @@ class _BottomBarState extends State<BottomBar> {
     CatInterpreter().resetInterpreter();
     context.read<ResultNotifier>().cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "",
+      description: CatLoggingLevel.commandsReset,
+    );
   }
 }

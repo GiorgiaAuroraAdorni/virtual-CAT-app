@@ -23,8 +23,6 @@ List<String> analyzeColor(List<CupertinoDynamicColor> nextColors) {
       colors.add("green");
     } else if (currentColor == CupertinoColors.systemYellow) {
       colors.add("yellow");
-    } else {
-      throw Exception("Invalid color");
     }
   }
 

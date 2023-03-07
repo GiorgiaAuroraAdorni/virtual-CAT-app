@@ -7,6 +7,8 @@ import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
+import "../../utility/cat_log.dart";
+
 class SideBar extends StatefulWidget {
   /// A constructor for the SideBar class.
   const SideBar({
@@ -63,6 +65,12 @@ class _SideBarState extends State<SideBar> {
             ? null
             : () {
                 context.read<VisibilityNotifier>().visible = true;
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: "",
+                  currentCommand: "",
+                  description: CatLoggingLevel.changeVisibility,
+                );
               },
         borderRadius: BorderRadius.circular(45),
         minSize: 45,

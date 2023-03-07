@@ -20,13 +20,12 @@ import "package:cross_array_task_app/activities/block_based/model/paint_containe
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/cat_log.dart";
 
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
 class CopyCommands extends StatefulWidget {
@@ -198,7 +197,7 @@ class _Copy extends State<CopyCommands> {
                       context: context,
                       previousCommand: prev,
                       currentCommand: widget.item.toString(),
-                      description: "command removed",
+                      description: CatLoggingLevel.removeCommand,
                     );
                   },
                 ),
@@ -208,7 +207,7 @@ class _Copy extends State<CopyCommands> {
                 context: context,
                 previousCommand: prev,
                 currentCommand: widget.item.toString(),
-                description: "command added",
+                description: CatLoggingLevel.addCommand,
               );
             },
           );
@@ -290,7 +289,7 @@ class _Copy extends State<CopyCommands> {
                         context: context,
                         previousCommand: prev,
                         currentCommand: widget.item.toString(),
-                        description: "commands reordering",
+                        description: CatLoggingLevel.reorderCommand,
                       );
                     },
                     children: widgets2,
@@ -331,7 +330,7 @@ class _Copy extends State<CopyCommands> {
                       context: context,
                       previousCommand: prev,
                       currentCommand: widget.item.toString(),
-                      description: "command removed",
+                      description: CatLoggingLevel.removeCommand,
                     );
                   },
                 ),
@@ -342,7 +341,7 @@ class _Copy extends State<CopyCommands> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "command added",
+              description: CatLoggingLevel.addCommand,
             );
           },
         ),

@@ -4,6 +4,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
+import "../../../utility/cat_log.dart";
+
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
 class GoPosition extends StatefulWidget {
@@ -137,10 +139,17 @@ class _Go extends State<GoPosition> {
             Expanded(
               child: CupertinoPicker(
                 onSelectedItemChanged: (int value) {
+                  final String prev = widget.item.toString();
                   setState(() {
                     widget.item.a = directions2[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand: prev,
+                    currentCommand: widget.item.toString(),
+                    description: CatLoggingLevel.updateCommandProperties,
+                  );
                 },
                 itemExtent: 25,
                 diameterRatio: 1,
@@ -157,10 +166,17 @@ class _Go extends State<GoPosition> {
             Expanded(
               child: CupertinoPicker(
                 onSelectedItemChanged: (int value) {
+                  final String prev = widget.item.toString();
                   setState(() {
                     widget.item.b = directions[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand: prev,
+                    currentCommand: widget.item.toString(),
+                    description: CatLoggingLevel.updateCommandProperties,
+                  );
                 },
                 itemExtent: 25,
                 diameterRatio: 1,

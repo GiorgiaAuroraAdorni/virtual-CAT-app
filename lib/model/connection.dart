@@ -2,10 +2,12 @@ import "package:cross_array_task_app/model/baseConnection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:fpdart/fpdart.dart";
 import "package:provider/provider.dart";
 
+import "../utility/cat_log.dart";
 import "../utility/result_notifier.dart";
 import "../utility/visibility_notifier.dart";
 
@@ -132,14 +134,10 @@ class Connection extends BaseConnection {
     for (final String i in collector.data.keys) {
       collected[i.toLowerCase()] = collector.data[i]!.isNotEmpty;
     }
-
-    // for (final String i in collected.keys) {
-    //   print("$i ${collected[i]}");
-    // }
     final List<String> commands =
         List<String>.from(CatInterpreter().getResults.getCommands);
     commands.removeAt(0);
-    collected["commands"] = commands;
+    collected["commands"] = commands.joinToString();
     collected["schema"] = SchemasReader().currentIndex;
     collected["description"] = "";
     collected["algorithmDimension"] =
@@ -149,8 +147,12 @@ class Connection extends BaseConnection {
       "/algorithms",
       collected,
     ).run();
-    final int algorithmID =
-        res.getOrElse((String l) => <String, dynamic>{})["algorithm"];
+
+    final int algorithmID = res.getOrElse((String l) {
+      print(l);
+
+      return <String, dynamic>{};
+    })["algorithm"];
 
     final bool visible = context.read<VisibilityNotifier>().visible;
 
@@ -173,7 +175,21 @@ class Connection extends BaseConnection {
       },
     ).run();
 
-    return res2.getOrElse((String l) => <String, dynamic>{})["id"];
+    final int resID = res2.getOrElse((String l) => <String, dynamic>{})["id"];
+
+    return CatLogger().commitLogs(resID);
+  }
+
+  Future<int> addLog(int resultsID, String logs) async {
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
+      "/logs",
+      <String, dynamic>{
+        "resultID": resultsID,
+        "log": logs,
+      },
+    ).run();
+
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
   static final Connection _connection = Connection._internal();

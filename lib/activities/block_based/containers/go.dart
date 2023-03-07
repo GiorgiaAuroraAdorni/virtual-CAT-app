@@ -238,7 +238,7 @@ class _Go extends State<Go> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change repetition ${widget.item.repetitions}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -275,7 +275,7 @@ class _Go extends State<Go> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change repetition ${widget.item.repetitions}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -307,7 +307,7 @@ class _Go extends State<Go> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change direction ${widget.item.direction}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -339,7 +339,7 @@ class _Go extends State<Go> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change direction ${widget.item.direction}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,

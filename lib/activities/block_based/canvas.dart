@@ -33,6 +33,8 @@ import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
+import "../../utility/cat_log.dart";
+
 class BlockCanvas extends StatefulWidget {
   const BlockCanvas({
     super.key,
@@ -64,6 +66,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
             (Size size) {},
           ),
           onDismissed: (DismissDirection direction) {
+            final String prev =
+                items.map((SimpleContainer e) => e.toString()).join(",");
             setState(
               () {
                 widgets.removeWhere((Widget element) => element.key == key);
@@ -73,6 +77,13 @@ class _BlockCanvasState extends State<BlockCanvas> {
               },
             );
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand:
+                  items.map((SimpleContainer e) => e.toString()).join(","),
+              description: CatLoggingLevel.removeCommand,
+            );
           },
         ),
       );
@@ -263,22 +274,42 @@ class _BlockCanvasState extends State<BlockCanvas> {
                     scrollController: _firstController,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     onReorder: (int oldIndex, int newIndex) {
+                      final String prev = items
+                          .map((SimpleContainer e) => e.toString())
+                          .join(",");
                       if (oldIndex < newIndex) {
                         newIndex -= 1;
                       }
                       widgets.insert(newIndex, widgets.removeAt(oldIndex));
                       items.insert(newIndex, items.removeAt(oldIndex));
                       context.read<BlockUpdateNotifier>().update();
+                      CatLogger().addLog(
+                        context: context,
+                        previousCommand: prev,
+                        currentCommand: items
+                            .map((SimpleContainer e) => e.toString())
+                            .join(","),
+                        description: CatLoggingLevel.reorderCommand,
+                      );
                     },
                     children: widgets,
                   ),
                 ),
               ),
               onAccept: (SimpleContainer item) {
+                final String prev =
+                    items.map((SimpleContainer e) => e.toString()).join(",");
                 _itemDroppedOnCustomerCart(
                   item: item,
                 );
                 context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand:
+                      items.map((SimpleContainer e) => e.toString()).join(","),
+                  description: CatLoggingLevel.addCommand,
+                );
               },
             ),
           ],

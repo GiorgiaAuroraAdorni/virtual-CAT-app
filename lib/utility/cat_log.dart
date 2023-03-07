@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -11,28 +12,19 @@ class CatLogger {
 
   CatLogger._internal();
 
-  int _studentID = -1;
-  int _sessionID = -1;
-
   static final CatLogger _catLogger = CatLogger._internal();
 
   final Map<String, _LoggerInfo> _logs = <String, _LoggerInfo>{};
-
-  set bindToSession(int sessionID) => _sessionID = sessionID;
-
-  set bindToStudent(int studentID) => _studentID = studentID;
 
   void addLog({
     required BuildContext context,
     required String previousCommand,
     required String currentCommand,
-    required String description,
+    required CatLoggingLevel description,
   }) {
     _logs[DateTime.now().toIso8601String()] = _LoggerInfo(
       previousCommand: previousCommand,
       currentCommand: currentCommand,
-      studentID: _studentID,
-      sessionID: _sessionID,
       description: description,
       interface: context.read<TypeUpdateNotifier>().state,
       visualFeedback: context.read<VisibilityNotifier>().visible,
@@ -44,38 +36,31 @@ class CatLogger {
     _logs.clear();
   }
 
-  void commitLogs() {
-    print(_logs);
-  }
+  Future<int> commitLogs(int resultsID) async =>
+      Connection().addLog(resultsID, _logs.toString());
 }
 
 class _LoggerInfo {
   _LoggerInfo({
     required this.previousCommand,
     required this.currentCommand,
-    required this.sessionID,
-    required this.studentID,
     required this.description,
     required this.interface,
     required this.schema,
     required this.visualFeedback,
   });
 
-  String description;
+  CatLoggingLevel description;
   String previousCommand;
   String currentCommand;
-  int studentID;
-  int sessionID;
   int interface;
   int schema;
   bool visualFeedback;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        "sessionID": sessionID,
-        "studentID": studentID,
         "currentCommand": currentCommand,
         "previousCommand": previousCommand,
-        "description": description,
+        "description": description.name,
         "interface": interface,
         "schema": schema,
         "visualFeedback": visualFeedback,
@@ -83,4 +68,13 @@ class _LoggerInfo {
 
   @override
   String toString() => jsonEncode(this);
+}
+
+enum CatLoggingLevel {
+  addCommand,
+  reorderCommand,
+  removeCommand,
+  changeVisibility,
+  commandsReset,
+  updateCommandProperties,
 }

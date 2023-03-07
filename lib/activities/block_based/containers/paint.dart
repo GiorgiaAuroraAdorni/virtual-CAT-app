@@ -6,7 +6,6 @@ import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
 import "../../../utility/cat_log.dart";
-import "../../../utility/helper.dart";
 
 /// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer`
 /// and a `Function` and returns a `State<StatefulWidget>`
@@ -229,7 +228,7 @@ class _Paint extends State<Paint> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change repetitions ${widget.item.repetitions}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -306,7 +305,7 @@ class _Paint extends State<Paint> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change repetitions ${widget.item.repetitions}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -338,7 +337,7 @@ class _Paint extends State<Paint> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change direction ${widget.item.direction}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -370,7 +369,7 @@ class _Paint extends State<Paint> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: "change direction ${widget.item.direction}",
+              description: CatLoggingLevel.updateCommandProperties,
             );
           },
           itemExtent: 25,
@@ -422,8 +421,7 @@ class _Paint extends State<Paint> {
                   context: context,
                   previousCommand: prev,
                   currentCommand: widget.item.toString(),
-                  description:
-                      "colors selected ${analyzeColor(widget.item.selected_colors).join()}",
+                  description: CatLoggingLevel.updateCommandProperties,
                 );
               },
               borderRadius: BorderRadius.circular(45),

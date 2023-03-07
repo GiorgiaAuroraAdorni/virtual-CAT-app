@@ -77,7 +77,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                     )
                         .then(
                       (int studentID) {
-                        CatLogger().bindToStudent = studentID;
                         CatLogger().resetLogs();
 
                         Navigator.push(

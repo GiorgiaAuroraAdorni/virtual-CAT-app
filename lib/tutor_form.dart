@@ -1,7 +1,6 @@
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/student_form.dart";
 import "package:cross_array_task_app/utility/cantons_list.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/supervisor.dart";
 import "package:flutter/cupertino.dart";
@@ -35,15 +34,13 @@ class SchoolFormState extends State<SchoolForm> {
   @override
   Widget build(BuildContext context) {
     _controllerDate.text =
-    "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
+        "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
 
     return CupertinoPageScaffold(
       child: CustomScrollView(
         slivers: <Widget>[
           CupertinoSliverNavigationBar(
-            largeTitle: Text(CATLocalizations
-                .of(context)
-                .tutorialTitle),
+            largeTitle: Text(CATLocalizations.of(context).tutorialTitle),
             trailing: CupertinoButton(
               onPressed: () {
                 int schoolId = 0;
@@ -51,7 +48,7 @@ class SchoolFormState extends State<SchoolForm> {
                 Connection()
                     .addSchool(_canton.text, _school.text, _schoolType.text)
                     .then(
-                      (int value) {
+                  (int value) {
                     schoolId = value;
 
                     return Connection().addSupervisor(_supervisor.text);
@@ -68,15 +65,12 @@ class SchoolFormState extends State<SchoolForm> {
                     _selectedDate,
                   );
                 }).then((int value) {
-                  CatLogger().bindToSession = value;
-
                   Navigator.push(
                     context,
                     CupertinoPageRoute<Widget>(
-                      builder: (BuildContext context) =>
-                          StudentsForm(
-                            sessionID: value,
-                          ),
+                      builder: (BuildContext context) => StudentsForm(
+                        sessionID: value,
+                      ),
                     ),
                   );
                 });
@@ -97,16 +91,12 @@ class SchoolFormState extends State<SchoolForm> {
                       children: <Widget>[
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .canton}:",
+                            "${CATLocalizations.of(context).canton}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             placeholder:
-                            CATLocalizations
-                                .of(context)
-                                .selectionCanton,
+                                CATLocalizations.of(context).selectionCanton,
                             readOnly: true,
                             onTap: _cantonPicker,
                             controller: _canton,
@@ -114,16 +104,12 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .schoolName}:",
+                            "${CATLocalizations.of(context).schoolName}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             placeholder:
-                            CATLocalizations
-                                .of(context)
-                                .selectionSchool,
+                                CATLocalizations.of(context).selectionSchool,
                             // readOnly: true,
                             // onTap: _schoolPicker,
                             controller: _school,
@@ -131,16 +117,12 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .school}:",
+                            "${CATLocalizations.of(context).school}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             placeholder:
-                            CATLocalizations
-                                .of(context)
-                                .selectionSchool,
+                                CATLocalizations.of(context).selectionSchool,
                             readOnly: true,
                             onTap: _schoolTypePicker,
                             controller: _schoolType,
@@ -148,16 +130,12 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .grade}:",
+                            "${CATLocalizations.of(context).grade}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             placeholder:
-                            CATLocalizations
-                                .of(context)
-                                .selectionClass,
+                                CATLocalizations.of(context).selectionClass,
                             readOnly: true,
                             onTap: _gradePicker,
                             controller: _grade,
@@ -165,34 +143,27 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .section}:",
+                            "${CATLocalizations.of(context).section}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             placeholder:
-                            CATLocalizations
-                                .of(context)
-                                .sectionName,
+                                CATLocalizations.of(context).sectionName,
                             controller: _section,
                           ),
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .supervisor}:",
+                            "${CATLocalizations.of(context).supervisor}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
                             prefix: GestureDetector(
                               onTap: _supervisorPicker, // Image tapped
                               child:
-                              const Icon(CupertinoIcons.add_circled_solid),
+                                  const Icon(CupertinoIcons.add_circled_solid),
                             ),
-                            placeholder: CATLocalizations
-                                .of(context)
+                            placeholder: CATLocalizations.of(context)
                                 .supervisorInformation,
                             controller: _supervisor,
                             keyboardType: TextInputType.name,
@@ -200,9 +171,7 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .data}:",
+                            "${CATLocalizations.of(context).data}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -213,9 +182,7 @@ class SchoolFormState extends State<SchoolForm> {
                         ),
                         CupertinoFormRow(
                           prefix: Text(
-                            "${CATLocalizations
-                                .of(context)
-                                .notes}:",
+                            "${CATLocalizations.of(context).notes}:",
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
@@ -240,28 +207,23 @@ class SchoolFormState extends State<SchoolForm> {
   void _dataPicker() {
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) =>
-          Container(
-            height: MediaQuery
-                .of(context)
-                .copyWith()
-                .size
-                .height * 0.25,
-            color: CupertinoColors.white,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              initialDateTime: _selectedDate,
-              onDateTimeChanged: (DateTime value) {
-                if (value != _selectedDate) {
-                  setState(
-                        () {
-                      _selectedDate = value;
-                    },
-                  );
-                }
-              },
-            ),
-          ),
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoDatePicker(
+          mode: CupertinoDatePickerMode.date,
+          initialDateTime: _selectedDate,
+          onDateTimeChanged: (DateTime value) {
+            if (value != _selectedDate) {
+              setState(
+                () {
+                  _selectedDate = value;
+                },
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -287,29 +249,24 @@ class SchoolFormState extends State<SchoolForm> {
     }
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) =>
-          Container(
-            height: MediaQuery
-                .of(context)
-                .copyWith()
-                .size
-                .height * 0.25,
-            color: CupertinoColors.white,
-            child: CupertinoPicker(
-              onSelectedItemChanged: (int value) {
-                setState(() {
-                  final Text text = grades[value];
-                  _grade.text = text.data.toString();
-                });
-                _autoLevel();
-              },
-              itemExtent: 25,
-              diameterRatio: 1,
-              useMagnifier: true,
-              magnification: 1.3,
-              children: grades,
-            ),
-          ),
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              final Text text = grades[value];
+              _grade.text = text.data.toString();
+            });
+            _autoLevel();
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: grades,
+        ),
+      ),
     );
   }
 
@@ -330,38 +287,32 @@ class SchoolFormState extends State<SchoolForm> {
 
   void _cantonPicker() {
     cantonsRequest().then(
-          (List<Text> cantons) {
+      (List<Text> cantons) {
         setState(
-              () =>
-          _canton.text =
-          _canton.text == "" ? cantons.first.data.toString() : _canton.text,
+          () => _canton.text =
+              _canton.text == "" ? cantons.first.data.toString() : _canton.text,
         );
         _autoLevel();
         showCupertinoModalPopup(
           context: context,
-          builder: (BuildContext builder) =>
-              Container(
-                height: MediaQuery
-                    .of(context)
-                    .copyWith()
-                    .size
-                    .height * 0.25,
-                color: CupertinoColors.white,
-                child: CupertinoPicker(
-                  onSelectedItemChanged: (int value) {
-                    setState(() {
-                      final Text text = cantons[value];
-                      _canton.text = text.data.toString();
-                    });
-                    _autoLevel();
-                  },
-                  itemExtent: 25,
-                  diameterRatio: 1,
-                  useMagnifier: true,
-                  magnification: 1.3,
-                  children: cantons,
-                ),
-              ),
+          builder: (BuildContext builder) => Container(
+            height: MediaQuery.of(context).copyWith().size.height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                setState(() {
+                  final Text text = cantons[value];
+                  _canton.text = text.data.toString();
+                });
+                _autoLevel();
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: cantons,
+            ),
+          ),
         );
       },
     );
@@ -371,38 +322,30 @@ class SchoolFormState extends State<SchoolForm> {
     supervisorsRequest().then((List<Text> supervisors) {
       showCupertinoModalPopup(
         context: context,
-        builder: (BuildContext builder) =>
-            Container(
-              height: MediaQuery
-                  .of(context)
-                  .copyWith()
-                  .size
-                  .height * 0.25,
-              color: CupertinoColors.white,
-              child: CupertinoPicker(
-                onSelectedItemChanged: (int value) {
-                  setState(() {
-                    final Text text = supervisors[value];
-                    _supervisor.text = text.data.toString();
-                  });
-                },
-                itemExtent: 25,
-                diameterRatio: 1,
-                useMagnifier: true,
-                magnification: 1.3,
-                children: supervisors,
-              ),
-            ),
+        builder: (BuildContext builder) => Container(
+          height: MediaQuery.of(context).copyWith().size.height * 0.25,
+          color: CupertinoColors.white,
+          child: CupertinoPicker(
+            onSelectedItemChanged: (int value) {
+              setState(() {
+                final Text text = supervisors[value];
+                _supervisor.text = text.data.toString();
+              });
+            },
+            itemExtent: 25,
+            diameterRatio: 1,
+            useMagnifier: true,
+            magnification: 1.3,
+            children: supervisors,
+          ),
+        ),
       );
     });
   }
 
   void _schoolTypePicker() {
     setState(() {
-      final Text text = CATLocalizations
-          .of(context)
-          .schoolType
-          .first;
+      final Text text = CATLocalizations.of(context).schoolType.first;
       if (_schoolType.text == "") {
         _schoolType.text = text.data.toString();
         _schoolKey = text.key!;
@@ -411,35 +354,26 @@ class SchoolFormState extends State<SchoolForm> {
     _autoLevel();
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) =>
-          Container(
-            height: MediaQuery
-                .of(context)
-                .copyWith()
-                .size
-                .height * 0.25,
-            color: CupertinoColors.white,
-            child: CupertinoPicker(
-              onSelectedItemChanged: (int value) {
-                setState(() {
-                  final Text text = CATLocalizations
-                      .of(context)
-                      .schoolType[value];
-                  _schoolKey = text.key!;
-                  _schoolType.text = text.data.toString();
-                  _grade.text = "";
-                });
-                _autoLevel();
-              },
-              itemExtent: 25,
-              diameterRatio: 1,
-              useMagnifier: true,
-              magnification: 1.3,
-              children: CATLocalizations
-                  .of(context)
-                  .schoolType,
-            ),
-          ),
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              final Text text = CATLocalizations.of(context).schoolType[value];
+              _schoolKey = text.key!;
+              _schoolType.text = text.data.toString();
+              _grade.text = "";
+            });
+            _autoLevel();
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: CATLocalizations.of(context).schoolType,
+        ),
+      ),
     );
   }
 
@@ -451,28 +385,23 @@ class SchoolFormState extends State<SchoolForm> {
     ];
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) =>
-          Container(
-            height: MediaQuery
-                .of(context)
-                .copyWith()
-                .size
-                .height * 0.25,
-            color: CupertinoColors.white,
-            child: CupertinoPicker(
-              onSelectedItemChanged: (int value) {
-                setState(() {
-                  final Text text = schools[value];
-                  _school.text = text.data.toString();
-                });
-              },
-              itemExtent: 25,
-              diameterRatio: 1,
-              useMagnifier: true,
-              magnification: 1.3,
-              children: schools,
-            ),
-          ),
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              final Text text = schools[value];
+              _school.text = text.data.toString();
+            });
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: schools,
+        ),
+      ),
     );
   }
 }
