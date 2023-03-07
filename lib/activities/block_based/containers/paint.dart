@@ -5,6 +5,9 @@ import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
+import "../../../utility/cat_log.dart";
+import "../../../utility/helper.dart";
+
 /// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer`
 /// and a `Function` and returns a `State<StatefulWidget>`
 class Paint extends StatefulWidget {
@@ -217,10 +220,17 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 2;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change repetitions ${widget.item.repetitions}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -287,10 +297,17 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 2;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change repetitions ${widget.item.repetitions}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -312,10 +329,17 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change direction ${widget.item.direction}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -337,10 +361,17 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change direction ${widget.item.direction}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -378,6 +409,7 @@ class _Paint extends State<Paint> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () {
+                final String prev = widget.item.toString();
                 setState(() {
                   if (widget.item.selected_colors.contains(color)) {
                     widget.item.selected_colors.remove(color);
@@ -386,6 +418,13 @@ class _Paint extends State<Paint> {
                   }
                 });
                 context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description:
+                      "colors selected ${analyzeColor(widget.item.selected_colors).join()}",
+                );
               },
               borderRadius: BorderRadius.circular(45),
               minSize: 30,

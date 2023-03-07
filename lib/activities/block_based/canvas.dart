@@ -281,15 +281,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 context.read<BlockUpdateNotifier>().update();
               },
             ),
-            // CupertinoButton(
-            //   child: const Text("Execute"),
-            //   onPressed: () {
-            //     CatInterpreter().reset();
-            //     final String command =
-            //         items.map((SimpleContainer e) => e.toString()).join(",");
-            //     CatInterpreter().executeCommands(command);
-            //   },
-            // ),
           ],
         ),
       );

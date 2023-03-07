@@ -1,4 +1,6 @@
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
@@ -89,10 +91,18 @@ class _PaintSingle extends State<PaintSingle> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () {
+                final String prev = widget.item.toString();
                 setState(() {
                   widget.item.selected = color;
                 });
                 context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description:
+                      "change color ${analyzeColor([selected]).join()}",
+                );
               },
               borderRadius: BorderRadius.circular(45),
               minSize: 25,

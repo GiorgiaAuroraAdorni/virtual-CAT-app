@@ -1,4 +1,6 @@
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -90,8 +92,16 @@ class _FillEmpty extends State<FillEmpty> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () => setState(() {
+                final String prev = widget.item.toString();
                 widget.item.selected = color;
                 context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description:
+                      "change color ${analyzeColor([selected]).join()}",
+                );
               }),
               borderRadius: BorderRadius.circular(45),
               minSize: 25,

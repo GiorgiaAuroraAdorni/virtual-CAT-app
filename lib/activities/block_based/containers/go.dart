@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -228,10 +229,17 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change repetition ${widget.item.repetitions}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -250,7 +258,6 @@ class _Go extends State<Go> {
       const Text("3"),
       const Text("4"),
       const Text("5"),
-      const Text("6"),
     ];
     showCupertinoModalPopup(
       context: context,
@@ -259,10 +266,17 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change repetition ${widget.item.repetitions}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -284,10 +298,17 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change direction ${widget.item.direction}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -309,10 +330,17 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
+            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "change direction ${widget.item.direction}",
+            );
           },
           itemExtent: 25,
           diameterRatio: 1,

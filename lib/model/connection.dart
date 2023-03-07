@@ -2,7 +2,12 @@ import "package:cross_array_task_app/model/baseConnection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:flutter/cupertino.dart";
 import "package:fpdart/fpdart.dart";
+import "package:provider/provider.dart";
+
+import "../utility/result_notifier.dart";
+import "../utility/visibility_notifier.dart";
 
 class Connection extends BaseConnection {
   factory Connection() => _connection;
@@ -116,9 +121,13 @@ class Connection extends BaseConnection {
   Future<int> addAlgorithm({
     required Collector collector,
     required int studentID,
-    required int interfaceType,
-    required bool visible,
+    required int sessionID,
+    required BuildContext context,
   }) async {
+    if (studentID == -1 && sessionID == -1) {
+      return 1;
+    }
+
     final Map<String, dynamic> collected = <String, dynamic>{};
     for (final String i in collector.data.keys) {
       collected[i.toLowerCase()] = collector.data[i]!.isNotEmpty;
@@ -143,6 +152,10 @@ class Connection extends BaseConnection {
     final int algorithmID =
         res.getOrElse((String l) => <String, dynamic>{})["algorithm"];
 
+    final bool visible = context.read<VisibilityNotifier>().visible;
+
+    final int state = context.read<TypeUpdateNotifier>().state;
+
     final Either<String, Map<String, dynamic>> res2 = await mappingPostRequest(
       "/results",
       <String, dynamic>{
@@ -153,10 +166,10 @@ class Connection extends BaseConnection {
         "voice": false,
         "schema": false,
         "visualFeedback": visible,
-        "gesture": interfaceType == 0,
-        "blocks": interfaceType == 1,
-        "text": interfaceType == 2,
-        "artefactDimension": interfaceType + 1,
+        "gesture": state == 0,
+        "blocks": state == 1,
+        "text": state == 2,
+        "artefactDimension": state + 1,
       },
     ).run();
 

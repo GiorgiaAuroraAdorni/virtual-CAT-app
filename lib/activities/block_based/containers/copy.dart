@@ -26,6 +26,8 @@ import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
+import "../../../utility/cat_log.dart";
+
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
 class CopyCommands extends StatefulWidget {
   /// A constructor for the Copy class.
@@ -159,6 +161,7 @@ class _Copy extends State<CopyCommands> {
           ),
         ),
         onAccept: (SimpleContainer el) {
+          final String prev = widget.item.toString();
           setState(
             () {
               final UniqueKey key = UniqueKey();
@@ -180,6 +183,7 @@ class _Copy extends State<CopyCommands> {
                     },
                   ),
                   onDismissed: (DismissDirection direction) {
+                    final String prev = widget.item.toString();
                     setState(() {
                       widget.item.container.removeWhere(
                         (SimpleContainer e) => e.key == key,
@@ -190,10 +194,22 @@ class _Copy extends State<CopyCommands> {
                       sized.remove(key);
                     });
                     context.read<BlockUpdateNotifier>().update();
+                    CatLogger().addLog(
+                      context: context,
+                      previousCommand: prev,
+                      currentCommand: widget.item.toString(),
+                      description: "command removed",
+                    );
                   },
                 ),
               );
               context.read<BlockUpdateNotifier>().update();
+              CatLogger().addLog(
+                context: context,
+                previousCommand: prev,
+                currentCommand: widget.item.toString(),
+                description: "command added",
+              );
             },
           );
         },
@@ -260,6 +276,7 @@ class _Copy extends State<CopyCommands> {
                   width: constraints.maxWidth - 15,
                   child: ReorderableListView(
                     onReorder: (int oldIndex, int newIndex) {
+                      final String prev = widget.item.toString();
                       if (oldIndex < newIndex) {
                         newIndex -= 1;
                       }
@@ -269,6 +286,12 @@ class _Copy extends State<CopyCommands> {
                       widgets2.insert(newIndex, widgett);
                       widget.item.moves.insert(newIndex, item);
                       context.read<BlockUpdateNotifier>().update();
+                      CatLogger().addLog(
+                        context: context,
+                        previousCommand: prev,
+                        currentCommand: widget.item.toString(),
+                        description: "commands reordering",
+                      );
                     },
                     children: widgets2,
                   ),
@@ -277,6 +300,7 @@ class _Copy extends State<CopyCommands> {
             },
           ),
           onAccept: (GoPositionContainer el) {
+            final String prev = widget.item.toString();
             setState(() {
               final UniqueKey key = UniqueKey();
               final GoPositionContainer container = el.copy();
@@ -293,6 +317,7 @@ class _Copy extends State<CopyCommands> {
                     onChange: (Size size) {},
                   ),
                   onDismissed: (DismissDirection direction) {
+                    final String prev = widget.item.toString();
                     setState(() {
                       widgets2.removeWhere(
                         (Widget element) => element.key == key,
@@ -302,11 +327,23 @@ class _Copy extends State<CopyCommands> {
                       );
                     });
                     context.read<BlockUpdateNotifier>().update();
+                    CatLogger().addLog(
+                      context: context,
+                      previousCommand: prev,
+                      currentCommand: widget.item.toString(),
+                      description: "command removed",
+                    );
                   },
                 ),
               );
             });
             context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: "command added",
+            );
           },
         ),
       );

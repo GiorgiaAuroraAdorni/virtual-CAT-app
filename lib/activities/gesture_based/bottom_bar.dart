@@ -2,6 +2,7 @@ import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -91,11 +92,12 @@ class _BottomBarState extends State<BottomBar> {
         .addAlgorithm(
       collector: collector,
       studentID: widget.studentID,
-      interfaceType: context.read<TypeUpdateNotifier>().state,
-      visible: context.read<VisibilityNotifier>().visible,
+      sessionID: widget.sessionID,
+      context: context,
     )
         .then((int value) async {
-      print(value);
+      CatLogger().commitLogs();
+      CatLogger().resetLogs();
       context.read<VisibilityNotifier>().visible = true;
       final bool result = await UIBlock.blockWithData(
         context,

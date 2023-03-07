@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/connection.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
@@ -70,24 +71,29 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                   onPressed: () {
                     Connection()
                         .addStudent(
-                          _selectedDate,
-                          _genderBool,
-                          widget.sessionID,
-                        )
+                      _selectedDate,
+                      _genderBool,
+                      widget.sessionID,
+                    )
                         .then(
-                          (int studentID) => Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  CupertinoPageScaffold(
-                                child: ActivityHome(
-                                  sessionID: widget.sessionID,
-                                  studentID: studentID,
-                                ),
+                      (int studentID) {
+                        CatLogger().bindToStudent = studentID;
+                        CatLogger().resetLogs();
+
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute<Widget>(
+                            builder: (BuildContext context) =>
+                                CupertinoPageScaffold(
+                              child: ActivityHome(
+                                sessionID: widget.sessionID,
+                                studentID: studentID,
                               ),
                             ),
                           ),
                         );
+                      },
+                    );
                   },
                   child: const Icon(CupertinoIcons.arrow_right),
                 ),
