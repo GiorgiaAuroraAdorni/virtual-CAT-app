@@ -36,6 +36,12 @@ class CatLogger {
     _logs.clear();
   }
 
+  void printLogs() {
+    for (var i in _logs.keys) {
+      print(_logs[i]);
+    }
+  }
+
   Future<int> commitLogs(int resultsID) async =>
       Connection().addLog(resultsID, _logs.toString());
 }
@@ -76,5 +82,9 @@ enum CatLoggingLevel {
   removeCommand,
   changeVisibility,
   commandsReset,
+  buttonSelect,
+  buttonDismiss,
+  confirmCommand,
+  dismissCommand,
   updateCommandProperties,
 }

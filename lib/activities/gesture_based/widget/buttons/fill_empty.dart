@@ -6,6 +6,8 @@ import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
+import "../../../../utility/cat_log.dart";
+
 /// `FillEmpty` is a `StatefulWidget` that displays a `FloatingActionButton` that,
 /// when pressed, displays a `BottomSheet` that contains a `TextField` and a
 /// `FlatButton`
@@ -38,6 +40,12 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
       return;
     }
     CatInterpreter().fillEmpty(colors.first);
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "fill_empty",
+      description: CatLoggingLevel.buttonSelect,
+    );
     context.read<SelectedColorsNotifier>().clear();
   }
 

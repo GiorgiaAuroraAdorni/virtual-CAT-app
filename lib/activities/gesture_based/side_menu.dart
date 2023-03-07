@@ -16,6 +16,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
+import "../../utility/cat_log.dart";
+
 /// `SideMenu` is a stateful widget that creates a state object of type
 /// `_SideMenuState`
 class SideMenu extends StatefulWidget {
@@ -204,6 +206,12 @@ class SideMenuState extends State<SideMenu> {
                         child: CupertinoButton(
                           onPressed: () {
                             repeatButtonKey.currentState?.whenSelected();
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: "",
+                              currentCommand: "copy commands",
+                              description: CatLoggingLevel.dismissCommand,
+                            );
                           },
                           minSize: 50,
                           padding: EdgeInsets.zero,
@@ -291,6 +299,12 @@ class SideMenuState extends State<SideMenu> {
                               return;
                             }
                             widget.shakeKey.currentState?.shake();
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: "",
+                              currentCommand: "cells selection",
+                              description: CatLoggingLevel.confirmCommand,
+                            );
                           },
                           minSize: 50,
                           padding: EdgeInsets.zero,
@@ -308,6 +322,12 @@ class SideMenuState extends State<SideMenu> {
                               mirrorVerticalButtonKeySecondary.currentState
                                   ?.whenSelected();
                             });
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: "",
+                              currentCommand: "cells selection",
+                              description: CatLoggingLevel.dismissCommand,
+                            );
                           },
                           minSize: 50,
                           padding: EdgeInsets.zero,
@@ -338,6 +358,12 @@ class SideMenuState extends State<SideMenu> {
     } else {
       widget.shakeKey.currentState?.shake();
     }
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy commands",
+      description: CatLoggingLevel.confirmCommand,
+    );
   }
 
   void _copyCells() {

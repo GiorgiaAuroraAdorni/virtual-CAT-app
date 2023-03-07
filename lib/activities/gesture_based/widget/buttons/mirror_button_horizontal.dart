@@ -4,6 +4,8 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/act
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:flutter/cupertino.dart";
 
+import "../../../../utility/cat_log.dart";
+
 /// `MirrorButtonHorizontal` is a stateful widget that displays a
 /// horizontal row of buttons that can be used to select or dismiss a mirror
 class MirrorButtonHorizontal extends ActionButton {
@@ -34,6 +36,12 @@ class MirrorButtonHorizontalState
     } else {
       widget.state.widget.shakeKey.currentState?.shake();
     }
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "mirror horizontal",
+      description: CatLoggingLevel.buttonSelect,
+    );
   }
 
   @override
@@ -69,10 +77,22 @@ class MirrorButtonHorizontalStateSecondary extends MirrorButtonHorizontalState {
     widget.state.copyButtonKey.currentState?.deSelect();
     widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.mirrorHorizontal;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "selection mirror horizontal",
+      description: CatLoggingLevel.buttonSelect,
+    );
   }
 
   @override
   void onDismiss() {
     widget.state.widget.selectionMode.value = SelectionModes.transition;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "selection mirror horizontal",
+      description: CatLoggingLevel.buttonDismiss,
+    );
   }
 }

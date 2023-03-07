@@ -6,6 +6,8 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/act
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:flutter/cupertino.dart";
 
+import "../../../../utility/cat_log.dart";
+
 /// `MirrorButtonVertical` is a stateful widget that displays a vertical mirror
 /// button that calls `onSelect` when selected and `onDismiss` when dismissed
 class MirrorButtonVertical extends ActionButton {
@@ -35,6 +37,12 @@ class MirrorButtonVerticalState
     } else {
       widget.state.widget.shakeKey.currentState?.shake();
     }
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "mirror vertical",
+      description: CatLoggingLevel.buttonSelect,
+    );
   }
 
   @override
@@ -70,10 +78,22 @@ class MirrorButtonVerticalStateSecondary extends MirrorButtonVerticalState {
     widget.state.copyButtonKey.currentState?.deSelect();
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.mirrorVertical;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "cells mirror vertical",
+      description: CatLoggingLevel.buttonSelect,
+    );
   }
 
   @override
   void onDismiss() {
     widget.state.widget.selectionMode.value = SelectionModes.transition;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "cells mirror vertical",
+      description: CatLoggingLevel.buttonDismiss,
+    );
   }
 }

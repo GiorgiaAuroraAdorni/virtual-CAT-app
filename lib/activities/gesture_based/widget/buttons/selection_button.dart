@@ -3,6 +3,8 @@ import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
+import "../../../../utility/cat_log.dart";
+
 /// A button that can be selected or not
 class SelectionButton extends ActionButton {
   /// A constructor.
@@ -35,6 +37,12 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
       widget.state.mirrorVerticalButtonKeySecondary.currentState?.deActivate();
       widget.state.selectionActionButtonKey.currentState?.select();
     });
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy cells",
+      description: CatLoggingLevel.buttonSelect,
+    );
   }
 
   @override
@@ -45,6 +53,12 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
       widget.state.widget.coloredButtons.value.clear();
       widget.state.widget.resetShape.notifyListeners();
     });
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy cells",
+      description: CatLoggingLevel.buttonDismiss,
+    );
   }
 
   @override

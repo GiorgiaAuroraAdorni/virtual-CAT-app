@@ -3,6 +3,8 @@ import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:flutter/cupertino.dart";
 
+import "../../../../utility/cat_log.dart";
+
 /// CopyButton is a stateful widget that has two functions,
 /// onSelect and onDismiss
 class CopyButton extends ActionButton {
@@ -32,6 +34,13 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
     widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.select;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy",
+      description: CatLoggingLevel.buttonSelect,
+    );
+    CatLogger().printLogs();
   }
 
   @override
@@ -58,10 +67,24 @@ class CopyButtonSecondatyState extends CopyButtonState {
   @override
   void onSelect() {
     widget.state.copyButtonSecondaryKey.currentState?.deSelect();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy",
+      description: CatLoggingLevel.buttonSelect,
+    );
+    CatLogger().printLogs();
   }
 
   @override
   void onDismiss() {
     widget.state.copyButtonSecondaryKey.currentState?.select();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy",
+      description: CatLoggingLevel.buttonDismiss,
+    );
+    CatLogger().printLogs();
   }
 }
