@@ -57,7 +57,6 @@ Collector elaborate({
         _mirrorAnalysis(c, schemeIndex: schema);
         break;
       default:
-        print(tokens);
         break;
     }
     // interpreter.reset();
@@ -80,7 +79,6 @@ void _paintAnalysis(
   if (tokens.length == 2) {
     collector.data["paintDot"]?.add(finalValue);
   }
-  print(tokens);
   if (tokens.length == 4) {
     String cap = tokens.last
         .replaceAll("-", "")
@@ -88,7 +86,6 @@ void _paintAnalysis(
         .map((String str) => str.capitalize())
         .join()
         .trim();
-    print(cap);
     if (cap.startsWith("Square")) {
       cap = "Square";
     }

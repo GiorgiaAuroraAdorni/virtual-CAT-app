@@ -22,7 +22,6 @@ class CatInterpreter with ChangeNotifier {
 
   final List<String> _copyCommandsBuffer = <String>[];
   final List<String> _allCommandsBuffer = <String>[];
-  final List<String> _copyCommandsBufferDestinations = <String>[];
 
   static final CatInterpreter _catInterpreter = CatInterpreter._internal();
 
@@ -203,11 +202,4 @@ class CatInterpreter with ChangeNotifier {
     _allCommandsBuffer.add(commands);
     notifyListeners();
   }
-}
-
-class CatBuffer {
-  late String command;
-  late List<String> colors;
-  late List<String> positions;
-  late List<String> destinations;
 }

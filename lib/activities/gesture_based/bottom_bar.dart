@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/model/collector.dart";
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -15,8 +16,16 @@ import "package:uiblock/uiblock.dart";
 class BottomBar extends StatefulWidget {
   /// A constructor that takes a key.
   const BottomBar({
+    required this.sessionID,
+    required this.studentID,
     super.key,
   });
+
+  /// It's a variable that stores the sessionID of the current session.
+  final int sessionID;
+
+  /// It's a variable that stores the studentID of the current student.
+  final int studentID;
 
   @override
   State<StatefulWidget> createState() => _BottomBarState();
@@ -77,44 +86,55 @@ class _BottomBarState extends State<BottomBar> {
     final List<String> commands = List<String>.from(results.getCommands);
     commands.removeAt(0);
     final Collector collector = elaborate(commands: commands);
-    context.read<VisibilityNotifier>().visible = true;
-    final bool result = await UIBlock.blockWithData(
-      context,
-      customLoaderChild: Image.asset(
-        results.completed
-            ? "resources/gifs/sun.gif"
-            : "resources/gifs/rain.gif",
-        height: 250,
-        width: 250,
-      ),
-      loadingTextWidget: Column(
-        children: <Widget>[
-          Text(
-            "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
-            style: const TextStyle(
-              color: CupertinoColors.white,
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 18),
-          CupertinoButton.filled(
-            child: const Text("Prossimo"),
-            onPressed: () {
-              // widget.params.visible = wasVisible;
-              // widget.params.saveCommandsForJson();
-              UIBlock.unblockWithData(
-                context,
-                SchemasReader().hasNext(),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    _reset();
-    context.read<TimeKeeper>().resetTimer();
 
-    return result;
+    return Connection()
+        .addAlgorithm(
+      collector: collector,
+      studentID: widget.studentID,
+      interfaceType: context.read<TypeUpdateNotifier>().state,
+      visible: context.read<VisibilityNotifier>().visible,
+    )
+        .then((int value) async {
+      print(value);
+      context.read<VisibilityNotifier>().visible = true;
+      final bool result = await UIBlock.blockWithData(
+        context,
+        customLoaderChild: Image.asset(
+          results.completed
+              ? "resources/gifs/sun.gif"
+              : "resources/gifs/rain.gif",
+          height: 250,
+          width: 250,
+        ),
+        loadingTextWidget: Column(
+          children: <Widget>[
+            Text(
+              "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
+              style: const TextStyle(
+                color: CupertinoColors.white,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 18),
+            CupertinoButton.filled(
+              child: const Text("Prossimo"),
+              onPressed: () {
+                // widget.params.visible = wasVisible;
+                // widget.params.saveCommandsForJson();
+                UIBlock.unblockWithData(
+                  context,
+                  SchemasReader().hasNext(),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+      _reset();
+      context.read<TimeKeeper>().resetTimer();
+
+      return result;
+    });
   }
 
   void _reset() {

@@ -10,8 +10,16 @@ import "package:provider/provider.dart";
 class SideBar extends StatefulWidget {
   /// A constructor for the SideBar class.
   const SideBar({
+    required this.sessionID,
+    required this.studentID,
     super.key,
   });
+
+  /// It's a variable that stores the sessionID of the current session.
+  final int sessionID;
+
+  /// It's a variable that stores the studentID of the current student.
+  final int studentID;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -103,9 +111,12 @@ class _SideBarState extends State<SideBar> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 15),
-                child: BottomBar(),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: BottomBar(
+                  studentID: widget.studentID,
+                  sessionID: widget.sessionID,
+                ),
               ),
             ],
           ),

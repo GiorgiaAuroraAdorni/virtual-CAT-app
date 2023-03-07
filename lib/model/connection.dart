@@ -1,4 +1,7 @@
 import "package:cross_array_task_app/model/baseConnection.dart";
+import "package:cross_array_task_app/model/collector.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:fpdart/fpdart.dart";
 
 class Connection extends BaseConnection {
@@ -108,6 +111,56 @@ class Connection extends BaseConnection {
     ).run();
 
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
+  }
+
+  Future<int> addAlgorithm({
+    required Collector collector,
+    required int studentID,
+    required int interfaceType,
+    required bool visible,
+  }) async {
+    final Map<String, dynamic> collected = <String, dynamic>{};
+    for (final String i in collector.data.keys) {
+      collected[i.toLowerCase()] = collector.data[i]!.isNotEmpty;
+    }
+
+    // for (final String i in collected.keys) {
+    //   print("$i ${collected[i]}");
+    // }
+    final List<String> commands =
+        List<String>.from(CatInterpreter().getResults.getCommands);
+    commands.removeAt(0);
+    collected["commands"] = commands;
+    collected["schema"] = SchemasReader().currentIndex;
+    collected["description"] = "";
+    collected["algorithmDimension"] =
+        CatInterpreter().getResults.partialCatScore;
+
+    final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
+      "/algorithms",
+      collected,
+    ).run();
+    final int algorithmID =
+        res.getOrElse((String l) => <String, dynamic>{})["algorithm"];
+
+    final Either<String, Map<String, dynamic>> res2 = await mappingPostRequest(
+      "/results",
+      <String, dynamic>{
+        "studentID": studentID,
+        "schemaID": SchemasReader().currentIndex,
+        "algorithmID": algorithmID,
+        "unplugged": true,
+        "voice": false,
+        "schema": false,
+        "visualFeedback": visible,
+        "gesture": interfaceType == 0,
+        "blocks": interfaceType == 1,
+        "text": interfaceType == 2,
+        "artefactDimension": interfaceType + 1,
+      },
+    ).run();
+
+    return res2.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
   static final Connection _connection = Connection._internal();

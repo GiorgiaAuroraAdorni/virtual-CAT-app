@@ -14,6 +14,8 @@ class ActivityHome extends StatefulWidget {
 
   /// It's a variable that stores the data of the session.
   final int sessionID;
+
+  /// It's a variable that stores the data of the student.
   final int studentID;
 
   @override
@@ -35,8 +37,11 @@ class ActivityHomeState extends State<ActivityHome> {
   Widget build(BuildContext context) {
     SchemasReader().reset();
 
-    return const CupertinoPageScaffold(
-      child: GestureHome(),
+    return CupertinoPageScaffold(
+      child: GestureHome(
+        studentID: widget.studentID,
+        sessionID: widget.sessionID,
+      ),
     );
   }
 }

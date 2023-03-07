@@ -23,7 +23,17 @@ import "package:provider/provider.dart";
 /// `GestureHomeState` when it's built
 class GestureHome extends StatefulWidget {
   /// It's a constructor that takes a `key` as a parameter.
-  const GestureHome({super.key});
+  const GestureHome({
+    required this.sessionID,
+    required this.studentID,
+    super.key,
+  });
+
+  /// It's a variable that stores the sessionID of the current session.
+  final int sessionID;
+
+  /// It's a variable that stores the studentID of the current student.
+  final int studentID;
 
   @override
   State<StatefulWidget> createState() => GestureHomeState();
@@ -111,7 +121,10 @@ class GestureHomeState extends State<GestureHome> {
                         color: Colors.black,
                       ),
                     ),
-                    const SideBar(),
+                    SideBar(
+                      studentID: widget.studentID,
+                      sessionID: widget.sessionID,
+                    ),
                   ],
                 )
               else
@@ -148,7 +161,10 @@ class GestureHomeState extends State<GestureHome> {
                         color: Colors.black,
                       ),
                     ),
-                    const SideBar(),
+                    SideBar(
+                      studentID: widget.studentID,
+                      sessionID: widget.sessionID,
+                    ),
                   ],
                 ),
             ],
