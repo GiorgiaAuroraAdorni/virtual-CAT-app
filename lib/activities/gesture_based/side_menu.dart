@@ -10,13 +10,12 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/sel
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/selection_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-
-import "../../utility/cat_log.dart";
 
 /// `SideMenu` is a stateful widget that creates a state object of type
 /// `_SideMenuState`

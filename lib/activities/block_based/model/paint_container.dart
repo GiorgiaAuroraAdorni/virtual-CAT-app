@@ -24,7 +24,10 @@ class PaintContainer extends SimpleContainer {
     "diagonale sopra destra": "diagonal up right",
     "diagonale sotto sinistra": "diagonal down left",
     "diagonale sotto destra": "diagonal down right",
-    "quadrato": "square bottom left",
+    "quadrato sotto sinistra": "square bottom left",
+    "quadrato sopra sinistra": "square top left",
+    "quadrato sotto destra": "square bottom right",
+    "quadrato sopra destra": "square top right",
     "L sopra sinistra": "L up left",
     "L sopra destra": "L up right",
     "L destra sotto": "L right down",
@@ -108,10 +111,31 @@ class PaintContainer extends SimpleContainer {
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(
-        Icons.square_outlined,
+        Icons.open_in_new,
         color: Colors.black87,
       ),
-    ): "square",
+    ): "square top right",
+    Transform.rotate(
+      angle: 90 * math.pi / 180,
+      child: const Icon(
+        Icons.open_in_new,
+        color: Colors.black87,
+      ),
+    ): "square bottom right",
+    Transform.rotate(
+      angle: 180 * math.pi / 180,
+      child: const Icon(
+        Icons.open_in_new,
+        color: Colors.black87,
+      ),
+    ): "square bottom left",
+    Transform.rotate(
+      angle: 270 * math.pi / 180,
+      child: const Icon(
+        Icons.open_in_new,
+        color: Colors.black87,
+      ),
+    ): "square top left",
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(

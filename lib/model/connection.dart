@@ -127,7 +127,7 @@ class Connection extends BaseConnection {
     required BuildContext context,
   }) async {
     if (studentID == -1 && sessionID == -1) {
-      return 1;
+      return -1;
     }
 
     final Map<String, dynamic> collected = <String, dynamic>{};
@@ -181,6 +181,9 @@ class Connection extends BaseConnection {
   }
 
   Future<int> addLog(int resultsID, String logs) async {
+    if (resultsID == -1) {
+      return -1;
+    }
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/logs",
       <String, dynamic>{
