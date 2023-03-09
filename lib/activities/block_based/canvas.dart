@@ -25,6 +25,7 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/convert_to_container.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -52,7 +53,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
   List<Widget> widgets = [];
   List<SimpleContainer> items = [];
 
-  void _itemDroppedOnCustomerCart({
+  void _blockDroppedOnCanvas({
     required SimpleContainer item,
   }) {
     setState(() {
@@ -61,7 +62,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
       widgets.add(
         Dismissible(
           key: key,
-          child: generateDismiss(
+          child: _generateDismiss(
             item,
             (Size size) {},
           ),
@@ -91,7 +92,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
     });
   }
 
-  Widget generateDismiss(
+  Widget _generateDismiss(
     SimpleContainer container,
     Function f,
   ) {
@@ -241,7 +242,18 @@ class _BlockCanvasState extends State<BlockCanvas> {
     context.read<VisibilityNotifier>().addListener(_interpreterListener);
     context.read<SelectedColorsNotifier>().addListener(_cleanBlocksListener);
     context.read<BlockUpdateNotifier>().addListener(_executeCommands);
+    final List<String> commands = CatInterpreter().getResults.getCommands;
     super.initState();
+    Future<void>(() {
+      for (final String i in commands) {
+        if (i == "None") {
+          continue;
+        }
+        for (final SimpleContainer j in parseToContainer(i)) {
+          _blockDroppedOnCanvas(item: j);
+        }
+      }
+    });
   }
 
   final ScrollController _firstController = ScrollController();
@@ -299,7 +311,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
               onAccept: (SimpleContainer item) {
                 final String prev =
                     items.map((SimpleContainer e) => e.toString()).join(",");
-                _itemDroppedOnCustomerCart(
+                _blockDroppedOnCanvas(
                   item: item,
                 );
                 context.read<BlockUpdateNotifier>().update();

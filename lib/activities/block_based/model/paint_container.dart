@@ -7,13 +7,17 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 class PaintContainer extends SimpleContainer {
-  PaintContainer({super.name = "Colora", super.type = ContainerType.paint});
+  PaintContainer({
+    super.name = "Colora",
+    super.type = ContainerType.paint,
+    this.direction = "right",
+    super.repetitions = 2,
+    this.selected_colors = const <CupertinoDynamicColor>[],
+  });
 
-  List<CupertinoDynamicColor> selected_colors = [];
+  List<CupertinoDynamicColor> selected_colors;
 
-  String direction = "right";
-
-  int repetitions = 2;
+  String direction;
 
   Map<String, String> items = <String, String>{
     "destra": "right",
