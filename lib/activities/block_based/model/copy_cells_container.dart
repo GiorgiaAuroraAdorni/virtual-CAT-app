@@ -5,6 +5,8 @@ class CopyCellsContainer extends SimpleContainer {
   CopyCellsContainer({
     super.name = "Copia celle",
     super.type = ContainerType.copyCells,
+    super.container = const <SimpleContainer>[],
+    super.moves = const <SimpleContainer>[],
   });
 
   @override

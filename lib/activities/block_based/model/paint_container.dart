@@ -28,6 +28,10 @@ class PaintContainer extends SimpleContainer {
     "quadrato sopra sinistra": "square top left",
     "quadrato sotto destra": "square bottom right",
     "quadrato sopra destra": "square top right",
+    "quadrato sotto sinistra contrario": "square bottom left reverse",
+    "quadrato sopra sinistra contrario": "square top left reverse",
+    "quadrato sotto destra contrario": "square bottom right reverse",
+    "quadrato sopra destra contrario": "square top right reverse",
     "L sopra sinistra": "L up left",
     "L sopra destra": "L up right",
     "L destra sotto": "L right down",
@@ -108,34 +112,78 @@ class PaintContainer extends SimpleContainer {
         color: Colors.black87,
       ),
     ): "diagonal down right",
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        Icons.open_in_new,
-        color: Colors.black87,
+    Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationY(math.pi),
+      child: Transform.rotate(
+        angle: 0 * math.pi / 180,
+        child: const Icon(
+          CupertinoIcons.return_icon,
+          color: Colors.black87,
+        ),
       ),
     ): "square top right",
+    Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationY(math.pi),
+      child: Transform.rotate(
+        angle: 270 * math.pi / 180,
+        child: const Icon(
+          CupertinoIcons.return_icon,
+          color: Colors.black87,
+        ),
+      ),
+    ): "square bottom right",
+    Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationY(math.pi),
+      child: Transform.rotate(
+        angle: 180 * math.pi / 180,
+        child: const Icon(
+          CupertinoIcons.return_icon,
+          color: Colors.black87,
+        ),
+      ),
+    ): "square bottom left",
+    Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationY(math.pi),
+      child: Transform.rotate(
+        angle: 90 * math.pi / 180,
+        child: const Icon(
+          CupertinoIcons.return_icon,
+          color: Colors.black87,
+        ),
+      ),
+    ): "square top left ",
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(
-        Icons.open_in_new,
+        CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square bottom right",
+    ): "square top right reverse",
     Transform.rotate(
       angle: 180 * math.pi / 180,
       child: const Icon(
-        Icons.open_in_new,
+        CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square bottom left",
+    ): "square bottom right reverse",
     Transform.rotate(
       angle: 270 * math.pi / 180,
       child: const Icon(
-        Icons.open_in_new,
+        CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square top left",
+    ): "square bottom left reverse",
+    Transform.rotate(
+      angle: 0 * math.pi / 180,
+      child: const Icon(
+        CupertinoIcons.return_icon,
+        color: Colors.black87,
+      ),
+    ): "square top left reverse",
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(

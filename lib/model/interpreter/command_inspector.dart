@@ -79,7 +79,6 @@ class CommandsInspector {
     if (!direction.isBlank) {
       if (direction.startsWith("square")) {
         int s = 0;
-        List<String> fullColorsList = colors;
         if (colors.length > 1) {
           for (int i = 0; i < positions.length; i++) {
             s += (positions[(i + 1) % positions.length].first -
@@ -87,36 +86,18 @@ class CommandsInspector {
                 (positions[i].second +
                     positions[(i + 1) % positions.length].second);
           }
-          int j = 0;
           if (s.sign >= 0) {
-            fullColorsList = <String>[];
-            for (final Pair<int, int> _ in positions) {
-              fullColorsList.add(colors[j]);
-              j = (j + 1) % colors.length;
-            }
-            fullColorsList = <String>[
-              fullColorsList.first,
-              ...fullColorsList.sublist(1).reversed,
-            ];
+            direction += " reverse";
           }
         }
-
-        command
-          ..add(
-            "go(${rows[positions.first.first]}${positions.first.second + 1})",
-          )
-          ..add(
-            "paint({${fullColorsList.joinToString()}},${positions.length},$direction)",
-          );
-      } else {
-        command
-          ..add(
-            "go(${rows[positions.first.first]}${positions.first.second + 1})",
-          )
-          ..add(
-            "paint({${colors.joinToString()}},${positions.length},$direction)",
-          );
       }
+      command
+        ..add(
+          "go(${rows[positions.first.first]}${positions.first.second + 1})",
+        )
+        ..add(
+          "paint({${colors.joinToString()}},${positions.length},$direction)",
+        );
     }
 
     return command;

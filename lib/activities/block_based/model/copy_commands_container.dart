@@ -5,6 +5,8 @@ class CopyCommandsContainer extends SimpleContainer {
   CopyCommandsContainer({
     super.name = "Copia",
     super.type = ContainerType.copy,
+    super.container = const <SimpleContainer>[],
+    super.moves = const <SimpleContainer>[],
   });
 
   @override
@@ -15,16 +17,16 @@ class CopyCommandsContainer extends SimpleContainer {
     final String positions = container
         .map(
           (SimpleContainer e) => e.toString(),
-    )
+        )
         .join(",");
 
     final String positions2 = moves
         .map(
           (SimpleContainer e) => e.toString(),
-    )
+        )
         .join(",")
         .replaceAll(RegExp("[go()]"), "");
-    
+
     return "copy({$positions},{$positions2})";
   }
 }

@@ -6,9 +6,14 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 class GoContainer extends SimpleContainer {
-  GoContainer({super.name = "Vai a", super.type = ContainerType.go});
+  GoContainer({
+    super.name = "Vai a",
+    super.type = ContainerType.go,
+    this.direction = "right",
+    super.repetitions = 1,
+  });
 
-  String direction = "right";
+  String direction;
 
   static const TextStyle _style = TextStyle(
     color: CupertinoColors.black,

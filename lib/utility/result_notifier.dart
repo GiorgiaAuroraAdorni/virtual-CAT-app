@@ -36,6 +36,11 @@ class TypeUpdateNotifier extends ChangeNotifier {
 
   int get state => _state;
 
+  void setState(int s) {
+    _state = s;
+    notifyListeners();
+  }
+
   void update() {
     if (_state > 0) {
       _state--;

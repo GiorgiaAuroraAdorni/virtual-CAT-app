@@ -10,6 +10,7 @@ class MirrorContainerCommands extends SimpleContainer {
     super.type = ContainerType.mirrorCommands,
     this.position = 0,
     this.direction = "horizontal",
+    super.container = const <SimpleContainer>[],
   });
 
   int position;

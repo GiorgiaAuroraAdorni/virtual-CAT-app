@@ -1,13 +1,16 @@
-import "package:cross_array_task_app/activities/block_based/model/base.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:flutter/foundation.dart";
 
 /// It's a class that represents a container of components
-class SimpleContainer extends Base {
+class SimpleContainer {
   /// It's a constructor.
   SimpleContainer({
     required this.name,
     required this.type,
+    this.container = const <SimpleContainer>[],
+    this.moves = const <SimpleContainer>[],
+    this.axis = "",
+    this.repetitions = 1,
   });
 
   /// It's a key that is used to identify the component in the tree.
@@ -20,16 +23,16 @@ class SimpleContainer extends Base {
   final ContainerType type;
 
   /// It's a variable that is used to identify the component in the tree.
-  int repetitions = 1;
+  int repetitions;
 
   /// It's a variable that is used to identify the component in the tree.
-  String axis = "";
+  String axis;
 
   /// It's a variable that is used to identify the component in the tree.
-  List<SimpleContainer> moves = <SimpleContainer>[];
+  List<SimpleContainer> moves;
 
   /// It's a variable that is used to identify the component in the tree.
-  List<SimpleContainer> container = <SimpleContainer>[];
+  List<SimpleContainer> container;
 
   SimpleContainer copy() => SimpleContainer(name: name, type: type);
 

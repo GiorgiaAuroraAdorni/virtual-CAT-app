@@ -39,8 +39,9 @@ class _TopBarState extends State<TopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (context.read<TypeUpdateNotifier>().state == 2)
-              CupertinoButton(
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: CupertinoButton(
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
                   "resources/icon/code.svg",
@@ -48,11 +49,13 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
-                  context.read<TypeUpdateNotifier>().update();
+                  context.read<TypeUpdateNotifier>().setState(2);
                 },
-              )
-            else if (context.read<TypeUpdateNotifier>().state == 1)
-              CupertinoButton(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: CupertinoButton(
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
                   "resources/icon/block.svg",
@@ -60,19 +63,24 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
-                  context.read<TypeUpdateNotifier>().update();
+                  context.read<TypeUpdateNotifier>().setState(1);
                 },
-              )
-            else
-              CupertinoButton(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: CupertinoButton(
                 padding: EdgeInsets.zero,
                 child: SvgPicture.asset(
                   "resources/icon/gesture.svg",
                   height: 42,
                   width: 42,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.read<TypeUpdateNotifier>().setState(0);
+                },
               ),
+            ),
             // CupertinoButton(
             //   padding: EdgeInsets.zero,
             //   child: SvgPicture.asset(

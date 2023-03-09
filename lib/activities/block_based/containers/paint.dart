@@ -1,11 +1,10 @@
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/cat_log.dart";
 
 /// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer`
 /// and a `Function` and returns a `State<StatefulWidget>`

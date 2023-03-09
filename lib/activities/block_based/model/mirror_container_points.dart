@@ -10,6 +10,7 @@ class MirrorContainerPoints extends SimpleContainer {
     super.type = ContainerType.mirrorPoints,
     this.position = 0,
     this.direction = "horizontal",
+    super.container = const <SimpleContainer>[],
   });
 
   int position;
