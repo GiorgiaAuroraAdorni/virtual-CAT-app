@@ -159,7 +159,7 @@ class PaintContainer extends SimpleContainer {
           color: Colors.black87,
         ),
       ),
-    ): "square top left ",
+    ): "square top left",
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(

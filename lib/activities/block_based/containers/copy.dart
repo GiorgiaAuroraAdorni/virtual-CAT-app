@@ -65,6 +65,29 @@ class _Copy extends State<CopyCommands> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    Future<void>(() {
+      if (widget.item.container.isNotEmpty) {
+        final List<SimpleContainer> copy =
+            List<SimpleContainer>.from(widget.item.container);
+        widget.item.container.clear();
+        for (final SimpleContainer i in copy) {
+          addOrigin(i);
+        }
+        final List<SimpleContainer> copy2 =
+            List<SimpleContainer>.from(widget.item.moves);
+        widget.item.moves.clear();
+        for (final SimpleContainer i in copy2) {
+          if (i is GoPositionContainer) {
+            addDestination(i);
+          }
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
     childHeight = sized.entries
@@ -159,60 +182,62 @@ class _Copy extends State<CopyCommands> {
             ),
           ),
         ),
-        onAccept: (SimpleContainer el) {
-          final String prev = widget.item.toString();
-          setState(
-            () {
-              final UniqueKey key = UniqueKey();
-              final SimpleContainer container = el.copy();
-              widget.item.container.add(
-                container,
-              );
-              container.key = key;
-              sized[key] = 0.0;
-              widgets.add(
-                Dismissible(
-                  key: key,
-                  child: generateDismiss(
-                    container,
-                    (Size size) {
-                      setState(() {
-                        sized[key] = size.height;
-                      });
-                    },
-                  ),
-                  onDismissed: (DismissDirection direction) {
-                    final String prev = widget.item.toString();
-                    setState(() {
-                      widget.item.container.removeWhere(
-                        (SimpleContainer e) => e.key == key,
-                      );
-                      widgets.removeWhere(
-                        (Widget element) => element.key == key,
-                      );
-                      sized.remove(key);
-                    });
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                ),
-              );
+        onAccept: addOrigin,
+      );
+
+  void addOrigin(SimpleContainer el) {
+    final String prev = widget.item.toString();
+    setState(
+      () {
+        final UniqueKey key = UniqueKey();
+        final SimpleContainer container = el.copy();
+        widget.item.container.add(
+          container,
+        );
+        container.key = key;
+        sized[key] = 0.0;
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: generateDismiss(
+              container,
+              (Size size) {
+                setState(() {
+                  sized[key] = size.height;
+                });
+              },
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = widget.item.toString();
+              setState(() {
+                widget.item.container.removeWhere(
+                  (SimpleContainer e) => e.key == key,
+                );
+                widgets.removeWhere(
+                  (Widget element) => element.key == key,
+                );
+                sized.remove(key);
+              });
               context.read<BlockUpdateNotifier>().update();
               CatLogger().addLog(
                 context: context,
                 previousCommand: prev,
                 currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.addCommand,
+                description: CatLoggingLevel.removeCommand,
               );
             },
-          );
-        },
-      );
+          ),
+        );
+        context.read<BlockUpdateNotifier>().update();
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.addCommand,
+        );
+      },
+    );
+  }
 
   Widget positions() => Flexible(
         flex: 0,
@@ -298,42 +323,35 @@ class _Copy extends State<CopyCommands> {
               );
             },
           ),
-          onAccept: (GoPositionContainer el) {
+          onAccept: addDestination,
+        ),
+      );
+
+  void addDestination(GoPositionContainer el) {
+    final String prev = widget.item.toString();
+    setState(() {
+      final UniqueKey key = UniqueKey();
+      final GoPositionContainer container = el.copy();
+      widget.item.moves.add(
+        container,
+      );
+      widget.item.moves.last.key = key;
+      widgets2.add(
+        Dismissible(
+          key: key,
+          child: GoPosition(
+            key: UniqueKey(),
+            item: container,
+            onChange: (Size size) {},
+          ),
+          onDismissed: (DismissDirection direction) {
             final String prev = widget.item.toString();
             setState(() {
-              final UniqueKey key = UniqueKey();
-              final GoPositionContainer container = el.copy();
-              widget.item.moves.add(
-                container,
+              widgets2.removeWhere(
+                (Widget element) => element.key == key,
               );
-              widget.item.moves.last.key = key;
-              widgets2.add(
-                Dismissible(
-                  key: key,
-                  child: GoPosition(
-                    key: UniqueKey(),
-                    item: container,
-                    onChange: (Size size) {},
-                  ),
-                  onDismissed: (DismissDirection direction) {
-                    final String prev = widget.item.toString();
-                    setState(() {
-                      widgets2.removeWhere(
-                        (Widget element) => element.key == key,
-                      );
-                      widget.item.moves.removeWhere(
-                        (SimpleContainer element) => element.key == key,
-                      );
-                    });
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                ),
+              widget.item.moves.removeWhere(
+                (SimpleContainer element) => element.key == key,
               );
             });
             context.read<BlockUpdateNotifier>().update();
@@ -341,11 +359,20 @@ class _Copy extends State<CopyCommands> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.addCommand,
+              description: CatLoggingLevel.removeCommand,
             );
           },
         ),
       );
+    });
+    context.read<BlockUpdateNotifier>().update();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: prev,
+      currentCommand: widget.item.toString(),
+      description: CatLoggingLevel.addCommand,
+    );
+  }
 
   Widget generateDismiss(
     SimpleContainer container,

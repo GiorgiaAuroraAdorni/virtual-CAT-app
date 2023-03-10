@@ -5,7 +5,7 @@ import "package:interpreter/cat_interpreter.dart";
 late Collector collector;
 late List<String> goCommands;
 
-final Map<String, int> _rows = <String, int>{
+final Map<String, int> rows = <String, int>{
   "f": 0,
   "e": 1,
   "d": 2,
@@ -14,7 +14,7 @@ final Map<String, int> _rows = <String, int>{
   "a": 5,
 };
 
-final Map<String, int> _columns = <String, int>{
+final Map<String, int> columns = <String, int>{
   "1": 0,
   "2": 1,
   "3": 2,
@@ -118,8 +118,8 @@ void _mirrorAnalysis(
   bool isCell = true;
   for (final String s in toEvaluate) {
     if (s.length != 2 ||
-        !_rows.containsKey(s[0]) ||
-        !_columns.containsKey(s[1])) {
+        !rows.containsKey(s[0]) ||
+        !columns.containsKey(s[1])) {
       isCell = false;
       break;
     }

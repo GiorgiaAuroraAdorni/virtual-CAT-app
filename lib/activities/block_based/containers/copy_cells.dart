@@ -2,13 +2,12 @@ import "package:cross_array_task_app/activities/block_based/containers/go_positi
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/cat_log.dart";
 
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
 class CopyCells extends StatefulWidget {
@@ -46,6 +45,31 @@ class _Copy extends State<CopyCells> {
     const Key("ciao"): 0.0,
     const Key("lalala"): 0.0,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    Future<void>(() {
+      if (widget.item.container.isNotEmpty) {
+        final List<SimpleContainer> copy =
+            List<SimpleContainer>.from(widget.item.container);
+        widget.item.container.clear();
+        for (final SimpleContainer i in copy) {
+          if (i is GoPositionContainer) {
+            addOrigin(i);
+          }
+        }
+        final List<SimpleContainer> copy2 =
+            List<SimpleContainer>.from(widget.item.moves);
+        widget.item.moves.clear();
+        for (final SimpleContainer i in copy2) {
+          if (i is GoPositionContainer) {
+            addDestination(i);
+          }
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,61 +204,63 @@ class _Copy extends State<CopyCells> {
             );
           },
         ),
-        onAccept: (GoPositionContainer el) {
-          final String prev = widget.item.toString();
-          setState(
-            () {
-              final UniqueKey key = UniqueKey();
-              final GoPositionContainer container = el.copy();
-              widget.item.container.add(
-                container,
-              );
-              container.key = key;
-              sized[key] = 0.0;
-              widgets.add(
-                Dismissible(
-                  key: key,
-                  child: GoPosition(
-                    key: UniqueKey(),
-                    item: container,
-                    onChange: (Size size) {
-                      setState(() {
-                        sized[key] = size.height;
-                      });
-                    },
-                  ),
-                  onDismissed: (DismissDirection direction) {
-                    final String prev = widget.item.toString();
-                    setState(() {
-                      widget.item.container.removeWhere(
-                        (SimpleContainer e) => e.key == key,
-                      );
-                      widgets.removeWhere(
-                        (Widget element) => element.key == key,
-                      );
-                      sized.remove(key);
-                    });
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                ),
+        onAccept: addOrigin,
+      );
+
+  void addOrigin(GoPositionContainer el) {
+    final String prev = widget.item.toString();
+    setState(
+      () {
+        final UniqueKey key = UniqueKey();
+        final GoPositionContainer container = el.copy();
+        widget.item.container.add(
+          container,
+        );
+        container.key = key;
+        sized[key] = 0.0;
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: GoPosition(
+              key: UniqueKey(),
+              item: container,
+              onChange: (Size size) {
+                setState(() {
+                  sized[key] = size.height;
+                });
+              },
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = widget.item.toString();
+              setState(() {
+                widget.item.container.removeWhere(
+                  (SimpleContainer e) => e.key == key,
+                );
+                widgets.removeWhere(
+                  (Widget element) => element.key == key,
+                );
+                sized.remove(key);
+              });
+              context.read<BlockUpdateNotifier>().update();
+              CatLogger().addLog(
+                context: context,
+                previousCommand: prev,
+                currentCommand: widget.item.toString(),
+                description: CatLoggingLevel.removeCommand,
               );
             },
-          );
-          context.read<BlockUpdateNotifier>().update();
-          CatLogger().addLog(
-            context: context,
-            previousCommand: prev,
-            currentCommand: widget.item.toString(),
-            description: CatLoggingLevel.addCommand,
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
+    context.read<BlockUpdateNotifier>().update();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: prev,
+      currentCommand: widget.item.toString(),
+      description: CatLoggingLevel.addCommand,
+    );
+  }
 
   Widget positions() => Flexible(
         flex: 0,
@@ -320,42 +346,35 @@ class _Copy extends State<CopyCells> {
               );
             },
           ),
-          onAccept: (GoPositionContainer el) {
+          onAccept: addDestination,
+        ),
+      );
+
+  void addDestination(GoPositionContainer el) {
+    final String prev = widget.item.toString();
+    setState(() {
+      final UniqueKey key = UniqueKey();
+      final GoPositionContainer container = el.copy();
+      widget.item.moves.add(
+        container,
+      );
+      widget.item.moves.last.key = key;
+      widgets2.add(
+        Dismissible(
+          key: key,
+          child: GoPosition(
+            key: UniqueKey(),
+            item: container,
+            onChange: (Size size) {},
+          ),
+          onDismissed: (DismissDirection direction) {
             final String prev = widget.item.toString();
             setState(() {
-              final UniqueKey key = UniqueKey();
-              final GoPositionContainer container = el.copy();
-              widget.item.moves.add(
-                container,
+              widgets2.removeWhere(
+                (Widget element) => element.key == key,
               );
-              widget.item.moves.last.key = key;
-              widgets2.add(
-                Dismissible(
-                  key: key,
-                  child: GoPosition(
-                    key: UniqueKey(),
-                    item: container,
-                    onChange: (Size size) {},
-                  ),
-                  onDismissed: (DismissDirection direction) {
-                    final String prev = widget.item.toString();
-                    setState(() {
-                      widgets2.removeWhere(
-                        (Widget element) => element.key == key,
-                      );
-                      widget.item.moves.removeWhere(
-                        (SimpleContainer element) => element.key == key,
-                      );
-                    });
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                ),
+              widget.item.moves.removeWhere(
+                (SimpleContainer element) => element.key == key,
               );
             });
             context.read<BlockUpdateNotifier>().update();
@@ -363,11 +382,20 @@ class _Copy extends State<CopyCells> {
               context: context,
               previousCommand: prev,
               currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.addCommand,
+              description: CatLoggingLevel.removeCommand,
             );
           },
         ),
       );
+    });
+    context.read<BlockUpdateNotifier>().update();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: prev,
+      currentCommand: widget.item.toString(),
+      description: CatLoggingLevel.addCommand,
+    );
+  }
 
   Size? oldSize = Size.zero;
 

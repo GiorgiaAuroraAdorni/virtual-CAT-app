@@ -1,3 +1,5 @@
+import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
@@ -8,13 +10,13 @@ import "package:cross_array_task_app/activities/block_based/model/paint_containe
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
 List<SimpleContainer> parseToContainer(String command) {
   final List<String> splited = splitCommand(command);
-  print(splited);
   if (splited.first == "go") {
     return _parseGo(splited);
   } else if (splited.first == "paint") {
@@ -45,10 +47,11 @@ List<SimpleContainer> _parseMirror(List<String> command) {
     return <SimpleContainer>[
       MirrorContainerPoints(
         container: secondPart
-            .map(
-              (String e) => parseToContainer("go(${e.trim()})").first,
-            )
-            .toList(),
+            .map((String e) => parseToContainer("go(${e.trim()})"))
+            .reduce(
+              (List<SimpleContainer> value, List<SimpleContainer> element) =>
+                  value + element,
+            ),
         position: command.last.trim() == "horizontal" ? 0 : 1,
         direction: command.last.trim(),
       ),
@@ -69,7 +72,31 @@ List<SimpleContainer> _parseMirror(List<String> command) {
 }
 
 List<SimpleContainer> _parseCopy(List<String> command) {
-  return <SimpleContainer>[];
+  final List<String> origins = splitByCurly(command.second);
+  final List<String> destinations = splitByCurly(command.third);
+  final List<String> checks = origins.first.trim().split("");
+  final List<SimpleContainer> commands = <SimpleContainer>[];
+  final List<SimpleContainer> toReturn = <SimpleContainer>[];
+  for (final String i in destinations) {
+    toReturn.addAll(_parseGo(["go", i.trim()]));
+  }
+  if (rows.containsKey(checks.first) && columns.containsKey(checks.second)) {
+    for (final String i in origins) {
+      commands.addAll(_parseGo(["go", i.trim()]));
+    }
+
+    return <SimpleContainer>[
+      CopyCellsContainer(container: commands, moves: toReturn),
+    ];
+  }
+
+  for (final String i in splitCommands(origins.join(","))) {
+    commands.addAll(parseToContainer(i));
+  }
+
+  return <SimpleContainer>[
+    CopyCommandsContainer(container: commands, moves: toReturn),
+  ];
 }
 
 List<SimpleContainer> _parseFillEmpty(List<String> command) =>
@@ -130,7 +157,7 @@ List<SimpleContainer> _parsePaint(List<String> command) {
     PaintContainer(
       selected_colors: colors.map((String e) => _colors[e.trim()]!).toList(),
       repetitions: command[2].toInt(),
-      direction: command[3],
+      direction: command[3].trim(),
     ),
   ];
 }
