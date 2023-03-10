@@ -67,6 +67,21 @@ class _Mirror extends State<MirrorCommands> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    Future<void>(() {
+      if (widget.item.container.isNotEmpty) {
+        final List<SimpleContainer> copy =
+            List<SimpleContainer>.from(widget.item.container);
+        widget.item.container.clear();
+        for (final SimpleContainer i in copy) {
+          _addContainer(i);
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
     childHeight = sized.entries
@@ -166,62 +181,64 @@ class _Mirror extends State<MirrorCommands> {
                   ),
                 ),
               ),
-              onAccept: (SimpleContainer el) {
-                final String prev = widget.item.toString();
-                setState(
-                  () {
-                    final UniqueKey key = UniqueKey();
-                    final SimpleContainer container = el.copy();
-                    widget.item.container.add(
-                      container,
-                    );
-                    container.key = key;
-                    widgets.add(
-                      Dismissible(
-                        key: key,
-                        child: generateDismiss(
-                          container,
-                          (Size size) {
-                            setState(() {
-                              sized[key] = size.height;
-                            });
-                          },
-                        ),
-                        onDismissed: (DismissDirection direction) {
-                          final String prev = widget.item.toString();
-                          setState(() {
-                            widget.item.container.removeWhere(
-                              (SimpleContainer e) => e.key == key,
-                            );
-                            widgets.removeWhere(
-                              (Widget element) => element.key == key,
-                            );
-                            sized.remove(key);
-                          });
-                          context.read<BlockUpdateNotifier>().update();
-                          CatLogger().addLog(
-                            context: context,
-                            previousCommand: prev,
-                            currentCommand: widget.item.toString(),
-                            description: CatLoggingLevel.removeCommand,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                );
-                context.read<BlockUpdateNotifier>().update();
-                CatLogger().addLog(
-                  context: context,
-                  previousCommand: prev,
-                  currentCommand: widget.item.toString(),
-                  description: CatLoggingLevel.addCommand,
-                );
-              },
+              onAccept: _addContainer,
             ),
           ],
         ),
       );
+
+  void _addContainer(SimpleContainer el) {
+    final String prev = widget.item.toString();
+    setState(
+      () {
+        final UniqueKey key = UniqueKey();
+        final SimpleContainer container = el.copy();
+        widget.item.container.add(
+          container,
+        );
+        container.key = key;
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: generateDismiss(
+              container,
+              (Size size) {
+                setState(() {
+                  sized[key] = size.height;
+                });
+              },
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = widget.item.toString();
+              setState(() {
+                widget.item.container.removeWhere(
+                  (SimpleContainer e) => e.key == key,
+                );
+                widgets.removeWhere(
+                  (Widget element) => element.key == key,
+                );
+                sized.remove(key);
+              });
+              context.read<BlockUpdateNotifier>().update();
+              CatLogger().addLog(
+                context: context,
+                previousCommand: prev,
+                currentCommand: widget.item.toString(),
+                description: CatLoggingLevel.removeCommand,
+              );
+            },
+          ),
+        );
+      },
+    );
+    context.read<BlockUpdateNotifier>().update();
+    CatLogger().addLog(
+      context: context,
+      previousCommand: prev,
+      currentCommand: widget.item.toString(),
+      description: CatLoggingLevel.addCommand,
+    );
+  }
 
   Widget generateDismiss(
     SimpleContainer container,

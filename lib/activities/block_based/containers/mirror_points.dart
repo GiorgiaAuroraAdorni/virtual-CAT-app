@@ -2,13 +2,12 @@ import "package:cross_array_task_app/activities/block_based/containers/go_positi
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/cat_log.dart";
 
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
 /// `SimpleContainer` `item`, and a `Function` `onChange` and returns a
@@ -47,6 +46,23 @@ class _Mirror extends State<MirrorPoints> {
     const Key("ciao"): 0.0,
     const Key("lalala"): 0.0,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    Future<void>(() {
+      if (widget.item.container.isNotEmpty) {
+        final List<SimpleContainer> copy =
+            List<SimpleContainer>.from(widget.item.container);
+        widget.item.container.clear();
+        for (final SimpleContainer i in copy) {
+          if (i is GoPositionContainer) {
+            _addContainer(i);
+          }
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,60 +206,62 @@ class _Mirror extends State<MirrorPoints> {
             );
           },
         ),
-        onAccept: (GoPositionContainer el) {
-          final String prev = widget.item.toString();
-          setState(
-            () {
-              final UniqueKey key = UniqueKey();
-              final GoPositionContainer container = el.copy();
-              widget.item.container.add(
-                container,
-              );
-              container.key = key;
-              widgets.add(
-                Dismissible(
-                  key: key,
-                  child: GoPosition(
-                    key: UniqueKey(),
-                    item: container,
-                    onChange: (Size size) {
-                      setState(() {
-                        sized[key] = size.height;
-                      });
-                    },
-                  ),
-                  onDismissed: (DismissDirection direction) {
-                    final String prev = widget.item.toString();
-                    setState(() {
-                      widget.item.container.removeWhere(
-                        (SimpleContainer e) => e.key == key,
-                      );
-                      widgets.removeWhere(
-                        (Widget element) => element.key == key,
-                      );
-                      sized.remove(key);
-                    });
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                ),
-              );
+        onAccept: _addContainer,
+      );
+
+  void _addContainer(GoPositionContainer el) {
+    final String prev = widget.item.toString();
+    setState(
+      () {
+        final UniqueKey key = UniqueKey();
+        final GoPositionContainer container = el.copy();
+        widget.item.container.add(
+          container,
+        );
+        container.key = key;
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: GoPosition(
+              key: UniqueKey(),
+              item: container,
+              onChange: (Size size) {
+                setState(() {
+                  sized[key] = size.height;
+                });
+              },
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = widget.item.toString();
+              setState(() {
+                widget.item.container.removeWhere(
+                  (SimpleContainer e) => e.key == key,
+                );
+                widgets.removeWhere(
+                  (Widget element) => element.key == key,
+                );
+                sized.remove(key);
+              });
               context.read<BlockUpdateNotifier>().update();
               CatLogger().addLog(
                 context: context,
                 previousCommand: prev,
                 currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.addCommand,
+                description: CatLoggingLevel.removeCommand,
               );
             },
-          );
-        },
-      );
+          ),
+        );
+        context.read<BlockUpdateNotifier>().update();
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.addCommand,
+        );
+      },
+    );
+  }
 
   void _directionPicker() {
     final List<String> directions = <String>[

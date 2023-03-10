@@ -12,7 +12,7 @@ class PaintContainer extends SimpleContainer {
     super.type = ContainerType.paint,
     this.direction = "right",
     super.repetitions = 2,
-    this.selected_colors = const <CupertinoDynamicColor>[],
+    required this.selected_colors,
   });
 
   List<CupertinoDynamicColor> selected_colors;
@@ -308,7 +308,11 @@ class PaintContainer extends SimpleContainer {
   );
 
   @override
-  PaintContainer copy() => PaintContainer();
+  PaintContainer copy() => PaintContainer(
+        selected_colors: selected_colors,
+        direction: direction,
+        repetitions: repetitions,
+      );
 
   @override
   String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"

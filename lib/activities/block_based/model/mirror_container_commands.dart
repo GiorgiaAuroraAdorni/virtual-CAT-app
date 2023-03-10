@@ -10,7 +10,7 @@ class MirrorContainerCommands extends SimpleContainer {
     super.type = ContainerType.mirrorCommands,
     this.position = 0,
     this.direction = "horizontal",
-    super.container = const <SimpleContainer>[],
+    required super.container,
   });
 
   int position;
@@ -51,6 +51,7 @@ class MirrorContainerCommands extends SimpleContainer {
   SimpleContainer copy() => MirrorContainerCommands(
         position: position,
         direction: direction,
+        container: super.container,
       );
 
   @override

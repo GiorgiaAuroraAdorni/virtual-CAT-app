@@ -132,7 +132,10 @@ class GoContainer extends SimpleContainer {
   );
 
   @override
-  SimpleContainer copy() => GoContainer();
+  SimpleContainer copy() => GoContainer(
+        direction: direction,
+        repetitions: repetitions,
+      );
 
   @override
   String toString() => "go($repetitions $direction)";

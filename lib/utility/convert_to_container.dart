@@ -1,4 +1,9 @@
+import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
+import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -14,30 +19,90 @@ List<SimpleContainer> parseToContainer(String command) {
     return _parseGo(splited);
   } else if (splited.first == "paint") {
     return _parsePaint(splited);
+  } else if (splited.first == "fill_empty") {
+    return _parseFillEmpty(splited);
+  } else if (splited.first == "copy") {
+    return _parseCopy(splited);
+  } else if (splited.first == "mirror") {
+    return _parseMirror(splited);
   }
 
-  return <SimpleContainer>[
-    SimpleContainer(name: "name", type: ContainerType.go),
-  ];
+  return <SimpleContainer>[];
 }
 
-List<SimpleContainer> _parseGo(List<String> command) {
+List<SimpleContainer> _parseMirror(List<String> command) {
   if (command.length == 2) {
-    final List<String> positions = command.last.split("");
-
     return <SimpleContainer>[
-      GoPositionContainer(a: positions.first.toUpperCase(), b: positions.last),
+      MirrorSimpleContainer(
+        type: command.last.trim() == "vertical"
+            ? ContainerType.mirrorVertical
+            : ContainerType.mirrorHorizontal,
+      ),
+    ];
+  }
+  final List<String> secondPart = splitByCurly(command.second.trim());
+  if (secondPart.first.trim().split("").length == 2) {
+    return <SimpleContainer>[
+      MirrorContainerPoints(
+        container: secondPart
+            .map(
+              (String e) => parseToContainer("go(${e.trim()})").first,
+            )
+            .toList(),
+        position: command.last.trim() == "horizontal" ? 0 : 1,
+        direction: command.last.trim(),
+      ),
     ];
   }
 
   return <SimpleContainer>[
-    SimpleContainer(name: "name", type: ContainerType.go),
+    MirrorContainerCommands(
+      container:
+          secondPart.map((String e) => parseToContainer(e.trim())).reduce(
+                (List<SimpleContainer> value, List<SimpleContainer> element) =>
+                    value + element,
+              ),
+      position: command.last.trim() == "horizontal" ? 0 : 1,
+      direction: command.last.trim(),
+    ),
+  ];
+}
+
+List<SimpleContainer> _parseCopy(List<String> command) {
+  return <SimpleContainer>[];
+}
+
+List<SimpleContainer> _parseFillEmpty(List<String> command) =>
+    <SimpleContainer>[
+      FillEmptyContainer(
+        selected: _colors[command.last.trim()]!,
+      ),
+    ];
+
+List<SimpleContainer> _parseGo(List<String> command) {
+  final List<String> positions = command.last.trim().split("");
+  if (positions.length == 2) {
+    return <SimpleContainer>[
+      GoPositionContainer(a: positions.first.toUpperCase(), b: positions.last),
+    ];
+  }
+  final List<String> el = command.last.trim().split(" ");
+
+  return <SimpleContainer>[
+    GoContainer(
+      repetitions: el.first.toInt(),
+      direction: el.getRange(1, el.length).joinToString(separator: " ").trim(),
+    ),
   ];
 }
 
 List<SimpleContainer> _parsePaint(List<String> command) {
   if (command.length == 2) {
-    return [PaintSingleContainer(selected: _colors[command.last]!)];
+    return <SimpleContainer>[
+      PaintSingleContainer(
+        selected: _colors[command.last]!,
+      ),
+    ];
   }
   final List<String> colors = splitByCurly(command[1]);
   final List<String> cells = splitByCurly(command.last);

@@ -5,12 +5,15 @@ class CopyCommandsContainer extends SimpleContainer {
   CopyCommandsContainer({
     super.name = "Copia",
     super.type = ContainerType.copy,
-    super.container = const <SimpleContainer>[],
-    super.moves = const <SimpleContainer>[],
+    required super.container,
+    required super.moves,
   });
 
   @override
-  CopyCommandsContainer copy() => CopyCommandsContainer();
+  CopyCommandsContainer copy() => CopyCommandsContainer(
+        container: super.container,
+        moves: super.moves,
+      );
 
   @override
   String toString() {

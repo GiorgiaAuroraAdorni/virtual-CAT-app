@@ -35,15 +35,21 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
   List<SimpleContainer> containers = <SimpleContainer>[
     PaintSingleContainer(),
     GoPositionContainer(),
-    PaintContainer(),
+    PaintContainer(selected_colors: []),
     GoContainer(),
     FillEmptyContainer(),
     MirrorSimpleContainer(type: ContainerType.mirrorVertical),
     MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
-    MirrorContainerPoints(),
-    MirrorContainerCommands(),
-    CopyCommandsContainer(),
-    CopyCellsContainer(),
+    MirrorContainerPoints(container: <SimpleContainer>[]),
+    MirrorContainerCommands(container: <SimpleContainer>[]),
+    CopyCommandsContainer(
+      container: <SimpleContainer>[],
+      moves: <SimpleContainer>[],
+    ),
+    CopyCellsContainer(
+      container: <SimpleContainer>[],
+      moves: <SimpleContainer>[],
+    ),
   ];
 
   /// It returns a Draggable widget that has a feedback widget that is a Card with a
