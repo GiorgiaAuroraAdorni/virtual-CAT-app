@@ -131,6 +131,7 @@ class _BottomBarState extends State<BottomBar> {
       _reset();
       context.read<TimeKeeper>().resetTimer();
       CatLogger().resetLogs();
+      context.read<TypeUpdateNotifier>().reset();
 
       return result;
     });
@@ -140,7 +141,6 @@ class _BottomBarState extends State<BottomBar> {
     context.read<VisibilityNotifier>().visible = false;
     CatInterpreter().resetInterpreter();
     context.read<ResultNotifier>().cross = Cross();
-    context.read<TypeUpdateNotifier>().reset();
     context.read<SelectedColorsNotifier>().clear();
     CatLogger().addLog(
       context: context,

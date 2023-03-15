@@ -21,6 +21,7 @@ import "package:cross_array_task_app/activities/block_based/model/paint_containe
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 class SideMenuBlock extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
   List<SimpleContainer> containers = <SimpleContainer>[
     PaintSingleContainer(),
     GoPositionContainer(),
-    PaintContainer(selected_colors: []),
+    PaintContainer(selected_colors: <CupertinoDynamicColor>[]),
     GoContainer(),
     FillEmptyContainer(),
     MirrorSimpleContainer(type: ContainerType.mirrorVertical),
@@ -73,17 +74,37 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       feedback: Function.apply(
         builder,
         [],
-        {#item: copyContainer, #onChange: (Size size) {}},
+        {#item: copyContainer, #onChange: (Size size) {}, #key: UniqueKey()},
       ),
       child: Padding(
         padding: const EdgeInsets.only(right: 10),
         child: Function.apply(
           builder,
           [],
-          {#item: copyContainer, #onChange: (Size size) {}},
+          {#item: copyContainer, #onChange: (Size size) {}, #key: UniqueKey()},
         ),
       ),
-      onDragCompleted: () => setState(() {}),
+      onDragCompleted: () => setState(() {
+        containers = <SimpleContainer>[
+          PaintSingleContainer(),
+          GoPositionContainer(),
+          PaintContainer(selected_colors: <CupertinoDynamicColor>[]),
+          GoContainer(),
+          FillEmptyContainer(),
+          MirrorSimpleContainer(type: ContainerType.mirrorVertical),
+          MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
+          MirrorContainerPoints(container: <SimpleContainer>[]),
+          MirrorContainerCommands(container: <SimpleContainer>[]),
+          CopyCommandsContainer(
+            container: <SimpleContainer>[],
+            moves: <SimpleContainer>[],
+          ),
+          CopyCellsContainer(
+            container: <SimpleContainer>[],
+            moves: <SimpleContainer>[],
+          ),
+        ];
+      }),
     );
   }
 

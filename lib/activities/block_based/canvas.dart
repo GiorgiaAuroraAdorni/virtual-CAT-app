@@ -55,14 +55,15 @@ class _BlockCanvasState extends State<BlockCanvas> {
   void _blockDroppedOnCanvas({
     required SimpleContainer item,
   }) {
+    final SimpleContainer itemCopy = item.copy();
     setState(() {
       final UniqueKey key = UniqueKey();
-      item.key = key;
+      itemCopy.key = key;
       widgets.add(
         Dismissible(
           key: key,
           child: _generateDismiss(
-            item,
+            itemCopy,
             (Size size) {},
           ),
           onDismissed: (DismissDirection direction) {
@@ -87,7 +88,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
           },
         ),
       );
-      items.add(item);
+      items.add(itemCopy);
     });
   }
 

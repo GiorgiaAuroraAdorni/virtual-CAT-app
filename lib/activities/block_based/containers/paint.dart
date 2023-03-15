@@ -30,11 +30,11 @@ class Paint extends StatefulWidget {
   final Function onChange;
 
   @override
-  State<StatefulWidget> createState() => _Paint();
+  State<Paint> createState() => _Paint();
 }
 
 class _Paint extends State<Paint> {
-  GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
+  final GlobalKey<State<Paint>> widgetKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
