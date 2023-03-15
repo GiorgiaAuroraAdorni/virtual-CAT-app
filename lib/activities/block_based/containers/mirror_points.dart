@@ -57,7 +57,7 @@ class _Mirror extends State<MirrorPoints> {
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
           if (i is GoPositionContainer) {
-            _addContainer(i);
+            _addContainer(i, log: false);
           }
         }
       }
@@ -209,7 +209,7 @@ class _Mirror extends State<MirrorPoints> {
         onAccept: _addContainer,
       );
 
-  void _addContainer(GoPositionContainer el) {
+  void _addContainer(GoPositionContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
       () {
@@ -253,12 +253,14 @@ class _Mirror extends State<MirrorPoints> {
           ),
         );
         context.read<BlockUpdateNotifier>().update();
-        CatLogger().addLog(
-          context: context,
-          previousCommand: prev,
-          currentCommand: widget.item.toString(),
-          description: CatLoggingLevel.addCommand,
-        );
+        if (log) {
+          CatLogger().addLog(
+            context: context,
+            previousCommand: prev,
+            currentCommand: widget.item.toString(),
+            description: CatLoggingLevel.addCommand,
+          );
+        }
       },
     );
   }

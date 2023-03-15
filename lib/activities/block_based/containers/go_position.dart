@@ -1,10 +1,9 @@
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
-
-import "../../../utility/cat_log.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function

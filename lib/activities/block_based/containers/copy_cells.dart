@@ -56,7 +56,7 @@ class _Copy extends State<CopyCells> {
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
           if (i is GoPositionContainer) {
-            addOrigin(i);
+            addOrigin(i, log: false);
           }
         }
         final List<SimpleContainer> copy2 =
@@ -207,7 +207,7 @@ class _Copy extends State<CopyCells> {
         onAccept: addOrigin,
       );
 
-  void addOrigin(GoPositionContainer el) {
+  void addOrigin(GoPositionContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
       () {
@@ -254,12 +254,14 @@ class _Copy extends State<CopyCells> {
       },
     );
     context.read<BlockUpdateNotifier>().update();
-    CatLogger().addLog(
-      context: context,
-      previousCommand: prev,
-      currentCommand: widget.item.toString(),
-      description: CatLoggingLevel.addCommand,
-    );
+    if (log) {
+      CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.addCommand,
+      );
+    }
   }
 
   Widget positions() => Flexible(
@@ -350,7 +352,7 @@ class _Copy extends State<CopyCells> {
         ),
       );
 
-  void addDestination(GoPositionContainer el) {
+  void addDestination(GoPositionContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(() {
       final UniqueKey key = UniqueKey();
@@ -389,12 +391,14 @@ class _Copy extends State<CopyCells> {
       );
     });
     context.read<BlockUpdateNotifier>().update();
-    CatLogger().addLog(
-      context: context,
-      previousCommand: prev,
-      currentCommand: widget.item.toString(),
-      description: CatLoggingLevel.addCommand,
-    );
+    if (log) {
+      CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.addCommand,
+      );
+    }
   }
 
   Size? oldSize = Size.zero;
