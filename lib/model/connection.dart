@@ -156,7 +156,7 @@ class Connection extends BaseConnection {
 
     final bool visible = context.read<VisibilityNotifier>().visible;
 
-    final int state = context.read<TypeUpdateNotifier>().state;
+    final int state = context.read<TypeUpdateNotifier>().lowestState;
 
     final Either<String, Map<String, dynamic>> res2 = await mappingPostRequest(
       "/results",

@@ -34,22 +34,23 @@ class TypeUpdateNotifier extends ChangeNotifier {
 
   late int _state = _initialState;
 
+  late int _lowestState = _initialState;
+
   int get state => _state;
+
+  int get lowestState => _lowestState;
 
   void setState(int s) {
     _state = s;
-    notifyListeners();
-  }
-
-  void update() {
-    if (_state > 0) {
-      _state--;
+    if (_state < _lowestState) {
+      _lowestState = _state;
     }
     notifyListeners();
   }
 
   void reset() {
     _state = _initialState;
+    _lowestState = _initialState;
     notifyListeners();
   }
 }
