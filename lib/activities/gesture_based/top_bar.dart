@@ -6,6 +6,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
 
+import "../../utility/cat_log.dart";
+
 /// `TopBar` is a stateful widget that has a `createState` method that returns a
 /// `_TopBarState` object
 class TopBar extends StatefulWidget {
@@ -49,6 +51,13 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand:
+                        "${context.read<TypeUpdateNotifier>().state}",
+                    currentCommand: "2",
+                    description: CatLoggingLevel.changeMode,
+                  );
                   context.read<TypeUpdateNotifier>().setState(2);
                 },
               ),
@@ -63,6 +72,13 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand:
+                        "${context.read<TypeUpdateNotifier>().state}",
+                    currentCommand: "1",
+                    description: CatLoggingLevel.changeMode,
+                  );
                   context.read<TypeUpdateNotifier>().setState(1);
                 },
               ),
@@ -77,6 +93,13 @@ class _TopBarState extends State<TopBar> {
                   width: 42,
                 ),
                 onPressed: () {
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand:
+                        "${context.read<TypeUpdateNotifier>().state}",
+                    currentCommand: "0",
+                    description: CatLoggingLevel.changeMode,
+                  );
                   context.read<TypeUpdateNotifier>().setState(0);
                 },
               ),

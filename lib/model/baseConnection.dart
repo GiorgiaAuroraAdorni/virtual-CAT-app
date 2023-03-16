@@ -3,14 +3,14 @@ import "dart:io";
 
 import "package:dio/dio.dart";
 import "package:fpdart/fpdart.dart";
-import "package:native_dio_adapter/native_dio_adapter.dart";
+// import "package:native_dio_adapter/native_dio_adapter.dart";
 
 class BaseConnection {
   BaseConnection() {
     _connectionString = _protocol + _ip + _port;
-    if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
-      _dio.httpClientAdapter = NativeAdapter();
-    }
+    // if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
+    //   _dio.httpClientAdapter = NativeAdapter();
+    // }
     _dio.options.baseUrl = _connectionString;
   }
 

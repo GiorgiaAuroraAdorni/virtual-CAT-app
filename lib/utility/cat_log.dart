@@ -81,6 +81,7 @@ enum CatLoggingLevel {
   reorderCommand,
   removeCommand,
   changeVisibility,
+  changeMode,
   commandsReset,
   buttonSelect,
   buttonDismiss,
