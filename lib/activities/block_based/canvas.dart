@@ -249,7 +249,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
         if (i == "None") {
           continue;
         }
-        for (final SimpleContainer j in parseToContainer(i)) {
+        for (final SimpleContainer j in parseToContainer(i, context)) {
           _blockDroppedOnCanvas(item: j);
         }
       }

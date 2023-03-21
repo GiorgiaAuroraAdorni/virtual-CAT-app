@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 
 class CopyCommandsContainer extends SimpleContainer {
   CopyCommandsContainer({
+    required super.context,
     super.name = "Copia",
     super.type = ContainerType.copy,
     required super.container,
@@ -13,6 +14,7 @@ class CopyCommandsContainer extends SimpleContainer {
   CopyCommandsContainer copy() => CopyCommandsContainer(
         container: super.container,
         moves: super.moves,
+        context: super.context,
       );
 
   @override

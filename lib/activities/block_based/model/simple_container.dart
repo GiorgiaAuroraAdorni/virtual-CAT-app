@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
-import "package:flutter/foundation.dart";
+import "package:flutter/cupertino.dart";
 
 /// It's a class that represents a container of components
 class SimpleContainer {
@@ -7,6 +7,7 @@ class SimpleContainer {
   SimpleContainer({
     required this.name,
     required this.type,
+    required this.context,
     this.container = const <SimpleContainer>[],
     this.moves = const <SimpleContainer>[],
     this.axis = "",
@@ -34,7 +35,11 @@ class SimpleContainer {
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> container;
 
-  SimpleContainer copy() => SimpleContainer(name: name, type: type);
+  /// It's a variable that is used to identify the component in the tree.
+  BuildContext context;
+
+  SimpleContainer copy() =>
+      SimpleContainer(name: name, type: type, context: context);
 
   @override
   String toString() => "";

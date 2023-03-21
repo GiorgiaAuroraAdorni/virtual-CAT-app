@@ -33,23 +33,40 @@ class SideMenuBlock extends StatefulWidget {
 
 class _SideMenuBlockState extends State<SideMenuBlock> {
   /// Creating a list of SimpleContainer objects.
-  List<SimpleContainer> containers = <SimpleContainer>[
-    PaintSingleContainer(),
-    GoPositionContainer(),
-    PaintContainer(selected_colors: <CupertinoDynamicColor>[]),
-    GoContainer(),
-    FillEmptyContainer(),
-    MirrorSimpleContainer(type: ContainerType.mirrorVertical),
-    MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
-    MirrorContainerPoints(container: <SimpleContainer>[]),
-    MirrorContainerCommands(container: <SimpleContainer>[]),
+  late List<SimpleContainer> containers = <SimpleContainer>[
+    PaintSingleContainer(context: context),
+    GoPositionContainer(context: context),
+    PaintContainer(
+      selected_colors: <CupertinoDynamicColor>[],
+      context: context,
+    ),
+    GoContainer(context: context),
+    FillEmptyContainer(context: context),
+    MirrorSimpleContainer(
+      type: ContainerType.mirrorVertical,
+      context: context,
+    ),
+    MirrorSimpleContainer(
+      type: ContainerType.mirrorHorizontal,
+      context: context,
+    ),
+    MirrorContainerPoints(
+      container: <SimpleContainer>[],
+      context: context,
+    ),
+    MirrorContainerCommands(
+      container: <SimpleContainer>[],
+      context: context,
+    ),
     CopyCommandsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
+      context: context,
     ),
     CopyCellsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
+      context: context,
     ),
   ];
 
@@ -86,22 +103,39 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       ),
       onDragCompleted: () => setState(() {
         containers = <SimpleContainer>[
-          PaintSingleContainer(),
-          GoPositionContainer(),
-          PaintContainer(selected_colors: <CupertinoDynamicColor>[]),
-          GoContainer(),
-          FillEmptyContainer(),
-          MirrorSimpleContainer(type: ContainerType.mirrorVertical),
-          MirrorSimpleContainer(type: ContainerType.mirrorHorizontal),
-          MirrorContainerPoints(container: <SimpleContainer>[]),
-          MirrorContainerCommands(container: <SimpleContainer>[]),
+          PaintSingleContainer(context: context),
+          GoPositionContainer(context: context),
+          PaintContainer(
+            selected_colors: <CupertinoDynamicColor>[],
+            context: context,
+          ),
+          GoContainer(context: context),
+          FillEmptyContainer(context: context),
+          MirrorSimpleContainer(
+            type: ContainerType.mirrorVertical,
+            context: context,
+          ),
+          MirrorSimpleContainer(
+            type: ContainerType.mirrorHorizontal,
+            context: context,
+          ),
+          MirrorContainerPoints(
+            container: <SimpleContainer>[],
+            context: context,
+          ),
+          MirrorContainerCommands(
+            container: <SimpleContainer>[],
+            context: context,
+          ),
           CopyCommandsContainer(
             container: <SimpleContainer>[],
             moves: <SimpleContainer>[],
+            context: context,
           ),
           CopyCellsContainer(
             container: <SimpleContainer>[],
             moves: <SimpleContainer>[],
+            context: context,
           ),
         ];
       }),

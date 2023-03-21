@@ -5,6 +5,7 @@ import "package:flutter/cupertino.dart";
 
 class FillEmptyContainer extends SimpleContainer {
   FillEmptyContainer({
+    required super.context,
     super.name = "Riempi vuoti",
     super.type = ContainerType.fillEmpty,
     this.selected = CupertinoColors.systemOrange,
@@ -19,5 +20,8 @@ class FillEmptyContainer extends SimpleContainer {
   String toString() => "fill_empty(${analyzeColor([selected]).join()})";
 
   @override
-  FillEmptyContainer copy() => FillEmptyContainer(selected: selected);
+  FillEmptyContainer copy() => FillEmptyContainer(
+        selected: selected,
+        context: super.context,
+      );
 }

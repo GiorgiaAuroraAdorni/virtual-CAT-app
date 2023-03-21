@@ -6,6 +6,7 @@ import "package:flutter/cupertino.dart";
 
 class MirrorContainerPoints extends SimpleContainer {
   MirrorContainerPoints({
+    required super.context,
     super.name = "Specchia",
     super.type = ContainerType.mirrorPoints,
     this.position = 0,
@@ -52,6 +53,7 @@ class MirrorContainerPoints extends SimpleContainer {
         position: position,
         direction: direction,
         container: super.container,
+        context: super.context,
       );
 
   @override

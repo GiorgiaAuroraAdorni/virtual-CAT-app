@@ -7,6 +7,7 @@ import "package:flutter/material.dart";
 
 class GoContainer extends SimpleContainer {
   GoContainer({
+    required super.context,
     super.name = "Vai a",
     super.type = ContainerType.go,
     this.direction = "right",
@@ -135,6 +136,7 @@ class GoContainer extends SimpleContainer {
   SimpleContainer copy() => GoContainer(
         direction: direction,
         repetitions: repetitions,
+        context: super.context,
       );
 
   @override

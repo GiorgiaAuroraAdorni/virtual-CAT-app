@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 
 class CopyCellsContainer extends SimpleContainer {
   CopyCellsContainer({
+    required super.context,
     super.name = "Copia celle",
     super.type = ContainerType.copyCells,
     required super.container,
@@ -13,6 +14,7 @@ class CopyCellsContainer extends SimpleContainer {
   CopyCellsContainer copy() => CopyCellsContainer(
         container: super.container,
         moves: super.moves,
+        context: super.context,
       );
 
   @override

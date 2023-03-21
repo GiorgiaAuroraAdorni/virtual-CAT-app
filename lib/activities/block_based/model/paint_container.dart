@@ -8,6 +8,7 @@ import "package:flutter/material.dart";
 
 class PaintContainer extends SimpleContainer {
   PaintContainer({
+    required super.context,
     super.name = "Colora",
     super.type = ContainerType.paint,
     this.direction = "right",
@@ -312,6 +313,7 @@ class PaintContainer extends SimpleContainer {
         selected_colors: selected_colors,
         direction: direction,
         repetitions: repetitions,
+        context: super.context,
       );
 
   @override
