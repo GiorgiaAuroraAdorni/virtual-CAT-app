@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/i_p_configuration.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 /// It's a page that allows the user to select between the two modes of the
@@ -16,8 +17,8 @@ class ModeSelection extends StatelessWidget {
     return CupertinoPageScaffold(
       child: CustomScrollView(
         slivers: <Widget>[
-          const CupertinoSliverNavigationBar(
-            largeTitle: Text("Mode"),
+          CupertinoSliverNavigationBar(
+            largeTitle: Text(CATLocalizations.of(context).mode),
           ),
           SliverFillRemaining(
             child: Row(
@@ -33,7 +34,7 @@ class ModeSelection extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Text("Session"),
+                  child: Text(CATLocalizations.of(context).tutorialTitle),
                 ),
                 const SizedBox(
                   width: 20,
@@ -53,7 +54,7 @@ class ModeSelection extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Text("Test application"),
+                  child: Text(CATLocalizations.of(context).testApplication),
                 ),
               ],
             ),

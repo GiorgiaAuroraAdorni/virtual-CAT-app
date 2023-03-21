@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/block_based/model/copy_cells_con
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -105,9 +106,9 @@ class _Copy extends State<CopyCells> {
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return const Text(
-                    "Copia",
-                    style: TextStyle(
+                  return Text(
+                    CATLocalizations.of(context).blocks["copy"]!,
+                    style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
                   );
@@ -155,9 +156,9 @@ class _Copy extends State<CopyCells> {
                       animation: context.watch<TypeUpdateNotifier>(),
                       builder: (BuildContext context, Widget? child) {
                         if (context.read<TypeUpdateNotifier>().state == 2) {
-                          return const Text(
-                            "Posizioni di origine",
-                            style: TextStyle(
+                          return Text(
+                            CATLocalizations.of(context).blocks["origin"]!,
+                            style: const TextStyle(
                               color: CupertinoColors.systemTeal,
                             ),
                           );
@@ -290,10 +291,11 @@ class _Copy extends State<CopyCells> {
                         animation: context.watch<TypeUpdateNotifier>(),
                         builder: (BuildContext context, Widget? child) {
                           if (context.read<TypeUpdateNotifier>().state == 2) {
-                            return const Text(
-                              "Posizioni di destinazione",
+                            return Text(
+                              CATLocalizations.of(context)
+                                  .blocks["destination"]!,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: CupertinoColors.systemTeal,
                               ),
                             );

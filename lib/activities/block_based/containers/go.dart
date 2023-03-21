@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -76,9 +77,9 @@ class _Go extends State<Go> {
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
-            const Text(
-              "Direzione",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["direction"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),
@@ -94,9 +95,9 @@ class _Go extends State<Go> {
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              "Ripetizioni",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["repetitions"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),

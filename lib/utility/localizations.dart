@@ -1,7 +1,7 @@
-import "package:cross_array_task_app/Utility/translations/de.dart";
-import "package:cross_array_task_app/Utility/translations/en.dart";
-import "package:cross_array_task_app/Utility/translations/fr.dart";
-import "package:cross_array_task_app/Utility/translations/it.dart";
+import "package:cross_array_task_app/utility/translations/de.dart";
+import "package:cross_array_task_app/utility/translations/en.dart";
+import "package:cross_array_task_app/utility/translations/fr.dart";
+import "package:cross_array_task_app/utility/translations/it.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 
@@ -9,6 +9,7 @@ import "package:flutter/foundation.dart";
 class CATLocalizations {
   /// It's a constructor that takes a locale as a parameter.
   CATLocalizations(this._locale);
+
   final Locale _locale;
 
   /// Get the CATLocalizations object for the given context.
@@ -35,6 +36,13 @@ class CATLocalizations {
     "de": schoolTypeDe,
   };
 
+  static final Map<String, Map<String, String>> _localizedBlocks = {
+    "en": blocksEn,
+    "it": blocksIt,
+    "fr": blocksFr,
+    "de": blocksDe,
+  };
+
   static final Map<String, List<Text>> _localizedGenderType =
       <String, List<Text>>{
     "en": genderTypeEn,
@@ -57,6 +65,11 @@ class CATLocalizations {
   /// the key "tutorialTitle"
   String get tutorialTitle =>
       _localizedValues[_locale.languageCode]!["tutorialTitle"]!;
+
+  String get testApplication =>
+      _localizedValues[_locale.languageCode]!["testApplication"]!;
+
+  String get mode => _localizedValues[_locale.languageCode]!["mode"]!;
 
   /// It's a getter that returns the localized string for the key "school"
   String get school => _localizedValues[_locale.languageCode]!["school"]!;
@@ -158,6 +171,8 @@ class CATLocalizations {
 
   /// It's a getter that returns the localized list for genders
   List<Text> get genderType => _localizedGenderType[_locale.languageCode]!;
+
+  Map<String, String> get blocks => _localizedBlocks[_locale.languageCode]!;
 }
 
 /// It's a delegate that loads the localized strings for a given locale

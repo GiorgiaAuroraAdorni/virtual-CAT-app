@@ -1,6 +1,7 @@
 import "dart:math" as math;
 
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
@@ -55,10 +56,10 @@ class _MirrorVertical extends State<MirrorVertical> {
             animation: context.watch<TypeUpdateNotifier>(),
             builder: (BuildContext context, Widget? child) {
               if (context.read<TypeUpdateNotifier>().state == 2) {
-                return const Center(
+                return Center(
                   child: Text(
-                    "Specchia verticale",
-                    style: TextStyle(
+                    CATLocalizations.of(context).blocks["mirrorVertical"]!,
+                    style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
                   ),

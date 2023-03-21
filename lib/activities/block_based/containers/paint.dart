@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -73,9 +74,9 @@ class _Paint extends State<Paint> {
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
-            const Text(
-              "Colora",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["paintSingle"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),
@@ -89,9 +90,9 @@ class _Paint extends State<Paint> {
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              "Ripetizioni",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["repetitions"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),
@@ -112,9 +113,9 @@ class _Paint extends State<Paint> {
             const SizedBox(
               height: 5,
             ),
-            const Text(
-              "Motivo",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["pattern"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),

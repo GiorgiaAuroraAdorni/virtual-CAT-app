@@ -1,10 +1,12 @@
 import "package:flutter/cupertino.dart";
 
 /// Map of string containing Italian translation of the application.
-Map<String, String> it = <String, String>{
+final Map<String, String> it = <String, String>{
   "canton": "Cantone",
   "selection": "Selezionare",
   "level": "Livello",
+  "testApplication": "Prova applicazione",
+  "mode": "Modalità",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);
@@ -36,6 +38,20 @@ const Map<String, String> _secondForm = <String, String>{
   "inputName": "Inserisci il tuo nome (opzionale)",
   "inputSurname": "Inserisci il tuo cognome (opzionale)",
   "inputGender": "Inserisci il tuo genere",
+};
+
+const Map<String, String> blocksIt = <String, String>{
+  "paintSingle": "Colora",
+  "repetitions": "Ripetizioni",
+  "pattern": "Motivo",
+  "mirrorVertical": "Specchia verticale",
+  "mirrorHorizontal": "Specchia orizzontale",
+  "position": "Posizione",
+  "direction": "Direzione",
+  "fillEmpty": "Riempi vuoti",
+  "copy": "Copia",
+  "origin": "Posizione di origine",
+  "destination": "Posizione di destinazione",
 };
 
 /// A list of school types.

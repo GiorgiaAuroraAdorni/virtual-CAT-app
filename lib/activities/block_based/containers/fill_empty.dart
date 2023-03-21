@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -127,9 +128,9 @@ class _FillEmpty extends State<FillEmpty> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              "Riempi vuoti",
-              style: TextStyle(
+            Text(
+              CATLocalizations.of(context).blocks["fillEmpty"]!,
+              style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
             ),
