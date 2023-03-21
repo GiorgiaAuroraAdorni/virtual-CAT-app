@@ -43,6 +43,20 @@ class CATLocalizations {
     "de": blocksDe,
   };
 
+  static final Map<String, Map<String, String>> _localizedDirections = {
+    "en": directionsEn,
+    "it": directionsIt,
+    "fr": directionsFr,
+    "de": directionsDe,
+  };
+
+  static final Map<String, Map<String, String>> _localizedPatterns = {
+    "en": patternsEn,
+    "it": pattersIt,
+    "fr": patternsFr,
+    "de": patternsDe,
+  };
+
   static final Map<String, List<Text>> _localizedGenderType =
       <String, List<Text>>{
     "en": genderTypeEn,
@@ -173,6 +187,11 @@ class CATLocalizations {
   List<Text> get genderType => _localizedGenderType[_locale.languageCode]!;
 
   Map<String, String> get blocks => _localizedBlocks[_locale.languageCode]!;
+
+  Map<String, String> get directions =>
+      _localizedDirections[_locale.languageCode]!;
+
+  Map<String, String> get patterns => _localizedPatterns[_locale.languageCode]!;
 }
 
 /// It's a delegate that loads the localized strings for a given locale

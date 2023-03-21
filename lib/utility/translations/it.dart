@@ -54,6 +54,52 @@ const Map<String, String> blocksIt = <String, String>{
   "destination": "Posizione di destinazione",
 };
 
+const Map<String, String> directionsIt = <String, String>{
+  "right": "destra",
+  "left": "sinistra",
+  "down": "sopra",
+  "up": "sotto",
+  "diagonal up left": "diagonale sopra sinistra",
+  "diagonal up right": "diagonale sopra destra",
+  "diagonal down left": "diagonale sotto sinistra",
+  "diagonal down right": "diagonale sotto destra",
+};
+
+const Map<String, String> pattersIt = <String, String>{
+  "right": "destra",
+  "left": "sinistra",
+  "down": "sopra",
+  "up": "sotto",
+  "diagonal up left": "diagonale sopra sinistra",
+  "diagonal up right": "diagonale sopra destra",
+  "diagonal down left": "diagonale sotto sinistra",
+  "diagonal down right": "diagonale sotto destra",
+  "square bottom left": "quadrato sotto sinistra",
+  "square top left": "quadrato sopra sinistra",
+  "square bottom right": "quadrato sotto destra",
+  "square top right": "quadrato sopra destra",
+  "square bottom left reverse": "quadrato sotto sinistra contrario",
+  "square top left reverse": "quadrato sopra sinistra contrario",
+  "square bottom right reverse": "quadrato sotto destra contrario",
+  "square top right reverse": "quadrato sopra destra contrario",
+  "L up left": "L sopra sinistra",
+  "L up right": "L sopra destra",
+  "L right down": "L destra sotto",
+  "L right up": "L destra sopra",
+  "L left down": "L sinistra sotto",
+  "L left up": "L sinistra sopra",
+  "L down left": "L sotto sinistra",
+  "L down right": "L sotto destra",
+  "zig-zag left up down": "zig-zag sinistra sopra sotto",
+  "zig-zag left down up": "zig-zag sinistra sotto sopra",
+  "zig-zag right up down": "zig-zag destra sopra sotto",
+  "zig-zag right down up": "zig-zag destra sotto sopra",
+  "zig-zag up left right": "zig-zag sopra sinistra destra",
+  "zig-zag down right left": "zig-zag sotto destra sinistra",
+  "zig-zag up right left": "zig-zag sopra destra sinistra",
+  "zig-zag down left right": "zig-zag sotto sinistra destra",
+};
+
 /// A list of school types.
 const List<Text> schoolTypeIt = <Text>[
   Text("Scuola dell’infanzia, materna", key: Key("1")),

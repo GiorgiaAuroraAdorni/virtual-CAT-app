@@ -3,6 +3,7 @@ import "dart:math" as math;
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
@@ -20,39 +21,59 @@ class PaintContainer extends SimpleContainer {
 
   String direction;
 
-  Map<String, String> items = <String, String>{
-    "destra": "right",
-    "sinistra": "left",
-    "sopra": "up",
-    "sotto": "down",
-    "diagonale sopra sinistra": "diagonal up left",
-    "diagonale sopra destra": "diagonal up right",
-    "diagonale sotto sinistra": "diagonal down left",
-    "diagonale sotto destra": "diagonal down right",
-    "quadrato sotto sinistra": "square bottom left",
-    "quadrato sopra sinistra": "square top left",
-    "quadrato sotto destra": "square bottom right",
-    "quadrato sopra destra": "square top right",
-    "quadrato sotto sinistra contrario": "square bottom left reverse",
-    "quadrato sopra sinistra contrario": "square top left reverse",
-    "quadrato sotto destra contrario": "square bottom right reverse",
-    "quadrato sopra destra contrario": "square top right reverse",
-    "L sopra sinistra": "L up left",
-    "L sopra destra": "L up right",
-    "L destra sotto": "L right down",
-    "L destra sopra": "L right up",
-    "L sinistra sotto": "L left down",
-    "L sinistra sopra": "L left up",
-    "L sotto sinistra": "L down left",
-    "L sotto destra": "L down right",
-    "zig-zag sinistra sopra sotto": "zig-zag left up down",
-    "zig-zag sinistra sotto sopra": "zig-zag left down up",
-    "zig-zag destra sopra sotto": "zig-zag right up down",
-    "zig-zag destra sotto sopra": "zig-zag right down up",
-    "zig-zag sopra sinistra destra": "zig-zag up left right",
-    "zig-zag sotto destra sinistra": "zig-zag down right left",
-    "zig-zag sopra destra sinistra": "zig-zag up right left",
-    "zig-zag sotto sinistra destra": "zig-zag down left right",
+  late Map<String, String> items = <String, String>{
+    CATLocalizations.of(context).patterns["right"]!: "right",
+    CATLocalizations.of(context).patterns["left"]!: "left",
+    CATLocalizations.of(context).patterns["up"]!: "up",
+    CATLocalizations.of(context).patterns["down"]!: "down",
+    CATLocalizations.of(context).patterns["diagonal up left"]!:
+        "diagonal up left",
+    CATLocalizations.of(context).patterns["diagonal up right"]!:
+        "diagonal up right",
+    CATLocalizations.of(context).patterns["diagonal down left"]!:
+        "diagonal down left",
+    CATLocalizations.of(context).patterns["diagonal down right"]!:
+        "diagonal down right",
+    CATLocalizations.of(context).patterns["square bottom left"]!:
+        "square bottom left",
+    CATLocalizations.of(context).patterns["square top left"]!:
+        "square top left",
+    CATLocalizations.of(context).patterns["square bottom right"]!:
+        "square bottom right",
+    CATLocalizations.of(context).patterns["square top right"]!:
+        "square top right",
+    CATLocalizations.of(context).patterns["square bottom left reverse"]!:
+        "square bottom left reverse",
+    CATLocalizations.of(context).patterns["square top left reverse"]!:
+        "square top left reverse",
+    CATLocalizations.of(context).patterns["square bottom right reverse"]!:
+        "square bottom right reverse",
+    CATLocalizations.of(context).patterns["square top right reverse"]!:
+        "square top right reverse",
+    CATLocalizations.of(context).patterns["L up left"]!: "L up left",
+    CATLocalizations.of(context).patterns["L up right"]!: "L up right",
+    CATLocalizations.of(context).patterns["L right down"]!: "L right down",
+    CATLocalizations.of(context).patterns["L right up"]!: "L right up",
+    CATLocalizations.of(context).patterns["L left down"]!: "L left down",
+    CATLocalizations.of(context).patterns["L left up"]!: "L left up",
+    CATLocalizations.of(context).patterns["L down left"]!: "L down left",
+    CATLocalizations.of(context).patterns["L down right"]!: "L down right",
+    CATLocalizations.of(context).patterns["zig-zag left up down"]!:
+        "zig-zag left up down",
+    CATLocalizations.of(context).patterns["zig-zag left down up"]!:
+        "zig-zag left down up",
+    CATLocalizations.of(context).patterns["zig-zag right up down"]!:
+        "zig-zag right up down",
+    CATLocalizations.of(context).patterns["zig-zag right down up"]!:
+        "zig-zag right down up",
+    CATLocalizations.of(context).patterns["zig-zag up left right"]!:
+        "zig-zag up left right",
+    CATLocalizations.of(context).patterns["zig-zag down right left"]!:
+        "zig-zag down right left",
+    CATLocalizations.of(context).patterns["zig-zag up right left"]!:
+        "zig-zag up right left",
+    CATLocalizations.of(context).patterns["zig-zag down left right"]!:
+        "zig-zag down left right",
   };
 
   late Map<String, String> revertedItems = Map<String, String>.fromIterables(

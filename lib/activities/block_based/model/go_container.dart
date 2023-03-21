@@ -2,6 +2,7 @@ import "dart:math" as math;
 
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
@@ -20,44 +21,44 @@ class GoContainer extends SimpleContainer {
     color: CupertinoColors.black,
   );
 
-  Map<Widget, String> items = <Widget, String>{
-    const Text(
-      "destra",
+  late Map<Widget, String> items = <Widget, String>{
+    Text(
+      CATLocalizations.of(context).directions["right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "right",
-    const Text(
-      "sinistra",
+    Text(
+      CATLocalizations.of(context).directions["left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "left",
-    const Text(
-      "sopra",
+    Text(
+      CATLocalizations.of(context).directions["up"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "up",
-    const Text(
-      "sotto",
+    Text(
+      CATLocalizations.of(context).directions["down"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "down",
-    const Text(
-      "diagonale sopra sinistra",
+    Text(
+      CATLocalizations.of(context).directions["diagonal up left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal up left",
-    const Text(
-      "diagonale sopra destra",
+    Text(
+      CATLocalizations.of(context).directions["diagonal up right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal up right",
-    const Text(
-      "diagonale sotto sinistra",
+    Text(
+      CATLocalizations.of(context).directions["diagonal down left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal down left",
-    const Text(
-      "diagonale sotto destra",
+    Text(
+      CATLocalizations.of(context).directions["diagonal down right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal down right",

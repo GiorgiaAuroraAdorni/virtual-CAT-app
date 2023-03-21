@@ -2,6 +2,7 @@ import "dart:math" as math;
 
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 class MirrorContainerPoints extends SimpleContainer {
@@ -21,14 +22,14 @@ class MirrorContainerPoints extends SimpleContainer {
     color: CupertinoColors.black,
   );
 
-  final List<Widget> directions = <Widget>[
-    const Text(
-      "Speccia orizzontale",
+  late final List<Widget> directions = <Widget>[
+    Text(
+      CATLocalizations.of(context).blocks["mirrorHorizontal"]!,
       textAlign: TextAlign.center,
       style: _style,
     ),
-    const Text(
-      "Speccia verticale",
+    Text(
+      CATLocalizations.of(context).blocks["mirrorVertical"]!,
       textAlign: TextAlign.center,
       style: _style,
     ),

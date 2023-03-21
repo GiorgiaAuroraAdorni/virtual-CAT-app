@@ -54,6 +54,52 @@ const Map<String, String> blocksFr = <String, String>{
   "destination": "Position de destination",
 };
 
+const Map<String, String> directionsFr = <String, String>{
+  "right": "droit",
+  "left": "gauche",
+  "down": "vers le bas",
+  "up": "monter",
+  "diagonal up left": "diagonale vers le haut à gauche",
+  "diagonal up right": "diagonale en haut à droite",
+  "diagonal down left": "diagonale vers le bas à gauche",
+  "diagonal down right": "diagonale vers le bas à droite",
+};
+
+const Map<String, String> patternsFr = <String, String>{
+  "right": "droit",
+  "left": "gauche",
+  "down": "vers le bas",
+  "up": "monter",
+  "diagonal up left": "diagonale vers le haut à gauche",
+  "diagonal up right": "diagonale en haut à droite",
+  "diagonal down left": "diagonale vers le bas à gauche",
+  "diagonal down right": "diagonale vers le bas à droite",
+  "square bottom left": "carré en bas à gauche",
+  "square top left": "carré en haut à gauche",
+  "square bottom right": "carré en bas à droite",
+  "square top right": "carré en haut à droite",
+  "square bottom left reverse": "carré en bas à gauche verso",
+  "square top left reverse": "carré en haut à gauche revers",
+  "square bottom right reverse": "carré en bas à droite revers",
+  "square top right reverse": "carré en haut à droite revers",
+  "L up left": "L en haut à gauche",
+  "L up right": "L en haut à droite",
+  "L right down": "L à droite vers le bas",
+  "L right up": "L droit vers le haut",
+  "L left down": "L gauche vers le bas",
+  "L left up": "L gauche vers le haut",
+  "L down left": "L en bas à gauche",
+  "L down right": "L en bas à droite",
+  "zig-zag left up down": "zig-zag gauche haut bas",
+  "zig-zag left down up": "zig-zag gauche bas haut",
+  "zig-zag right up down": "zig-zag droite haut bas",
+  "zig-zag right down up": "zig-zag droite bas haut",
+  "zig-zag up left right": "zig-zag haut gauche droite",
+  "zig-zag down right left": "zig-zag vers le bas droite gauche",
+  "zig-zag up right left": "zig-zag haut droite gauche",
+  "zig-zag down left right": "zig-zag vers le bas gauche droite",
+};
+
 /// A list of school types.
 const List<Text> schoolTypeFr = <Text>[
   Text("École maternelle", key: Key("1")),
