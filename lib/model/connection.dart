@@ -2,14 +2,14 @@ import "package:cross_array_task_app/model/baseConnection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:fpdart/fpdart.dart";
 import "package:provider/provider.dart";
-
-import "../utility/cat_log.dart";
-import "../utility/result_notifier.dart";
-import "../utility/visibility_notifier.dart";
 
 class Connection extends BaseConnection {
   factory Connection() => _connection;
@@ -72,6 +72,7 @@ class Connection extends BaseConnection {
     int classs,
     String section,
     DateTime date,
+    String notes,
   ) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/sessions",
@@ -82,6 +83,7 @@ class Connection extends BaseConnection {
         "classs": classs,
         "section": section,
         "date": date.toIso8601String(),
+        "notes": notes,
       },
     ).run();
 
@@ -172,6 +174,7 @@ class Connection extends BaseConnection {
         "blocks": state == 1,
         "text": state == 2,
         "artefactDimension": state + 1,
+        "time": context.read<TimeKeeper>().rawTime,
       },
     ).run();
 

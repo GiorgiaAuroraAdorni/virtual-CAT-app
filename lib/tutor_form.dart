@@ -27,7 +27,7 @@ class SchoolFormState extends State<SchoolForm> {
   final TextEditingController _grade = TextEditingController();
   final TextEditingController _level = TextEditingController();
   final TextEditingController _section = TextEditingController();
-  final TextEditingController _notes = TextEditingController();
+  final TextEditingController _notes = TextEditingController(text: "");
   Key _schoolKey = const Key("0");
   final TextEditingController _supervisor = TextEditingController();
 
@@ -63,6 +63,7 @@ class SchoolFormState extends State<SchoolForm> {
                     int.tryParse(_grade.text) ?? 0,
                     _section.text,
                     _selectedDate,
+                    _notes.text,
                   );
                 }).then((int value) {
                   Navigator.push(
