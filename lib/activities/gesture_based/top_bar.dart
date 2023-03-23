@@ -49,6 +49,12 @@ class _TopBarState extends State<TopBar> {
                   "resources/icon/code.svg",
                   height: 42,
                   width: 42,
+                  colorFilter: ColorFilter.mode(
+                    context.read<TypeUpdateNotifier>().state == 2
+                        ? CupertinoColors.activeBlue
+                        : CupertinoColors.inactiveGray,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 onPressed: () {
                   CatLogger().addLog(
@@ -70,6 +76,12 @@ class _TopBarState extends State<TopBar> {
                   "resources/icon/block.svg",
                   height: 42,
                   width: 42,
+                  colorFilter: ColorFilter.mode(
+                    context.read<TypeUpdateNotifier>().state == 1
+                        ? CupertinoColors.activeBlue
+                        : CupertinoColors.inactiveGray,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 onPressed: () {
                   CatLogger().addLog(
@@ -91,6 +103,12 @@ class _TopBarState extends State<TopBar> {
                   "resources/icon/gesture.svg",
                   height: 42,
                   width: 42,
+                  colorFilter: ColorFilter.mode(
+                    context.read<TypeUpdateNotifier>().state == 0
+                        ? CupertinoColors.tertiarySystemFill
+                        : CupertinoColors.inactiveGray,
+                    BlendMode.color,
+                  ),
                 ),
                 onPressed: () {
                   CatLogger().addLog(
