@@ -108,16 +108,16 @@ class _BottomBarState extends State<BottomBar> {
         ),
         loadingTextWidget: Column(
           children: <Widget>[
-            Text(
-              "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
-              style: const TextStyle(
-                color: CupertinoColors.white,
-                fontSize: 18,
-              ),
-            ),
+            // Text(
+            //   "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
+            //   style: const TextStyle(
+            //     color: CupertinoColors.white,
+            //     fontSize: 18,
+            //   ),
+            // ),
             const SizedBox(height: 18),
             CupertinoButton.filled(
-              child: const Text("Prossimo"),
+              child: const Icon(CupertinoIcons.arrow_right),
               onPressed: () async {
                 UIBlock.unblockWithData(
                   context,
