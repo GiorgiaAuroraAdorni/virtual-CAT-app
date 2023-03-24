@@ -50,14 +50,14 @@ class PaintContainer extends SimpleContainer {
         "square bottom right reverse",
     CATLocalizations.of(context).patterns["square top right reverse"]!:
         "square top right reverse",
-    CATLocalizations.of(context).patterns["L up left"]!: "L up left",
-    CATLocalizations.of(context).patterns["L up right"]!: "L up right",
-    CATLocalizations.of(context).patterns["L right down"]!: "L right down",
-    CATLocalizations.of(context).patterns["L right up"]!: "L right up",
-    CATLocalizations.of(context).patterns["L left down"]!: "L left down",
-    CATLocalizations.of(context).patterns["L left up"]!: "L left up",
-    CATLocalizations.of(context).patterns["L down left"]!: "L down left",
-    CATLocalizations.of(context).patterns["L down right"]!: "L down right",
+    CATLocalizations.of(context).patterns["L up left"]!: "l up left",
+    CATLocalizations.of(context).patterns["L up right"]!: "l up right",
+    CATLocalizations.of(context).patterns["L right down"]!: "l right down",
+    CATLocalizations.of(context).patterns["L right up"]!: "l right up",
+    CATLocalizations.of(context).patterns["L left down"]!: "l left down",
+    CATLocalizations.of(context).patterns["L left up"]!: "l left up",
+    CATLocalizations.of(context).patterns["L down left"]!: "l down left",
+    CATLocalizations.of(context).patterns["L down right"]!: "l down right",
     CATLocalizations.of(context).patterns["zig-zag left up down"]!:
         "zig-zag left up down",
     CATLocalizations.of(context).patterns["zig-zag left down up"]!:
@@ -216,56 +216,56 @@ class PaintContainer extends SimpleContainer {
         Icons.turn_left,
         color: Colors.black87,
       ),
-    ): "L up left",
+    ): "l up left",
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(
         Icons.turn_right,
         color: Colors.black87,
       ),
-    ): "L up right",
+    ): "l up right",
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(
         Icons.turn_right,
         color: Colors.black87,
       ),
-    ): "L right down",
+    ): "l right down",
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(
         Icons.turn_left,
         color: Colors.black87,
       ),
-    ): "L right up",
+    ): "l right up",
     Transform.rotate(
       angle: 270 * math.pi / 180,
       child: const Icon(
         Icons.turn_left,
         color: Colors.black87,
       ),
-    ): "L left down",
+    ): "l left down",
     Transform.rotate(
       angle: 270 * math.pi / 180,
       child: const Icon(
         Icons.turn_right,
         color: Colors.black87,
       ),
-    ): "L left up",
+    ): "l left up",
     Transform.rotate(
       angle: 180 * math.pi / 180,
       child: const Icon(
         Icons.turn_right,
         color: Colors.black87,
       ),
-    ): "L down left",
+    ): "l down left",
     Transform.rotate(
       angle: 180 * math.pi / 180,
       child: const Icon(
         Icons.turn_left,
         color: Colors.black87,
       ),
-    ): "L down right",
+    ): "l down right",
     Transform.rotate(
       angle: 225 * math.pi / 180,
       child: const Icon(
