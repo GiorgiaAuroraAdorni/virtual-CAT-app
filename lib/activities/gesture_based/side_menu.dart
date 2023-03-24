@@ -301,7 +301,8 @@ class SideMenuState extends State<SideMenu> {
                             CatLogger().addLog(
                               context: context,
                               previousCommand: "",
-                              currentCommand: "cells selection",
+                              currentCommand:
+                                  CatInterpreter().getResults.getCommands.last,
                               description: CatLoggingLevel.confirmCommand,
                             );
                           },
@@ -360,7 +361,7 @@ class SideMenuState extends State<SideMenu> {
     CatLogger().addLog(
       context: context,
       previousCommand: "",
-      currentCommand: "copy commands",
+      currentCommand: CatInterpreter().getResults.getCommands.last,
       description: CatLoggingLevel.confirmCommand,
     );
   }

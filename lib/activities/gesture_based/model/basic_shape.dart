@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/dummy_button
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
@@ -221,6 +222,12 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
       widget.coloredButtons.value.addAll(_selectedButtons);
       _selectedButtons.clear();
     }
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: CatInterpreter().getResults.getCommands.last,
+      description: CatLoggingLevel.confirmCommand,
+    );
     context.read<SelectedColorsNotifier>().clear();
   }
 }
