@@ -11,56 +11,54 @@ class ModeSelection extends StatelessWidget {
   const ModeSelection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    SchemasReader();
-
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: Text(CATLocalizations.of(context).mode),
-          ),
-          SliverFillRemaining(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CupertinoButton.filled(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) =>
-                            const IPConfiguration(),
-                      ),
-                    );
-                  },
-                  child: Text(CATLocalizations.of(context).tutorialTitle),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                CupertinoButton.filled(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) =>
-                            const CupertinoPageScaffold(
-                          child: ActivityHome(
-                            sessionID: -1,
-                            studentID: -1,
+  Widget build(BuildContext context) => CupertinoPageScaffold(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            CupertinoSliverNavigationBar(
+              largeTitle: Text(CATLocalizations.of(context).mode),
+            ),
+            SliverFillRemaining(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CupertinoButton.filled(
+                    onPressed: () {
+                      SchemasReader().normal();
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute<Widget>(
+                          builder: (BuildContext context) =>
+                              const IPConfiguration(),
+                        ),
+                      );
+                    },
+                    child: Text(CATLocalizations.of(context).tutorialTitle),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  CupertinoButton.filled(
+                    onPressed: () {
+                      SchemasReader().testing();
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute<Widget>(
+                          builder: (BuildContext context) =>
+                              const CupertinoPageScaffold(
+                            child: ActivityHome(
+                              sessionID: -1,
+                              studentID: -1,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  child: Text(CATLocalizations.of(context).testApplication),
-                ),
-              ],
+                      );
+                    },
+                    child: Text(CATLocalizations.of(context).testApplication),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

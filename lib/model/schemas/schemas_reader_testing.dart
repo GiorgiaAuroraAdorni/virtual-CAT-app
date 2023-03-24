@@ -9,23 +9,13 @@ import "package:interpreter/cat_interpreter.dart";
 /// `SchemasReader._internal()` which is a private constructor. The
 /// `SchemasReader._internal()` constructor is private because it is prefixed with
 /// an underscore
-class SchemasReader {
+class SchemasReaderTesting {
   /// > The `_schemas` variable is a `LazySingleton` that returns a `SchemasReader`
   /// object
-  factory SchemasReader() => _schemas;
+  factory SchemasReaderTesting() => _schemas;
 
-  SchemasReader._internal();
-
-  void normal() {
-    _readSchemasJSON("resources/sequence/schemas.json").then((String value) {
-      _schemes = schemesFromJson(value);
-      _size = _schemes.getData.length;
-    });
-  }
-
-  void testing() {
-    _readSchemasJSON("resources/sequence/schemas_testing.json")
-        .then((String value) {
+  SchemasReaderTesting._internal() {
+    _readSchemasJSON().then((String value) {
       _schemes = schemesFromJson(value);
       _size = _schemes.getData.length;
     });
@@ -64,10 +54,11 @@ class SchemasReader {
   Schemes _schemes = Schemes(schemas: <int, Cross>{1: Cross()});
   int _size = 0;
   int _index = 1;
-  static final SchemasReader _schemas = SchemasReader._internal();
+  static final SchemasReaderTesting _schemas = SchemasReaderTesting._internal();
 
-  Future<String> _readSchemasJSON(String file) async {
-    final String future = await rootBundle.loadString(file);
+  Future<String> _readSchemasJSON() async {
+    final String future =
+        await rootBundle.loadString("resources/sequence/schemas_tesing.json");
 
     return future;
   }
