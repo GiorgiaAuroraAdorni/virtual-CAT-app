@@ -87,6 +87,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
     final SimpleContainer copyContainer = container.copy();
 
     return LongPressDraggable<SimpleContainer>(
+      delay: const Duration(milliseconds: 200),
       data: copyContainer,
       feedback: Function.apply(
         builder,
