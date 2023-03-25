@@ -54,12 +54,12 @@ dependencies:
 
   fpdart: ^0.5.0
 
-  interpreter:
-    path: ../virtual-CAT-programming-language-interpreter/
   #  interpreter:
-  #    git:
-  #      url: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter.git
-  #      ref: main
+  #    path: ../virtual-CAT-programming-language-interpreter/
+  interpreter:
+    git:
+      url: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter.git
+      ref: main
 
   # A package that provides a platform-agnostic way to get commonly used locations on the filesystem.
 #  path_provider: ^2.0.13
