@@ -84,16 +84,14 @@ class CommandsInspector {
     if (!direction.isBlank) {
       if (direction.startsWith("square")) {
         int s = 0;
-        if (colors.length > 1) {
-          for (int i = 0; i < positions.length; i++) {
-            s += (positions[(i + 1) % positions.length].first -
-                    positions[i].first) *
-                (positions[i].second +
-                    positions[(i + 1) % positions.length].second);
-          }
-          if (s.sign >= 0) {
-            direction += " reverse";
-          }
+        for (int i = 0; i < positions.length; i++) {
+          s += (positions[(i + 1) % positions.length].first -
+                  positions[i].first) *
+              (positions[i].second +
+                  positions[(i + 1) % positions.length].second);
+        }
+        if (s.sign >= 0) {
+          direction += " reverse";
         }
       }
       command

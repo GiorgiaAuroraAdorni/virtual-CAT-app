@@ -68,8 +68,8 @@ const Map<String, String> directionsIt = <String, String>{
 const Map<String, String> pattersIt = <String, String>{
   "right": "destra",
   "left": "sinistra",
-  "down": "sopra",
-  "up": "sotto",
+  "down": "sotto",
+  "up": "sopra",
   "diagonal up left": "diagonale sopra sinistra",
   "diagonal up right": "diagonale sopra destra",
   "diagonal down left": "diagonale sotto sinistra",
