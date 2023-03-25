@@ -47,19 +47,19 @@ dependencies:
 
   provider: ^6.0.5
 
-  dio: ^5.0.2
+  dio: ^5.0.3
   #  native_dio_adapter: ^0.1.0
   # A package that allows you to use svg images in your flutter app.
   flutter_svg: ^2.0.4
 
   fpdart: ^0.5.0
 
-  #  interpreter:
-  #    path: ../virtual-CAT-programming-language-interpreter/
   interpreter:
-    git:
-      url: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter.git
-      ref: main
+    path: ../virtual-CAT-programming-language-interpreter/
+  #  interpreter:
+  #    git:
+  #      url: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter.git
+  #      ref: main
 
   # A package that provides a platform-agnostic way to get commonly used locations on the filesystem.
 #  path_provider: ^2.0.13

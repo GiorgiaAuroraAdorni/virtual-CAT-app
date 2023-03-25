@@ -22,6 +22,8 @@ class CatLogger {
     required String currentCommand,
     required CatLoggingLevel description,
   }) {
+    print("log");
+    print(currentCommand);
     _logs[DateTime.now().toIso8601String()] = _LoggerInfo(
       previousCommand: previousCommand,
       currentCommand: currentCommand,

@@ -59,8 +59,8 @@ const Map<String, String> directionsDe = <String, String>{
   "left": "links",
   "down": "unten",
   "up": "auf",
-  "diagonal up left": "diagonale oben links",
-  "diagonal up right": "diagonale oben rechts",
+  "diagonal up left": "Diagonale oben links",
+  "diagonal up right": "Diagonale oben rechts",
   "diagonal down left": "schräg unten links",
   "diagonal down right": "schräg rechts unten",
 };

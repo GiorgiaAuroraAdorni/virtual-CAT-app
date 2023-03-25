@@ -61,7 +61,7 @@ class CatInterpreter with ChangeNotifier {
     String color, {
     required bool copyCommands,
   }) {
-    String code = "go(${rows[a]}${b + 1})";
+    String code = "go(${rows[a]}${b + 1}),";
     code += " paint($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     if (copyCommands) {

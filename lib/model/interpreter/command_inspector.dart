@@ -69,11 +69,16 @@ class CommandsInspector {
       direction = "square top right";
     } else {
       final String converted = colors.joinToString();
-      final String cells = positions
-          .map((Pair<int, int> e) => "${rows[e.first]}${e.second + 1}")
-          .joinToString();
+      final List<String> command = <String>[];
+      int j = 0;
+      for (final Pair<int, int> k in positions) {
+        command
+          ..add("go(${rows[k.first]}${k.second + 1})")
+          ..add("paint(${colors[j]})");
+        j += (j + 1) % colors.length;
+      }
 
-      return <String>["paint({$converted},:,{$cells})"];
+      return command;
     }
     final List<String> command = <String>[];
     if (!direction.isBlank) {
