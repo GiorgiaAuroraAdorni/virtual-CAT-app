@@ -205,6 +205,7 @@ class SideMenuState extends State<SideMenu> {
                         child: CupertinoButton(
                           onPressed: () {
                             repeatButtonKey.currentState?.whenSelected();
+                            CatInterpreter().deleteCopyCommands();
                             CatLogger().addLog(
                               context: context,
                               previousCommand: "",

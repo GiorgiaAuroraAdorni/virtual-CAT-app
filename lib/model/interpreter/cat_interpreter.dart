@@ -202,4 +202,14 @@ class CatInterpreter with ChangeNotifier {
     _allCommandsBuffer.add(commands);
     notifyListeners();
   }
+
+  void deleteCopyCommands() {
+    _interpreter
+      ..reset()
+      ..validateOnScheme(
+        _allCommandsBuffer.joinToString(),
+        SchemasReader().currentIndex,
+      );
+    notifyListeners();
+  }
 }
