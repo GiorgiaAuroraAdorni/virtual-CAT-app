@@ -71,13 +71,13 @@ class _Copy extends State<CopyCommands> {
     Future<void>(() {
       if (widget.item.container.isNotEmpty) {
         final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.container);
+        List<SimpleContainer>.from(widget.item.container);
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
           addOrigin(i, log: false);
         }
         final List<SimpleContainer> copy2 =
-            List<SimpleContainer>.from(widget.item.moves);
+        List<SimpleContainer>.from(widget.item.moves);
         widget.item.moves.clear();
         for (final SimpleContainer i in copy2) {
           if (i is GoPositionContainer) {
@@ -96,34 +96,43 @@ class _Copy extends State<CopyCommands> {
         .reduce((double a, double b) => a + b);
 
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => Container(
-        key: widgetKey,
-        height: childHeight + 175 + 60 * (widget.item.moves.length),
-        width: constraints.maxWidth.isFinite
-            ? constraints.maxWidth
-            : MediaQuery.of(context).size.width / 4,
-        decoration: BoxDecoration(
-          border: Border.all(),
-          color: Colors.purple,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Center(
-          child: figure(),
-        ),
-      ),
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          Container(
+            key: widgetKey,
+            height: childHeight + 175 + 60 * (widget.item.moves.length),
+            width: constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : MediaQuery
+                .of(context)
+                .size
+                .width / 4,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              color: Colors.purple,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            child: Center(
+              child: figure(),
+            ),
+          ),
     );
   }
 
-  Widget figure() => Padding(
+  Widget figure() =>
+      Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
+                if (context
+                    .read<TypeUpdateNotifier>()
+                    .state == 2) {
                   return Text(
-                    CATLocalizations.of(context).blocks["copy"]!,
+                    CATLocalizations
+                        .of(context)
+                        .blocks["copy"]!,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
@@ -148,48 +157,59 @@ class _Copy extends State<CopyCommands> {
         ),
       );
 
-  Widget commands() => DragTarget<SimpleContainer>(
-        builder: (
-          BuildContext context,
-          List<SimpleContainer?> candidateItems,
-          List<dynamic> rejectedItems,
-        ) =>
+  Widget commands() =>
+      DragTarget<SimpleContainer>(
+        builder: (BuildContext context,
+            List<SimpleContainer?> candidateItems,
+            List<dynamic> rejectedItems,) =>
             LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) => Align(
-            child: Container(
-              decoration: BoxDecoration(
-                color: candidateItems.isNotEmpty
-                    ? Colors.green.shade300
-                    : Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(8),
-                ),
-              ),
-              height: childHeight + 60.0,
-              width: constraints.maxWidth - 15,
-              child: ReorderableListView(
-                onReorder: (int oldIndex, int newIndex) {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final Widget widgett = widgets.removeAt(oldIndex);
-                  final SimpleContainer item =
-                      widget.item.container.removeAt(oldIndex);
-                  widgets.insert(newIndex, widgett);
-                  widget.item.container.insert(newIndex, item);
-                },
-                children: widgets,
-              ),
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  Align(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: candidateItems.isNotEmpty
+                            ? Colors.green.shade300
+                            : Colors.white,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      height: childHeight + 60.0,
+                      width: constraints.maxWidth - 15,
+                      child: ReorderableListView(
+                        onReorder: (int oldIndex, int newIndex) {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Widget widgett = widgets.removeAt(oldIndex);
+                          final SimpleContainer item =
+                          widget.item.container.removeAt(oldIndex);
+                          widgets.insert(newIndex, widgett);
+                          widget.item.container.insert(newIndex, item);
+                        },
+                        children: widgets,
+                      ),
+                    ),
+                  ),
             ),
-          ),
-        ),
+        onWillAccept: (SimpleContainer? container) {
+          if (container is SimpleContainer) {
+            if (container.type == ContainerType.copy) {
+              return false;
+            }
+
+            return true;
+          }
+
+          return false;
+        },
         onAccept: addOrigin,
       );
 
   void addOrigin(SimpleContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
-      () {
+          () {
         final UniqueKey key = UniqueKey();
         final SimpleContainer container = el.copy();
         widget.item.container.add(
@@ -202,7 +222,7 @@ class _Copy extends State<CopyCommands> {
             key: key,
             child: generateDismiss(
               container,
-              (Size size) {
+                  (Size size) {
                 setState(() {
                   sized[key] = size.height;
                 });
@@ -212,10 +232,10 @@ class _Copy extends State<CopyCommands> {
               final String prev = widget.item.toString();
               setState(() {
                 widget.item.container.removeWhere(
-                  (SimpleContainer e) => e.key == key,
+                      (SimpleContainer e) => e.key == key,
                 );
                 widgets.removeWhere(
-                  (Widget element) => element.key == key,
+                      (Widget element) => element.key == key,
                 );
                 sized.remove(key);
               });
@@ -243,91 +263,93 @@ class _Copy extends State<CopyCommands> {
     );
   }
 
-  Widget positions() => Flexible(
+  Widget positions() =>
+      Flexible(
         flex: 0,
         child: DragTarget<GoPositionContainer>(
-          builder: (
-            BuildContext context,
-            List<GoPositionContainer?> candidateItems,
-            List<dynamic> rejectedItems,
-          ) =>
+          builder: (BuildContext context,
+              List<GoPositionContainer?> candidateItems,
+              List<dynamic> rejectedItems,) =>
               LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (widget.item.moves.isEmpty && candidateItems.isEmpty) {
-                return Align(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: CupertinoColors.systemBackground,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    height: 60 + (widget.item.moves.length * 60),
-                    width: constraints.maxWidth - 15,
-                    child: Center(
-                      child: AnimatedBuilder(
-                        animation: context.watch<TypeUpdateNotifier>(),
-                        builder: (BuildContext context, Widget? child) {
-                          if (context.read<TypeUpdateNotifier>().state == 2) {
-                            return Text(
-                              CATLocalizations.of(context)
-                                  .blocks["destination"]!,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: CupertinoColors.systemTeal,
-                              ),
-                            );
-                          }
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  if (widget.item.moves.isEmpty && candidateItems.isEmpty) {
+                    return Align(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: CupertinoColors.systemBackground,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        height: 60 + (widget.item.moves.length * 60),
+                        width: constraints.maxWidth - 15,
+                        child: Center(
+                          child: AnimatedBuilder(
+                            animation: context.watch<TypeUpdateNotifier>(),
+                            builder: (BuildContext context, Widget? child) {
+                              if (context
+                                  .read<TypeUpdateNotifier>()
+                                  .state == 2) {
+                                return Text(
+                                  CATLocalizations
+                                      .of(context)
+                                      .blocks["destination"]!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: CupertinoColors.systemTeal,
+                                  ),
+                                );
+                              }
 
-                          return const Icon(
-                            CupertinoIcons.map_pin,
-                            color: CupertinoColors.systemTeal,
-                            size: 30,
+                              return const Icon(
+                                CupertinoIcons.map_pin,
+                                color: CupertinoColors.systemTeal,
+                                size: 30,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+
+                  return Align(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: candidateItems.isNotEmpty
+                            ? Colors.green.shade300
+                            : Colors.white,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      height: 60 + (widget.item.moves.length * 60),
+                      width: constraints.maxWidth - 15,
+                      child: ReorderableListView(
+                        onReorder: (int oldIndex, int newIndex) {
+                          final String prev = widget.item.toString();
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final Widget widgett = widgets2.removeAt(oldIndex);
+                          final SimpleContainer item =
+                          widget.item.moves.removeAt(oldIndex);
+                          widgets2.insert(newIndex, widgett);
+                          widget.item.moves.insert(newIndex, item);
+                          context.read<BlockUpdateNotifier>().update();
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand: prev,
+                            currentCommand: widget.item.toString(),
+                            description: CatLoggingLevel.reorderCommand,
                           );
                         },
+                        children: widgets2,
                       ),
                     ),
-                  ),
-                );
-              }
-
-              return Align(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: candidateItems.isNotEmpty
-                        ? Colors.green.shade300
-                        : Colors.white,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  height: 60 + (widget.item.moves.length * 60),
-                  width: constraints.maxWidth - 15,
-                  child: ReorderableListView(
-                    onReorder: (int oldIndex, int newIndex) {
-                      final String prev = widget.item.toString();
-                      if (oldIndex < newIndex) {
-                        newIndex -= 1;
-                      }
-                      final Widget widgett = widgets2.removeAt(oldIndex);
-                      final SimpleContainer item =
-                          widget.item.moves.removeAt(oldIndex);
-                      widgets2.insert(newIndex, widgett);
-                      widget.item.moves.insert(newIndex, item);
-                      context.read<BlockUpdateNotifier>().update();
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand: prev,
-                        currentCommand: widget.item.toString(),
-                        description: CatLoggingLevel.reorderCommand,
-                      );
-                    },
-                    children: widgets2,
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
           onAccept: addDestination,
         ),
       );
@@ -353,10 +375,10 @@ class _Copy extends State<CopyCommands> {
             final String prev = widget.item.toString();
             setState(() {
               widgets2.removeWhere(
-                (Widget element) => element.key == key,
+                    (Widget element) => element.key == key,
               );
               widget.item.moves.removeWhere(
-                (SimpleContainer element) => element.key == key,
+                    (SimpleContainer element) => element.key == key,
               );
             });
             context.read<BlockUpdateNotifier>().update();
@@ -381,10 +403,8 @@ class _Copy extends State<CopyCommands> {
     }
   }
 
-  Widget generateDismiss(
-    SimpleContainer container,
-    Function f,
-  ) {
+  Widget generateDismiss(SimpleContainer container,
+      Function f,) {
     switch (container.type) {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {

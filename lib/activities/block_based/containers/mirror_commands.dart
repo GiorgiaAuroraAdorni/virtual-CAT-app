@@ -180,6 +180,17 @@ class _Mirror extends State<MirrorCommands> {
                   ),
                 ),
               ),
+              onWillAccept: (SimpleContainer? container) {
+                if (container is SimpleContainer) {
+                  if (container.type == ContainerType.mirrorCommands) {
+                    return false;
+                  }
+
+                  return true;
+                }
+
+                return false;
+              },
               onAccept: _addContainer,
             ),
           ],

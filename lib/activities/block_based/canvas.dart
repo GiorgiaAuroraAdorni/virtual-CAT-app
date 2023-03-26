@@ -284,7 +284,11 @@ class _BlockCanvasState extends State<BlockCanvas> {
                   thumbVisibility: true,
                   child: ReorderableListView(
                     scrollController: _firstController,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      bottom: 200,
+                    ),
                     onReorder: (int oldIndex, int newIndex) {
                       final String prev = items
                           .map((SimpleContainer e) => e.toString())
