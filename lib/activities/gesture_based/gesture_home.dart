@@ -97,82 +97,80 @@ class GestureHomeState extends State<GestureHome> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TopBar(),
-              if (context.read<TypeUpdateNotifier>().state > 0)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    const SideMenuBlock(),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.90,
-                      width: 2,
-                      child: const VerticalDivider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (context.read<TypeUpdateNotifier>().state > 0)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        const SideMenuBlock(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: 2,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        BlockCanvas(
+                          shakeKey: _shakeKey,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: 2,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SideMenu(
+                          shakeKey: _shakeKey,
+                          selectionMode: _selectionMode,
+                          coloredButtons: _coloredButtons,
+                          selectedButtons: _selectedButtons,
+                          resetShape: _resetCross,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: 2,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                        GestureBoard(
+                          shakeKey: _shakeKey,
+                          selectionMode: _selectionMode,
+                          coloredButtons: _coloredButtons,
+                          selectedButtons: _selectedButtons,
+                          resetSignal: _resetCross,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: 2,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                    BlockCanvas(
-                      shakeKey: _shakeKey,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.90,
-                      width: 2,
-                      child: const VerticalDivider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SideBar(
-                      studentID: widget.studentID,
-                      sessionID: widget.sessionID,
-                      selectionMode: _selectionMode,
-                      selectedButtons: _selectedButtons,
-                      coloredButtons: _coloredButtons,
-                    ),
-                  ],
-                )
-              else
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SideMenu(
-                      shakeKey: _shakeKey,
-                      selectionMode: _selectionMode,
-                      coloredButtons: _coloredButtons,
-                      selectedButtons: _selectedButtons,
-                      resetShape: _resetCross,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.90,
-                      width: 2,
-                      child: const VerticalDivider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                    GestureBoard(
-                      shakeKey: _shakeKey,
-                      selectionMode: _selectionMode,
-                      coloredButtons: _coloredButtons,
-                      selectedButtons: _selectedButtons,
-                      resetSignal: _resetCross,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.90,
-                      width: 2,
-                      child: const VerticalDivider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SideBar(
-                      studentID: widget.studentID,
-                      sessionID: widget.sessionID,
-                      selectionMode: _selectionMode,
-                      selectedButtons: _selectedButtons,
-                      coloredButtons: _coloredButtons,
-                    ),
-                  ],
-                ),
+                  SideBar(
+                    studentID: widget.studentID,
+                    sessionID: widget.sessionID,
+                    selectionMode: _selectionMode,
+                    selectedButtons: _selectedButtons,
+                    coloredButtons: _coloredButtons,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
