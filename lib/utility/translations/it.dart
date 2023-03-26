@@ -70,6 +70,7 @@ const Map<String, String> pattersIt = <String, String>{
   "left": "sinistra",
   "down": "sotto",
   "up": "sopra",
+  //
   "diagonal up left": "diagonale sopra sinistra",
   "diagonal up right": "diagonale sopra destra",
   "diagonal down left": "diagonale sotto sinistra",
@@ -92,6 +93,7 @@ const Map<String, String> pattersIt = <String, String>{
   "L left up": "L sinistra sopra",
   "L down left": "L sotto sinistra",
   "L down right": "L sotto destra",
+  //
   "zig-zag left up down": "zig-zag sinistra sopra sotto",
   "zig-zag left down up": "zig-zag sinistra sotto sopra",
   "zig-zag right up down": "zig-zag destra sopra sotto",

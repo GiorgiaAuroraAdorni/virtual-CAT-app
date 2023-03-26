@@ -70,6 +70,7 @@ const Map<String, String> patternsEn = <String, String>{
   "left": "left",
   "down": "down",
   "up": "up",
+  //
   "diagonal up left": "diagonal up left",
   "diagonal up right": "diagonal up right",
   "diagonal down left": "diagonal down left",
@@ -92,6 +93,7 @@ const Map<String, String> patternsEn = <String, String>{
   "L left up": "L left up",
   "L down left": "L down left",
   "L down right": "L down right",
+  //
   "zig-zag left up down": "zig-zag left up down",
   "zig-zag left down up": "zig-zag left down up",
   "zig-zag right up down": "zig-zag right up down",
