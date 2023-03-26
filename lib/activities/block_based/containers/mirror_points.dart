@@ -271,6 +271,10 @@ class _Mirror extends State<MirrorPoints> {
       "horizontal",
       "vertical",
     ];
+    setState(() {
+      widget.item.position = 0;
+      widget.item.direction = directions[0];
+    });
 
     showCupertinoModalPopup(
       context: context,
@@ -307,6 +311,10 @@ class _Mirror extends State<MirrorPoints> {
       "horizontal",
       "vertical",
     ];
+    setState(() {
+      widget.item.position = 0;
+      widget.item.direction = directions[0];
+    });
 
     showCupertinoModalPopup(
       context: context,

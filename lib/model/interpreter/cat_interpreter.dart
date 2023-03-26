@@ -84,7 +84,11 @@ class CatInterpreter with ChangeNotifier {
     List<String> colors, {
     required bool copyCommands,
   }) {
-    final List<String> command = CommandsInspector.main(positions, colors);
+    final List<String> command = CommandsInspector.main(
+      positions,
+      colors,
+      copyCommands: copyCommands,
+    );
     _interpreter.validateOnScheme(
       command.joinToString(),
       SchemasReader().currentIndex,

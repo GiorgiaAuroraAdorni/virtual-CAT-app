@@ -4,8 +4,9 @@ import "package:dartx/dartx.dart";
 class CommandsInspector {
   static List<String> main(
     List<Pair<int, int>> positions,
-    List<String> colors,
-  ) {
+    List<String> colors, {
+    bool copyCommands = false,
+  }) {
     if (positions.length < 2 || colors.isEmpty) {
       return <String>[];
     }
@@ -68,7 +69,6 @@ class CommandsInspector {
     } else if (inspector._squareTopRight(positions)) {
       direction = "square top right";
     } else {
-      final String converted = colors.joinToString();
       final List<String> command = <String>[];
       int j = 0;
       for (final Pair<int, int> k in positions) {

@@ -1,14 +1,9 @@
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/dummy_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
-import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/helper.dart";
-import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
-import "package:provider/provider.dart";
 
 /// `BasicShape` is an abstract class that extends `StatefulWidget` and has a
 /// `createState` method that returns a `BasicShapeState` object
@@ -55,7 +50,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
   /// It's a method that checks if the position is valid.
   bool validatePosition(int row, int column);
 
-  final List<CrossButton> _selectedButtons = <CrossButton>[];
+  final List<CrossButton> selectedButtons = <CrossButton>[];
 
   /// It generates a list of rows, each row containing a list of buttons
   void generateShape() {
@@ -127,7 +122,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
             details.globalPosition,
             containerDimension / 2,
           ),
-          onPanEnd: _endPan,
+          onPanEnd: endPan,
           child: Flex(
             direction: Axis.vertical,
             children: buttons,
@@ -171,63 +166,13 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
           return;
         }
 
-        if (!_selectedButtons.contains(button) &&
+        if (!selectedButtons.contains(button) &&
             !widget.coloredButtons.value.contains(button)) {
-          _selectedButtons.add(button);
+          selectedButtons.add(button);
         }
       }
     });
   }
 
-  void _endPan(DragEndDetails details) {
-    if (widget.selectionMode.value != SelectionModes.repeat &&
-        widget.selectionMode.value != SelectionModes.base) {
-      return;
-    }
-    final List<String> colors = analyzeColor(
-      context.read<SelectedColorsNotifier>().colors,
-    );
-    if (colors.isEmpty) {
-      if (widget.selectionMode.value == SelectionModes.base) {
-        for (final CrossButton i in _selectedButtons) {
-          i.unSelect();
-        }
-      } else if (widget.selectionMode.value == SelectionModes.repeat) {
-        for (final CrossButton i in _selectedButtons) {
-          if (!widget.coloredButtons.value.contains(i)) {
-            i.unSelect();
-          }
-        }
-      }
-      _selectedButtons.clear();
-      if (widget.selectionMode.value != SelectionModes.select) {
-        widget.shakeKey.currentState?.shake();
-      }
-    }
-    final List<Pair<int, int>> positions = <Pair<int, int>>[];
-    for (final CrossButton i in _selectedButtons) {
-      positions.add(i.position);
-    }
-    CatInterpreter().paintMultiple(
-      positions,
-      colors,
-      copyCommands: widget.selectionMode.value == SelectionModes.repeat,
-    );
-    if (widget.selectionMode.value == SelectionModes.base) {
-      for (final CrossButton i in _selectedButtons) {
-        i.unSelect(success: true);
-      }
-      _selectedButtons.clear();
-    } else if (widget.selectionMode.value == SelectionModes.repeat) {
-      widget.coloredButtons.value.addAll(_selectedButtons);
-      _selectedButtons.clear();
-    }
-    CatLogger().addLog(
-      context: context,
-      previousCommand: "",
-      currentCommand: CatInterpreter().getResults.getCommands.last,
-      description: CatLoggingLevel.confirmCommand,
-    );
-    context.read<SelectedColorsNotifier>().clear();
-  }
+  void endPan(DragEndDetails details) {}
 }

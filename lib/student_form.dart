@@ -178,6 +178,10 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   }
 
   void _showPicker() {
+    setState(() {
+      final Text text = CATLocalizations.of(context).genderType[0];
+      _gender.text = text.data.toString();
+    });
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(

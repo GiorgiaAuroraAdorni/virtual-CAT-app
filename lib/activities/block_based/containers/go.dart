@@ -223,6 +223,9 @@ class _Go extends State<Go> {
         ],
       ),
     ];
+    setState(() {
+      widget.item.repetitions = 1;
+    });
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -260,6 +263,9 @@ class _Go extends State<Go> {
       const Text("4"),
       const Text("5"),
     ];
+    setState(() {
+      widget.item.repetitions = 1;
+    });
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -291,6 +297,9 @@ class _Go extends State<Go> {
 
   void _directionPickerIcons() {
     final List<Widget> directions = widget.item.items2.keys.toList();
+    setState(() {
+      widget.item.direction = widget.item.items2[directions[0]]!;
+    });
 
     showCupertinoModalPopup(
       context: context,
@@ -323,6 +332,9 @@ class _Go extends State<Go> {
 
   void _directionPicker() {
     final List<Widget> directions = widget.item.items.keys.toList();
+    setState(() {
+      widget.item.direction = widget.item.items[directions[0]]!;
+    });
 
     showCupertinoModalPopup(
       context: context,

@@ -1,4 +1,13 @@
 import "package:cross_array_task_app/activities/gesture_based/model/basic_shape.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
+import "package:dartx/dartx.dart";
+import "package:flutter/cupertino.dart";
+import "package:provider/provider.dart";
 
 /// `Cross` is a `BasicShape` that has a `CrossState` state class
 class Cross extends BasicShape {
@@ -30,5 +39,60 @@ class _CrossState extends BasicShapeState<Cross> {
     }
 
     return true;
+  }
+
+  @override
+  void endPan(DragEndDetails details) {
+    if (widget.selectionMode.value != SelectionModes.repeat &&
+        widget.selectionMode.value != SelectionModes.base) {
+      return;
+    }
+    final List<String> colors = analyzeColor(
+      context
+          .read<SelectedColorsNotifier>()
+          .colors,
+    );
+    if (colors.isEmpty) {
+      if (widget.selectionMode.value == SelectionModes.base) {
+        for (final CrossButton i in selectedButtons) {
+          i.unSelect();
+        }
+      } else if (widget.selectionMode.value == SelectionModes.repeat) {
+        for (final CrossButton i in selectedButtons) {
+          if (!widget.coloredButtons.value.contains(i)) {
+            i.unSelect();
+          }
+        }
+      }
+      selectedButtons.clear();
+      if (widget.selectionMode.value != SelectionModes.select) {
+        widget.shakeKey.currentState?.shake();
+      }
+    }
+    final List<Pair<int, int>> positions = <Pair<int, int>>[];
+    for (final CrossButton i in selectedButtons) {
+      positions.add(i.position);
+    }
+    CatInterpreter().paintMultiple(
+      positions,
+      colors,
+      copyCommands: widget.selectionMode.value == SelectionModes.repeat,
+    );
+    if (widget.selectionMode.value == SelectionModes.base) {
+      for (final CrossButton i in selectedButtons) {
+        i.unSelect(success: true);
+      }
+      selectedButtons.clear();
+    } else if (widget.selectionMode.value == SelectionModes.repeat) {
+      widget.coloredButtons.value.addAll(selectedButtons);
+      selectedButtons.clear();
+    }
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: CatInterpreter().getResults.getCommands.last,
+      description: CatLoggingLevel.confirmCommand,
+    );
+    context.read<SelectedColorsNotifier>().clear();
   }
 }

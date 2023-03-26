@@ -127,6 +127,10 @@ class _Go extends State<GoPosition> {
     final List<String> directions =
         List<String>.generate(6, (int index) => (index + 1).toString());
     final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
+    setState(() {
+      widget.item.a = directions2.first;
+      widget.item.b = directions.first;
+    });
 
     showCupertinoModalPopup(
       context: context,

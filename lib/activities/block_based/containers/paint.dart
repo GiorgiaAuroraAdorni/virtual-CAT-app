@@ -197,6 +197,9 @@ class _Paint extends State<Paint> {
       );
 
   void _repetitionPicker() {
+    setState(() {
+      widget.item.repetitions = 0;
+    });
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -227,6 +230,9 @@ class _Paint extends State<Paint> {
   }
 
   void _repetitionsPickerIcon() {
+    setState(() {
+      widget.item.repetitions = 0;
+    });
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -258,6 +264,9 @@ class _Paint extends State<Paint> {
 
   void _directionPickerIcons() {
     final List<Widget> directions = widget.item.items2.keys.toList();
+    setState(() {
+      widget.item.direction = widget.item.items2[directions[0]]!;
+    });
 
     showCupertinoModalPopup(
       context: context,
@@ -290,6 +299,9 @@ class _Paint extends State<Paint> {
 
   void _directionPicker() {
     final List<String> directions = widget.item.items.keys.toList();
+    setState(() {
+      widget.item.direction = widget.item.items[directions[0]]!;
+    });
 
     showCupertinoModalPopup(
       context: context,

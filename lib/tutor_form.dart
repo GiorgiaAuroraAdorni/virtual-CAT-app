@@ -248,6 +248,11 @@ class SchoolFormState extends State<SchoolForm> {
         grades.add(const Text("4"));
       }
     }
+    setState(() {
+      final Text text = grades[0];
+      _grade.text = text.data.toString();
+    });
+    _autoLevel();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -290,8 +295,7 @@ class SchoolFormState extends State<SchoolForm> {
     cantonsRequest().then(
       (List<Text> cantons) {
         setState(
-          () => _canton.text =
-              _canton.text == "" ? cantons.first.data.toString() : _canton.text,
+          () => _canton.text = cantons.first.data.toString(),
         );
         _autoLevel();
         showCupertinoModalPopup(
@@ -321,6 +325,9 @@ class SchoolFormState extends State<SchoolForm> {
 
   void _supervisorPicker() {
     supervisorsRequest().then((List<Text> supervisors) {
+      setState(
+        () => _supervisor.text = supervisors.first.data.toString(),
+      );
       showCupertinoModalPopup(
         context: context,
         builder: (BuildContext builder) => Container(
@@ -346,11 +353,10 @@ class SchoolFormState extends State<SchoolForm> {
 
   void _schoolTypePicker() {
     setState(() {
-      final Text text = CATLocalizations.of(context).schoolType.first;
-      if (_schoolType.text == "") {
-        _schoolType.text = text.data.toString();
-        _schoolKey = text.key!;
-      }
+      final Text text = CATLocalizations.of(context).schoolType[0];
+      _schoolKey = text.key!;
+      _schoolType.text = text.data.toString();
+      _grade.text = "";
     });
     _autoLevel();
     showCupertinoModalPopup(
