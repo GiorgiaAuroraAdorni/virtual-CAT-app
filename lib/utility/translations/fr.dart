@@ -5,14 +5,14 @@ final Map<String, String> fr = <String, String>{
   "canton": "Canton",
   "selection": "Sélectionnez",
   "level": "Niveau",
-  "testApplication": "Test d'application",
+  "testApplication": "Session d'essai",
   "mode": "Mode",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);
 
 const Map<String, String> _firsForm = <String, String>{
-  "tutorialTitle": "Session",
+  "tutorialTitle": "Session d'évaluation",
   "school": "École",
   "grade": "Classe",
   "section": "Section",
