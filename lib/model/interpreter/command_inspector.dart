@@ -68,32 +68,34 @@ class CommandsInspector {
       direction = "square top left";
     } else if (inspector._squareTopRight(positions)) {
       direction = "square top right";
-    } else {
+    }
+    // TODO: Start
+    else if (inspector._squareBottomLeftReverse(positions)) {
+      direction = "square bottom left reverse";
+    } else if (inspector._squareBottomRightReverse(positions)) {
+      direction = "square bottom right reverse";
+    } else if (inspector._squareTopLeftReverse(positions)) {
+      direction = "square top left reverse";
+    } else if (inspector._squareTopRightReverse(positions)) {
+      direction = "square top right reverse";
+    }
+    // TODO: end
+    else {
       final List<String> command = <String>[];
       int j = 0;
       for (final Pair<int, int> k in positions) {
         command
           ..add("go(${rows[k.first]}${k.second + 1})")
-          ..add("paint(${colors[j]})");
-        j += (j + 1) % colors.length;
+          ..add(
+            "paint(${colors[j]})",
+          );
+        j = (j + 1) % colors.length;
       }
 
       return command;
     }
     final List<String> command = <String>[];
     if (!direction.isBlank) {
-      if (direction.startsWith("square")) {
-        int s = 0;
-        for (int i = 0; i < positions.length; i++) {
-          s += (positions[(i + 1) % positions.length].first -
-                  positions[i].first) *
-              (positions[i].second +
-                  positions[(i + 1) % positions.length].second);
-        }
-        if (s.sign >= 0) {
-          direction += " reverse";
-        }
-      }
       command
         ..add(
           "go(${rows[positions.first.first]}${positions.first.second + 1})",
@@ -538,37 +540,19 @@ class CommandsInspector {
     return true;
   }
 
+  // row, column
   bool _squareBottomLeft(List<Pair<int, int>> positions) {
     if (positions.length != 4) {
       return false;
     }
-    if (positions[0].first - positions[1].first != 0 &&
-        positions[0].second - positions[1].second != 0) {
+
+    if (positions[0].second + 1 != positions[1].second) {
       return false;
     }
-    final List<Pair<int, int>> positionsCopy =
-        List<Pair<int, int>>.from(positions)
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                a.second.compareTo(b.second),
-          )
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                (6 - a.first).compareTo(6 - b.first),
-          );
-    if (positionsCopy[0].first != positionsCopy[1].first &&
-        positionsCopy[0].second + 1 != positionsCopy[1].second) {
+    if (positions[1].first - 1 != positions[2].first) {
       return false;
     }
-    if (positionsCopy[0].first - 1 != positionsCopy[2].first &&
-        positionsCopy[0].second + 1 != positionsCopy[2].second) {
-      return false;
-    }
-    if (positionsCopy[0].first - 1 != positionsCopy[3].first &&
-        positionsCopy[0].second != positionsCopy[3].second) {
-      return false;
-    }
-    if (positions.first != positionsCopy.first) {
+    if (positions[2].second - 1 != positions[3].second) {
       return false;
     }
 
@@ -579,33 +563,14 @@ class CommandsInspector {
     if (positions.length != 4) {
       return false;
     }
-    if (positions[0].first - positions[1].first != 0 &&
-        positions[0].second - positions[1].second != 0) {
+
+    if (positions[0].first - 1 != positions[1].first) {
       return false;
     }
-    final List<Pair<int, int>> positionsCopy =
-        List<Pair<int, int>>.from(positions)
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                a.second.compareTo(b.second),
-          )
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                (6 - a.first).compareTo(6 - b.first),
-          );
-    if (positionsCopy[0].first != positionsCopy[1].first &&
-        positionsCopy[0].second + 1 != positionsCopy[1].second) {
+    if (positions[1].second - 1 != positions[2].second) {
       return false;
     }
-    if (positionsCopy[0].first - 1 != positionsCopy[2].first &&
-        positionsCopy[0].second + 1 != positionsCopy[2].second) {
-      return false;
-    }
-    if (positionsCopy[0].first - 1 != positionsCopy[3].first &&
-        positionsCopy[0].second != positionsCopy[3].second) {
-      return false;
-    }
-    if (positions.first != positionsCopy[1]) {
+    if (positions[2].first + 1 != positions[3].first) {
       return false;
     }
 
@@ -616,33 +581,14 @@ class CommandsInspector {
     if (positions.length != 4) {
       return false;
     }
-    if (positions[0].first - positions[1].first != 0 &&
-        positions[0].second - positions[1].second != 0) {
+
+    if (positions[0].first + 1 != positions[1].first) {
       return false;
     }
-    final List<Pair<int, int>> positionsCopy =
-        List<Pair<int, int>>.from(positions)
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                a.second.compareTo(b.second),
-          )
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                (6 - a.first).compareTo(6 - b.first),
-          );
-    if (positionsCopy[0].first != positionsCopy[1].first &&
-        positionsCopy[0].second + 1 != positionsCopy[1].second) {
+    if (positions[1].second + 1 != positions[2].second) {
       return false;
     }
-    if (positionsCopy[0].first - 1 != positionsCopy[2].first &&
-        positionsCopy[0].second + 1 != positionsCopy[2].second) {
-      return false;
-    }
-    if (positionsCopy[0].first - 1 != positionsCopy[3].first &&
-        positionsCopy[0].second != positionsCopy[3].second) {
-      return false;
-    }
-    if (positions.first != positionsCopy[2]) {
+    if (positions[2].first - 1 != positions[3].first) {
       return false;
     }
 
@@ -653,33 +599,86 @@ class CommandsInspector {
     if (positions.length != 4) {
       return false;
     }
-    if (positions[0].first - positions[1].first != 0 &&
-        positions[0].second - positions[1].second != 0) {
+
+    if (positions[0].second - 1 != positions[1].second) {
       return false;
     }
-    final List<Pair<int, int>> positionsCopy =
-        List<Pair<int, int>>.from(positions)
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                a.second.compareTo(b.second),
-          )
-          ..sort(
-            (Pair<int, int> a, Pair<int, int> b) =>
-                (6 - a.first).compareTo(6 - b.first),
-          );
-    if (positionsCopy[0].first != positionsCopy[1].first &&
-        positionsCopy[0].second + 1 != positionsCopy[1].second) {
+    if (positions[1].first + 1 != positions[2].first) {
       return false;
     }
-    if (positionsCopy[0].first - 1 != positionsCopy[2].first &&
-        positionsCopy[0].second + 1 != positionsCopy[2].second) {
+    if (positions[2].second + 1 != positions[3].second) {
       return false;
     }
-    if (positionsCopy[0].first - 1 != positionsCopy[3].first &&
-        positionsCopy[0].second != positionsCopy[3].second) {
+
+    return true;
+  }
+
+  bool _squareBottomLeftReverse(List<Pair<int, int>> positions) {
+    if (positions.length != 4) {
       return false;
     }
-    if (positions.first != positionsCopy.last) {
+
+    if (positions[0].first - 1 != positions[1].first) {
+      return false;
+    }
+    if (positions[1].second + 1 != positions[2].second) {
+      return false;
+    }
+    if (positions[2].first + 1 != positions[3].first) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _squareBottomRightReverse(List<Pair<int, int>> positions) {
+    if (positions.length != 4) {
+      return false;
+    }
+
+    if (positions[0].second - 1 != positions[1].second) {
+      return false;
+    }
+    if (positions[1].first - 1 != positions[2].first) {
+      return false;
+    }
+    if (positions[2].second + 1 != positions[3].second) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _squareTopLeftReverse(List<Pair<int, int>> positions) {
+    if (positions.length != 4) {
+      return false;
+    }
+
+    if (positions[0].second + 1 != positions[1].second) {
+      return false;
+    }
+    if (positions[1].first + 1 != positions[2].first) {
+      return false;
+    }
+    if (positions[2].second - 1 != positions[3].second) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _squareTopRightReverse(List<Pair<int, int>> positions) {
+    if (positions.length != 4) {
+      return false;
+    }
+
+    if (positions[0].first + 1 != positions[1].first) {
+      return false;
+    }
+    if (positions[1].second - 1 != positions[2].second) {
+      return false;
+    }
+    if (positions[2].first - 1 != positions[3].first) {
       return false;
     }
 
