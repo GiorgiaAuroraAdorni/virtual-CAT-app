@@ -177,10 +177,19 @@ List<SimpleContainer> _parsePaint(List<String> command, BuildContext context) {
     return toReturn;
   }
 
+  final Map<String, int> repetitionsConverter = <String, int>{
+    "2": 0,
+    "3": 1,
+    "4": 2,
+    "5": 3,
+    "6": 4,
+    ":": 5,
+  };
+
   return <SimpleContainer>[
     PaintContainer(
       selected_colors: colors.map((String e) => _colors[e.trim()]!).toList(),
-      repetitions: command[2].toInt(),
+      repetitions: repetitionsConverter[command[2]]!,
       direction: command[3].trim(),
       context: context,
     ),
