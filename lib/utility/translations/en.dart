@@ -7,7 +7,9 @@ final Map<String, String> en = <String, String>{
   "level": "Level",
   "testApplication": "Application test",
   "mode": "Mode",
-}..addAll(_firsForm)..addAll(_secondForm);
+}
+  ..addAll(_firsForm)
+  ..addAll(_secondForm);
 
 const Map<String, String> _firsForm = <String, String>{
   "tutorialTitle": "Session",
@@ -72,14 +74,16 @@ const Map<String, String> patternsEn = <String, String>{
   "diagonal up right": "diagonal up right",
   "diagonal down left": "diagonal down left",
   "diagonal down right": "diagonal down right",
-  "square bottom left": "square bottom left",
-  "square top left": "square top left",
-  "square bottom right": "square bottom right",
-  "square top right": "square top right",
-  "square bottom left reverse": "square bottom left reverse",
-  "square top left reverse": "square top left reverse",
-  "square bottom right reverse": "square bottom right reverse",
-  "square top right reverse": "square top right reverse",
+  //
+  "square bottom right": "square up left down",
+  "square bottom left reverse": "square up right down",
+  "square top left reverse": "square right down left",
+  "square bottom left": "square right up left",
+  "square top right": "square left down right",
+  "square bottom right reverse": "square left up right",
+  "square top right reverse": "square down left up",
+  "square top left": "square down right up",
+  //
   "L up left": "L up left",
   "L up right": "L up right",
   "L right down": "L right down",
