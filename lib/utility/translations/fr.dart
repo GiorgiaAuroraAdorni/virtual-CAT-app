@@ -99,9 +99,9 @@ const Map<String, String> patternsFr = <String, String>{
   "zig-zag right up down": "zig-zag droite haut bas",
   "zig-zag right down up": "zig-zag droite bas haut",
   "zig-zag up left right": "zig-zag haut gauche droite",
-  "zig-zag down right left": "zig-zag vers le bas droite gauche",
+  "zig-zag down right left": "zig-zag bas droite gauche",
   "zig-zag up right left": "zig-zag haut droite gauche",
-  "zig-zag down left right": "zig-zag vers le bas gauche droite",
+  "zig-zag down left right": "zig-zag bas gauche droite",
 };
 
 /// A list of school types.

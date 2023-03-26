@@ -98,10 +98,10 @@ const Map<String, String> patternsDe = <String, String>{
   "zig-zag left down up": "Zick-Zack links unten oben",
   "zig-zag right up down": "Zick-Zack rechts oben unten",
   "zig-zag right down up": "Zick-Zack rechts unten oben",
-  "zig-zag up left right": "Zick-Zack nach oben links rechts",
-  "zig-zag down right left": "Zick-Zack nach unten rechts links",
-  "zig-zag up right left": "Zick-Zack nach oben rechts links",
-  "zig-zag down left right": "Zick-Zack nach unten links rechts",
+  "zig-zag up left right": "Zick-Zack oben links rechts",
+  "zig-zag down right left": "Zick-Zack unten rechts links",
+  "zig-zag up right left": "Zick-Zack oben rechts links",
+  "zig-zag down left right": "Zick-Zack unten links rechts",
 };
 
 /// A list of school types.
