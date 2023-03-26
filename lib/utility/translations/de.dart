@@ -71,10 +71,10 @@ const Map<String, String> patternsDe = <String, String>{
   "down": "unten",
   "up": "auf",
   //
-  "diagonal up left": "Diagonale oben links",
-  "diagonal up right": "Diagonale oben rechts",
-  "diagonal down left": "schräg unten links",
-  "diagonal down right": "schräg rechts unten",
+  "diagonal up left": "Diagonal oben links",
+  "diagonal up right": "Diagonal oben rechts",
+  "diagonal down left": "Diagonal unten links",
+  "diagonal down right": "Diagonal unten rechts",
   //
   "square bottom right": "Quadrat oben links unten",
   "square bottom left reverse": "Quadrat oben rechts unten",
