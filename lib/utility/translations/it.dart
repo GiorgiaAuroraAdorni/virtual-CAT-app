@@ -5,7 +5,7 @@ final Map<String, String> it = <String, String>{
   "canton": "Cantone",
   "selection": "Selezionare",
   "level": "Livello",
-  "testApplication": "Modalità di prova",
+  "testApplication": "Sessione di prova",
   "mode": "Modalità",
 }
   ..addAll(_firsForm)
