@@ -13,7 +13,7 @@ class PaintContainer extends SimpleContainer {
     super.name = "Colora",
     super.type = ContainerType.paint,
     this.direction = "right",
-    super.repetitions = 2,
+    super.repetitions = 0,
     required this.selected_colors,
   });
 
@@ -324,6 +324,220 @@ class PaintContainer extends SimpleContainer {
     ): "zig-zag left up down",
   };
 
+  final List<Text> repetitionsText = <Text>[
+    const Text(
+      "2",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+    const Text(
+      "3",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+    const Text(
+      "4",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+    const Text(
+      "5",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+    const Text(
+      "6",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+    const Text(
+      ":",
+      style: TextStyle(
+        color: CupertinoColors.black,
+      ),
+    ),
+  ];
+
+  final List<Widget> repetitionsIcons = <Widget>[
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(CupertinoIcons.infinite),
+      ],
+    ),
+  ];
+
+  final List<Widget> repetitionsDisplay = <Widget>[
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Icon(
+          CupertinoIcons.infinite,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+  ];
+
   late Map<String, Widget> revertedItems2 = Map<String, Widget>.fromIterables(
     items2.values,
     items2.keys,
@@ -339,5 +553,5 @@ class PaintContainer extends SimpleContainer {
 
   @override
   String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"
-      "$repetitions,$direction)";
+      "${repetitionsText[repetitions].data},$direction)";
 }

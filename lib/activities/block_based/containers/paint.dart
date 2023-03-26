@@ -103,12 +103,7 @@ class _Paint extends State<Paint> {
               color: CupertinoColors.systemGrey5,
               padding: const EdgeInsets.only(left: 10, right: 10),
               onPressed: _repetitionPicker,
-              child: Text(
-                "${widget.item.repetitions}",
-                style: const TextStyle(
-                  color: CupertinoColors.black,
-                ),
-              ),
+              child: widget.item.repetitionsText[widget.item.repetitions],
             ),
             const SizedBox(
               height: 5,
@@ -169,15 +164,8 @@ class _Paint extends State<Paint> {
                   color: CupertinoColors.systemGrey5,
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _repetitionsPickerIcon,
-                  child: Row(
-                    children: List<Widget>.filled(
-                      widget.item.repetitions,
-                      const Icon(
-                        CupertinoIcons.circle_fill,
-                        color: CupertinoColors.black,
-                      ),
-                    ),
-                  ),
+                  child:
+                      widget.item.repetitionsDisplay[widget.item.repetitions],
                 ),
               ],
             ),
@@ -209,14 +197,6 @@ class _Paint extends State<Paint> {
       );
 
   void _repetitionPicker() {
-    final List<Widget> repetitions = <Widget>[
-      const Text("2"),
-      const Text("3"),
-      const Text("4"),
-      const Text("5"),
-      const Text("6"),
-    ];
-
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -226,7 +206,7 @@ class _Paint extends State<Paint> {
           onSelectedItemChanged: (int value) {
             final String prev = widget.item.toString();
             setState(() {
-              widget.item.repetitions = value + 2;
+              widget.item.repetitions = value;
             });
             context.read<BlockUpdateNotifier>().update();
             CatLogger().addLog(
@@ -240,60 +220,13 @@ class _Paint extends State<Paint> {
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: repetitions,
+          children: widget.item.repetitionsText,
         ),
       ),
     );
   }
 
   void _repetitionsPickerIcon() {
-    final List<Widget> repetitions = <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-    ];
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -303,7 +236,7 @@ class _Paint extends State<Paint> {
           onSelectedItemChanged: (int value) {
             final String prev = widget.item.toString();
             setState(() {
-              widget.item.repetitions = value + 2;
+              widget.item.repetitions = value;
             });
             context.read<BlockUpdateNotifier>().update();
             CatLogger().addLog(
@@ -317,7 +250,7 @@ class _Paint extends State<Paint> {
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: repetitions,
+          children: widget.item.repetitionsIcons,
         ),
       ),
     );
