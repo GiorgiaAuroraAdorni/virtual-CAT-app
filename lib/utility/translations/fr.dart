@@ -87,10 +87,10 @@ const Map<String, String> patternsFr = <String, String>{
   //
   "L up left": "L en haut à gauche",
   "L up right": "L en haut à droite",
-  "L right down": "L à droite vers le bas",
-  "L right up": "L droit vers le haut",
-  "L left down": "L gauche vers le bas",
-  "L left up": "L gauche vers le haut",
+  "L right down": "L à droite en bas",
+  "L right up": "L droit en haut",
+  "L left down": "L à gauche en bas",
+  "L left up": "L à gauche en haut",
   "L down left": "L en bas à gauche",
   "L down right": "L en bas à droite",
   //
