@@ -48,21 +48,21 @@ const Map<String, String> blocksDe = <String, String>{
   "mirrorHorizontal": "Horizontal spiegeln",
   "position": "Position",
   "direction": "Richtung",
-  "fillEmpty": "Füllen Sie leer",
+  "fillEmpty": "Füllen leer",
   "copy": "Kopieren",
-  "origin": "Ausgangsposition",
-  "destination": "Zielort",
+  "origin": "Position der Herkunft",
+  "destination": "Position am Zielort",
 };
 
 const Map<String, String> directionsDe = <String, String>{
   "right": "rechts",
   "left": "links",
   "down": "unten",
-  "up": "auf",
+  "up": "oben",
   "diagonal up left": "Diagonale oben links",
   "diagonal up right": "Diagonale oben rechts",
   "diagonal down left": "schräg unten links",
-  "diagonal down right": "schräg rechts unten",
+  "diagonal down right": "schräg unten rechts",
 };
 
 const Map<String, String> patternsDe = <String, String>{

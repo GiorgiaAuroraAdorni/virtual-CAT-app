@@ -43,12 +43,12 @@ const Map<String, String> _secondForm = <String, String>{
 const Map<String, String> blocksFr = <String, String>{
   "paintSingle": "Peinture",
   "repetitions": "Répétitions",
-  "pattern": "Modèle",
+  "pattern": "Motif",
   "mirrorVertical": "Miroir vertical",
   "mirrorHorizontal": "Miroir horizontal",
   "position": "Position",
   "direction": "Direction",
-  "fillEmpty": "Remplir le vide",
+  "fillEmpty": "Remplir vide",
   "copy": "Copie",
   "origin": "Position d'origine",
   "destination": "Position de destination",
@@ -57,12 +57,12 @@ const Map<String, String> blocksFr = <String, String>{
 const Map<String, String> directionsFr = <String, String>{
   "right": "droit",
   "left": "gauche",
-  "down": "vers le bas",
-  "up": "monter",
-  "diagonal up left": "diagonale vers le haut à gauche",
+  "down": "bas",
+  "up": "haut",
+  "diagonal up left": "diagonale en haut à gauche",
   "diagonal up right": "diagonale en haut à droite",
-  "diagonal down left": "diagonale vers le bas à gauche",
-  "diagonal down right": "diagonale vers le bas à droite",
+  "diagonal down left": "diagonale en bas à gauche",
+  "diagonal down right": "diagonale en bas à droite",
 };
 
 const Map<String, String> patternsFr = <String, String>{
@@ -71,10 +71,10 @@ const Map<String, String> patternsFr = <String, String>{
   "down": "bas",
   "up": "haut",
   //
-  "diagonal up left": "diagonale haut gauche",
-  "diagonal up right": "diagonale haut droite",
-  "diagonal down left": "diagonale bas gauche",
-  "diagonal down right": "diagonale bas droite",
+  "diagonal up left": "diagonale en haut à gauche",
+  "diagonal up right": "diagonale en haut à droite",
+  "diagonal down left": "diagonale en bas à gauche",
+  "diagonal down right": "diagonale en bas à droite",
   //
   "square bottom right": "carré haut gauche bas",
   "square bottom left reverse": "carré haut droite bas",
