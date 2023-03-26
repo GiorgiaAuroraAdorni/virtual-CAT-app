@@ -1,5 +1,7 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/activities/gesture_based/bottom_bar.dart";
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -14,6 +16,9 @@ class SideBar extends StatefulWidget {
   const SideBar({
     required this.sessionID,
     required this.studentID,
+    required this.selectionMode,
+    required this.selectedButtons,
+    required this.coloredButtons,
     super.key,
   });
 
@@ -22,6 +27,15 @@ class SideBar extends StatefulWidget {
 
   /// It's a variable that stores the studentID of the current student.
   final int studentID;
+
+  /// It's a variable that is used to store the current selection mode.
+  final ValueNotifier<SelectionModes> selectionMode;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> selectedButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> coloredButtons;
 
   @override
   State<StatefulWidget> createState() => _SideBarState();
@@ -124,6 +138,9 @@ class _SideBarState extends State<SideBar> {
                 child: BottomBar(
                   studentID: widget.studentID,
                   sessionID: widget.sessionID,
+                  selectionMode: widget.selectionMode,
+                  selectedButtons: widget.selectedButtons,
+                  coloredButtons: widget.coloredButtons,
                 ),
               ),
             ],

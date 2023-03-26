@@ -1,3 +1,5 @@
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
@@ -19,6 +21,9 @@ class BottomBar extends StatefulWidget {
   const BottomBar({
     required this.sessionID,
     required this.studentID,
+    required this.selectionMode,
+    required this.selectedButtons,
+    required this.coloredButtons,
     super.key,
   });
 
@@ -27,6 +32,15 @@ class BottomBar extends StatefulWidget {
 
   /// It's a variable that stores the studentID of the current student.
   final int studentID;
+
+  /// It's a variable that is used to store the current selection mode.
+  final ValueNotifier<SelectionModes> selectionMode;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> selectedButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> coloredButtons;
 
   @override
   State<StatefulWidget> createState() => _BottomBarState();
@@ -142,6 +156,20 @@ class _BottomBarState extends State<BottomBar> {
     CatInterpreter().resetInterpreter();
     context.read<ResultNotifier>().cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
+    widget.selectionMode.value = SelectionModes.base;
+    widget.selectionMode.notifyListeners();
+
+    for (final CrossButton i in widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.selectedButtons.value.clear();
+    widget.selectedButtons.notifyListeners();
+    for (final CrossButton i in widget.coloredButtons.value) {
+      i.unSelect();
+    }
+    widget.coloredButtons.value.clear();
+    widget.coloredButtons.notifyListeners();
+
     CatLogger().addLog(
       context: context,
       previousCommand: "",

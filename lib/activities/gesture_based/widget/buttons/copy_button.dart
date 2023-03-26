@@ -39,7 +39,6 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
       currentCommand: "copy",
       description: CatLoggingLevel.buttonSelect,
     );
-    CatLogger().printLogs();
   }
 
   @override
@@ -72,7 +71,6 @@ class CopyButtonSecondatyState extends CopyButtonState {
       currentCommand: "copy",
       description: CatLoggingLevel.buttonSelect,
     );
-    CatLogger().printLogs();
   }
 
   @override
@@ -84,6 +82,5 @@ class CopyButtonSecondatyState extends CopyButtonState {
       currentCommand: "copy",
       description: CatLoggingLevel.buttonDismiss,
     );
-    CatLogger().printLogs();
   }
 }

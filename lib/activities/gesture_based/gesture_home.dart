@@ -124,6 +124,9 @@ class GestureHomeState extends State<GestureHome> {
                     SideBar(
                       studentID: widget.studentID,
                       sessionID: widget.sessionID,
+                      selectionMode: _selectionMode,
+                      selectedButtons: _selectedButtons,
+                      coloredButtons: _coloredButtons,
                     ),
                   ],
                 )
@@ -164,6 +167,9 @@ class GestureHomeState extends State<GestureHome> {
                     SideBar(
                       studentID: widget.studentID,
                       sessionID: widget.sessionID,
+                      selectionMode: _selectionMode,
+                      selectedButtons: _selectedButtons,
+                      coloredButtons: _coloredButtons,
                     ),
                   ],
                 ),

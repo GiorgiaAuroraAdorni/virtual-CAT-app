@@ -79,6 +79,28 @@ class SideMenuState extends State<SideMenu> {
   final GlobalKey<MirrorButtonVerticalState> mirrorVerticalButtonKeySecondary =
       GlobalKey();
 
+  bool added = false;
+
+  void _interpreterListener() {
+    if (!mounted) {
+      return;
+    }
+    if (widget.selectionMode.value == SelectionModes.base) {
+      repeatButtonKey.currentState?.deSelect();
+      selectionButtonKey.currentState?.deSelect();
+      if (!added) {
+        CatInterpreter().addListener(_interpreterListener);
+        added = !added;
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    widget.selectionMode.addListener(_interpreterListener);
+    super.initState();
+  }
+
   List<Widget> _colorButtonsBuild() {
     const TextStyle textStyle = TextStyle(
       color: CupertinoColors.black,
@@ -192,7 +214,7 @@ class SideMenuState extends State<SideMenu> {
                       Padding(
                         padding: EdgeInsets.all(_paddingSize),
                         child: CupertinoButton(
-                          onPressed: repeatAdvancement,
+                          onPressed: _repeatAdvancement,
                           minSize: 50,
                           padding: EdgeInsets.zero,
                           borderRadius: BorderRadius.circular(100),
@@ -346,7 +368,7 @@ class SideMenuState extends State<SideMenu> {
         ),
       );
 
-  void repeatAdvancement() {
+  void _repeatAdvancement() {
     if (widget.coloredButtons.value.isNotEmpty &&
         widget.selectionMode.value == SelectionModes.repeat) {
       colorActionButtonKey.currentState?.deSelect();
@@ -387,5 +409,11 @@ class SideMenuState extends State<SideMenu> {
       origins.add(b.position);
     }
     CatInterpreter().mirrorCells(direction, origins);
+  }
+
+  @override
+  void dispose() {
+    CatInterpreter().removeListener(_interpreterListener);
+    super.dispose();
   }
 }
