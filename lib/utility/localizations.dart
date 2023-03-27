@@ -12,6 +12,9 @@ class CATLocalizations {
 
   final Locale _locale;
 
+  /// It's a getter that returns the language code of the current locale.
+  String get languageCode => _locale.languageCode;
+
   /// Get the CATLocalizations object for the given context.
   ///
   /// Args:
@@ -204,10 +207,19 @@ class CATLocalizations {
 
   Map<String, String> get blocks => _localizedBlocks[_locale.languageCode]!;
 
+  static Map<String, String> getBlocks(String languageCode) =>
+      _localizedBlocks[languageCode]!;
+
   Map<String, String> get directions =>
       _localizedDirections[_locale.languageCode]!;
 
+  static Map<String, String> getDirections(String languageCode) =>
+      _localizedDirections[languageCode]!;
+
   Map<String, String> get patterns => _localizedPatterns[_locale.languageCode]!;
+
+  static Map<String, String> getPatterns(String languageCode) =>
+      _localizedPatterns[languageCode]!;
 }
 
 /// It's a delegate that loads the localized strings for a given locale

@@ -6,6 +6,7 @@ import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -361,6 +362,7 @@ class CrossButtonState extends State<CrossButton> {
       widget.position.first,
       widget.position.second,
       colors.first,
+      CATLocalizations.of(context).languageCode,
       copyCommands: widget.selectionMode.value == SelectionModes.repeat,
     );
     if (selected) {

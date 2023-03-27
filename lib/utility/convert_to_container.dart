@@ -15,31 +15,31 @@ import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
-List<SimpleContainer> parseToContainer(String command, BuildContext context) {
+List<SimpleContainer> parseToContainer(String command, String languageCode) {
   final List<String> splited = splitCommand(command);
   if (splited.first == "go") {
-    return _parseGo(splited, context);
+    return _parseGo(splited, languageCode);
   } else if (splited.first == "paint") {
-    return _parsePaint(splited, context);
+    return _parsePaint(splited, languageCode);
   } else if (splited.first == "fill_empty") {
-    return _parseFillEmpty(splited, context);
+    return _parseFillEmpty(splited, languageCode);
   } else if (splited.first == "copy") {
-    return _parseCopy(splited, context);
+    return _parseCopy(splited, languageCode);
   } else if (splited.first == "mirror") {
-    return _parseMirror(splited, context);
+    return _parseMirror(splited, languageCode);
   }
 
   return <SimpleContainer>[];
 }
 
-List<SimpleContainer> _parseMirror(List<String> command, BuildContext context) {
+List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
   if (command.length == 2) {
     return <SimpleContainer>[
       MirrorSimpleContainer(
         type: command.last.trim() == "vertical"
             ? ContainerType.mirrorVertical
             : ContainerType.mirrorHorizontal,
-        context: context,
+        languageCode: languageCode,
       ),
     ];
   }
@@ -48,14 +48,16 @@ List<SimpleContainer> _parseMirror(List<String> command, BuildContext context) {
     return <SimpleContainer>[
       MirrorContainerPoints(
         container: secondPart
-            .map((String e) => parseToContainer("go(${e.trim()})", context))
+            .map(
+              (String e) => parseToContainer("go(${e.trim()})", languageCode),
+            )
             .reduce(
               (List<SimpleContainer> value, List<SimpleContainer> element) =>
                   value + element,
             ),
         position: command.last.trim() == "horizontal" ? 0 : 1,
         direction: command.last.trim(),
-        context: context,
+        languageCode: languageCode,
       ),
     ];
   }
@@ -63,74 +65,71 @@ List<SimpleContainer> _parseMirror(List<String> command, BuildContext context) {
   return <SimpleContainer>[
     MirrorContainerCommands(
       container: secondPart
-          .map((String e) => parseToContainer(
-                e.trim(),
-                context,
-              ))
+          .map((String e) => parseToContainer(e.trim(), languageCode))
           .reduce(
             (List<SimpleContainer> value, List<SimpleContainer> element) =>
                 value + element,
           ),
       position: command.last.trim() == "horizontal" ? 0 : 1,
       direction: command.last.trim(),
-      context: context,
+      languageCode: languageCode,
     ),
   ];
 }
 
-List<SimpleContainer> _parseCopy(List<String> command, BuildContext context) {
+List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
   final List<String> origins = splitByCurly(command.second);
   final List<String> destinations = splitByCurly(command.third);
   final List<String> checks = origins.first.trim().split("");
   final List<SimpleContainer> commands = <SimpleContainer>[];
   final List<SimpleContainer> toReturn = <SimpleContainer>[];
   for (final String i in destinations) {
-    toReturn.addAll(_parseGo(["go", i.trim()], context));
+    toReturn.addAll(_parseGo(["go", i.trim()], languageCode));
   }
   if (rows.containsKey(checks.first) && columns.containsKey(checks.second)) {
     for (final String i in origins) {
-      commands.addAll(_parseGo(["go", i.trim()], context));
+      commands.addAll(_parseGo(["go", i.trim()], languageCode));
     }
 
     return <SimpleContainer>[
       CopyCellsContainer(
         container: commands,
         moves: toReturn,
-        context: context,
+        languageCode: languageCode,
       ),
     ];
   }
 
   for (final String i in splitCommands(origins.join(","))) {
-    commands.addAll(parseToContainer(i, context));
+    commands.addAll(parseToContainer(i, languageCode));
   }
 
   return <SimpleContainer>[
     CopyCommandsContainer(
       container: commands,
       moves: toReturn,
-      context: context,
+      languageCode: languageCode,
     ),
   ];
 }
 
 List<SimpleContainer> _parseFillEmpty(
-        List<String> command, BuildContext context) =>
+        List<String> command, String languageCode) =>
     <SimpleContainer>[
       FillEmptyContainer(
         selected: _colors[command.last.trim()]!,
-        context: context,
+        languageCode: languageCode,
       ),
     ];
 
-List<SimpleContainer> _parseGo(List<String> command, BuildContext context) {
+List<SimpleContainer> _parseGo(List<String> command, String languageCode) {
   final List<String> positions = command.last.trim().split("");
   if (positions.length == 2) {
     return <SimpleContainer>[
       GoPositionContainer(
         a: positions.first.toUpperCase(),
         b: positions.last,
-        context: context,
+        languageCode: languageCode,
       ),
     ];
   }
@@ -140,17 +139,17 @@ List<SimpleContainer> _parseGo(List<String> command, BuildContext context) {
     GoContainer(
       repetitions: el.first.toInt(),
       direction: el.getRange(1, el.length).joinToString(separator: " ").trim(),
-      context: context,
+      languageCode: languageCode,
     ),
   ];
 }
 
-List<SimpleContainer> _parsePaint(List<String> command, BuildContext context) {
+List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
   if (command.length == 2) {
     return <SimpleContainer>[
       PaintSingleContainer(
         selected: _colors[command.last]!,
-        context: context,
+        languageCode: languageCode,
       ),
     ];
   }
@@ -161,15 +160,12 @@ List<SimpleContainer> _parsePaint(List<String> command, BuildContext context) {
     int j = 0;
     for (final String i in cells) {
       toReturn
-        ..addAll(_parseGo(["go", i.trim()], context))
+        ..addAll(_parseGo(["go", i.trim()], languageCode))
         ..addAll(
-          _parsePaint(
-            [
-              "paint",
-              colors[j],
-            ],
-            context,
-          ),
+          _parsePaint([
+            "paint",
+            colors[j],
+          ], languageCode),
         );
       j = (j + 1) % colors.length;
     }
@@ -191,7 +187,7 @@ List<SimpleContainer> _parsePaint(List<String> command, BuildContext context) {
       selected_colors: colors.map((String e) => _colors[e.trim()]!).toList(),
       repetitions: repetitionsConverter[command[2]]!,
       direction: command[3].trim(),
-      context: context,
+      languageCode: languageCode,
     ),
   ];
 }

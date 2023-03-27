@@ -4,6 +4,7 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 import "../../../../utility/cat_log.dart";
@@ -33,7 +34,8 @@ class MirrorButtonVerticalState
   @override
   void onSelect() {
     if (CatInterpreter().executedCommands > 1) {
-      CatInterpreter().mirror("vertical");
+      CatInterpreter()
+          .mirror("vertical", CATLocalizations.of(context).languageCode);
     } else {
       widget.state.widget.shakeKey.currentState?.shake();
     }

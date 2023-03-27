@@ -7,7 +7,7 @@ class SimpleContainer {
   SimpleContainer({
     required this.name,
     required this.type,
-    required this.context,
+    required this.languageCode,
     this.container = const <SimpleContainer>[],
     this.moves = const <SimpleContainer>[],
     this.axis = "",
@@ -29,17 +29,22 @@ class SimpleContainer {
   /// It's a variable that is used to identify the component in the tree.
   String axis;
 
+  String languageCode;
+
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> moves;
 
   /// It's a variable that is used to identify the component in the tree.
   List<SimpleContainer> container;
 
-  /// It's a variable that is used to identify the component in the tree.
-  BuildContext context;
+  // / It's a variable that is used to identify the component in the tree.
+  // BuildContext context;
 
-  SimpleContainer copy() =>
-      SimpleContainer(name: name, type: type, context: context);
+  SimpleContainer copy() => SimpleContainer(
+        name: name,
+        type: type,
+        languageCode: languageCode,
+      );
 
   @override
   String toString() => "";

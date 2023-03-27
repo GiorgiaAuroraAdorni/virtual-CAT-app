@@ -26,7 +26,7 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/convert_to_container.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -50,46 +50,53 @@ class BlockCanvas extends StatefulWidget {
 
 class _BlockCanvasState extends State<BlockCanvas> {
   List<Widget> widgets = [];
-  List<SimpleContainer> items = [];
+
+  // List<SimpleContainer> items = [];
 
   void _blockDroppedOnCanvas({
     required SimpleContainer item,
   }) {
     final SimpleContainer itemCopy = item.copy();
-    setState(() {
-      final UniqueKey key = UniqueKey();
-      itemCopy.key = key;
-      widgets.add(
-        Dismissible(
-          key: key,
-          child: _generateDismiss(
-            itemCopy,
-            (Size size) {},
+    setState(
+      () {
+        final UniqueKey key = UniqueKey();
+        itemCopy.key = key;
+        widgets.add(
+          Dismissible(
+            key: key,
+            child: _generateDismiss(
+              itemCopy,
+              (Size size) {},
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = CatInterpreter()
+                  .allCommandsBuffer
+                  .map((SimpleContainer e) => e.toString())
+                  .join(",");
+              setState(
+                () {
+                  widgets.removeWhere((Widget element) => element.key == key);
+                  CatInterpreter().allCommandsBuffer.removeWhere(
+                        (SimpleContainer element) => element.key == key,
+                      );
+                },
+              );
+              context.read<BlockUpdateNotifier>().update();
+              CatLogger().addLog(
+                context: context,
+                previousCommand: prev,
+                currentCommand: CatInterpreter()
+                    .allCommandsBuffer
+                    .map((SimpleContainer e) => e.toString())
+                    .join(","),
+                description: CatLoggingLevel.removeCommand,
+              );
+            },
           ),
-          onDismissed: (DismissDirection direction) {
-            final String prev =
-                items.map((SimpleContainer e) => e.toString()).join(",");
-            setState(
-              () {
-                widgets.removeWhere((Widget element) => element.key == key);
-                items.removeWhere(
-                  (SimpleContainer element) => element.key == key,
-                );
-              },
-            );
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand:
-                  items.map((SimpleContainer e) => e.toString()).join(","),
-              description: CatLoggingLevel.removeCommand,
-            );
-          },
-        ),
-      );
-      items.add(itemCopy);
-    });
+        );
+        CatInterpreter().allCommandsBuffer.add(itemCopy);
+      },
+    );
   }
 
   Widget _generateDismiss(
@@ -214,7 +221,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
     }
     setState(() {
       widgets.clear();
-      items.clear();
+      CatInterpreter().allCommandsBuffer.clear();
+      // items.clear();
     });
   }
 
@@ -222,19 +230,26 @@ class _BlockCanvasState extends State<BlockCanvas> {
     if (!mounted) {
       return;
     }
-    CatInterpreter().reset();
-    runZonedGuarded(
-      () {
-        final String command =
-            items.map((SimpleContainer e) => e.toString()).join(",");
-        if (command.isNotEmpty) {
-          CatInterpreter().executeCommands(command);
-        }
-      },
-      (Object error, StackTrace stackTrace) {
-        widget.shakeKey.currentState?.shake();
-      },
-    );
+    CatInterpreter().resetInterpreter();
+    final List<String> commands = CatInterpreter()
+        .allCommandsBuffer
+        .map((SimpleContainer e) => e.toString())
+        .toList();
+    for (final String command in commands) {
+      runZonedGuarded(
+        () {
+          if (command.isNotEmpty) {
+            CatInterpreter().executeCommands(
+              command,
+              CATLocalizations.of(context).languageCode,
+            );
+          }
+        },
+        (Object error, StackTrace stackTrace) {
+          // widget.shakeKey.currentState?.shake();
+        },
+      );
+    }
   }
 
   @override
@@ -242,18 +257,27 @@ class _BlockCanvasState extends State<BlockCanvas> {
     context.read<VisibilityNotifier>().addListener(_interpreterListener);
     context.read<SelectedColorsNotifier>().addListener(_cleanBlocksListener);
     context.read<BlockUpdateNotifier>().addListener(_executeCommands);
-    final List<String> commands = CatInterpreter().getResults.getCommands;
+    final List<SimpleContainer> commands = List<SimpleContainer>.from(
+      CatInterpreter().allCommandsBuffer,
+    );
+    CatInterpreter().allCommandsBuffer.clear();
     super.initState();
-    Future<void>(() {
-      for (final String i in commands) {
-        if (i == "None") {
-          continue;
+    Future<void>(
+      () {
+        // for (final String i in commands) {
+        //   if (i == "None") {
+        //     continue;
+        //   }
+        //   for (final SimpleContainer j in parseToContainer(i, context)) {
+        //     _blockDroppedOnCanvas(item: j);
+        //   }
+        // }
+        for (final SimpleContainer i in commands) {
+          // parseToContainer("", context);
+          _blockDroppedOnCanvas(item: i);
         }
-        for (final SimpleContainer j in parseToContainer(i, context)) {
-          _blockDroppedOnCanvas(item: j);
-        }
-      }
-    });
+      },
+    );
   }
 
   final ScrollController _firstController = ScrollController();
@@ -290,19 +314,26 @@ class _BlockCanvasState extends State<BlockCanvas> {
                       bottom: 200,
                     ),
                     onReorder: (int oldIndex, int newIndex) {
-                      final String prev = items
+                      final String prev = CatInterpreter()
+                          .allCommandsBuffer
                           .map((SimpleContainer e) => e.toString())
                           .join(",");
                       if (oldIndex < newIndex) {
                         newIndex -= 1;
                       }
                       widgets.insert(newIndex, widgets.removeAt(oldIndex));
-                      items.insert(newIndex, items.removeAt(oldIndex));
+                      CatInterpreter().allCommandsBuffer.insert(
+                            newIndex,
+                            CatInterpreter()
+                                .allCommandsBuffer
+                                .removeAt(oldIndex),
+                          );
                       context.read<BlockUpdateNotifier>().update();
                       CatLogger().addLog(
                         context: context,
                         previousCommand: prev,
-                        currentCommand: items
+                        currentCommand: CatInterpreter()
+                            .allCommandsBuffer
                             .map((SimpleContainer e) => e.toString())
                             .join(","),
                         description: CatLoggingLevel.reorderCommand,
@@ -313,8 +344,10 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 ),
               ),
               onAccept: (SimpleContainer item) {
-                final String prev =
-                    items.map((SimpleContainer e) => e.toString()).join(",");
+                final String prev = CatInterpreter()
+                    .allCommandsBuffer
+                    .map((SimpleContainer e) => e.toString())
+                    .join(",");
                 _blockDroppedOnCanvas(
                   item: item,
                 );
@@ -322,8 +355,10 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 CatLogger().addLog(
                   context: context,
                   previousCommand: prev,
-                  currentCommand:
-                      items.map((SimpleContainer e) => e.toString()).join(","),
+                  currentCommand: CatInterpreter()
+                      .allCommandsBuffer
+                      .map((SimpleContainer e) => e.toString())
+                      .join(","),
                   description: CatLoggingLevel.addCommand,
                 );
               },

@@ -8,11 +8,11 @@ import "package:flutter/material.dart";
 
 class GoContainer extends SimpleContainer {
   GoContainer({
-    required super.context,
     super.name = "Vai a",
     super.type = ContainerType.go,
     this.direction = "right",
     super.repetitions = 1,
+    required super.languageCode,
   });
 
   String direction;
@@ -23,42 +23,42 @@ class GoContainer extends SimpleContainer {
 
   late Map<Widget, String> items = <Widget, String>{
     Text(
-      CATLocalizations.of(context).directions["right"]!,
+      CATLocalizations.getDirections(languageCode)["right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "right",
     Text(
-      CATLocalizations.of(context).directions["left"]!,
+      CATLocalizations.getDirections(languageCode)["left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "left",
     Text(
-      CATLocalizations.of(context).directions["up"]!,
+      CATLocalizations.getDirections(languageCode)["up"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "up",
     Text(
-      CATLocalizations.of(context).directions["down"]!,
+      CATLocalizations.getDirections(languageCode)["down"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "down",
     Text(
-      CATLocalizations.of(context).directions["diagonal up left"]!,
+      CATLocalizations.getDirections(languageCode)["diagonal up left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal up left",
     Text(
-      CATLocalizations.of(context).directions["diagonal up right"]!,
+      CATLocalizations.getDirections(languageCode)["diagonal up right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal up right",
     Text(
-      CATLocalizations.of(context).directions["diagonal down left"]!,
+      CATLocalizations.getDirections(languageCode)["diagonal down left"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal down left",
     Text(
-      CATLocalizations.of(context).directions["diagonal down right"]!,
+      CATLocalizations.getDirections(languageCode)["diagonal down right"]!,
       textAlign: TextAlign.center,
       style: _style,
     ): "diagonal down right",
@@ -137,7 +137,7 @@ class GoContainer extends SimpleContainer {
   SimpleContainer copy() => GoContainer(
         direction: direction,
         repetitions: repetitions,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 
   @override

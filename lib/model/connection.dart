@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/model/baseConnection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
@@ -136,9 +137,12 @@ class Connection extends BaseConnection {
     for (final String i in collector.data.keys) {
       collected[i.toLowerCase()] = collector.data[i]!.isNotEmpty;
     }
-    final List<String> commands =
-        List<String>.from(CatInterpreter().getResults.getCommands);
-    commands.removeAt(0);
+    final List<String> commands = List<String>.from(
+      CatInterpreter()
+          .allCommandsBuffer
+          .map((SimpleContainer e) => e.toString()),
+    );
+    // commands.removeAt(0);
     collected["commands"] = commands.joinToString();
     collected["schema"] = SchemasReader().currentIndex;
     collected["description"] = "";

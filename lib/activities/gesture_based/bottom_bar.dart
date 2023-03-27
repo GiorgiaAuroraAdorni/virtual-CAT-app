@@ -153,7 +153,7 @@ class _BottomBarState extends State<BottomBar> {
 
   void _reset() {
     context.read<VisibilityNotifier>().visible = false;
-    CatInterpreter().resetInterpreter();
+    CatInterpreter().reset();
     context.read<ResultNotifier>().cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
     widget.selectionMode.value = SelectionModes.base;

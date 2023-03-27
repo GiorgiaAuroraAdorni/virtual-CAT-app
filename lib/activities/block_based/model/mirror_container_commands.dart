@@ -7,12 +7,12 @@ import "package:flutter/cupertino.dart";
 
 class MirrorContainerCommands extends SimpleContainer {
   MirrorContainerCommands({
-    required super.context,
     super.name = "Specchia",
     super.type = ContainerType.mirrorCommands,
     this.position = 0,
     this.direction = "horizontal",
     required super.container,
+    required super.languageCode,
   });
 
   int position;
@@ -24,12 +24,12 @@ class MirrorContainerCommands extends SimpleContainer {
 
   late final List<Widget> directions = <Widget>[
     Text(
-      CATLocalizations.of(context).blocks["mirrorHorizontal"]!,
+      CATLocalizations.getBlocks(languageCode)["mirrorHorizontal"]!,
       textAlign: TextAlign.center,
       style: _style,
     ),
     Text(
-      CATLocalizations.of(context).blocks["mirrorVertical"]!,
+      CATLocalizations.getBlocks(languageCode)["mirrorVertical"]!,
       textAlign: TextAlign.center,
       style: _style,
     ),
@@ -54,7 +54,7 @@ class MirrorContainerCommands extends SimpleContainer {
         position: position,
         direction: direction,
         container: super.container,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 
   @override

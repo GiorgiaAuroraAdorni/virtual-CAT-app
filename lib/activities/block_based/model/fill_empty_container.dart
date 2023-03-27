@@ -5,10 +5,10 @@ import "package:flutter/cupertino.dart";
 
 class FillEmptyContainer extends SimpleContainer {
   FillEmptyContainer({
-    required super.context,
     super.name = "Riempi vuoti",
     super.type = ContainerType.fillEmpty,
     this.selected = CupertinoColors.systemOrange,
+    required super.languageCode,
   });
 
   /// It's a key that is used to identify the component in the tree.
@@ -22,6 +22,6 @@ class FillEmptyContainer extends SimpleContainer {
   @override
   FillEmptyContainer copy() => FillEmptyContainer(
         selected: selected,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 }

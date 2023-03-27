@@ -5,9 +5,9 @@ import "package:flutter/cupertino.dart";
 
 class PaintSingleContainer extends SimpleContainer {
   PaintSingleContainer({
-    required super.context,
     super.name = "Colora singolo",
     super.type = ContainerType.paintSingle,
+    required super.languageCode,
     this.selected = CupertinoColors.systemOrange,
   });
 
@@ -19,6 +19,6 @@ class PaintSingleContainer extends SimpleContainer {
   @override
   PaintSingleContainer copy() => PaintSingleContainer(
         selected: selected,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 }

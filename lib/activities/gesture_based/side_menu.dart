@@ -11,6 +11,7 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/sel
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -398,7 +399,11 @@ class SideMenuState extends State<SideMenu> {
     for (final CrossButton b in widget.selectedButtons.value) {
       destinations.add(b.position);
     }
-    if (CatInterpreter().copyCells(origins, destinations)) {
+    if (CatInterpreter().copyCells(
+      origins,
+      destinations,
+      CATLocalizations.of(context).languageCode,
+    )) {
       widget.shakeKey.currentState?.shake();
     }
   }
@@ -408,7 +413,11 @@ class SideMenuState extends State<SideMenu> {
     for (final CrossButton b in widget.coloredButtons.value) {
       origins.add(b.position);
     }
-    CatInterpreter().mirrorCells(direction, origins);
+    CatInterpreter().mirrorCells(
+      direction,
+      origins,
+      CATLocalizations.of(context).languageCode,
+    );
   }
 
   @override

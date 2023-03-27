@@ -3,11 +3,11 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 
 class GoPositionContainer extends SimpleContainer {
   GoPositionContainer({
-    required super.context,
     super.name = "Vai a posizione",
     super.type = ContainerType.goPosition,
     this.a = "C",
     this.b = "1",
+    required super.languageCode,
   });
 
   String a;
@@ -17,7 +17,7 @@ class GoPositionContainer extends SimpleContainer {
   GoPositionContainer copy() => GoPositionContainer(
         a: a,
         b: b,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 
   @override

@@ -9,12 +9,12 @@ import "package:flutter/material.dart";
 
 class PaintContainer extends SimpleContainer {
   PaintContainer({
-    required super.context,
     super.name = "Colora",
     super.type = ContainerType.paint,
     this.direction = "right",
     super.repetitions = 0,
     required this.selected_colors,
+    required super.languageCode,
   });
 
   List<CupertinoDynamicColor> selected_colors;
@@ -22,57 +22,57 @@ class PaintContainer extends SimpleContainer {
   String direction;
 
   late Map<String, String> items = <String, String>{
-    CATLocalizations.of(context).patterns["right"]!: "right",
-    CATLocalizations.of(context).patterns["left"]!: "left",
-    CATLocalizations.of(context).patterns["up"]!: "up",
-    CATLocalizations.of(context).patterns["down"]!: "down",
-    CATLocalizations.of(context).patterns["diagonal up left"]!:
+    CATLocalizations.getPatterns(languageCode)["right"]!: "right",
+    CATLocalizations.getPatterns(languageCode)["left"]!: "left",
+    CATLocalizations.getPatterns(languageCode)["up"]!: "up",
+    CATLocalizations.getPatterns(languageCode)["down"]!: "down",
+    CATLocalizations.getPatterns(languageCode)["diagonal up left"]!:
         "diagonal up left",
-    CATLocalizations.of(context).patterns["diagonal up right"]!:
+    CATLocalizations.getPatterns(languageCode)["diagonal up right"]!:
         "diagonal up right",
-    CATLocalizations.of(context).patterns["diagonal down left"]!:
+    CATLocalizations.getPatterns(languageCode)["diagonal down left"]!:
         "diagonal down left",
-    CATLocalizations.of(context).patterns["diagonal down right"]!:
+    CATLocalizations.getPatterns(languageCode)["diagonal down right"]!:
         "diagonal down right",
-    CATLocalizations.of(context).patterns["square bottom left"]!:
+    CATLocalizations.getPatterns(languageCode)["square bottom left"]!:
         "square bottom left",
-    CATLocalizations.of(context).patterns["square top left"]!:
+    CATLocalizations.getPatterns(languageCode)["square top left"]!:
         "square top left",
-    CATLocalizations.of(context).patterns["square bottom right"]!:
+    CATLocalizations.getPatterns(languageCode)["square bottom right"]!:
         "square bottom right",
-    CATLocalizations.of(context).patterns["square top right"]!:
+    CATLocalizations.getPatterns(languageCode)["square top right"]!:
         "square top right",
-    CATLocalizations.of(context).patterns["square bottom left reverse"]!:
+    CATLocalizations.getPatterns(languageCode)["square bottom left reverse"]!:
         "square bottom left reverse",
-    CATLocalizations.of(context).patterns["square top left reverse"]!:
+    CATLocalizations.getPatterns(languageCode)["square top left reverse"]!:
         "square top left reverse",
-    CATLocalizations.of(context).patterns["square bottom right reverse"]!:
+    CATLocalizations.getPatterns(languageCode)["square bottom right reverse"]!:
         "square bottom right reverse",
-    CATLocalizations.of(context).patterns["square top right reverse"]!:
+    CATLocalizations.getPatterns(languageCode)["square top right reverse"]!:
         "square top right reverse",
-    CATLocalizations.of(context).patterns["L up left"]!: "l up left",
-    CATLocalizations.of(context).patterns["L up right"]!: "l up right",
-    CATLocalizations.of(context).patterns["L right down"]!: "l right down",
-    CATLocalizations.of(context).patterns["L right up"]!: "l right up",
-    CATLocalizations.of(context).patterns["L left down"]!: "l left down",
-    CATLocalizations.of(context).patterns["L left up"]!: "l left up",
-    CATLocalizations.of(context).patterns["L down left"]!: "l down left",
-    CATLocalizations.of(context).patterns["L down right"]!: "l down right",
-    CATLocalizations.of(context).patterns["zig-zag left up down"]!:
+    CATLocalizations.getPatterns(languageCode)["L up left"]!: "l up left",
+    CATLocalizations.getPatterns(languageCode)["L up right"]!: "l up right",
+    CATLocalizations.getPatterns(languageCode)["L right down"]!: "l right down",
+    CATLocalizations.getPatterns(languageCode)["L right up"]!: "l right up",
+    CATLocalizations.getPatterns(languageCode)["L left down"]!: "l left down",
+    CATLocalizations.getPatterns(languageCode)["L left up"]!: "l left up",
+    CATLocalizations.getPatterns(languageCode)["L down left"]!: "l down left",
+    CATLocalizations.getPatterns(languageCode)["L down right"]!: "l down right",
+    CATLocalizations.getPatterns(languageCode)["zig-zag left up down"]!:
         "zig-zag left up down",
-    CATLocalizations.of(context).patterns["zig-zag left down up"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag left down up"]!:
         "zig-zag left down up",
-    CATLocalizations.of(context).patterns["zig-zag right up down"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag right up down"]!:
         "zig-zag right up down",
-    CATLocalizations.of(context).patterns["zig-zag right down up"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag right down up"]!:
         "zig-zag right down up",
-    CATLocalizations.of(context).patterns["zig-zag up left right"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag up left right"]!:
         "zig-zag up left right",
-    CATLocalizations.of(context).patterns["zig-zag down right left"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag down right left"]!:
         "zig-zag down right left",
-    CATLocalizations.of(context).patterns["zig-zag up right left"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag up right left"]!:
         "zig-zag up right left",
-    CATLocalizations.of(context).patterns["zig-zag down left right"]!:
+    CATLocalizations.getPatterns(languageCode)["zig-zag down left right"]!:
         "zig-zag down left right",
   };
 
@@ -548,7 +548,7 @@ class PaintContainer extends SimpleContainer {
         selected_colors: selected_colors,
         direction: direction,
         repetitions: repetitions,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 
   @override

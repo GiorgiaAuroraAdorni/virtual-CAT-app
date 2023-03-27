@@ -2,16 +2,15 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 
 class MirrorSimpleContainer extends SimpleContainer {
-  MirrorSimpleContainer({
-    required super.context,
-    super.name = "Specchia",
-    required super.type,
-  });
+  MirrorSimpleContainer(
+      {super.name = "Specchia",
+      required super.type,
+      required super.languageCode});
 
   @override
   SimpleContainer copy() => MirrorSimpleContainer(
         type: super.type,
-        context: super.context,
+        languageCode: super.languageCode,
       );
 
   @override

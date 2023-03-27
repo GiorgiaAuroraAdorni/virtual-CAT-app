@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -39,7 +40,8 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
 
       return;
     }
-    CatInterpreter().fillEmpty(colors.first);
+    CatInterpreter()
+        .fillEmpty(colors.first, CATLocalizations.of(context).languageCode);
     CatLogger().addLog(
       context: context,
       previousCommand: "",

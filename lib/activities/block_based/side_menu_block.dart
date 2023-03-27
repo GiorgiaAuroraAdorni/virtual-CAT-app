@@ -21,6 +21,7 @@ import "package:cross_array_task_app/activities/block_based/model/paint_containe
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
@@ -34,39 +35,47 @@ class SideMenuBlock extends StatefulWidget {
 class _SideMenuBlockState extends State<SideMenuBlock> {
   /// Creating a list of SimpleContainer objects.
   late List<SimpleContainer> containers = <SimpleContainer>[
-    PaintSingleContainer(context: context),
-    GoPositionContainer(context: context),
+    PaintSingleContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
+    GoPositionContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
     PaintContainer(
       selected_colors: <CupertinoDynamicColor>[],
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
-    GoContainer(context: context),
-    FillEmptyContainer(context: context),
+    GoContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
+    FillEmptyContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
     MirrorSimpleContainer(
       type: ContainerType.mirrorVertical,
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorSimpleContainer(
       type: ContainerType.mirrorHorizontal,
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorContainerPoints(
       container: <SimpleContainer>[],
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorContainerCommands(
       container: <SimpleContainer>[],
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     CopyCommandsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     CopyCellsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
-      context: context,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
   ];
 
@@ -104,39 +113,47 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       ),
       onDragCompleted: () => setState(() {
         containers = <SimpleContainer>[
-          PaintSingleContainer(context: context),
-          GoPositionContainer(context: context),
+          PaintSingleContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          GoPositionContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
           PaintContainer(
             selected_colors: <CupertinoDynamicColor>[],
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
-          GoContainer(context: context),
-          FillEmptyContainer(context: context),
+          GoContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          FillEmptyContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
           MirrorSimpleContainer(
             type: ContainerType.mirrorVertical,
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
           MirrorSimpleContainer(
             type: ContainerType.mirrorHorizontal,
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
           MirrorContainerPoints(
             container: <SimpleContainer>[],
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
           MirrorContainerCommands(
             container: <SimpleContainer>[],
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
           CopyCommandsContainer(
             container: <SimpleContainer>[],
             moves: <SimpleContainer>[],
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
           CopyCellsContainer(
             container: <SimpleContainer>[],
             moves: <SimpleContainer>[],
-            context: context,
+            languageCode: CATLocalizations.of(context).languageCode,
           ),
         ];
       }),

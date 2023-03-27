@@ -4,6 +4,7 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -48,9 +49,7 @@ class _CrossState extends BasicShapeState<Cross> {
       return;
     }
     final List<String> colors = analyzeColor(
-      context
-          .read<SelectedColorsNotifier>()
-          .colors,
+      context.read<SelectedColorsNotifier>().colors,
     );
     if (colors.isEmpty) {
       if (widget.selectionMode.value == SelectionModes.base) {
@@ -76,6 +75,7 @@ class _CrossState extends BasicShapeState<Cross> {
     CatInterpreter().paintMultiple(
       positions,
       colors,
+      CATLocalizations.of(context).languageCode,
       copyCommands: widget.selectionMode.value == SelectionModes.repeat,
     );
     if (widget.selectionMode.value == SelectionModes.base) {
