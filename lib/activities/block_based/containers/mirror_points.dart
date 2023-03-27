@@ -275,6 +275,7 @@ class _Mirror extends State<MirrorPoints> {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,
@@ -315,7 +316,7 @@ class _Mirror extends State<MirrorPoints> {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
-
+    context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(

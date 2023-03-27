@@ -359,6 +359,7 @@ class _Mirror extends State<MirrorCommands> {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,
@@ -399,6 +400,7 @@ class _Mirror extends State<MirrorCommands> {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,

@@ -131,6 +131,7 @@ class _Go extends State<GoPosition> {
       widget.item.a = directions2.first;
       widget.item.b = directions.first;
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,

@@ -200,6 +200,7 @@ class _Paint extends State<Paint> {
     setState(() {
       widget.item.repetitions = 0;
     });
+    context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -233,6 +234,7 @@ class _Paint extends State<Paint> {
     setState(() {
       widget.item.repetitions = 0;
     });
+    context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -267,6 +269,7 @@ class _Paint extends State<Paint> {
     setState(() {
       widget.item.direction = widget.item.items2[directions[0]]!;
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,
@@ -302,6 +305,7 @@ class _Paint extends State<Paint> {
     setState(() {
       widget.item.direction = widget.item.items[directions[0]]!;
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,

@@ -226,6 +226,7 @@ class _Go extends State<Go> {
     setState(() {
       widget.item.repetitions = 1;
     });
+    context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -266,6 +267,7 @@ class _Go extends State<Go> {
     setState(() {
       widget.item.repetitions = 1;
     });
+    context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -300,6 +302,7 @@ class _Go extends State<Go> {
     setState(() {
       widget.item.direction = widget.item.items2[directions[0]]!;
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,
@@ -335,6 +338,7 @@ class _Go extends State<Go> {
     setState(() {
       widget.item.direction = widget.item.items[directions[0]]!;
     });
+    context.read<BlockUpdateNotifier>().update();
 
     showCupertinoModalPopup(
       context: context,
