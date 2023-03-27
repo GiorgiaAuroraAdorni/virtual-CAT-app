@@ -20,7 +20,9 @@ class CatInterpreter with ChangeNotifier {
     );
   }
 
-  final List<String> _copyCommandsBuffer = <String>[];
+  /// A buffer that stores the commands that are executed when the user
+  /// is copying cells.
+  final List<String> copyCommandsBuffer = <String>[];
   final List<String> _allCommandsBuffer = <String>[];
 
   static final CatInterpreter _catInterpreter = CatInterpreter._internal();
@@ -40,7 +42,7 @@ class CatInterpreter with ChangeNotifier {
   void resetInterpreter() {
     _interpreter.reset();
     _allCommandsBuffer.clear();
-    _copyCommandsBuffer.clear();
+    copyCommandsBuffer.clear();
     notifyListeners();
   }
 
@@ -65,7 +67,7 @@ class CatInterpreter with ChangeNotifier {
     code += " paint($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
     if (copyCommands) {
-      _copyCommandsBuffer.addAll(code.split(","));
+      copyCommandsBuffer.addAll(code.split(","));
     } else {
       _allCommandsBuffer.addAll(code.split(","));
     }
@@ -94,7 +96,7 @@ class CatInterpreter with ChangeNotifier {
       SchemasReader().currentIndex,
     );
     if (copyCommands) {
-      _copyCommandsBuffer.addAll(command);
+      copyCommandsBuffer.addAll(command);
     } else {
       _allCommandsBuffer.addAll(command);
     }
@@ -128,13 +130,13 @@ class CatInterpreter with ChangeNotifier {
       destinationPosition.add("${rows[i.first]}${i.second + 1}");
     }
     String code = "";
-    if (_copyCommandsBuffer.isNotEmpty) {
+    if (copyCommandsBuffer.isNotEmpty) {
       final String firstDestination =
-          _copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
+          copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
       destinationPosition.insert(0, firstDestination);
-      code = "COPY({${_copyCommandsBuffer.joinToString(separator: ",")}},"
+      code = "COPY({${copyCommandsBuffer.joinToString(separator: ",")}},"
           "{${destinationPosition.joinToString(separator: ",")}})";
-      _copyCommandsBuffer.clear();
+      copyCommandsBuffer.clear();
     } else {
       final List<String> originsPosition = <String>[];
       for (final Pair<int, int> i in origins) {
@@ -208,6 +210,7 @@ class CatInterpreter with ChangeNotifier {
   }
 
   void deleteCopyCommands() {
+    copyCommandsBuffer.clear();
     _interpreter
       ..reset()
       ..validateOnScheme(

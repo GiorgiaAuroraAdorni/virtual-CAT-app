@@ -71,6 +71,10 @@ class _BottomBarState extends State<BottomBar> {
               onPressed: () async {
                 await schemaCompleted().then((bool result) {
                   if (result) {
+                    _reset();
+                    context.read<TimeKeeper>().resetTimer();
+                    CatLogger().resetLogs();
+                    context.read<TypeUpdateNotifier>().reset();
                     context.read<ReferenceNotifier>().next();
                   } else {
                     Navigator.pop(context);
@@ -102,53 +106,49 @@ class _BottomBarState extends State<BottomBar> {
     commands.removeAt(0);
     final Collector collector = elaborate(commands: commands);
 
-    return Connection()
+    UIBlock.block(
+      context,
+      loadingTextWidget: Text("${widget.sessionID}:${widget.studentID}"),
+    );
+    final int result = await Connection()
         .addAlgorithm(
       collector: collector,
       studentID: widget.studentID,
       sessionID: widget.sessionID,
       context: context,
     )
-        .then((int value) async {
-      context.read<VisibilityNotifier>().visible = true;
-      final bool result = await UIBlock.blockWithData(
-        context,
-        customLoaderChild: Image.asset(
-          results.completed
-              ? "resources/gifs/sun.gif"
-              : "resources/gifs/rain.gif",
-          height: 250,
-          width: 250,
-        ),
-        loadingTextWidget: Column(
-          children: <Widget>[
-            // Text(
-            //   "Tempo total: ${TimeKeeper.timeFormat(_globalTime)}",
-            //   style: const TextStyle(
-            //     color: CupertinoColors.white,
-            //     fontSize: 18,
-            //   ),
-            // ),
-            const SizedBox(height: 18),
-            CupertinoButton.filled(
-              child: const Icon(CupertinoIcons.arrow_right),
-              onPressed: () async {
-                UIBlock.unblockWithData(
-                  context,
-                  SchemasReader().hasNext(),
-                );
-              },
-            ),
-          ],
-        ),
-      );
-      _reset();
-      context.read<TimeKeeper>().resetTimer();
-      CatLogger().resetLogs();
-      context.read<TypeUpdateNotifier>().reset();
+        .then((int value) {
+      UIBlock.unblock(context);
 
-      return result;
+      return value;
     });
+
+    context.read<VisibilityNotifier>().visible = true;
+
+    return await UIBlock.blockWithData(
+      context,
+      customLoaderChild: Image.asset(
+        results.completed
+            ? "resources/gifs/sun.gif"
+            : "resources/gifs/rain.gif",
+        height: 250,
+        width: 250,
+      ),
+      loadingTextWidget: Column(
+        children: <Widget>[
+          const SizedBox(height: 18),
+          CupertinoButton.filled(
+            child: const Icon(CupertinoIcons.arrow_right),
+            onPressed: () async {
+              UIBlock.unblockWithData(
+                context,
+                SchemasReader().hasNext(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   void _reset() {

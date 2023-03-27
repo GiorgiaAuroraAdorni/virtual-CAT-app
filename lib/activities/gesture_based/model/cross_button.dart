@@ -2,12 +2,14 @@ import "dart:async";
 
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
 /// It's a button that can be selected, deselected, and changed color
@@ -68,6 +70,11 @@ class CrossButton extends StatefulWidget {
   /// to true
   void unSelect({bool success = false}) =>
       _unSelect(globalKey, success: success);
+
+  bool? selected() => _selected(globalKey);
+
+  bool? _selected(GlobalKey<CrossButtonState> globalKey) =>
+      globalKey.currentState?.selected;
 
   void _select(GlobalKey<CrossButtonState> globalKey) =>
       globalKey.currentState?.select();
@@ -138,7 +145,11 @@ class CrossButtonState extends State<CrossButton> {
             return;
           }
           if (widget.selectionMode.value == SelectionModes.select) {
-            _selection();
+            if (CatInterpreter().copyCommandsBuffer.isEmpty) {
+              _selection();
+            } else {
+              _selection2();
+            }
 
             return;
           } else if (widget.selectionMode.value == SelectionModes.multiple) {
@@ -181,6 +192,114 @@ class CrossButtonState extends State<CrossButton> {
       );
     } else {
       return const Text("");
+    }
+  }
+
+  /// It takes two lists of pairs of integers, and returns a string that
+  /// represents the code that will be executed by the interpreter
+  ///
+  /// Args:
+  ///   origins (List<Pair<int, int>>): The list of cells that will be copied.
+  ///   destinations (List<Pair<int, int>>): The list of cells to be copied to.
+  String copyCells(
+    List<Pair<int, int>> origins,
+    List<Pair<int, int>> destinations,
+  ) {
+    final List<String> copyCommandsBuffer = List<String>.from(
+      CatInterpreter().copyCommandsBuffer,
+    );
+
+    final List<String> destinationPosition = <String>[];
+    for (final Pair<int, int> i in destinations) {
+      destinationPosition.add("${rows[i.first]}${i.second + 1}");
+    }
+    String code = "";
+    if (copyCommandsBuffer.isNotEmpty) {
+      final String firstDestination =
+          copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
+      destinationPosition.insert(0, firstDestination);
+      code = "COPY({${copyCommandsBuffer.joinToString(separator: ",")}},"
+          "{${destinationPosition.joinToString(separator: ",")}})";
+      copyCommandsBuffer.clear();
+    } else {
+      final List<String> originsPosition = <String>[];
+      for (final Pair<int, int> i in origins) {
+        originsPosition.add("${rows[i.first]}${i.second + 1}");
+      }
+      code = "COPY({${originsPosition.joinToString(separator: ",")}},"
+          "{${destinationPosition.joinToString(separator: ",")}})";
+    }
+
+    return code;
+  }
+
+  void _selection2() {
+    if (selectionRepeat && widget.selectedButtons.value.contains(widget)) {
+      widget.selectedButtons.value.remove(widget);
+    } else if (selectionRepeat) {
+      return;
+    } else {
+      widget.selectedButtons.value.add(widget);
+    }
+    final List<String> commandsToCopy = CatInterpreter().copyCommandsBuffer;
+    final CATInterpreter localInterpreter = CATInterpreter.fromSchemes(
+      SchemasReader().schemes,
+      Shape.cross,
+    );
+    final CATInterpreter localInterpreterCopy = CATInterpreter.fromSchemes(
+      SchemasReader().schemes,
+      Shape.cross,
+    );
+    final Pair<Results, CatError> localResults =
+        localInterpreter.validateOnScheme(
+      commandsToCopy.joinToString(),
+      SchemasReader().currentIndex,
+    );
+    if (localResults.second != CatError.none) {
+      widget.shakeKey.currentState?.shake();
+    }
+    final List<List<int>> localGrid = localResults.first.getStates.last.getGrid;
+
+    final List<Pair<int, int>> origins = <Pair<int, int>>[];
+    final List<Pair<int, int>> destinations = <Pair<int, int>>[];
+    for (final CrossButton b in widget.coloredButtons.value) {
+      origins.add(b.position);
+    }
+    for (final CrossButton b in widget.selectedButtons.value) {
+      destinations.add(b.position);
+    }
+    final String command = copyCells(origins, destinations);
+    final Pair<Results, CatError> localResultsCopy =
+        localInterpreterCopy.validateOnScheme(
+      command,
+      SchemasReader().currentIndex,
+    );
+    final List<List<int>> localGridCopy =
+        localResultsCopy.first.getStates.last.getGrid;
+    final List<Pair<int, int>> selectedButtons = [];
+    for (int i = 0; i < localGrid.length; i++) {
+      for (int j = 0; j < localGrid[i].length; j++) {
+        if (localGridCopy[i][j] != localGrid[i][j]) {
+          selectedButtons.add(Pair<int, int>(i, j));
+        }
+      }
+    }
+    for (int i = 0; i < localGrid.length; i++) {
+      for (int j = 0; j < localGrid[i].length; j++) {
+        final Widget b = widget.buttons[i].children[j];
+        if (b is CrossButton) {
+          final bool? selected = b.selected();
+          if (selected != null && !selected) {
+            b.unSelect();
+          }
+        }
+      }
+    }
+    for (final Pair<int, int> i in selectedButtons) {
+      final Widget b = widget.buttons[i.first].children[i.second];
+      if (b is CrossButton) {
+        b.selectRepeat();
+      }
     }
   }
 
@@ -261,7 +380,13 @@ class CrossButtonState extends State<CrossButton> {
     CatLogger().addLog(
       context: context,
       previousCommand: "",
-      currentCommand: CatInterpreter().getResults.getCommands.last,
+      currentCommand: CatInterpreter()
+          .getResults
+          .getCommands
+          .reversed
+          .take(2)
+          .reversed
+          .joinToString(),
       description: CatLoggingLevel.confirmCommand,
     );
   }

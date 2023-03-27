@@ -90,14 +90,14 @@ class CommandsInspector {
 
       return command;
     }
-    // if (copyCommands &&
-    //     (direction.startsWith("right") ||
-    //         direction.startsWith("left") ||
-    //         direction.startsWith("up") ||
-    //         direction.startsWith("right") ||
-    //         direction.startsWith("diagonal"))) {
-    //   return inspector._conversionForCopy(direction, positions, colors);
-    // }
+    if (copyCommands &&
+        (direction.startsWith("right") ||
+            direction.startsWith("left") ||
+            direction.startsWith("up") ||
+            direction.startsWith("down") ||
+            direction.startsWith("diagonal"))) {
+      return inspector._conversionForCopy(direction, positions, colors);
+    }
     final List<String> command = <String>[];
     if (!direction.isBlank) {
       command
@@ -133,36 +133,96 @@ class CommandsInspector {
       }
     } else if (direction == "left") {
       if ((positions.first.first == 2 || positions.first.first == 3) &&
-          positions.first.second == 5 &&
           positions.length == 6) {
         repetitions = ":";
-      } else if (positions.first.first != 2 &&
-          positions.first.first != 3 &&
-          positions.first.second != 5) {
+      } else if (positions.first.first != 2 && positions.first.first != 3) {
         repetitions = ":";
       } else {
         repetitions = positions.length.toString();
       }
     } else if (direction == "down") {
       if ((positions.first.second == 2 || positions.first.second == 3) &&
-          positions.first.first == 5 &&
           positions.length == 6) {
         repetitions = ":";
-      } else if (positions.first.second != 2 &&
-          positions.first.second != 3 &&
-          positions.first.first != 5) {
+      } else if (positions.first.second != 2 && positions.first.second != 3) {
         repetitions = ":";
       } else {
         repetitions = positions.length.toString();
       }
     } else if (direction == "up") {
       if ((positions.first.second == 2 || positions.first.second == 3) &&
-          positions.first.first == 0 &&
           positions.length == 6) {
         repetitions = ":";
-      } else if (positions.first.second != 2 &&
-          positions.first.second != 3 &&
-          positions.first.first != 0) {
+      } else if (positions.first.second != 2 && positions.first.second != 3) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "diagonal down right") {
+      if (((positions.first.second == 0 && positions.first.first == 3) ||
+              (positions.first.second == 3 && positions.first.first == 0) ||
+              (positions.first.second == 2 && positions.first.first == 2)) &&
+          positions.length == 2) {
+        repetitions = ":";
+      } else if (((positions.first.second == 2 && positions.first.first == 0) ||
+              (positions.first.second == 0 && positions.first.first == 2)) &&
+          positions.length == 4) {
+        repetitions = ":";
+      } else if (((positions.first.second == 2 && positions.first.first == 1) ||
+              (positions.first.second == 1 && positions.first.first == 2)) &&
+          positions.length == 3) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "diagonal up left") {
+      if (((positions.first.second == 2 && positions.first.first == 5) ||
+              (positions.first.second == 5 && positions.first.first == 2) ||
+              (positions.first.second == 3 && positions.first.first == 3)) &&
+          positions.length == 2) {
+        repetitions = ":";
+      } else if (((positions.first.second == 3 && positions.first.first == 5) ||
+              (positions.first.second == 5 && positions.first.first == 3)) &&
+          positions.length == 4) {
+        repetitions = ":";
+      } else if (((positions.first.second == 3 && positions.first.first == 4) ||
+              (positions.first.second == 4 && positions.first.first == 3)) &&
+          positions.length == 3) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "diagonal up right") {
+      if (((positions.first.second == 0 && positions.first.first == 2) ||
+              (positions.first.second == 3 && positions.first.first == 5) ||
+              (positions.first.second == 2 && positions.first.first == 3)) &&
+          positions.length == 2) {
+        repetitions = ":";
+      } else if (((positions.first.second == 0 && positions.first.first == 3) ||
+              (positions.first.second == 2 && positions.first.first == 5)) &&
+          positions.length == 4) {
+        repetitions = ":";
+      } else if (((positions.first.second == 1 && positions.first.first == 3) ||
+              (positions.first.second == 2 && positions.first.first == 4)) &&
+          positions.length == 3) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+      // row, column
+    } else if (direction == "diagonal down left") {
+      if (((positions.first.second == 2 && positions.first.first == 0) ||
+              (positions.first.second == 5 && positions.first.first == 3) ||
+              (positions.first.second == 3 && positions.first.first == 2)) &&
+          positions.length == 2) {
+        repetitions = ":";
+      } else if (((positions.first.second == 3 && positions.first.first == 0) ||
+              (positions.first.second == 5 && positions.first.first == 2)) &&
+          positions.length == 4) {
+        repetitions = ":";
+      } else if (((positions.first.second == 3 && positions.first.first == 1) ||
+              (positions.first.second == 4 && positions.first.first == 2)) &&
+          positions.length == 3) {
         repetitions = ":";
       } else {
         repetitions = positions.length.toString();
