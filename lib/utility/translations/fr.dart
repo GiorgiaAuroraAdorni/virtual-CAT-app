@@ -7,10 +7,10 @@ final Map<String, String> fr = <String, String>{
   "level": "Niveau",
   "testApplication": "Session d'essai",
   "mode": "Mode",
-  "oldSession": "Continuare sessione",
-  "newSession": "Nuova sessione",
-  "oldStudent": "Continuare con studente registrato",
-  "newStudent": "Creare nuovo studente",
+  "oldSession": "Continuer une session précédente",
+  "newSession": "Commencer une nouvelle session",
+  "oldStudent": "Continuer avec un étudiant inscrit",
+  "newStudent": "Créer un nouvel étudiant",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);
