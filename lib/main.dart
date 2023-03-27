@@ -151,6 +151,7 @@ class _HomePageState extends State<HomePage> {
           child: CustomScrollView(
             slivers: <Widget>[
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

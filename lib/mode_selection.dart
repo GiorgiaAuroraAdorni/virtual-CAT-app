@@ -3,6 +3,7 @@ import "package:cross_array_task_app/i_p_configuration.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_svg/svg.dart";
 
 /// It's a page that allows the user to select between the two modes of the
 /// application
@@ -18,42 +19,81 @@ class ModeSelection extends StatelessWidget {
               largeTitle: Text(CATLocalizations.of(context).mode),
             ),
             SliverFillRemaining(
+              hasScrollBody: false,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      SchemasReader().normal();
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) =>
-                              const IPConfiguration(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        "resources/icon/flag.checkered.2.crossed.svg",
+                        height: 100,
+                        width: 100,
+                        colorFilter: const ColorFilter.mode(
+                          CupertinoColors.black,
+                          BlendMode.srcIn,
                         ),
-                      );
-                    },
-                    child: Text(CATLocalizations.of(context).tutorialTitle),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CupertinoButton.filled(
+                        onPressed: () {
+                          SchemasReader().normal();
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute<Widget>(
+                              builder: (BuildContext context) =>
+                                  const IPConfiguration(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          CATLocalizations.of(context).tutorialTitle,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     width: 20,
                   ),
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      SchemasReader().testing();
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) =>
-                              const CupertinoPageScaffold(
-                            child: ActivityHome(
-                              sessionID: -1,
-                              studentID: -1,
-                            ),
-                          ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        "resources/icon/gamecontroller.svg",
+                        height: 100,
+                        width: 100,
+                        colorFilter: const ColorFilter.mode(
+                          CupertinoColors.black,
+                          BlendMode.srcIn,
                         ),
-                      );
-                    },
-                    child: Text(CATLocalizations.of(context).testApplication),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CupertinoButton.filled(
+                        onPressed: () {
+                          SchemasReader().testing();
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute<Widget>(
+                              builder: (BuildContext context) =>
+                                  const CupertinoPageScaffold(
+                                child: ActivityHome(
+                                  sessionID: -1,
+                                  studentID: -1,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          CATLocalizations.of(context).testApplication,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/tutor_form.dart";
+import "package:cross_array_task_app/session_selection.dart";
 import "package:flutter/cupertino.dart";
 
 class IPConfiguration extends StatefulWidget {
@@ -53,7 +53,7 @@ class _IPConfigurationState extends State<IPConfiguration> {
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(
-              builder: (BuildContext context) => const SchoolForm(),
+              builder: (BuildContext context) => const SessionSelection(),
             ),
           );
         }

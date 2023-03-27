@@ -68,9 +68,7 @@ class CommandsInspector {
       direction = "square top left";
     } else if (inspector._squareTopRight(positions)) {
       direction = "square top right";
-    }
-    // TODO: Start
-    else if (inspector._squareBottomLeftReverse(positions)) {
+    } else if (inspector._squareBottomLeftReverse(positions)) {
       direction = "square bottom left reverse";
     } else if (inspector._squareBottomRightReverse(positions)) {
       direction = "square bottom right reverse";
@@ -78,9 +76,7 @@ class CommandsInspector {
       direction = "square top left reverse";
     } else if (inspector._squareTopRightReverse(positions)) {
       direction = "square top right reverse";
-    }
-    // TODO: end
-    else {
+    } else {
       final List<String> command = <String>[];
       int j = 0;
       for (final Pair<int, int> k in positions) {
@@ -94,6 +90,14 @@ class CommandsInspector {
 
       return command;
     }
+    // if (copyCommands &&
+    //     (direction.startsWith("right") ||
+    //         direction.startsWith("left") ||
+    //         direction.startsWith("up") ||
+    //         direction.startsWith("right") ||
+    //         direction.startsWith("diagonal"))) {
+    //   return inspector._conversionForCopy(direction, positions, colors);
+    // }
     final List<String> command = <String>[];
     if (!direction.isBlank) {
       command
@@ -106,6 +110,69 @@ class CommandsInspector {
     }
 
     return command;
+  }
+
+  // row, column
+  List<String> _conversionForCopy(
+    String direction,
+    List<Pair<int, int>> positions,
+    List<String> colors,
+  ) {
+    String repetitions = "";
+    if (direction == "right") {
+      if ((positions.first.first == 2 || positions.first.first == 3) &&
+          positions.first.second == 0 &&
+          positions.length == 6) {
+        repetitions = ":";
+      } else if (positions.first.first != 2 &&
+          positions.first.first != 3 &&
+          positions.first.second != 0) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "left") {
+      if ((positions.first.first == 2 || positions.first.first == 3) &&
+          positions.first.second == 5 &&
+          positions.length == 6) {
+        repetitions = ":";
+      } else if (positions.first.first != 2 &&
+          positions.first.first != 3 &&
+          positions.first.second != 5) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "down") {
+      if ((positions.first.second == 2 || positions.first.second == 3) &&
+          positions.first.first == 5 &&
+          positions.length == 6) {
+        repetitions = ":";
+      } else if (positions.first.second != 2 &&
+          positions.first.second != 3 &&
+          positions.first.first != 5) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    } else if (direction == "up") {
+      if ((positions.first.second == 2 || positions.first.second == 3) &&
+          positions.first.first == 0 &&
+          positions.length == 6) {
+        repetitions = ":";
+      } else if (positions.first.second != 2 &&
+          positions.first.second != 3 &&
+          positions.first.first != 0) {
+        repetitions = ":";
+      } else {
+        repetitions = positions.length.toString();
+      }
+    }
+
+    return <String>[
+      "go(${rows[positions.first.first]}${positions.first.second + 1})",
+      "paint({${colors.joinToString()}},$repetitions,$direction)",
+    ];
   }
 
   bool _left(List<Pair<int, int>> positions) {
@@ -540,7 +607,6 @@ class CommandsInspector {
     return true;
   }
 
-  // row, column
   bool _squareBottomLeft(List<Pair<int, int>> positions) {
     if (positions.length != 4) {
       return false;

@@ -7,6 +7,10 @@ final Map<String, String> it = <String, String>{
   "level": "Livello",
   "testApplication": "Sessione di prova",
   "mode": "Modalità",
+  "oldSession": "Continuare sessione",
+  "newSession": "Nuova sessione",
+  "oldStudent": "Continuare con studente registrato",
+  "newStudent": "Creare nuovo studente",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);

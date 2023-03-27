@@ -96,7 +96,10 @@ class GestureHomeState extends State<GestureHome> {
           builder: (BuildContext context, Widget? child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TopBar(),
+              TopBar(
+                sessionID: widget.sessionID,
+                studentID: widget.studentID,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

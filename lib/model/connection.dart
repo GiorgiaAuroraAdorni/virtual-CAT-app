@@ -175,6 +175,7 @@ class Connection extends BaseConnection {
         "text": state == 2,
         "artefactDimension": state + 1,
         "time": context.read<TimeKeeper>().rawTime,
+        "timeStamp": DateTime.now().toIso8601String(),
       },
     ).run();
 
