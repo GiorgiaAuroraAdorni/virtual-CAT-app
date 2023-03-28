@@ -6,6 +6,7 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart" as cat;
+import "package:interpreter/cat_interpreter.dart";
 
 /// `CatInterpreter` is a singleton class that creates a single instance of
 /// `cat.CATInterpreter` when the first call to `CatInterpreter()` is made
@@ -234,8 +235,18 @@ class CatInterpreter with ChangeNotifier {
   /// Args:
   ///   commands (String): The commands to be executed.
   void executeCommands(String commands, String languageCode) {
-    _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
-    _validCommandsBuffer.add(commands);
+    final Pair<Results, CatError> results =
+        _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
+
+    if (results.second != CatError.none) {
+      _interpreter.reset();
+      for (final String i in _validCommandsBuffer) {
+        _interpreter.validateOnScheme(i, SchemasReader().currentIndex);
+      }
+    } else {
+      _validCommandsBuffer.add(commands);
+    }
+
     notifyListeners();
   }
 
