@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/student_selection.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 class RecoverSession extends StatefulWidget {
@@ -22,8 +23,8 @@ class _RecoverSessionState extends State<RecoverSession> {
               child: Column(
                 children: <Widget>[
                   CupertinoFormRow(
-                    prefix: const Text(
-                      "Session ID:",
+                    prefix: Text(
+                      "${CATLocalizations.of(context).sessionID}:",
                       textAlign: TextAlign.right,
                     ),
                     child: CupertinoTextFormFieldRow(

@@ -199,6 +199,12 @@ class CATLocalizations {
   String get newStudent =>
       _localizedValues[_locale.languageCode]!["newStudent"]!;
 
+  /// It's a getter that returns the localized list for the key "oldStudent"
+  String get sessionID => _localizedValues[_locale.languageCode]!["sessionID"]!;
+
+  /// It's a getter that returns the localized list for the key "newStudent"
+  String get studentID => _localizedValues[_locale.languageCode]!["studentID"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 

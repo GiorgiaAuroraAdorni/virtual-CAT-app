@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 import "activities/activity_home.dart";
@@ -25,8 +26,8 @@ class _RecoverStudentState extends State<RecoverStudent> {
               child: Column(
                 children: <Widget>[
                   CupertinoFormRow(
-                    prefix: const Text(
-                      "Session ID:",
+                    prefix: Text(
+                      "${CATLocalizations.of(context).studentID}:",
                       textAlign: TextAlign.right,
                     ),
                     child: CupertinoTextFormFieldRow(

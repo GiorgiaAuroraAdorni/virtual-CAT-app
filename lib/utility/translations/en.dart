@@ -11,6 +11,8 @@ final Map<String, String> en = <String, String>{
   "newSession": "Start a new session",
   "oldStudent": "Continue with a registered student",
   "newStudent": "Create a new student",
+  "sessionID": "ID Sessione",
+  "studentID": "ID Studente",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);
