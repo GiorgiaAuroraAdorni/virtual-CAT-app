@@ -52,12 +52,12 @@ const Map<String, String> blocksEn = <String, String>{
   "pattern": "Pattern",
   "mirrorVertical": "Mirror vertical",
   "mirrorHorizontal": "Mirror horizontal",
-  "position": "Position",
-  "direction": "Direction",
+  "position": "Dot",
+  "direction": "Go to",
   "fillEmpty": "Fill empty",
   "copy": "Copy",
-  "origin": "Origin position",
-  "destination": "Destination position",
+  "origin": "What? (dots)",
+  "destination": "Where? (dots)",
 };
 
 const Map<String, String> directionsEn = <String, String>{
