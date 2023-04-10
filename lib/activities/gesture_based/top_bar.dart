@@ -1,8 +1,12 @@
 import "dart:async";
+import "dart:ui";
 
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
@@ -48,93 +52,107 @@ class _TopBarState extends State<TopBar> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "${widget.sessionID}:${widget.studentID}",
-              style: const TextStyle(fontSize: 13),
-            ),
+            if (widget.sessionID != -1 && widget.studentID != -1)
+              Text(
+                "${widget.sessionID}:${widget.studentID}",
+                style: const TextStyle(fontSize: 13),
+              ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: SvgPicture.asset(
-                      "resources/icon/code.svg",
-                      height: 42,
-                      width: 42,
-                      colorFilter: ColorFilter.mode(
-                        context.read<TypeUpdateNotifier>().state == 2
-                            ? CupertinoColors.activeBlue
-                            : CupertinoColors.inactiveGray,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    onPressed: () {
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand:
-                            "${context.read<TypeUpdateNotifier>().state}",
-                        currentCommand: "2",
-                        description: CatLoggingLevel.changeMode,
-                      );
-                      context.read<TypeUpdateNotifier>().setState(2);
-                    },
-                  ),
+                Text(
+                  "Punteggio: ${catScore(
+                        commands: List<String>.from(
+                          CatInterpreter().getResults.getCommands,
+                        ),
+                        visible: context.read<VisibilityNotifier>().visible,
+                      ) * 100}",
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: SvgPicture.asset(
-                      "resources/icon/block.svg",
-                      height: 42,
-                      width: 42,
-                      colorFilter: ColorFilter.mode(
-                        context.read<TypeUpdateNotifier>().state == 1
-                            ? CupertinoColors.activeBlue
-                            : CupertinoColors.inactiveGray,
-                        BlendMode.srcIn,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        child: SvgPicture.asset(
+                          "resources/icon/code.svg",
+                          height: 42,
+                          width: 42,
+                          colorFilter: ColorFilter.mode(
+                            context.read<TypeUpdateNotifier>().state == 2
+                                ? CupertinoColors.activeBlue
+                                : CupertinoColors.inactiveGray,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        onPressed: () {
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand:
+                                "${context.read<TypeUpdateNotifier>().state}",
+                            currentCommand: "2",
+                            description: CatLoggingLevel.changeMode,
+                          );
+                          context.read<TypeUpdateNotifier>().setState(2);
+                        },
                       ),
                     ),
-                    onPressed: () {
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand:
-                            "${context.read<TypeUpdateNotifier>().state}",
-                        currentCommand: "1",
-                        description: CatLoggingLevel.changeMode,
-                      );
-                      context.read<TypeUpdateNotifier>().setState(1);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: SvgPicture.asset(
-                      "resources/icon/gesture.svg",
-                      height: 42,
-                      width: 42,
-                      colorFilter: ColorFilter.mode(
-                        context.read<TypeUpdateNotifier>().state == 0
-                            ? CupertinoColors.tertiarySystemFill
-                            : CupertinoColors.inactiveGray,
-                        BlendMode.color,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        child: SvgPicture.asset(
+                          "resources/icon/block.svg",
+                          height: 42,
+                          width: 42,
+                          colorFilter: ColorFilter.mode(
+                            context.read<TypeUpdateNotifier>().state == 1
+                                ? CupertinoColors.activeBlue
+                                : CupertinoColors.inactiveGray,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        onPressed: () {
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand:
+                                "${context.read<TypeUpdateNotifier>().state}",
+                            currentCommand: "1",
+                            description: CatLoggingLevel.changeMode,
+                          );
+                          context.read<TypeUpdateNotifier>().setState(1);
+                        },
                       ),
                     ),
-                    onPressed: () {
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand:
-                            "${context.read<TypeUpdateNotifier>().state}",
-                        currentCommand: "0",
-                        description: CatLoggingLevel.changeMode,
-                      );
-                      context.read<TypeUpdateNotifier>().setState(0);
-                    },
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        child: SvgPicture.asset(
+                          "resources/icon/gesture.svg",
+                          height: 42,
+                          width: 42,
+                          colorFilter: ColorFilter.mode(
+                            context.read<TypeUpdateNotifier>().state == 0
+                                ? CupertinoColors.tertiarySystemFill
+                                : CupertinoColors.inactiveGray,
+                            BlendMode.color,
+                          ),
+                        ),
+                        onPressed: () {
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand:
+                                "${context.read<TypeUpdateNotifier>().state}",
+                            currentCommand: "0",
+                            description: CatLoggingLevel.changeMode,
+                          );
+                          context.read<TypeUpdateNotifier>().setState(0);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 // CupertinoButton(
                 //   padding: EdgeInsets.zero,
@@ -145,22 +163,15 @@ class _TopBarState extends State<TopBar> {
                 //   ),
                 //   onPressed: () {},
                 // ),
-                // Text(
-                //   "Punteggio: ${catScore(
-                //         commands: List<String>.from(
-                //           CatInterpreter().getResults.getCommands,
-                //         ),
-                //         visible: context.read<VisibilityNotifier>().visible,
-                //       ) * 100}",
-                // ),
-                // Text(
-                //   "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
-                //   style: const TextStyle(
-                //     fontFeatures: <FontFeature>[
-                //       FontFeature.tabularFigures(),
-                //     ],
-                //   ),
-                // ),
+
+                Text(
+                  "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
+                  style: const TextStyle(
+                    fontFeatures: <FontFeature>[
+                      FontFeature.tabularFigures(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

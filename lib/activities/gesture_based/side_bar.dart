@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/gesture_based/bottom_bar.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
@@ -110,9 +111,15 @@ class _SideBarState extends State<SideBar> {
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: context.watch<TypeUpdateNotifier>(),
         builder: (BuildContext context, Widget? child) => Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
           child: Column(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Text(
+                  "${SchemasReader().currentIndex}/${SchemasReader().size}",
+                ),
+              ),
               if (context.read<TypeUpdateNotifier>().state > 0)
                 CrossWidgetSimple(
                   displayLetters: true,

@@ -52,6 +52,28 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) => Row(
         children: <Widget>[
+          if (widget.studentID == -1 && widget.sessionID == -1)
+            Padding(
+              padding: const EdgeInsets.only(right: 5, left: 5),
+              child: CupertinoButton(
+                onPressed: () async {
+                  if (SchemasReader().hasPrev()) {
+                    _reset();
+                    context.read<TimeKeeper>().resetTimer();
+                    CatLogger().resetLogs();
+                    context.read<TypeUpdateNotifier>().reset();
+                    context.read<ReferenceNotifier>().prev();
+                  }
+                },
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                padding: EdgeInsets.zero,
+                color: CupertinoColors.systemOrange,
+                child: const Icon(
+                  CupertinoIcons.arrow_left,
+                ),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(

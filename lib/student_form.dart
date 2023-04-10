@@ -67,6 +67,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
             slivers: <Widget>[
               CupertinoSliverNavigationBar(
                 largeTitle: Text(CATLocalizations.of(context).secondFormTitle),
+                previousPageTitle: "${widget.sessionID}",
                 trailing: CupertinoButton(
                   onPressed: () {
                     Connection()

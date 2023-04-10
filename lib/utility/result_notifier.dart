@@ -21,6 +21,11 @@ class ReferenceNotifier extends ResultNotifier {
     SchemasReader().next();
     notifyListeners();
   }
+
+  void prev() {
+    SchemasReader().prev();
+    notifyListeners();
+  }
 }
 
 class BlockUpdateNotifier extends ChangeNotifier {
