@@ -8,7 +8,7 @@ class PaintSingleContainer extends SimpleContainer {
     super.name = "Colora singolo",
     super.type = ContainerType.paintSingle,
     required super.languageCode,
-    this.selected = CupertinoColors.systemBlue,
+    this.selected = CupertinoColors.systemOrange,
   });
 
   CupertinoDynamicColor selected;
