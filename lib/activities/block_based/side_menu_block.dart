@@ -42,7 +42,10 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintContainer(
-      selected_colors: <CupertinoDynamicColor>[],
+      selected_colors: <CupertinoDynamicColor>[
+        CupertinoColors.systemBlue,
+        CupertinoColors.systemRed,
+      ],
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     GoContainer(
@@ -120,7 +123,10 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           PaintContainer(
-            selected_colors: <CupertinoDynamicColor>[],
+            selected_colors: <CupertinoDynamicColor>[
+              CupertinoColors.systemBlue,
+              CupertinoColors.systemRed,
+            ],
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           GoContainer(

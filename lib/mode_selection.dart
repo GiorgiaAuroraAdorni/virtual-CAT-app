@@ -80,11 +80,9 @@ class ModeSelection extends StatelessWidget {
                             context,
                             CupertinoPageRoute<Widget>(
                               builder: (BuildContext context) =>
-                                  const CupertinoPageScaffold(
-                                child: ActivityHome(
-                                  sessionID: -1,
-                                  studentID: -1,
-                                ),
+                                  const ActivityHome(
+                                sessionID: -1,
+                                studentID: -1,
                               ),
                             ),
                           );

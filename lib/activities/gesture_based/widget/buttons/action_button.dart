@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:flutter/cupertino.dart";
 
 /// `ActionButton` is a class that extends `StatefulWidget` and has two functions,
@@ -40,6 +41,8 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   bool _selected = false;
   bool _active = true;
 
+  bool additionalFlag = true;
+
   /// icon to display.
   late final IconData icon;
 
@@ -47,42 +50,47 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   double angle = 0;
 
   @override
-  Widget build(BuildContext context) {
-    if (!_active) {
-      return Padding(
-        padding: EdgeInsets.all(_paddingSize),
-        child: CupertinoButton(
-          onPressed: null,
-          color: widget.background,
-          minSize: 50,
-          padding: EdgeInsets.zero,
-          borderRadius: BorderRadius.circular(45),
-          child: Transform.rotate(
-            angle: angle,
-            child: Icon(icon),
-          ),
-        ),
-      );
-    }
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: CatInterpreter(),
+        builder: (BuildContext context, Widget? child) {
+          if (!_active ||
+              (CatInterpreter().executedCommands == 1 && additionalFlag)) {
+            return Padding(
+              padding: EdgeInsets.all(_paddingSize),
+              child: CupertinoButton(
+                onPressed: null,
+                color: widget.background,
+                minSize: 50,
+                padding: EdgeInsets.zero,
+                borderRadius: BorderRadius.circular(45),
+                child: Transform.rotate(
+                  angle: angle,
+                  child: Icon(icon),
+                ),
+              ),
+            );
+          }
 
-    return Padding(
-      padding: EdgeInsets.all(_paddingSize),
-      child: CupertinoButton(
-        onPressed: _selected ? whenSelected : whenNotSelected,
-        borderRadius: BorderRadius.circular(45),
-        minSize: 50,
-        padding: EdgeInsets.zero,
-        color: _selected ? widget.selectionColor : widget.background,
-        child: Transform.rotate(
-          angle: angle,
-          child: Icon(
-            icon,
-            color: _selected ? CupertinoColors.white : CupertinoColors.black,
-          ),
-        ),
-      ),
-    );
-  }
+          return Padding(
+            padding: EdgeInsets.all(_paddingSize),
+            child: CupertinoButton(
+              onPressed: _selected ? whenSelected : whenNotSelected,
+              borderRadius: BorderRadius.circular(45),
+              minSize: 50,
+              padding: EdgeInsets.zero,
+              color: _selected ? widget.selectionColor : widget.background,
+              child: Transform.rotate(
+                angle: angle,
+                child: Icon(
+                  icon,
+                  color:
+                      _selected ? CupertinoColors.white : CupertinoColors.black,
+                ),
+              ),
+            ),
+          );
+        },
+      );
 
   /// When the user selects a suggestion, the onDismiss callback is called, and the
   /// selected state is set to false

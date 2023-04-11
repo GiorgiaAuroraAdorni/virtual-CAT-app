@@ -52,11 +52,9 @@ class _RecoverStudentState extends State<RecoverStudent> {
       Navigator.push(
         context,
         CupertinoPageRoute<Widget>(
-          builder: (BuildContext context) => CupertinoPageScaffold(
-            child: ActivityHome(
-              sessionID: widget.sessionID,
-              studentID: value,
-            ),
+          builder: (BuildContext context) => ActivityHome(
+            sessionID: widget.sessionID,
+            studentID: value,
           ),
         ),
       );

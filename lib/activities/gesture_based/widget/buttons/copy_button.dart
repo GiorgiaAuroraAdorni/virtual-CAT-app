@@ -62,6 +62,8 @@ class CopyButtonSecondary extends CopyButton {
 }
 
 class CopyButtonSecondatyState extends CopyButtonState {
+  bool additionalFlag = false;
+
   @override
   void onSelect() {
     widget.state.copyButtonSecondaryKey.currentState?.deSelect();

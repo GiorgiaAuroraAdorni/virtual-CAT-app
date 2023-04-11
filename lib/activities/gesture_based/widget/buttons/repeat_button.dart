@@ -1,9 +1,8 @@
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
+import 'package:cross_array_task_app/utility/cat_log.dart';
 import "package:flutter/cupertino.dart";
-
-import "../../../../utility/cat_log.dart";
 
 /// A button that repeats a callback while it is held down
 class RepeatButton extends ActionButton {
@@ -26,6 +25,8 @@ class RepeatButton extends ActionButton {
 /// It's a button that can be selected or deselected, and when selected,
 /// it calls a function
 class RepeatButtonState extends ActionButtonState<RepeatButton> {
+  bool additionalFlag = false;
+
   @override
   void onSelect() {
     widget.state.setState(() {

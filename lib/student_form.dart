@@ -83,12 +83,9 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                         Navigator.push(
                           context,
                           CupertinoPageRoute<Widget>(
-                            builder: (BuildContext context) =>
-                                CupertinoPageScaffold(
-                              child: ActivityHome(
-                                sessionID: widget.sessionID,
-                                studentID: studentID,
-                              ),
+                            builder: (BuildContext context) => ActivityHome(
+                              sessionID: widget.sessionID,
+                              studentID: studentID,
                             ),
                           ),
                         );

@@ -7,7 +7,7 @@ class FillEmptyContainer extends SimpleContainer {
   FillEmptyContainer({
     super.name = "Riempi vuoti",
     super.type = ContainerType.fillEmpty,
-    this.selected = CupertinoColors.systemOrange,
+    this.selected = CupertinoColors.systemBlue,
     required super.languageCode,
   });
 

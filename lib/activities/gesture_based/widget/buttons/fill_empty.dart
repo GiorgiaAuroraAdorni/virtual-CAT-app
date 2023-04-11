@@ -31,6 +31,8 @@ class FillEmpty extends ActionButton {
 
 /// `FillEmptyState` is a state class for the `FillEmpty` action button
 class FillEmptyState extends ActionButtonState<FillEmpty> {
+  bool additionalFlag = false;
+
   @override
   void onSelect() {
     final List<String> colors =

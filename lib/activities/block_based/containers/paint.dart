@@ -91,24 +91,6 @@ class _Paint extends State<Paint> {
               height: 5,
             ),
             Text(
-              CATLocalizations.of(context).blocks["repetitions"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            CupertinoButton(
-              color: CupertinoColors.systemGrey5,
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              onPressed: _repetitionPicker,
-              child: widget.item.repetitionsText[widget.item.repetitions],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
               CATLocalizations.of(context).blocks["pattern"]!,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
@@ -128,6 +110,24 @@ class _Paint extends State<Paint> {
                   color: CupertinoColors.black,
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              CATLocalizations.of(context).blocks["repetitions"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            CupertinoButton(
+              color: CupertinoColors.systemGrey5,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              onPressed: _repetitionPicker,
+              child: widget.item.repetitionsText[widget.item.repetitions],
             ),
           ],
         ),
@@ -156,25 +156,6 @@ class _Paint extends State<Paint> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Icon(
-                  CupertinoIcons.repeat,
-                  color: CupertinoColors.systemBackground,
-                ),
-                CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _repetitionsPickerIcon,
-                  child:
-                      widget.item.repetitionsDisplay[widget.item.repetitions],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
                 SvgPicture.asset(
                   "resources/icon/patterns_icon.svg",
                   height: 24,
@@ -189,6 +170,25 @@ class _Paint extends State<Paint> {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   onPressed: _directionPickerIcons,
                   child: widget.item.revertedItems2[widget.item.direction]!,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Icon(
+                  CupertinoIcons.repeat,
+                  color: CupertinoColors.systemBackground,
+                ),
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _repetitionsPickerIcon,
+                  child:
+                      widget.item.repetitionsDisplay[widget.item.repetitions],
                 ),
               ],
             ),

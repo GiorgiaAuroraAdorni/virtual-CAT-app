@@ -24,6 +24,8 @@ class ColorActionButton extends ActionButton {
 /// `ColorActionButtonState` is a subclass of `ActionButtonState` that sets the
 /// icon to `CupertinoIcons.paintbrush` in its `initState` method
 class ColorActionButtonState extends ActionButtonState<ColorActionButton> {
+  bool additionalFlag = false;
+  
   @override
   void onDismiss() {
     widget.state.colorActionButtonKey.currentState?.select();

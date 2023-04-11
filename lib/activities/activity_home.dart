@@ -37,10 +37,22 @@ class ActivityHomeState extends State<ActivityHome> {
   Widget build(BuildContext context) {
     SchemasReader().reset();
 
-    return CupertinoPageScaffold(
-      child: GestureHome(
-        studentID: widget.studentID,
-        sessionID: widget.sessionID,
+    if (widget.sessionID == -1 && widget.studentID == -1) {
+      return CupertinoPageScaffold(
+        child: GestureHome(
+          studentID: widget.studentID,
+          sessionID: widget.sessionID,
+        ),
+      );
+    }
+
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: CupertinoPageScaffold(
+        child: GestureHome(
+          studentID: widget.studentID,
+          sessionID: widget.sessionID,
+        ),
       ),
     );
   }

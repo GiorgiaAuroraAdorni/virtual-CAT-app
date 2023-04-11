@@ -49,7 +49,26 @@ class BlockCanvas extends StatefulWidget {
 }
 
 class _BlockCanvasState extends State<BlockCanvas> {
-  List<Widget> widgets = [];
+  late List<Widget> widgets = <Widget>[
+    Dismissible(
+      key: UniqueKey(),
+      direction: DismissDirection.none,
+      child: IgnorePointer(
+        child: ColorFiltered(
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.modulate,
+          ),
+          child: GoPosition(
+            item: GoPositionContainer(
+              languageCode: CATLocalizations.of(context).languageCode,
+            ),
+            onChange: (Size size) {},
+          ),
+        ),
+      ),
+    ),
+  ];
 
   // List<SimpleContainer> items = [];
 

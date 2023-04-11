@@ -120,21 +120,19 @@ class _SideBarState extends State<SideBar> {
                   "${SchemasReader().currentIndex}/${SchemasReader().size}",
                 ),
               ),
-              if (context.read<TypeUpdateNotifier>().state > 0)
-                CrossWidgetSimple(
-                  displayLetters: true,
-                  resultValueNotifier: context.watch<ReferenceNotifier>(),
-                )
-              else
-                CrossWidgetSimple(
-                  resultValueNotifier: context.watch<ReferenceNotifier>(),
-                ),
+              CrossWidgetSimple(
+                displayLetters: context.read<TypeUpdateNotifier>().state > 0,
+                resultValueNotifier: context.watch<ReferenceNotifier>(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   children: <Widget>[
                     _showCross,
                     CrossWidgetSimple(
+                      displayLetters:
+                          context.read<TypeUpdateNotifier>().state > 0 &&
+                              context.read<VisibilityNotifier>().visible,
                       resultValueNotifier: context.watch<ResultNotifier>(),
                     ),
                   ],
