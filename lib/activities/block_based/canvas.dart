@@ -11,6 +11,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
@@ -30,6 +31,7 @@ import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -51,7 +53,7 @@ class BlockCanvas extends StatefulWidget {
 class _BlockCanvasState extends State<BlockCanvas> {
   late List<Widget> widgets = <Widget>[
     Dismissible(
-      key: UniqueKey(),
+      key: _keys.first,
       direction: DismissDirection.none,
       child: IgnorePointer(
         child: ColorFiltered(
@@ -70,50 +72,66 @@ class _BlockCanvasState extends State<BlockCanvas> {
     ),
   ];
 
-  // List<SimpleContainer> items = [];
+  List<GlobalKey> _keys = [
+    GlobalKey(),
+  ];
 
   void _blockDroppedOnCanvas({
     required SimpleContainer item,
+    required int position,
   }) {
     final SimpleContainer itemCopy = item.copy();
     setState(
       () {
-        final UniqueKey key = UniqueKey();
+        final GlobalKey key = GlobalKey();
         itemCopy.key = key;
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: _generateDismiss(
-              itemCopy,
-              (Size size) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              final String prev = CatInterpreter()
+        final Dismissible element = Dismissible(
+          key: key,
+          child: _generateDismiss(
+            itemCopy,
+            (Size size) {},
+          ),
+          onDismissed: (DismissDirection direction) {
+            final String prev = CatInterpreter()
+                .allCommandsBuffer
+                .map((SimpleContainer e) => e.toString())
+                .join(",");
+            setState(
+              () {
+                widgets.removeWhere((Widget element) => element.key == key);
+                CatInterpreter().allCommandsBuffer.removeWhere(
+                      (SimpleContainer element) => element.key == key,
+                    );
+                _keys.removeWhere(
+                  (GlobalKey<State<StatefulWidget>> element) => element == key,
+                );
+              },
+            );
+            context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: CatInterpreter()
                   .allCommandsBuffer
                   .map((SimpleContainer e) => e.toString())
-                  .join(",");
-              setState(
-                () {
-                  widgets.removeWhere((Widget element) => element.key == key);
-                  CatInterpreter().allCommandsBuffer.removeWhere(
-                        (SimpleContainer element) => element.key == key,
-                      );
-                },
-              );
-              context.read<BlockUpdateNotifier>().update();
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(","),
-                description: CatLoggingLevel.removeCommand,
-              );
-            },
-          ),
+                  .join(","),
+              description: CatLoggingLevel.removeCommand,
+            );
+          },
         );
-        CatInterpreter().allCommandsBuffer.add(itemCopy);
+        if (position == 0) {
+          widgets.add(element);
+          CatInterpreter().allCommandsBuffer.add(itemCopy);
+          _keys.add(key);
+        } else {
+          widgets[position] = element;
+          _keys[position] = key;
+          if (position >= CatInterpreter().allCommandsBuffer.length) {
+            CatInterpreter().allCommandsBuffer.add(itemCopy);
+          } else {
+            CatInterpreter().allCommandsBuffer.insert(position, itemCopy);
+          }
+        }
       },
     );
   }
@@ -293,7 +311,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
         // }
         for (final SimpleContainer i in commands) {
           // parseToContainer("", context);
-          _blockDroppedOnCanvas(item: i);
+          _blockDroppedOnCanvas(item: i, position: 0);
         }
       },
     );
@@ -301,88 +319,208 @@ class _BlockCanvasState extends State<BlockCanvas> {
 
   final ScrollController _firstController = ScrollController();
 
+  int prevIndex = 0;
+
+  Timer t = Timer(Duration.zero, () {});
+
   @override
   Widget build(BuildContext context) => ShakeWidget(
         key: widget.shakeKey,
         shakeCount: 3,
         shakeOffset: 10,
         shakeDuration: const Duration(milliseconds: 400),
-        child: Column(
-          children: <Widget>[
-            DragTarget<SimpleContainer>(
-              builder: (
-                BuildContext context,
-                List<SimpleContainer?> candidateItems,
-                List rejectedItems,
-              ) =>
-                  Container(
-                width: MediaQuery.of(context).size.width * 0.50,
-                height: MediaQuery.of(context).size.height * 0.90,
-                decoration: const BoxDecoration(
-                  color: CupertinoColors.systemBackground,
+        child: DragTarget<SimpleContainer>(
+          builder: (
+            BuildContext context,
+            List<SimpleContainer?> candidateItems,
+            List rejectedItems,
+          ) =>
+              Container(
+            width: MediaQuery.of(context).size.width * 0.50,
+            height: MediaQuery.of(context).size.height * 0.90,
+            decoration: const BoxDecoration(
+              color: CupertinoColors.systemBackground,
+            ),
+            child: Scrollbar(
+              controller: _firstController,
+              interactive: true,
+              thumbVisibility: true,
+              child: ReorderableListView(
+                scrollController: _firstController,
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                  bottom: 200,
                 ),
-                child: Scrollbar(
-                  controller: _firstController,
-                  interactive: true,
-                  thumbVisibility: true,
-                  child: ReorderableListView(
-                    scrollController: _firstController,
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                      bottom: 200,
-                    ),
-                    onReorder: (int oldIndex, int newIndex) {
-                      final String prev = CatInterpreter()
-                          .allCommandsBuffer
-                          .map((SimpleContainer e) => e.toString())
-                          .join(",");
-                      if (oldIndex < newIndex) {
-                        newIndex -= 1;
-                      }
-                      widgets.insert(newIndex, widgets.removeAt(oldIndex));
-                      CatInterpreter().allCommandsBuffer.insert(
-                            newIndex,
-                            CatInterpreter()
-                                .allCommandsBuffer
-                                .removeAt(oldIndex),
-                          );
-                      context.read<BlockUpdateNotifier>().update();
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand: prev,
-                        currentCommand: CatInterpreter()
-                            .allCommandsBuffer
-                            .map((SimpleContainer e) => e.toString())
-                            .join(","),
-                        description: CatLoggingLevel.reorderCommand,
-                      );
-                    },
-                    children: widgets,
-                  ),
-                ),
-              ),
-              onAccept: (SimpleContainer item) {
-                final String prev = CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(",");
-                _blockDroppedOnCanvas(
-                  item: item,
-                );
-                context.read<BlockUpdateNotifier>().update();
-                CatLogger().addLog(
-                  context: context,
-                  previousCommand: prev,
-                  currentCommand: CatInterpreter()
+                onReorder: (int oldIndex, int newIndex) {
+                  t.cancel();
+                  t = Timer(const Duration(milliseconds: 200), () {});
+                  final String prev = CatInterpreter()
                       .allCommandsBuffer
                       .map((SimpleContainer e) => e.toString())
-                      .join(","),
-                  description: CatLoggingLevel.addCommand,
-                );
-              },
+                      .join(",");
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
+                  }
+                  newIndex = newIndex == 0 ? 1 : newIndex;
+                  widgets.insert(newIndex, widgets.removeAt(oldIndex));
+                  _keys.insert(newIndex, _keys.removeAt(oldIndex));
+                  CatInterpreter().allCommandsBuffer = widgets
+                      .filter(
+                        (Widget e) =>
+                            (e as Dismissible).child is WidgetContainer,
+                      )
+                      .map(
+                        (Widget e) =>
+                            ((e as Dismissible).child as WidgetContainer).item,
+                      )
+                      .toList();
+                  context.read<BlockUpdateNotifier>().update();
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand: prev,
+                    currentCommand: CatInterpreter()
+                        .allCommandsBuffer
+                        .map((SimpleContainer e) => e.toString())
+                        .join(","),
+                    description: CatLoggingLevel.reorderCommand,
+                  );
+                },
+                children: widgets,
+              ),
             ),
-          ],
+          ),
+          onLeave: (_) {
+            setState(() {
+              widgets = widgets.filter((Widget e) => e is Dismissible).toList();
+            });
+            _keys = widgets.map((Widget e) => e.key as GlobalKey).toList();
+            CatInterpreter().allCommandsBuffer = widgets
+                .filter(
+                  (Widget e) => (e as Dismissible).child is WidgetContainer,
+                )
+                .map(
+                  (Widget e) =>
+                      ((e as Dismissible).child as WidgetContainer).item,
+                )
+                .toList();
+            prevIndex = 0;
+          },
+          onMove: (DragTargetDetails<SimpleContainer> details) {
+            if (t.isActive) {
+              return;
+            }
+            int index = _keys.length;
+            double distance = double.maxFinite;
+            bool sized_box = false;
+            for (int i = 0; i < _keys.length; i++) {
+              if (_keys[i].currentContext?.findRenderObject() != null) {
+                final RenderBox renderBox =
+                    _keys[i].currentContext?.findRenderObject() as RenderBox;
+                final Size size = renderBox.size;
+
+                final Offset offset = renderBox.localToGlobal(Offset.zero);
+                final double posx =
+                    ((offset.dx + size.width) / 2).roundToDouble();
+                final double posy =
+                    ((offset.dy + size.height) / 2).roundToDouble();
+                final double dist = (((posx - details.offset.dx).abs() +
+                            (posy - details.offset.dy).abs()) /
+                        2)
+                    .roundToDouble();
+                if (dist < distance) {
+                  distance = dist;
+                  index = i;
+                  sized_box = widgets[index] is SizedBox;
+                }
+              }
+            }
+            if (sized_box) {
+              return;
+            }
+            if (index == 0) {
+              prevIndex = 0;
+
+              return;
+            }
+            GlobalKey key = GlobalKey();
+            if (prevIndex != 0) {
+              setState(() {
+                widgets
+                  ..removeAt(prevIndex)
+                  ..insert(
+                    index,
+                    Container(
+                      key: key,
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        color: CupertinoColors.systemBackground,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                      ),
+                    ),
+                  );
+                _keys
+                  ..removeAt(prevIndex)
+                  ..insert(index, key);
+                prevIndex = index;
+              });
+            } else {
+              widgets.insert(
+                index,
+                Container(
+                  key: key,
+                  height: 70,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    color: CupertinoColors.systemBackground,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
+              );
+              _keys.insert(index, key);
+              prevIndex = index;
+            }
+            t = Timer(const Duration(milliseconds: 200), () {});
+          },
+          onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
+            final SimpleContainer item = details.data;
+            final String prev = CatInterpreter()
+                .allCommandsBuffer
+                .map((SimpleContainer e) => e.toString())
+                .join(",");
+            _blockDroppedOnCanvas(
+              item: item,
+              position: prevIndex,
+            );
+            setState(() {
+              widgets = widgets.filter((Widget e) => e is Dismissible).toList();
+            });
+            _keys = widgets.map((Widget e) => e.key as GlobalKey).toList();
+            CatInterpreter().allCommandsBuffer = widgets
+                .filter(
+                  (Widget e) => (e as Dismissible).child is WidgetContainer,
+                )
+                .map(
+                  (Widget e) =>
+                      ((e as Dismissible).child as WidgetContainer).item,
+                )
+                .toList();
+            prevIndex = 0;
+            context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: CatInterpreter()
+                  .allCommandsBuffer
+                  .map((SimpleContainer e) => e.toString())
+                  .join(","),
+              description: CatLoggingLevel.addCommand,
+            );
+          },
         ),
       );
 

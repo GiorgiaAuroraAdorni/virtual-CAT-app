@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -9,26 +10,24 @@ import "package:provider/provider.dart";
 
 /// `Paint` is a `StatefulWidget` that takes in a `bool` and a `SimpleContainer`
 /// and a `Function` and returns a `State<StatefulWidget>`
-class Paint extends StatefulWidget {
+class Paint extends WidgetContainer {
   /// A constructor for the class Paint.
-  const Paint({
+  Paint({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// A constructor for the class Paint.
-  const Paint.build({
+  Paint.build({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// Creating a new instance of the SimpleContainer class.
+  @override
   final PaintContainer item;
-
-  /// A function that takes in a function as a parameter.
-  final Function onChange;
 
   @override
   State<Paint> createState() => _Paint();
@@ -41,30 +40,26 @@ class _Paint extends State<Paint> {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => Container(
-        key: widgetKey,
-        width: constraints.maxWidth.isFinite
-            ? constraints.maxWidth
-            : MediaQuery.of(context).size.width / 4,
-        decoration: BoxDecoration(
-          color: CupertinoColors.systemIndigo,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(
-            color: CupertinoColors.darkBackgroundGray,
-          ),
+    return Container(
+      key: widgetKey,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: CupertinoColors.systemIndigo,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        border: Border.all(
+          color: CupertinoColors.darkBackgroundGray,
         ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) {
-              if (context.read<TypeUpdateNotifier>().state == 2) {
-                return text();
-              }
+      ),
+      child: Center(
+        child: AnimatedBuilder(
+          animation: context.watch<TypeUpdateNotifier>(),
+          builder: (BuildContext context, Widget? child) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
+              return text();
+            }
 
-              return figure();
-            },
-          ),
+            return figure();
+          },
         ),
       ),
     );

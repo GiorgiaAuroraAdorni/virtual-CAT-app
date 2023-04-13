@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
+import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -13,26 +14,24 @@ import "package:provider/provider.dart";
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
 /// `SimpleContainer` `item`, and a `Function` `onChange` and returns a
 /// `State<StatefulWidget>` `_Mirror`
-class MirrorPoints extends StatefulWidget {
+class MirrorPoints extends WidgetContainer {
   /// A constructor for the Mirror class.
-  const MirrorPoints({
+  MirrorPoints({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// A constructor for a class called Mirror.
-  const MirrorPoints.build({
+  MirrorPoints.build({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// Creating a new instance of the SimpleContainer class.
+  @override
   final MirrorContainerPoints item;
-
-  /// A function that takes in a function as a parameter.
-  final Function onChange;
 
   @override
   State<StatefulWidget> createState() => _Mirror();
@@ -72,21 +71,17 @@ class _Mirror extends State<MirrorPoints> {
         .map((MapEntry<Key, double> e) => e.value)
         .reduce((double a, double b) => a + b);
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => Container(
-        key: widgetKey,
-        height: childHeight + 130.0 + (widget.item.moves.length * 60),
-        width: constraints.maxWidth.isFinite
-            ? constraints.maxWidth
-            : MediaQuery.of(context).size.width / 4,
-        decoration: BoxDecoration(
-          border: Border.all(),
-          color: CupertinoColors.systemOrange,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Center(
-          child: figure(),
-        ),
+    return Container(
+      key: widgetKey,
+      height: childHeight + 130.0 + (widget.item.moves.length * 60),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(),
+        color: CupertinoColors.systemOrange,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      child: Center(
+        child: figure(),
       ),
     );
   }

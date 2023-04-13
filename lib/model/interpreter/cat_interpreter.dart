@@ -29,7 +29,7 @@ class CatInterpreter with ChangeNotifier {
   final List<String> _validCommandsBuffer = <String>[];
 
   /// A buffer that stores all the commands that have been executed.
-  final List<SimpleContainer> allCommandsBuffer = <SimpleContainer>[];
+  List<SimpleContainer> allCommandsBuffer = <SimpleContainer>[];
 
   static final CatInterpreter _catInterpreter = CatInterpreter._internal();
 

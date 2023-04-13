@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -8,29 +9,27 @@ import "package:provider/provider.dart";
 
 /// `FillEmpty` is a stateful widget that displays a `SimpleContainer` and calls
 /// a function when the user clicks on it
-class PaintSingle extends StatefulWidget {
+class PaintSingle extends WidgetContainer {
   /// A constructor that takes in a key, a boolean, a SimpleContainer, and a
   /// function.
-  const PaintSingle({
+  PaintSingle({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// This is a named constructor that is used to create a new instance of
   /// the FillEmpty class.
-  const PaintSingle.build({
+  PaintSingle.build({
     required this.item,
-    required this.onChange,
+    required super.onChange,
     super.key,
   });
 
   /// A variable that is used to store the SimpleContainer that is passed in
   /// from the parent widget.
+  @override
   final PaintSingleContainer item;
-
-  /// This is a function that is passed in from the parent widget.
-  final Function onChange;
 
   @override
   State<StatefulWidget> createState() => _PaintSingle();
@@ -44,30 +43,29 @@ class _PaintSingle extends State<PaintSingle> {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => Container(
-        key: widgetKey,
-        width: constraints.maxWidth.isFinite
-            ? constraints.maxWidth
-            : MediaQuery.of(context).size.width / 4,
-        decoration: BoxDecoration(
-          color: CupertinoColors.systemIndigo,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(
-            color: CupertinoColors.darkBackgroundGray,
-          ),
+    return Container(
+      key: widgetKey,
+      width: MediaQuery.of(context).size.width,
+      // width: constraints.maxWidth.isFinite
+      //     ? constraints.maxWidth
+      //     : MediaQuery.of(context).size.width / 4,
+      decoration: BoxDecoration(
+        color: CupertinoColors.systemIndigo,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        border: Border.all(
+          color: CupertinoColors.darkBackgroundGray,
         ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) {
-              if (context.read<TypeUpdateNotifier>().state == 2) {
-                return text();
-              }
+      ),
+      child: Center(
+        child: AnimatedBuilder(
+          animation: context.watch<TypeUpdateNotifier>(),
+          builder: (BuildContext context, Widget? child) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
+              return text();
+            }
 
-              return figure();
-            },
-          ),
+            return figure();
+          },
         ),
       ),
     );

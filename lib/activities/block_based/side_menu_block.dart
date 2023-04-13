@@ -98,10 +98,13 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
     return LongPressDraggable<SimpleContainer>(
       delay: const Duration(milliseconds: 200),
       data: copyContainer,
-      feedback: Function.apply(
-        builder,
-        [],
-        {#item: copyContainer, #onChange: (Size size) {}, #key: UniqueKey()},
+      feedback: SizedBox(
+        width: 250,
+        child: Function.apply(
+          builder,
+          [],
+          {#item: copyContainer, #onChange: (Size size) {}, #key: UniqueKey()},
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.only(right: 10),
