@@ -58,6 +58,7 @@ const Map<String, String> blocksDe = <String, String>{
   "copy": "Kopieren",
   "origin": "Was? (Punkte)",
   "destination": "Wo? (Punkte)",
+  "repeatPattern": "Repeat Pattern",
 };
 
 const Map<String, String> directionsDe = <String, String>{

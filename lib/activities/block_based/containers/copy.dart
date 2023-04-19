@@ -29,6 +29,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
 
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
@@ -120,16 +121,33 @@ class _Copy extends State<CopyCommands> {
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
                   return Text(
-                    CATLocalizations.of(context).blocks["copy"]!,
+                    CATLocalizations.of(context).blocks["repeatPattern"]!,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
                   );
                 }
 
-                return const Icon(
-                  CupertinoIcons.doc_on_doc,
-                  color: CupertinoColors.systemBackground,
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Icon(
+                      CupertinoIcons.repeat,
+                      color: CupertinoColors.systemBackground,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    SvgPicture.asset(
+                      "resources/icon/patterns_icon.svg",
+                      height: 24,
+                      width: 24,
+                      colorFilter: const ColorFilter.mode(
+                        CupertinoColors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -280,6 +298,22 @@ class _Copy extends State<CopyCommands> {
                       child: AnimatedBuilder(
                         animation: context.watch<TypeUpdateNotifier>(),
                         builder: (BuildContext context, Widget? child) {
+                          return IgnorePointer(
+                            child: ColorFiltered(
+                              colorFilter: const ColorFilter.mode(
+                                Colors.grey,
+                                BlendMode.lighten,
+                              ),
+                              child: Point(
+                                item: PointContainer(
+                                  languageCode:
+                                      CATLocalizations.of(context).languageCode,
+                                ),
+                                onChange: (Size size) {},
+                              ),
+                            ),
+                          );
+
                           if (context.read<TypeUpdateNotifier>().state == 2) {
                             return Text(
                               CATLocalizations.of(context)

@@ -428,6 +428,9 @@ class _BlockCanvasState extends State<BlockCanvas> {
             prevIndex = 0;
           },
           onMove: (DragTargetDetails<SimpleContainer> details) {
+            if (details.data.type == ContainerType.point) {
+              return;
+            }
             if (t.isActive) {
               return;
             }

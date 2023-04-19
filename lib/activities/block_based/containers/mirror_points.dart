@@ -53,7 +53,7 @@ class _Mirror extends State<MirrorPoints> {
     Future<void>(() {
       if (widget.item.container.isNotEmpty) {
         final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.container);
+        List<SimpleContainer>.from(widget.item.container);
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
           if (i is PointContainer) {
@@ -74,7 +74,10 @@ class _Mirror extends State<MirrorPoints> {
     return Container(
       key: widgetKey,
       height: childHeight + 130.0 + (widget.item.moves.length * 60),
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       decoration: BoxDecoration(
         border: Border.all(),
         color: CupertinoColors.systemOrange,
@@ -86,14 +89,17 @@ class _Mirror extends State<MirrorPoints> {
     );
   }
 
-  Widget figure() => Padding(
+  Widget figure() =>
+      Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
+                if (context
+                    .read<TypeUpdateNotifier>()
+                    .state == 2) {
                   return CupertinoButton(
                     color: CupertinoColors.systemGrey5,
                     padding: const EdgeInsets.only(left: 10, right: 10),
@@ -118,97 +124,117 @@ class _Mirror extends State<MirrorPoints> {
         ),
       );
 
-  Widget positions() => DragTarget<PointContainer>(
-        builder: (
-          BuildContext context,
-          List<PointContainer?> candidateItems,
-          List<dynamic> rejectedItems,
-        ) =>
+  Widget positions() =>
+      DragTarget<PointContainer>(
+        builder: (BuildContext context,
+            List<PointContainer?> candidateItems,
+            List<dynamic> rejectedItems,) =>
             LayoutBuilder(
-          builder: (
-            BuildContext context,
-            BoxConstraints constraints,
-          ) {
-            if (widget.item.container.isEmpty && candidateItems.isEmpty) {
-              return Align(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: CupertinoColors.systemBackground,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  height: childHeight + 60 + (widget.item.moves.length * 60),
-                  width: constraints.maxWidth - 15,
-                  child: Center(
-                    child: AnimatedBuilder(
-                      animation: context.watch<TypeUpdateNotifier>(),
-                      builder: (BuildContext context, Widget? child) {
-                        if (context.read<TypeUpdateNotifier>().state == 2) {
-                          return Text(
-                            CATLocalizations.of(context).blocks["origin"]!,
-                            style: const TextStyle(
-                              color: CupertinoColors.systemTeal,
-                            ),
-                          );
-                        }
+              builder: (BuildContext context,
+                  BoxConstraints constraints,) {
+                if (widget.item.container.isEmpty && candidateItems.isEmpty) {
+                  return Align(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: CupertinoColors.systemBackground,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      height: childHeight + 60 +
+                          (widget.item.moves.length * 60),
+                      width: constraints.maxWidth - 15,
+                      child: Center(
+                        child: AnimatedBuilder(
+                          animation: context.watch<TypeUpdateNotifier>(),
+                          builder: (BuildContext context, Widget? child) {
+                            return IgnorePointer(
+                              child: ColorFiltered(
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.grey,
+                                  BlendMode.lighten,
+                                ),
+                                child: Point(
+                                  item: PointContainer(
+                                    languageCode:
+                                    CATLocalizations
+                                        .of(context)
+                                        .languageCode,
+                                  ),
+                                  onChange: (Size size) {},
+                                ),
+                              ),
+                            );
 
-                        return const Icon(
-                          CupertinoIcons.map_pin,
-                          color: CupertinoColors.systemTeal,
-                          size: 30,
+                            if (context
+                                .read<TypeUpdateNotifier>()
+                                .state == 2) {
+                              return Text(
+                                CATLocalizations
+                                    .of(context)
+                                    .blocks["origin"]!,
+                                style: const TextStyle(
+                                  color: CupertinoColors.systemTeal,
+                                ),
+                              );
+                            }
+
+                            return const Icon(
+                              CupertinoIcons.map_pin,
+                              color: CupertinoColors.systemTeal,
+                              size: 30,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                return Align(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: candidateItems.isNotEmpty
+                          ? Colors.green.shade300
+                          : CupertinoColors.systemBackground,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                    ),
+                    height: childHeight + 60 + (widget.item.moves.length * 60),
+                    width: constraints.maxWidth - 15,
+                    child: ReorderableListView(
+                      onReorder: (int oldIndex, int newIndex) {
+                        final String prev = widget.item.toString();
+                        if (oldIndex < newIndex) {
+                          newIndex -= 1;
+                        }
+                        final Widget widgett = widgets.removeAt(oldIndex);
+                        widgets.insert(newIndex, widgett);
+                        final SimpleContainer item =
+                        widget.item.container.removeAt(oldIndex);
+                        widget.item.container.insert(newIndex, item);
+                        context.read<BlockUpdateNotifier>().update();
+                        CatLogger().addLog(
+                          context: context,
+                          previousCommand: prev,
+                          currentCommand: widget.item.toString(),
+                          description: CatLoggingLevel.reorderCommand,
                         );
                       },
+                      children: widgets,
                     ),
                   ),
-                ),
-              );
-            }
-
-            return Align(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: candidateItems.isNotEmpty
-                      ? Colors.green.shade300
-                      : CupertinoColors.systemBackground,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(8),
-                  ),
-                ),
-                height: childHeight + 60 + (widget.item.moves.length * 60),
-                width: constraints.maxWidth - 15,
-                child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {
-                    final String prev = widget.item.toString();
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final Widget widgett = widgets.removeAt(oldIndex);
-                    widgets.insert(newIndex, widgett);
-                    final SimpleContainer item =
-                        widget.item.container.removeAt(oldIndex);
-                    widget.item.container.insert(newIndex, item);
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.reorderCommand,
-                    );
-                  },
-                  children: widgets,
-                ),
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
         onAccept: _addContainer,
       );
 
   void _addContainer(PointContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
-      () {
+          () {
         final UniqueKey key = UniqueKey();
         final PointContainer container = el.copy();
         widget.item.container.add(
@@ -231,10 +257,10 @@ class _Mirror extends State<MirrorPoints> {
               final String prev = widget.item.toString();
               setState(() {
                 widget.item.container.removeWhere(
-                  (SimpleContainer e) => e.key == key,
+                      (SimpleContainer e) => e.key == key,
                 );
                 widgets.removeWhere(
-                  (Widget element) => element.key == key,
+                      (Widget element) => element.key == key,
                 );
                 sized.remove(key);
               });
@@ -274,31 +300,36 @@ class _Mirror extends State<MirrorPoints> {
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setState(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions,
+            ),
+          ),
     );
   }
 
@@ -314,31 +345,36 @@ class _Mirror extends State<MirrorPoints> {
     context.read<BlockUpdateNotifier>().update();
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions2,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setState(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions2,
+            ),
+          ),
     );
   }
 
