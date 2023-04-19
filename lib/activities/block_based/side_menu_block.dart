@@ -9,6 +9,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
@@ -19,6 +20,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -35,6 +37,9 @@ class SideMenuBlock extends StatefulWidget {
 class _SideMenuBlockState extends State<SideMenuBlock> {
   /// Creating a list of SimpleContainer objects.
   late List<SimpleContainer> containers = <SimpleContainer>[
+    PointContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
     PaintSingleContainer(
       languageCode: CATLocalizations.of(context).languageCode,
     ),
@@ -116,6 +121,9 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       ),
       onDragCompleted: () => setState(() {
         containers = <SimpleContainer>[
+          PointContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
           PaintSingleContainer(
             languageCode: CATLocalizations.of(context).languageCode,
           ),
@@ -227,6 +235,11 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
         return _buildLongPressDraggable(
           container: container,
           builder: CopyCells.build,
+        );
+      case ContainerType.point:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: Point.build,
         );
     }
   }

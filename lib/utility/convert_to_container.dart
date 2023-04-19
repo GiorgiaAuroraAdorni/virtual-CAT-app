@@ -8,6 +8,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/tokenization.dart";
@@ -44,17 +45,28 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
     ];
   }
   final List<String> secondPart = splitByCurly(command.second.trim());
-  if (secondPart.first.trim().split("").length == 2) {
+  if (secondPart.first
+      .trim()
+      .split("")
+      .length == 2) {
     return <SimpleContainer>[
       MirrorContainerPoints(
-        container: secondPart
-            .map(
-              (String e) => parseToContainer("go(${e.trim()})", languageCode),
-            )
-            .reduce(
+        container: secondPart.map(
+              (String e) {
+            final List<String> res = e.trim().toUpperCase().split("");
+
+            return <SimpleContainer>[
+              PointContainer(
+                languageCode: languageCode,
+                a: res.first,
+                b: res.second,
+              ),
+            ];
+          },
+        ).reduce(
               (List<SimpleContainer> value, List<SimpleContainer> element) =>
-                  value + element,
-            ),
+          value + element,
+        ),
         position: command.last.trim() == "horizontal" ? 0 : 1,
         direction: command.last.trim(),
         languageCode: languageCode,
@@ -68,8 +80,8 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
           .map((String e) => parseToContainer(e.trim(), languageCode))
           .reduce(
             (List<SimpleContainer> value, List<SimpleContainer> element) =>
-                value + element,
-          ),
+        value + element,
+      ),
       position: command.last.trim() == "horizontal" ? 0 : 1,
       direction: command.last.trim(),
       languageCode: languageCode,
@@ -84,11 +96,29 @@ List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
   final List<SimpleContainer> commands = <SimpleContainer>[];
   final List<SimpleContainer> toReturn = <SimpleContainer>[];
   for (final String i in destinations) {
-    toReturn.addAll(_parseGo(["go", i.trim()], languageCode));
+    final List<String> res = i.trim().toUpperCase().split("");
+    toReturn.addAll(
+      <SimpleContainer>[
+        PointContainer(
+          languageCode: languageCode,
+          a: res.first,
+          b: res.second,
+        ),
+      ],
+    );
   }
   if (rows.containsKey(checks.first) && columns.containsKey(checks.second)) {
     for (final String i in origins) {
-      commands.addAll(_parseGo(["go", i.trim()], languageCode));
+      final List<String> res = i.trim().toUpperCase().split("");
+      commands.addAll(
+        <SimpleContainer>[
+          PointContainer(
+            languageCode: languageCode,
+            a: res.first,
+            b: res.second,
+          ),
+        ],
+      );
     }
 
     return <SimpleContainer>[
@@ -113,8 +143,8 @@ List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
   ];
 }
 
-List<SimpleContainer> _parseFillEmpty(
-        List<String> command, String languageCode) =>
+List<SimpleContainer> _parseFillEmpty(List<String> command,
+    String languageCode) =>
     <SimpleContainer>[
       FillEmptyContainer(
         selected: _colors[command.last.trim()]!,
@@ -159,14 +189,12 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
     final List<SimpleContainer> toReturn = <SimpleContainer>[];
     int j = 0;
     for (final String i in cells) {
-      toReturn
-        ..addAll(_parseGo(["go", i.trim()], languageCode))
-        ..addAll(
-          _parsePaint([
-            "paint",
-            colors[j],
-          ], languageCode),
-        );
+      toReturn..addAll(_parseGo(["go", i.trim()], languageCode))..addAll(
+        _parsePaint([
+          "paint",
+          colors[j],
+        ], languageCode),
+      );
       j = (j + 1) % colors.length;
     }
 

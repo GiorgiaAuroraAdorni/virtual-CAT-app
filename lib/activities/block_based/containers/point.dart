@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -9,9 +9,9 @@ import "package:provider/provider.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
 /// function
-class GoPosition extends WidgetContainer {
+class Point extends WidgetContainer {
   /// A constructor for the `Go` class.
-  GoPosition({
+  Point({
     required this.item,
     required super.onChange,
     super.key,
@@ -19,7 +19,7 @@ class GoPosition extends WidgetContainer {
 
   /// A named constructor that is used to create a new instance of the
   /// Go class.
-  GoPosition.build({
+  Point.build({
     required this.item,
     required super.onChange,
     super.key,
@@ -28,13 +28,13 @@ class GoPosition extends WidgetContainer {
   /// A variable that is used to store the `SimpleContainer` that is
   /// passed in as a parameter.
   @override
-  final GoPositionContainer item;
+  final PointContainer item;
 
   @override
-  State<StatefulWidget> createState() => _Go();
+  State<StatefulWidget> createState() => _Point();
 }
 
-class _Go extends State<GoPosition> {
+class _Point extends State<Point> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
@@ -73,7 +73,7 @@ class _Go extends State<GoPosition> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              CATLocalizations.of(context).blocks["direction"]!,
+              CATLocalizations.of(context).blocks["position"]!,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
@@ -97,7 +97,7 @@ class _Go extends State<GoPosition> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Icon(
-              CupertinoIcons.map_pin,
+              CupertinoIcons.circle_filled,
               color: CupertinoColors.systemBackground,
             ),
             Row(

@@ -8,6 +8,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
@@ -19,6 +20,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
@@ -79,7 +81,7 @@ class _Copy extends State<CopyCommands> {
             List<SimpleContainer>.from(widget.item.moves);
         widget.item.moves.clear();
         for (final SimpleContainer i in copy2) {
-          if (i is GoPositionContainer) {
+          if (i is PointContainer) {
             addDestination(i, log: false);
           }
         }
@@ -184,6 +186,10 @@ class _Copy extends State<CopyCommands> {
               return false;
             }
 
+            if (container.type == ContainerType.point) {
+              return false;
+            }
+
             return true;
           }
 
@@ -251,10 +257,10 @@ class _Copy extends State<CopyCommands> {
 
   Widget positions() => Flexible(
         flex: 0,
-        child: DragTarget<GoPositionContainer>(
+        child: DragTarget<PointContainer>(
           builder: (
             BuildContext context,
-            List<GoPositionContainer?> candidateItems,
+            List<PointContainer?> candidateItems,
             List<dynamic> rejectedItems,
           ) =>
               LayoutBuilder(
@@ -338,11 +344,11 @@ class _Copy extends State<CopyCommands> {
         ),
       );
 
-  void addDestination(GoPositionContainer el, {bool log = true}) {
+  void addDestination(PointContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(() {
       final UniqueKey key = UniqueKey();
-      final GoPositionContainer container = el.copy();
+      final PointContainer container = el.copy();
       widget.item.moves.add(
         container,
       );
@@ -350,7 +356,7 @@ class _Copy extends State<CopyCommands> {
       widgets2.add(
         Dismissible(
           key: key,
-          child: GoPosition(
+          child: Point(
             key: UniqueKey(),
             item: container,
             onChange: (Size size) {},
@@ -475,6 +481,14 @@ class _Copy extends State<CopyCommands> {
       case ContainerType.copyCells:
         if (container is CopyCellsContainer) {
           return CopyCells(
+            item: container,
+            onChange: f,
+          );
+        }
+        break;
+      case ContainerType.point:
+        if (container is PointContainer) {
+          return Point(
             item: container,
             onChange: f,
           );

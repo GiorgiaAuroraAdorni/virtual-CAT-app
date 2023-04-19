@@ -11,6 +11,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
+import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
@@ -22,6 +23,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
@@ -229,6 +231,14 @@ class _BlockCanvasState extends State<BlockCanvas> {
           );
         }
         break;
+      case ContainerType.point:
+        if (container is PointContainer) {
+          return Point(
+            item: container,
+            onChange: f,
+          );
+        }
+        break;
     }
 
     return Container();
@@ -390,6 +400,17 @@ class _BlockCanvasState extends State<BlockCanvas> {
               ),
             ),
           ),
+          onWillAccept: (SimpleContainer? data) {
+            if (data is SimpleContainer) {
+              if (data.type == ContainerType.point) {
+                return false;
+              }
+
+              return true;
+            }
+
+            return false;
+          },
           onLeave: (_) {
             setState(() {
               widgets = widgets.filter((Widget e) => e is Dismissible).toList();

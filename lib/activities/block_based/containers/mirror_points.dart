@@ -1,7 +1,7 @@
-import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
+import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
+import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -56,7 +56,7 @@ class _Mirror extends State<MirrorPoints> {
             List<SimpleContainer>.from(widget.item.container);
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
-          if (i is GoPositionContainer) {
+          if (i is PointContainer) {
             _addContainer(i, log: false);
           }
         }
@@ -118,10 +118,10 @@ class _Mirror extends State<MirrorPoints> {
         ),
       );
 
-  Widget positions() => DragTarget<GoPositionContainer>(
+  Widget positions() => DragTarget<PointContainer>(
         builder: (
           BuildContext context,
-          List<GoPositionContainer?> candidateItems,
+          List<PointContainer?> candidateItems,
           List<dynamic> rejectedItems,
         ) =>
             LayoutBuilder(
@@ -205,12 +205,12 @@ class _Mirror extends State<MirrorPoints> {
         onAccept: _addContainer,
       );
 
-  void _addContainer(GoPositionContainer el, {bool log = true}) {
+  void _addContainer(PointContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
       () {
         final UniqueKey key = UniqueKey();
-        final GoPositionContainer container = el.copy();
+        final PointContainer container = el.copy();
         widget.item.container.add(
           container,
         );
@@ -218,7 +218,7 @@ class _Mirror extends State<MirrorPoints> {
         widgets.add(
           Dismissible(
             key: key,
-            child: GoPosition(
+            child: Point(
               key: UniqueKey(),
               item: container,
               onChange: (Size size) {

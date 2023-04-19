@@ -32,4 +32,7 @@ enum ContainerType {
 
   /// Mirror type
   mirrorHorizontal,
+
+  /// Point type
+  point,
 }
