@@ -2,6 +2,7 @@ import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/student_form.dart";
 import "package:cross_array_task_app/utility/cantons_list.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/schools.dart";
 import "package:cross_array_task_app/utility/supervisor.dart";
 import "package:flutter/cupertino.dart";
 
@@ -109,6 +110,11 @@ class SchoolFormState extends State<SchoolForm> {
                             textAlign: TextAlign.right,
                           ),
                           child: CupertinoTextFormFieldRow(
+                            prefix: GestureDetector(
+                              onTap: _schoolPicker, // Image tapped
+                              child:
+                                  const Icon(CupertinoIcons.add_circled_solid),
+                            ),
                             placeholder:
                                 CATLocalizations.of(context).selectionSchool,
                             // readOnly: true,
@@ -385,30 +391,61 @@ class SchoolFormState extends State<SchoolForm> {
   }
 
   void _schoolPicker() {
-    const List<Text> schools = <Text>[
-      Text("Scuola Media Castione"),
-      Text("Scuola dell’Infanzia Monte Carasso"),
-      Text("Scuola Elementare Bellinzona Nord"),
-    ];
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              final Text text = schools[value];
-              _school.text = text.data.toString();
-            });
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: schools,
+    schoolsRequest().then((List<Text> schools) {
+      setState(
+        () => _school.text = schools.first.data.toString(),
+      );
+      showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext builder) => Container(
+          height: MediaQuery.of(context).copyWith().size.height * 0.25,
+          color: CupertinoColors.white,
+          child: CupertinoPicker(
+            onSelectedItemChanged: (int value) {
+              setState(() {
+                final Text text = schools[value];
+                _school.text = text.data.toString();
+              });
+            },
+            itemExtent: 25,
+            diameterRatio: 1,
+            useMagnifier: true,
+            magnification: 1.3,
+            children: schools,
+          ),
         ),
-      ),
-    );
+      );
+    });
+
+    //   const List<Text> schools = <Text>[
+    //     Text("Scuola Media Castione"),
+    //     Text("Scuola dell’Infanzia Monte Carasso"),
+    //     Text("Scuola Elementare Bellinzona Nord"),
+    //   ];
+    //   showCupertinoModalPopup(
+    //     context: context,
+    //     builder: (BuildContext builder) =>
+    //         Container(
+    //           height: MediaQuery
+    //               .of(context)
+    //               .copyWith()
+    //               .size
+    //               .height * 0.25,
+    //           color: CupertinoColors.white,
+    //           child: CupertinoPicker(
+    //             onSelectedItemChanged: (int value) {
+    //               setState(() {
+    //                 final Text text = schools[value];
+    //                 _school.text = text.data.toString();
+    //               });
+    //             },
+    //             itemExtent: 25,
+    //             diameterRatio: 1,
+    //             useMagnifier: true,
+    //             magnification: 1.3,
+    //             children: schools,
+    //           ),
+    //         ),
+    //   );
   }
 }
