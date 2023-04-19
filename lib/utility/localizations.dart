@@ -39,6 +39,25 @@ class CATLocalizations {
     "de": schoolTypeDe,
   };
 
+  static final Map<String, String> schoolTypeToEnglish = <String, String>{
+    //English
+    "Pre school": "Pre school",
+    "Primary school": "Primary school",
+    "Secondary school": "Secondary school",
+    //Italian
+    "Scuola dell’infanzia, materna": "Pre school",
+    "Scuola primaria, elementare": "Primary school",
+    "Scuola secondaria, media": "Secondary school",
+    //Franch
+    "École maternelle": "Pre school",
+    "École primaire": "Primary school",
+    "École secondaire": "Secondary school",
+    //German
+    "Kindergarten": "Pre school",
+    "Primarschule": "Primary school",
+    "Sekundarschule": "Secondary school",
+  };
+
   static final Map<String, Map<String, String>> _localizedBlocks = {
     "en": blocksEn,
     "it": blocksIt,

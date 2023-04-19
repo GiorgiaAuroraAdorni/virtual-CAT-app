@@ -47,7 +47,11 @@ class SchoolFormState extends State<SchoolForm> {
                 int schoolId = 0;
                 int supervisorId = 0;
                 Connection()
-                    .addSchool(_canton.text, _school.text, _schoolType.text)
+                    .addSchool(
+                  _canton.text,
+                  _school.text,
+                  CATLocalizations.schoolTypeToEnglish[_schoolType.text]!,
+                )
                     .then(
                   (int value) {
                     schoolId = value;
@@ -65,6 +69,7 @@ class SchoolFormState extends State<SchoolForm> {
                     _section.text,
                     _selectedDate,
                     _notes.text,
+                    CATLocalizations.of(context).languageCode,
                   );
                 }).then((int value) {
                   Navigator.push(

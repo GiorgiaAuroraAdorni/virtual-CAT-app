@@ -81,6 +81,7 @@ class Connection extends BaseConnection {
     String section,
     DateTime date,
     String notes,
+    String language,
   ) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/sessions",
@@ -92,6 +93,7 @@ class Connection extends BaseConnection {
         "section": section,
         "date": date.toIso8601String(),
         "notes": notes,
+        "language": language,
       },
     ).run();
 
