@@ -10,6 +10,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_ve
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
+import "package:cross_array_task_app/activities/block_based/drop_down_blocks.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
@@ -256,16 +257,58 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
             controller: _firstController,
             interactive: true,
             thumbVisibility: true,
-            child: ListView.separated(
+            child: ListView(
               controller: _firstController,
-              itemCount: containers.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildContainerItem(container: containers[index]),
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(
-                height: 5,
-              ),
+              children: <Widget>[
+                DropDownBlocks(
+                  title: "Pallino",
+                  items: <Widget>[
+                    _buildContainerItem(container: containers[0]),
+                  ],
+                ),
+                DropDownBlocks(
+                  title: "Vai a",
+                  items: <Widget>[
+                    _buildContainerItem(container: containers[2]),
+                    _buildContainerItem(container: containers[4]),
+                  ],
+                ),
+                DropDownBlocks(
+                  title: "Colora",
+                  items: <Widget>[
+                    _buildContainerItem(container: containers[1]),
+                    _buildContainerItem(container: containers[3]),
+                    _buildContainerItem(container: containers[5]),
+                  ],
+                ),
+                DropDownBlocks(
+                  title: "Specchia",
+                  items: <Widget>[
+                    _buildContainerItem(container: containers[6]),
+                    _buildContainerItem(container: containers[7]),
+                    _buildContainerItem(container: containers[8]),
+                    _buildContainerItem(container: containers[9]),
+                  ],
+                ),
+                DropDownBlocks(
+                  title: "Copia",
+                  items: <Widget>[
+                    _buildContainerItem(container: containers[10]),
+                    _buildContainerItem(container: containers[11]),
+                  ],
+                ),
+              ],
             ),
+            // child: ListView.separated(
+            //   controller: _firstController,
+            //   itemCount: containers.length,
+            //   itemBuilder: (BuildContext context, int index) =>
+            //       _buildContainerItem(container: containers[index]),
+            //   separatorBuilder: (BuildContext context, int index) =>
+            //       const SizedBox(
+            //     height: 5,
+            //   ),
+            // ),
           ),
         ),
       );
