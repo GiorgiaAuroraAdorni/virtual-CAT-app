@@ -464,6 +464,20 @@ class _BlockCanvasState extends State<BlockCanvas> {
             }
             if (index == 0) {
               prevIndex = 0;
+              setState(() {
+                widgets =
+                    widgets.filter((Widget e) => e is Dismissible).toList();
+              });
+              _keys = widgets.map((Widget e) => e.key as GlobalKey).toList();
+              CatInterpreter().allCommandsBuffer = widgets
+                  .filter(
+                    (Widget e) => (e as Dismissible).child is WidgetContainer,
+                  )
+                  .map(
+                    (Widget e) =>
+                        ((e as Dismissible).child as WidgetContainer).item,
+                  )
+                  .toList();
 
               return;
             }
@@ -492,21 +506,23 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 prevIndex = index;
               });
             } else {
-              widgets.insert(
-                index,
-                Container(
-                  key: key,
-                  height: 70,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: CupertinoColors.systemBackground,
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+              setState(() {
+                widgets.insert(
+                  index,
+                  Container(
+                    key: key,
+                    height: 70,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      color: CupertinoColors.systemBackground,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    ),
                   ),
-                ),
-              );
-              _keys.insert(index, key);
-              prevIndex = index;
+                );
+                _keys.insert(index, key);
+                prevIndex = index;
+              });
             }
             t = Timer(const Duration(milliseconds: 200), () {});
           },

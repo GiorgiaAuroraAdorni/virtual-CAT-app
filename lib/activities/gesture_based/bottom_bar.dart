@@ -90,6 +90,19 @@ class _BottomBarState extends State<BottomBar> {
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
+              onPressed: _reset,
+              borderRadius: BorderRadius.circular(45),
+              minSize: 50,
+              padding: EdgeInsets.zero,
+              color: CupertinoColors.systemYellow,
+              child: const Icon(
+                CupertinoIcons.flag_fill,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 5, left: 5),
+            child: CupertinoButton(
               onPressed: () async {
                 await schemaCompleted().then((bool result) {
                   if (result) {
