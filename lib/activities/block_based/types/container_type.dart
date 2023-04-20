@@ -28,10 +28,7 @@ enum ContainerType {
   mirrorCommands,
 
   /// Mirror type
-  mirrorVertical,
-
-  /// Mirror type
-  mirrorHorizontal,
+  mirrorCross,
 
   /// Point type
   point,

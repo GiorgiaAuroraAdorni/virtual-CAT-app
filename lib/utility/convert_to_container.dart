@@ -37,22 +37,18 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
   if (command.length == 2) {
     return <SimpleContainer>[
       MirrorSimpleContainer(
-        type: command.last.trim() == "vertical"
-            ? ContainerType.mirrorVertical
-            : ContainerType.mirrorHorizontal,
+        type: ContainerType.mirrorCross,
+        direction: command.last.trim(),
         languageCode: languageCode,
       ),
     ];
   }
   final List<String> secondPart = splitByCurly(command.second.trim());
-  if (secondPart.first
-      .trim()
-      .split("")
-      .length == 2) {
+  if (secondPart.first.trim().split("").length == 2) {
     return <SimpleContainer>[
       MirrorContainerPoints(
         container: secondPart.map(
-              (String e) {
+          (String e) {
             final List<String> res = e.trim().toUpperCase().split("");
 
             return <SimpleContainer>[
@@ -64,8 +60,8 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
             ];
           },
         ).reduce(
-              (List<SimpleContainer> value, List<SimpleContainer> element) =>
-          value + element,
+          (List<SimpleContainer> value, List<SimpleContainer> element) =>
+              value + element,
         ),
         position: command.last.trim() == "horizontal" ? 0 : 1,
         direction: command.last.trim(),
@@ -80,8 +76,8 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
           .map((String e) => parseToContainer(e.trim(), languageCode))
           .reduce(
             (List<SimpleContainer> value, List<SimpleContainer> element) =>
-        value + element,
-      ),
+                value + element,
+          ),
       position: command.last.trim() == "horizontal" ? 0 : 1,
       direction: command.last.trim(),
       languageCode: languageCode,
@@ -143,8 +139,8 @@ List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
   ];
 }
 
-List<SimpleContainer> _parseFillEmpty(List<String> command,
-    String languageCode) =>
+List<SimpleContainer> _parseFillEmpty(
+        List<String> command, String languageCode) =>
     <SimpleContainer>[
       FillEmptyContainer(
         selected: _colors[command.last.trim()]!,
@@ -189,12 +185,14 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
     final List<SimpleContainer> toReturn = <SimpleContainer>[];
     int j = 0;
     for (final String i in cells) {
-      toReturn..addAll(_parseGo(["go", i.trim()], languageCode))..addAll(
-        _parsePaint([
-          "paint",
-          colors[j],
-        ], languageCode),
-      );
+      toReturn
+        ..addAll(_parseGo(["go", i.trim()], languageCode))
+        ..addAll(
+          _parsePaint([
+            "paint",
+            colors[j],
+          ], languageCode),
+        );
       j = (j + 1) % colors.length;
     }
 

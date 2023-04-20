@@ -3,9 +3,8 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_horizontal.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
@@ -99,7 +98,11 @@ class _Copy extends State<CopyCommands> {
 
     return Container(
       key: widgetKey,
-      height: childHeight + 175 + 60 * (widget.item.moves.length),
+      height: childHeight +
+          175 +
+          60 *
+              (widget.item.moves.length +
+                  (widget.item.container.isEmpty ? 3 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -170,33 +173,39 @@ class _Copy extends State<CopyCommands> {
           List<dynamic> rejectedItems,
         ) =>
             LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) => Align(
-            child: Container(
-              decoration: BoxDecoration(
-                color: candidateItems.isNotEmpty
-                    ? Colors.green.shade300
-                    : Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(8),
+          builder: (BuildContext context, BoxConstraints constraints) {
+            if (widget.item.container.isEmpty && candidateItems.isEmpty) {
+              return _preview(constraints);
+            }
+
+            return Align(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: candidateItems.isNotEmpty
+                      ? Colors.green.shade300
+                      : Colors.white,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
+                height: childHeight + 60.0,
+                width: constraints.maxWidth - 15,
+                child: ReorderableListView(
+                  onReorder: (int oldIndex, int newIndex) {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final Widget widgett = widgets.removeAt(oldIndex);
+                    final SimpleContainer item =
+                        widget.item.container.removeAt(oldIndex);
+                    widgets.insert(newIndex, widgett);
+                    widget.item.container.insert(newIndex, item);
+                  },
+                  children: widgets,
                 ),
               ),
-              height: childHeight + 60.0,
-              width: constraints.maxWidth - 15,
-              child: ReorderableListView(
-                onReorder: (int oldIndex, int newIndex) {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final Widget widgett = widgets.removeAt(oldIndex);
-                  final SimpleContainer item =
-                      widget.item.container.removeAt(oldIndex);
-                  widgets.insert(newIndex, widgett);
-                  widget.item.container.insert(newIndex, item);
-                },
-                children: widgets,
-              ),
-            ),
-          ),
+            );
+          },
         ),
         onWillAccept: (SimpleContainer? container) {
           if (container is SimpleContainer) {
@@ -214,6 +223,64 @@ class _Copy extends State<CopyCommands> {
           return false;
         },
         onAccept: addOrigin,
+      );
+
+  Widget _preview(
+    BoxConstraints constraints,
+  ) =>
+      Align(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: CupertinoColors.systemBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          height: childHeight + 60 + (widget.item.moves.length + 3 * 60),
+          width: constraints.maxWidth - 15,
+          child: Center(
+            child: AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) => IgnorePointer(
+                child: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(
+                    Colors.grey,
+                    BlendMode.lighten,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      PaintSingle(
+                        item: PaintSingleContainer(
+                          selected: CupertinoColors.systemBlue,
+                          languageCode:
+                              CATLocalizations.of(context).languageCode,
+                        ),
+                        onChange: (Size size) {},
+                      ),
+                      GoPosition(
+                        item: GoPositionContainer(
+                          a: "F",
+                          b: "3",
+                          languageCode:
+                              CATLocalizations.of(context).languageCode,
+                        ),
+                        onChange: (Size size) {},
+                      ),
+                      PaintSingle(
+                        item: PaintSingleContainer(
+                          selected: CupertinoColors.systemRed,
+                          languageCode:
+                              CATLocalizations.of(context).languageCode,
+                        ),
+                        onChange: (Size size) {},
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       );
 
   void addOrigin(SimpleContainer el, {bool log = true}) {
@@ -297,40 +364,22 @@ class _Copy extends State<CopyCommands> {
                     child: Center(
                       child: AnimatedBuilder(
                         animation: context.watch<TypeUpdateNotifier>(),
-                        builder: (BuildContext context, Widget? child) {
-                          return IgnorePointer(
-                            child: ColorFiltered(
-                              colorFilter: const ColorFilter.mode(
-                                Colors.grey,
-                                BlendMode.lighten,
-                              ),
-                              child: Point(
-                                item: PointContainer(
-                                  languageCode:
-                                      CATLocalizations.of(context).languageCode,
-                                ),
-                                onChange: (Size size) {},
-                              ),
+                        builder: (BuildContext context, Widget? child) =>
+                            IgnorePointer(
+                          child: ColorFiltered(
+                            colorFilter: const ColorFilter.mode(
+                              Colors.grey,
+                              BlendMode.lighten,
                             ),
-                          );
-
-                          if (context.read<TypeUpdateNotifier>().state == 2) {
-                            return Text(
-                              CATLocalizations.of(context)
-                                  .blocks["destination"]!,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: CupertinoColors.systemTeal,
+                            child: Point(
+                              item: PointContainer(
+                                languageCode:
+                                    CATLocalizations.of(context).languageCode,
                               ),
-                            );
-                          }
-
-                          return const Icon(
-                            CupertinoIcons.map_pin,
-                            color: CupertinoColors.systemTeal,
-                            size: 30,
-                          );
-                        },
+                              onChange: (Size size) {},
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -480,17 +529,9 @@ class _Copy extends State<CopyCommands> {
           );
         }
         break;
-      case ContainerType.mirrorVertical:
+      case ContainerType.mirrorCross:
         if (container is MirrorSimpleContainer) {
-          return MirrorVertical(
-            item: container,
-            onChange: f,
-          );
-        }
-        break;
-      case ContainerType.mirrorHorizontal:
-        if (container is MirrorSimpleContainer) {
-          return MirrorHorizontal(
+          return MirrorCross(
             item: container,
             onChange: f,
           );

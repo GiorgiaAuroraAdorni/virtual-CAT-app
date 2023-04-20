@@ -6,9 +6,8 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_horizontal.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
@@ -191,17 +190,9 @@ class _BlockCanvasState extends State<BlockCanvas> {
           );
         }
         break;
-      case ContainerType.mirrorVertical:
+      case ContainerType.mirrorCross:
         if (container is MirrorSimpleContainer) {
-          return MirrorVertical(
-            item: container,
-            onChange: f,
-          );
-        }
-        break;
-      case ContainerType.mirrorHorizontal:
-        if (container is MirrorSimpleContainer) {
-          return MirrorHorizontal(
+          return MirrorCross(
             item: container,
             onChange: f,
           );

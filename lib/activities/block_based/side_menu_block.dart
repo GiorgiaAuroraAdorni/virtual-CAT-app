@@ -4,9 +4,8 @@ import "package:cross_array_task_app/activities/block_based/containers/fill_empt
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_horizontal.dart";
+import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_vertical.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
@@ -58,11 +57,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorSimpleContainer(
-      type: ContainerType.mirrorVertical,
-      languageCode: CATLocalizations.of(context).languageCode,
-    ),
-    MirrorSimpleContainer(
-      type: ContainerType.mirrorHorizontal,
+      type: ContainerType.mirrorCross,
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorContainerPoints(
@@ -142,11 +137,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           MirrorSimpleContainer(
-            type: ContainerType.mirrorVertical,
-            languageCode: CATLocalizations.of(context).languageCode,
-          ),
-          MirrorSimpleContainer(
-            type: ContainerType.mirrorHorizontal,
+            type: ContainerType.mirrorCross,
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           MirrorContainerPoints(
@@ -222,15 +213,10 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
           container: container,
           builder: GoPosition.build,
         );
-      case ContainerType.mirrorHorizontal:
+      case ContainerType.mirrorCross:
         return _buildLongPressDraggable(
           container: container,
-          builder: MirrorHorizontal.build,
-        );
-      case ContainerType.mirrorVertical:
-        return _buildLongPressDraggable(
-          container: container,
-          builder: MirrorVertical.build,
+          builder: MirrorCross.build,
         );
       case ContainerType.copyCells:
         return _buildLongPressDraggable(
@@ -287,14 +273,13 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[6]),
                     _buildContainerItem(container: containers[7]),
                     _buildContainerItem(container: containers[8]),
-                    _buildContainerItem(container: containers[9]),
                   ],
                 ),
                 DropDownBlocks(
                   title: "Copia",
                   items: <Widget>[
+                    _buildContainerItem(container: containers[9]),
                     _buildContainerItem(container: containers[10]),
-                    _buildContainerItem(container: containers[11]),
                   ],
                 ),
               ],
