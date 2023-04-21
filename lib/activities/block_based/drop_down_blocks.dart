@@ -1,15 +1,16 @@
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
 
 class DropDownBlocks extends StatefulWidget {
   const DropDownBlocks({
     required this.title,
     required this.items,
+    required this.color,
     super.key,
   });
 
   final String title;
   final List<Widget> items;
+  final Color color;
 
   @override
   _DropDownBlocksState createState() => _DropDownBlocksState();
@@ -17,8 +18,6 @@ class DropDownBlocks extends StatefulWidget {
 
 class _DropDownBlocksState extends State<DropDownBlocks> {
   bool _visibility = false;
-
-  final ScrollController _firstController = ScrollController();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -28,19 +27,38 @@ class _DropDownBlocksState extends State<DropDownBlocks> {
             width: MediaQuery.of(context).size.width * 0.20,
             child: Padding(
               padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
-              child: CupertinoButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(widget.title),
-                    Icon(
-                      _visibility ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                    ),
-                  ],
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(color: CupertinoColors.darkBackgroundGray),
                 ),
-                onPressed: () => setState(() {
-                  _visibility = !_visibility;
-                }),
+                position: DecorationPosition.foreground,
+                child: CupertinoButton(
+                  padding: const EdgeInsets.all(16),
+                  borderRadius: BorderRadius.zero,
+                  color: _visibility
+                      ? CupertinoColors.activeGreen
+                      : CupertinoColors.extraLightBackgroundGray,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Icon(
+                        CupertinoIcons.circle_filled,
+                        color: widget.color,
+                      ),
+                      Text(
+                        widget.title,
+                        style: TextStyle(
+                          color: _visibility
+                              ? CupertinoColors.extraLightBackgroundGray
+                              : CupertinoColors.label,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onPressed: () => setState(() {
+                    _visibility = !_visibility;
+                  }),
+                ),
               ),
             ),
           ),

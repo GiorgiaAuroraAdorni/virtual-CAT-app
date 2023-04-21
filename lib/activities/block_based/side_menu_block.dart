@@ -248,12 +248,14 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
               children: <Widget>[
                 DropDownBlocks(
                   title: "Pallino",
+                  color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[0]),
                   ],
                 ),
                 DropDownBlocks(
                   title: "Vai a",
+                  color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[2]),
                     _buildContainerItem(container: containers[4]),
@@ -261,6 +263,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title: "Colora",
+                  color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[1]),
                     _buildContainerItem(container: containers[3]),
@@ -269,6 +272,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title: "Specchia",
+                  color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[6]),
                     _buildContainerItem(container: containers[7]),
@@ -277,6 +281,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title: "Copia",
+                  color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[9]),
                     _buildContainerItem(container: containers[10]),
