@@ -27,8 +27,8 @@ class SchemasReader {
     _readSchemasJSON("resources/sequence/schemas_testing.json")
         .then((String value) {
       _schemes = schemesFromJson(value);
-      // _size = _schemes.getData.length;
-      _size = 5;
+      _size = _schemes.getData.length;
+      // _size = 5;
     });
   }
 
