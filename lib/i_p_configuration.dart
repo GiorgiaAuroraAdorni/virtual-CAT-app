@@ -15,32 +15,37 @@ class _IPConfigurationState extends State<IPConfiguration> {
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            const CupertinoSliverNavigationBar(
-              largeTitle: Text("Mode"),
-            ),
-            SliverFillRemaining(
-              child: Column(
-                children: [
-                  CupertinoFormRow(
-                    prefix: const Text(
-                      "IP:",
-                      textAlign: TextAlign.right,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: "127.0.0.1",
-                      controller: _controllerIP,
-                    ),
+        navigationBar: const CupertinoNavigationBar(
+          middle: Text("Mode"),
+        ),
+        child: SafeArea(
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            child: CupertinoFormSection.insetGrouped(
+              header: const Text('IP adress configuration'),
+              children: [
+                CupertinoTextFormFieldRow(
+                  prefix: const Text(
+                    "IP:",
+                    textAlign: TextAlign.right,
                   ),
-                  CupertinoButton(
-                    onPressed: _changePage,
-                    child: const Text("Connect"),
-                  ),
-                ],
-              ),
+                  placeholder: "127.0.0.1",
+                  controller: _controllerIP,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a value';
+                    }
+
+                    return null;
+                  },
+                ),
+                CupertinoButton(
+                  onPressed: _changePage,
+                  child: const Text("Connect"),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
 

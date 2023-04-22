@@ -3,11 +3,11 @@ import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 
 class ResultNotifier with ChangeNotifier {
-  Cross _cross = Cross();
+  BasicShape _cross = Cross();
 
-  Cross get cross => _cross;
+  BasicShape get cross => _cross;
 
-  set cross(Cross cross) {
+  set cross(BasicShape cross) {
     _cross = cross;
     notifyListeners();
   }

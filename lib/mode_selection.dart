@@ -13,11 +13,11 @@ class ModeSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(CATLocalizations.of(context).mode),
+        ),
         child: CustomScrollView(
           slivers: <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(CATLocalizations.of(context).mode),
-            ),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Row(

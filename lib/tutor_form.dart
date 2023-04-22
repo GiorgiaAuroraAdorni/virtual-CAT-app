@@ -38,179 +38,207 @@ class SchoolFormState extends State<SchoolForm> {
         "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
 
     return CupertinoPageScaffold(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            largeTitle: Text(CATLocalizations.of(context).tutorialTitle),
-            trailing: CupertinoButton(
-              onPressed: () {
-                int schoolId = 0;
-                int supervisorId = 0;
-                Connection()
-                    .addSchool(
-                  _canton.text,
-                  _school.text,
-                  CATLocalizations.schoolTypeToEnglish[_schoolType.text]!,
-                )
-                    .then(
-                  (int value) {
-                    schoolId = value;
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(CATLocalizations.of(context).tutorialTitle),
+        trailing: CupertinoButton(
+          onPressed: () {
+            int schoolId = 0;
+            int supervisorId = 0;
+            Connection()
+                .addSchool(
+              _canton.text,
+              _school.text,
+              CATLocalizations.schoolTypeToEnglish[_schoolType.text]!,
+            )
+                .then(
+              (int value) {
+                schoolId = value;
 
-                    return Connection().addSupervisor(_supervisor.text);
-                  },
-                ).then((int value) {
-                  supervisorId = value;
+                return Connection().addSupervisor(_supervisor.text);
+              },
+            ).then((int value) {
+              supervisorId = value;
 
-                  return Connection().addSession(
-                    supervisorId,
-                    schoolId,
-                    int.tryParse(_level.text) ?? 0,
-                    int.tryParse(_grade.text) ?? 0,
-                    _section.text,
-                    _selectedDate,
-                    _notes.text,
-                    CATLocalizations.of(context).languageCode,
-                  );
-                }).then((int value) {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute<Widget>(
-                      builder: (BuildContext context) => StudentsForm(
-                        sessionID: value,
+              return Connection().addSession(
+                supervisorId,
+                schoolId,
+                int.tryParse(_level.text) ?? 0,
+                int.tryParse(_grade.text) ?? 0,
+                _section.text,
+                _selectedDate,
+                _notes.text,
+                CATLocalizations.of(context).languageCode,
+              );
+            }).then((int value) {
+              Navigator.push(
+                context,
+                CupertinoPageRoute<Widget>(
+                  builder: (BuildContext context) => StudentsForm(
+                    sessionID: value,
+                  ),
+                ),
+              );
+            });
+          },
+          child: const Icon(CupertinoIcons.add_circled),
+        ),
+      ),
+      child: SafeArea(
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                CupertinoFormSection.insetGrouped(
+                  header: const SizedBox(
+                    height: 10,
+                  ),
+                  children: <Widget>[
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).canton}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      placeholder: CATLocalizations.of(context).selectionCanton,
+                      readOnly: true,
+                      onTap: _cantonPicker,
+                      controller: _canton,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter a value";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CupertinoFormRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).schoolName}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      child: CupertinoTextFormFieldRow(
+                        prefix: GestureDetector(
+                          onTap: _schoolPicker, // Image tapped
+                          child: const Icon(CupertinoIcons.add_circled_solid),
+                        ),
+                        placeholder:
+                            CATLocalizations.of(context).selectionSchool,
+                        // readOnly: true,
+                        // onTap: _schoolPicker,
+                        controller: _school,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter a value";
+                          }
+
+                          return null;
+                        },
                       ),
                     ),
-                  );
-                });
-              },
-              child: const Icon(CupertinoIcons.add_circled),
-            ),
-          ),
-          SliverFillRemaining(
-            child: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    CupertinoFormSection.insetGrouped(
-                      header: const SizedBox(
-                        height: 10,
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).school}:",
+                        textAlign: TextAlign.right,
                       ),
-                      children: <Widget>[
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).canton}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            placeholder:
-                                CATLocalizations.of(context).selectionCanton,
-                            readOnly: true,
-                            onTap: _cantonPicker,
-                            controller: _canton,
-                          ),
+                      placeholder: CATLocalizations.of(context).selectionSchool,
+                      readOnly: true,
+                      onTap: _schoolTypePicker,
+                      controller: _schoolType,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter a value";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).grade}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      placeholder: CATLocalizations.of(context).selectionClass,
+                      readOnly: true,
+                      onTap: _gradePicker,
+                      controller: _grade,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter a value";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).section}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      placeholder: CATLocalizations.of(context).sectionName,
+                      controller: _section,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter a value";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CupertinoFormRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).supervisor}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      child: CupertinoTextFormFieldRow(
+                        prefix: GestureDetector(
+                          onTap: _supervisorPicker, // Image tapped
+                          child: const Icon(CupertinoIcons.add_circled_solid),
                         ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).schoolName}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            prefix: GestureDetector(
-                              onTap: _schoolPicker, // Image tapped
-                              child:
-                                  const Icon(CupertinoIcons.add_circled_solid),
-                            ),
-                            placeholder:
-                                CATLocalizations.of(context).selectionSchool,
-                            // readOnly: true,
-                            // onTap: _schoolPicker,
-                            controller: _school,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).school}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            placeholder:
-                                CATLocalizations.of(context).selectionSchool,
-                            readOnly: true,
-                            onTap: _schoolTypePicker,
-                            controller: _schoolType,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).grade}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            placeholder:
-                                CATLocalizations.of(context).selectionClass,
-                            readOnly: true,
-                            onTap: _gradePicker,
-                            controller: _grade,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).section}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            placeholder:
-                                CATLocalizations.of(context).sectionName,
-                            controller: _section,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).supervisor}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            prefix: GestureDetector(
-                              onTap: _supervisorPicker, // Image tapped
-                              child:
-                                  const Icon(CupertinoIcons.add_circled_solid),
-                            ),
-                            placeholder: CATLocalizations.of(context)
-                                .supervisorInformation,
-                            controller: _supervisor,
-                            keyboardType: TextInputType.name,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).data}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            readOnly: true,
-                            onTap: _dataPicker,
-                            controller: _controllerDate,
-                          ),
-                        ),
-                        CupertinoFormRow(
-                          prefix: Text(
-                            "${CATLocalizations.of(context).notes}:",
-                            textAlign: TextAlign.right,
-                          ),
-                          child: CupertinoTextFormFieldRow(
-                            maxLines: null,
-                            expands: true,
-                            controller: _notes,
-                          ),
-                        ),
-                      ],
+                        placeholder:
+                            CATLocalizations.of(context).supervisorInformation,
+                        controller: _supervisor,
+                        keyboardType: TextInputType.name,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter a value";
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).data}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      readOnly: true,
+                      onTap: _dataPicker,
+                      controller: _controllerDate,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter a value";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    CupertinoTextFormFieldRow(
+                      prefix: Text(
+                        "${CATLocalizations.of(context).notes}:",
+                        textAlign: TextAlign.right,
+                      ),
+                      maxLines: null,
+                      expands: true,
+                      controller: _notes,
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

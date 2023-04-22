@@ -63,42 +63,38 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
           return false;
         },
         child: CupertinoPageScaffold(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              CupertinoSliverNavigationBar(
-                largeTitle: Text(CATLocalizations.of(context).secondFormTitle),
-                previousPageTitle: "${widget.sessionID}",
-                trailing: CupertinoButton(
-                  onPressed: () {
-                    Connection()
-                        .addStudent(
-                      _selectedDate,
-                      _genderBool,
-                      widget.sessionID,
-                    )
-                        .then(
-                      (int studentID) {
-                        CatLogger().resetLogs();
+          navigationBar: CupertinoNavigationBar(
+            middle: Text(CATLocalizations.of(context).secondFormTitle),
+            previousPageTitle: "${widget.sessionID}",
+            trailing: CupertinoButton(
+              onPressed: () {
+                Connection()
+                    .addStudent(
+                  _selectedDate,
+                  _genderBool,
+                  widget.sessionID,
+                )
+                    .then(
+                  (int studentID) {
+                    CatLogger().resetLogs();
 
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute<Widget>(
-                            builder: (BuildContext context) => ActivityHome(
-                              sessionID: widget.sessionID,
-                              studentID: studentID,
-                            ),
-                          ),
-                        );
-                      },
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ActivityHome(
+                          sessionID: widget.sessionID,
+                          studentID: studentID,
+                        ),
+                      ),
                     );
                   },
-                  child: const Icon(CupertinoIcons.arrow_right),
-                ),
-              ),
-              SliverFillRemaining(
-                child: generateForm(),
-              ),
-            ],
+                );
+              },
+              child: const Icon(CupertinoIcons.arrow_right),
+            ),
+          ),
+          child: SafeArea(
+            child: generateForm(),
           ),
         ),
       );
@@ -121,28 +117,24 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                 height: 10,
               ),
               children: <Widget>[
-                CupertinoFormRow(
+                CupertinoTextFormFieldRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).gender}:",
                     textAlign: TextAlign.right,
                   ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: CATLocalizations.of(context).inputGender,
-                    readOnly: true,
-                    onTap: _showPicker,
-                    controller: _gender,
-                  ),
+                  placeholder: CATLocalizations.of(context).inputGender,
+                  readOnly: true,
+                  onTap: _showPicker,
+                  controller: _gender,
                 ),
-                CupertinoFormRow(
+                CupertinoTextFormFieldRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).birth}:",
                     textAlign: TextAlign.right,
                   ),
-                  child: CupertinoTextFormFieldRow(
-                    readOnly: true,
-                    onTap: _dataPicker,
-                    controller: _controllerDate,
-                  ),
+                  readOnly: true,
+                  onTap: _dataPicker,
+                  controller: _controllerDate,
                 ),
               ],
             ),

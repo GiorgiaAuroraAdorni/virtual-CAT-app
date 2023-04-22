@@ -3,8 +3,11 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -48,6 +51,8 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   num _globalTime = 0;
+
+  List<ResultsRecord> _allResults = [];
 
   @override
   Widget build(BuildContext context) => Row(
@@ -104,7 +109,23 @@ class _BottomBarState extends State<BottomBar> {
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
               onPressed: () async {
+                final int score = catScore(
+                      commands: List<String>.from(
+                        CatInterpreter().getResults.getCommands,
+                      ),
+                      visible: context.read<VisibilityNotifier>().visible,
+                    ) *
+                    100;
                 await schemaCompleted().then((bool result) {
+                  _allResults.add(
+                    ResultsRecord(
+                      time: context.read<TimeKeeper>().rawTime,
+                      score: score,
+                      state: CatInterpreter().getResults.completed ? 1 : 0,
+                      reference: SchemasReader().current,
+                      result: CatInterpreter().getResults.getStates.last,
+                    ),
+                  );
                   if (result) {
                     _reset();
                     context.read<TimeKeeper>().resetTimer();
@@ -112,7 +133,15 @@ class _BottomBarState extends State<BottomBar> {
                     context.read<TypeUpdateNotifier>().reset();
                     context.read<ReferenceNotifier>().next();
                   } else {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ResultsScreen(
+                          results: _allResults,
+                        ),
+                      ),
+                    );
+                    // Navigator.pop(context);
                   }
                 });
               },

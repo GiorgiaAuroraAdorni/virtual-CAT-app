@@ -34,7 +34,7 @@ void main() {
 /// when it's built
 class HomePage extends StatefulWidget {
   /// It's a constructor of the `HomePage` class.
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   /// The function `createState()` is a method of the `StatefulWidget` class. It
   /// returns a `State` object. The `State` object is a class that extends the
@@ -88,7 +88,7 @@ class LocaleProvider with ChangeNotifier {
 /// brightness and a system orange primary color
 class MyApp extends StatelessWidget {
   /// It's a constructor of the `MyApp` class.
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   /// Create the widget that is the root of the application.
   ///
@@ -115,6 +115,10 @@ class MyApp extends StatelessWidget {
           ) =>
               CupertinoApp(
             home: const HomePage(),
+            initialRoute: "/",
+            // routes: {
+            //   "/": (context) => const HomePage(),
+            // },
             theme: const CupertinoThemeData(
               brightness: Brightness.light,
               primaryColor: CupertinoColors.systemOrange,

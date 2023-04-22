@@ -1,8 +1,8 @@
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-
-import "../utility/helper.dart";
+import "package:interpreter/cat_interpreter.dart";
 
 /// It's a stateful widget that displays the result of the interpreter
 class CrossWidgetSimple extends StatefulWidget {
@@ -12,6 +12,14 @@ class CrossWidgetSimple extends StatefulWidget {
     this.displayLetters = false,
     super.key,
   });
+
+  CrossWidgetSimple.fromBasicShape({
+    required BasicShape shape,
+    this.displayLetters = false,
+    super.key,
+  }) : resultValueNotifier = ResultNotifier() {
+    resultValueNotifier.cross = shape;
+  }
 
   /// A variable that is used to store the result of the interpreter.
   final ResultNotifier resultValueNotifier;

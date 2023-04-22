@@ -259,6 +259,29 @@ class _BlockCanvasState extends State<BlockCanvas> {
     }
     setState(() {
       widgets.clear();
+      _keys
+        ..clear()
+        ..add(GlobalKey());
+      widgets.add(
+        Dismissible(
+          key: _keys.first,
+          direction: DismissDirection.none,
+          child: IgnorePointer(
+            child: ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                Colors.grey,
+                BlendMode.modulate,
+              ),
+              child: GoPosition(
+                item: GoPositionContainer(
+                  languageCode: CATLocalizations.of(context).languageCode,
+                ),
+                onChange: (Size size) {},
+              ),
+            ),
+          ),
+        ),
+      );
       CatInterpreter().allCommandsBuffer.clear();
       // items.clear();
     });

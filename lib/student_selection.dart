@@ -14,51 +14,46 @@ class StudentSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(CATLocalizations.of(context).mode),
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) =>
-                              RecoverStudent(sessionID: sessionID),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      CATLocalizations.of(context).oldStudent,
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(CATLocalizations.of(context).mode),
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CupertinoButton.filled(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) =>
+                          RecoverStudent(sessionID: sessionID),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) =>
-                              StudentsForm(sessionID: sessionID),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      CATLocalizations.of(context).newStudent,
-                    ),
-                  ),
-                ],
+                  );
+                },
+                child: Text(
+                  CATLocalizations.of(context).oldStudent,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(
+                width: 20,
+              ),
+              CupertinoButton.filled(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) =>
+                          StudentsForm(sessionID: sessionID),
+                    ),
+                  );
+                },
+                child: Text(
+                  CATLocalizations.of(context).newStudent,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

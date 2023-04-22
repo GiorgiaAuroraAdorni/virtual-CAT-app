@@ -8,50 +8,44 @@ class SessionSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text(CATLocalizations.of(context).mode),
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) =>
-                              const RecoverSession(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      CATLocalizations.of(context).oldSession,
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(CATLocalizations.of(context).mode),
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CupertinoButton.filled(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) => const RecoverSession(),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  CupertinoButton.filled(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) => const SchoolForm(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      CATLocalizations.of(context).newSession,
-                    ),
-                  ),
-                ],
+                  );
+                },
+                child: Text(
+                  CATLocalizations.of(context).oldSession,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(
+                width: 20,
+              ),
+              CupertinoButton.filled(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) => const SchoolForm(),
+                    ),
+                  );
+                },
+                child: Text(
+                  CATLocalizations.of(context).newSession,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

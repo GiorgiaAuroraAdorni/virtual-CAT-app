@@ -4,13 +4,12 @@ import "package:cross_array_task_app/activities/gesture_based/model/cross_button
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
-
-import "../../utility/cat_log.dart";
 
 class SideBar extends StatefulWidget {
   /// A constructor for the SideBar class.
