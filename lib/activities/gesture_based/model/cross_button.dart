@@ -7,6 +7,7 @@ import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -16,7 +17,7 @@ import "package:provider/provider.dart";
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
   /// It's the constructor of the class.
-  const CrossButton({
+  CrossButton({
     required this.globalKey,
     required this.position,
     required this.shakeKey,
@@ -24,6 +25,7 @@ class CrossButton extends StatefulWidget {
     required this.coloredButtons,
     required this.selectedButtons,
     required this.buttons,
+    required this.resultValueNotifier,
   }) : super(key: globalKey);
 
   /// It's the coordinate of the button in form (y,x)
@@ -46,6 +48,9 @@ class CrossButton extends StatefulWidget {
 
   /// It's a list of rows that are used to access the buttons in the grid.
   final List<Row> buttons;
+
+  /// A variable that is used to store the result of the interpreter.
+  final ResultNotifier resultValueNotifier;
 
   /// Get the position of the button from the global key
   Offset getPosition() => _getPositionFromKey(globalKey);
@@ -111,8 +116,17 @@ class CrossButton extends StatefulWidget {
 /// `CrossButtonState` is a class that extends `State` and is used to create
 /// a state for the `CrossButton` widget
 class CrossButtonState extends State<CrossButton> {
+  Map<int, CupertinoDynamicColor> colors = <int, CupertinoDynamicColor>{
+    0: CupertinoColors.systemGrey,
+    1: CupertinoColors.systemGreen,
+    2: CupertinoColors.systemRed,
+    3: CupertinoColors.systemBlue,
+    4: CupertinoColors.systemYellow,
+  };
+
   /// It's setting the color of the button to grey.
-  Color buttonColor = CupertinoColors.systemGrey;
+  late Color? buttonColor = colors[widget.resultValueNotifier.cross
+      .getGrid[widget.position.first][widget.position.second]];
 
   /// It's setting the selected variable to false.
   bool selected = false;
@@ -135,48 +149,57 @@ class CrossButtonState extends State<CrossButton> {
   Widget build(BuildContext context) {
     dimension = MediaQuery.of(context).size.width / 13;
 
-    return Padding(
-      padding: EdgeInsets.all(dimension / 10),
-      child: CupertinoButton(
-        pressedOpacity: 1,
-        onPressed: () {
-          if (widget.selectionMode.value == SelectionModes.transition) {
-            widget.shakeKey.currentState?.shake();
+    return AnimatedBuilder(
+      animation: widget.resultValueNotifier,
+      builder: (BuildContext context, Widget? child) {
+        buttonColor = colors[widget.resultValueNotifier.cross
+            .getGrid[widget.position.first][widget.position.second]];
 
-            return;
-          }
-          if (widget.selectionMode.value == SelectionModes.select) {
-            if (CatInterpreter().copyCommandsBuffer.isEmpty) {
-              _selection();
-            } else {
-              _selection2();
-            }
+        return Padding(
+          padding: EdgeInsets.all(dimension / 10),
+          child: CupertinoButton(
+            pressedOpacity: 1,
+            onPressed: () {
+              if (widget.selectionMode.value == SelectionModes.transition) {
+                widget.shakeKey.currentState?.shake();
 
-            return;
-          } else if (widget.selectionMode.value == SelectionModes.multiple) {
-            if (context.read<SelectedColorsNotifier>().isEmpty) {
-              _selectionMultiple();
-            } else {
-              widget.shakeKey.currentState?.shake();
-            }
+                return;
+              }
+              if (widget.selectionMode.value == SelectionModes.select) {
+                if (CatInterpreter().copyCommandsBuffer.isEmpty) {
+                  _selection();
+                } else {
+                  _selection2();
+                }
 
-            return;
-          }
-          if (widget.selectionMode.value == SelectionModes.repeat) {
-            _normalColoring(
-              selected: widget.selectionMode.value == SelectionModes.repeat,
-            );
+                return;
+              } else if (widget.selectionMode.value ==
+                  SelectionModes.multiple) {
+                if (context.read<SelectedColorsNotifier>().isEmpty) {
+                  _selectionMultiple();
+                } else {
+                  widget.shakeKey.currentState?.shake();
+                }
 
-            return;
-          }
-          _normalColoring();
-        },
-        borderRadius: BorderRadius.circular(100),
-        minSize: dimension,
-        color: buttonColor,
-        padding: EdgeInsets.zero,
-        child: _widget(),
-      ),
+                return;
+              }
+              if (widget.selectionMode.value == SelectionModes.repeat) {
+                _normalColoring(
+                  selected: widget.selectionMode.value == SelectionModes.repeat,
+                );
+
+                return;
+              }
+              _normalColoring();
+            },
+            borderRadius: BorderRadius.circular(100),
+            minSize: dimension,
+            color: buttonColor,
+            padding: EdgeInsets.zero,
+            child: _widget(),
+          ),
+        );
+      },
     );
   }
 
@@ -376,7 +399,9 @@ class CrossButtonState extends State<CrossButton> {
     });
     Timer(const Duration(milliseconds: 300), () {
       setState(() {
-        buttonColor = CupertinoColors.systemGrey;
+        buttonColor = this.colors[widget.resultValueNotifier.cross
+            .getGrid[widget.position.first][widget.position.second]];
+        // buttonColor = CupertinoColors.systemGrey;
       });
     });
     CatLogger().addLog(

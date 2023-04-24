@@ -10,6 +10,7 @@ class Square extends BasicShape {
     required super.coloredButtons,
     required super.selectedButtons,
     required super.resetSignal,
+    required super.resultValueNotifier,
     super.key,
   });
 

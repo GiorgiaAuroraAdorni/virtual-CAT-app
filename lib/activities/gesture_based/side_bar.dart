@@ -128,12 +128,13 @@ class _SideBarState extends State<SideBar> {
                 child: Column(
                   children: <Widget>[
                     _showCross,
-                    CrossWidgetSimple(
-                      displayLetters:
-                          context.read<TypeUpdateNotifier>().state > 0 &&
-                              context.read<VisibilityNotifier>().visible,
-                      resultValueNotifier: context.watch<ResultNotifier>(),
-                    ),
+                    if (context.read<TypeUpdateNotifier>().state > 0)
+                      CrossWidgetSimple(
+                        displayLetters:
+                            context.read<TypeUpdateNotifier>().state > 0 &&
+                                context.read<VisibilityNotifier>().visible,
+                        resultValueNotifier: context.watch<ResultNotifier>(),
+                      ),
                   ],
                 ),
               ),

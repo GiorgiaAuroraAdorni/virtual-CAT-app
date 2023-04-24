@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/cross.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 
 /// It's a widget that displays a grid of buttons that can be tapped to change
@@ -14,6 +15,7 @@ class GestureBoard extends StatefulWidget {
     required this.coloredButtons,
     required this.selectedButtons,
     required this.resetSignal,
+    required this.resultValueNotifier,
     super.key,
   });
 
@@ -32,6 +34,9 @@ class GestureBoard extends StatefulWidget {
   /// Creating a list of CrossButton objects.
   final ValueNotifier<bool> resetSignal;
 
+  /// A variable that is used to store the result of the interpreter.
+  final ResultNotifier resultValueNotifier;
+
   @override
   State<StatefulWidget> createState() => _GestureBoardState();
 }
@@ -47,6 +52,7 @@ class _GestureBoardState extends State<GestureBoard> {
           coloredButtons: widget.coloredButtons,
           selectedButtons: widget.selectedButtons,
           resetSignal: widget.resetSignal,
+          resultValueNotifier: widget.resultValueNotifier,
         ),
       );
 }

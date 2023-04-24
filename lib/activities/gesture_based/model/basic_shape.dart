@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/cross_button
 import "package:cross_array_task_app/activities/gesture_based/model/dummy_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 
@@ -16,6 +17,7 @@ abstract class BasicShape extends StatefulWidget {
     required this.coloredButtons,
     required this.selectedButtons,
     required this.resetSignal,
+    required this.resultValueNotifier,
     super.key,
   });
 
@@ -36,6 +38,9 @@ abstract class BasicShape extends StatefulWidget {
 
   /// Creating a list of CrossButton objects.
   final ValueNotifier<bool> resetSignal;
+
+  /// A variable that is used to store the result of the interpreter.
+  final ResultNotifier resultValueNotifier;
 
   /// Creating a state object.
   @override
@@ -67,6 +72,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
               coloredButtons: widget.coloredButtons,
               selectedButtons: widget.selectedButtons,
               buttons: buttons,
+              resultValueNotifier: widget.resultValueNotifier,
             ),
           );
         } else {

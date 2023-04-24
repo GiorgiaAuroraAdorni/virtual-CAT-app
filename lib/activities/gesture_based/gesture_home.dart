@@ -154,6 +154,7 @@ class GestureHomeState extends State<GestureHome> {
                           coloredButtons: _coloredButtons,
                           selectedButtons: _selectedButtons,
                           resetSignal: _resetCross,
+                          resultValueNotifier: context.watch<ResultNotifier>(),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.90,
