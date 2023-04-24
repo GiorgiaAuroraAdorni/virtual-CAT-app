@@ -73,35 +73,56 @@ class _SideBarState extends State<SideBar> {
     padding: EdgeInsets.all(_paddingSize),
     child: AnimatedBuilder(
       animation: context.watch<VisibilityNotifier>(),
-      builder: (BuildContext context, Widget? child) => CupertinoButton(
-        key: const Key("Visibility Button"),
-        onPressed: context.read<VisibilityNotifier>().visible
-            ? null
-            : () {
-                context.read<VisibilityNotifier>().visible = true;
-                CatLogger().addLog(
-                  context: context,
-                  previousCommand: "",
-                  currentCommand: "",
-                  description: CatLoggingLevel.changeVisibility,
-                );
-              },
-        borderRadius: BorderRadius.circular(45),
-        minSize: 45,
-        padding: EdgeInsets.zero,
-        color: context.watch<VisibilityNotifier>().visible
-            ? CupertinoColors.systemFill
-            : CupertinoColors.activeOrange,
-        child: context.watch<VisibilityNotifier>().visible
-            ? const Icon(
-                CupertinoIcons.eye_slash_fill,
-                color: CupertinoColors.inactiveGray,
-                size: 30,
-              )
-            : const Icon(
-                CupertinoIcons.eye_fill,
-                size: 30,
-              ),
+      builder: (BuildContext context, Widget? child) => Row(
+        children: [
+          CupertinoButton(
+            onPressed: !context.read<VisibilityNotifier>().visible
+                ? null
+                : () {
+                    context.read<VisibilityNotifier>().visible = false;
+                    CatLogger().addLog(
+                      context: context,
+                      previousCommand: "",
+                      currentCommand: "",
+                      description: CatLoggingLevel.changeVisibility,
+                    );
+                  },
+            disabledColor: CupertinoColors.activeOrange,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 45,
+            padding: EdgeInsets.zero,
+            color: CupertinoColors.systemGrey,
+            child: const Icon(
+              CupertinoIcons.eye_slash_fill,
+              size: 30,
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          CupertinoButton(
+            onPressed: context.read<VisibilityNotifier>().visible
+                ? null
+                : () {
+                    context.read<VisibilityNotifier>().visible = true;
+                    CatLogger().addLog(
+                      context: context,
+                      previousCommand: "",
+                      currentCommand: "",
+                      description: CatLoggingLevel.changeVisibility,
+                    );
+                  },
+            borderRadius: BorderRadius.circular(45),
+            minSize: 45,
+            padding: EdgeInsets.zero,
+            disabledColor: CupertinoColors.activeOrange,
+            color: CupertinoColors.systemGrey,
+            child: const Icon(
+              CupertinoIcons.eye_fill,
+              size: 30,
+            ),
+          ),
+        ],
       ),
     ),
   );
