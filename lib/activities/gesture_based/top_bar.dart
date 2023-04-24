@@ -1,5 +1,4 @@
 import "dart:async";
-import "dart:ui";
 
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
@@ -163,15 +162,15 @@ class _TopBarState extends State<TopBar> {
                 //   ),
                 //   onPressed: () {},
                 // ),
-
-                Text(
-                  "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
-                  style: const TextStyle(
-                    fontFeatures: <FontFeature>[
-                      FontFeature.tabularFigures(),
-                    ],
-                  ),
-                ),
+                Text(""),
+                // Text(
+                //   "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
+                //   style: const TextStyle(
+                //     fontFeatures: <FontFeature>[
+                //       FontFeature.tabularFigures(),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ],
