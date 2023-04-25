@@ -48,7 +48,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(CATLocalizations.of(context).secondFormTitle),
+          middle: Text(CATLocalizations.of(context).studentData),
           previousPageTitle: "${widget.sessionID}",
           trailing: CupertinoButton(
             onPressed: () {

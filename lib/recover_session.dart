@@ -16,7 +16,7 @@ class _RecoverSessionState extends State<RecoverSession> {
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(CATLocalizations.of(context).mode),
+          middle: Text(CATLocalizations.of(context).sessionData),
         ),
         child: SafeArea(
           child: Form(
