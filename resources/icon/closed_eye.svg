@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>closed eye</title>
+    <g id="closed-eye" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <circle id="Oval" fill="#FFD6A7" cx="513" cy="513" r="513"></circle>
+            <g transform="translate(37.375957, 577.834054)" stroke="#545A70" stroke-linecap="round" stroke-width="25">
+                <line x1="473.680861" y1="217.1486" x2="473.680861" y2="314.307691" id="Path-4"></line>
+                <line x1="40.3513156" y1="-19.9195822" x2="40.3513156" y2="77.2395087" id="Path-4-Copy-2" transform="translate(40.351316, 28.659963) scale(1, -1) rotate(-55.000000) translate(-40.351316, -28.659963) "></line>
+                <line x1="226.89677" y1="143.307691" x2="226.89677" y2="240.466781" id="Path-4-Copy-4" transform="translate(226.896770, 191.887236) scale(1, -1) rotate(-35.000000) translate(-226.896770, -191.887236) "></line>
+                <line x1="125.851316" y1="71.4099632" x2="125.851316" y2="168.569054" id="Path-4-Copy-5" transform="translate(125.851316, 119.989509) scale(1, -1) rotate(-45.000000) translate(-125.851316, -119.989509) "></line>
+                <line x1="349.317225" y1="201.603145" x2="349.317225" y2="298.762236" id="Path-4-Copy-9" transform="translate(349.317225, 250.182691) scale(1, -1) rotate(-15.000000) translate(-349.317225, -250.182691) "></line>
+                <line x1="908.953588" y1="-17.9764004" x2="908.953588" y2="79.1826905" id="Path-4-Copy-3" transform="translate(908.953588, 30.603145) rotate(-55.000000) translate(-908.953588, -30.603145) "></line>
+                <line x1="720.464952" y1="143.307691" x2="720.464952" y2="240.466781" id="Path-4-Copy-7" transform="translate(720.464952, 191.887236) rotate(-35.000000) translate(-720.464952, -191.887236) "></line>
+                <line x1="821.510407" y1="71.4099632" x2="821.510407" y2="168.569054" id="Path-4-Copy-6" transform="translate(821.510407, 119.989509) rotate(-45.000000) translate(-821.510407, -119.989509) "></line>
+                <line x1="598.044497" y1="201.603145" x2="598.044497" y2="298.762236" id="Path-4-Copy-10" transform="translate(598.044497, 250.182691) rotate(-15.000000) translate(-598.044497, -250.182691) "></line>
+            </g>
+            <path d="M513,298.930064 C352.363636,298.930064 191.727273,362.597755 31.0909091,489.933137 C195.816142,686.461392 356.452506,784.725519 513,784.725519 C669.547494,784.725519 830.183858,686.461392 994.909091,489.933137 C834.272727,362.597755 673.636364,298.930064 513,298.930064 Z" id="Path-5" fill="#FFB68A"></path>
+            <path d="M31.0909091,493.568182 C195.816142,687.886364 356.452506,785.045455 513,785.045455 C669.547494,785.045455 830.183858,687.886364 994.909091,493.568182" id="Path-5" stroke="#545A70" stroke-width="25" stroke-linecap="round"></path>
+        </g>
+    </g>
+</svg>

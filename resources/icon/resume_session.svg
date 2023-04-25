@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>resume_session</title>
+    <g id="resume_session" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <g id="database">
+                <g id="Group">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+                <g id="Group-Copy" transform="translate(0.000000, 279.462857)">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+                <g id="Group-Copy-2" transform="translate(0.000000, 558.925714)">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+            </g>
+            <g transform="translate(286.662857, 270.468571)" id="magnify">
+                <path d="M506.708189,336.243846 L569.509032,336.27743 C589.908715,336.288339 606.450876,352.8083 606.489181,373.20795 L607.164765,733.001144 C607.203134,753.435644 590.668804,770.032184 570.234305,770.070554 C570.204551,770.070609 570.174797,770.070629 570.145043,770.070613 L507.3442,770.037029 C486.944517,770.02612 470.402356,753.506159 470.364052,733.106509 L469.688468,373.313315 C469.650098,352.878816 486.184428,336.282276 506.618928,336.243906 C506.648682,336.24385 506.678435,336.24383 506.708189,336.243846 Z" id="Rectangle" fill="#FFCF2C" transform="translate(538.426616, 553.157230) rotate(-45.000000) translate(-538.426616, -553.157230) "></path>
+                <ellipse id="Oval" stroke="#777777" stroke-width="70" cx="249.467407" cy="248.875829" rx="214.467407" ry="213.875829"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

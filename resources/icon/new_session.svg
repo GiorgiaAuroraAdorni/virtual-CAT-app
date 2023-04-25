@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>new_session</title>
+    <g id="new_session" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(0.000000, -0.041096)">
+            <g id="database">
+                <g id="Group">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+                <g id="Group-Copy" transform="translate(0.000000, 279.462857)">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+                <g id="Group-Copy-2" transform="translate(0.000000, 558.925714)">
+                    <rect id="Rectangle" fill="#0C75B4" x="0" y="0" width="830.571429" height="244.285714" rx="37"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="70.3542857" y="68.4" width="68.4" height="107.485714"></rect>
+                </g>
+            </g>
+            <g transform="translate(488.571429, 488.988571)" id="Plus" stroke="#FFFFFF">
+                <circle id="Oval" stroke-width="20" fill="#06B087" cx="268.714286" cy="268.714286" r="258.714286"></circle>
+                <g id="Group" transform="translate(148.525714, 146.570614)" stroke-linecap="square" stroke-width="60">
+                    <line x1="0" y1="121.166529" x2="242.32941" y2="120.17743" id="Line"></line>
+                    <line x1="0.492060278" y1="121.720912" x2="242.820963" y2="120.614387" id="Line-Copy" transform="translate(121.656511, 121.167650) rotate(90.261623) translate(-121.656511, -121.167650) "></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
