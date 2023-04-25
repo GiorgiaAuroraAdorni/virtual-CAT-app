@@ -73,9 +73,9 @@ class _TopBarState extends State<TopBar> {
                           width: 42,
                           colorFilter: ColorFilter.mode(
                             context.read<TypeUpdateNotifier>().state == 2
-                                ? CupertinoColors.activeBlue
+                                ? CupertinoColors.tertiarySystemFill
                                 : CupertinoColors.inactiveGray,
-                            BlendMode.srcIn,
+                            BlendMode.color,
                           ),
                         ),
                         onPressed: () {
@@ -100,9 +100,9 @@ class _TopBarState extends State<TopBar> {
                           width: 42,
                           colorFilter: ColorFilter.mode(
                             context.read<TypeUpdateNotifier>().state == 1
-                                ? CupertinoColors.activeBlue
+                                ? CupertinoColors.tertiarySystemFill
                                 : CupertinoColors.inactiveGray,
-                            BlendMode.srcIn,
+                            BlendMode.color,
                           ),
                         ),
                         onPressed: () {
