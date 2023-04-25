@@ -2,30 +2,33 @@ import "dart:convert";
 import "dart:io";
 
 import "package:dio/dio.dart";
+import "package:flutter/foundation.dart";
 import "package:fpdart/fpdart.dart";
-// import "package:native_dio_adapter/native_dio_adapter.dart";
 
 class BaseConnection {
+  /// Base connection class constructor
   BaseConnection() {
-    _connectionString = _protocol + _ip + _port;
+    _connectionString = kReleaseMode
+        ? "${_protocol}198.168.0.2$_port"
+        : "${_protocol}127.0.0.1$_port";
     // if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
     //   _dio.httpClientAdapter = NativeAdapter();
     // }
     _dio.options.baseUrl = _connectionString;
   }
 
-  String _ip = "127.0.0.1";
+  // String _ip = "127.0.0.1";
   final String _port = ":8080";
   final String _protocol = "http://";
   String _connectionString = "";
 
   final Dio _dio = Dio();
 
-  set ip(String ip) {
-    _ip = ip;
-    _connectionString = _protocol + _ip + _port;
-    _dio.options.baseUrl = _connectionString;
-  }
+  // set ip(String ip) {
+  //   _ip = ip;
+  //   _connectionString = _protocol + _ip + _port;
+  //   _dio.options.baseUrl = _connectionString;
+  // }
 
   TaskEither<String, Response<Map<String, dynamic>>> makePostRequest(
     String path,

@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/i_p_configuration.dart";
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/session_selection.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
@@ -41,13 +42,26 @@ class ModeSelection extends StatelessWidget {
                       CupertinoButton.filled(
                         onPressed: () {
                           SchemasReader().normal();
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  const IPConfiguration(),
-                            ),
+                          Connection().testConnection().then(
+                            (bool value) {
+                              if (value) {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute<Widget>(
+                                    builder: (BuildContext context) =>
+                                        const SessionSelection(),
+                                  ),
+                                );
+                              }
+                            },
                           );
+                          // Navigator.push(
+                          //   context,
+                          //   CupertinoPageRoute<Widget>(
+                          //     builder: (BuildContext context) =>
+                          //         const IPConfiguration(),
+                          //   ),
+                          // );
                         },
                         child: Text(
                           CATLocalizations.of(context).tutorialTitle,

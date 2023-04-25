@@ -51,7 +51,7 @@ class _IPConfigurationState extends State<IPConfiguration> {
 
   /// It changes the page to the SchoolForm page.
   void _changePage() {
-    Connection().ip = _controllerIP.text;
+    // Connection().ip = _controllerIP.text;
     Connection().testConnection().then(
       (bool value) {
         if (value) {
