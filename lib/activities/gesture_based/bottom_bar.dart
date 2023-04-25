@@ -50,48 +50,11 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  num _globalTime = 0;
-
-  List<ResultsRecord> _allResults = [];
+  final List<ResultsRecord> _allResults = [];
 
   @override
   Widget build(BuildContext context) => Row(
         children: <Widget>[
-          if (widget.studentID == -1 && widget.sessionID == -1)
-            Padding(
-              padding: const EdgeInsets.only(right: 5, left: 5),
-              child: CupertinoButton(
-                onPressed: () async {
-                  if (SchemasReader().hasPrev()) {
-                    _reset();
-                    context.read<TimeKeeper>().resetTimer();
-                    CatLogger().resetLogs();
-                    context.read<TypeUpdateNotifier>().reset();
-                    context.read<ReferenceNotifier>().prev();
-                  }
-                },
-                borderRadius: BorderRadius.circular(45),
-                minSize: 50,
-                padding: EdgeInsets.zero,
-                color: CupertinoColors.systemOrange,
-                child: const Icon(
-                  CupertinoIcons.arrow_left,
-                ),
-              ),
-            ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5, left: 5),
-            child: CupertinoButton(
-              onPressed: _reset,
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              padding: EdgeInsets.zero,
-              color: CupertinoColors.systemRed.highContrastColor,
-              child: const Icon(
-                CupertinoIcons.arrow_counterclockwise,
-              ),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
@@ -150,7 +113,7 @@ class _BottomBarState extends State<BottomBar> {
               padding: EdgeInsets.zero,
               color: CupertinoColors.systemGreen.highContrastColor,
               child: const Icon(
-                CupertinoIcons.arrow_right,
+                CupertinoIcons.check_mark,
               ),
             ),
           ),
@@ -165,7 +128,6 @@ class _BottomBarState extends State<BottomBar> {
   ///   A Future<bool>
   Future<bool> schemaCompleted() async {
     final Results results = CatInterpreter().getResults;
-    _globalTime += context.read<TimeKeeper>().rawTime;
     final List<String> commands = List<String>.from(results.getCommands);
     commands.removeAt(0);
     final Collector collector = elaborate(commands: commands);

@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/gesture_based/change_cross_visualization.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
@@ -43,16 +44,21 @@ class GestureBoard extends StatefulWidget {
 
 class _GestureBoardState extends State<GestureBoard> {
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(15),
-        child: Cross(
-          shakeKey: widget.shakeKey,
-          width: MediaQuery.of(context).size.width,
-          selectionMode: widget.selectionMode,
-          coloredButtons: widget.coloredButtons,
-          selectedButtons: widget.selectedButtons,
-          resetSignal: widget.resetSignal,
-          resultValueNotifier: widget.resultValueNotifier,
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          const ChangeCrossVisualization(),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Cross(
+              shakeKey: widget.shakeKey,
+              width: MediaQuery.of(context).size.width,
+              selectionMode: widget.selectionMode,
+              coloredButtons: widget.coloredButtons,
+              selectedButtons: widget.selectedButtons,
+              resetSignal: widget.resetSignal,
+              resultValueNotifier: widget.resultValueNotifier,
+            ),
+          ),
+        ],
       );
 }

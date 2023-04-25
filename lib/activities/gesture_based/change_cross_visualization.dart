@@ -1,0 +1,92 @@
+import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter_svg/svg.dart";
+import "package:provider/provider.dart";
+
+class ChangeCrossVisualization extends StatelessWidget {
+  const ChangeCrossVisualization({super.key});
+
+  final double _paddingSize = 5;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.all(_paddingSize),
+        child: AnimatedBuilder(
+          animation: context.watch<VisibilityNotifier>(),
+          builder: (BuildContext context, Widget? child) => Row(
+            children: [
+              CupertinoButton(
+                onPressed: !context.read<VisibilityNotifier>().visible
+                    ? null
+                    : () {
+                        context.read<VisibilityNotifier>().visible = false;
+                        CatLogger().addLog(
+                          context: context,
+                          previousCommand: "",
+                          currentCommand: "",
+                          description: CatLoggingLevel.changeVisibility,
+                        );
+                      },
+                disabledColor: CupertinoColors.activeOrange,
+                borderRadius: BorderRadius.circular(45),
+                minSize: 45,
+                padding: EdgeInsets.zero,
+                color: CupertinoColors.opaqueSeparator,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(1000),
+                  child: SvgPicture.asset(
+                    "resources/icon/closed_eye.svg",
+                    height: 45,
+                    width: 45,
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      !context.read<VisibilityNotifier>().visible
+                          ? CupertinoColors.tertiarySystemFill
+                          : CupertinoColors.inactiveGray,
+                      BlendMode.color,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              CupertinoButton(
+                onPressed: context.read<VisibilityNotifier>().visible
+                    ? null
+                    : () {
+                        context.read<VisibilityNotifier>().visible = true;
+                        CatLogger().addLog(
+                          context: context,
+                          previousCommand: "",
+                          currentCommand: "",
+                          description: CatLoggingLevel.changeVisibility,
+                        );
+                      },
+                borderRadius: BorderRadius.circular(45),
+                minSize: 45,
+                padding: EdgeInsets.zero,
+                disabledColor: CupertinoColors.activeOrange,
+                color: CupertinoColors.opaqueSeparator,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(1000),
+                  child: SvgPicture.asset(
+                    "resources/icon/open_eye.svg",
+                    height: 45,
+                    width: 45,
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      context.read<VisibilityNotifier>().visible
+                          ? CupertinoColors.tertiarySystemFill
+                          : CupertinoColors.inactiveGray,
+                      BlendMode.color,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+}

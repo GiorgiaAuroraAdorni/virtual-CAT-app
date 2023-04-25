@@ -361,7 +361,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
           ) =>
               Container(
             width: MediaQuery.of(context).size.width * 0.50,
-            height: MediaQuery.of(context).size.height * 0.90,
+            height: MediaQuery.of(context).size.height * 0.85,
             decoration: const BoxDecoration(
               color: CupertinoColors.systemBackground,
             ),
