@@ -53,13 +53,9 @@ class _SideBarState extends State<SideBar> {
     if (!mounted) {
       return;
     }
-    if (context
-        .read<VisibilityNotifier>()
-        .visible) {
-      context
-          .read<ResultNotifier>()
-          .cross =
-      CatInterpreter().getLastState as Cross;
+    if (context.read<VisibilityNotifier>().visible) {
+      context.read<ResultNotifier>().cross =
+          CatInterpreter().getLastState as Cross;
       if (!added) {
         CatInterpreter().addListener(_interpreterListener);
         added = !added;
@@ -77,122 +73,116 @@ class _SideBarState extends State<SideBar> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height * 0.90,
+  Widget build(BuildContext context) => Container(
+        height: MediaQuery.of(context).size.height * 0.90,
         decoration: const BoxDecoration(
           color: CupertinoColors.systemBackground,
         ),
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) =>
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Column(
+          builder: (BuildContext context, Widget? child) => Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: <Widget>[
+                Row(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () async {
-                            if (SchemasReader().hasPrev()) {
-                              _reset();
-                              context.read<TimeKeeper>().resetTimer();
-                              CatLogger().resetLogs();
-                              context.read<TypeUpdateNotifier>().reset();
-                              context.read<ReferenceNotifier>().prev();
-                            }
-                          },
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_left_circle_fill,
-                            size: 44,
-                          ),
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _reset,
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_counterclockwise_circle_fill,
-                            size: 44,
-                          ),
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {},
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_right_circle_fill,
-                            size: 44,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: CrossWidgetSimple(
-                        displayLetters:
-                        context
-                            .read<TypeUpdateNotifier>()
-                            .state > 0,
-                        resultValueNotifier: context.watch<ReferenceNotifier>(),
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () async {
+                        if (SchemasReader().hasPrev()) {
+                          _reset();
+                          context.read<TimeKeeper>().resetTimer();
+                          CatLogger().resetLogs();
+                          context.read<TypeUpdateNotifier>().reset();
+                          context.read<ReferenceNotifier>().prev();
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(45),
+                      color: CupertinoColors.black,
+                      child: const Icon(
+                        CupertinoIcons.arrow_left_circle_fill,
+                        size: 44,
                       ),
                     ),
-                    if (context
-                        .read<TypeUpdateNotifier>()
-                        .state > 0)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: Column(
-                          children: <Widget>[
-
-                            const ChangeCrossVisualization(),
-
-                            CrossWidgetSimple(
-                              displayLetters:
-                              context
-                                  .read<TypeUpdateNotifier>()
-                                  .state > 0 &&
-                                  context
-                                      .read<VisibilityNotifier>()
-                                      .visible,
-                              resultValueNotifier: context.watch<
-                                  ResultNotifier>(),
-                            ),
-                          ],
-                        ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: _reset,
+                      borderRadius: BorderRadius.circular(45),
+                      color: CupertinoColors.black,
+                      child: const Icon(
+                        CupertinoIcons.arrow_counterclockwise_circle_fill,
+                        size: 44,
                       ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: BottomBar(
-                        studentID: widget.studentID,
-                        sessionID: widget.sessionID,
-                        selectionMode: widget.selectionMode,
-                        selectedButtons: widget.selectedButtons,
-                        coloredButtons: widget.coloredButtons,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () async {
+                        if (SchemasReader().hasNext()) {
+                          _reset();
+                          context.read<TimeKeeper>().resetTimer();
+                          CatLogger().resetLogs();
+                          context.read<TypeUpdateNotifier>().reset();
+                          context.read<ReferenceNotifier>().next();
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(45),
+                      color: CupertinoColors.black,
+                      child: const Icon(
+                        CupertinoIcons.arrow_right_circle_fill,
+                        size: 44,
                       ),
                     ),
                   ],
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: CrossWidgetSimple(
+                    displayLetters:
+                        context.read<TypeUpdateNotifier>().state > 0,
+                    resultValueNotifier: context.watch<ReferenceNotifier>(),
+                  ),
+                ),
+                if (context.read<TypeUpdateNotifier>().state > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: Column(
+                      children: <Widget>[
+                        const ChangeCrossVisualization(),
+                        CrossWidgetSimple(
+                          displayLetters:
+                              context.read<TypeUpdateNotifier>().state > 0 &&
+                                  context.read<VisibilityNotifier>().visible,
+                          resultValueNotifier: context.watch<ResultNotifier>(),
+                        ),
+                      ],
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: BottomBar(
+                    studentID: widget.studentID,
+                    sessionID: widget.sessionID,
+                    selectionMode: widget.selectionMode,
+                    selectedButtons: widget.selectedButtons,
+                    coloredButtons: widget.coloredButtons,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
 
   void _reset() {
-    context
-        .read<VisibilityNotifier>()
-        .visible = false;
+    context.read<VisibilityNotifier>().visible = false;
     CatInterpreter().reset();
-    context
-        .read<ResultNotifier>()
-        .cross = Cross();
+    context.read<ResultNotifier>().cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
     widget.selectionMode.value = SelectionModes.base;
     widget.selectionMode.notifyListeners();

@@ -58,67 +58,72 @@ class _BottomBarState extends State<BottomBar> {
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
-              onPressed: _reset,
+              onPressed: () async => submit(complete: false),
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
               padding: EdgeInsets.zero,
-              color: CupertinoColors.systemYellow,
+              color: CupertinoColors.systemRed,
               child: const Icon(
-                CupertinoIcons.flag_fill,
+                CupertinoIcons.xmark_circle_fill,
+                size: 44,
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
             child: CupertinoButton(
-              onPressed: () async {
-                final int score = catScore(
-                      commands: List<String>.from(
-                        CatInterpreter().getResults.getCommands,
-                      ),
-                      visible: context.read<VisibilityNotifier>().visible,
-                    ) *
-                    100;
-                await schemaCompleted().then((bool result) {
-                  _allResults.add(
-                    ResultsRecord(
-                      time: context.read<TimeKeeper>().rawTime,
-                      score: score,
-                      state: CatInterpreter().getResults.completed ? 1 : 0,
-                      reference: SchemasReader().current,
-                      result: CatInterpreter().getResults.getStates.last,
-                    ),
-                  );
-                  if (result) {
-                    _reset();
-                    context.read<TimeKeeper>().resetTimer();
-                    CatLogger().resetLogs();
-                    context.read<TypeUpdateNotifier>().reset();
-                    context.read<ReferenceNotifier>().next();
-                  } else {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => ResultsScreen(
-                          results: _allResults,
-                        ),
-                      ),
-                    );
-                    // Navigator.pop(context);
-                  }
-                });
-              },
+              onPressed: () async => submit(complete: true),
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
               padding: EdgeInsets.zero,
               color: CupertinoColors.systemGreen.highContrastColor,
               child: const Icon(
-                CupertinoIcons.check_mark,
+                CupertinoIcons.check_mark_circled_solid,
+                size: 44,
               ),
             ),
           ),
         ],
       );
+
+  Future<void> submit({required bool complete}) async {
+    final int score = catScore(
+          commands: List<String>.from(
+            CatInterpreter().getResults.getCommands,
+          ),
+          visible: context.read<VisibilityNotifier>().visible,
+        ) *
+        100;
+    await schemaCompleted(complete: complete).then(
+      (bool result) {
+        _allResults.add(
+          ResultsRecord(
+            time: context.read<TimeKeeper>().rawTime,
+            score: score,
+            state: CatInterpreter().getResults.completed ? 1 : 0,
+            reference: SchemasReader().current,
+            result: CatInterpreter().getResults.getStates.last,
+          ),
+        );
+        if (result) {
+          _reset();
+          context.read<TimeKeeper>().resetTimer();
+          CatLogger().resetLogs();
+          context.read<TypeUpdateNotifier>().reset();
+          context.read<ReferenceNotifier>().next();
+        } else {
+          Navigator.push(
+            context,
+            CupertinoPageRoute<Widget>(
+              builder: (BuildContext context) => ResultsScreen(
+                results: _allResults,
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
 
   /// It's a function that is called when the user completes the schema,
   /// it calculates the score and the time,
@@ -126,7 +131,7 @@ class _BottomBarState extends State<BottomBar> {
   ///
   /// Returns:
   ///   A Future<bool>
-  Future<bool> schemaCompleted() async {
+  Future<bool> schemaCompleted({required bool complete}) async {
     final Results results = CatInterpreter().getResults;
     final List<String> commands = List<String>.from(results.getCommands);
     commands.removeAt(0);
@@ -142,6 +147,7 @@ class _BottomBarState extends State<BottomBar> {
       studentID: widget.studentID,
       sessionID: widget.sessionID,
       context: context,
+      complete: complete,
     )
         .then((int value) {
       UIBlock.unblock(context);

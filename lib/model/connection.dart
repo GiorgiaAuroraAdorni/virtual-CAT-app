@@ -151,6 +151,7 @@ class Connection extends BaseConnection {
     required int studentID,
     required int sessionID,
     required BuildContext context,
+    required bool complete,
   }) async {
     if (studentID == -1 && sessionID == -1) {
       return -1;
@@ -203,6 +204,7 @@ class Connection extends BaseConnection {
         "artefactDimension": state + 1,
         "time": context.read<TimeKeeper>().rawTime,
         "timeStamp": DateTime.now().toIso8601String(),
+        "complete": complete,
       },
     ).run();
 
