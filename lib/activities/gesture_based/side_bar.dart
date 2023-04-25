@@ -3,7 +3,6 @@ import "package:cross_array_task_app/activities/gesture_based/bottom_bar.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
@@ -91,7 +90,7 @@ class _SideBarState extends State<SideBar> {
             borderRadius: BorderRadius.circular(45),
             minSize: 45,
             padding: EdgeInsets.zero,
-            color: CupertinoColors.systemGrey,
+            color: CupertinoColors.opaqueSeparator,
             child: const Icon(
               CupertinoIcons.eye_slash_fill,
               size: 30,
@@ -116,7 +115,7 @@ class _SideBarState extends State<SideBar> {
             minSize: 45,
             padding: EdgeInsets.zero,
             disabledColor: CupertinoColors.activeOrange,
-            color: CupertinoColors.systemGrey,
+            color: CupertinoColors.opaqueSeparator,
             child: const Icon(
               CupertinoIcons.eye_fill,
               size: 30,
@@ -134,12 +133,6 @@ class _SideBarState extends State<SideBar> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  "${SchemasReader().currentIndex}/${SchemasReader().size}",
-                ),
-              ),
               CrossWidgetSimple(
                 displayLetters: context.read<TypeUpdateNotifier>().state > 0,
                 resultValueNotifier: context.watch<ReferenceNotifier>(),

@@ -394,11 +394,17 @@ class CrossButtonState extends State<CrossButton> {
 
       return;
     }
-    setState(() {
-      buttonColor = CupertinoColors.lightBackgroundGray;
+    final Timer t = Timer.periodic(Duration.zero, (Timer timer) {
+      setState(() {
+        buttonColor = CupertinoColors.lightBackgroundGray;
+      });
     });
+    // setState(() {
+    //   buttonColor = CupertinoColors.lightBackgroundGray;
+    // });
     Timer(const Duration(milliseconds: 300), () {
       setState(() {
+        t.cancel();
         buttonColor = this.colors[widget.resultValueNotifier.cross
             .getGrid[widget.position.first][widget.position.second]];
         // buttonColor = CupertinoColors.systemGrey;

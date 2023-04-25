@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -59,14 +60,6 @@ class _TopBarState extends State<TopBar> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  "Punteggio: ${catScore(
-                        commands: List<String>.from(
-                          CatInterpreter().getResults.getCommands,
-                        ),
-                        visible: context.read<VisibilityNotifier>().visible,
-                      ) * 100}",
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -153,6 +146,31 @@ class _TopBarState extends State<TopBar> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  height: 44,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: SchemasReader().size,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) =>
+                        CupertinoButton.filled(
+                      // minSize: 30,
+                      borderRadius: BorderRadius.circular(45),
+                      padding: EdgeInsets.zero,
+                      onPressed: () {},
+                      child: const Icon(CupertinoIcons.check_mark),
+                    ),
+                  ),
+                ),
+                Text(
+                  "CAT-score: ${catScore(
+                        commands: List<String>.from(
+                          CatInterpreter().getResults.getCommands,
+                        ),
+                        visible: context.read<VisibilityNotifier>().visible,
+                      ) * 100}",
+                ),
                 // CupertinoButton(
                 //   padding: EdgeInsets.zero,
                 //   child: SvgPicture.asset(
@@ -162,7 +180,6 @@ class _TopBarState extends State<TopBar> {
                 //   ),
                 //   onPressed: () {},
                 // ),
-                Text(""),
                 // Text(
                 //   "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
                 //   style: const TextStyle(

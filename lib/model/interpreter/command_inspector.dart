@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/translations/en.dart";
 import "package:dartx/dartx.dart";
 
 class CommandsInspector {
@@ -61,21 +62,21 @@ class CommandsInspector {
     } else if (inspector._zigzagUpRightLeft(positions)) {
       direction = "zigzag up right left";
     } else if (inspector._squareBottomLeft(positions)) {
-      direction = "square bottom left";
+      direction = patternsEn["square bottom left"]!;
     } else if (inspector._squareBottomRight(positions)) {
-      direction = "square bottom right";
+      direction = patternsEn["square bottom right"]!;
     } else if (inspector._squareTopLeft(positions)) {
-      direction = "square top left";
+      direction = patternsEn["square top left"]!;
     } else if (inspector._squareTopRight(positions)) {
-      direction = "square top right";
+      direction = patternsEn["square top right"]!;
     } else if (inspector._squareBottomLeftReverse(positions)) {
-      direction = "square bottom left reverse";
+      direction = patternsEn["square bottom left reverse"]!;
     } else if (inspector._squareBottomRightReverse(positions)) {
-      direction = "square bottom right reverse";
+      direction = patternsEn["square bottom right reverse"]!;
     } else if (inspector._squareTopLeftReverse(positions)) {
-      direction = "square top left reverse";
+      direction = patternsEn["square top left reverse"]!;
     } else if (inspector._squareTopRightReverse(positions)) {
-      direction = "square top right reverse";
+      direction = patternsEn["square top right reverse"]!;
     } else {
       final List<String> command = <String>[];
       int j = 0;

@@ -22,10 +22,12 @@ class PaintContainer extends SimpleContainer {
   String direction;
 
   late Map<String, String> items = <String, String>{
+    // Directions
     CATLocalizations.getPatterns(languageCode)["right"]!: "right",
     CATLocalizations.getPatterns(languageCode)["left"]!: "left",
     CATLocalizations.getPatterns(languageCode)["up"]!: "up",
     CATLocalizations.getPatterns(languageCode)["down"]!: "down",
+    // Diagonal
     CATLocalizations.getPatterns(languageCode)["diagonal up left"]!:
         "diagonal up left",
     CATLocalizations.getPatterns(languageCode)["diagonal up right"]!:
@@ -34,22 +36,24 @@ class PaintContainer extends SimpleContainer {
         "diagonal down left",
     CATLocalizations.getPatterns(languageCode)["diagonal down right"]!:
         "diagonal down right",
+    // Square
     CATLocalizations.getPatterns(languageCode)["square bottom left"]!:
-        "square bottom left",
+        "square right up left",
     CATLocalizations.getPatterns(languageCode)["square top left"]!:
-        "square top left",
+        "square down right up",
     CATLocalizations.getPatterns(languageCode)["square bottom right"]!:
-        "square bottom right",
+        "square up left down",
     CATLocalizations.getPatterns(languageCode)["square top right"]!:
-        "square top right",
+        "square left down right",
     CATLocalizations.getPatterns(languageCode)["square bottom left reverse"]!:
-        "square bottom left reverse",
+        "square up right down",
     CATLocalizations.getPatterns(languageCode)["square top left reverse"]!:
-        "square top left reverse",
+        "square right down left",
     CATLocalizations.getPatterns(languageCode)["square bottom right reverse"]!:
-        "square bottom right reverse",
+        "square left up right",
     CATLocalizations.getPatterns(languageCode)["square top right reverse"]!:
-        "square top right reverse",
+        "square down left up",
+    // L
     CATLocalizations.getPatterns(languageCode)["L up left"]!: "l up left",
     CATLocalizations.getPatterns(languageCode)["L up right"]!: "l up right",
     CATLocalizations.getPatterns(languageCode)["L right down"]!: "l right down",
@@ -58,6 +62,7 @@ class PaintContainer extends SimpleContainer {
     CATLocalizations.getPatterns(languageCode)["L left up"]!: "l left up",
     CATLocalizations.getPatterns(languageCode)["L down left"]!: "l down left",
     CATLocalizations.getPatterns(languageCode)["L down right"]!: "l down right",
+    // Zig-zag
     CATLocalizations.getPatterns(languageCode)["zig-zag left up down"]!:
         "zig-zag left up down",
     CATLocalizations.getPatterns(languageCode)["zig-zag left down up"]!:
@@ -148,7 +153,7 @@ class PaintContainer extends SimpleContainer {
           color: Colors.black87,
         ),
       ),
-    ): "square top right",
+    ): "square left down right",
     Transform(
       alignment: Alignment.center,
       transform: Matrix4.rotationY(math.pi),
@@ -159,7 +164,7 @@ class PaintContainer extends SimpleContainer {
           color: Colors.black87,
         ),
       ),
-    ): "square bottom right",
+    ): "square up left down",
     Transform(
       alignment: Alignment.center,
       transform: Matrix4.rotationY(math.pi),
@@ -170,7 +175,7 @@ class PaintContainer extends SimpleContainer {
           color: Colors.black87,
         ),
       ),
-    ): "square bottom left",
+    ): "square right up left",
     Transform(
       alignment: Alignment.center,
       transform: Matrix4.rotationY(math.pi),
@@ -181,35 +186,35 @@ class PaintContainer extends SimpleContainer {
           color: Colors.black87,
         ),
       ),
-    ): "square top left",
+    ): "square down right up",
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(
         CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square top right reverse",
+    ): "square down left up",
     Transform.rotate(
       angle: 180 * math.pi / 180,
       child: const Icon(
         CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square bottom right reverse",
+    ): "square left up right",
     Transform.rotate(
       angle: 270 * math.pi / 180,
       child: const Icon(
         CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square bottom left reverse",
+    ): "square up right down",
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(
         CupertinoIcons.return_icon,
         color: Colors.black87,
       ),
-    ): "square top left reverse",
+    ): "square right down left",
     Transform.rotate(
       angle: 0 * math.pi / 180,
       child: const Icon(
@@ -356,7 +361,7 @@ class PaintContainer extends SimpleContainer {
       ),
     ),
     const Text(
-      ":",
+      "∞",
       style: TextStyle(
         color: CupertinoColors.black,
       ),
