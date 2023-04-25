@@ -92,9 +92,20 @@ class _SideBarState extends State<SideBar> {
             minSize: 45,
             padding: EdgeInsets.zero,
             color: CupertinoColors.opaqueSeparator,
-            child: const Icon(
-              CupertinoIcons.eye_slash_fill,
-              size: 30,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1000),
+              child: SvgPicture.asset(
+                "resources/icon/closed_eye.svg",
+                height: 45,
+                width: 45,
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  !context.read<VisibilityNotifier>().visible
+                      ? CupertinoColors.tertiarySystemFill
+                      : CupertinoColors.inactiveGray,
+                  BlendMode.color,
+                ),
+              ),
             ),
           ),
           const SizedBox(
@@ -117,9 +128,20 @@ class _SideBarState extends State<SideBar> {
             padding: EdgeInsets.zero,
             disabledColor: CupertinoColors.activeOrange,
             color: CupertinoColors.opaqueSeparator,
-            child: const Icon(
-              CupertinoIcons.eye_fill,
-              size: 30,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1000),
+              child: SvgPicture.asset(
+                "resources/icon/open_eye.svg",
+                height: 45,
+                width: 45,
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  context.read<VisibilityNotifier>().visible
+                      ? CupertinoColors.tertiarySystemFill
+                      : CupertinoColors.inactiveGray,
+                  BlendMode.color,
+                ),
+              ),
             ),
           ),
         ],

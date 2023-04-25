@@ -71,11 +71,13 @@ class _TopBarState extends State<TopBar> {
                           "resources/icon/code.svg",
                           height: 42,
                           width: 42,
+                          fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
                             context.read<TypeUpdateNotifier>().state == 2
-                                ? CupertinoColors.tertiarySystemFill
-                                : CupertinoColors.inactiveGray,
-                            BlendMode.color,
+                                ? CupertinoColors.white
+                                : CupertinoColors.systemGrey2.darkColor
+                                    .withAlpha(127),
+                            BlendMode.modulate,
                           ),
                         ),
                         onPressed: () {
@@ -98,11 +100,13 @@ class _TopBarState extends State<TopBar> {
                           "resources/icon/block.svg",
                           height: 42,
                           width: 42,
+                          fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
                             context.read<TypeUpdateNotifier>().state == 1
-                                ? CupertinoColors.tertiarySystemFill
-                                : CupertinoColors.inactiveGray,
-                            BlendMode.color,
+                                ? CupertinoColors.white
+                                : CupertinoColors.systemGrey2.darkColor
+                                    .withAlpha(127),
+                            BlendMode.modulate,
                           ),
                         ),
                         onPressed: () {
@@ -125,11 +129,13 @@ class _TopBarState extends State<TopBar> {
                           "resources/icon/gesture.svg",
                           height: 42,
                           width: 42,
+                          fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
                             context.read<TypeUpdateNotifier>().state == 0
-                                ? CupertinoColors.tertiarySystemFill
-                                : CupertinoColors.inactiveGray,
-                            BlendMode.color,
+                                ? CupertinoColors.white
+                                : CupertinoColors.systemGrey2.darkColor
+                                    .withAlpha(127),
+                            BlendMode.modulate,
                           ),
                         ),
                         onPressed: () {
