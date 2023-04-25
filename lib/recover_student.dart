@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 
@@ -54,15 +55,32 @@ class _RecoverStudentState extends State<RecoverStudent> {
   void _changePage() {
     final int? value = int.tryParse(_controllerStudent.text);
     if (value != null) {
-      Navigator.push(
-        context,
-        CupertinoPageRoute<Widget>(
-          builder: (BuildContext context) => ActivityHome(
-            sessionID: widget.sessionID,
-            studentID: value,
-          ),
-        ),
-      );
+      Connection().students().then(
+        (ret) {
+          for (var i in ret) {
+            if (i["id"] == value && i["session"] == widget.sessionID) {
+              Navigator.push(
+                context,
+                CupertinoPageRoute<Widget>(
+                  builder: (BuildContext context) => ActivityHome(
+                    sessionID: widget.sessionID,
+                    studentID: value,
+                  ),
+                ),
+              );
+            }
+          }
+        },
+      ).onError((Object? error, StackTrace stackTrace) => null);
+      // Navigator.push(
+      //   context,
+      //   CupertinoPageRoute<Widget>(
+      //     builder: (BuildContext context) => ActivityHome(
+      //       sessionID: widget.sessionID,
+      //       studentID: value,
+      //     ),
+      //   ),
+      // );
     }
   }
 }

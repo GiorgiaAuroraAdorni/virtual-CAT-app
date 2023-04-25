@@ -38,6 +38,20 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
+  Future<dynamic> sessions() async {
+    final Either<String, List<dynamic>> res =
+        await mappingGetRequest("/sessions").run();
+
+    return res.getOrElse((String l) => <Map<String, dynamic>>[]);
+  }
+
+  Future<dynamic> students() async {
+    final Either<String, List<dynamic>> res =
+        await mappingGetRequest("/students").run();
+
+    return res.getOrElse((String l) => <Map<String, dynamic>>[]);
+  }
+
   Future<int> addSchool(String canton, String name, String schoolType) async {
     final List<Either<String, List<dynamic>>> responses = await Future.wait(
       [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],

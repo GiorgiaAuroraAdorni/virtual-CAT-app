@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/student_selection.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
@@ -29,8 +30,8 @@ class _RecoverSessionState extends State<RecoverSession> {
                     textAlign: TextAlign.right,
                   ),
                   controller: _controllerSession,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
+                  validator: (String? val) {
+                    if (val == null || val.isEmpty) {
                       return CATLocalizations.of(context).errorMessage;
                     }
 
@@ -51,12 +52,21 @@ class _RecoverSessionState extends State<RecoverSession> {
   void _changePage() {
     final int? value = int.tryParse(_controllerSession.text);
     if (value != null) {
-      Navigator.push(
-        context,
-        CupertinoPageRoute<Widget>(
-          builder: (BuildContext context) => StudentSelection(sessionID: value),
-        ),
-      );
+      Connection().sessions().then(
+        (ret) {
+          for (var i in ret) {
+            if (i["id"] == value) {
+              Navigator.push(
+                context,
+                CupertinoPageRoute<Widget>(
+                  builder: (BuildContext context) =>
+                      StudentSelection(sessionID: value),
+                ),
+              );
+            }
+          }
+        },
+      ).onError((Object? error, StackTrace stackTrace) => null);
     }
   }
 }
