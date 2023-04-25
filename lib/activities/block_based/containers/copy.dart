@@ -102,7 +102,8 @@ class _Copy extends State<CopyCommands> {
           175 +
           60 *
               (widget.item.moves.length +
-                  (widget.item.container.isEmpty ? 3 : 0)),
+                  (widget.item.container.isEmpty ? 3 : 0) +
+                  (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -188,7 +189,9 @@ class _Copy extends State<CopyCommands> {
                     Radius.circular(8),
                   ),
                 ),
-                height: childHeight + 60.0,
+                height: widget.item.container.isNotEmpty
+                    ? childHeight + 60.0
+                    : childHeight + 60 + (widget.item.moves.length + 3 * 60),
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
@@ -359,25 +362,29 @@ class _Copy extends State<CopyCommands> {
                         Radius.circular(8),
                       ),
                     ),
-                    height: 60 + (widget.item.moves.length * 60),
+                    height: 60 + (widget.item.moves.length + 1 * 60),
                     width: constraints.maxWidth - 15,
                     child: Center(
                       child: AnimatedBuilder(
                         animation: context.watch<TypeUpdateNotifier>(),
                         builder: (BuildContext context, Widget? child) =>
                             IgnorePointer(
-                          child: ColorFiltered(
-                            colorFilter: const ColorFilter.mode(
-                              Colors.grey,
-                              BlendMode.lighten,
-                            ),
-                            child: Point(
-                              item: PointContainer(
-                                languageCode:
-                                    CATLocalizations.of(context).languageCode,
+                          child: Column(
+                            children: [
+                              ColorFiltered(
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.grey,
+                                  BlendMode.lighten,
+                                ),
+                                child: Point(
+                                  item: PointContainer(
+                                    languageCode: CATLocalizations.of(context)
+                                        .languageCode,
+                                  ),
+                                  onChange: (Size size) {},
+                                ),
                               ),
-                              onChange: (Size size) {},
-                            ),
+                            ],
                           ),
                         ),
                       ),
@@ -396,7 +403,10 @@ class _Copy extends State<CopyCommands> {
                       Radius.circular(8),
                     ),
                   ),
-                  height: 60 + (widget.item.moves.length * 60),
+                  height: 60 +
+                      ((widget.item.moves.length +
+                              (widget.item.moves.isEmpty ? 1 : 0)) *
+                          60),
                   width: constraints.maxWidth - 15,
                   child: ReorderableListView(
                     onReorder: (int oldIndex, int newIndex) {
