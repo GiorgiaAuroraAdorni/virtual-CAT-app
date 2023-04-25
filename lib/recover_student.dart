@@ -19,7 +19,7 @@ class _RecoverStudentState extends State<RecoverStudent> {
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(CATLocalizations.of(context).mode),
+          middle: Text(CATLocalizations.of(context).studentData),
         ),
         child: SafeArea(
           child: Form(

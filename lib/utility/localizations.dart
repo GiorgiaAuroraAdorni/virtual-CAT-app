@@ -107,6 +107,14 @@ class CATLocalizations {
 
   String get mode => _localizedValues[_locale.languageCode]!["mode"]!;
 
+  String get student => _localizedValues[_locale.languageCode]!["student"]!;
+
+  String get session => _localizedValues[_locale.languageCode]!["session"]!;
+
+  String get sessionData => _localizedValues[_locale.languageCode]!["sessionData"]!;
+
+  String get studentData => _localizedValues[_locale.languageCode]!["studentData"]!;
+
   /// It's a getter that returns the localized string for the key "school"
   String get school => _localizedValues[_locale.languageCode]!["school"]!;
 

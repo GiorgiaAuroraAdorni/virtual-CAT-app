@@ -39,7 +39,7 @@ class SchoolFormState extends State<SchoolForm> {
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(CATLocalizations.of(context).tutorialTitle),
+        middle: Text(CATLocalizations.of(context).sessionData),
         trailing: CupertinoButton(
           onPressed: () {
             int schoolId = 0;
