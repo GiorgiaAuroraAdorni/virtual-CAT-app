@@ -14,14 +14,14 @@ class _RecoverSessionState extends State<RecoverSession> {
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text("Mode"),
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(CATLocalizations.of(context).mode),
         ),
         child: SafeArea(
           child: Form(
             autovalidateMode: AutovalidateMode.always,
             child: CupertinoFormSection.insetGrouped(
-              header: const Text("Continue previous session"),
+              header: Text(CATLocalizations.of(context).requestSessionID),
               children: [
                 CupertinoTextFormFieldRow(
                   prefix: Text(
@@ -31,7 +31,7 @@ class _RecoverSessionState extends State<RecoverSession> {
                   controller: _controllerSession,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter a value";
+                      return CATLocalizations.of(context).errorMessage;
                     }
 
                     return null;
@@ -39,7 +39,7 @@ class _RecoverSessionState extends State<RecoverSession> {
                 ),
                 CupertinoButton(
                   onPressed: _changePage,
-                  child: const Text("Continue"),
+                  child: Text(CATLocalizations.of(context).continueSessionID),
                 ),
               ],
             ),

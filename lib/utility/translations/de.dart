@@ -13,6 +13,13 @@ final Map<String, String> de = <String, String>{
   "newStudent": "Einen neuen Schüler anlegen",
   "sessionID": "Sitzungs-ID",
   "studentID": "Studentenausweis",
+  //TODO: Translation
+  "errorMessage": "Inserire un valore",
+  "results": "Risultati",
+  "requestStudentID": "Inset student ID to continue the session",
+  "continueStudentID": "Continue",
+  "requestSessionID": "Continue previous session",
+  "continueSessionID": "Continue",
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm);

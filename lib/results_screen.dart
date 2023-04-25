@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/results_record.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
 
@@ -16,7 +17,7 @@ class ResultsScreen extends StatelessWidget {
         onWillPop: () async => false,
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            middle: const Text("Results"),
+            middle: Text(CATLocalizations.of(context).results),
             transitionBetweenRoutes: false,
             automaticallyImplyLeading: false,
             trailing: CupertinoButton(

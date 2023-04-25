@@ -106,7 +106,7 @@ class SchoolFormState extends State<SchoolForm> {
                       controller: _canton,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter a value";
+                          return CATLocalizations.of(context).errorMessage;
                         }
 
                         return null;
@@ -129,7 +129,7 @@ class SchoolFormState extends State<SchoolForm> {
                         controller: _school,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return "Please enter a value";
+                            return CATLocalizations.of(context).errorMessage;
                           }
 
                           return null;
@@ -147,7 +147,7 @@ class SchoolFormState extends State<SchoolForm> {
                       controller: _schoolType,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter a value";
+                          return CATLocalizations.of(context).errorMessage;
                         }
 
                         return null;
@@ -164,7 +164,7 @@ class SchoolFormState extends State<SchoolForm> {
                       controller: _grade,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter a value";
+                          return CATLocalizations.of(context).errorMessage;
                         }
 
                         return null;
@@ -179,7 +179,7 @@ class SchoolFormState extends State<SchoolForm> {
                       controller: _section,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter a value";
+                          return CATLocalizations.of(context).errorMessage;
                         }
 
                         return null;
@@ -201,7 +201,7 @@ class SchoolFormState extends State<SchoolForm> {
                         keyboardType: TextInputType.name,
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return "Please enter a value";
+                            return CATLocalizations.of(context).errorMessage;
                           }
 
                           return null;
@@ -218,7 +218,7 @@ class SchoolFormState extends State<SchoolForm> {
                       controller: _controllerDate,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Please enter a value";
+                          return CATLocalizations.of(context).errorMessage;
                         }
 
                         return null;

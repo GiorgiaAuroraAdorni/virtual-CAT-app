@@ -4,7 +4,6 @@ import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter_screen_lock/flutter_screen_lock.dart";
 
 /// Implementation for the gestures-based GUI
 class StudentsForm extends StatefulWidget {
@@ -47,55 +46,39 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   bool _genderBool = false;
 
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () async {
-          await showCupertinoModalPopup(
-            context: context,
-            builder: (BuildContext context) => ScreenLock(
-              correctString: "1234",
-              onCancelled: Navigator.of(context).pop,
-              onUnlocked: () => Navigator.of(context)
-                ..pop()
-                ..pop(),
-            ),
-          );
+  Widget build(BuildContext context) => CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(CATLocalizations.of(context).secondFormTitle),
+          previousPageTitle: "${widget.sessionID}",
+          trailing: CupertinoButton(
+            onPressed: () {
+              Connection()
+                  .addStudent(
+                _selectedDate,
+                _genderBool,
+                widget.sessionID,
+              )
+                  .then(
+                (int studentID) {
+                  CatLogger().resetLogs();
 
-          return false;
-        },
-        child: CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            middle: Text(CATLocalizations.of(context).secondFormTitle),
-            previousPageTitle: "${widget.sessionID}",
-            trailing: CupertinoButton(
-              onPressed: () {
-                Connection()
-                    .addStudent(
-                  _selectedDate,
-                  _genderBool,
-                  widget.sessionID,
-                )
-                    .then(
-                  (int studentID) {
-                    CatLogger().resetLogs();
-
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => ActivityHome(
-                          sessionID: widget.sessionID,
-                          studentID: studentID,
-                        ),
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute<Widget>(
+                      builder: (BuildContext context) => ActivityHome(
+                        sessionID: widget.sessionID,
+                        studentID: studentID,
                       ),
-                    );
-                  },
-                );
-              },
-              child: const Icon(CupertinoIcons.arrow_right),
-            ),
+                    ),
+                  );
+                },
+              );
+            },
+            child: const Icon(CupertinoIcons.arrow_right),
           ),
-          child: SafeArea(
-            child: generateForm(),
-          ),
+        ),
+        child: SafeArea(
+          child: generateForm(),
         ),
       );
 
