@@ -14,6 +14,8 @@ final Map<String, String> it = <String, String>{
   "sessionID": "ID Sessione",
   "studentID": "ID Studente",
   //TODO: Translation
+  "student": "Allievo",
+  "session": "Sessione",
   "errorMessage": "Inserire un valore",
   "results": "Risultati",
   "requestStudentID": "Inset student ID to continue the session",
