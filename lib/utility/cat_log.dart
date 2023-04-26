@@ -45,7 +45,7 @@ class CatLogger {
   }
 
   Future<int> commitLogs(int resultsID) async =>
-      Connection().addLog(resultsID, _logs.toString());
+      Connection().addLog(resultsID, jsonEncode(_logs));
 }
 
 class _LoggerInfo {
