@@ -160,8 +160,8 @@ class _Copy extends State<CopyCells> {
                           IgnorePointer(
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            Colors.grey,
-                            BlendMode.lighten,
+                            Colors.white54,
+                            BlendMode.modulate,
                           ),
                           child: Column(
                             children: <Widget>[
@@ -302,8 +302,8 @@ class _Copy extends State<CopyCells> {
                             IgnorePointer(
                           child: ColorFiltered(
                             colorFilter: const ColorFilter.mode(
-                              Colors.grey,
-                              BlendMode.lighten,
+                              Colors.white54,
+                              BlendMode.modulate,
                             ),
                             child: Column(
                               children: [

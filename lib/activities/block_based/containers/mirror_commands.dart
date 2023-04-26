@@ -253,8 +253,8 @@ class _Mirror extends State<MirrorCommands> {
               builder: (BuildContext context, Widget? child) => IgnorePointer(
                 child: ColorFiltered(
                   colorFilter: const ColorFilter.mode(
-                    Colors.grey,
-                    BlendMode.lighten,
+                    Colors.white54,
+                    BlendMode.modulate,
                   ),
                   child: Column(
                     children: <Widget>[

@@ -182,8 +182,8 @@ class _Mirror extends State<MirrorPoints> {
                           IgnorePointer(
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            Colors.grey,
-                            BlendMode.lighten,
+                            Colors.white54,
+                            BlendMode.modulate,
                           ),
                           child: Column(
                             children: [
