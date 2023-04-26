@@ -55,6 +55,14 @@ const Map<String, String> _secondForm = <String, String>{
   "inputSurname": "Geben Sie Ihren Nachnamen ein (optional)",
   "inputGender": "Geben Sie Ihr Geschlecht ein",
 };
+// TODO: Translation
+const Map<String, String> groupsDe = <String, String>{
+  "groupPoint": "Pallino",
+  "groupGoTo": "Vai a",
+  "groupColor": "Colora",
+  "groupCopy": "Copia",
+  "groupMirror": "Specchia",
+};
 
 const Map<String, String> blocksDe = <String, String>{
   "paintSingle": "Farbe",
@@ -69,6 +77,10 @@ const Map<String, String> blocksDe = <String, String>{
   "origin": "Was? (Punkte)",
   "destination": "Wo? (Punkte)",
   "repeatPattern": "Repeat Pattern",
+  // TODO: Translation
+  "mirrorCross": "Specchia croce",
+  "mirrorPoints": "Specchia pallini",
+  "mirrorCommands": "Specchia comandi",
 };
 
 const Map<String, String> directionsDe = <String, String>{

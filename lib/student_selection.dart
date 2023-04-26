@@ -22,63 +22,74 @@ class StudentSelection extends StatelessWidget {
           slivers: <Widget>[
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icon/new_user.svg",
-                        height: 150,
-                        width: 150,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoButton.filled(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  StudentsForm(sessionID: sessionID),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          CATLocalizations.of(context).newStudent,
-                        ),
-                      ),
-                    ],
+                children: [
+                  Text(
+                    "${CATLocalizations.of(context).session}: $sessionID",
                   ),
                   const SizedBox(
-                    width: 20,
+                    height: 20,
                   ),
-                  Column(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icon/select_user.svg",
-                        height: 150,
-                        width: 150,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/new_user.svg",
+                            height: 150,
+                            width: 150,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CupertinoButton.filled(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute<Widget>(
+                                  builder: (BuildContext context) =>
+                                      StudentsForm(sessionID: sessionID),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              CATLocalizations.of(context).newStudent,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        height: 20,
+                        width: 20,
                       ),
-                      CupertinoButton.filled(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  RecoverStudent(sessionID: sessionID),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icon/select_user.svg",
+                            height: 150,
+                            width: 150,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CupertinoButton.filled(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute<Widget>(
+                                  builder: (BuildContext context) =>
+                                      RecoverStudent(sessionID: sessionID),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              CATLocalizations.of(context).oldStudent,
                             ),
-                          );
-                        },
-                        child: Text(
-                          CATLocalizations.of(context).oldStudent,
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

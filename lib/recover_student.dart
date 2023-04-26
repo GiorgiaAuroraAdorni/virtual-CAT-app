@@ -25,7 +25,15 @@ class _RecoverStudentState extends State<RecoverStudent> {
           child: Form(
             autovalidateMode: AutovalidateMode.always,
             child: CupertinoFormSection.insetGrouped(
-              header: Text(CATLocalizations.of(context).requestStudentID),
+              header: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${CATLocalizations.of(context).session}: ${widget.sessionID}",
+                  ),
+                  Text(CATLocalizations.of(context).requestStudentID),
+                ],
+              ),
               children: [
                 CupertinoTextFormFieldRow(
                   prefix: Text(

@@ -56,6 +56,15 @@ const Map<String, String> _secondForm = <String, String>{
   "inputGender": "Enter your gender",
 };
 
+// TODO: Translation
+const Map<String, String> groupsEn = <String, String>{
+  "groupPoint": "Pallino",
+  "groupGoTo": "Vai a",
+  "groupColor": "Colora",
+  "groupCopy": "Copia",
+  "groupMirror": "Mirror",
+};
+
 const Map<String, String> blocksEn = <String, String>{
   "paintSingle": "Paint",
   "repetitions": "Repetitions",
@@ -69,6 +78,10 @@ const Map<String, String> blocksEn = <String, String>{
   "origin": "What? (dots)",
   "destination": "Where? (dots)",
   "repeatPattern": "Repeat pattern",
+  // TODO: Translation
+  "mirrorCross": "Specchia croce",
+  "mirrorPoints": "Specchia pallini",
+  "mirrorCommands": "Specchia comandi",
 };
 
 const Map<String, String> directionsEn = <String, String>{

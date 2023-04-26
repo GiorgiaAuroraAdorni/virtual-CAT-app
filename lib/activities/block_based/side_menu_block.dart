@@ -247,14 +247,15 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
               controller: _firstController,
               children: <Widget>[
                 DropDownBlocks(
-                  title: "Pallino",
+                  title:
+                      CATLocalizations.of(context).blockGroups["groupPoint"]!,
                   color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[0]),
                   ],
                 ),
                 DropDownBlocks(
-                  title: "Vai a",
+                  title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
                   color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[2]),
@@ -262,7 +263,8 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                   ],
                 ),
                 DropDownBlocks(
-                  title: "Colora",
+                  title:
+                      CATLocalizations.of(context).blockGroups["groupColor"]!,
                   color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[1]),
@@ -271,7 +273,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                   ],
                 ),
                 DropDownBlocks(
-                  title: "Copia",
+                  title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
                   color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[10]),
@@ -279,7 +281,8 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                   ],
                 ),
                 DropDownBlocks(
-                  title: "Specchia",
+                  title:
+                      CATLocalizations.of(context).blockGroups["groupMirror"]!,
                   color: CupertinoColors.systemBlue,
                   items: <Widget>[
                     _buildContainerItem(container: containers[6]),

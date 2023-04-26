@@ -49,7 +49,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).studentData),
-          previousPageTitle: "${widget.sessionID}",
           trailing: CupertinoButton(
             onPressed: () {
               Connection()
@@ -96,8 +95,8 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
         child: Column(
           children: <Widget>[
             CupertinoFormSection.insetGrouped(
-              header: const SizedBox(
-                height: 10,
+              header: Text(
+                "${CATLocalizations.of(context).session}: ${widget.sessionID}",
               ),
               children: <Widget>[
                 CupertinoTextFormFieldRow(

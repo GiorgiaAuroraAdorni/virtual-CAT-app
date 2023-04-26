@@ -87,6 +87,14 @@ class CATLocalizations {
     "de": genderTypeDe,
   };
 
+  static final Map<String, Map<String, String>> _localizedGroupsBlocks =
+      <String, Map<String, String>>{
+    "en": groupsEn,
+    "it": groupsIt,
+    "fr": groupsFr,
+    "de": groupsDe,
+  };
+
   /// It's a map that contains all the translations from the other languages to
   /// English.
   static final Map<String, String> mapToEn = <String, String>{}
@@ -111,9 +119,11 @@ class CATLocalizations {
 
   String get session => _localizedValues[_locale.languageCode]!["session"]!;
 
-  String get sessionData => _localizedValues[_locale.languageCode]!["sessionData"]!;
+  String get sessionData =>
+      _localizedValues[_locale.languageCode]!["sessionData"]!;
 
-  String get studentData => _localizedValues[_locale.languageCode]!["studentData"]!;
+  String get studentData =>
+      _localizedValues[_locale.languageCode]!["studentData"]!;
 
   /// It's a getter that returns the localized string for the key "school"
   String get school => _localizedValues[_locale.languageCode]!["school"]!;
@@ -256,6 +266,9 @@ class CATLocalizations {
   List<Text> get genderType => _localizedGenderType[_locale.languageCode]!;
 
   Map<String, String> get blocks => _localizedBlocks[_locale.languageCode]!;
+
+  Map<String, String> get blockGroups =>
+      _localizedGroupsBlocks[_locale.languageCode]!;
 
   static Map<String, String> getBlocks(String languageCode) =>
       _localizedBlocks[languageCode]!;

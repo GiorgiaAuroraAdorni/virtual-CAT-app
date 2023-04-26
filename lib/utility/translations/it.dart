@@ -56,6 +56,14 @@ const Map<String, String> _secondForm = <String, String>{
   "inputGender": "Inserisci il tuo genere",
 };
 
+const Map<String, String> groupsIt = <String, String>{
+  "groupPoint": "Pallino",
+  "groupGoTo": "Vai a",
+  "groupColor": "Colora",
+  "groupCopy": "Copia",
+  "groupMirror": "Specchia",
+};
+
 const Map<String, String> blocksIt = <String, String>{
   "paintSingle": "Colora",
   "repetitions": "Ripetizioni",
@@ -69,6 +77,10 @@ const Map<String, String> blocksIt = <String, String>{
   "origin": "Cosa? (pallini)",
   "destination": "Dove? (pallini)",
   "repeatPattern": "Ripeti motivo",
+  // TODO: Translation
+  "mirrorCross": "Specchia croce",
+  "mirrorPoints": "Specchia pallini",
+  "mirrorCommands": "Specchia comandi",
 };
 
 const Map<String, String> directionsIt = <String, String>{
