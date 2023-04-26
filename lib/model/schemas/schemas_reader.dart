@@ -64,6 +64,8 @@ class SchemasReader {
   /// It returns the current index of the page.
   int get currentIndex => _index;
 
+  set currentIndex(int newIndex) => _index = newIndex;
+
   /// `reset()` sets the value to the first entry.
   void reset() {
     _index = 1;

@@ -7,14 +7,14 @@ import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
 
-class CatLogger {
+class CatLogger with ChangeNotifier {
   factory CatLogger() => _catLogger;
 
   CatLogger._internal();
 
   static final CatLogger _catLogger = CatLogger._internal();
 
-  final Map<String, _LoggerInfo> _logs = <String, _LoggerInfo>{};
+  final Map<String, LoggerInfo> _logs = <String, LoggerInfo>{};
 
   void addLog({
     required BuildContext context,
@@ -24,7 +24,7 @@ class CatLogger {
   }) {
     print("log");
     print(currentCommand);
-    _logs[DateTime.now().toIso8601String()] = _LoggerInfo(
+    _logs[DateTime.now().toIso8601String()] = LoggerInfo(
       previousCommand: previousCommand,
       currentCommand: currentCommand,
       description: description,
@@ -32,10 +32,14 @@ class CatLogger {
       visualFeedback: context.read<VisibilityNotifier>().visible,
       schema: SchemasReader().currentIndex,
     );
+    notifyListeners();
   }
+
+  Map<String, LoggerInfo> get logs => _logs;
 
   void resetLogs() {
     _logs.clear();
+    notifyListeners();
   }
 
   void printLogs() {
@@ -48,8 +52,8 @@ class CatLogger {
       Connection().addLog(resultsID, jsonEncode(_logs));
 }
 
-class _LoggerInfo {
-  _LoggerInfo({
+class LoggerInfo {
+  LoggerInfo({
     required this.previousCommand,
     required this.currentCommand,
     required this.description,

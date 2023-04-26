@@ -10,7 +10,7 @@ class ResultsScreen extends StatelessWidget {
     super.key,
   });
 
-  final List<ResultsRecord> results;
+  final Map<int, ResultsRecord> results;
 
   @override
   Widget build(BuildContext context) => WillPopScope(
@@ -36,13 +36,13 @@ class ResultsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 CrossWidgetSimple.fromBasicShape(
-                  shape: results[index].reference,
+                  shape: results[index + 1]!.reference,
                 ),
                 CrossWidgetSimple.fromBasicShape(
-                  shape: results[index].result,
+                  shape: results[index + 1]!.result,
                 ),
-                Text("${results[index].score}"),
-                Text(TimeKeeper.timeFormat(results[index].time)),
+                Text("${results[index + 1]!.score}"),
+                Text(TimeKeeper.timeFormat(results[index + 1]!.time)),
               ],
             ),
             separatorBuilder: (BuildContext context, int index) =>

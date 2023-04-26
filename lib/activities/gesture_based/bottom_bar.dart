@@ -27,6 +27,7 @@ class BottomBar extends StatefulWidget {
     required this.selectionMode,
     required this.selectedButtons,
     required this.coloredButtons,
+    required this.allResults,
     super.key,
   });
 
@@ -45,13 +46,13 @@ class BottomBar extends StatefulWidget {
   /// Creating a list of CrossButton objects.
   final ValueNotifier<List<CrossButton>> coloredButtons;
 
+  final Map<int, ResultsRecord> allResults;
+
   @override
   State<StatefulWidget> createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
-  final List<ResultsRecord> _allResults = [];
-
   @override
   Widget build(BuildContext context) => Row(
         children: <Widget>[
@@ -87,24 +88,22 @@ class _BottomBarState extends State<BottomBar> {
       );
 
   Future<void> submit({required bool complete}) async {
+    final bool v = context.read<VisibilityNotifier>().finalState;
     final int score = catScore(
           commands: List<String>.from(
             CatInterpreter().getResults.getCommands,
           ),
-          visible: context.read<VisibilityNotifier>().visible,
+          visible: v,
         ) *
         100;
     await schemaCompleted(complete: complete).then(
       (bool result) {
-        _allResults.add(
-          ResultsRecord(
-            time: context.read<TimeKeeper>().rawTime,
-            score: score,
-            state: CatInterpreter().getResults.completed ? 1 : 0,
-            reference: SchemasReader().current,
-            result: CatInterpreter().getResults.getStates.last,
-          ),
-        );
+        widget.allResults[SchemasReader().index]!
+          ..time = context.read<TimeKeeper>().rawTime
+          ..result = CatInterpreter().getResults.getStates.last
+          ..score = score
+          ..done = true
+          ..state = complete ? 1 : 0;
         if (result) {
           _reset();
           context.read<TimeKeeper>().resetTimer();
@@ -116,7 +115,7 @@ class _BottomBarState extends State<BottomBar> {
             context,
             CupertinoPageRoute<Widget>(
               builder: (BuildContext context) => ResultsScreen(
-                results: _allResults,
+                results: widget.allResults,
               ),
             ),
           );
@@ -155,7 +154,7 @@ class _BottomBarState extends State<BottomBar> {
       return value;
     });
 
-    context.read<VisibilityNotifier>().visible = true;
+    context.read<VisibilityNotifier>().visibleFinal = true;
 
     return await UIBlock.blockWithData(
       context,

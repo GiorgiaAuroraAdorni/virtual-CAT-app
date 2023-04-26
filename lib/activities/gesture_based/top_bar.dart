@@ -1,12 +1,14 @@
 import "dart:async";
 
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
@@ -18,6 +20,7 @@ class TopBar extends StatefulWidget {
   TopBar({
     required this.sessionID,
     required this.studentID,
+    required this.allResults,
     super.key,
   });
 
@@ -26,6 +29,8 @@ class TopBar extends StatefulWidget {
 
   /// It's a variable that stores the studentID of the current student.
   final int studentID;
+
+  final Map<int, ResultsRecord> allResults;
 
   @override
   State<StatefulWidget> createState() => _TopBarState();
@@ -152,23 +157,40 @@ class _TopBarState extends State<TopBar> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  height: 44,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: SchemasReader().size,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) =>
-                        CupertinoButton.filled(
-                      // minSize: 30,
-                      borderRadius: BorderRadius.circular(45),
-                      padding: EdgeInsets.zero,
-                      onPressed: () {},
-                      child: const Icon(CupertinoIcons.check_mark),
-                    ),
-                  ),
+                AnimatedBuilder(
+                  animation: CatLogger(),
+                  builder: (BuildContext context, Widget? w) {
+                    final bool check = CatLogger()
+                        .logs
+                        .values
+                        .filter(
+                          (LoggerInfo e) =>
+                              e.description != CatLoggingLevel.changeMode,
+                        )
+                        .isNotEmpty;
+
+                    widget.allResults[SchemasReader().index]!.done = check;
+
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.65,
+                      height: 44,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.allResults.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) =>
+                            CupertinoButton.filled(
+                          borderRadius: BorderRadius.circular(45),
+                          padding: EdgeInsets.zero,
+                          onPressed:
+                              widget.allResults[index + 1]!.done ? null : () {},
+                          child: const Icon(CupertinoIcons.check_mark),
+                        ),
+                      ),
+                    );
+                  },
                 ),
+
                 Text(
                   "CAT-score: ${catScore(
                         commands: List<String>.from(

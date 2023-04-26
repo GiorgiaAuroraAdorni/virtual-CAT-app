@@ -7,11 +7,13 @@ class ResultsRecord {
     required this.state,
     required this.reference,
     required this.result,
+    required this.done,
   });
 
-  final int time;
-  final int score;
-  final int state;
+  int time;
+  int score;
+  int state;
+  bool done;
   final BasicShape reference;
-  final BasicShape result;
+  BasicShape result;
 }

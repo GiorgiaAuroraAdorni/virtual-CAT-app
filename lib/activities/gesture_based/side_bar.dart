@@ -4,12 +4,14 @@ import "package:cross_array_task_app/activities/gesture_based/change_cross_visua
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -22,6 +24,7 @@ class SideBar extends StatefulWidget {
     required this.selectionMode,
     required this.selectedButtons,
     required this.coloredButtons,
+    required this.allResults,
     super.key,
   });
 
@@ -40,13 +43,13 @@ class SideBar extends StatefulWidget {
   /// Creating a list of CrossButton objects.
   final ValueNotifier<List<CrossButton>> coloredButtons;
 
+  final Map<int, ResultsRecord> allResults;
+
   @override
   State<StatefulWidget> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> {
-  final double _paddingSize = 5;
-
   bool added = false;
 
   void _interpreterListener() {
@@ -84,61 +87,99 @@ class _SideBarState extends State<SideBar> {
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () async {
-                        if (SchemasReader().hasPrev()) {
-                          _reset();
-                          context.read<TimeKeeper>().resetTimer();
-                          CatLogger().resetLogs();
-                          context.read<TypeUpdateNotifier>().reset();
-                          context.read<ReferenceNotifier>().prev();
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(45),
-                      color: CupertinoColors.black,
-                      child: const Icon(
-                        CupertinoIcons.arrow_left_circle_fill,
-                        size: 44,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: _reset,
-                      borderRadius: BorderRadius.circular(45),
-                      color: CupertinoColors.black,
-                      child: const Icon(
-                        CupertinoIcons.arrow_counterclockwise_circle_fill,
-                        size: 44,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () async {
-                        if (SchemasReader().hasNext()) {
-                          _reset();
-                          context.read<TimeKeeper>().resetTimer();
-                          CatLogger().resetLogs();
-                          context.read<TypeUpdateNotifier>().reset();
-                          context.read<ReferenceNotifier>().next();
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(45),
-                      color: CupertinoColors.black,
-                      child: const Icon(
-                        CupertinoIcons.arrow_right_circle_fill,
-                        size: 44,
-                      ),
-                    ),
-                  ],
+                AnimatedBuilder(
+                  animation: CatLogger(),
+                  builder: (BuildContext context, Widget? w) {
+                    final bool check = CatLogger()
+                        .logs
+                        .values
+                        .filter(
+                          (LoggerInfo e) =>
+                              e.description != CatLoggingLevel.changeMode,
+                        )
+                        .isEmpty;
+
+                    return Row(
+                      children: <Widget>[
+                        if (check)
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              final Map<int, ResultsRecord> filtered =
+                                  widget.allResults.filter(
+                                (MapEntry<int, ResultsRecord> entry) =>
+                                    entry.key < SchemasReader().index &&
+                                    !entry.value.done,
+                              );
+                              if (filtered.isEmpty) {
+                                return;
+                              }
+                              final int nextIndex =
+                                  filtered.keys.sorted().reversed.first;
+                              _reset();
+                              context.read<TimeKeeper>().resetTimer();
+                              CatLogger().resetLogs();
+                              context.read<TypeUpdateNotifier>().reset();
+                              context
+                                  .read<ReferenceNotifier>()
+                                  .toLocation(nextIndex);
+                            },
+                            borderRadius: BorderRadius.circular(45),
+                            color: CupertinoColors.black,
+                            child: const Icon(
+                              CupertinoIcons.arrow_left_circle_fill,
+                              size: 44,
+                            ),
+                          ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: _reset,
+                          borderRadius: BorderRadius.circular(45),
+                          color: CupertinoColors.black,
+                          child: const Icon(
+                            CupertinoIcons.arrow_counterclockwise_circle_fill,
+                            size: 44,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        if (check)
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              final Map<int, ResultsRecord> filtered =
+                                  widget.allResults.filter(
+                                (MapEntry<int, ResultsRecord> entry) =>
+                                    entry.key > SchemasReader().index &&
+                                    !entry.value.done,
+                              );
+                              if (filtered.isEmpty) {
+                                return;
+                              }
+                              final int nextIndex =
+                                  filtered.keys.sorted().first;
+                              _reset();
+                              context.read<TimeKeeper>().resetTimer();
+                              CatLogger().resetLogs();
+                              context.read<TypeUpdateNotifier>().reset();
+                              context
+                                  .read<ReferenceNotifier>()
+                                  .toLocation(nextIndex);
+                            },
+                            borderRadius: BorderRadius.circular(45),
+                            color: CupertinoColors.black,
+                            child: const Icon(
+                              CupertinoIcons.arrow_right_circle_fill,
+                              size: 44,
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -171,6 +212,7 @@ class _SideBarState extends State<SideBar> {
                     selectionMode: widget.selectionMode,
                     selectedButtons: widget.selectedButtons,
                     coloredButtons: widget.coloredButtons,
+                    allResults: widget.allResults,
                   ),
                 ),
               ],

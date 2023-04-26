@@ -9,6 +9,7 @@ import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/top_bar.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -69,6 +70,22 @@ class GestureHomeState extends State<GestureHome> {
 
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
 
+  final Map<int, ResultsRecord> _allResults = Map<int, ResultsRecord>.from(
+    SchemasReader().schemes.getData.map(
+          (int key, Cross value) => MapEntry<int, ResultsRecord>(
+            key,
+            ResultsRecord(
+              time: 0,
+              score: 0,
+              state: 0,
+              reference: value,
+              result: Cross(),
+              done: false,
+            ),
+          ),
+        ),
+  );
+
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: <ChangeNotifierProvider<ChangeNotifier>>[
@@ -99,6 +116,7 @@ class GestureHomeState extends State<GestureHome> {
               TopBar(
                 sessionID: widget.sessionID,
                 studentID: widget.studentID,
+                allResults: _allResults,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -172,6 +190,7 @@ class GestureHomeState extends State<GestureHome> {
                     selectionMode: _selectionMode,
                     selectedButtons: _selectedButtons,
                     coloredButtons: _coloredButtons,
+                    allResults: _allResults,
                   ),
                 ],
               ),

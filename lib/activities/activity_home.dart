@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/gesture_based/gesture_home.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:flutter/cupertino.dart";
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`
@@ -36,6 +37,7 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) {
     SchemasReader().reset();
+    CatLogger().resetLogs();
 
     if (widget.sessionID == -1 && widget.studentID == -1) {
       return CupertinoPageScaffold(

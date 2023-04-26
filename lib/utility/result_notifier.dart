@@ -22,6 +22,11 @@ class ReferenceNotifier extends ResultNotifier {
     notifyListeners();
   }
 
+  void toLocation(int pos) {
+    SchemasReader().currentIndex = pos;
+    notifyListeners();
+  }
+
   void prev() {
     SchemasReader().prev();
     notifyListeners();

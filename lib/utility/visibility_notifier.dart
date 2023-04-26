@@ -21,4 +21,9 @@ class VisibilityNotifier with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  set visibleFinal(bool value) {
+    _visible = value;
+    notifyListeners();
+  }
 }
