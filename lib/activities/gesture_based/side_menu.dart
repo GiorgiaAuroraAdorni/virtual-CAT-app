@@ -163,6 +163,9 @@ class SideMenuState extends State<SideMenu> {
             Column(
               children: <Widget>[
                 ..._colorButtonsBuild(),
+                const SizedBox(
+                  height: 130,
+                ),
                 FillEmpty(
                   state: this,
                 ),

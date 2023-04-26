@@ -127,6 +127,7 @@ class _Point extends State<Point> {
       widget.item.b = directions.first;
     });
     context.read<BlockUpdateNotifier>().update();
+    final String prev = widget.item.toString();
 
     showCupertinoModalPopup(
       context: context,
@@ -139,17 +140,10 @@ class _Point extends State<Point> {
             Expanded(
               child: CupertinoPicker(
                 onSelectedItemChanged: (int value) {
-                  final String prev = widget.item.toString();
                   setState(() {
                     widget.item.a = directions2[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
-                  CatLogger().addLog(
-                    context: context,
-                    previousCommand: prev,
-                    currentCommand: widget.item.toString(),
-                    description: CatLoggingLevel.updateCommandProperties,
-                  );
                 },
                 itemExtent: 25,
                 diameterRatio: 1,
@@ -166,17 +160,10 @@ class _Point extends State<Point> {
             Expanded(
               child: CupertinoPicker(
                 onSelectedItemChanged: (int value) {
-                  final String prev = widget.item.toString();
                   setState(() {
                     widget.item.b = directions[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
-                  CatLogger().addLog(
-                    context: context,
-                    previousCommand: prev,
-                    currentCommand: widget.item.toString(),
-                    description: CatLoggingLevel.updateCommandProperties,
-                  );
                 },
                 itemExtent: 25,
                 diameterRatio: 1,
@@ -192,6 +179,13 @@ class _Point extends State<Point> {
             ),
           ],
         ),
+      ),
+    ).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
       ),
     );
   }

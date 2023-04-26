@@ -222,6 +222,7 @@ class _Go extends State<Go> {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
+    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -229,17 +230,10 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -247,6 +241,13 @@ class _Go extends State<Go> {
           magnification: 1.3,
           children: repetitions,
         ),
+      ),
+    ).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
       ),
     );
   }
@@ -263,6 +264,7 @@ class _Go extends State<Go> {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
+    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -270,17 +272,10 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setState(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -288,6 +283,13 @@ class _Go extends State<Go> {
           magnification: 1.3,
           children: repetitions,
         ),
+      ),
+    ).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
       ),
     );
   }
@@ -298,7 +300,7 @@ class _Go extends State<Go> {
       widget.item.direction = widget.item.items2[directions[0]]!;
     });
     context.read<BlockUpdateNotifier>().update();
-
+    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -306,17 +308,10 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -324,6 +319,13 @@ class _Go extends State<Go> {
           magnification: 1.3,
           children: directions,
         ),
+      ),
+    ).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
       ),
     );
   }
@@ -334,7 +336,7 @@ class _Go extends State<Go> {
       widget.item.direction = widget.item.items[directions[0]]!;
     });
     context.read<BlockUpdateNotifier>().update();
-
+    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -342,17 +344,10 @@ class _Go extends State<Go> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setState(() {
               widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
           },
           itemExtent: 25,
           diameterRatio: 1,
@@ -360,6 +355,13 @@ class _Go extends State<Go> {
           magnification: 1.3,
           children: directions,
         ),
+      ),
+    ).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
       ),
     );
   }
