@@ -184,7 +184,7 @@ class Connection extends BaseConnection {
       return <String, dynamic>{};
     })["algorithm"];
 
-    final bool visible = context.read<VisibilityNotifier>().visible;
+    final bool visible = context.read<VisibilityNotifier>().finalState;
 
     final int state = context.read<TypeUpdateNotifier>().lowestState;
 
