@@ -8,14 +8,18 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/top_bar.dart";
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -47,9 +51,83 @@ class GestureHomeState extends State<GestureHome> {
   void initState() {
     CatInterpreter().reset();
     super.initState();
-    Timer.run(() {
-      Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
-    });
+    _allResults = Map<int, ResultsRecord>.from(
+      SchemasReader().schemes.getData.map(
+            (int key, Cross value) => MapEntry<int, ResultsRecord>(
+              key,
+              ResultsRecord(
+                time: 0,
+                score: 0,
+                state: false,
+                reference: value,
+                result: Cross(),
+                done: false,
+              ),
+            ),
+          ),
+    );
+    Timer.run(
+      () async {
+        Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
+        if (widget.studentID == -1) {
+          return;
+        }
+        await Connection().students().then(
+          (ret) async {
+            for (var i in ret) {
+              if (i["id"] == widget.studentID &&
+                  i["session"] == widget.sessionID) {
+                await Connection()
+                    .getResultsByStudentID(widget.studentID)
+                    .then((value) => value as List)
+                    .then(
+                  (List value) async {
+                    for (var element in value) {
+                      final String command =
+                          await Connection().getCommandsByAlgorithmID(
+                        element["algorithmID"]!,
+                      );
+                      final CATInterpreter interpreter =
+                          CATInterpreter.fromSchemes(
+                        SchemasReader().schemes,
+                        Shape.cross,
+                      );
+                      final Pair<Results, CatError> results = interpreter
+                          .validateOnScheme(command, element["schemaID"]!);
+                      print(_allResults[element["schemaID"]!]);
+                      _allResults[element["schemaID"]!]!
+                        ..result = results.first.getStates.last
+                        ..done = true
+                        ..state = element["complete"]!;
+                    }
+                  },
+                ).whenComplete(
+                  () {
+                    final Map<int, ResultsRecord> res = _allResults.filter(
+                      (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+                    );
+                    if (res.isNotEmpty) {
+                      final int nextIndex = res.keys.sorted().first;
+                      context.read<ReferenceNotifier>().toLocation(nextIndex);
+
+                      return;
+                    }
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ResultsScreen(
+                          results: _allResults,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            }
+          },
+        );
+      },
+    );
   }
 
   /// Creating a ValueNotifier that will be used to update the reference cross.
@@ -70,21 +148,7 @@ class GestureHomeState extends State<GestureHome> {
 
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
 
-  final Map<int, ResultsRecord> _allResults = Map<int, ResultsRecord>.from(
-    SchemasReader().schemes.getData.map(
-          (int key, Cross value) => MapEntry<int, ResultsRecord>(
-            key,
-            ResultsRecord(
-              time: 0,
-              score: 0,
-              state: 0,
-              reference: value,
-              result: Cross(),
-              done: false,
-            ),
-          ),
-        ),
-  );
+  late Map<int, ResultsRecord> _allResults;
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -98,9 +162,9 @@ class GestureHomeState extends State<GestureHome> {
           ChangeNotifierProvider<ResultNotifier>(
             create: (_) => ResultNotifier(),
           ),
-          ChangeNotifierProvider<ReferenceNotifier>(
-            create: (_) => ReferenceNotifier(),
-          ),
+          // ChangeNotifierProvider<ReferenceNotifier>(
+          //   create: (_) => ReferenceNotifier(),
+          // ),
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),

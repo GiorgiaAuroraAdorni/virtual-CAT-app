@@ -104,7 +104,7 @@ class _BottomBarState extends State<BottomBar> {
           ..result = CatInterpreter().getResults.getStates.last
           ..score = score
           ..done = true
-          ..state = complete ? 1 : 0;
+          ..state = complete;
         if (result) {
           _reset();
           context.read<TimeKeeper>().resetTimer();

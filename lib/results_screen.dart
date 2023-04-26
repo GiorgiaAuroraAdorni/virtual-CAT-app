@@ -1,7 +1,6 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
 
 class ResultsScreen extends StatelessWidget {
@@ -42,7 +41,11 @@ class ResultsScreen extends StatelessWidget {
                   shape: results[index + 1]!.result,
                 ),
                 Text("${results[index + 1]!.score}"),
-                Text(TimeKeeper.timeFormat(results[index + 1]!.time)),
+                Icon(
+                  results[index + 1]!.state
+                      ? CupertinoIcons.check_mark_circled
+                      : CupertinoIcons.xmark_circle,
+                ),
               ],
             ),
             separatorBuilder: (BuildContext context, int index) =>

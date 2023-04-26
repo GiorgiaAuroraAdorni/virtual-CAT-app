@@ -12,7 +12,11 @@ class ResultsRecord {
 
   int time;
   int score;
-  int state;
+
+  // Check if skipped or completed
+  bool state;
+
+  // Check if started modifications
   bool done;
   final BasicShape reference;
   BasicShape result;

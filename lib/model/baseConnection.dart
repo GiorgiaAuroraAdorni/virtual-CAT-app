@@ -14,7 +14,7 @@ class BaseConnection {
     // if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
     //   _dio.httpClientAdapter = NativeAdapter();
     // }
-    _dio.options.baseUrl = _connectionString;
+    dio.options.baseUrl = _connectionString;
   }
 
   // String _ip = "127.0.0.1";
@@ -22,7 +22,7 @@ class BaseConnection {
   final String _protocol = "http://";
   String _connectionString = "";
 
-  final Dio _dio = Dio();
+  final Dio dio = Dio();
 
   // set ip(String ip) {
   //   _ip = ip;
@@ -35,7 +35,7 @@ class BaseConnection {
     Map<String, dynamic> data,
   ) =>
       TaskEither<String, Response<Map<String, dynamic>>>.tryCatch(
-        () async => _dio.post(
+        () async => dio.post(
           path,
           data: jsonEncode(data),
           options: Options(
@@ -47,11 +47,19 @@ class BaseConnection {
         (Object error, StackTrace stackTrace) => error.toString(),
       );
 
-  TaskEither<String, Response<List<dynamic>>> makeGetRequest(String path) =>
+  TaskEither<String, Response<List<dynamic>>> makeGetRequest(
+    String path, {
+    Map<String, dynamic>? data,
+  }) =>
       TaskEither<String, Response<List<dynamic>>>.tryCatch(
-        () async => _dio.get(
-          path,
-        ),
+        data == null
+            ? () async => dio.get(
+                  path,
+                )
+            : () async => dio.get(
+                  path,
+                  data: data,
+                ),
         (Object error, StackTrace stackTrace) => error.toString(),
       );
 
@@ -60,9 +68,10 @@ class BaseConnection {
   List<dynamic> resposeToList(Response response) => response.data;
 
   TaskEither<String, List<dynamic>> mappingGetRequest(
-    String path,
-  ) =>
-      makeGetRequest(path).map(resposeToList);
+    String path, {
+    Map<String, dynamic>? data,
+  }) =>
+      makeGetRequest(path, data: data).map(resposeToList);
 
   TaskEither<String, Map<String, dynamic>> mappingPostRequest(
     String path,
@@ -72,7 +81,7 @@ class BaseConnection {
 
   Future<bool> testConnection() async {
     Response response;
-    response = await _dio.get("/cantons");
+    response = await dio.get("/cantons");
     if (response.statusCode == 200 && response.data.toString().isNotEmpty) {
       return true;
     }

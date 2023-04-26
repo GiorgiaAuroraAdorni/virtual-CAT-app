@@ -8,6 +8,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
+import "package:dio/dio.dart";
 import "package:flutter/cupertino.dart";
 import "package:fpdart/fpdart.dart";
 import "package:provider/provider.dart";
@@ -19,35 +20,35 @@ class Connection extends BaseConnection {
 
   Future<dynamic> cantos() async {
     final Either<String, List<dynamic>> res =
-        await mappingGetRequest("/cantons").run();
+    await mappingGetRequest("/cantons").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> supervisors() async {
     final Either<String, List<dynamic>> res =
-        await mappingGetRequest("/supervisors").run();
+    await mappingGetRequest("/supervisors").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> schools() async {
     final Either<String, List<dynamic>> res =
-        await mappingGetRequest("/school").run();
+    await mappingGetRequest("/school").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> sessions() async {
     final Either<String, List<dynamic>> res =
-        await mappingGetRequest("/sessions").run();
+    await mappingGetRequest("/sessions").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> students() async {
     final Either<String, List<dynamic>> res =
-        await mappingGetRequest("/students").run();
+    await mappingGetRequest("/students").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
@@ -57,9 +58,9 @@ class Connection extends BaseConnection {
       [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],
     );
     final List<dynamic> schools =
-        responses.first.getOrElse((String l) => <Map<String, dynamic>>[]);
+    responses.first.getOrElse((String l) => <Map<String, dynamic>>[]);
     final List<dynamic> cantons =
-        responses.last.getOrElse((String l) => <Map<String, dynamic>>[]);
+    responses.last.getOrElse((String l) => <Map<String, dynamic>>[]);
     int cantonId = 0;
     for (final Map<String, dynamic> element in cantons) {
       if (element["canton"] == canton) {
@@ -87,16 +88,14 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
-  Future<int> addSession(
-    int supervisor,
-    int school,
-    int level,
-    int classs,
-    String section,
-    DateTime date,
-    String notes,
-    String language,
-  ) async {
+  Future<int> addSession(int supervisor,
+      int school,
+      int level,
+      int classs,
+      String section,
+      DateTime date,
+      String notes,
+      String language,) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/sessions",
       <String, dynamic>{
@@ -129,11 +128,9 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
-  Future<int> addStudent(
-    DateTime date,
-    bool gender,
-    int session,
-  ) async {
+  Future<int> addStudent(DateTime date,
+      bool gender,
+      int session,) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/students",
       <String, dynamic>{
@@ -144,6 +141,29 @@ class Connection extends BaseConnection {
     ).run();
 
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
+  }
+
+  Future<dynamic> getResultsByStudentID(int id) async {
+    final Either<String, List<dynamic>> res = await mappingGetRequest(
+      "/results",
+      data: {
+        "id": id,
+      },
+    ).run();
+
+    return res.getOrElse((String l) => <Map<String, dynamic>>[]);
+  }
+
+  Future<String> getCommandsByAlgorithmID(int id) async {
+    final Response res = await super.dio.get(
+      "/algorithms",
+      data: {
+        "id": id,
+      },
+    );
+
+
+    return res.data ?? "";
   }
 
   Future<int> addAlgorithm({
@@ -184,9 +204,13 @@ class Connection extends BaseConnection {
       return <String, dynamic>{};
     })["algorithm"];
 
-    final bool visible = context.read<VisibilityNotifier>().finalState;
+    final bool visible = context
+        .read<VisibilityNotifier>()
+        .finalState;
 
-    final int state = context.read<TypeUpdateNotifier>().lowestState;
+    final int state = context
+        .read<TypeUpdateNotifier>()
+        .lowestState;
 
     final Either<String, Map<String, dynamic>> res2 = await mappingPostRequest(
       "/results",
@@ -202,7 +226,9 @@ class Connection extends BaseConnection {
         "blocks": state == 1,
         "text": state == 2,
         "artefactDimension": state + 1,
-        "time": context.read<TimeKeeper>().rawTime,
+        "time": context
+            .read<TimeKeeper>()
+            .rawTime,
         "timeStamp": DateTime.now().toIso8601String(),
         "complete": complete,
       },
