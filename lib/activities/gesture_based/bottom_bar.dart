@@ -105,26 +105,17 @@ class _BottomBarState extends State<BottomBar> {
           ..score = score
           ..done = true
           ..state = complete;
-        if (result) {
+        final Map<int, ResultsRecord> res = widget.allResults.filter(
+          (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+        );
+        if (res.isNotEmpty) {
+          final int nextIndex = res.keys.sorted().first;
           _reset();
           context.read<TimeKeeper>().resetTimer();
           CatLogger().resetLogs();
           context.read<TypeUpdateNotifier>().reset();
-          context.read<ReferenceNotifier>().next();
+          context.read<ReferenceNotifier>().toLocation(nextIndex);
         } else {
-          final Map<int, ResultsRecord> res = widget.allResults.filter(
-            (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
-          );
-          if (res.isNotEmpty) {
-            final int nextIndex = res.keys.sorted().first;
-            _reset();
-            context.read<TimeKeeper>().resetTimer();
-            CatLogger().resetLogs();
-            context.read<TypeUpdateNotifier>().reset();
-            context.read<ReferenceNotifier>().toLocation(nextIndex);
-
-            return;
-          }
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(
@@ -187,7 +178,11 @@ class _BottomBarState extends State<BottomBar> {
             onPressed: () async {
               UIBlock.unblockWithData(
                 context,
-                SchemasReader().hasNext(),
+                widget.allResults
+                    .filter(
+                      (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+                    )
+                    .isNotEmpty,
               );
             },
           ),
