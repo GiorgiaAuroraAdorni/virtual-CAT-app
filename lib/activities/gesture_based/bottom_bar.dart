@@ -13,6 +13,7 @@ import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -111,6 +112,19 @@ class _BottomBarState extends State<BottomBar> {
           context.read<TypeUpdateNotifier>().reset();
           context.read<ReferenceNotifier>().next();
         } else {
+          final Map<int, ResultsRecord> res = widget.allResults.filter(
+            (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+          );
+          if (res.isNotEmpty) {
+            final int nextIndex = res.keys.sorted().first;
+            _reset();
+            context.read<TimeKeeper>().resetTimer();
+            CatLogger().resetLogs();
+            context.read<TypeUpdateNotifier>().reset();
+            context.read<ReferenceNotifier>().toLocation(nextIndex);
+
+            return;
+          }
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(

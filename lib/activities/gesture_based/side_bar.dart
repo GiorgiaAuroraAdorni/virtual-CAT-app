@@ -95,7 +95,9 @@ class _SideBarState extends State<SideBar> {
                         .values
                         .filter(
                           (LoggerInfo e) =>
-                              e.description != CatLoggingLevel.changeMode,
+                              e.description != CatLoggingLevel.changeMode &&
+                              e.description != CatLoggingLevel.commandsReset &&
+                              e.description != CatLoggingLevel.changeVisibility,
                         )
                         .isEmpty;
 
