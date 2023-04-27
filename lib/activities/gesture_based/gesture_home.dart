@@ -85,6 +85,7 @@ class GestureHomeState extends State<GestureHome> {
               reference: value,
               result: Cross(),
               done: false,
+              correct: false,
             ),
           ),
         ),
@@ -125,6 +126,9 @@ class GestureHomeState extends State<GestureHome> {
                   sessionID: widget.sessionID,
                   studentID: widget.studentID,
                   allResults: _allResults,
+                  selectionMode: _selectionMode,
+                  selectedButtons: _selectedButtons,
+                  coloredButtons: _coloredButtons,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -241,6 +245,7 @@ class GestureHomeState extends State<GestureHome> {
                   _allResults[element["schemaID"]!]!
                     ..result = results.first.getStates.last
                     ..done = true
+                    ..correct = results.first.completed
                     ..state = element["complete"]!;
                 }
               },

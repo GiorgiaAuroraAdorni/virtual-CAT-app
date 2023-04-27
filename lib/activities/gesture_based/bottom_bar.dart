@@ -105,6 +105,7 @@ class _BottomBarState extends State<BottomBar> {
           ..result = CatInterpreter().getResults.getStates.last
           ..score = score
           ..done = true
+          ..correct = CatInterpreter().getResults.completed
           ..state = complete;
         final Map<int, ResultsRecord> res = widget.allResults.filter(
           (MapEntry<int, ResultsRecord> entry) => !entry.value.done,

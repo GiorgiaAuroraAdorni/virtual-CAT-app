@@ -1,15 +1,20 @@
 import "dart:async";
 
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
 /// `TopBar` is a stateful widget that has a `createState` method that returns a
@@ -20,6 +25,9 @@ class TopBar extends StatefulWidget {
     required this.sessionID,
     required this.studentID,
     required this.allResults,
+    required this.selectionMode,
+    required this.coloredButtons,
+    required this.selectedButtons,
     super.key,
   });
 
@@ -28,6 +36,15 @@ class TopBar extends StatefulWidget {
 
   /// It's a variable that stores the studentID of the current student.
   final int studentID;
+
+  /// It's a variable that is used to store the current selection mode.
+  final ValueNotifier<SelectionModes> selectionMode;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> coloredButtons;
+
+  /// Creating a list of CrossButton objects.
+  final ValueNotifier<List<CrossButton>> selectedButtons;
 
   final Map<int, ResultsRecord> allResults;
 
@@ -156,7 +173,7 @@ class _TopBarState extends State<TopBar> {
                     ),
                   ],
                 ),
-                if (widget.sessionID != -1 && widget.studentID != 1)
+                if (widget.sessionID != -1 && widget.studentID != -1)
                   SizedBox(
                     // width: MediaQuery.of(context).size.width * 0.65,
                     height: 44,
@@ -168,14 +185,77 @@ class _TopBarState extends State<TopBar> {
                           CupertinoButton(
                         borderRadius: BorderRadius.circular(0),
                         padding: EdgeInsets.zero,
-                        disabledColor: CupertinoColors.activeGreen,
+                        disabledColor: () {
+                          if (!widget.allResults[index + 1]!.state) {
+                            return CupertinoColors.darkBackgroundGray
+                                .withAlpha(127);
+                          }
+                          if (widget.allResults[index + 1]!.correct) {
+                            return CupertinoColors.activeGreen;
+                          }
+
+                          return CupertinoColors.destructiveRed;
+                        }.call(),
                         color: index + 1 == SchemasReader().index
                             ? CupertinoColors.activeOrange
-                            : CupertinoColors.inactiveGray,
-                        onPressed:
-                            widget.allResults[index + 1]!.done ? null : () {},
+                            : CupertinoColors.inactiveGray.withAlpha(200),
+                        onPressed: widget.allResults[index + 1]!.done
+                            ? null
+                            : () {
+                                final bool check = CatLogger()
+                                    .logs
+                                    .values
+                                    .filter(
+                                      (LoggerInfo e) =>
+                                          e.description !=
+                                              CatLoggingLevel.changeMode &&
+                                          e.description !=
+                                              CatLoggingLevel.commandsReset &&
+                                          e.description !=
+                                              CatLoggingLevel.changeVisibility,
+                                    )
+                                    .isEmpty;
+                                if (check) {
+                                  _reset();
+                                  context.read<TimeKeeper>().resetTimer();
+                                  CatLogger().resetLogs();
+                                  context.read<TypeUpdateNotifier>().reset();
+                                  context
+                                      .read<ReferenceNotifier>()
+                                      .toLocation(index + 1);
+                                }
+                              },
                         child: widget.allResults[index + 1]!.done
-                            ? const Icon(CupertinoIcons.hand_thumbsup_fill)
+                            ? Stack(
+                                alignment: AlignmentDirectional.center,
+                                children: <Widget>[
+                                  Icon(
+                                    () {
+                                      if (!widget
+                                          .allResults[index + 1]!.state) {
+                                        return CupertinoIcons.flag_fill;
+                                      }
+                                      if (widget
+                                          .allResults[index + 1]!.correct) {
+                                        return CupertinoIcons
+                                            .hand_thumbsup_fill;
+                                      }
+
+                                      return CupertinoIcons
+                                          .hand_thumbsdown_fill;
+                                    }.call(),
+                                    size: 35,
+                                    color: CupertinoColors
+                                        .extraLightBackgroundGray,
+                                  ),
+                                  Text(
+                                    "${index + 1}",
+                                    style: const TextStyle(
+                                      color: CupertinoColors.black,
+                                    ),
+                                  ),
+                                ],
+                              )
                             : Text("${index + 1}"),
                       ),
                       separatorBuilder: (BuildContext context, int index) =>
@@ -215,6 +295,26 @@ class _TopBarState extends State<TopBar> {
           ],
         ),
       );
+
+  void _reset() {
+    context.read<VisibilityNotifier>().visible = false;
+    CatInterpreter().reset();
+    context.read<ResultNotifier>().cross = Cross();
+    context.read<SelectedColorsNotifier>().clear();
+    widget.selectionMode.value = SelectionModes.base;
+    widget.selectionMode.notifyListeners();
+
+    for (final CrossButton i in widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.selectedButtons.value.clear();
+    widget.selectedButtons.notifyListeners();
+    for (final CrossButton i in widget.coloredButtons.value) {
+      i.unSelect();
+    }
+    widget.coloredButtons.value.clear();
+    widget.coloredButtons.notifyListeners();
+  }
 
   @override
   void dispose() {

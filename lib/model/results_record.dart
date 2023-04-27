@@ -8,6 +8,7 @@ class ResultsRecord {
     required this.reference,
     required this.result,
     required this.done,
+    required this.correct,
   });
 
   int time;
@@ -18,6 +19,7 @@ class ResultsRecord {
 
   // Check if started modifications
   bool done;
+  bool correct;
   final BasicShape reference;
   BasicShape result;
 }
