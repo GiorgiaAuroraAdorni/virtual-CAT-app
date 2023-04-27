@@ -19,12 +19,6 @@ class _RecoverStudentState extends State<RecoverStudent> {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).studentData),
-          trailing: CupertinoButton(
-            onPressed: _changePage,
-            child: const Icon(
-              CupertinoIcons.arrow_right,
-            ),
-          ),
         ),
         child: SafeArea(
           child: Form(
@@ -54,10 +48,10 @@ class _RecoverStudentState extends State<RecoverStudent> {
                     return null;
                   },
                 ),
-                // CupertinoButton(
-                //   onPressed: _changePage,
-                //   child: Text(CATLocalizations.of(context).continueStudentID),
-                // ),
+                CupertinoButton(
+                  onPressed: _changePage,
+                  child: Text(CATLocalizations.of(context).continueStudentID),
+                ),
               ],
             ),
           ),

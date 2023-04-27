@@ -34,6 +34,13 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
   bool additionalFlag = false;
 
   @override
+  Widget build(BuildContext context) {
+    additionalFlag = widget.state.widget.selectedButtons.value.length != 1;
+
+    return super.build(context);
+  }
+
+  @override
   void onSelect() {
     final List<String> colors =
         analyzeColor(context.read<SelectedColorsNotifier>().colors);

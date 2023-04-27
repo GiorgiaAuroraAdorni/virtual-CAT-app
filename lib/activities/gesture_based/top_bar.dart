@@ -156,66 +156,34 @@ class _TopBarState extends State<TopBar> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  height: 44,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.allResults.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) =>
-                        CupertinoButton(
-                      borderRadius: BorderRadius.circular(45),
-                      padding: EdgeInsets.zero,
-                      disabledColor: CupertinoColors.activeGreen,
-                      color: index + 1 == SchemasReader().index
-                          ? CupertinoColors.activeOrange
-                          : CupertinoColors.inactiveGray,
-                      onPressed:
-                          widget.allResults[index + 1]!.done ? null : () {},
-                      child: widget.allResults[index + 1]!.done
-                          ? const Icon(CupertinoIcons.check_mark)
-                          : Text("${index + 1}"),
+                if (widget.sessionID != -1 && widget.studentID != 1)
+                  SizedBox(
+                    // width: MediaQuery.of(context).size.width * 0.65,
+                    height: 44,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.allResults.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) =>
+                          CupertinoButton(
+                        borderRadius: BorderRadius.circular(0),
+                        padding: EdgeInsets.zero,
+                        disabledColor: CupertinoColors.activeGreen,
+                        color: index + 1 == SchemasReader().index
+                            ? CupertinoColors.activeOrange
+                            : CupertinoColors.inactiveGray,
+                        onPressed:
+                            widget.allResults[index + 1]!.done ? null : () {},
+                        child: widget.allResults[index + 1]!.done
+                            ? const Icon(CupertinoIcons.hand_thumbsup_fill)
+                            : Text("${index + 1}"),
+                      ),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(
+                        width: 5,
+                      ),
                     ),
                   ),
-                ),
-                // AnimatedBuilder(
-                //   animation: CatLogger(),
-                //   builder: (BuildContext context, Widget? w) {
-                //     final bool check = CatLogger()
-                //         .logs
-                //         .values
-                //         .filter(
-                //           (LoggerInfo e) =>
-                //               e.description != CatLoggingLevel.changeMode,
-                //         )
-                //         .isNotEmpty;
-                //
-                //     widget.allResults[SchemasReader().index]!.done = check;
-                //
-                //     return SizedBox(
-                //       width: MediaQuery.of(context).size.width * 0.65,
-                //       height: 44,
-                //       child: ListView.builder(
-                //         scrollDirection: Axis.horizontal,
-                //         itemCount: widget.allResults.length,
-                //         shrinkWrap: true,
-                //         itemBuilder: (BuildContext context, int index) =>
-                //             CupertinoButton(
-                //           borderRadius: BorderRadius.circular(45),
-                //           padding: EdgeInsets.zero,
-                //           disabledColor: CupertinoColors.activeGreen,
-                //           color: CupertinoColors.inactiveGray,
-                //           onPressed:
-                //               widget.allResults[index + 1]!.done ? null : () {},
-                //           child: widget.allResults[index + 1]!.done
-                //               ? const Icon(CupertinoIcons.check_mark)
-                //               : Text("${index + 1}"),
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // ),
 
                 Text(
                   "CAT-score: ${catScore(

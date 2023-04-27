@@ -49,7 +49,47 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).studentData),
-          trailing: CupertinoButton(
+        ),
+        child: SafeArea(
+          child: generateForm(),
+        ),
+      );
+
+  /// It creates a list of widgets, each of which is a column containing a text
+  /// widget and an image widget
+  ///
+  /// Returns:
+  ///   A list of widgets.
+  Widget generateForm() {
+    _controllerDate.text =
+        "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
+
+    return Form(
+      child: CupertinoFormSection.insetGrouped(
+        header: Text(
+          "${CATLocalizations.of(context).session}: ${widget.sessionID}",
+        ),
+        children: <Widget>[
+          CupertinoTextFormFieldRow(
+            prefix: Text(
+              "${CATLocalizations.of(context).gender}:",
+              textAlign: TextAlign.right,
+            ),
+            placeholder: CATLocalizations.of(context).inputGender,
+            readOnly: true,
+            onTap: _showPicker,
+            controller: _gender,
+          ),
+          CupertinoTextFormFieldRow(
+            prefix: Text(
+              "${CATLocalizations.of(context).birth}:",
+              textAlign: TextAlign.right,
+            ),
+            readOnly: true,
+            onTap: _dataPicker,
+            controller: _controllerDate,
+          ),
+          CupertinoButton(
             onPressed: () {
               Connection()
                   .addStudent(
@@ -73,55 +113,9 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
                 },
               );
             },
-            child: const Icon(CupertinoIcons.arrow_right),
+            child: Text(CATLocalizations.of(context).continueStudentID),
           ),
-        ),
-        child: SafeArea(
-          child: generateForm(),
-        ),
-      );
-
-  /// It creates a list of widgets, each of which is a column containing a text
-  /// widget and an image widget
-  ///
-  /// Returns:
-  ///   A list of widgets.
-  Widget generateForm() {
-    _controllerDate.text =
-        "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}";
-
-    return Form(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            CupertinoFormSection.insetGrouped(
-              header: Text(
-                "${CATLocalizations.of(context).session}: ${widget.sessionID}",
-              ),
-              children: <Widget>[
-                CupertinoTextFormFieldRow(
-                  prefix: Text(
-                    "${CATLocalizations.of(context).gender}:",
-                    textAlign: TextAlign.right,
-                  ),
-                  placeholder: CATLocalizations.of(context).inputGender,
-                  readOnly: true,
-                  onTap: _showPicker,
-                  controller: _gender,
-                ),
-                CupertinoTextFormFieldRow(
-                  prefix: Text(
-                    "${CATLocalizations.of(context).birth}:",
-                    textAlign: TextAlign.right,
-                  ),
-                  readOnly: true,
-                  onTap: _dataPicker,
-                  controller: _controllerDate,
-                ),
-              ],
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

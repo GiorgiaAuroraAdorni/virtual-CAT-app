@@ -86,6 +86,7 @@ class _SideBarState extends State<SideBar> {
           builder: (BuildContext context, Widget? child) => Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 AnimatedBuilder(
                   animation: CatLogger(),
