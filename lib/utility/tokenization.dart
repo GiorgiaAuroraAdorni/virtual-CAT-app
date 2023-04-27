@@ -128,7 +128,7 @@ void _mirrorAnalysis(
     //   schema: schemeIndex,
     //   axis: tokens.second,
     // );
-    collector.data["mirror${tokens.last.capitalize()}"]?.add(correctness);
+    collector.data["mirrorCells${tokens.last.capitalize()}"]?.add(correctness);
 
     return;
   } else {
@@ -137,23 +137,40 @@ void _mirrorAnalysis(
     collector.data["mirror${tokens.last.capitalize()}"]?.add(correctness);
     final String newCommand = toEvaluate.join(",");
     final List<String> comm = splitCommands(newCommand);
+    bool commands = false;
     for (final String c in comm) {
       final List<String> tokens = splitCommand(c);
+      if (tokens.first == "go") {
+        commands = true;
+      }
       if (tokens.first == "paint") {
         _paintAnalysis(c, skip: true, parent: correctness);
+        commands = true;
       }
       if (tokens.first == "fill_empty") {
         collector.data["fillEmpty"]?.add(correctness);
+        commands = true;
         continue;
       }
       if (tokens.first == "copy") {
         collector.data["copy"]?.add(correctness);
         _copyAnalysis(tokens, parent: correctness);
+        commands = true;
         continue;
       }
       if (tokens.first == "mirror") {
         _mirrorAnalysis(c, schemeIndex: schemeIndex, parent: correctness);
+        commands = true;
         continue;
+      }
+    }
+    if (commands) {
+      collector.data["mirrorCommands${tokens.last.capitalize()}"]
+          ?.add(correctness);
+    } else {
+      if (commands) {
+        collector.data["mirrorCross${tokens.last.capitalize()}"]
+            ?.add(correctness);
       }
     }
 

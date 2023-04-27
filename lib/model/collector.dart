@@ -67,8 +67,12 @@ class Collector {
     "paintZigzagDownRightLeftPolychromatic": [],
     "fillEmpty": [],
     "copy": [],
-    "mirrorVertical": [],
-    "mirrorHorizontal": [],
+    "mirrorCrossVertical": [],
+    "mirrorCrossHorizontal": [],
+    "mirrorCellsVertical": [],
+    "mirrorCellsHorizontal": [],
+    "mirrorCommandsVertical": [],
+    "mirrorCommandsHorizontal": [],
   };
 
   @override
