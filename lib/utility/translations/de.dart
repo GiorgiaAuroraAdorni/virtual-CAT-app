@@ -55,32 +55,31 @@ const Map<String, String> _secondForm = <String, String>{
   "inputSurname": "Geben Sie Ihren Nachnamen ein (optional)",
   "inputGender": "Geben Sie Ihr Geschlecht ein",
 };
-// TODO: Translation
+
 const Map<String, String> groupsDe = <String, String>{
-  "groupPoint": "Pallino",
-  "groupGoTo": "Vai a",
-  "groupColor": "Colora",
-  "groupCopy": "Copia",
-  "groupMirror": "Specchia",
+  "groupPoint": "WÄHLEN SIE PUNKT",
+  "groupGoTo": "GEHE ZU",
+  "groupColor": "FÄRBT",
+  "groupCopy": "KOPIEREN",
+  "groupMirror": "SPIEGELNDE",
 };
 
 const Map<String, String> blocksDe = <String, String>{
-  "paintSingle": "Farbe",
-  "repetitions": "Wiederholungen",
-  "pattern": "Muster",
-  "mirrorVertical": "Vertikal spiegeln",
-  "mirrorHorizontal": "Horizontal spiegeln",
-  "position": "Punkt",
-  "direction": "Gehe zu",
-  "fillEmpty": "Füllen leer",
-  "copy": "Kopieren",
+  "paintSingle": "FÄRBT",
+  "repetitions": "wie viele Punkte?",
+  "pattern": "in welche Richtung?",
+  "mirrorVertical": "vertikal",
+  "mirrorHorizontal": "horizontal",
+  "position": "PUNKT",
+  "direction": "GEHE ZU",
+  "fillEmpty": "FÜLLEN LEER",
+  "copy": "KOPIEREN",
   "origin": "Was? (Punkte)",
   "destination": "Wo? (Punkte)",
-  "repeatPattern": "Repeat Pattern",
-  // TODO: Translation
-  "mirrorCross": "Specchia croce",
-  "mirrorPoints": "Specchia pallini",
-  "mirrorCommands": "Specchia comandi",
+  "repeatPattern": "WIEDERHOLEN",
+  "mirrorCross": "SPIEGELNDE KREUZ",
+  "mirrorPoints": "SPIEGELNDE PUNKTE",
+  "mirrorCommands": "SPIEGELNDE BEFEHLE",
 };
 
 const Map<String, String> directionsDe = <String, String>{

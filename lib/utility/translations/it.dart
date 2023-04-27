@@ -57,30 +57,29 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> groupsIt = <String, String>{
-  "groupPoint": "Pallino",
-  "groupGoTo": "Vai a",
-  "groupColor": "Colora",
-  "groupCopy": "Copia",
-  "groupMirror": "Specchia",
+  "groupPoint": "SCEGLI PALLINO",
+  "groupGoTo": "VAI A",
+  "groupColor": "COLORA",
+  "groupCopy": "COPIA",
+  "groupMirror": "SPECCHIA",
 };
 
 const Map<String, String> blocksIt = <String, String>{
-  "paintSingle": "Colora",
-  "repetitions": "Ripetizioni",
-  "pattern": "Motivo",
-  "mirrorVertical": "Specchia verticale",
-  "mirrorHorizontal": "Specchia orizzontale",
-  "position": "Pallino",
-  "direction": "Vai a",
-  "fillEmpty": "Riempi vuoti",
-  "copy": "Copia",
+  "paintSingle": "COLORA",
+  "repetitions": "quanti pallini?",
+  "pattern": "in quale direzione?",
+  "mirrorVertical": "verticalmente",
+  "mirrorHorizontal": "orizzontalemente",
+  "position": "PALLINO",
+  "direction": "VAI A",
+  "fillEmpty": "RIEMPI VUOTI",
+  "copy": "COPIA",
   "origin": "Cosa? (pallini)",
   "destination": "Dove? (pallini)",
-  "repeatPattern": "Ripeti motivo",
-  // TODO: Translation
-  "mirrorCross": "Specchia croce",
-  "mirrorPoints": "Specchia pallini",
-  "mirrorCommands": "Specchia comandi",
+  "repeatPattern": "RIPETI",
+  "mirrorCross": "SPECCHIA CROCE",
+  "mirrorPoints": "SPECCHIA PALLINI",
+  "mirrorCommands": "SPECCHIA COMANDI",
 };
 
 const Map<String, String> directionsIt = <String, String>{
