@@ -91,7 +91,7 @@ class _Mirror extends State<MirrorCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          155.0 +
+          185.0 +
           (widget.item.moves.length +
               (widget.item.container.isEmpty ? 3 : 0) * 60),
       width: MediaQuery.of(context).size.width,
@@ -109,6 +109,7 @@ class _Mirror extends State<MirrorCommands> {
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
@@ -133,9 +134,9 @@ class _Mirror extends State<MirrorCommands> {
                 );
               },
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
@@ -156,8 +157,14 @@ class _Mirror extends State<MirrorCommands> {
                 );
               },
             ),
-            const SizedBox(
-              height: 5,
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            Text(
+              CATLocalizations.of(context).blocks["mirrorBlocksBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             DragTarget<SimpleContainer>(
               builder: (

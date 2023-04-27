@@ -70,7 +70,7 @@ class _Paint extends State<Paint> {
         child: Column(
           children: <Widget>[
             Text(
-              CATLocalizations.of(context).blocks["paintSingle"]!,
+              CATLocalizations.of(context).blocks["paintMultiple"]!,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
@@ -110,7 +110,7 @@ class _Paint extends State<Paint> {
               height: 5,
             ),
             Text(
-              CATLocalizations.of(context).blocks["repetitions"]!,
+              CATLocalizations.of(context).blocks["repetitionsPaint"]!,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),

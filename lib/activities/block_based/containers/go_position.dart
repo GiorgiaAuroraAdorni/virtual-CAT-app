@@ -100,7 +100,7 @@ class _Go extends State<GoPosition> {
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
                   return Text(
-                    CATLocalizations.of(context).blocks["direction"]!,
+                    CATLocalizations.of(context).blocks["goPosition"]!,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),

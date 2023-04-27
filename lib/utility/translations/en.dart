@@ -80,6 +80,16 @@ const Map<String, String> blocksEn = <String, String>{
   "mirrorCross": "MIRROR CROSS",
   "mirrorPoints": "MIRROR DOTS",
   "mirrorCommands": "MIRROR COMMANDS",
+  "goPosition": "Where?",
+  "goDirection": "Direction",
+  "repetitionsPaint": "repetitions",
+  "paintMultiple": "COLOUR P",
+  "repeatFirstBlock": "repeatFirstBlock",
+  "repeatSecondBlock": "repeatSecondBlock",
+  "copyFirstBlock": "copyFirstBlock",
+  "copySecondBlock": "copySecondBlock",
+  "mirrorPointsBlock": "mirrorPointsBlock",
+  "mirrorBlocksBlock": "mirrorBlocksBlock",
 };
 
 const Map<String, String> directionsEn = <String, String>{

@@ -73,7 +73,9 @@ class _Go extends State<Go> {
         child: Column(
           children: <Widget>[
             Text(
-              CATLocalizations.of(context).blocks["direction"]!,
+              "${CATLocalizations.of(context).blocks["direction"]!}\n"
+              "${CATLocalizations.of(context).blocks["goDirection"]!}",
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),

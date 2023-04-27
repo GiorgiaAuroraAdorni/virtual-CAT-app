@@ -83,6 +83,7 @@ class _Copy extends State<CopyCells> {
       height: 50 +
           45 +
           45 +
+          45 +
           60 *
               (widget.item.moves.length +
                   widget.item.container.length +
@@ -103,6 +104,7 @@ class _Copy extends State<CopyCells> {
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
@@ -122,12 +124,24 @@ class _Copy extends State<CopyCells> {
                 );
               },
             ),
-            const SizedBox(
-              height: 5,
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            Text(
+              CATLocalizations.of(context).blocks["copyFirstBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             origins(),
-            const SizedBox(
-              height: 5,
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            Text(
+              CATLocalizations.of(context).blocks["copySecondBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             positions(),
           ],

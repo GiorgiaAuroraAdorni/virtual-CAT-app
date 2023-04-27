@@ -99,7 +99,7 @@ class _Copy extends State<CopyCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          175 +
+          210 +
           60 *
               (widget.item.moves.length +
                   (widget.item.container.isEmpty ? 3 : 0) +
@@ -119,6 +119,7 @@ class _Copy extends State<CopyCommands> {
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
@@ -155,13 +156,25 @@ class _Copy extends State<CopyCommands> {
                 );
               },
             ),
-            const SizedBox(
-              height: 5,
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            Text(
+              CATLocalizations.of(context).blocks["repeatFirstBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             commands(),
-            const SizedBox(
-              height: 5,
+            Text(
+              CATLocalizations.of(context).blocks["repeatSecondBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
             positions(),
           ],
         ),
