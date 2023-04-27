@@ -56,32 +56,30 @@ const Map<String, String> _secondForm = <String, String>{
   "inputGender": "Entrez votre genre",
 };
 
-// TODO: Translation
 const Map<String, String> groupsFr = <String, String>{
-  "groupPoint": "Pallino",
-  "groupGoTo": "Vai a",
-  "groupColor": "Colora",
-  "groupCopy": "Copia",
-  "groupMirror": "Specchia",
+  "groupPoint": "CHOISISSEZ POINT",
+  "groupGoTo": "ALLER À",
+  "groupColor": "COLORIE",
+  "groupCopy": "COPIE",
+  "groupMirror": "MIROIR",
 };
 
 const Map<String, String> blocksFr = <String, String>{
-  "paintSingle": "Peinture",
-  "repetitions": "Répétitions",
-  "pattern": "Motif",
-  "mirrorVertical": "Miroir vertical",
-  "mirrorHorizontal": "Miroir horizontal",
-  "position": "Point",
-  "direction": "Aller à",
-  "fillEmpty": "Remplir vide",
-  "copy": "Copie",
+  "paintSingle": "COLORIE",
+  "repetitions": "combien de points ?",
+  "pattern": "dans quelle direction?",
+  "mirrorVertical": "verticaux",
+  "mirrorHorizontal": "horizontaux",
+  "position": "POINT",
+  "direction": "ALLER À",
+  "fillEmpty": "REMPLIR VIDE",
+  "copy": "COPIE",
   "origin": "Quoi (points)",
   "destination": "Où ? (points)",
-  "repeatPattern": "Repeat Pattern",
-  // TODO: Translation
-  "mirrorCross": "Specchia croce",
-  "mirrorPoints": "Specchia pallini",
-  "mirrorCommands": "Specchia comandi",
+  "repeatPattern": "RÉPÉTEZ",
+  "mirrorCross": "MIROIR CROIX",
+  "mirrorPoints": "MIROIR POINTS",
+  "mirrorCommands": "MIROIR COMMANDES",
 };
 
 const Map<String, String> directionsFr = <String, String>{
