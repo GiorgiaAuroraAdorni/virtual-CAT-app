@@ -226,35 +226,19 @@ class _TopBarState extends State<TopBar> {
                                 }
                               },
                         child: widget.allResults[index + 1]!.done
-                            ? Stack(
-                                alignment: AlignmentDirectional.center,
-                                children: <Widget>[
-                                  Icon(
-                                    () {
-                                      if (!widget
-                                          .allResults[index + 1]!.state) {
-                                        return CupertinoIcons.flag_fill;
-                                      }
-                                      if (widget
-                                          .allResults[index + 1]!.correct) {
-                                        return CupertinoIcons
-                                            .hand_thumbsup_fill;
-                                      }
+                            ? Icon(
+                                () {
+                                  if (!widget.allResults[index + 1]!.state) {
+                                    return CupertinoIcons.flag_fill;
+                                  }
+                                  if (widget.allResults[index + 1]!.correct) {
+                                    return CupertinoIcons.hand_thumbsup_fill;
+                                  }
 
-                                      return CupertinoIcons
-                                          .hand_thumbsdown_fill;
-                                    }.call(),
-                                    size: 35,
-                                    color: CupertinoColors
-                                        .extraLightBackgroundGray,
-                                  ),
-                                  Text(
-                                    "${index + 1}",
-                                    style: const TextStyle(
-                                      color: CupertinoColors.black,
-                                    ),
-                                  ),
-                                ],
+                                  return CupertinoIcons.hand_thumbsdown_fill;
+                                }.call(),
+                                size: 35,
+                                color: CupertinoColors.extraLightBackgroundGray,
                               )
                             : Text("${index + 1}"),
                       ),
