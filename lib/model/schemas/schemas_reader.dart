@@ -16,15 +16,15 @@ class SchemasReader {
 
   SchemasReader._internal();
 
-  void normal() {
-    _readSchemasJSON("resources/sequence/schemas.json").then((String value) {
+  Future<void> normal() async {
+    await _readSchemasJSON("resources/sequence/schemas.json").then((String value) {
       _schemes = schemesFromJson(value);
       _size = _schemes.getData.length;
     });
   }
 
-  void testing() {
-    _readSchemasJSON("resources/sequence/schemas_testing.json")
+  Future<void> testing() async {
+    await _readSchemasJSON("resources/sequence/schemas_testing.json")
         .then((String value) {
       _schemes = schemesFromJson(value);
       _size = _schemes.getData.length;

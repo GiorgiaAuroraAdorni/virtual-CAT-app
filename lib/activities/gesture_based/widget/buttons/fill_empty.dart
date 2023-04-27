@@ -34,11 +34,15 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
   bool additionalFlag = false;
 
   @override
-  Widget build(BuildContext context) {
-    additionalFlag = widget.state.widget.selectedButtons.value.length != 1;
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: context.read<SelectedColorsNotifier>(),
+        builder: (BuildContext c, Widget? w) {
+          additionalFlag =
+              context.read<SelectedColorsNotifier>().colors.length != 1;
 
-    return super.build(context);
-  }
+          return super.build(context);
+        },
+      );
 
   @override
   void onSelect() {

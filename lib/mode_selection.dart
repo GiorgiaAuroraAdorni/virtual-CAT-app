@@ -40,9 +40,9 @@ class ModeSelection extends StatelessWidget {
                         height: 20,
                       ),
                       CupertinoButton.filled(
-                        onPressed: () {
-                          SchemasReader().normal();
-                          Connection().testConnection().then(
+                        onPressed: () async {
+                          await SchemasReader().normal();
+                          await Connection().testConnection().then(
                             (bool value) {
                               if (value) {
                                 Navigator.push(
@@ -88,18 +88,19 @@ class ModeSelection extends StatelessWidget {
                         height: 20,
                       ),
                       CupertinoButton.filled(
-                        onPressed: () {
-                          SchemasReader().testing();
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) =>
-                                  const ActivityHome(
-                                sessionID: -1,
-                                studentID: -1,
-                              ),
-                            ),
-                          );
+                        onPressed: () async {
+                          await SchemasReader().testing().whenComplete(
+                                () => Navigator.push(
+                                  context,
+                                  CupertinoPageRoute<Widget>(
+                                    builder: (BuildContext context) =>
+                                        const ActivityHome(
+                                      sessionID: -1,
+                                      studentID: -1,
+                                    ),
+                                  ),
+                                ),
+                              );
                         },
                         child: Text(
                           CATLocalizations.of(context).testApplication,
