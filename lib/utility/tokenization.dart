@@ -86,9 +86,6 @@ void _paintAnalysis(
         .map((String str) => str.capitalize())
         .join()
         .trim();
-    if (cap.startsWith("Square")) {
-      cap = "Square";
-    }
     if (splitByCurly(tokens[1]).length == 1) {
       collector.data["paint${cap}Monochromatic"]?.add(finalValue);
     } else {

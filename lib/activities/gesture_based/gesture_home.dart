@@ -104,9 +104,6 @@ class GestureHomeState extends State<GestureHome> {
           ChangeNotifierProvider<ResultNotifier>(
             create: (_) => ResultNotifier(),
           ),
-          // ChangeNotifierProvider<ReferenceNotifier>(
-          //   create: (_) => ReferenceNotifier(),
-          // ),
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),
