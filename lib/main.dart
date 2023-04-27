@@ -116,9 +116,9 @@ class MyApp extends StatelessWidget {
               CupertinoApp(
             home: const HomePage(),
             initialRoute: "/",
-            // routes: {
-            //   "/": (context) => const HomePage(),
-            // },
+            routes: {
+              "/mode": (context) => const ModeSelection(),
+            },
             theme: const CupertinoThemeData(
               brightness: Brightness.light,
               primaryColor: CupertinoColors.systemOrange,

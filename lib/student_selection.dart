@@ -18,85 +18,89 @@ class StudentSelection extends StatelessWidget {
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).student),
         ),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "${CATLocalizations.of(context).session}: $sessionID",
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/new_user.svg",
-                            height: 150,
-                            width: 150,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          CupertinoButton.filled(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute<Widget>(
-                                  builder: (BuildContext context) =>
-                                      StudentsForm(sessionID: sessionID),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              CATLocalizations.of(context).newStudent,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "${CATLocalizations.of(context).session}: $sessionID",
+                    ),
+                    const SizedBox(
+                      height: 200,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "resources/icon/new_user.svg",
+                              height: 150,
+                              width: 150,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset(
-                            "resources/icon/select_user.svg",
-                            height: 150,
-                            width: 150,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          CupertinoButton.filled(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute<Widget>(
-                                  builder: (BuildContext context) =>
-                                      RecoverStudent(sessionID: sessionID),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              CATLocalizations.of(context).oldStudent,
+                            const SizedBox(
+                              height: 20,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                            CupertinoButton.filled(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute<Widget>(
+                                    builder: (BuildContext context) =>
+                                        StudentsForm(sessionID: sessionID),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                CATLocalizations.of(context).newStudent,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "resources/icon/select_user.svg",
+                              height: 150,
+                              width: 150,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CupertinoButton.filled(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute<Widget>(
+                                    builder: (BuildContext context) =>
+                                        RecoverStudent(sessionID: sessionID),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                CATLocalizations.of(context).oldStudent,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 }

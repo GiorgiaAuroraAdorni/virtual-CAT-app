@@ -138,6 +138,8 @@ class CrossButtonState extends State<CrossButton> {
   /// It's setting the dimension of the button to 0.
   double dimension = 0;
 
+  Timer t = Timer(Duration.zero, () {});
+
   /// It creates a rounded button.
   ///
   /// Args:
@@ -152,14 +154,16 @@ class CrossButtonState extends State<CrossButton> {
     return AnimatedBuilder(
       animation: widget.resultValueNotifier,
       builder: (BuildContext context, Widget? child) {
-        buttonColor = colors[widget.resultValueNotifier.cross
-            .getGrid[widget.position.first][widget.position.second]];
+        if (!t.isActive) {
+          buttonColor = colors[widget.resultValueNotifier.cross
+              .getGrid[widget.position.first][widget.position.second]];
+        }
 
         return Padding(
           padding: EdgeInsets.all(dimension / 10),
           child: CupertinoButton(
             pressedOpacity: 1,
-            onPressed: () {
+            onPressed: () async {
               if (widget.selectionMode.value == SelectionModes.transition) {
                 widget.shakeKey.currentState?.shake();
 
@@ -184,13 +188,13 @@ class CrossButtonState extends State<CrossButton> {
                 return;
               }
               if (widget.selectionMode.value == SelectionModes.repeat) {
-                _normalColoring(
+                await _normalColoring(
                   selected: widget.selectionMode.value == SelectionModes.repeat,
                 );
 
                 return;
               }
-              _normalColoring();
+              await _normalColoring();
             },
             borderRadius: BorderRadius.circular(100),
             minSize: dimension,
@@ -372,7 +376,7 @@ class CrossButtonState extends State<CrossButton> {
     }
   }
 
-  void _normalColoring({bool selected = false}) {
+  Future<void> _normalColoring({bool selected = false}) async {
     final List<String> colors = analyzeColor(
       context.read<SelectedColorsNotifier>().colors,
     );
@@ -394,34 +398,34 @@ class CrossButtonState extends State<CrossButton> {
 
       return;
     }
-    final Timer t = Timer.periodic(Duration.zero, (Timer timer) {
+    t = Timer.periodic(const Duration(milliseconds: 1), (timer) {
       setState(() {
         buttonColor = CupertinoColors.lightBackgroundGray;
       });
     });
-    // setState(() {
-    //   buttonColor = CupertinoColors.lightBackgroundGray;
-    // });
-    Timer(const Duration(milliseconds: 300), () {
+
+    await Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         t.cancel();
         buttonColor = this.colors[widget.resultValueNotifier.cross
             .getGrid[widget.position.first][widget.position.second]];
         // buttonColor = CupertinoColors.systemGrey;
       });
-    });
-    CatLogger().addLog(
-      context: context,
-      previousCommand: "",
-      currentCommand: CatInterpreter()
-          .getResults
-          .getCommands
-          .reversed
-          .take(2)
-          .reversed
-          .joinToString(),
-      description: CatLoggingLevel.confirmCommand,
+    }).whenComplete(
+      () => CatLogger().addLog(
+        context: context,
+        previousCommand: "",
+        currentCommand: CatInterpreter()
+            .getResults
+            .getCommands
+            .reversed
+            .take(2)
+            .reversed
+            .joinToString(),
+        description: CatLoggingLevel.confirmCommand,
+      ),
     );
+    // Timer(const Duration(milliseconds: 300), );
   }
 
   void _selectionMultiple() {
@@ -449,18 +453,26 @@ class CrossButtonState extends State<CrossButton> {
     });
   }
 
-  void unSelect({bool success = false}) {
+  Future<void> unSelect({bool success = false}) async {
     setState(() {
       selected = false;
       selectionRepeat = false;
     });
     if (success) {
+      t = Timer.periodic(const Duration(milliseconds: 1), (timer) {
+        setState(() {
+          buttonColor = CupertinoColors.lightBackgroundGray;
+        });
+      });
       setState(() {
         buttonColor = CupertinoColors.lightBackgroundGray;
       });
-      Timer(const Duration(milliseconds: 300), () {
+      await Future.delayed(const Duration(milliseconds: 300), () {
         setState(() {
-          buttonColor = CupertinoColors.systemGrey;
+          t.cancel();
+          buttonColor = colors[widget.resultValueNotifier.cross
+              .getGrid[widget.position.first][widget.position.second]];
+          // buttonColor = CupertinoColors.systemGrey;
         });
       });
     }

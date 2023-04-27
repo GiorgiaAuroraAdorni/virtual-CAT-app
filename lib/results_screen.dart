@@ -22,7 +22,7 @@ class ResultsScreen extends StatelessWidget {
             trailing: CupertinoButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  "/",
+                  "/mode",
                   (Route<dynamic> route) => false,
                 );
               },
