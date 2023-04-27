@@ -17,7 +17,8 @@ class SchemasReader {
   SchemasReader._internal();
 
   Future<void> normal() async {
-    await _readSchemasJSON("resources/sequence/schemas.json").then((String value) {
+    await _readSchemasJSON("resources/sequence/schemas.json")
+        .then((String value) {
       _schemes = schemesFromJson(value);
       _size = _schemes.getData.length;
     });

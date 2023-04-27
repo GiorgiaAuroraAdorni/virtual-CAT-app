@@ -74,22 +74,18 @@ class GestureHomeState extends State<GestureHome> {
 
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
 
-  final Map<int, ResultsRecord> _allResults = Map<int, ResultsRecord>.from(
-    SchemasReader().schemes.getData.map(
-          (int key, Cross value) => MapEntry<int, ResultsRecord>(
-            key,
-            ResultsRecord(
-              time: 0,
-              score: 0,
-              state: false,
-              reference: value,
-              result: Cross(),
-              done: false,
-              correct: false,
-            ),
-          ),
-        ),
-  );
+  final Map<int, ResultsRecord> _allResults = <int, ResultsRecord>{
+    for (int v in 1.rangeTo(SchemasReader().size))
+      v: ResultsRecord(
+        time: 0,
+        score: 0,
+        state: false,
+        reference: SchemasReader().schemes.getData[v]!,
+        result: Cross(),
+        done: false,
+        correct: false,
+      ),
+  };
 
   bool _recovered = false;
 

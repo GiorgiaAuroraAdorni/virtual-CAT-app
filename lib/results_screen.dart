@@ -40,11 +40,32 @@ class ResultsScreen extends StatelessWidget {
                 CrossWidgetSimple.fromBasicShape(
                   shape: results[index + 1]!.result,
                 ),
-                Text("${results[index + 1]!.score}"),
+                Text(
+                  "${results[index + 1]!.score}",
+                  style: const TextStyle(fontSize: 20),
+                ),
                 Icon(
-                  results[index + 1]!.state
-                      ? CupertinoIcons.check_mark_circled
-                      : CupertinoIcons.xmark_circle,
+                  () {
+                    if (!results[index + 1]!.state) {
+                      return CupertinoIcons.flag_fill;
+                    }
+                    if (results[index + 1]!.correct) {
+                      return CupertinoIcons.hand_thumbsup_fill;
+                    }
+
+                    return CupertinoIcons.hand_thumbsdown_fill;
+                  }.call(),
+                  color: () {
+                    if (!results[index + 1]!.state) {
+                      return CupertinoColors.darkBackgroundGray.withAlpha(127);
+                    }
+                    if (results[index + 1]!.correct) {
+                      return CupertinoColors.activeGreen;
+                    }
+
+                    return CupertinoColors.destructiveRed;
+                  }.call(),
+                  size: 30,
                 ),
               ],
             ),
