@@ -81,7 +81,7 @@ class _Mirror extends State<MirrorPoints> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
-        color: CupertinoColors.systemOrange,
+        color: Colors.deepOrange.shade700,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(

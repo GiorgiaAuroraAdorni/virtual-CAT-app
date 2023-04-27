@@ -47,7 +47,7 @@ class _Go extends State<Go> {
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemTeal,
+        color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,

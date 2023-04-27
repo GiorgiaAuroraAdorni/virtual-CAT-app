@@ -107,7 +107,7 @@ class _Copy extends State<CopyCommands> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
-        color: Colors.purple,
+        color: Colors.blueGrey.shade600,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(

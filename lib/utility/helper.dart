@@ -73,3 +73,26 @@ int catScore({List<String> commands = const <String>[], bool visible = false}) {
 
   return score + partScore;
 }
+
+const ColorFilter invert = ColorFilter.matrix(<double>[
+  -1,
+  0,
+  0,
+  0,
+  255,
+  0,
+  -1,
+  0,
+  0,
+  255,
+  0,
+  0,
+  -1,
+  0,
+  255,
+  0,
+  0,
+  0,
+  1,
+  0,
+]);

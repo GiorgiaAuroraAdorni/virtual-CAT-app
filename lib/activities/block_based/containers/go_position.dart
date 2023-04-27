@@ -69,7 +69,7 @@ class _Go extends State<GoPosition> {
       width: MediaQuery.of(context).size.width,
       height: 100,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemTeal,
+        color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,

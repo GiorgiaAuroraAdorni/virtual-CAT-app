@@ -35,20 +35,16 @@ class _DropDownBlocksState extends State<DropDownBlocks> {
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(16),
                   borderRadius: BorderRadius.zero,
-                  color: _visibility
-                      ? CupertinoColors.activeGreen
+                  color: !_visibility
+                      ? widget.color
                       : CupertinoColors.extraLightBackgroundGray,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(
-                        CupertinoIcons.circle_filled,
-                        color: widget.color,
-                      ),
                       Text(
                         widget.title,
                         style: TextStyle(
-                          color: _visibility
+                          color: !_visibility
                               ? CupertinoColors.extraLightBackgroundGray
                               : CupertinoColors.label,
                         ),

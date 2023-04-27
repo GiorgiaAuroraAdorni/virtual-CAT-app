@@ -46,12 +46,9 @@ class _FillEmpty extends State<FillEmpty> {
 
     return Container(
       key: widgetKey,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemPurple,
+        color: CupertinoColors.systemIndigo,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,
@@ -61,9 +58,7 @@ class _FillEmpty extends State<FillEmpty> {
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
           builder: (BuildContext context, Widget? child) {
-            if (context
-                .read<TypeUpdateNotifier>()
-                .state == 2) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
               return text();
             }
 
@@ -78,7 +73,7 @@ class _FillEmpty extends State<FillEmpty> {
 
   List<Widget> _colorButtonsBuild() {
     final Map<CupertinoDynamicColor, String> colors =
-    <CupertinoDynamicColor, String>{
+        <CupertinoDynamicColor, String>{
       CupertinoColors.systemBlue: "ColorButtonBlue",
       CupertinoColors.systemRed: "ColorButtonRed",
       CupertinoColors.systemGreen: "ColorButtonGreen",
@@ -87,54 +82,49 @@ class _FillEmpty extends State<FillEmpty> {
 
     return colors.keys
         .map(
-          (CupertinoDynamicColor color) =>
-          Padding(
+          (CupertinoDynamicColor color) => Padding(
             padding: const EdgeInsets.all(5),
             child: CupertinoButton(
               key: Key(colors[color]!),
-              onPressed: () =>
-                  setState(() {
-                    final String prev = widget.item.toString();
-                    widget.item.selected = color;
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.updateCommandProperties,
-                    );
-                  }),
+              onPressed: () => setState(() {
+                final String prev = widget.item.toString();
+                widget.item.selected = color;
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              }),
               borderRadius: BorderRadius.circular(45),
               minSize: 25,
               color: color,
               padding: EdgeInsets.zero,
               child: widget.item.selected == color
                   ? Stack(
-                alignment: AlignmentDirectional.center,
-                children: const <Widget>[
-                  Icon(
-                    CupertinoIcons.circle_filled,
-                    size: 15,
-                  ),
-                ],
-              )
+                      alignment: AlignmentDirectional.center,
+                      children: const <Widget>[
+                        Icon(
+                          CupertinoIcons.circle_filled,
+                          size: 15,
+                        ),
+                      ],
+                    )
                   : const Text(""),
             ),
           ),
-    )
+        )
         .toList();
   }
 
-  Widget text() =>
-      Padding(
+  Widget text() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              CATLocalizations
-                  .of(context)
-                  .blocks["fillEmpty"]!,
+              CATLocalizations.of(context).blocks["fillEmpty"]!,
               style: const TextStyle(
                 color: CupertinoColors.systemBackground,
               ),
@@ -147,8 +137,7 @@ class _FillEmpty extends State<FillEmpty> {
         ),
       );
 
-  Widget figure() =>
-      Padding(
+  Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

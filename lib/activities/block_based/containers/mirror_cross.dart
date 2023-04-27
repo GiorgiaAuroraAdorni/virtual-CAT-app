@@ -1,9 +1,11 @@
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
 
@@ -44,7 +46,7 @@ class _MirrorHorizontal extends State<MirrorCross> {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(),
-          color: CupertinoColors.systemOrange,
+          color: Colors.deepOrange.shade700,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         child: Padding(
@@ -77,13 +79,16 @@ class _MirrorHorizontal extends State<MirrorCross> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SvgPicture.asset(
-                    "resources/icon/gesture.svg",
-                    height: 42,
-                    width: 42,
-                    colorFilter: const ColorFilter.mode(
-                      CupertinoColors.inactiveGray,
-                      BlendMode.color,
+                  ColorFiltered(
+                    colorFilter: invert,
+                    child: SvgPicture.asset(
+                      "resources/icon/gesture.svg",
+                      height: 42,
+                      width: 42,
+                      colorFilter: const ColorFilter.mode(
+                        CupertinoColors.black,
+                        BlendMode.modulate,
+                      ),
                     ),
                   ),
                   const SizedBox(

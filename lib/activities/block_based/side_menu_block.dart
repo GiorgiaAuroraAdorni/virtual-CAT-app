@@ -251,14 +251,14 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupPoint"]!,
-                  color: CupertinoColors.systemBlue,
+                  color: Colors.teal,
                   items: <Widget>[
                     _buildContainerItem(container: containers[0]),
                   ],
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
-                  color: CupertinoColors.systemBlue,
+                  color: Colors.green,
                   items: <Widget>[
                     _buildContainerItem(container: containers[2]),
                     _buildContainerItem(container: containers[4]),
@@ -267,7 +267,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupColor"]!,
-                  color: CupertinoColors.systemBlue,
+                  color: CupertinoColors.systemIndigo,
                   items: <Widget>[
                     _buildContainerItem(container: containers[1]),
                     _buildContainerItem(container: containers[3]),
@@ -276,7 +276,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
-                  color: CupertinoColors.systemBlue,
+                  color: Colors.blueGrey.shade600,
                   items: <Widget>[
                     _buildContainerItem(container: containers[10]),
                     _buildContainerItem(container: containers[9]),
@@ -285,7 +285,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupMirror"]!,
-                  color: CupertinoColors.systemBlue,
+                  color: Colors.deepOrange.shade700,
                   items: <Widget>[
                     _buildContainerItem(container: containers[6]),
                     _buildContainerItem(container: containers[7]),
