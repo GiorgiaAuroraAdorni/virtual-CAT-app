@@ -1,8 +1,7 @@
+import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
-
-import "activities/activity_home.dart";
 
 class RecoverStudent extends StatefulWidget {
   const RecoverStudent({required this.sessionID, super.key});
@@ -20,6 +19,12 @@ class _RecoverStudentState extends State<RecoverStudent> {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).studentData),
+          trailing: CupertinoButton(
+            onPressed: _changePage,
+            child: const Icon(
+              CupertinoIcons.arrow_right,
+            ),
+          ),
         ),
         child: SafeArea(
           child: Form(
@@ -49,10 +54,10 @@ class _RecoverStudentState extends State<RecoverStudent> {
                     return null;
                   },
                 ),
-                CupertinoButton(
-                  onPressed: _changePage,
-                  child: Text(CATLocalizations.of(context).continueStudentID),
-                ),
+                // CupertinoButton(
+                //   onPressed: _changePage,
+                //   child: Text(CATLocalizations.of(context).continueStudentID),
+                // ),
               ],
             ),
           ),

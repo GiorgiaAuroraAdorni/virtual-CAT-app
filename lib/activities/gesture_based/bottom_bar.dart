@@ -6,6 +6,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/results_screen.dart";
+import "package:cross_array_task_app/surway.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -116,6 +117,20 @@ class _BottomBarState extends State<BottomBar> {
           context.read<TypeUpdateNotifier>().reset();
           context.read<ReferenceNotifier>().toLocation(nextIndex);
         } else {
+          if (widget.studentID != -1 && widget.sessionID != -1) {
+            Navigator.push(
+              context,
+              CupertinoPageRoute<Widget>(
+                builder: (BuildContext context) => Surway(
+                  results: widget.allResults,
+                  sessionID: widget.sessionID,
+                  studentID: widget.studentID,
+                ),
+              ),
+            );
+            return;
+          }
+
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(

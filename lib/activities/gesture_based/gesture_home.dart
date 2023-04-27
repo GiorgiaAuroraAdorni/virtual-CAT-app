@@ -13,7 +13,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/results_screen.dart";
+import "package:cross_array_task_app/surway.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -104,9 +104,9 @@ class GestureHomeState extends State<GestureHome> {
           ChangeNotifierProvider<ResultNotifier>(
             create: (_) => ResultNotifier(),
           ),
-          ChangeNotifierProvider<ReferenceNotifier>(
-            create: (_) => ReferenceNotifier(),
-          ),
+          // ChangeNotifierProvider<ReferenceNotifier>(
+          //   create: (_) => ReferenceNotifier(),
+          // ),
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),
@@ -261,8 +261,10 @@ class GestureHomeState extends State<GestureHome> {
                 Navigator.push(
                   context,
                   CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => ResultsScreen(
+                    builder: (BuildContext context) => Surway(
                       results: _allResults,
+                      sessionID: widget.sessionID,
+                      studentID: widget.studentID,
                     ),
                   ),
                 );

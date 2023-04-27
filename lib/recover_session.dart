@@ -17,6 +17,12 @@ class _RecoverSessionState extends State<RecoverSession> {
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(CATLocalizations.of(context).sessionData),
+          trailing: CupertinoButton(
+            onPressed: _changePage,
+            child: const Icon(
+              CupertinoIcons.arrow_right,
+            ),
+          ),
         ),
         child: SafeArea(
           child: Form(
@@ -38,10 +44,10 @@ class _RecoverSessionState extends State<RecoverSession> {
                     return null;
                   },
                 ),
-                CupertinoButton(
-                  onPressed: _changePage,
-                  child: Text(CATLocalizations.of(context).continueSessionID),
-                ),
+                // CupertinoButton(
+                //   onPressed: _changePage,
+                //   child: Text(CATLocalizations.of(context).continueSessionID),
+                // ),
               ],
             ),
           ),

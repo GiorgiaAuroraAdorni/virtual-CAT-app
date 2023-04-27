@@ -238,6 +238,21 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
+  Future<int> addSurvay(int sessionID, int studentID, String results) async {
+    print(results);
+    if (sessionID == -1 || studentID == -1) {
+      return -1;
+    }
+    final Either<String, Map<String, dynamic>> res =
+        await mappingPostRequest("/surveys", <String, dynamic>{
+      "studentID": studentID,
+      "sessionID": sessionID,
+      "results": results,
+    }).run();
+
+    return res.getOrElse((String l) => <String, dynamic>{})["id"];
+  }
+
   static final Connection _connection = Connection._internal();
 }
 
