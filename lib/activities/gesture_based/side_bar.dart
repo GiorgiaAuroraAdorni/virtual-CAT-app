@@ -102,38 +102,54 @@ class _SideBarState extends State<SideBar> {
                         )
                         .isEmpty;
 
+                    final Map<int, ResultsRecord> checkNext =
+                        widget.allResults.filter(
+                      (MapEntry<int, ResultsRecord> entry) =>
+                          entry.key > SchemasReader().index &&
+                          !entry.value.done,
+                    );
+
+                    final Map<int, ResultsRecord> checkPrev =
+                        widget.allResults.filter(
+                      (MapEntry<int, ResultsRecord> entry) =>
+                          entry.key < SchemasReader().index &&
+                          !entry.value.done,
+                    );
+
                     return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        if (check)
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              final Map<int, ResultsRecord> filtered =
-                                  widget.allResults.filter(
-                                (MapEntry<int, ResultsRecord> entry) =>
-                                    entry.key < SchemasReader().index &&
-                                    !entry.value.done,
-                              );
-                              if (filtered.isEmpty) {
-                                return;
-                              }
-                              final int nextIndex =
-                                  filtered.keys.sorted().reversed.first;
-                              _reset();
-                              context.read<TimeKeeper>().resetTimer();
-                              CatLogger().resetLogs();
-                              context.read<TypeUpdateNotifier>().reset();
-                              context
-                                  .read<ReferenceNotifier>()
-                                  .toLocation(nextIndex);
-                            },
-                            borderRadius: BorderRadius.circular(45),
-                            color: CupertinoColors.black,
-                            child: const Icon(
-                              CupertinoIcons.arrow_left_circle_fill,
-                              size: 44,
-                            ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: check && checkPrev.isNotEmpty
+                              ? () {
+                                  final Map<int, ResultsRecord> filtered =
+                                      widget.allResults.filter(
+                                    (MapEntry<int, ResultsRecord> entry) =>
+                                        entry.key < SchemasReader().index &&
+                                        !entry.value.done,
+                                  );
+                                  if (filtered.isEmpty) {
+                                    return;
+                                  }
+                                  final int nextIndex =
+                                      filtered.keys.sorted().reversed.first;
+                                  _reset();
+                                  context.read<TimeKeeper>().resetTimer();
+                                  CatLogger().resetLogs();
+                                  context.read<TypeUpdateNotifier>().reset();
+                                  context
+                                      .read<ReferenceNotifier>()
+                                      .toLocation(nextIndex);
+                                }
+                              : null,
+                          borderRadius: BorderRadius.circular(45),
+                          color: CupertinoColors.black,
+                          child: const Icon(
+                            CupertinoIcons.arrow_left_circle_fill,
+                            size: 44,
                           ),
+                        ),
                         const SizedBox(
                           width: 5,
                         ),
@@ -150,36 +166,37 @@ class _SideBarState extends State<SideBar> {
                         const SizedBox(
                           width: 5,
                         ),
-                        if (check)
-                          CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              final Map<int, ResultsRecord> filtered =
-                                  widget.allResults.filter(
-                                (MapEntry<int, ResultsRecord> entry) =>
-                                    entry.key > SchemasReader().index &&
-                                    !entry.value.done,
-                              );
-                              if (filtered.isEmpty) {
-                                return;
-                              }
-                              final int nextIndex =
-                                  filtered.keys.sorted().first;
-                              _reset();
-                              context.read<TimeKeeper>().resetTimer();
-                              CatLogger().resetLogs();
-                              context.read<TypeUpdateNotifier>().reset();
-                              context
-                                  .read<ReferenceNotifier>()
-                                  .toLocation(nextIndex);
-                            },
-                            borderRadius: BorderRadius.circular(45),
-                            color: CupertinoColors.black,
-                            child: const Icon(
-                              CupertinoIcons.arrow_right_circle_fill,
-                              size: 44,
-                            ),
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: check && checkNext.isNotEmpty
+                              ? () {
+                                  final Map<int, ResultsRecord> filtered =
+                                      widget.allResults.filter(
+                                    (MapEntry<int, ResultsRecord> entry) =>
+                                        entry.key > SchemasReader().index &&
+                                        !entry.value.done,
+                                  );
+                                  if (filtered.isEmpty) {
+                                    return;
+                                  }
+                                  final int nextIndex =
+                                      filtered.keys.sorted().first;
+                                  _reset();
+                                  context.read<TimeKeeper>().resetTimer();
+                                  CatLogger().resetLogs();
+                                  context.read<TypeUpdateNotifier>().reset();
+                                  context
+                                      .read<ReferenceNotifier>()
+                                      .toLocation(nextIndex);
+                                }
+                              : null,
+                          borderRadius: BorderRadius.circular(45),
+                          color: CupertinoColors.black,
+                          child: const Icon(
+                            CupertinoIcons.arrow_right_circle_fill,
+                            size: 44,
                           ),
+                        ),
                       ],
                     );
                   },
