@@ -20,35 +20,35 @@ class Connection extends BaseConnection {
 
   Future<dynamic> cantos() async {
     final Either<String, List<dynamic>> res =
-    await mappingGetRequest("/cantons").run();
+        await mappingGetRequest("/cantons").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> supervisors() async {
     final Either<String, List<dynamic>> res =
-    await mappingGetRequest("/supervisors").run();
+        await mappingGetRequest("/supervisors").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> schools() async {
     final Either<String, List<dynamic>> res =
-    await mappingGetRequest("/school").run();
+        await mappingGetRequest("/school").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> sessions() async {
     final Either<String, List<dynamic>> res =
-    await mappingGetRequest("/sessions").run();
+        await mappingGetRequest("/sessions").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
   Future<dynamic> students() async {
     final Either<String, List<dynamic>> res =
-    await mappingGetRequest("/students").run();
+        await mappingGetRequest("/students").run();
 
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
@@ -58,9 +58,9 @@ class Connection extends BaseConnection {
       [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],
     );
     final List<dynamic> schools =
-    responses.first.getOrElse((String l) => <Map<String, dynamic>>[]);
+        responses.first.getOrElse((String l) => <Map<String, dynamic>>[]);
     final List<dynamic> cantons =
-    responses.last.getOrElse((String l) => <Map<String, dynamic>>[]);
+        responses.last.getOrElse((String l) => <Map<String, dynamic>>[]);
     int cantonId = 0;
     for (final Map<String, dynamic> element in cantons) {
       if (element["canton"] == canton) {
@@ -88,25 +88,18 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
-  Future<int> addSession(int supervisor,
-      int school,
-      int level,
-      int classs,
-      String section,
-      DateTime date,
-      String notes,
-      String language,) async {
+  Future<int> addSession(Session s) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/sessions",
       <String, dynamic>{
-        "supervisor": supervisor,
-        "school": school,
-        "level": level,
-        "classs": classs,
-        "section": section,
-        "date": date.toIso8601String(),
-        "notes": notes,
-        "language": language,
+        "supervisor": s.supervisor,
+        "school": s.school,
+        "level": s.level,
+        "classs": s.classs,
+        "section": s.section,
+        "date": s.date.toIso8601String(),
+        "notes": s.notes,
+        "language": s.language,
       },
     ).run();
 
@@ -128,9 +121,11 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
-  Future<int> addStudent(DateTime date,
-      bool gender,
-      int session,) async {
+  Future<int> addStudent(
+    DateTime date,
+    bool gender,
+    int session,
+  ) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(
       "/students",
       <String, dynamic>{
@@ -162,24 +157,19 @@ class Connection extends BaseConnection {
       },
     );
 
-
     return res.data ?? "";
   }
 
   Future<int> addAlgorithm({
-    required Collector collector,
-    required int studentID,
-    required int sessionID,
-    required BuildContext context,
-    required bool complete,
+    required Algorithm a,
   }) async {
-    if (studentID == -1 && sessionID == -1) {
+    if (a.studentID == -1 && a.sessionID == -1) {
       return -1;
     }
 
     final Map<String, dynamic> collected = <String, dynamic>{};
-    for (final String i in collector.data.keys) {
-      collected[i.toLowerCase()] = collector.data[i]!.isNotEmpty;
+    for (final String i in a.collector.data.keys) {
+      collected[i.toLowerCase()] = a.collector.data[i]!.isNotEmpty;
     }
     final List<String> commands = List<String>.from(
       CatInterpreter()
@@ -204,18 +194,14 @@ class Connection extends BaseConnection {
       return <String, dynamic>{};
     })["algorithm"];
 
-    final bool visible = context
-        .read<VisibilityNotifier>()
-        .finalState;
+    final bool visible = a.context.read<VisibilityNotifier>().finalState;
 
-    final int state = context
-        .read<TypeUpdateNotifier>()
-        .lowestState;
+    final int state = a.context.read<TypeUpdateNotifier>().lowestState;
 
     final Either<String, Map<String, dynamic>> res2 = await mappingPostRequest(
       "/results",
       <String, dynamic>{
-        "studentID": studentID,
+        "studentID": a.studentID,
         "schemaID": SchemasReader().currentIndex,
         "algorithmID": algorithmID,
         "unplugged": true,
@@ -226,11 +212,9 @@ class Connection extends BaseConnection {
         "blocks": state == 1,
         "text": state == 2,
         "artefactDimension": state + 1,
-        "time": context
-            .read<TimeKeeper>()
-            .rawTime,
+        "time": a.context.read<TimeKeeper>().rawTime,
         "timeStamp": DateTime.now().toIso8601String(),
-        "complete": complete,
+        "complete": a.complete,
       },
     ).run();
 
@@ -255,4 +239,42 @@ class Connection extends BaseConnection {
   }
 
   static final Connection _connection = Connection._internal();
+}
+
+class Algorithm {
+  Algorithm({
+    required this.collector,
+    required this.studentID,
+    required this.sessionID,
+    required this.context,
+    required this.complete,
+  });
+
+  final Collector collector;
+  final int studentID;
+  final int sessionID;
+  final BuildContext context;
+  final bool complete;
+}
+
+class Session {
+  Session({
+    required this.supervisor,
+    required this.school,
+    required this.level,
+    required this.classs,
+    required this.section,
+    required this.date,
+    required this.notes,
+    required this.language,
+  });
+
+  final int supervisor;
+  final int school;
+  final int level;
+  final int classs;
+  final String section;
+  final DateTime date;
+  final String notes;
+  final String language;
 }

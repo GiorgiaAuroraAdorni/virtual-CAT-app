@@ -145,13 +145,16 @@ class _BottomBarState extends State<BottomBar> {
       context,
       loadingTextWidget: Text("${widget.sessionID}:${widget.studentID}"),
     );
+
     final int result = await Connection()
         .addAlgorithm(
-      collector: collector,
-      studentID: widget.studentID,
-      sessionID: widget.sessionID,
-      context: context,
-      complete: complete,
+      a: Algorithm(
+        collector: collector,
+        studentID: widget.studentID,
+        sessionID: widget.sessionID,
+        context: context,
+        complete: complete,
+      ),
     )
         .then((int value) {
       UIBlock.unblock(context);

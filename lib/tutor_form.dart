@@ -60,14 +60,16 @@ class SchoolFormState extends State<SchoolForm> {
               supervisorId = value;
 
               return Connection().addSession(
-                supervisorId,
-                schoolId,
-                int.tryParse(_level.text) ?? 0,
-                int.tryParse(_grade.text) ?? 0,
-                _section.text,
-                _selectedDate,
-                _notes.text,
-                CATLocalizations.of(context).languageCode,
+                Session(
+                  supervisor: supervisorId,
+                  school: schoolId,
+                  level: int.tryParse(_level.text) ?? 0,
+                  classs: int.tryParse(_grade.text) ?? 0,
+                  section: _section.text,
+                  date: _selectedDate,
+                  notes: _notes.text,
+                  language: CATLocalizations.of(context).languageCode,
+                ),
               );
             }).then((int value) {
               Navigator.push(
