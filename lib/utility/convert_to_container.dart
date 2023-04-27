@@ -153,8 +153,13 @@ List<SimpleContainer> _parseGo(List<String> command, String languageCode) {
   if (positions.length == 2) {
     return <SimpleContainer>[
       GoPositionContainer(
-        a: positions.first.toUpperCase(),
-        b: positions.last,
+        position: [
+          PointContainer(
+            languageCode: languageCode,
+            a: positions.first.toUpperCase(),
+            b: positions.last,
+          ),
+        ],
         languageCode: languageCode,
       ),
     ];

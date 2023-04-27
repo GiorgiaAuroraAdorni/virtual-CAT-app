@@ -262,8 +262,14 @@ class _Copy extends State<CopyCommands> {
                       ),
                       GoPosition(
                         item: GoPositionContainer(
-                          a: "F",
-                          b: "3",
+                          position: [
+                            PointContainer(
+                              languageCode:
+                                  CATLocalizations.of(context).languageCode,
+                              a: "F",
+                              b: "3",
+                            ),
+                          ],
                           languageCode:
                               CATLocalizations.of(context).languageCode,
                         ),

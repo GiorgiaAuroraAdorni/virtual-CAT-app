@@ -44,6 +44,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     GoPositionContainer(
+      position: <PointContainer>[],
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintContainer(
@@ -124,6 +125,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           GoPositionContainer(
+            position: <PointContainer>[],
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           PaintContainer(
