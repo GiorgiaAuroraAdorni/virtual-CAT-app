@@ -67,7 +67,7 @@ class _Go extends State<GoPosition> {
     return Container(
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
-      height: 100,
+      height: 120,
       decoration: BoxDecoration(
         color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -77,16 +77,6 @@ class _Go extends State<GoPosition> {
       ),
       child: Center(
         child: figure(),
-        // AnimatedBuilder(
-        //   animation: context.watch<TypeUpdateNotifier>(),
-        //   builder: (BuildContext context, Widget? child) {
-        //     // if (context.read<TypeUpdateNotifier>().state == 2) {
-        //     //   return text();
-        //     // }
-        //
-        //     return figure();
-        //   },
-        // ),
       ),
     );
   }
@@ -94,6 +84,7 @@ class _Go extends State<GoPosition> {
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
@@ -113,8 +104,11 @@ class _Go extends State<GoPosition> {
                 );
               },
             ),
-            const SizedBox(
-              height: 5,
+            Text(
+              CATLocalizations.of(context).blocks["gotPointBlock"]!,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             DragTarget<PointContainer>(
               builder: (
@@ -122,12 +116,47 @@ class _Go extends State<GoPosition> {
                 List<PointContainer?> candidateItems,
                 List<dynamic> rejectedItems,
               ) =>
-                  LayoutBuilder(
-                builder: (
-                  BuildContext context,
-                  BoxConstraints constraints,
-                ) =>
-                    Align(
+                  LayoutBuilder(builder: (
+                BuildContext context,
+                BoxConstraints constraints,
+              ) {
+                if (widget.item.position.isEmpty && candidateItems.isEmpty) {
+                  return Align(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: candidateItems.isNotEmpty
+                            ? Colors.green.shade300
+                            : CupertinoColors.systemBackground,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      width: constraints.maxWidth - 15,
+                      height: 56,
+                      child: IgnorePointer(
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white54,
+                            BlendMode.modulate,
+                          ),
+                          child: Column(
+                            children: [
+                              Point(
+                                item: PointContainer(
+                                  languageCode:
+                                      CATLocalizations.of(context).languageCode,
+                                ),
+                                onChange: (Size size) {},
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                return Align(
                   child: Container(
                     decoration: BoxDecoration(
                       color: candidateItems.isNotEmpty
@@ -144,8 +173,8 @@ class _Go extends State<GoPosition> {
                       children: widgets,
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
               onWillAccept: (PointContainer? el) =>
                   widget.item.position.isEmpty,
               onAccept: _addContainer,

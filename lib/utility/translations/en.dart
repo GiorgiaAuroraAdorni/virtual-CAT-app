@@ -90,6 +90,7 @@ const Map<String, String> blocksEn = <String, String>{
   "copySecondBlock": "copySecondBlock",
   "mirrorPointsBlock": "mirrorPointsBlock",
   "mirrorBlocksBlock": "mirrorBlocksBlock",
+  "gotPointBlock": "gotPointBlock",
 };
 
 const Map<String, String> directionsEn = <String, String>{
