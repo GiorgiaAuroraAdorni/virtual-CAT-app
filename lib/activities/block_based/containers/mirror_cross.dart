@@ -46,7 +46,7 @@ class _MirrorHorizontal extends State<MirrorCross> {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(),
-          color: Colors.deepOrange.shade700,
+          color: Colors.blueGrey,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         child: Padding(
