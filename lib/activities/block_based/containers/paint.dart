@@ -193,8 +193,22 @@ class _Paint extends State<Paint> {
       );
 
   void _repetitionPicker() {
+    List<Widget> repetitionsText = List<Widget>.from(
+      widget.item.repetitionsText,
+    );
     setState(() {
-      widget.item.repetitions = 0;
+      if (widget.item.direction.startsWith("square")) {
+        widget.item.repetitions = 2;
+        repetitionsText = [repetitionsText[2]];
+      } else if (widget.item.direction.startsWith("l")) {
+        widget.item.repetitions = 3;
+        repetitionsText = [repetitionsText[3]];
+      } else if (widget.item.direction.startsWith("zig-zag")) {
+        widget.item.repetitions = 1;
+        repetitionsText.removeAt(0);
+      } else {
+        widget.item.repetitions = 0;
+      }
     });
     context.read<BlockUpdateNotifier>().update();
     final String prev = widget.item.toString();
@@ -205,16 +219,23 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            setState(() {
-              widget.item.repetitions = value;
-            });
+            if (repetitionsText.length == 1) {
+            } else if (repetitionsText.length == 5) {
+              setState(() {
+                widget.item.repetitions = value + 1;
+              });
+            } else {
+              setState(() {
+                widget.item.repetitions = value;
+              });
+            }
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: widget.item.repetitionsText,
+          children: repetitionsText,
         ),
       ),
     ).whenComplete(
@@ -228,8 +249,22 @@ class _Paint extends State<Paint> {
   }
 
   void _repetitionsPickerIcon() {
+    List<Widget> repetitionsIcons = List<Widget>.from(
+      widget.item.repetitionsIcons,
+    );
     setState(() {
-      widget.item.repetitions = 0;
+      if (widget.item.direction.startsWith("square")) {
+        widget.item.repetitions = 2;
+        repetitionsIcons = [repetitionsIcons[2]];
+      } else if (widget.item.direction.startsWith("l")) {
+        widget.item.repetitions = 3;
+        repetitionsIcons = [repetitionsIcons[3]];
+      } else if (widget.item.direction.startsWith("zig-zag")) {
+        widget.item.repetitions = 1;
+        repetitionsIcons.removeAt(0);
+      } else {
+        widget.item.repetitions = 0;
+      }
     });
     context.read<BlockUpdateNotifier>().update();
     final String prev = widget.item.toString();
@@ -240,16 +275,24 @@ class _Paint extends State<Paint> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            setState(() {
-              widget.item.repetitions = value;
-            });
+            if (repetitionsIcons.length == 1) {
+            } else if (repetitionsIcons.length == 5) {
+              setState(() {
+                widget.item.repetitions = value + 1;
+              });
+            } else {
+              setState(() {
+                widget.item.repetitions = value;
+              });
+            }
+
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
           diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
-          children: widget.item.repetitionsIcons,
+          children: repetitionsIcons,
         ),
       ),
     ).whenComplete(
@@ -289,12 +332,23 @@ class _Paint extends State<Paint> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () {
+        setState(() {
+          if (widget.item.direction.startsWith("square")) {
+            widget.item.repetitions = 2;
+          } else if (widget.item.direction.startsWith("l")) {
+            widget.item.repetitions = 3;
+          } else if (widget.item.direction.startsWith("zig-zag")) {
+            widget.item.repetitions = 1;
+          }
+        });
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.updateCommandProperties,
+        );
+      },
     );
   }
 
@@ -330,12 +384,23 @@ class _Paint extends State<Paint> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () {
+        setState(() {
+          if (widget.item.direction.startsWith("square")) {
+            widget.item.repetitions = 2;
+          } else if (widget.item.direction.startsWith("l")) {
+            widget.item.repetitions = 3;
+          } else if (widget.item.direction.startsWith("zig-zag")) {
+            widget.item.repetitions = 1;
+          }
+        });
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.updateCommandProperties,
+        );
+      },
     );
   }
 

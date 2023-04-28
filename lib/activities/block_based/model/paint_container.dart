@@ -472,10 +472,6 @@ class PaintContainer extends SimpleContainer {
           CupertinoIcons.circle_fill,
           color: CupertinoColors.black,
         ),
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
       ],
     ),
     Row(
