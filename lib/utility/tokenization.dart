@@ -50,7 +50,6 @@ Collector elaborate({
       case "copy":
         // var temp = correctCommandUse(command: c, schema: schema);
         const bool temp = true;
-        collector.data["copy"]?.add(temp);
         _copyAnalysis(tokens, parent: temp);
         break;
       case "mirror":
@@ -97,11 +96,18 @@ void _paintAnalysis(
 void _copyAnalysis(List<String> command, {bool parent = true}) {
   final List<String> commands =
       splitCommands(command.second.removeSurrounding(prefix: "{", suffix: "}"));
+  bool flag = false;
   for (String c in commands) {
     final List<String> tokens = splitCommand(c);
     if (tokens.first == "paint") {
+      flag = true;
       _paintAnalysis(c, skip: true, parent: parent);
     }
+  }
+  if (flag) {
+    collector.data["repeat"]?.add(true);
+  } else {
+    collector.data["copy"]?.add(true);
   }
 }
 
