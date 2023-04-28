@@ -104,9 +104,6 @@ class GestureHomeState extends State<GestureHome> {
           ChangeNotifierProvider<SelectedColorsNotifier>(
             create: (_) => SelectedColorsNotifier(),
           ),
-          ChangeNotifierProvider<BlockUpdateNotifier>(
-            create: (_) => BlockUpdateNotifier(),
-          ),
         ],
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),

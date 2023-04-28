@@ -106,6 +106,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<TypeUpdateNotifier>(
             create: (_) => TypeUpdateNotifier(),
           ),
+          ChangeNotifierProvider<BlockUpdateNotifier>(
+            create: (_) => BlockUpdateNotifier(),
+          ),
         ],
         child: Consumer<LocaleProvider>(
           builder: (
