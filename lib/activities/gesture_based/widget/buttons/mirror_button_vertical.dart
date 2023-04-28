@@ -4,10 +4,9 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
-
-import "../../../../utility/cat_log.dart";
 
 /// `MirrorButtonVertical` is a stateful widget that displays a vertical mirror
 /// button that calls `onSelect` when selected and `onDismiss` when dismissed
@@ -31,6 +30,17 @@ class MirrorButtonVertical extends ActionButton {
 /// It's a button that rotates 90 degrees and changes color when pressed
 class MirrorButtonVerticalState
     extends ActionButtonState<MirrorButtonVertical> {
+  @override
+  Widget build(BuildContext context) {
+    if (widget.state.widget.selectionMode.value == SelectionModes.base) {
+      activateNoState();
+    } else {
+      deActivateNoState();
+    }
+
+    return super.build(context);
+  }
+
   @override
   void onSelect() {
     if (CatInterpreter().executedCommands > 1) {
@@ -59,22 +69,50 @@ class MirrorButtonVerticalState
 }
 
 /// It's a button that mirrors the image vertically
-class MirrorButtonVerticalSecondary extends MirrorButtonVertical {
+class MirrorButtonVerticalSecondary extends ActionButton {
   /// It's a constructor.
   const MirrorButtonVerticalSecondary({
-    required super.state,
+    required this.state,
     super.displayColoring = true,
     super.selectionColor,
     super.background,
     super.key,
   });
 
+  /// A reference to the state of the side menu.
+  final SideMenuState state;
+
   @override
   MirrorButtonVerticalStateSecondary createState() =>
       MirrorButtonVerticalStateSecondary();
 }
 
-class MirrorButtonVerticalStateSecondary extends MirrorButtonVerticalState {
+class MirrorButtonVerticalStateSecondary
+    extends ActionButtonState<MirrorButtonVerticalSecondary> {
+  @override
+  void initState() {
+    super.icon = CupertinoIcons.rectangle_grid_1x2;
+    super.angle = 90 * math.pi / 180;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: widget.state.widget.selectionMode,
+        builder: (BuildContext c, Widget? w) {
+          if (widget.state.widget.selectionMode.value ==
+                  SelectionModes.transition ||
+              widget.state.widget.selectionMode.value ==
+                  SelectionModes.mirrorVertical) {
+            activateNoState();
+          } else {
+            deActivateNoState();
+          }
+
+          return super.build(context);
+        },
+      );
+
   @override
   void onSelect() {
     widget.state.copyButtonKey.currentState?.deSelect();

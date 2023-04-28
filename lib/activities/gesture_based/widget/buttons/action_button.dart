@@ -126,14 +126,23 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
         _selected = true;
       });
 
+  void selectNoState() => _selected = true;
+
   /// Activate from external widget
   void activate() => setState(() {
         _active = true;
       });
+
+  void activateNoState() => _active = true;
 
   /// Deactivate from external widget
   void deActivate() => setState(() {
         _selected = false;
         _active = false;
       });
+
+  void deActivateNoState() {
+    _selected = false;
+    _active = false;
+  }
 }

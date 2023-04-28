@@ -1,13 +1,13 @@
+import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-
-import "../../../../utility/cat_log.dart";
 
 /// `FillEmpty` is a `StatefulWidget` that displays a `FloatingActionButton` that,
 /// when pressed, displays a `BottomSheet` that contains a `TextField` and a
@@ -31,14 +31,16 @@ class FillEmpty extends ActionButton {
 
 /// `FillEmptyState` is a state class for the `FillEmpty` action button
 class FillEmptyState extends ActionButtonState<FillEmpty> {
-  bool additionalFlag = false;
-
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: context.read<SelectedColorsNotifier>(),
         builder: (BuildContext c, Widget? w) {
-          additionalFlag =
-              context.read<SelectedColorsNotifier>().colors.length != 1;
+          if (context.read<SelectedColorsNotifier>().colors.length == 1 &&
+              widget.state.widget.selectionMode.value == SelectionModes.base) {
+            activateNoState();
+          } else {
+            deActivateNoState();
+          }
 
           return super.build(context);
         },

@@ -27,6 +27,18 @@ class SelectionButton extends ActionButton {
 /// and calls a function when pressed
 class SelectionButtonState extends ActionButtonState<SelectionButton> {
   @override
+  Widget build(BuildContext context) {
+    if (widget.state.widget.selectionMode.value == SelectionModes.base ||
+        widget.state.widget.selectionMode.value == SelectionModes.multiple) {
+      activateNoState();
+    } else {
+      deActivateNoState();
+    }
+
+    return super.build(context);
+  }
+
+  @override
   void onSelect() {
     widget.state.setState(() {
       widget.state.repeatButtonKey.currentState?.deSelect();

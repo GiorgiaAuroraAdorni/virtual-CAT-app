@@ -1,7 +1,7 @@
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
-import 'package:cross_array_task_app/utility/cat_log.dart';
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:flutter/cupertino.dart";
 
 /// A button that repeats a callback while it is held down
@@ -26,6 +26,18 @@ class RepeatButton extends ActionButton {
 /// it calls a function
 class RepeatButtonState extends ActionButtonState<RepeatButton> {
   bool additionalFlag = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.state.widget.selectionMode.value == SelectionModes.base ||
+        widget.state.widget.selectionMode.value == SelectionModes.repeat) {
+      activateNoState();
+    } else {
+      deActivateNoState();
+    }
+
+    return super.build(context);
+  }
 
   @override
   void onSelect() {

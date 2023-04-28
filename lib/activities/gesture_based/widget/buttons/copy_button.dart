@@ -26,6 +26,23 @@ class CopyButton extends ActionButton {
 /// It's a button that can be selected or not, and active or not
 class CopyButtonState extends ActionButtonState<CopyButton> {
   @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: widget.state.widget.selectionMode,
+        builder: (BuildContext c, Widget? w) {
+          if (widget.state.widget.selectionMode.value ==
+                  SelectionModes.transition ||
+              widget.state.widget.selectionMode.value ==
+                  SelectionModes.select) {
+            activateNoState();
+          } else {
+            deActivateNoState();
+          }
+
+          return super.build(context);
+        },
+      );
+
+  @override
   void onDismiss() {}
 
   @override
@@ -48,21 +65,48 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
   }
 }
 
-class CopyButtonSecondary extends CopyButton {
+class CopyButtonSecondary extends ActionButton {
   CopyButtonSecondary({
-    required super.state,
+    required this.state,
     super.displayColoring,
     super.selectionColor,
     super.background,
     super.key,
   });
 
+  /// A reference to the state of the side menu.
+  final SideMenuState state;
+
   @override
   CopyButtonSecondatyState createState() => CopyButtonSecondatyState();
 }
 
-class CopyButtonSecondatyState extends CopyButtonState {
+class CopyButtonSecondatyState extends ActionButtonState<CopyButtonSecondary> {
   bool additionalFlag = false;
+
+  @override
+  void initState() {
+    super.icon = CupertinoIcons.doc_on_doc;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: widget.state.widget.selectionMode,
+        builder: (BuildContext c, Widget? w) {
+          if (widget.state.widget.selectionMode.value ==
+              SelectionModes.repeat) {
+            activateNoState();
+          } else if (widget.state.widget.selectionMode.value ==
+              SelectionModes.select) {
+            selectNoState();
+          } else {
+            deActivateNoState();
+          }
+
+          return super.build(context);
+        },
+      );
 
   @override
   void onSelect() {

@@ -231,6 +231,7 @@ class SideMenuState extends State<SideMenu> {
                         child: CupertinoButton(
                           onPressed: () {
                             repeatButtonKey.currentState?.whenSelected();
+                            widget.selectionMode.value = SelectionModes.base;
                             CatInterpreter().deleteCopyCommands();
                             CatLogger().addLog(
                               context: context,
@@ -289,14 +290,14 @@ class SideMenuState extends State<SideMenu> {
                             if (widget.coloredButtons.value.isNotEmpty &&
                                 widget.selectionMode.value ==
                                     SelectionModes.multiple) {
+                              selectionActionButtonKey.currentState?.deSelect();
+                              widget.selectionMode.value =
+                                  SelectionModes.transition;
                               copyButtonKey.currentState?.activate();
                               mirrorHorizontalButtonKeySecondary.currentState
                                   ?.activate();
                               mirrorVerticalButtonKeySecondary.currentState
                                   ?.activate();
-                              selectionActionButtonKey.currentState?.deSelect();
-                              widget.selectionMode.value =
-                                  SelectionModes.transition;
 
                               return;
                             }
@@ -305,6 +306,7 @@ class SideMenuState extends State<SideMenu> {
                                     SelectionModes.select) {
                               _copyCells();
                               selectionButtonKey.currentState?.whenSelected();
+                              widget.selectionMode.value = SelectionModes.base;
 
                               return;
                             }
@@ -313,6 +315,7 @@ class SideMenuState extends State<SideMenu> {
                                     SelectionModes.mirrorVertical) {
                               _mirrorCells("vertical");
                               selectionButtonKey.currentState?.whenSelected();
+                              widget.selectionMode.value = SelectionModes.base;
 
                               return;
                             }
@@ -321,6 +324,7 @@ class SideMenuState extends State<SideMenu> {
                                     SelectionModes.mirrorHorizontal) {
                               _mirrorCells("horizontal");
                               selectionButtonKey.currentState?.whenSelected();
+                              widget.selectionMode.value = SelectionModes.base;
 
                               return;
                             }
@@ -348,6 +352,7 @@ class SideMenuState extends State<SideMenu> {
                               selectionButtonKey.currentState?.whenSelected();
                               mirrorVerticalButtonKeySecondary.currentState
                                   ?.whenSelected();
+                              widget.selectionMode.value = SelectionModes.base;
                             });
                             CatLogger().addLog(
                               context: context,
@@ -382,6 +387,7 @@ class SideMenuState extends State<SideMenu> {
         widget.selectionMode.value == SelectionModes.select) {
       _copyCells();
       repeatButtonKey.currentState?.whenSelected();
+      widget.selectionMode.value = SelectionModes.base;
     } else {
       widget.shakeKey.currentState?.shake();
     }
