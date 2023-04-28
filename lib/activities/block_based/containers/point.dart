@@ -47,7 +47,7 @@ class _Point extends State<Point> {
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Colors.teal,
+        color: Colors.lime,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,

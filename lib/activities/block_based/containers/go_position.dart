@@ -125,7 +125,7 @@ class _Go extends State<GoPosition> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: candidateItems.isNotEmpty
-                            ? Colors.green.shade300
+                            ? Colors.green
                             : CupertinoColors.systemBackground,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(8),
@@ -160,7 +160,7 @@ class _Go extends State<GoPosition> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: candidateItems.isNotEmpty
-                          ? Colors.green.shade300
+                          ? Colors.green
                           : CupertinoColors.systemBackground,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(8),

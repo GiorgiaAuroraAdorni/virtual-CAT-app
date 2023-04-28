@@ -92,7 +92,7 @@ class _Copy extends State<CopyCells> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
-        color: Colors.blueGrey.shade600,
+        color: Colors.indigo,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(
@@ -200,7 +200,7 @@ class _Copy extends State<CopyCells> {
               child: Container(
                 decoration: BoxDecoration(
                   color: candidateItems.isNotEmpty
-                      ? Colors.green.shade300
+                      ? Colors.indigo
                       : Colors.white,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(8),
@@ -342,7 +342,7 @@ class _Copy extends State<CopyCells> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: candidateItems.isNotEmpty
-                        ? Colors.green.shade300
+                        ? Colors.indigo
                         : Colors.white,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8),

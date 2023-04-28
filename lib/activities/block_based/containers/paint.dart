@@ -4,6 +4,7 @@ import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
@@ -44,7 +45,7 @@ class _Paint extends State<Paint> {
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemIndigo,
+        color: Colors.teal,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,

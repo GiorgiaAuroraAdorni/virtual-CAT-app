@@ -251,7 +251,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupPoint"]!,
-                  color: Colors.teal,
+                  color: Colors.lime,
                   items: <Widget>[
                     _buildContainerItem(container: containers[0]),
                   ],
@@ -267,7 +267,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupColor"]!,
-                  color: CupertinoColors.systemIndigo,
+                  color: Colors.teal,
                   items: <Widget>[
                     _buildContainerItem(container: containers[1]),
                     _buildContainerItem(container: containers[3]),
@@ -276,7 +276,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
-                  color: Colors.blueGrey.shade600,
+                  color: Colors.indigo,
                   items: <Widget>[
                     _buildContainerItem(container: containers[10]),
                     _buildContainerItem(container: containers[9]),
@@ -285,7 +285,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                 DropDownBlocks(
                   title:
                       CATLocalizations.of(context).blockGroups["groupMirror"]!,
-                  color: Colors.deepOrange.shade700,
+                  color: Colors.blueGrey,
                   items: <Widget>[
                     _buildContainerItem(container: containers[6]),
                     _buildContainerItem(container: containers[7]),
