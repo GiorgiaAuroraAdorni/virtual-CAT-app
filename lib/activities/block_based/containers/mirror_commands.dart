@@ -93,7 +93,7 @@ class _Mirror extends State<MirrorCommands> {
       height: childHeight +
           185.0 +
           (widget.item.moves.length +
-              (widget.item.container.isEmpty ? 3 : 0) * 60),
+              (widget.item.container.isEmpty ? 4 : 0) * 60),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -194,7 +194,7 @@ class _Mirror extends State<MirrorCommands> {
                       height: childHeight +
                           60 +
                           (widget.item.moves.length +
-                              (widget.item.container.isEmpty ? 3 : 0) * 60),
+                              (widget.item.container.isEmpty ? 4 : 0) * 60),
                       width: constraints.maxWidth - 15,
                       child: ReorderableListView(
                         onReorder: (int oldIndex, int newIndex) {
@@ -252,7 +252,7 @@ class _Mirror extends State<MirrorCommands> {
               Radius.circular(8),
             ),
           ),
-          height: childHeight + 60 + (widget.item.moves.length + 3 * 60),
+          height: childHeight + 60 + (widget.item.moves.length + 4 * 60),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(

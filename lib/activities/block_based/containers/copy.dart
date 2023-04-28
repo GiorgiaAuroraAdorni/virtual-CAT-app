@@ -102,7 +102,7 @@ class _Copy extends State<CopyCommands> {
           210 +
           60 *
               (widget.item.moves.length +
-                  (widget.item.container.isEmpty ? 3 : 0) +
+                  (widget.item.container.isEmpty ? 4 : 0) +
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -195,16 +195,15 @@ class _Copy extends State<CopyCommands> {
             return Align(
               child: Container(
                 decoration: BoxDecoration(
-                  color: candidateItems.isNotEmpty
-                      ? Colors.indigo
-                      : Colors.white,
+                  color:
+                      candidateItems.isNotEmpty ? Colors.indigo : Colors.white,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(8),
                   ),
                 ),
                 height: widget.item.container.isNotEmpty
                     ? childHeight + 60.0
-                    : childHeight + 60 + (widget.item.moves.length + 3 * 60),
+                    : childHeight + 60 + (widget.item.moves.length + 4 * 60),
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
@@ -252,7 +251,7 @@ class _Copy extends State<CopyCommands> {
               Radius.circular(8),
             ),
           ),
-          height: childHeight + 60 + (widget.item.moves.length + 3 * 60),
+          height: childHeight + 60 + (widget.item.moves.length + 4 * 60),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(
