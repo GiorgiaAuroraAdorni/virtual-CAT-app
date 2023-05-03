@@ -60,7 +60,8 @@ class SideMenuState extends State<SideMenu> {
   final GlobalKey<RepeatButtonState> repeatButtonKey = GlobalKey();
 
   /// Creating a GlobalKey for the CopyButton widget.
-  final GlobalKey<CopyButtonState> copyButtonSecondaryKey = GlobalKey();
+  final GlobalKey<CopyButtonSecondatyState> copyButtonSecondaryKey =
+      GlobalKey();
 
   /// Creating a GlobalKey for the ColorActionButton widget.
   final GlobalKey<ColorActionButtonState> colorActionButtonKey = GlobalKey();
@@ -73,12 +74,12 @@ class SideMenuState extends State<SideMenu> {
   final GlobalKey<CopyButtonState> copyButtonKey = GlobalKey();
 
   /// Creating a GlobalKey for the MirrorButtonHorizontal widget.
-  final GlobalKey<MirrorButtonHorizontalState>
+  final GlobalKey<MirrorButtonHorizontalStateSecondary>
       mirrorHorizontalButtonKeySecondary = GlobalKey();
 
   /// Creating a GlobalKey for the MirrorButtonVertical widget.
-  final GlobalKey<MirrorButtonVerticalState> mirrorVerticalButtonKeySecondary =
-      GlobalKey();
+  final GlobalKey<MirrorButtonVerticalStateSecondary>
+      mirrorVerticalButtonKeySecondary = GlobalKey();
 
   bool added = false;
 
@@ -123,13 +124,27 @@ class SideMenuState extends State<SideMenu> {
               animation: context.watch<SelectedColorsNotifier>(),
               builder: (BuildContext context, Widget? child) => CupertinoButton(
                 key: Key(colors[color]!),
-                onPressed: () => setState(() {
-                  if (context.read<SelectedColorsNotifier>().contains(color)) {
-                    context.read<SelectedColorsNotifier>().remove(color);
-                  } else {
-                    context.read<SelectedColorsNotifier>().add(color);
+                onPressed: () {
+                  if (widget.selectionMode.value ==
+                          SelectionModes.mirrorHorizontal ||
+                      widget.selectionMode.value ==
+                          SelectionModes.mirrorVertical ||
+                      widget.selectionMode.value == SelectionModes.multiple ||
+                      widget.selectionMode.value == SelectionModes.select ||
+                      widget.selectionMode.value == SelectionModes.transition) {
+                    return null;
                   }
-                }),
+
+                  return () => setState(() {
+                        if (context
+                            .read<SelectedColorsNotifier>()
+                            .contains(color)) {
+                          context.read<SelectedColorsNotifier>().remove(color);
+                        } else {
+                          context.read<SelectedColorsNotifier>().add(color);
+                        }
+                      });
+                }.call(),
                 borderRadius: BorderRadius.circular(45),
                 minSize: 50,
                 color: color,
@@ -162,26 +177,31 @@ class SideMenuState extends State<SideMenu> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                ..._colorButtonsBuild(),
+                AnimatedBuilder(
+                  animation: widget.selectionMode,
+                  builder: (_, __) => Column(
+                    children: _colorButtonsBuild(),
+                  ),
+                ),
                 const SizedBox(
                   height: 130,
                 ),
                 FillEmpty(
                   state: this,
                 ),
-                MirrorButtonHorizontal(
+                SelectionButton(
                   state: this,
-                ),
-                MirrorButtonVertical(
-                  state: this,
+                  key: selectionButtonKey,
                 ),
                 RepeatButton(
                   state: this,
                   key: repeatButtonKey,
                 ),
-                SelectionButton(
+                MirrorButtonHorizontal(
                   state: this,
-                  key: selectionButtonKey,
+                ),
+                MirrorButtonVertical(
+                  state: this,
                 ),
               ],
             ),

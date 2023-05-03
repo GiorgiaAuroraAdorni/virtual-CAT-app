@@ -1,7 +1,9 @@
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
+import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/cupertino.dart";
+import "package:provider/provider.dart";
 
 import "../../../../utility/cat_log.dart";
 
@@ -41,6 +43,7 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
   @override
   void onSelect() {
     widget.state.setState(() {
+      context.read<SelectedColorsNotifier>().clear();
       widget.state.repeatButtonKey.currentState?.deSelect();
       widget.state.widget.selectionMode.value = SelectionModes.multiple;
       widget.state.copyButtonKey.currentState?.deActivate();

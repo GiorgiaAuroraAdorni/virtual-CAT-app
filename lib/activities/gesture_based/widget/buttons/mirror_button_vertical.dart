@@ -73,7 +73,7 @@ class MirrorButtonVerticalSecondary extends ActionButton {
   /// It's a constructor.
   const MirrorButtonVerticalSecondary({
     required this.state,
-    super.displayColoring = true,
+    super.displayColoring,
     super.selectionColor,
     super.background,
     super.key,
@@ -100,10 +100,8 @@ class MirrorButtonVerticalStateSecondary
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: widget.state.widget.selectionMode,
         builder: (BuildContext c, Widget? w) {
-          if (widget.state.widget.selectionMode.value ==
-                  SelectionModes.transition ||
-              widget.state.widget.selectionMode.value ==
-                  SelectionModes.mirrorVertical) {
+          if (widget.state.widget.selectionMode.value !=
+              SelectionModes.multiple) {
             activateNoState();
           } else {
             deActivateNoState();
@@ -128,6 +126,7 @@ class MirrorButtonVerticalStateSecondary
 
   @override
   void onDismiss() {
+    super.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.transition;
     CatLogger().addLog(
       context: context,

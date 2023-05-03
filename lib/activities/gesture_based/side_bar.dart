@@ -209,21 +209,21 @@ class _SideBarState extends State<SideBar> {
                     resultValueNotifier: context.watch<ReferenceNotifier>(),
                   ),
                 ),
-                if (context.read<TypeUpdateNotifier>().state > 0)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Column(
-                      children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Column(
+                    children: <Widget>[
+                      if (context.read<TypeUpdateNotifier>().state > 0)
                         const ChangeCrossVisualization(),
-                        CrossWidgetSimple(
-                          displayLetters:
-                              context.read<TypeUpdateNotifier>().state > 0 &&
-                                  context.read<VisibilityNotifier>().visible,
-                          resultValueNotifier: context.watch<ResultNotifier>(),
-                        ),
-                      ],
-                    ),
+                      CrossWidgetSimple(
+                        displayLetters:
+                            context.read<TypeUpdateNotifier>().state > 0 &&
+                                context.read<VisibilityNotifier>().visible,
+                        resultValueNotifier: context.watch<ResultNotifier>(),
+                      ),
+                    ],
                   ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: BottomBar(

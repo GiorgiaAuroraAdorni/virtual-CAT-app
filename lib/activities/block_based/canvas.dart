@@ -292,7 +292,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
         // }
         for (final SimpleContainer i in commands) {
           // parseToContainer("", context);
-          _blockDroppedOnCanvas(item: i, position: 0);
+          _blockDroppedOnCanvas(item: i, position: -1);
         }
       },
     );

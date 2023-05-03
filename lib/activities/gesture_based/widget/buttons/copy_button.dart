@@ -29,10 +29,8 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: widget.state.widget.selectionMode,
         builder: (BuildContext c, Widget? w) {
-          if (widget.state.widget.selectionMode.value ==
-                  SelectionModes.transition ||
-              widget.state.widget.selectionMode.value ==
-                  SelectionModes.select) {
+          if (widget.state.widget.selectionMode.value !=
+              SelectionModes.multiple) {
             activateNoState();
           } else {
             deActivateNoState();
@@ -43,7 +41,16 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
       );
 
   @override
-  void onDismiss() {}
+  void onDismiss() {
+    super.deSelect();
+    widget.state.widget.selectionMode.value = SelectionModes.transition;
+    CatLogger().addLog(
+      context: context,
+      previousCommand: "",
+      currentCommand: "copy",
+      description: CatLoggingLevel.buttonDismiss,
+    );
+  }
 
   @override
   void onSelect() {
