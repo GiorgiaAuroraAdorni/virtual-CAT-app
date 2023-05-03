@@ -1,23 +1,35 @@
 import "package:flutter/cupertino.dart";
 
-class DropDownBlocks extends StatefulWidget {
+// class DropDownBlocks extends StatefulWidget {
+//   const DropDownBlocks({
+//     required this.title,
+//     required this.items,
+//     required this.color,
+//     super.key,
+//   });
+//
+//   final String title;
+//   final List<Widget> items;
+//   final Color color;
+//
+//   @override
+//   _DropDownBlocksState createState() => _DropDownBlocksState();
+// }
+
+class DropDownBlocks extends AnimatedWidget {
   const DropDownBlocks({
     required this.title,
     required this.items,
     required this.color,
+    required this.visibility,
     super.key,
-  });
+  }) : super(listenable: visibility);
 
   final String title;
   final List<Widget> items;
   final Color color;
 
-  @override
-  _DropDownBlocksState createState() => _DropDownBlocksState();
-}
-
-class _DropDownBlocksState extends State<DropDownBlocks> {
-  bool _visibility = false;
+  final ValueNotifier<bool> visibility;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -35,37 +47,34 @@ class _DropDownBlocksState extends State<DropDownBlocks> {
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(16),
                   borderRadius: BorderRadius.zero,
-                  color: !_visibility
-                      ? widget.color
+                  color: !visibility.value
+                      ? color
                       : CupertinoColors.extraLightBackgroundGray,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        widget.title,
+                        title,
                         style: TextStyle(
-                          color: !_visibility
+                          color: !visibility.value
                               ? CupertinoColors.extraLightBackgroundGray
                               : CupertinoColors.label,
                         ),
                       ),
                     ],
                   ),
-                  onPressed: () => setState(() {
-                    _visibility = !_visibility;
-                  }),
+                  onPressed: () => visibility.value = !visibility.value,
                 ),
               ),
             ),
           ),
           Visibility(
-            visible: _visibility,
+            visible: visibility.value,
             child: ListView.separated(
-              itemCount: widget.items.length,
+              itemCount: items.length,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) =>
-                  widget.items[index],
+              itemBuilder: (BuildContext context, int index) => items[index],
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(
                 height: 5,

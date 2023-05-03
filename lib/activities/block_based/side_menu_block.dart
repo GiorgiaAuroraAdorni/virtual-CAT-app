@@ -235,6 +235,14 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
 
   final ScrollController _firstController = ScrollController();
 
+  List<ValueNotifier<bool>> _states = [
+    ValueNotifier<bool>(false),
+    ValueNotifier<bool>(false),
+    ValueNotifier<bool>(false),
+    ValueNotifier<bool>(false),
+    ValueNotifier<bool>(false),
+  ];
+
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(5),
@@ -255,6 +263,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                   items: <Widget>[
                     _buildContainerItem(container: containers[0]),
                   ],
+                  visibility: _states[0],
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
@@ -263,6 +272,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[2]),
                     _buildContainerItem(container: containers[4]),
                   ],
+                  visibility: _states[1],
                 ),
                 DropDownBlocks(
                   title:
@@ -273,6 +283,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[3]),
                     _buildContainerItem(container: containers[5]),
                   ],
+                  visibility: _states[2],
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
@@ -281,6 +292,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[10]),
                     _buildContainerItem(container: containers[9]),
                   ],
+                  visibility: _states[3],
                 ),
                 DropDownBlocks(
                   title:
@@ -291,6 +303,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[7]),
                     _buildContainerItem(container: containers[8]),
                   ],
+                  visibility: _states[4],
                 ),
               ],
             ),

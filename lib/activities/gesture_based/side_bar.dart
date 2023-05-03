@@ -103,18 +103,32 @@ class _SideBarState extends State<SideBar> {
                         .isEmpty;
 
                     final Map<int, ResultsRecord> checkNext =
-                        widget.allResults.filter(
-                      (MapEntry<int, ResultsRecord> entry) =>
-                          entry.key > SchemasReader().index &&
-                          !entry.value.done,
-                    );
+                        widget.sessionID == -1 && widget.studentID == -1
+                            ? widget.allResults.filter(
+                                (MapEntry<int, ResultsRecord> entry) =>
+                                    entry.key > SchemasReader().index,
+                              )
+                            : widget.allResults.filter(
+                                (
+                                  MapEntry<int, ResultsRecord> entry,
+                                ) =>
+                                    entry.key > SchemasReader().index &&
+                                    !entry.value.done,
+                              );
 
                     final Map<int, ResultsRecord> checkPrev =
-                        widget.allResults.filter(
-                      (MapEntry<int, ResultsRecord> entry) =>
-                          entry.key < SchemasReader().index &&
-                          !entry.value.done,
-                    );
+                        widget.sessionID == -1 && widget.studentID == -1
+                            ? widget.allResults.filter(
+                                (MapEntry<int, ResultsRecord> entry) =>
+                                    entry.key < SchemasReader().index,
+                              )
+                            : widget.allResults.filter(
+                                (
+                                  MapEntry<int, ResultsRecord> entry,
+                                ) =>
+                                    entry.key < SchemasReader().index &&
+                                    !entry.value.done,
+                              );
 
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -123,12 +137,26 @@ class _SideBarState extends State<SideBar> {
                           padding: EdgeInsets.zero,
                           onPressed: check && checkPrev.isNotEmpty
                               ? () {
-                                  final Map<int, ResultsRecord> filtered =
-                                      widget.allResults.filter(
-                                    (MapEntry<int, ResultsRecord> entry) =>
-                                        entry.key < SchemasReader().index &&
-                                        !entry.value.done,
-                                  );
+                                  final Map<int,
+                                      ResultsRecord> filtered = widget
+                                                  .sessionID ==
+                                              -1 &&
+                                          widget.studentID == -1
+                                      ? widget.allResults.filter(
+                                          (
+                                            MapEntry<int, ResultsRecord> entry,
+                                          ) =>
+                                              entry.key < SchemasReader().index,
+                                        )
+                                      : widget.allResults.filter(
+                                          (
+                                            MapEntry<int, ResultsRecord> entry,
+                                          ) =>
+                                              entry.key <
+                                                  SchemasReader().index &&
+                                              !entry.value.done,
+                                        );
+
                                   if (filtered.isEmpty) {
                                     return;
                                   }
@@ -170,12 +198,25 @@ class _SideBarState extends State<SideBar> {
                           padding: EdgeInsets.zero,
                           onPressed: check && checkNext.isNotEmpty
                               ? () {
-                                  final Map<int, ResultsRecord> filtered =
-                                      widget.allResults.filter(
-                                    (MapEntry<int, ResultsRecord> entry) =>
-                                        entry.key > SchemasReader().index &&
-                                        !entry.value.done,
-                                  );
+                                  final Map<int,
+                                      ResultsRecord> filtered = widget
+                                                  .sessionID ==
+                                              -1 &&
+                                          widget.studentID == -1
+                                      ? widget.allResults.filter(
+                                          (
+                                            MapEntry<int, ResultsRecord> entry,
+                                          ) =>
+                                              entry.key > SchemasReader().index,
+                                        )
+                                      : widget.allResults.filter(
+                                          (
+                                            MapEntry<int, ResultsRecord> entry,
+                                          ) =>
+                                              entry.key >
+                                                  SchemasReader().index &&
+                                              !entry.value.done,
+                                        );
                                   if (filtered.isEmpty) {
                                     return;
                                   }

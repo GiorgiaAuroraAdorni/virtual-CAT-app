@@ -111,7 +111,12 @@ class _BottomBarState extends State<BottomBar> {
           (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
         );
         if (res.isNotEmpty) {
-          final int nextIndex = res.keys.sorted().first;
+          final List<int> idx = res.keys
+              .sorted()
+              .filter((int e) => e > SchemasReader().currentIndex)
+              .toList();
+          final int nextIndex =
+              idx.isEmpty ? res.keys.sorted().first : idx.first;
           _reset();
           context.read<TimeKeeper>().resetTimer();
           CatLogger().resetLogs();
@@ -129,6 +134,7 @@ class _BottomBarState extends State<BottomBar> {
                 ),
               ),
             );
+
             return;
           }
 
