@@ -57,40 +57,42 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> groupsEn = <String, String>{
-  "groupPoint": "SELECT DOT",
-  "groupGoTo": "GO TO",
-  "groupColor": "COLOUR",
-  "groupCopy": "COPY",
-  "groupMirror": "MIRROR",
+  "groupPoint": "BASIC",
+  "groupGoTo": "PLACEMENT",
+  "groupColor": "COLOURING",
+  "groupCopy": "LOOPS",
+  "groupMirror": "SYMMETRY",
 };
 
 const Map<String, String> blocksEn = <String, String>{
-  "paintSingle": "COLOUR",
-  "repetitions": "how many dots?",
-  "pattern": "in which direction?",
-  "mirrorVertical": "vertically",
-  "mirrorHorizontal": "horizontally",
-  "position": "DOT",
+  //placement
+  "position": "CHOOSE DOT",
+  "goPosition": "GO TO",
+  "gotPointBlock": "dot",
   "direction": "GO TO",
+  "goDirection": "in which direction?",
+  "repetitions": "of how many dots?",
+  //colouring
+  "paintSingle": "COLOUR DOT",
+  "paintMultiple": "COLOUR PATTERN",
+  "pattern": "in which direction?",
+  "repetitionsPaint": "how many dots?",
   "fillEmpty": "FILL EMPTY",
+  //loops
   "copy": "COPY",
-  "origin": "What? (dots)",
-  "destination": "Where? (dots)",
+  "copyFirstBlock": "which dots?",
+  "copySecondBlock": "where?",
   "repeatPattern": "REPEAT",
+  "repeatFirstBlock": "which commands?",
+  "repeatSecondBlock": "where?",
+  //symmetry
   "mirrorCross": "MIRROR CROSS",
   "mirrorPoints": "MIRROR DOTS",
   "mirrorCommands": "MIRROR COMMANDS",
-  "goPosition": "Where?",
-  "goDirection": "Direction",
-  "repetitionsPaint": "repetitions",
-  "paintMultiple": "COLOUR P",
-  "repeatFirstBlock": "repeatFirstBlock",
-  "repeatSecondBlock": "repeatSecondBlock",
-  "copyFirstBlock": "copyFirstBlock",
-  "copySecondBlock": "copySecondBlock",
-  "mirrorPointsBlock": "mirrorPointsBlock",
-  "mirrorBlocksBlock": "mirrorBlocksBlock",
-  "gotPointBlock": "gotPointBlock",
+  "mirrorVertical": "vertically",
+  "mirrorHorizontal": "horizontally",
+  "mirrorPointsBlock": "which dots?",
+  "mirrorBlocksBlock": "which commands?",
 };
 
 const Map<String, String> directionsEn = <String, String>{

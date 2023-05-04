@@ -57,40 +57,42 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> groupsIt = <String, String>{
-  "groupPoint": "SCEGLI PALLINO",
-  "groupGoTo": "VAI A",
-  "groupColor": "COLORA",
-  "groupCopy": "COPIA",
-  "groupMirror": "SPECCHIA",
+  "groupPoint": "BASE",
+  "groupGoTo": "POSIZIONAMENTO",
+  "groupColor": "COLORAZIONE",
+  "groupCopy": "CICLI",
+  "groupMirror": "SIMMETRIA",
 };
 
 const Map<String, String> blocksIt = <String, String>{
-  "paintSingle": "COLORA",
-  "repetitions": "quanti pallini?",
-  "pattern": "in quale direzione?",
-  "mirrorVertical": "verticalmente",
-  "mirrorHorizontal": "orizzontalemente",
-  "position": "PALLINO",
+  //posizionamento
+  "position": "SCEGLI PALLINO",
+  "goPosition": "VAI A",
+  "gotPointBlock": "pallino",
   "direction": "VAI A",
+  "goDirection": "in quale direzione?",
+  "repetitions": "di quanti pallini?",
+  //colorazione
+  "paintSingle": "COLORA PALLINO",
+  "paintMultiple": "COLORA PATTERN",
+  "pattern": "in quale direzione?",
+  "repetitionsPaint": "quanti pallini?",
   "fillEmpty": "RIEMPI VUOTI",
+  //cicli
   "copy": "COPIA",
-  "origin": "Cosa? (pallini)",
-  "destination": "Dove? (pallini)",
+  "copyFirstBlock": "quali pallini?",
+  "copySecondBlock": "dove?",
   "repeatPattern": "RIPETI",
+  "repeatFirstBlock": "quali comandi?",
+  "repeatSecondBlock": "dove?",
+  //simmetria
   "mirrorCross": "SPECCHIA CROCE",
   "mirrorPoints": "SPECCHIA PALLINI",
   "mirrorCommands": "SPECCHIA COMANDI",
-  "goPosition": "Dove?",
-  "goDirection": "Direzione",
-  "repetitionsPaint": "repetitions",
-  "paintMultiple": "COLOUR P",
-  "repeatFirstBlock": "repeatFirstBlock",
-  "repeatSecondBlock": "repeatSecondBlock",
-  "copyFirstBlock": "copyFirstBlock",
-  "copySecondBlock": "copySecondBlock",
-  "mirrorPointsBlock": "mirrorPointsBlock",
-  "mirrorBlocksBlock": "mirrorBlocksBlock",
-  "gotPointBlock": "gotPointBlock",
+  "mirrorVertical": "verticalmente",
+  "mirrorHorizontal": "orizzontalemente",
+  "mirrorPointsBlock": "quali pallini?",
+  "mirrorBlocksBlock": "quali comandi?",
 };
 
 const Map<String, String> directionsIt = <String, String>{

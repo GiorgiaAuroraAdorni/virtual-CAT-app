@@ -57,40 +57,42 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> groupsDe = <String, String>{
-  "groupPoint": "WÄHLEN SIE PUNKT",
-  "groupGoTo": "GEHE ZU",
-  "groupColor": "FÄRBT",
-  "groupCopy": "KOPIEREN",
-  "groupMirror": "SPIEGELNDE",
+  "groupPoint": "BASIC",
+  "groupGoTo": "PLATZIERUNG",
+  "groupColor": "FÄRBUNG",
+  "groupCopy": "SCHLEIFEN",
+  "groupMirror": "SYMMETRIE",
 };
 
 const Map<String, String> blocksDe = <String, String>{
-  "paintSingle": "FÄRBT",
-  "repetitions": "wie viele Punkte?",
-  "pattern": "in welche Richtung?",
-  "mirrorVertical": "vertikal",
-  "mirrorHorizontal": "horizontal",
-  "position": "PUNKT",
+  //placement
+  "position": "PUNKT WÄHLEN",
+  "goPosition": "GEHE ZU",
+  "gotPointBlock": "Punkt",
   "direction": "GEHE ZU",
+  "goDirection": "in welche Richtung?",
+  "repetitions": "um wie viele Punkte?",
+  //colouring
+  "paintSingle": "FARBE PUNKT",
+  "paintMultiple": "FARBE MUSTER",
+  "pattern": "in welche Richtung?",
+  "repetitionsPaint": "wie viele Punkte?",
   "fillEmpty": "FÜLLEN LEER",
+  //loops
   "copy": "KOPIEREN",
-  "origin": "Was? (Punkte)",
-  "destination": "Wo? (Punkte)",
+  "copyFirstBlock": "welche Punkte?",
+  "copySecondBlock": "wo?",
   "repeatPattern": "WIEDERHOLEN",
+  "repeatFirstBlock": "welche Befehle?",
+  "repeatSecondBlock": "wo?",
+  //symmetry
   "mirrorCross": "SPIEGELNDE KREUZ",
   "mirrorPoints": "SPIEGELNDE PUNKTE",
   "mirrorCommands": "SPIEGELNDE BEFEHLE",
-  "goPosition": "Dove?",
-  "goDirection": "Direzione",
-  "repetitionsPaint": "repetitions",
-  "paintMultiple": "COLOUR P",
-  "repeatFirstBlock": "repeatFirstBlock",
-  "repeatSecondBlock": "repeatSecondBlock",
-  "copyFirstBlock": "copyFirstBlock",
-  "copySecondBlock": "copySecondBlock",
-  "mirrorPointsBlock": "mirrorPointsBlock",
-  "mirrorBlocksBlock": "mirrorBlocksBlock",
-  "gotPointBlock": "gotPointBlock",
+  "mirrorVertical": "vertikal",
+  "mirrorHorizontal": "horizontal",
+  "mirrorPointsBlock": "welche Punkte?",
+  "mirrorBlocksBlock": "welche Befehle?",
 };
 
 const Map<String, String> directionsDe = <String, String>{

@@ -57,40 +57,42 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> groupsFr = <String, String>{
-  "groupPoint": "CHOISISSEZ POINT",
-  "groupGoTo": "ALLER À",
-  "groupColor": "COLORIE",
-  "groupCopy": "COPIE",
-  "groupMirror": "MIROIR",
+  "groupPoint": "BASE",
+  "groupGoTo": "POSITIONNEMENT",
+  "groupColor": "COLORATION",
+  "groupCopy": "CYCLES",
+  "groupMirror": "SYMÉTRIE",
 };
 
 const Map<String, String> blocksFr = <String, String>{
-  "paintSingle": "COLORIE",
-  "repetitions": "combien de points ?",
-  "pattern": "dans quelle direction?",
-  "mirrorVertical": "verticaux",
-  "mirrorHorizontal": "horizontaux",
-  "position": "POINT",
+  //placement
+  "position": "CHOISIR UN POINT",
+  "goPosition": "ALLER À",
+  "gotPointBlock": "point",
   "direction": "ALLER À",
+  "goDirection": "dans quelle direction ?",
+  "repetitions": "de combien de points ?",
+  //colouring
+  "paintSingle": "COLORIER UN POINT",
+  "paintMultiple": "COLORIER UN MOTIF",
+  "pattern": "dans quelle direction ?",
+  "repetitionsPaint": "combien de points ?",
   "fillEmpty": "REMPLIR VIDE",
+  //loops
   "copy": "COPIE",
-  "origin": "Quoi (points)",
-  "destination": "Où ? (points)",
+  "copyFirstBlock": "quels points ?",
+  "copySecondBlock": "où ?",
   "repeatPattern": "RÉPÉTEZ",
+  "repeatFirstBlock": "quelles commandes ?",
+  "repeatSecondBlock": "où ?",
+  //symmetry
   "mirrorCross": "MIROIR CROIX",
   "mirrorPoints": "MIROIR POINTS",
   "mirrorCommands": "MIROIR COMMANDES",
-  "goPosition": "Dove?",
-  "goDirection": "Direzione",
-  "repetitionsPaint": "repetitions",
-  "paintMultiple": "COLOUR P",
-  "repeatFirstBlock": "repeatFirstBlock",
-  "repeatSecondBlock": "repeatSecondBlock",
-  "copyFirstBlock": "copyFirstBlock",
-  "copySecondBlock": "copySecondBlock",
-  "mirrorPointsBlock": "mirrorPointsBlock",
-  "mirrorBlocksBlock": "mirrorBlocksBlock",
-  "gotPointBlock": "gotPointBlock",
+  "mirrorVertical": "verticaux",
+  "mirrorHorizontal": "horizontaux",
+  "mirrorPointsBlock": "quels points ?",
+  "mirrorBlocksBlock": "quelles commandes ?",
 };
 
 const Map<String, String> directionsFr = <String, String>{
