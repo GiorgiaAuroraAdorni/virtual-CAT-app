@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>mirror</title>
+    <g id="mirror" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" stroke="#000000" stroke-width="20" x="13" y="13" width="1000" height="1000"></rect>
+        <path d="M13,19 C346.333333,96.4660432 513,259.472055 513,508.018036 C513,756.564017 346.333333,920.224672 13,999 L13,19 Z" id="Path-9" stroke="#000000" stroke-width="20" fill="#FFFFFF"></path>
+        <path d="M513,28 C846.333333,105.466043 1013,268.472055 1013,517.018036 C1013,765.564017 846.333333,929.224672 513,1008 L513,28 Z" id="Path-9-Copy" stroke="#000000" stroke-width="20" fill="#FFFFFF" transform="translate(763.000000, 518.000000) scale(-1, 1) translate(-763.000000, -518.000000) "></path>
+        <g id="Group" transform="translate(503.000000, 3.000000)" fill="#000000">
+            <rect id="Rectangle" x="0" y="0" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy" x="0" y="840.703125" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-8" x="0" y="960.234375" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-2" x="0" y="720.175781" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-3" x="0" y="120.527344" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-4" x="0" y="240.058594" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-5" x="0" y="600.644531" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-6" x="0" y="480.117188" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-7" x="0" y="360.585938" width="20" height="59.765625"></rect>
+        </g>
+        <g id="Group" transform="translate(513.000000, 513.000000) rotate(90.000000) translate(-513.000000, -513.000000) translate(503.000000, 3.000000)" fill="#000000">
+            <rect id="Rectangle" x="0" y="0" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy" x="0" y="840.703125" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-8" x="0" y="960.234375" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-2" x="0" y="720.175781" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-3" x="0" y="120.527344" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-4" x="0" y="240.058594" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-5" x="0" y="600.644531" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-6" x="0" y="480.117188" width="20" height="59.765625"></rect>
+            <rect id="Rectangle-Copy-7" x="0" y="360.585938" width="20" height="59.765625"></rect>
+        </g>
+    </g>
+</svg>
