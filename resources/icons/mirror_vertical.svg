@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1060px" height="1063px" viewBox="0 0 1060 1063" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>mirror_vertical</title>
+    <defs>
+        <path d="M115.000007,769.230769 L115,999.996 L113.47652,999.983914 C50.6314289,998.964977 0,947.702669 0,884.614757 C0,821.017846 51.4517238,769.438128 115.000007,769.230769 Z M115.000007,384.615385 L115,615.38 L113.47652,615.36853 C50.6314289,614.349592 0,563.087284 0,499.999373 C0,436.402461 51.4517238,384.822743 115.000007,384.615385 Z M115.000007,-2.4124653e-13 L115,230.765 L113.47652,230.753145 C50.6314289,229.734208 0,178.4719 0,115.383988 C0,51.7870764 51.4517238,0.207358876 115.000007,-2.41315756e-13 Z" id="path-1"></path>
+    </defs>
     <g id="mirror_vertical" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group-2" transform="translate(29.000000, 1.000000)">
-            <g id="Group" transform="translate(0.000000, 64.000000)" stroke="#FFFFFF" stroke-width="30">
-                <circle id="Oval" transform="translate(626.000000, 100.000000) rotate(90.000000) translate(-626.000000, -100.000000) " cx="626" cy="100" r="85"></circle>
-                <circle id="Oval-Copy-3" transform="translate(626.000000, 332.000000) rotate(90.000000) translate(-626.000000, -332.000000) " cx="626" cy="332" r="85"></circle>
-                <circle id="Oval-Copy" transform="translate(626.000000, 796.000000) rotate(90.000000) translate(-626.000000, -796.000000) " cx="626" cy="796" r="85"></circle>
-                <circle id="Oval-Copy-10" transform="translate(626.000000, 564.000000) rotate(90.000000) translate(-626.000000, -564.000000) " cx="626" cy="564" r="85"></circle>
-                <circle id="Oval-Copy-5" fill="#FFFFFF" transform="translate(332.000000, 100.000000) rotate(90.000000) translate(-332.000000, -100.000000) " cx="332" cy="100" r="85"></circle>
-                <circle id="Oval-Copy-4" fill="#FFFFFF" transform="translate(332.000000, 332.000000) rotate(90.000000) translate(-332.000000, -332.000000) " cx="332" cy="332" r="85"></circle>
-                <circle id="Oval-Copy-2" fill="#FFFFFF" transform="translate(332.000000, 796.000000) rotate(90.000000) translate(-332.000000, -796.000000) " cx="332" cy="796" r="85"></circle>
-                <circle id="Oval-Copy-11" fill="#FFFFFF" transform="translate(332.000000, 564.000000) rotate(90.000000) translate(-332.000000, -564.000000) " cx="332" cy="564" r="85"></circle>
-                <circle id="Oval-Copy-6" fill="#FFFFFF" transform="translate(100.000000, 332.000000) rotate(90.000000) translate(-100.000000, -332.000000) " cx="100" cy="332" r="85"></circle>
-                <circle id="Oval-Copy-12" fill="#FFFFFF" transform="translate(100.000000, 564.000000) rotate(90.000000) translate(-100.000000, -564.000000) " cx="100" cy="564" r="85"></circle>
-                <circle id="Oval-Copy-7" transform="translate(858.000000, 332.000000) rotate(90.000000) translate(-858.000000, -332.000000) " cx="858" cy="332" r="85"></circle>
-                <circle id="Oval-Copy-13" transform="translate(858.000000, 564.000000) rotate(90.000000) translate(-858.000000, -564.000000) " cx="858" cy="564" r="85"></circle>
-            </g>
-            <g id="Group-3-Copy" transform="translate(464.000000, 0.000000)" fill="#FFFFFF">
-                <rect id="Rectangle" x="0" y="120" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-8" x="0" y="0" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy" x="0" y="964" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-2" x="0" y="843" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-3" x="0" y="241" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-4" x="0" y="361" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-5" x="0" y="723" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-6" x="0" y="602" width="30" height="60"></rect>
-                <rect id="Rectangle-Copy-7" x="0" y="482" width="30" height="60"></rect>
-            </g>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="145.384615" cy="145.384615" r="115.384615"></circle>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="914.615385" cy="145.384615" r="115.384615"></circle>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="145.384615" cy="530" r="115.384615"></circle>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="914.615385" cy="530" r="115.384615"></circle>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="145.384615" cy="914.615385" r="115.384615"></circle>
+        <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="914.615385" cy="914.615385" r="115.384615"></circle>
+        <g id="Rectangle" transform="translate(414.000000, 29.000627)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Combined-Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
         </g>
+        <circle id="Oval-Copy-6" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="529.615385" cy="144.384615" r="115.384615"></circle>
+        <circle id="Oval-Copy-5" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="529.615385" cy="529" r="115.384615"></circle>
+        <circle id="Oval-Copy-4" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="529.615385" cy="913.615385" r="115.384615"></circle>
+        <line x1="530" y1="2.84217094e-13" x2="529" y2="1063" id="Path-18" stroke="#000000" stroke-width="60"></line>
     </g>
 </svg>
