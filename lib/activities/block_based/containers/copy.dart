@@ -144,7 +144,7 @@ class _Copy extends State<CopyCommands> {
                       width: 5,
                     ),
                     SvgPicture.asset(
-                      "resources/icon/patterns_icon.svg",
+                      "resources/icons/pattern.svg",
                       height: 24,
                       width: 24,
                       colorFilter: const ColorFilter.mode(

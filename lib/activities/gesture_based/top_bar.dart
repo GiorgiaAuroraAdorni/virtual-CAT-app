@@ -89,7 +89,7 @@ class _TopBarState extends State<TopBar> {
                       child: CupertinoButton(
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
-                          "resources/icon/code.svg",
+                          "resources/icons/code.svg",
                           height: 42,
                           width: 42,
                           fit: BoxFit.cover,
@@ -118,7 +118,7 @@ class _TopBarState extends State<TopBar> {
                       child: CupertinoButton(
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
-                          "resources/icon/block.svg",
+                          "resources/icons/block.svg",
                           height: 42,
                           width: 42,
                           fit: BoxFit.cover,
@@ -147,7 +147,7 @@ class _TopBarState extends State<TopBar> {
                       child: CupertinoButton(
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
-                          "resources/icon/gesture.svg",
+                          "resources/icons/gesture.svg",
                           height: 42,
                           width: 42,
                           fit: BoxFit.cover,
@@ -260,7 +260,7 @@ class _TopBarState extends State<TopBar> {
                 // CupertinoButton(
                 //   padding: EdgeInsets.zero,
                 //   child: SvgPicture.asset(
-                //     "resources/icon/code.svg",
+                //     "resources/icons/code.svg",
                 //     height: 52,
                 //     width: 52,
                 //   ),

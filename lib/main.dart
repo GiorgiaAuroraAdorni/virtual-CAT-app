@@ -59,10 +59,10 @@ class LocaleProvider with ChangeNotifier {
   ];
 
   final Map<Locale, List<String>> _localeMap = <Locale, List<String>>{
-    const Locale("it", ""): <String>["resources/icon/it.svg", "Italiano"],
-    const Locale("de", ""): <String>["resources/icon/de.svg", "Deutsch"],
-    const Locale("fr", ""): <String>["resources/icon/fr.svg", "Français"],
-    const Locale("en", ""): <String>["resources/icon/gb.svg", "English"],
+    const Locale("it", ""): <String>["resources/icons/it.svg", "Italiano"],
+    const Locale("de", ""): <String>["resources/icons/de.svg", "Deutsch"],
+    const Locale("fr", ""): <String>["resources/icons/fr.svg", "Français"],
+    const Locale("en", ""): <String>["resources/icons/gb.svg", "English"],
   };
 
   /// `setLocale` is a function that takes a `Locale` object as

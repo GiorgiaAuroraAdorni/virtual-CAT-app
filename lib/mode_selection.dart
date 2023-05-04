@@ -28,7 +28,7 @@ class ModeSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        "resources/icon/flag.checkered.2.crossed.svg",
+                        "resources/icons/flag.checkered.2.crossed.svg",
                         height: 100,
                         width: 100,
                         colorFilter: const ColorFilter.mode(
@@ -76,7 +76,7 @@ class ModeSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        "resources/icon/gamecontroller.svg",
+                        "resources/icons/gamecontroller.svg",
                         height: 100,
                         width: 100,
                         colorFilter: const ColorFilter.mode(

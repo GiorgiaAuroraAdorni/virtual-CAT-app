@@ -23,7 +23,7 @@ class SessionSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        "resources/icon/new_session.svg",
+                        "resources/icons/new_session.svg",
                         height: 150,
                         width: 150,
                       ),
@@ -52,7 +52,7 @@ class SessionSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        "resources/icon/resume_session.svg",
+                        "resources/icons/resume_session.svg",
                         height: 150,
                         width: 150,
                       ),

@@ -41,7 +41,7 @@ class StudentSelection extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             SvgPicture.asset(
-                              "resources/icon/new_user.svg",
+                              "resources/icons/new_user.svg",
                               height: 150,
                               width: 150,
                             ),
@@ -71,7 +71,7 @@ class StudentSelection extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             SvgPicture.asset(
-                              "resources/icon/select_user.svg",
+                              "resources/icons/select_user.svg",
                               height: 150,
                               width: 150,
                             ),

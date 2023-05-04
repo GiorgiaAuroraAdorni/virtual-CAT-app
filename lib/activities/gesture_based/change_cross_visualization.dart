@@ -39,7 +39,7 @@ class ChangeCrossVisualization extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(1000),
                   child: SvgPicture.asset(
-                    "resources/icon/closed_eye.svg",
+                    "resources/icons/closed_eye.svg",
                     height: 45,
                     width: 45,
                     fit: BoxFit.cover,
@@ -75,7 +75,7 @@ class ChangeCrossVisualization extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(1000),
                   child: SvgPicture.asset(
-                    "resources/icon/open_eye.svg",
+                    "resources/icons/open_eye.svg",
                     height: 45,
                     width: 45,
                     fit: BoxFit.cover,

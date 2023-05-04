@@ -92,7 +92,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - resources/sequence/
-    - resources/icon/
+    - resources/icons/
     - resources/gifs/
 
   # To add custom fonts to your application, add a fonts section here,
@@ -121,4 +121,4 @@ flutter_icons:
   macos: true
   windows: true
   web: true
-  image_path: "resources/icon/cat.png"
+  image_path: "resources/icons/cat.png"

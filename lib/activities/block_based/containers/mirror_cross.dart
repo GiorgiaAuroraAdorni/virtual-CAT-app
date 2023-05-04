@@ -82,7 +82,7 @@ class _MirrorHorizontal extends State<MirrorCross> {
                   ColorFiltered(
                     colorFilter: invert,
                     child: SvgPicture.asset(
-                      "resources/icon/gesture.svg",
+                      "resources/icons/gesture.svg",
                       height: 42,
                       width: 42,
                       colorFilter: const ColorFilter.mode(
