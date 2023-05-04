@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pattern</title>
+    <g id="pattern" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="30" transform="translate(629.000000, 165.000000) rotate(90.000000) translate(-629.000000, -165.000000) " cx="629" cy="165" r="85"></circle>
+        <circle id="Oval-Copy-3" stroke="#FFFFFF" stroke-width="30" fill="#FFFFFF" transform="translate(629.000000, 397.000000) rotate(90.000000) translate(-629.000000, -397.000000) " cx="629" cy="397" r="85"></circle>
+        <circle id="Oval-Copy" stroke="#FFFFFF" stroke-width="30" transform="translate(629.000000, 861.000000) rotate(90.000000) translate(-629.000000, -861.000000) " cx="629" cy="861" r="85"></circle>
+        <circle id="Oval-Copy-10" stroke="#FFFFFF" stroke-width="30" transform="translate(629.000000, 629.000000) rotate(90.000000) translate(-629.000000, -629.000000) " cx="629" cy="629" r="85"></circle>
+        <circle id="Oval-Copy-5" stroke="#FFFFFF" stroke-width="30" transform="translate(397.000000, 165.000000) rotate(90.000000) translate(-397.000000, -165.000000) " cx="397" cy="165" r="85"></circle>
+        <circle id="Oval-Copy-4" stroke="#FFFFFF" stroke-width="30" fill="#FFFFFF" transform="translate(397.000000, 397.000000) rotate(90.000000) translate(-397.000000, -397.000000) " cx="397" cy="397" r="85"></circle>
+        <circle id="Oval-Copy-2" stroke="#FFFFFF" stroke-width="30" transform="translate(397.000000, 861.000000) rotate(90.000000) translate(-397.000000, -861.000000) " cx="397" cy="861" r="85"></circle>
+        <circle id="Oval-Copy-11" stroke="#FFFFFF" stroke-width="30" transform="translate(397.000000, 629.000000) rotate(90.000000) translate(-397.000000, -629.000000) " cx="397" cy="629" r="85"></circle>
+        <circle id="Oval-Copy-6" stroke="#FFFFFF" stroke-width="30" transform="translate(165.000000, 397.000000) rotate(90.000000) translate(-165.000000, -397.000000) " cx="165" cy="397" r="85"></circle>
+        <circle id="Oval-Copy-12" stroke="#FFFFFF" stroke-width="30" fill="#FFFFFF" transform="translate(165.000000, 629.000000) rotate(90.000000) translate(-165.000000, -629.000000) " cx="165" cy="629" r="85"></circle>
+        <circle id="Oval-Copy-7" stroke="#FFFFFF" stroke-width="30" transform="translate(861.000000, 397.000000) rotate(90.000000) translate(-861.000000, -397.000000) " cx="861" cy="397" r="85"></circle>
+        <circle id="Oval-Copy-13" stroke="#FFFFFF" stroke-width="30" fill="#FFFFFF" transform="translate(861.000000, 629.000000) rotate(90.000000) translate(-861.000000, -629.000000) " cx="861" cy="629" r="85"></circle>
+        <g id="Group-2" transform="translate(174.772078, 396.500000)" stroke="#FFFFFF" stroke-linecap="round" stroke-width="20">
+            <line x1="508.431721" y1="30.5" x2="473.431721" y2="30.5" id="Path-17-Copy-4" transform="translate(490.931721, 30.500000) scale(-1, 1) rotate(-45.000000) translate(-490.931721, -30.500000) "></line>
+            <line x1="549.431721" y1="70.5" x2="514.431721" y2="70.5" id="Path-17-Copy-5" transform="translate(531.931721, 70.500000) scale(-1, 1) rotate(-45.000000) translate(-531.931721, -70.500000) "></line>
+            <line x1="594.431721" y1="116.5" x2="559.431721" y2="116.5" id="Path-17-Copy-6" transform="translate(576.931721, 116.500000) scale(-1, 1) rotate(-45.000000) translate(-576.931721, -116.500000) "></line>
+            <line x1="691.431721" y1="211.5" x2="656.431721" y2="211.5" id="Path-17-Copy-7" transform="translate(673.931721, 211.500000) scale(-1, 1) rotate(-45.000000) translate(-673.931721, -211.500000) "></line>
+            <line x1="640.431721" y1="162.5" x2="605.431721" y2="162.5" id="Path-17-Copy-8" transform="translate(622.931721, 162.500000) scale(-1, 1) rotate(-45.000000) translate(-622.931721, -162.500000) "></line>
+            <line x1="454.659644" y1="0.5" x2="419.659644" y2="0.5" id="Path-17"></line>
+            <line x1="391.659644" y1="0.5" x2="356.659644" y2="0.5" id="Path-17-Copy"></line>
+            <line x1="328.659644" y1="0.5" x2="293.659644" y2="0.5" id="Path-17-Copy-2"></line>
+            <line x1="266.227922" y1="0.5" x2="231.227922" y2="0.5" id="Path-17-Copy-3"></line>
+            <line x1="213.227922" y1="30.5" x2="178.227922" y2="30.5" id="Path-17-Copy-4" transform="translate(195.727922, 30.500000) rotate(-45.000000) translate(-195.727922, -30.500000) "></line>
+            <line x1="172.227922" y1="70.5" x2="137.227922" y2="70.5" id="Path-17-Copy-5" transform="translate(154.727922, 70.500000) rotate(-45.000000) translate(-154.727922, -70.500000) "></line>
+            <line x1="127.227922" y1="116.5" x2="92.2279221" y2="116.5" id="Path-17-Copy-6" transform="translate(109.727922, 116.500000) rotate(-45.000000) translate(-109.727922, -116.500000) "></line>
+            <line x1="30.2279221" y1="211.5" x2="-4.77207794" y2="211.5" id="Path-17-Copy-7" transform="translate(12.727922, 211.500000) rotate(-45.000000) translate(-12.727922, -211.500000) "></line>
+            <line x1="81.2279221" y1="162.5" x2="46.2279221" y2="162.5" id="Path-17-Copy-8" transform="translate(63.727922, 162.500000) rotate(-45.000000) translate(-63.727922, -162.500000) "></line>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>mirror_menu</title>
+    <g id="mirror_menu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(-0.000000, 493.000000)" fill="#FFFFFF">
+            <g id="dotted-line" transform="translate(513.000000, 20.000000) rotate(90.000000) translate(-513.000000, -20.000000) ">
+                <polygon id="Rectangle" transform="translate(996.000000, 20.000000) rotate(90.000000) translate(-996.000000, -20.000000) " points="976 -10 1016 -10 1016 50 976 50"></polygon>
+                <polygon id="Rectangle-Copy" transform="translate(150.000000, 20.000000) rotate(90.000000) translate(-150.000000, -20.000000) " points="130 -10 170 -10 170 50 130 50"></polygon>
+                <polygon id="Rectangle-Copy-8" transform="translate(30.000000, 20.000000) rotate(90.000000) translate(-30.000000, -20.000000) " points="10 -10 50 -10 50 50 10 50"></polygon>
+                <polygon id="Rectangle-Copy-2" transform="translate(272.000000, 20.000000) rotate(90.000000) translate(-272.000000, -20.000000) " points="252 -10 292 -10 292 50 252 50"></polygon>
+                <polygon id="Rectangle-Copy-3" transform="translate(875.000000, 20.000000) rotate(90.000000) translate(-875.000000, -20.000000) " points="855 -10 895 -10 895 50 855 50"></polygon>
+                <polygon id="Rectangle-Copy-4" transform="translate(754.000000, 20.000000) rotate(90.000000) translate(-754.000000, -20.000000) " points="734 -10 774 -10 774 50 734 50"></polygon>
+                <polygon id="Rectangle-Copy-5" transform="translate(392.000000, 20.000000) rotate(90.000000) translate(-392.000000, -20.000000) " points="372 -10 412 -10 412 50 372 50"></polygon>
+                <polygon id="Rectangle-Copy-6" transform="translate(514.000000, 20.000000) rotate(90.000000) translate(-514.000000, -20.000000) " points="494 -10 534 -10 534 50 494 50"></polygon>
+                <polygon id="Rectangle-Copy-7" transform="translate(633.000000, 20.000000) rotate(90.000000) translate(-633.000000, -20.000000) " points="613 -10 653 -10 653 50 613 50"></polygon>
+            </g>
+        </g>
+        <path d="M180,493 L120,493 L120,533 L180,533 L180,493 Z M0,23 C333.19658,98.4719903 504.083276,255.136861 512.660087,492.994611 L484,493 L484,533 L512.585613,533.004361 C512.861871,526.077488 513,519.082046 513,512.018036 C513,505.620216 512.886696,499.279074 512.660087,492.994611 L526.331299,492.994611 C534.690764,255.136861 701.246998,98.4719903 1026,23 L1026,493 L966,493 L966,533 L1026,533 L1026,1003 C702.140447,926.463572 535.608409,769.798359 526.403886,533.004361 L544,533 L544,493 L526.331299,492.994611 C526.110433,499.279074 526,505.620216 526,512.018036 C526,519.082046 526.134629,526.077488 526.403886,533.004361 L512.585613,533.004361 C503.141773,769.798359 332.279902,926.463572 0,1003 L-3.54702934e-11,533 L60,533 L60,493 L-3.54702934e-11,493 L0,23 Z M302,493 L242,493 L242,533 L302,533 L302,493 Z M905,493 L845,493 L845,533 L905,533 L905,493 Z M784,493 L724,493 L724,533 L784,533 L784,493 Z M422,493 L362,493 L362,533 L422,533 L422,493 Z M663,493 L603,493 L603,533 L663,533 L663,493 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+    </g>
+</svg>
