@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1026px" height="1026px" viewBox="0 0 1026 1026" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>mirror_vertical</title>
+    <g id="mirror_vertical" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(29.000000, 1.000000)">
+            <g id="Group" transform="translate(0.000000, 64.000000)" stroke="#FFFFFF" stroke-width="30">
+                <circle id="Oval" transform="translate(626.000000, 100.000000) rotate(90.000000) translate(-626.000000, -100.000000) " cx="626" cy="100" r="85"></circle>
+                <circle id="Oval-Copy-3" transform="translate(626.000000, 332.000000) rotate(90.000000) translate(-626.000000, -332.000000) " cx="626" cy="332" r="85"></circle>
+                <circle id="Oval-Copy" transform="translate(626.000000, 796.000000) rotate(90.000000) translate(-626.000000, -796.000000) " cx="626" cy="796" r="85"></circle>
+                <circle id="Oval-Copy-10" transform="translate(626.000000, 564.000000) rotate(90.000000) translate(-626.000000, -564.000000) " cx="626" cy="564" r="85"></circle>
+                <circle id="Oval-Copy-5" fill="#FFFFFF" transform="translate(332.000000, 100.000000) rotate(90.000000) translate(-332.000000, -100.000000) " cx="332" cy="100" r="85"></circle>
+                <circle id="Oval-Copy-4" fill="#FFFFFF" transform="translate(332.000000, 332.000000) rotate(90.000000) translate(-332.000000, -332.000000) " cx="332" cy="332" r="85"></circle>
+                <circle id="Oval-Copy-2" fill="#FFFFFF" transform="translate(332.000000, 796.000000) rotate(90.000000) translate(-332.000000, -796.000000) " cx="332" cy="796" r="85"></circle>
+                <circle id="Oval-Copy-11" fill="#FFFFFF" transform="translate(332.000000, 564.000000) rotate(90.000000) translate(-332.000000, -564.000000) " cx="332" cy="564" r="85"></circle>
+                <circle id="Oval-Copy-6" fill="#FFFFFF" transform="translate(100.000000, 332.000000) rotate(90.000000) translate(-100.000000, -332.000000) " cx="100" cy="332" r="85"></circle>
+                <circle id="Oval-Copy-12" fill="#FFFFFF" transform="translate(100.000000, 564.000000) rotate(90.000000) translate(-100.000000, -564.000000) " cx="100" cy="564" r="85"></circle>
+                <circle id="Oval-Copy-7" transform="translate(858.000000, 332.000000) rotate(90.000000) translate(-858.000000, -332.000000) " cx="858" cy="332" r="85"></circle>
+                <circle id="Oval-Copy-13" transform="translate(858.000000, 564.000000) rotate(90.000000) translate(-858.000000, -564.000000) " cx="858" cy="564" r="85"></circle>
+            </g>
+            <g id="Group-3-Copy" transform="translate(464.000000, 0.000000)" fill="#FFFFFF">
+                <rect id="Rectangle" x="0" y="120" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-8" x="0" y="0" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy" x="0" y="964" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-2" x="0" y="843" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-3" x="0" y="241" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-4" x="0" y="361" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-5" x="0" y="723" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-6" x="0" y="602" width="30" height="60"></rect>
+                <rect id="Rectangle-Copy-7" x="0" y="482" width="30" height="60"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
