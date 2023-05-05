@@ -90,7 +90,7 @@ const Map<String, String> blocksIt = <String, String>{
   "mirrorPoints": "SPECCHIA PALLINI",
   "mirrorCommands": "SPECCHIA COMANDI",
   "mirrorVertical": "verticalmente",
-  "mirrorHorizontal": "orizzontalemente",
+  "mirrorHorizontal": "orizzontalmente",
   "mirrorPointsBlock": "quali pallini?",
   "mirrorBlocksBlock": "quali comandi?",
 };
