@@ -4,6 +4,8 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
+import "package:flutter_svg/svg.dart";
 
 class MirrorContainerPoints extends SimpleContainer {
   MirrorContainerPoints({
@@ -36,16 +38,16 @@ class MirrorContainerPoints extends SimpleContainer {
   ];
 
   final List<Widget> directions2 = <Widget>[
-    const Icon(
-      CupertinoIcons.rectangle_grid_1x2,
-      color: CupertinoColors.black,
-    ),
     Transform.rotate(
       angle: 90 * math.pi / 180,
       child: const Icon(
-        CupertinoIcons.rectangle_grid_1x2,
+        CupertinoIcons.square_fill_line_vertical_square,
         color: CupertinoColors.black,
       ),
+    ),
+    const Icon(
+      CupertinoIcons.square_fill_line_vertical_square,
+      color: CupertinoColors.black,
     ),
   ];
 
