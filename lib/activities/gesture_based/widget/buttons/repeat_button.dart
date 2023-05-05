@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 
 /// A button that repeats a callback while it is held down
 class RepeatButton extends ActionButton {
@@ -71,7 +72,7 @@ class RepeatButtonState extends ActionButtonState<RepeatButton> {
 
   @override
   void initState() {
-    super.icon = CupertinoIcons.repeat;
+    super.icon = SFSymbols.arrow_2_squarepath;
     super.initState();
   }
 }

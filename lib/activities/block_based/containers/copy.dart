@@ -28,6 +28,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
 
@@ -126,55 +127,50 @@ class _Copy extends State<CopyCommands> {
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
                   return Text(
-                    CATLocalizations.of(context).blocks["repeatPattern"]!,
+                    "${CATLocalizations.of(context).blocks["repeatPattern"]!}\n"
+                    "${CATLocalizations.of(context).blocks["repeatFirstBlock"]!}",
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
                   );
                 }
 
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Icon(
-                      CupertinoIcons.repeat,
+                return const Icon(
+                      SFSymbols.arrow_2_squarepath,
                       color: CupertinoColors.systemBackground,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    SvgPicture.asset(
-                      "resources/icons/pattern.svg",
-                      height: 24,
-                      width: 24,
-                      colorFilter: const ColorFilter.mode(
-                        CupertinoColors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ],
                 );
               },
             ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            Text(
-              CATLocalizations.of(context).blocks["repeatFirstBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
+            const SizedBox(
+              height: 5,
             ),
             commands(),
-            Text(
-              CATLocalizations.of(context).blocks["repeatSecondBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
+            const SizedBox(
+              height: 5,
             ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
+            AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) {
+                if (context.read<TypeUpdateNotifier>().state == 2) {
+                  return Text(
+                    CATLocalizations.of(context).blocks["repeatSecondBlock"]!,
+                    style: const TextStyle(
+                      color: CupertinoColors.systemBackground,
+                    ),
+                  );
+                }
+
+                return const Icon(
+                  SFSymbols.doc_on_doc_fill,
+                  color: CupertinoColors.systemBackground,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+
             positions(),
           ],
         ),

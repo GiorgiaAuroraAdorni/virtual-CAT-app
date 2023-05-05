@@ -9,6 +9,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
 /// `Copy` is a stateful widget that displays a copy of the `item` passed to it
@@ -111,7 +112,9 @@ class _Copy extends State<CopyCells> {
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
                   return Text(
-                    CATLocalizations.of(context).blocks["copy"]!,
+                    "${CATLocalizations.of(context).blocks["copy"]!}\n"
+                    "${CATLocalizations.of(context).blocks["copyFirstBlock"]!}",
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
@@ -119,29 +122,38 @@ class _Copy extends State<CopyCells> {
                 }
 
                 return const Icon(
-                  CupertinoIcons.doc_on_doc,
+                  SFSymbols.doc_on_doc,
                   color: CupertinoColors.systemBackground,
                 );
               },
             ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            Text(
-              CATLocalizations.of(context).blocks["copyFirstBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
+            const SizedBox(
+              height: 5,
             ),
             origins(),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            Text(
-              CATLocalizations.of(context).blocks["copySecondBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
+            const SizedBox(
+              height: 5,
+            ),
+            AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) {
+                if (context.read<TypeUpdateNotifier>().state == 2) {
+                  return Text(
+                    CATLocalizations.of(context).blocks["copySecondBlock"]!,
+                    style: const TextStyle(
+                      color: CupertinoColors.systemBackground,
+                    ),
+                  );
+                }
+
+                return const Icon(
+                  SFSymbols.doc_on_doc_fill,
+                  color: CupertinoColors.systemBackground,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 5,
             ),
             positions(),
           ],

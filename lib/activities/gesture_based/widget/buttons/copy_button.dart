@@ -3,6 +3,7 @@ import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 
 /// CopyButton is a stateful widget that has two functions,
 /// onSelect and onDismiss
@@ -67,7 +68,7 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
 
   @override
   void initState() {
-    super.icon = CupertinoIcons.doc_on_doc;
+    super.icon = SFSymbols.doc_on_doc_fill;
     super.initState();
   }
 }
@@ -93,7 +94,7 @@ class CopyButtonSecondatyState extends ActionButtonState<CopyButtonSecondary> {
 
   @override
   void initState() {
-    super.icon = CupertinoIcons.doc_on_doc;
+    super.icon = SFSymbols.doc_on_doc_fill;
     super.initState();
   }
 
