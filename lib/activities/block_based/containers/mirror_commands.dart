@@ -28,6 +28,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
@@ -115,20 +116,46 @@ class _Mirror extends State<MirrorCommands> {
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return Text(
-                    CATLocalizations.of(context).blocks["mirrorCommands"]!,
-                    style: const TextStyle(
-                      color: CupertinoColors.systemBackground,
-                    ),
+                  return Column(
+                    children: <Widget>[
+                      Text(
+                        CATLocalizations.of(context).blocks["mirrorCommands"]!,
+                        style: const TextStyle(
+                          color: CupertinoColors.systemBackground,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      CupertinoButton(
+                        color: CupertinoColors.systemGrey5,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        onPressed: _directionPicker,
+                        child: widget.item.directions[widget.item.position],
+                      ),
+                      const SizedBox(
+                      height: 5,
+                      ),
+                      Text(
+                        CATLocalizations.of(context).blocks["mirrorBlocksBlock"]!,
+                        style: const TextStyle(
+                        color: CupertinoColors.systemBackground,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
                   );
                 }
-
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      CupertinoIcons.rectangle_grid_1x2,
-                      color: CupertinoColors.white,
+                  children: <Widget>[
+                    CupertinoButton(
+                      color: CupertinoColors.systemGrey5,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      onPressed: _directionPickerIcons,
+                      child: widget.item.directions2[widget.item.position],
                     ),
                   ],
                 );
@@ -137,35 +164,6 @@ class _Mirror extends State<MirrorCommands> {
             // const SizedBox(
             //   height: 5,
             // ),
-            AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return CupertinoButton(
-                    color: CupertinoColors.systemGrey5,
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    onPressed: _directionPicker,
-                    child: widget.item.directions[widget.item.position],
-                  );
-                }
-
-                return CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPickerIcons,
-                  child: widget.item.directions2[widget.item.position],
-                );
-              },
-            ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            Text(
-              CATLocalizations.of(context).blocks["mirrorBlocksBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
-            ),
             DragTarget<SimpleContainer>(
               builder: (
                 BuildContext context,

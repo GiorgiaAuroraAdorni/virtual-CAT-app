@@ -79,21 +79,21 @@ class _MirrorHorizontal extends State<MirrorCross> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ColorFiltered(
-                    colorFilter: invert,
-                    child: SvgPicture.asset(
-                      "resources/icons/gesture.svg",
-                      height: 42,
-                      width: 42,
-                      colorFilter: const ColorFilter.mode(
-                        CupertinoColors.black,
-                        BlendMode.modulate,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
+                  // ColorFiltered(
+                  //   colorFilter: invert,
+                  //   child: SvgPicture.asset(
+                  //     "resources/icons/gesture.svg",
+                  //     height: 42,
+                  //     width: 42,
+                  //     colorFilter: const ColorFilter.mode(
+                  //       CupertinoColors.black,
+                  //       BlendMode.modulate,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 5,
+                  // ),
                   CupertinoButton(
                     color: CupertinoColors.systemGrey5,
                     padding: const EdgeInsets.only(left: 10, right: 10),

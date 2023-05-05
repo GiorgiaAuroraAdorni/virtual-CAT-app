@@ -99,61 +99,54 @@ class _Mirror extends State<MirrorPoints> {
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return Text(
-                    CATLocalizations.of(context).blocks["mirrorPoints"]!,
-                    style: const TextStyle(
-                      color: CupertinoColors.systemBackground,
-                    ),
+                  return Column(
+                    children: <Widget>[
+                      Text(
+                        CATLocalizations.of(context).blocks["mirrorPoints"]!,
+                        style: const TextStyle(
+                          color: CupertinoColors.systemBackground,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      CupertinoButton(
+                        color: CupertinoColors.systemGrey5,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        onPressed: _directionPicker,
+                        child: widget.item.directions[widget.item.position],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        CATLocalizations.of(context).blocks["mirrorPointsBlock"]!,
+                        style: const TextStyle(
+                          color: CupertinoColors.systemBackground,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
                   );
                 }
-
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      CupertinoIcons.rectangle_grid_1x2,
-                      color: CupertinoColors.white,
-                    ),
-                    Icon(
-                      CupertinoIcons.circle_filled,
-                      color: CupertinoColors.white,
+                  children: <Widget>[
+                    CupertinoButton(
+                      color: CupertinoColors.systemGrey5,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      onPressed: _directionPickerIcons,
+                      child: widget.item.directions2[widget.item.position],
                     ),
                   ],
                 );
-              },
+              }
             ),
             // const SizedBox(
             //   height: 5,
             // ),
-            AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return CupertinoButton(
-                    color: CupertinoColors.systemGrey5,
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    onPressed: _directionPicker,
-                    child: widget.item.directions[widget.item.position],
-                  );
-                }
-
-                return CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPickerIcons,
-                  child: widget.item.directions2[widget.item.position],
-                );
-              },
-            ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            Text(
-              CATLocalizations.of(context).blocks["mirrorPointsBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
-            ),
             positions(),
           ],
         ),
