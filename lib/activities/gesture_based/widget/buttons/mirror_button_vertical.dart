@@ -1,5 +1,3 @@
-import "dart:math" as math;
-
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
@@ -62,9 +60,7 @@ class MirrorButtonVerticalState
 
   @override
   void initState() {
-    super.icon = CupertinoIcons.rectangle_grid_1x2;
-    super.angle = 90 * math.pi / 180;
-    super.initState();
+    super.icon = CupertinoIcons.square_fill_line_vertical_square;
   }
 }
 
@@ -91,9 +87,7 @@ class MirrorButtonVerticalStateSecondary
     extends ActionButtonState<MirrorButtonVerticalSecondary> {
   @override
   void initState() {
-    super.icon = CupertinoIcons.rectangle_grid_1x2;
-    super.angle = 90 * math.pi / 180;
-    super.initState();
+    super.icon = CupertinoIcons.square_fill_line_vertical_square;
   }
 
   @override
