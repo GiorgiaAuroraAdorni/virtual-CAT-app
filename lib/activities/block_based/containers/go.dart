@@ -6,6 +6,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
@@ -125,7 +126,7 @@ class _Go extends State<Go> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 const Icon(
-                  Icons.directions,
+                  SFSymbols.map_pin_ellipse,
                   color: CupertinoColors.systemBackground,
                 ),
                 CupertinoButton(
@@ -143,7 +144,7 @@ class _Go extends State<Go> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 const Icon(
-                  CupertinoIcons.repeat,
+                  SFSymbols.plus_circle_fill,
                   color: CupertinoColors.systemBackground,
                 ),
                 CupertinoButton(

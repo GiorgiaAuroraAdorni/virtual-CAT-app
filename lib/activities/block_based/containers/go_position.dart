@@ -9,6 +9,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
@@ -67,7 +68,7 @@ class _Go extends State<GoPosition> {
     return Container(
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
-      height: 120,
+      // height: 120,
       decoration: BoxDecoration(
         color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -76,112 +77,148 @@ class _Go extends State<GoPosition> {
         ),
       ),
       child: Center(
-        child: figure(),
+        child: AnimatedBuilder(
+          animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
+              return text();
+            }
+
+              return figure();
+            },
+        ),
       ),
     );
   }
 
-  Widget figure() => Padding(
+  Widget text() => Padding(
+    padding: const EdgeInsets.all(5),
+    child: Column(
+      children: <Widget>[
+        Text(
+          "${CATLocalizations.of(context).blocks["goPosition"]!}\n"
+          "${CATLocalizations.of(context).blocks["gotPointBlock"]!}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: CupertinoColors.systemBackground,
+          ),
+        ),
+      const SizedBox(
+      height: 5,
+      ),
+      CupertinoButton(
+        color: CupertinoColors.systemGrey5,
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        onPressed: _directionPicker,
+        child: Text(
+          widget.item.a + widget.item.b,
+          style: const TextStyle(color: CupertinoColors.black),
+        ),
+      ),
+      ],
+    ),
+  );
+
+  Widget figure() =>
+      Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return Text(
-                    CATLocalizations.of(context).blocks["goPosition"]!,
-                    style: const TextStyle(
-                      color: CupertinoColors.systemBackground,
-                    ),
-                  );
-                }
-
-                return const Icon(
-                  Icons.directions,
-                  color: CupertinoColors.white,
-                );
-              },
-            ),
-            Text(
-              CATLocalizations.of(context).blocks["gotPointBlock"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
-            ),
-            DragTarget<PointContainer>(
-              builder: (
-                BuildContext context,
-                List<PointContainer?> candidateItems,
-                List<dynamic> rejectedItems,
-              ) =>
-                  LayoutBuilder(builder: (
-                BuildContext context,
-                BoxConstraints constraints,
-              ) {
-                if (widget.item.position.isEmpty && candidateItems.isEmpty) {
-                  return Align(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: candidateItems.isNotEmpty
-                            ? Colors.green
-                            : CupertinoColors.systemBackground,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      width: constraints.maxWidth - 15,
-                      height: 56,
-                      child: IgnorePointer(
-                        child: ColorFiltered(
-                          colorFilter: const ColorFilter.mode(
-                            Colors.white54,
-                            BlendMode.modulate,
-                          ),
-                          child: Column(
-                            children: [
-                              Point(
-                                item: PointContainer(
-                                  languageCode:
-                                      CATLocalizations.of(context).languageCode,
-                                ),
-                                onChange: (Size size) {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
-                return Align(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: candidateItems.isNotEmpty
-                          ? Colors.green
-                          : CupertinoColors.systemBackground,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    width: constraints.maxWidth - 15,
-                    height: 56,
-                    child: ReorderableListView(
-                      onReorder: (int oldIndex, int newIndex) {},
-                      children: widgets,
-                    ),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                SvgPicture.asset(
+                  "resources/icons/go_to.svg",
+                  height: 24,
+                  width: 24,
+                ),
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _directionPicker,
+                  child: Text(
+                    widget.item.a + widget.item.b,
+                    style: const TextStyle(color: CupertinoColors.black),
                   ),
-                );
-              }),
-              onWillAccept: (PointContainer? el) =>
-                  widget.item.position.isEmpty,
-              onAccept: _addContainer,
+                ),
+              ],
             ),
           ],
         ),
       );
+
+  void _directionPicker() {
+    final List<String> directions =
+    List<String>.generate(6, (int index) => (index + 1).toString());
+    final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
+    setState(() {
+      widget.item.a = directions2.first;
+      widget.item.b = directions.first;
+    });
+    context.read<BlockUpdateNotifier>().update();
+    final String prev = widget.item.toString();
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: CupertinoPicker(
+                onSelectedItemChanged: (int value) {
+                  setState(() {
+                    widget.item.a = directions2[value];
+                  });
+                  context.read<BlockUpdateNotifier>().update();
+                },
+                itemExtent: 25,
+                diameterRatio: 1,
+                useMagnifier: true,
+                magnification: 1.3,
+                children: List<Widget>.generate(
+                  directions2.length,
+                      (int index) => Text(
+                    directions2[index],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: CupertinoPicker(
+                onSelectedItemChanged: (int value) {
+                  setState(() {
+                    widget.item.b = directions[value];
+                  });
+                  context.read<BlockUpdateNotifier>().update();
+                },
+                itemExtent: 25,
+                diameterRatio: 1,
+                useMagnifier: true,
+                magnification: 1.3,
+                children: List<Widget>.generate(
+                  directions.length,
+                      (int index) => Text(
+                    directions[index],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).whenComplete(
+          () => CatLogger().addLog(
+        context: context,
+        previousCommand: prev,
+        currentCommand: widget.item.toString(),
+        description: CatLoggingLevel.updateCommandProperties,
+      ),
+    );
+  }
 
   void _addContainer(PointContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
