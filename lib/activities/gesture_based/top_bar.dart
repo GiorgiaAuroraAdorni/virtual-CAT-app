@@ -249,13 +249,28 @@ class _TopBarState extends State<TopBar> {
                     ),
                   ),
 
-                Text(
-                  "CAT-score: ${catScore(
-                        commands: List<String>.from(
-                          CatInterpreter().getResults.getCommands,
-                        ),
-                        visible: context.read<VisibilityNotifier>().visible,
-                      ) * 100}",
+                SizedBox(
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        "resources/icons/trophy.svg",
+                        height: 30,
+                        width: 30,
+                      ),
+                      Text(
+                        " ${catScore(
+                              commands: List<String>.from(
+                                CatInterpreter().getResults.getCommands,
+                              ),
+                              visible:
+                                  context.read<VisibilityNotifier>().visible,
+                            ) * 100}",
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
                 ),
                 // CupertinoButton(
                 //   padding: EdgeInsets.zero,
