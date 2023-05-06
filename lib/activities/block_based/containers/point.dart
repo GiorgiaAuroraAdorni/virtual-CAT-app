@@ -6,6 +6,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
 
 /// `Go` is a stateful widget that takes in a boolean, a `SimpleContainer` and a
@@ -56,28 +57,42 @@ class _Point extends State<Point> {
       child: Center(
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) {
-            if (context.read<TypeUpdateNotifier>().state == 2) {
-              return text();
-            }
-
-            return figure();
-          },
+          builder: (BuildContext context, Widget? child) => figure(),
         ),
       ),
     );
   }
 
-  Widget text() => Padding(
+  Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              CATLocalizations.of(context).blocks["position"]!,
-              style: const TextStyle(
-                color: CupertinoColors.systemBackground,
-              ),
+            AnimatedBuilder(
+              animation: context.watch<TypeUpdateNotifier>(),
+              builder: (BuildContext context, Widget? child) {
+                if (context
+                    .read<TypeUpdateNotifier>()
+                    .state == 2) {
+                  return Text(
+                    CATLocalizations
+                        .of(context)
+                        .blocks["position"]!,
+                    style: const TextStyle(
+                      color: CupertinoColors.systemBackground,
+                    ),
+                  );
+                }
+
+                return SvgPicture.asset(
+                  "resources/icons/choose_dot.svg",
+                  height: 30,
+                  width: 30,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 5,
             ),
             CupertinoButton(
               color: CupertinoColors.systemGrey5,
@@ -87,33 +102,6 @@ class _Point extends State<Point> {
                 widget.item.a + widget.item.b,
                 style: const TextStyle(color: CupertinoColors.black),
               ),
-            ),
-          ],
-        ),
-      );
-
-  Widget figure() => Padding(
-        padding: const EdgeInsets.all(5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Icon(
-              CupertinoIcons.circle_filled,
-              color: CupertinoColors.systemBackground,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPicker,
-                  child: Text(
-                    widget.item.a + widget.item.b,
-                    style: const TextStyle(color: CupertinoColors.black),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
