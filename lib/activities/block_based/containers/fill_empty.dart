@@ -48,7 +48,7 @@ class _FillEmpty extends State<FillEmpty> {
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemIndigo,
+        color: Colors.teal,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,

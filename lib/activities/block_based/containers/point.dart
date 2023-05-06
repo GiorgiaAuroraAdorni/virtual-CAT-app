@@ -48,7 +48,7 @@ class _Point extends State<Point> {
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Colors.lime,
+        color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: CupertinoColors.darkBackgroundGray,
@@ -56,40 +56,30 @@ class _Point extends State<Point> {
       ),
       child: Center(
         child: AnimatedBuilder(
-          animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) => figure(),
+            animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) {
+              if (context.read<TypeUpdateNotifier>().state == 2) {
+                return text();
+              }
+
+              return figure();
+            },
         ),
       ),
     );
   }
 
-  Widget figure() => Padding(
+  Widget text() => Padding(
         padding: const EdgeInsets.all(5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
           children: <Widget>[
-            AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) {
-                if (context
-                    .read<TypeUpdateNotifier>()
-                    .state == 2) {
-                  return Text(
-                    CATLocalizations
-                        .of(context)
-                        .blocks["position"]!,
-                    style: const TextStyle(
-                      color: CupertinoColors.systemBackground,
-                    ),
-                  );
-                }
-
-                return SvgPicture.asset(
-                  "resources/icons/choose_dot.svg",
-                  height: 30,
-                  width: 30,
-                );
-              },
+            Text(
+              "${CATLocalizations.of(context).blocks["position"]!}\n"
+              "${CATLocalizations.of(context).blocks["gotPointBlock"]!}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
             ),
             const SizedBox(
               height: 5,
@@ -102,6 +92,37 @@ class _Point extends State<Point> {
                 widget.item.a + widget.item.b,
                 style: const TextStyle(color: CupertinoColors.black),
               ),
+            ),
+          ],
+        ),
+      );
+
+  Widget figure() => Padding(
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                SvgPicture.asset(
+                  "resources/icons/choose_dot.svg",
+                  height: 30,
+                  width: 30,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _directionPicker,
+                  child: Text(
+                    widget.item.a + widget.item.b,
+                    style: const TextStyle(color: CupertinoColors.black),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

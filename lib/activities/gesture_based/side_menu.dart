@@ -219,7 +219,7 @@ class SideMenuState extends State<SideMenu> {
                     children: <Widget>[
                       ColorActionButton(
                         key: colorActionButtonKey,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                         state: this,
                         background: null,
                       ),
@@ -228,7 +228,7 @@ class SideMenuState extends State<SideMenu> {
                       ),
                       CopyButtonSecondary(
                         key: copyButtonSecondaryKey,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                         background: null,
                         state: this,
                       ),
@@ -278,7 +278,7 @@ class SideMenuState extends State<SideMenu> {
                     children: <Widget>[
                       SelectionActionButton(
                         key: selectionActionButtonKey,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                         background: null,
                         state: this,
                       ),
@@ -287,18 +287,18 @@ class SideMenuState extends State<SideMenu> {
                       ),
                       CopyButton(
                         key: copyButtonKey,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                         state: this,
                       ),
                       MirrorButtonHorizontalSecondary(
                         state: this,
                         key: mirrorHorizontalButtonKeySecondary,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                       ),
                       MirrorButtonVerticalSecondary(
                         state: this,
                         key: mirrorVerticalButtonKeySecondary,
-                        selectionColor: CupertinoColors.systemIndigo,
+                        selectionColor: Colors.teal,
                       ),
                       const Divider(
                         height: 20,
