@@ -6,6 +6,7 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
 /// `FillEmpty` is a stateful widget that displays a `SimpleContainer` and calls
@@ -148,7 +149,7 @@ class _PaintSingle extends State<PaintSingle> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Icon(
-              CupertinoIcons.paintbrush,
+              SFSymbols.paintbrush_fill,
               color: CupertinoColors.systemBackground,
             ),
             Row(
