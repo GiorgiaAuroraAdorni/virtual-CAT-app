@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000px" height="1000px" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>sad copy</title>
+    <g id="sad-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#374440" stroke-width="40" fill="#E43135" cx="500" cy="500" r="480"></circle>
+        <path d="M288,578 C339.144294,637.333333 409.823028,667 500.036202,667 C590.249376,667 660.903976,637.333333 712,578" id="Path-19" stroke="#374440" stroke-width="30" stroke-linecap="round" transform="translate(500.000000, 622.500000) scale(1, -1) translate(-500.000000, -622.500000) "></path>
+        <ellipse id="Oval" fill="#374440" cx="324" cy="395" rx="51" ry="63"></ellipse>
+        <ellipse id="Oval-Copy-2" fill="#374440" cx="667" cy="395" rx="51" ry="63"></ellipse>
+    </g>
+</svg>

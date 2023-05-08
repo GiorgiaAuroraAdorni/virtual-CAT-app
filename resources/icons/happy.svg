@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000px" height="1000px" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>happy copy</title>
+    <g id="happy-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#374440" stroke-width="40" fill="#1DB837" cx="500" cy="500" r="480"></circle>
+        <ellipse id="Oval" fill="#374440" cx="324" cy="395" rx="51" ry="63"></ellipse>
+        <ellipse id="Oval-Copy-2" fill="#374440" cx="667" cy="395" rx="51" ry="63"></ellipse>
+        <path d="M256,602 C314.864187,688.666667 396.21141,732 500.041667,732 C603.871924,732 685.191368,688.666667 744,602" id="Path-19" stroke="#374440" stroke-width="30" stroke-linecap="round"></path>
+    </g>
+</svg>
