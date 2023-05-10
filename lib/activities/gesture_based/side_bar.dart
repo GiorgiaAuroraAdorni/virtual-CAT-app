@@ -255,7 +255,11 @@ class _SideBarState extends State<SideBar> {
                   child: Column(
                     children: <Widget>[
                       if (context.read<TypeUpdateNotifier>().state > 0)
-                        const ChangeCrossVisualization(),
+                        const ChangeCrossVisualization()
+                      else
+                        const SizedBox(
+                          height: 55,
+                        ),
                       CrossWidgetSimple(
                         displayLetters:
                             context.read<TypeUpdateNotifier>().state > 0 &&

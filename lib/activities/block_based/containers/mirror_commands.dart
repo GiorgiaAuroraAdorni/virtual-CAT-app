@@ -28,7 +28,6 @@ import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
-import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
@@ -73,7 +72,7 @@ class _Mirror extends State<MirrorCommands> {
     Future<void>(() {
       if (widget.item.container.isNotEmpty) {
         final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.container);
+        List<SimpleContainer>.from(widget.item.container);
         widget.item.container.clear();
         for (final SimpleContainer i in copy) {
           _addContainer(i, log: false);
@@ -92,10 +91,16 @@ class _Mirror extends State<MirrorCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          185.0 +
+          185.0 - (context
+          .read<TypeUpdateNotifier>()
+          .state == 2 ? 0 : 50) +
+
           (widget.item.moves.length +
               (widget.item.container.isEmpty ? 4 : 0) * 60),
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       decoration: BoxDecoration(
         border: Border.all(),
         color: Colors.blueGrey,
@@ -107,7 +112,8 @@ class _Mirror extends State<MirrorCommands> {
     );
   }
 
-  Widget figure() => Padding(
+  Widget figure() =>
+      Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -115,11 +121,15 @@ class _Mirror extends State<MirrorCommands> {
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
               builder: (BuildContext context, Widget? child) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
+                if (context
+                    .read<TypeUpdateNotifier>()
+                    .state == 2) {
                   return Column(
                     children: <Widget>[
                       Text(
-                        CATLocalizations.of(context).blocks["mirrorCommands"]!,
+                        CATLocalizations
+                            .of(context)
+                            .blocks["mirrorCommands"]!,
                         style: const TextStyle(
                           color: CupertinoColors.systemBackground,
                         ),
@@ -134,12 +144,14 @@ class _Mirror extends State<MirrorCommands> {
                         child: widget.item.directions[widget.item.position],
                       ),
                       const SizedBox(
-                      height: 5,
+                        height: 5,
                       ),
                       Text(
-                        CATLocalizations.of(context).blocks["mirrorBlocksBlock"]!,
+                        CATLocalizations
+                            .of(context)
+                            .blocks["mirrorBlocksBlock"]!,
                         style: const TextStyle(
-                        color: CupertinoColors.systemBackground,
+                          color: CupertinoColors.systemBackground,
                         ),
                       ),
                       const SizedBox(
@@ -148,6 +160,7 @@ class _Mirror extends State<MirrorCommands> {
                     ],
                   );
                 }
+
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -165,60 +178,57 @@ class _Mirror extends State<MirrorCommands> {
             //   height: 5,
             // ),
             DragTarget<SimpleContainer>(
-              builder: (
-                BuildContext context,
-                List<SimpleContainer?> candidateItems,
-                List<dynamic> rejectedItems,
-              ) =>
+              builder: (BuildContext context,
+                  List<SimpleContainer?> candidateItems,
+                  List<dynamic> rejectedItems,) =>
                   LayoutBuilder(
-                builder: (
-                  BuildContext context,
-                  BoxConstraints constraints,
-                ) {
-                  if (widget.item.container.isEmpty && candidateItems.isEmpty) {
-                    return _preview(constraints);
-                  }
+                    builder: (BuildContext context,
+                        BoxConstraints constraints,) {
+                      if (widget.item.container.isEmpty &&
+                          candidateItems.isEmpty) {
+                        return _preview(constraints);
+                      }
 
-                  return Align(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: candidateItems.isNotEmpty
-                            ? Colors.blueGrey
-                            : CupertinoColors.systemBackground,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
-                      height: childHeight +
-                          60 +
-                          (widget.item.moves.length +
-                              (widget.item.container.isEmpty ? 4 : 0) * 60),
-                      width: constraints.maxWidth - 15,
-                      child: ReorderableListView(
-                        onReorder: (int oldIndex, int newIndex) {
-                          final String prev = widget.item.toString();
-                          if (oldIndex < newIndex) {
-                            newIndex -= 1;
-                          }
-                          final Widget widgett = widgets.removeAt(oldIndex);
-                          widgets.insert(newIndex, widgett);
-                          final SimpleContainer item =
+                      return Align(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: candidateItems.isNotEmpty
+                                ? Colors.blueGrey
+                                : CupertinoColors.systemBackground,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                          ),
+                          height: childHeight +
+                              60 +
+                              (widget.item.moves.length +
+                                  (widget.item.container.isEmpty ? 4 : 0) * 60),
+                          width: constraints.maxWidth - 15,
+                          child: ReorderableListView(
+                            onReorder: (int oldIndex, int newIndex) {
+                              final String prev = widget.item.toString();
+                              if (oldIndex < newIndex) {
+                                newIndex -= 1;
+                              }
+                              final Widget widgett = widgets.removeAt(oldIndex);
+                              widgets.insert(newIndex, widgett);
+                              final SimpleContainer item =
                               widget.item.container.removeAt(oldIndex);
-                          widget.item.container.insert(newIndex, item);
-                          context.read<BlockUpdateNotifier>().update();
-                          CatLogger().addLog(
-                            context: context,
-                            previousCommand: prev,
-                            currentCommand: widget.item.toString(),
-                            description: CatLoggingLevel.reorderCommand,
-                          );
-                        },
-                        children: widgets,
-                      ),
-                    ),
-                  );
-                },
-              ),
+                              widget.item.container.insert(newIndex, item);
+                              context.read<BlockUpdateNotifier>().update();
+                              CatLogger().addLog(
+                                context: context,
+                                previousCommand: prev,
+                                currentCommand: widget.item.toString(),
+                                description: CatLoggingLevel.reorderCommand,
+                              );
+                            },
+                            children: widgets,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
               onWillAccept: (SimpleContainer? container) {
                 if (container is SimpleContainer) {
                   if (container.type == ContainerType.mirrorCommands) {
@@ -239,9 +249,7 @@ class _Mirror extends State<MirrorCommands> {
         ),
       );
 
-  Widget _preview(
-    BoxConstraints constraints,
-  ) =>
+  Widget _preview(BoxConstraints constraints,) =>
       Align(
         child: Container(
           decoration: const BoxDecoration(
@@ -255,49 +263,58 @@ class _Mirror extends State<MirrorCommands> {
           child: Center(
             child: AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) => IgnorePointer(
-                child: ColorFiltered(
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white54,
-                    BlendMode.modulate,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      PaintSingle(
-                        item: PaintSingleContainer(
-                          selected: CupertinoColors.systemBlue,
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
+              builder: (BuildContext context, Widget? child) =>
+                  IgnorePointer(
+                    child: ColorFiltered(
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white54,
+                        BlendMode.modulate,
                       ),
-                      GoPosition(
-                        item: GoPositionContainer(
-                          position: [
-                            PointContainer(
+                      child: Column(
+                        children: <Widget>[
+                          PaintSingle(
+                            item: PaintSingleContainer(
+                              selected: CupertinoColors.systemBlue,
                               languageCode:
-                                  CATLocalizations.of(context).languageCode,
-                              a: "F",
-                              b: "3",
+                              CATLocalizations
+                                  .of(context)
+                                  .languageCode,
                             ),
-                          ],
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
+                            onChange: (Size size) {},
+                          ),
+                          GoPosition(
+                            item: GoPositionContainer(
+                              position: [
+                                PointContainer(
+                                  languageCode:
+                                  CATLocalizations
+                                      .of(context)
+                                      .languageCode,
+                                  a: "F",
+                                  b: "3",
+                                ),
+                              ],
+                              languageCode:
+                              CATLocalizations
+                                  .of(context)
+                                  .languageCode,
+                            ),
+                            onChange: (Size size) {},
+                          ),
+                          PaintSingle(
+                            item: PaintSingleContainer(
+                              selected: CupertinoColors.systemRed,
+                              languageCode:
+                              CATLocalizations
+                                  .of(context)
+                                  .languageCode,
+                            ),
+                            onChange: (Size size) {},
+                          ),
+                        ],
                       ),
-                      PaintSingle(
-                        item: PaintSingleContainer(
-                          selected: CupertinoColors.systemRed,
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
             ),
           ),
         ),
@@ -306,7 +323,7 @@ class _Mirror extends State<MirrorCommands> {
   void _addContainer(SimpleContainer el, {bool log = true}) {
     final String prev = widget.item.toString();
     setState(
-      () {
+          () {
         final UniqueKey key = UniqueKey();
         final SimpleContainer container = el.copy();
         widget.item.container.add(
@@ -318,7 +335,7 @@ class _Mirror extends State<MirrorCommands> {
             key: key,
             child: generateDismiss(
               container,
-              (Size size) {
+                  (Size size) {
                 setState(() {
                   sized[key] = size.height;
                 });
@@ -328,10 +345,10 @@ class _Mirror extends State<MirrorCommands> {
               final String prev = widget.item.toString();
               setState(() {
                 widget.item.container.removeWhere(
-                  (SimpleContainer e) => e.key == key,
+                      (SimpleContainer e) => e.key == key,
                 );
                 widgets.removeWhere(
-                  (Widget element) => element.key == key,
+                      (Widget element) => element.key == key,
                 );
                 sized.remove(key);
               });
@@ -358,10 +375,8 @@ class _Mirror extends State<MirrorCommands> {
     }
   }
 
-  Widget generateDismiss(
-    SimpleContainer container,
-    Function f,
-  ) {
+  Widget generateDismiss(SimpleContainer container,
+      Function f,) {
     switch (container.type) {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {
@@ -469,31 +484,36 @@ class _Mirror extends State<MirrorCommands> {
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setState(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions,
+            ),
+          ),
     );
   }
 
@@ -510,31 +530,36 @@ class _Mirror extends State<MirrorCommands> {
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          diameterRatio: 1,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions2,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setState(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              diameterRatio: 1,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions2,
+            ),
+          ),
     );
   }
 

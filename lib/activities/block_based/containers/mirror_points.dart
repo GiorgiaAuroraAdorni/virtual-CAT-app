@@ -74,7 +74,8 @@ class _Mirror extends State<MirrorPoints> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          185.0 +
+          185.0 -
+          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 50) +
           ((widget.item.moves.length +
                   (widget.item.container.isEmpty ? 1 : 0)) *
               60),
@@ -97,7 +98,10 @@ class _Mirror extends State<MirrorPoints> {
           children: <Widget>[
             AnimatedBuilder(
               animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) {
+              builder: (
+                BuildContext context,
+                Widget? child,
+              ) {
                 if (context.read<TypeUpdateNotifier>().state == 2) {
                   return Column(
                     children: <Widget>[
@@ -120,7 +124,8 @@ class _Mirror extends State<MirrorPoints> {
                         height: 5,
                       ),
                       Text(
-                        CATLocalizations.of(context).blocks["mirrorPointsBlock"]!,
+                        CATLocalizations.of(context)
+                            .blocks["mirrorPointsBlock"]!,
                         style: const TextStyle(
                           color: CupertinoColors.systemBackground,
                         ),
@@ -131,6 +136,7 @@ class _Mirror extends State<MirrorPoints> {
                     ],
                   );
                 }
+
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -142,7 +148,7 @@ class _Mirror extends State<MirrorPoints> {
                     ),
                   ],
                 );
-              }
+              },
             ),
             // const SizedBox(
             //   height: 5,

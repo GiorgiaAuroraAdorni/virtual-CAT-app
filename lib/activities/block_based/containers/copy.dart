@@ -99,7 +99,7 @@ class _Copy extends State<CopyCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          210 +
+          (context.read<TypeUpdateNotifier>().state == 2 ? 210 : 100) +
           60 *
               (widget.item.moves.length +
                   (widget.item.container.isEmpty ? 4 : 0) +
@@ -136,8 +136,8 @@ class _Copy extends State<CopyCommands> {
                 }
 
                 return const Icon(
-                      SFSymbols.arrow_2_squarepath,
-                      color: CupertinoColors.systemBackground,
+                  SFSymbols.arrow_2_squarepath,
+                  color: CupertinoColors.systemBackground,
                 );
               },
             ),
@@ -169,7 +169,6 @@ class _Copy extends State<CopyCommands> {
             const SizedBox(
               height: 5,
             ),
-
             positions(),
           ],
         ),
@@ -246,7 +245,13 @@ class _Copy extends State<CopyCommands> {
               Radius.circular(8),
             ),
           ),
-          height: childHeight + 60 + (widget.item.moves.length + 4 * 60),
+          height: childHeight +
+              60 +
+              (widget.item.moves.length +
+                  4 *
+                      (context.read<TypeUpdateNotifier>().state == 2
+                          ? 60
+                          : 30)),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(
@@ -375,7 +380,12 @@ class _Copy extends State<CopyCommands> {
                         Radius.circular(8),
                       ),
                     ),
-                    height: 60 + (widget.item.moves.length + 1 * 60),
+                    height: 60 +
+                        (widget.item.moves.length +
+                            1 *
+                                (context.read<TypeUpdateNotifier>().state == 2
+                                    ? 60
+                                    : 30)),
                     width: constraints.maxWidth - 15,
                     child: Center(
                       child: AnimatedBuilder(

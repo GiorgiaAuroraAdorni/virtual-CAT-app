@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
-import "package:flutter/cupertino.dart";
+import "package:cross_array_task_app/widgets/icons.dart";
 
 /// It's a button that can be selected or deselected
 class SelectionActionButton extends ActionButton {
@@ -37,7 +37,7 @@ class SelectionActionButtonState
 
   @override
   void initState() {
-    super.icon = CupertinoIcons.lasso;
+    super.icon = UiIcons.dot_circle_and_hand_point_up_left_fill;
     super.initState();
     super.select();
   }

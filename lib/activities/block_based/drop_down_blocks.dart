@@ -1,24 +1,12 @@
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
-
-// class DropDownBlocks extends StatefulWidget {
-//   const DropDownBlocks({
-//     required this.title,
-//     required this.items,
-//     required this.color,
-//     super.key,
-//   });
-//
-//   final String title;
-//   final List<Widget> items;
-//   final Color color;
-//
-//   @override
-//   _DropDownBlocksState createState() => _DropDownBlocksState();
-// }
+import "package:flutter_svg/flutter_svg.dart";
+import "package:provider/provider.dart";
 
 class DropDownBlocks extends AnimatedWidget {
   const DropDownBlocks({
     required this.title,
+    required this.iconLocation,
     required this.items,
     required this.color,
     required this.visibility,
@@ -26,6 +14,7 @@ class DropDownBlocks extends AnimatedWidget {
   }) : super(listenable: visibility);
 
   final String title;
+  final String iconLocation;
   final List<Widget> items;
   final Color color;
 
@@ -53,13 +42,34 @@ class DropDownBlocks extends AnimatedWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: !visibility.value
-                              ? CupertinoColors.extraLightBackgroundGray
-                              : CupertinoColors.label,
-                        ),
+                      AnimatedBuilder(
+                        animation: context.read<TypeUpdateNotifier>(),
+                        builder: (_, __) {
+                          if (context.read<TypeUpdateNotifier>().state == 2) {
+                            return Text(
+                              title,
+                              style: TextStyle(
+                                color: !visibility.value
+                                    ? CupertinoColors.extraLightBackgroundGray
+                                    : CupertinoColors.label,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          }
+
+                          return SvgPicture.asset(
+                            iconLocation,
+                            height: 25,
+                            width: 25,
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              !visibility.value
+                                  ? CupertinoColors.white
+                                  : CupertinoColors.systemGrey2.darkColor,
+                              BlendMode.modulate,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

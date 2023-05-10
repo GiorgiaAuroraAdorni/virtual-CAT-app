@@ -107,6 +107,10 @@ flutter:
       fonts:
         - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
 
+    - family: UiIcons
+      fonts:
+        - asset: lib/icon_font/ui_icons.ttf
+
   # fonts:
   #   - family: Schyler
   #     fonts:

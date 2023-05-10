@@ -1,3 +1,5 @@
+import "dart:ui";
+
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/color_action_button.dart";
@@ -107,6 +109,9 @@ class SideMenuState extends State<SideMenu> {
     const TextStyle textStyle = TextStyle(
       color: CupertinoColors.black,
       fontFamily: "CupertinoIcons",
+      fontFeatures: [
+        FontFeature.tabularFigures(),
+      ],
     );
     final Map<CupertinoDynamicColor, String> colors =
         <CupertinoDynamicColor, String>{
@@ -153,7 +158,10 @@ class SideMenuState extends State<SideMenu> {
                     ? Stack(
                         alignment: AlignmentDirectional.center,
                         children: <Widget>[
-                          const Icon(CupertinoIcons.circle_filled),
+                          const Icon(
+                            CupertinoIcons.circle_filled,
+                            size: 30,
+                          ),
                           Text(
                             "${context.read<SelectedColorsNotifier>().indexOf(color) + 1}",
                             style: textStyle,

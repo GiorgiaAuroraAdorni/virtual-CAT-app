@@ -256,8 +256,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
               controller: _firstController,
               children: <Widget>[
                 DropDownBlocks(
-                  title:
-                      CATLocalizations.of(context).blockGroups["groupGoTo"]!,
+                  title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
                   color: Colors.green,
                   items: <Widget>[
                     _buildContainerItem(container: containers[2]),
@@ -265,6 +264,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[0]),
                   ],
                   visibility: _states[0],
+                  iconLocation: "resources/icons/placement_menu.svg",
                 ),
                 DropDownBlocks(
                   title:
@@ -276,6 +276,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[5]),
                   ],
                   visibility: _states[1],
+                  iconLocation: "resources/icons/colouring_menu.svg",
                 ),
                 DropDownBlocks(
                   title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
@@ -285,6 +286,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[9]),
                   ],
                   visibility: _states[2],
+                  iconLocation: "resources/icons/loops_menu.svg",
                 ),
                 DropDownBlocks(
                   title:
@@ -296,6 +298,7 @@ class _SideMenuBlockState extends State<SideMenuBlock> {
                     _buildContainerItem(container: containers[8]),
                   ],
                   visibility: _states[3],
+                  iconLocation: "resources/icons/mirror_menu.svg",
                 ),
               ],
             ),

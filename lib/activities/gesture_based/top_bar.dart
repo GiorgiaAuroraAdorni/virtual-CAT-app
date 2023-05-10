@@ -85,7 +85,7 @@ class _TopBarState extends State<TopBar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(right: 15),
                       child: CupertinoButton(
                         padding: EdgeInsets.zero,
                         child: SvgPicture.asset(
@@ -174,102 +174,113 @@ class _TopBarState extends State<TopBar> {
                   ],
                 ),
                 if (widget.sessionID != -1 && widget.studentID != -1)
-                  SizedBox(
-                    // width: MediaQuery.of(context).size.width * 0.65,
-                    height: 44,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.allResults.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) =>
-                          CupertinoButton(
-                        borderRadius: BorderRadius.circular(0),
-                        padding: EdgeInsets.zero,
-                        disabledColor: () {
-                          if (!widget.allResults[index + 1]!.state) {
-                            return CupertinoColors.darkBackgroundGray
-                                .withAlpha(127);
-                          }
-                          if (widget.allResults[index + 1]!.correct) {
-                            return CupertinoColors.activeGreen;
-                          }
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: SizedBox(
+                      // width: MediaQuery.of(context).size.width * 0.65,
+                      height: 44,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.allResults.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) =>
+                            CupertinoButton(
+                          borderRadius: BorderRadius.circular(0),
+                          padding: EdgeInsets.zero,
+                          disabledColor: () {
+                            if (!widget.allResults[index + 1]!.state) {
+                              return CupertinoColors.darkBackgroundGray
+                                  .withAlpha(127);
+                            }
+                            if (widget.allResults[index + 1]!.correct) {
+                              return CupertinoColors.activeGreen;
+                            }
 
-                          return CupertinoColors.destructiveRed;
-                        }.call(),
-                        color: index + 1 == SchemasReader().index
-                            ? CupertinoColors.activeOrange
-                            : CupertinoColors.inactiveGray.withAlpha(200),
-                        onPressed: widget.allResults[index + 1]!.done
-                            ? null
-                            : () {
-                                final bool check = CatLogger()
-                                    .logs
-                                    .values
-                                    .filter(
-                                      (LoggerInfo e) =>
-                                          e.description !=
-                                              CatLoggingLevel.changeMode &&
-                                          e.description !=
-                                              CatLoggingLevel.commandsReset &&
-                                          e.description !=
-                                              CatLoggingLevel.changeVisibility,
-                                    )
-                                    .isEmpty;
-                                if (check) {
-                                  _reset();
-                                  context.read<TimeKeeper>().resetTimer();
-                                  CatLogger().resetLogs();
-                                  context.read<TypeUpdateNotifier>().reset();
-                                  context
-                                      .read<ReferenceNotifier>()
-                                      .toLocation(index + 1);
-                                }
-                              },
-                        child: widget.allResults[index + 1]!.done
-                            ? Icon(
-                                () {
-                                  if (!widget.allResults[index + 1]!.state) {
-                                    return CupertinoIcons.flag_fill;
+                            return CupertinoColors.destructiveRed;
+                          }.call(),
+                          color: index + 1 == SchemasReader().index
+                              ? CupertinoColors.activeOrange
+                              : CupertinoColors.inactiveGray.withAlpha(200),
+                          onPressed: widget.allResults[index + 1]!.done
+                              ? null
+                              : () {
+                                  final bool check = CatLogger()
+                                      .logs
+                                      .values
+                                      .filter(
+                                        (LoggerInfo e) =>
+                                            e.description !=
+                                                CatLoggingLevel.changeMode &&
+                                            e.description !=
+                                                CatLoggingLevel.commandsReset &&
+                                            e.description !=
+                                                CatLoggingLevel
+                                                    .changeVisibility,
+                                      )
+                                      .isEmpty;
+                                  if (check) {
+                                    _reset();
+                                    context.read<TimeKeeper>().resetTimer();
+                                    CatLogger().resetLogs();
+                                    context.read<TypeUpdateNotifier>().reset();
+                                    context
+                                        .read<ReferenceNotifier>()
+                                        .toLocation(index + 1);
                                   }
-                                  if (widget.allResults[index + 1]!.correct) {
-                                    return CupertinoIcons.hand_thumbsup_fill;
-                                  }
+                                },
+                          child: widget.allResults[index + 1]!.done
+                              ? Icon(
+                                  () {
+                                    if (!widget.allResults[index + 1]!.state) {
+                                      return CupertinoIcons.flag_fill;
+                                    }
+                                    if (widget.allResults[index + 1]!.correct) {
+                                      return CupertinoIcons.hand_thumbsup_fill;
+                                    }
 
-                                  return CupertinoIcons.hand_thumbsdown_fill;
-                                }.call(),
-                                size: 35,
-                                color: CupertinoColors.extraLightBackgroundGray,
-                              )
-                            : Text("${index + 1}"),
-                      ),
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        width: 5,
+                                    return CupertinoIcons.hand_thumbsdown_fill;
+                                  }.call(),
+                                  size: 35,
+                                  color:
+                                      CupertinoColors.extraLightBackgroundGray,
+                                )
+                              : Text(
+                                  "${index + 1}",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                        ),
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const SizedBox(
+                          width: 5,
+                        ),
                       ),
                     ),
                   ),
 
-                SizedBox(
-                  child: Row(
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icons/trophy.svg",
-                        height: 30,
-                        width: 30,
-                      ),
-                      Text(
-                        " ${catScore(
-                              commands: List<String>.from(
-                                CatInterpreter().getResults.getCommands,
-                              ),
-                              visible:
-                                  context.read<VisibilityNotifier>().visible,
-                            ) * 100}",
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 85),
+                  child: SizedBox(
+                    child: Row(
+                      children: <Widget>[
+                        SvgPicture.asset(
+                          "resources/icons/trophy.svg",
+                          height: 30,
+                          width: 30,
+                        ),
+                        Text(
+                          " ${catScore(
+                                commands: List<String>.from(
+                                  CatInterpreter().getResults.getCommands,
+                                ),
+                                visible:
+                                    context.read<VisibilityNotifier>().visible,
+                              ) * 100}",
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 // CupertinoButton(
