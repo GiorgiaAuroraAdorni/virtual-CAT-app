@@ -56,7 +56,8 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) =>
+      Row(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
@@ -90,25 +91,29 @@ class _BottomBarState extends State<BottomBar> {
       );
 
   Future<void> submit({required bool complete}) async {
-    final bool v = context.read<VisibilityNotifier>().finalState;
+    final bool v = context
+        .read<VisibilityNotifier>()
+        .finalState;
     final int score = catScore(
-          commands: List<String>.from(
-            CatInterpreter().getResults.getCommands,
-          ),
-          visible: v,
-        ) *
+      commands: List<String>.from(
+        CatInterpreter().getResults.getCommands,
+      ),
+      visible: v,
+    ) *
         100;
-    await schemaCompleted(complete: complete).then(
-      (bool result) {
+    await schemaCompleted(complete: complete).whenComplete(
+          () {
         widget.allResults[SchemasReader().index]!
-          ..time = context.read<TimeKeeper>().rawTime
+          ..time = context
+              .read<TimeKeeper>()
+              .rawTime
           ..result = CatInterpreter().getResults.getStates.last
           ..score = score
           ..done = true
           ..correct = CatInterpreter().getResults.completed
           ..state = complete;
         final Map<int, ResultsRecord> res = widget.allResults.filter(
-          (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+              (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
         );
         if (res.isNotEmpty) {
           final List<int> idx = res.keys
@@ -116,7 +121,9 @@ class _BottomBarState extends State<BottomBar> {
               .filter((int e) => e > SchemasReader().currentIndex)
               .toList();
           final int nextIndex =
-              idx.isEmpty ? res.keys.sorted().first : idx.first;
+          idx.isEmpty ? res.keys
+              .sorted()
+              .first : idx.first;
           _reset();
           context.read<TimeKeeper>().resetTimer();
           CatLogger().resetLogs();
@@ -127,11 +134,12 @@ class _BottomBarState extends State<BottomBar> {
             Navigator.push(
               context,
               CupertinoPageRoute<Widget>(
-                builder: (BuildContext context) => Surway(
-                  results: widget.allResults,
-                  sessionID: widget.sessionID,
-                  studentID: widget.studentID,
-                ),
+                builder: (BuildContext context) =>
+                    Surway(
+                      results: widget.allResults,
+                      sessionID: widget.sessionID,
+                      studentID: widget.studentID,
+                    ),
               ),
             );
 
@@ -141,9 +149,10 @@ class _BottomBarState extends State<BottomBar> {
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(
-              builder: (BuildContext context) => ResultsScreen(
-                results: widget.allResults,
-              ),
+              builder: (BuildContext context) =>
+                  ResultsScreen(
+                    results: widget.allResults,
+                  ),
             ),
           );
         }
@@ -157,7 +166,7 @@ class _BottomBarState extends State<BottomBar> {
   ///
   /// Returns:
   ///   A Future<bool>
-  Future<bool> schemaCompleted({required bool complete}) async {
+  Future<void> schemaCompleted({required bool complete}) async {
     final Results results = CatInterpreter().getResults;
     final List<String> commands = List<String>.from(results.getCommands);
     commands.removeAt(0);
@@ -168,7 +177,7 @@ class _BottomBarState extends State<BottomBar> {
       loadingTextWidget: Text("${widget.sessionID}:${widget.studentID}"),
     );
 
-    final int result = await Connection()
+    await Connection()
         .addAlgorithm(
       a: Algorithm(
         collector: collector,
@@ -182,44 +191,54 @@ class _BottomBarState extends State<BottomBar> {
       UIBlock.unblock(context);
 
       return value;
-    });
-
-    context.read<VisibilityNotifier>().visibleFinal = true;
-
-    return await UIBlock.blockWithData(
-      context,
-      customLoaderChild: Image.asset(
-        results.completed
-            ? "resources/gifs/sun.gif"
-            : "resources/gifs/rain.gif",
-        height: 250,
-        width: 250,
-      ),
-      loadingTextWidget: Column(
-        children: <Widget>[
-          const SizedBox(height: 18),
-          CupertinoButton.filled(
-            child: const Icon(CupertinoIcons.arrow_right),
-            onPressed: () async {
-              UIBlock.unblockWithData(
-                context,
-                widget.allResults
-                    .filter(
-                      (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
-                    )
-                    .isNotEmpty,
-              );
-            },
+    }).then(
+          (int res) async {
+        context
+            .read<VisibilityNotifier>()
+            .visibleFinal = true;
+        final bool value = await UIBlock.blockWithData(
+          context,
+          customLoaderChild: Image.asset(
+            results.completed
+                ? "resources/gifs/sun.gif"
+                : "resources/gifs/rain.gif",
+            height: 250,
+            width: 250,
           ),
-        ],
-      ),
+          loadingTextWidget: Column(
+            children: <Widget>[
+              const SizedBox(height: 18),
+              CupertinoButton.filled(
+                child: const Icon(CupertinoIcons.arrow_right),
+                onPressed: () async {
+                  UIBlock.unblockWithData(
+                    context,
+                    widget.allResults
+                        .filter(
+                          (MapEntry<int, ResultsRecord> entry) =>
+                      !entry.value.done,
+                    )
+                        .isNotEmpty,
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+
+        return value;
+      },
     );
   }
 
   void _reset() {
-    context.read<VisibilityNotifier>().visible = false;
+    context
+        .read<VisibilityNotifier>()
+        .visible = false;
     CatInterpreter().reset();
-    context.read<ResultNotifier>().cross = Cross();
+    context
+        .read<ResultNotifier>()
+        .cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
     widget.selectionMode.value = SelectionModes.base;
     widget.selectionMode.notifyListeners();
