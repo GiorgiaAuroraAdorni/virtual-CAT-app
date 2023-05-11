@@ -259,6 +259,21 @@ class CATLocalizations {
   String get continueSessionID =>
       _localizedValues[_locale.languageCode]!["continueSessionID"]!;
 
+  String get column1 => _localizedValues[_locale.languageCode]!["column1"]!;
+
+  String get column2 => _localizedValues[_locale.languageCode]!["column2"]!;
+
+  String get column3 => _localizedValues[_locale.languageCode]!["column3"]!;
+
+  String get resultCorrect =>
+      _localizedValues[_locale.languageCode]!["resultCorrect"]!;
+
+  String get resultSkip =>
+      _localizedValues[_locale.languageCode]!["resultSkip"]!;
+
+  String get resultWrong =>
+      _localizedValues[_locale.languageCode]!["resultWrong"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 

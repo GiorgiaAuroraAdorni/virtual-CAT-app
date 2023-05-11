@@ -25,7 +25,8 @@ final Map<String, String> it = <String, String>{
   "continueSessionID": "Continua",
 }
   ..addAll(_firsForm)
-  ..addAll(_secondForm);
+  ..addAll(_secondForm)
+  ..addAll(_resultsScreen);
 
 const Map<String, String> _firsForm = <String, String>{
   "tutorialTitle": "Sessione di valutazione",
@@ -54,6 +55,15 @@ const Map<String, String> _secondForm = <String, String>{
   "inputName": "Inserisci il tuo nome (opzionale)",
   "inputSurname": "Inserisci il tuo cognome (opzionale)",
   "inputGender": "Inserisci il tuo genere",
+};
+
+const Map<String, String> _resultsScreen = <String, String>{
+  "column1": "Schema di riferimento",
+  "column2": "Schema colorato",
+  "column3": "Risultato",
+  "resultCorrect": "Corretto",
+  "resultSkip": "Resa",
+  "resultWrong": "Sbagliato",
 };
 
 const Map<String, String> groupsIt = <String, String>{
