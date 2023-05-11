@@ -60,7 +60,7 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> _questions = <String, String>{
-  "q1": "Ti é piaciuta questa attività?",
+  "q1": "Did you enjoy this activity?",
   "q2": "Avevi mai usato un app come questa per fare esercizi e imparare?",
   "q3": "L'applicazione era facile da usare?",
   "q4": "Le regolo dell'attività erano facili da capire?",
@@ -83,7 +83,7 @@ const Map<String, String> _descriptions = <String, String>{
   "q32": "Normale",
   "q33": "Difficile",
   //
-  "q51": "BLOCCHI TESTUALI",
+  "q51": "Blocchi testuali",
   "q52": "BLOCCHI SIMBOLICI",
   "q53": "GESTI",
   //
