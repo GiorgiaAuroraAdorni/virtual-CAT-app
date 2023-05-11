@@ -274,6 +274,69 @@ class CATLocalizations {
   String get resultWrong =>
       _localizedValues[_locale.languageCode]!["resultWrong"]!;
 
+  // Questions
+  String get q1 => _localizedValues[_locale.languageCode]!["q1"]!;
+
+  String get q2 => _localizedValues[_locale.languageCode]!["q2"]!;
+
+  String get q3 => _localizedValues[_locale.languageCode]!["q3"]!;
+
+  String get q4 => _localizedValues[_locale.languageCode]!["q4"]!;
+
+  String get q5 => _localizedValues[_locale.languageCode]!["q5"]!;
+
+  String get q6 => _localizedValues[_locale.languageCode]!["q6"]!;
+
+  String get q7 => _localizedValues[_locale.languageCode]!["q7"]!;
+
+  String get q8 => _localizedValues[_locale.languageCode]!["q8"]!;
+
+  // Descriptions
+  String get q11 => _localizedValues[_locale.languageCode]!["q11"]!;
+
+  String get q12 => _localizedValues[_locale.languageCode]!["q12"]!;
+
+  String get q13 => _localizedValues[_locale.languageCode]!["q13"]!;
+
+  String get q21 => _localizedValues[_locale.languageCode]!["q21"]!;
+
+  String get q22 => _localizedValues[_locale.languageCode]!["q22"]!;
+
+  String get q23 => _localizedValues[_locale.languageCode]!["q23"]!;
+
+  String get q31 => _localizedValues[_locale.languageCode]!["q31"]!;
+
+  String get q32 => _localizedValues[_locale.languageCode]!["q32"]!;
+
+  String get q33 => _localizedValues[_locale.languageCode]!["q33"]!;
+
+  String get q51 => _localizedValues[_locale.languageCode]!["q51"]!;
+
+  String get q52 => _localizedValues[_locale.languageCode]!["q52"]!;
+
+  String get q53 => _localizedValues[_locale.languageCode]!["q53"]!;
+
+  String get q61 => _localizedValues[_locale.languageCode]!["q61"]!;
+
+  String get q62 => _localizedValues[_locale.languageCode]!["q62"]!;
+
+  String get q63 => _localizedValues[_locale.languageCode]!["q63"]!;
+
+  String get q71 => _localizedValues[_locale.languageCode]!["q71"]!;
+
+  String get q72 => _localizedValues[_locale.languageCode]!["q72"]!;
+
+  String get q73 => _localizedValues[_locale.languageCode]!["q73"]!;
+
+  String get q81 => _localizedValues[_locale.languageCode]!["q81"]!;
+
+  String get q82 => _localizedValues[_locale.languageCode]!["q82"]!;
+
+  String get q83 => _localizedValues[_locale.languageCode]!["q83"]!;
+
+  String get finalButton =>
+      _localizedValues[_locale.languageCode]!["finalButton"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 

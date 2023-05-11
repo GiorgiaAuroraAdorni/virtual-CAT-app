@@ -239,7 +239,6 @@ class Connection extends BaseConnection {
   }
 
   Future<int> addSurvay(int sessionID, int studentID, String results) async {
-    print(results);
     if (sessionID == -1 || studentID == -1) {
       return -1;
     }

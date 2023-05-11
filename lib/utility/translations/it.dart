@@ -26,7 +26,9 @@ final Map<String, String> it = <String, String>{
 }
   ..addAll(_firsForm)
   ..addAll(_secondForm)
-  ..addAll(_resultsScreen);
+  ..addAll(_resultsScreen)
+  ..addAll(_questions)
+  ..addAll(_descriptions);
 
 const Map<String, String> _firsForm = <String, String>{
   "tutorialTitle": "Sessione di valutazione",
@@ -55,6 +57,48 @@ const Map<String, String> _secondForm = <String, String>{
   "inputName": "Inserisci il tuo nome (opzionale)",
   "inputSurname": "Inserisci il tuo cognome (opzionale)",
   "inputGender": "Inserisci il tuo genere",
+};
+
+const Map<String, String> _questions = <String, String>{
+  "q1": "Ti é piaciuta questa attività?",
+  "q2": "Avevi mai usato un app come questa per fare esercizi e imparare?",
+  "q3": "L'applicazione era facile da usare?",
+  "q4": "Le regolo dell'attività erano facili da capire?",
+  "q5": "Quale modalità di risoluzione hai preferito utilizzare?",
+  "q6": "Gli esercizi erano facili?",
+  "q7": "Quanto tempo hai impiegato per completare gli esercizi?",
+  "q8": "Rifaresti questa esperienza?",
+};
+
+const Map<String, String> _descriptions = <String, String>{
+  "q11": "Bene",
+  "q12": "Cosí cosí",
+  "q13": "Male",
+  //
+  "q21": "Si",
+  "q22": "Non ricordo",
+  "q23": "Mai",
+  //
+  "q31": "Facile",
+  "q32": "Normale",
+  "q33": "Difficile",
+  //
+  "q51": "Blocchi testuali",
+  "q52": "Blocchi simbolici",
+  "q53": "Gesti",
+  //
+  "q61": "Facile",
+  "q62": "Normal",
+  "q63": "Difficile",
+  //
+  "q71": "Poco",
+  "q72": "Normal",
+  "q73": "Tanto",
+  //
+  "q81": "Si",
+  "q82": "Forse",
+  "q83": "No",
+  "finalButton": "Vai ai risultati",
 };
 
 const Map<String, String> _resultsScreen = <String, String>{
