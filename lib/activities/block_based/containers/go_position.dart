@@ -1,8 +1,5 @@
-import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -45,23 +42,6 @@ class _Go extends State<GoPosition> {
   final double fontSize = 15;
 
   @override
-  void initState() {
-    super.initState();
-    Future<void>(() {
-      if (widget.item.position.isNotEmpty) {
-        final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.position);
-        widget.item.position.clear();
-        for (final SimpleContainer i in copy) {
-          if (i is PointContainer) {
-            _addContainer(i, log: false);
-          }
-        }
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
@@ -79,48 +59,47 @@ class _Go extends State<GoPosition> {
       child: Center(
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) {
+          builder: (BuildContext context, Widget? child) {
             if (context.read<TypeUpdateNotifier>().state == 2) {
               return text();
             }
 
-              return figure();
-            },
+            return figure();
+          },
         ),
       ),
     );
   }
 
   Widget text() => Padding(
-    padding: const EdgeInsets.all(5),
-    child: Column(
-      children: <Widget>[
-        Text(
-          "${CATLocalizations.of(context).blocks["goPosition"]!}\n"
-          "${CATLocalizations.of(context).blocks["gotPointBlock"]!}",
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: CupertinoColors.systemBackground,
-          ),
+        padding: const EdgeInsets.all(5),
+        child: Column(
+          children: <Widget>[
+            Text(
+              "${CATLocalizations.of(context).blocks["goPosition"]!}\n"
+              "${CATLocalizations.of(context).blocks["gotPointBlock"]!}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: CupertinoColors.systemBackground,
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            CupertinoButton(
+              color: CupertinoColors.systemGrey5,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              onPressed: _directionPicker,
+              child: Text(
+                widget.item.a + widget.item.b,
+                style: const TextStyle(color: CupertinoColors.black),
+              ),
+            ),
+          ],
         ),
-      const SizedBox(
-      height: 5,
-      ),
-      CupertinoButton(
-        color: CupertinoColors.systemGrey5,
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        onPressed: _directionPicker,
-        child: Text(
-          widget.item.a + widget.item.b,
-          style: const TextStyle(color: CupertinoColors.black),
-        ),
-      ),
-      ],
-    ),
-  );
+      );
 
-  Widget figure() =>
-      Padding(
+  Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,7 +129,7 @@ class _Go extends State<GoPosition> {
 
   void _directionPicker() {
     final List<String> directions =
-    List<String>.generate(6, (int index) => (index + 1).toString());
+        List<String>.generate(6, (int index) => (index + 1).toString());
     final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
     setState(() {
       widget.item.a = directions2.first;
@@ -181,7 +160,7 @@ class _Go extends State<GoPosition> {
                 magnification: 1.3,
                 children: List<Widget>.generate(
                   directions2.length,
-                      (int index) => Text(
+                  (int index) => Text(
                     directions2[index],
                   ),
                 ),
@@ -201,7 +180,7 @@ class _Go extends State<GoPosition> {
                 magnification: 1.3,
                 children: List<Widget>.generate(
                   directions.length,
-                      (int index) => Text(
+                  (int index) => Text(
                     directions[index],
                   ),
                 ),
@@ -211,63 +190,12 @@ class _Go extends State<GoPosition> {
         ),
       ),
     ).whenComplete(
-          () => CatLogger().addLog(
+      () => CatLogger().addLog(
         context: context,
         previousCommand: prev,
         currentCommand: widget.item.toString(),
         description: CatLoggingLevel.updateCommandProperties,
       ),
-    );
-  }
-
-  void _addContainer(PointContainer el, {bool log = true}) {
-    final String prev = widget.item.toString();
-    setState(
-      () {
-        final UniqueKey key = UniqueKey();
-        final PointContainer container = el.copy();
-        widget.item.position.add(
-          container,
-        );
-        container.key = key;
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: Point(
-              key: UniqueKey(),
-              item: container,
-              onChange: (Size size) {},
-            ),
-            onDismissed: (DismissDirection direction) {
-              final String prev = widget.item.toString();
-              setState(() {
-                widget.item.position.removeWhere(
-                  (SimpleContainer e) => e.key == key,
-                );
-                widgets.removeWhere(
-                  (Widget element) => element.key == key,
-                );
-              });
-              context.read<BlockUpdateNotifier>().update();
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.removeCommand,
-              );
-            },
-          ),
-        );
-        context.read<BlockUpdateNotifier>().update();
-        if (log) {
-          CatLogger().addLog(
-            context: context,
-            previousCommand: prev,
-            currentCommand: widget.item.toString(),
-            description: CatLoggingLevel.addCommand,
-          );
-        }
-      },
     );
   }
 

@@ -378,12 +378,6 @@ class _BlockCanvasState extends State<BlockCanvas> {
                           ),
                           child: GoPosition(
                             item: GoPositionContainer(
-                              position: <PointContainer>[
-                                PointContainer(
-                                  languageCode:
-                                      CATLocalizations.of(context).languageCode,
-                                ),
-                              ],
                               languageCode:
                                   CATLocalizations.of(context).languageCode,
                             ),
