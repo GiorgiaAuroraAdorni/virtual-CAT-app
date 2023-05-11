@@ -1,13 +1,12 @@
 import "dart:convert";
 
+import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_fast_forms/flutter_fast_forms.dart";
 import "package:flutter_svg/flutter_svg.dart";
-
-import "model/connection.dart";
 
 class Surway extends StatefulWidget {
   const Surway({
@@ -55,407 +54,527 @@ class _SurwayState extends State<Surway> {
                 formKey: formKey,
                 children: [
                   FastFormSection(
-                    padding: const EdgeInsets.all(16.0),
+                    // padding: const EdgeInsets.all(16),
                     children: [
-                      FastSegmentedControl(
-                        name: "1",
-                        labelText: CATLocalizations.of(context).q1,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q1 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "1",
+                              labelText: CATLocalizations.of(context).q1,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q1 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q11),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q11),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q12),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q13),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q12),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q13),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q2,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q2 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q2,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q2 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q21),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q21),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q22),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q23),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q22),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q23),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q3,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q3 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q3,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q3 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q31),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q31),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q32),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q33),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q32),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q33),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q4,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q4 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q4,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q4 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q31),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q31),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q32),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q33),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q32),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q33),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q5,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q5 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/code.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q5,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q5 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/code.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q51),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q51),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/block.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q52),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/gesture.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q53),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/block.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q52),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/gesture.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q53),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q6,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q6 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q6,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q6 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q61),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q61),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q62),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q63),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q62),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q63),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q7,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q7 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q7,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q7 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(CATLocalizations.of(context).q71),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(CATLocalizations.of(context).q71),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q72),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(CATLocalizations.of(context).q73),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q72),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Text(CATLocalizations.of(context).q73),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
-                      FastSegmentedControl(
-                        name: "2",
-                        labelText: CATLocalizations.of(context).q8,
-                        onChanged: (String? s) {
-                          if (s != null) {
-                            _q8 = s;
-                          }
-                        },
-                        children: {
-                          "yes": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/happy.svg",
-                                  width: 30,
-                                  height: 30,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CupertinoButton(
+                            onPressed: () {},
+                            child: const Icon(CupertinoIcons.speaker_3),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            child: FastSegmentedControl(
+                              name: "2",
+                              labelText: CATLocalizations.of(context).q8,
+                              onChanged: (String? s) {
+                                if (s != null) {
+                                  _q8 = s;
+                                }
+                              },
+                              children: {
+                                "yes": SizedBox(
+                                  width: 140,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Column(
+                                      children: [
+                                        SvgPicture.asset(
+                                          "resources/icons/happy.svg",
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        const Text("Bene"),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                const Text("Bene"),
-                              ],
+                                "neutral": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/neutral.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      const Text("Cosí cosí"),
+                                    ],
+                                  ),
+                                ),
+                                "no": Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Column(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "resources/icons/sad.svg",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      const Text("Male"),
+                                    ],
+                                  ),
+                                ),
+                              },
                             ),
                           ),
-                          "neutral": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/neutral.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                const Text("Cosí cosí"),
-                              ],
-                            ),
-                          ),
-                          "no": Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "resources/icons/sad.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                const Text("Male"),
-                              ],
-                            ),
-                          ),
-                        },
+                        ],
                       ),
                     ],
                   ),
