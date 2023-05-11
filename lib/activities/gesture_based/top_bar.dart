@@ -256,50 +256,36 @@ class _TopBarState extends State<TopBar> {
                       ),
                     ),
                   ),
-
-                Padding(
-                  padding: const EdgeInsets.only(right: 85),
-                  child: SizedBox(
-                    child: Row(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          "resources/icons/trophy.svg",
-                          height: 30,
-                          width: 30,
-                        ),
-                        Text(
+                SizedBox(
+                  width: 155,
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        "resources/icons/trophy.svg",
+                        height: 30,
+                        width: 30,
+                      ),
+                      AnimatedBuilder(
+                        animation: CatInterpreter(),
+                        builder: (_, __) => Text(
                           " ${catScore(
-                                commands: List<String>.from(
-                                  CatInterpreter().getResults.getCommands,
-                                ),
-                                visible:
-                                    context.read<VisibilityNotifier>().visible,
-                              ) * 100}",
+                            commands: List<String>.from(
+                              CatInterpreter().getResults.getCommands,
+                            ),
+                            visible: context.read<VisibilityNotifier>().visible,
+                            interface:
+                                context.read<TypeUpdateNotifier>().state == 0
+                                    ? 0
+                                    : 3,
+                          )}",
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
                   ),
                 ),
-                // CupertinoButton(
-                //   padding: EdgeInsets.zero,
-                //   child: SvgPicture.asset(
-                //     "resources/icons/code.svg",
-                //     height: 52,
-                //     width: 52,
-                //   ),
-                //   onPressed: () {},
-                // ),
-                // Text(
-                //   "Tempo: ${context.watch<TimeKeeper>().formattedTime}",
-                //   style: const TextStyle(
-                //     fontFeatures: <FontFeature>[
-                //       FontFeature.tabularFigures(),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ],

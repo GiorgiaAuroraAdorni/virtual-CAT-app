@@ -44,31 +44,39 @@ final Map<int, String> rows = <int, String>{
 ///
 /// Returns:
 ///   The score of the cat.
-int catScore({List<String> commands = const <String>[], bool visible = false}) {
+int catScore({
+  List<String> commands = const <String>[],
+  bool visible = false,
+  int interface = 0,
+}) {
   commands.removeAt(0);
+  if (commands.isEmpty) {
+    return 0;
+  }
   int score = 0;
   score += visible ? 0 : 1;
+  score += interface;
   int partScore = 0;
   for (final String s in commands) {
     int lineScore = 0;
     final List<String> tokenized = splitCommand(s.toLowerCase());
     switch (tokenized.first) {
       case "paint":
-        lineScore = tokenized.length == 2 ? 0 : 1;
+        lineScore = tokenized.length == 2 ? 4 : 5;
         break;
       case "fill_empty":
-        lineScore = 1;
+        lineScore = 5;
         break;
       case "copy":
-        lineScore = 2;
+        lineScore = 6;
         break;
       case "mirror":
-        lineScore = 2;
+        lineScore = 6;
         break;
       default:
         continue;
     }
-    partScore = lineScore > score ? lineScore : score;
+    partScore += lineScore;
   }
 
   return score + partScore;

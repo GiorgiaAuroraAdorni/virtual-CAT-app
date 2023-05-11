@@ -56,8 +56,7 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   @override
-  Widget build(BuildContext context) =>
-      Row(
+  Widget build(BuildContext context) => Row(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 5, left: 5),
@@ -91,29 +90,25 @@ class _BottomBarState extends State<BottomBar> {
       );
 
   Future<void> submit({required bool complete}) async {
-    final bool v = context
-        .read<VisibilityNotifier>()
-        .finalState;
+    final bool v = context.read<VisibilityNotifier>().finalState;
     final int score = catScore(
       commands: List<String>.from(
         CatInterpreter().getResults.getCommands,
       ),
       visible: v,
-    ) *
-        100;
+      interface: context.read<TypeUpdateNotifier>().state == 0 ? 0 : 3,
+    );
     await schemaCompleted(complete: complete).whenComplete(
-          () {
+      () {
         widget.allResults[SchemasReader().index]!
-          ..time = context
-              .read<TimeKeeper>()
-              .rawTime
+          ..time = context.read<TimeKeeper>().rawTime
           ..result = CatInterpreter().getResults.getStates.last
           ..score = score
           ..done = true
           ..correct = CatInterpreter().getResults.completed
           ..state = complete;
         final Map<int, ResultsRecord> res = widget.allResults.filter(
-              (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+          (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
         );
         if (res.isNotEmpty) {
           final List<int> idx = res.keys
@@ -121,9 +116,7 @@ class _BottomBarState extends State<BottomBar> {
               .filter((int e) => e > SchemasReader().currentIndex)
               .toList();
           final int nextIndex =
-          idx.isEmpty ? res.keys
-              .sorted()
-              .first : idx.first;
+              idx.isEmpty ? res.keys.sorted().first : idx.first;
           _reset();
           context.read<TimeKeeper>().resetTimer();
           CatLogger().resetLogs();
@@ -134,12 +127,11 @@ class _BottomBarState extends State<BottomBar> {
             Navigator.push(
               context,
               CupertinoPageRoute<Widget>(
-                builder: (BuildContext context) =>
-                    Surway(
-                      results: widget.allResults,
-                      sessionID: widget.sessionID,
-                      studentID: widget.studentID,
-                    ),
+                builder: (BuildContext context) => Surway(
+                  results: widget.allResults,
+                  sessionID: widget.sessionID,
+                  studentID: widget.studentID,
+                ),
               ),
             );
 
@@ -149,10 +141,9 @@ class _BottomBarState extends State<BottomBar> {
           Navigator.push(
             context,
             CupertinoPageRoute<Widget>(
-              builder: (BuildContext context) =>
-                  ResultsScreen(
-                    results: widget.allResults,
-                  ),
+              builder: (BuildContext context) => ResultsScreen(
+                results: widget.allResults,
+              ),
             ),
           );
         }
@@ -192,10 +183,8 @@ class _BottomBarState extends State<BottomBar> {
 
       return value;
     }).then(
-          (int res) async {
-        context
-            .read<VisibilityNotifier>()
-            .visibleFinal = true;
+      (int res) async {
+        context.read<VisibilityNotifier>().visibleFinal = true;
         final bool value = await UIBlock.blockWithData(
           context,
           customLoaderChild: Image.asset(
@@ -216,8 +205,8 @@ class _BottomBarState extends State<BottomBar> {
                     widget.allResults
                         .filter(
                           (MapEntry<int, ResultsRecord> entry) =>
-                      !entry.value.done,
-                    )
+                              !entry.value.done,
+                        )
                         .isNotEmpty,
                   );
                 },
@@ -232,13 +221,9 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   void _reset() {
-    context
-        .read<VisibilityNotifier>()
-        .visible = false;
+    context.read<VisibilityNotifier>().visible = false;
     CatInterpreter().reset();
-    context
-        .read<ResultNotifier>()
-        .cross = Cross();
+    context.read<ResultNotifier>().cross = Cross();
     context.read<SelectedColorsNotifier>().clear();
     widget.selectionMode.value = SelectionModes.base;
     widget.selectionMode.notifyListeners();

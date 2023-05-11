@@ -64,13 +64,12 @@ class CatInterpreter with ChangeNotifier {
   ///   a (int): the row number
   ///   b (int): the column number
   ///   color (String): The color to paint the cell.
-  void paint(
-    int a,
-    int b,
-    String color,
-    String languageCode, {
-    required bool copyCommands,
-  }) {
+  void paint(int a,
+      int b,
+      String color,
+      String languageCode, {
+        required bool copyCommands,
+      }) {
     String code = "go(${rows[a]}${b + 1}),";
     code += " paint($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
@@ -83,7 +82,7 @@ class CatInterpreter with ChangeNotifier {
             .split(",")
             .map(
               (String element) => parseToContainer(element, languageCode),
-            )
+        )
             .flatten(),
       );
     }
@@ -97,12 +96,11 @@ class CatInterpreter with ChangeNotifier {
   ///   positions (List<Pair<int, int>>): A list of pairs of integers. Each pair
   /// represents the row and column of the cell to be painted.
   ///   colors (List<String>): a list of colors to paint the cells with.
-  void paintMultiple(
-    List<Pair<int, int>> positions,
-    List<String> colors,
-    String languageCode, {
-    required bool copyCommands,
-  }) {
+  void paintMultiple(List<Pair<int, int>> positions,
+      List<String> colors,
+      String languageCode, {
+        required bool copyCommands,
+      }) {
     final List<String> command = CommandsInspector.main(
       positions,
       colors,
@@ -120,7 +118,7 @@ class CatInterpreter with ChangeNotifier {
         command
             .map(
               (String element) => parseToContainer(element, languageCode),
-            )
+        )
             .flatten(),
       );
     }
@@ -146,11 +144,9 @@ class CatInterpreter with ChangeNotifier {
   /// Args:
   ///   origins (List<Pair<int, int>>): The list of cells that will be copied.
   ///   destinations (List<Pair<int, int>>): The list of cells to be copied to.
-  bool copyCells(
-    List<Pair<int, int>> origins,
-    List<Pair<int, int>> destinations,
-    String languageCode,
-  ) {
+  bool copyCells(List<Pair<int, int>> origins,
+      List<Pair<int, int>> destinations,
+      String languageCode,) {
     final List<String> destinationPosition = <String>[];
     for (final Pair<int, int> i in destinations) {
       destinationPosition.add("${rows[i.first]}${i.second + 1}");
@@ -158,7 +154,7 @@ class CatInterpreter with ChangeNotifier {
     String code = "";
     if (copyCommandsBuffer.isNotEmpty) {
       final String firstDestination =
-          copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
+      copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
       destinationPosition.insert(0, firstDestination);
       code = "copy({${copyCommandsBuffer.joinToString(separator: ",")}},"
           "{${destinationPosition.joinToString(separator: ",")}})";
@@ -215,8 +211,8 @@ class CatInterpreter with ChangeNotifier {
   /// Args:
   ///   direction (String): The direction of the mirror.
   ///   origins (List<Pair<int, int>>): The list of cells to be mirrored.
-  void mirrorCells(
-      String direction, List<Pair<int, int>> origins, String languageCode) {
+  void mirrorCells(String direction, List<Pair<int, int>> origins,
+      String languageCode) {
     final List<String> originsPosition = <String>[];
     for (final Pair<int, int> i in origins) {
       originsPosition.add("${rows[i.first]}${i.second + 1}");
@@ -236,7 +232,7 @@ class CatInterpreter with ChangeNotifier {
   ///   commands (String): The commands to be executed.
   void executeCommands(String commands, String languageCode) {
     final Pair<Results, CatError> results =
-        _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
+    _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
 
     if (results.second != CatError.none) {
       _interpreter.reset();
