@@ -23,6 +23,13 @@ class CatInterpreter with ChangeNotifier {
     );
   }
 
+  void initialize() {
+    _interpreter = cat.CATInterpreter.fromSchemes(
+      SchemasReader().schemes,
+      cat.Shape.cross,
+    );
+  }
+
   /// A buffer that stores the commands that are executed when the user
   /// is copying cells.
   final List<String> copyCommandsBuffer = <String>[];
@@ -33,7 +40,7 @@ class CatInterpreter with ChangeNotifier {
 
   static final CatInterpreter _catInterpreter = CatInterpreter._internal();
 
-  static late final cat.CATInterpreter _interpreter;
+  static late cat.CATInterpreter _interpreter;
 
   /// A getter that returns the last state of the interpreter.
   cat.BasicShape get getLastState => _interpreter.getResults.getStates.last;

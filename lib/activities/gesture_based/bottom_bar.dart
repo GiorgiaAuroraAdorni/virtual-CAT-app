@@ -90,65 +90,7 @@ class _BottomBarState extends State<BottomBar> {
       );
 
   Future<void> submit({required bool complete}) async {
-    final bool v = context.read<VisibilityNotifier>().finalState;
-    final int score = catScore(
-      commands: List<String>.from(
-        CatInterpreter().getResults.getCommands,
-      ),
-      visible: v,
-      interface: context.read<TypeUpdateNotifier>().state == 0 ? 0 : 3,
-    );
-    await schemaCompleted(complete: complete).whenComplete(
-      () {
-        widget.allResults[SchemasReader().index]!
-          ..time = context.read<TimeKeeper>().rawTime
-          ..result = CatInterpreter().getResults.getStates.last
-          ..score = score
-          ..done = true
-          ..correct = CatInterpreter().getResults.completed
-          ..state = complete;
-        final Map<int, ResultsRecord> res = widget.allResults.filter(
-          (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
-        );
-        if (res.isNotEmpty) {
-          final List<int> idx = res.keys
-              .sorted()
-              .filter((int e) => e > SchemasReader().currentIndex)
-              .toList();
-          final int nextIndex =
-              idx.isEmpty ? res.keys.sorted().first : idx.first;
-          _reset();
-          context.read<TimeKeeper>().resetTimer();
-          CatLogger().resetLogs();
-          context.read<TypeUpdateNotifier>().reset();
-          context.read<ReferenceNotifier>().toLocation(nextIndex);
-        } else {
-          if (widget.studentID != -1 && widget.sessionID != -1) {
-            Navigator.push(
-              context,
-              CupertinoPageRoute<Widget>(
-                builder: (BuildContext context) => Surway(
-                  results: widget.allResults,
-                  sessionID: widget.sessionID,
-                  studentID: widget.studentID,
-                ),
-              ),
-            );
-
-            return;
-          }
-
-          Navigator.push(
-            context,
-            CupertinoPageRoute<Widget>(
-              builder: (BuildContext context) => ResultsScreen(
-                results: widget.allResults,
-              ),
-            ),
-          );
-        }
-      },
-    );
+    await schemaCompleted(complete: complete);
   }
 
   /// It's a function that is called when the user completes the schema,
@@ -157,7 +99,7 @@ class _BottomBarState extends State<BottomBar> {
   ///
   /// Returns:
   ///   A Future<bool>
-  Future<bool> schemaCompleted({required bool complete}) async {
+  Future<void> schemaCompleted({required bool complete}) async {
     final Results results = CatInterpreter().getResults;
     final List<String> commands = List<String>.from(results.getCommands);
     commands.removeAt(0);
@@ -168,7 +110,7 @@ class _BottomBarState extends State<BottomBar> {
       loadingTextWidget: Text("${widget.sessionID}:${widget.studentID}"),
     );
 
-    return Connection()
+    await Connection()
         .addAlgorithm(
       a: Algorithm(
         collector: collector,
@@ -182,11 +124,11 @@ class _BottomBarState extends State<BottomBar> {
       UIBlock.unblock(context);
 
       return value;
-    }).then(
-      (int res) async {
+    }).whenComplete(
+      () {
         context.read<VisibilityNotifier>().visibleFinal = true;
 
-        return await UIBlock.blockWithData(
+        return UIBlock.block(
           context,
           customLoaderChild: Image.asset(
             results.completed
@@ -200,23 +142,71 @@ class _BottomBarState extends State<BottomBar> {
               const SizedBox(height: 18),
               CupertinoButton.filled(
                 child: const Icon(CupertinoIcons.arrow_right),
-                onPressed: () async {
-                  UIBlock.unblockWithData(
+                onPressed: () {
+                  final bool v = context.read<VisibilityNotifier>().finalState;
+                  final int score = catScore(
+                    commands: List<String>.from(
+                      CatInterpreter().getResults.getCommands,
+                    ),
+                    visible: v,
+                    interface:
+                        context.read<TypeUpdateNotifier>().state == 0 ? 0 : 3,
+                  );
+                  widget.allResults[SchemasReader().index]!
+                    ..time = context.read<TimeKeeper>().rawTime
+                    ..result = CatInterpreter().getResults.getStates.last
+                    ..score = score
+                    ..done = true
+                    ..correct = CatInterpreter().getResults.completed
+                    ..state = complete;
+                  final Map<int, ResultsRecord> res = widget.allResults.filter(
+                    (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+                  );
+                  if (res.isNotEmpty) {
+                    final List<int> idx = res.keys
+                        .sorted()
+                        .filter((int e) => e > SchemasReader().currentIndex)
+                        .toList();
+                    final int nextIndex =
+                        idx.isEmpty ? res.keys.sorted().first : idx.first;
+                    _reset();
+                    context.read<TimeKeeper>().resetTimer();
+                    CatLogger().resetLogs();
+                    context.read<TypeUpdateNotifier>().reset();
+                    context.read<ReferenceNotifier>().toLocation(nextIndex);
+                  } else {
+                    if (widget.studentID != -1 && widget.sessionID != -1) {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute<Widget>(
+                          builder: (BuildContext context) => Surway(
+                            results: widget.allResults,
+                            sessionID: widget.sessionID,
+                            studentID: widget.studentID,
+                          ),
+                        ),
+                      );
+
+                      return;
+                    }
+
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ResultsScreen(
+                          results: widget.allResults,
+                        ),
+                      ),
+                    );
+                  }
+                  UIBlock.unblock(
                     context,
-                    widget.allResults
-                        .filter(
-                          (MapEntry<int, ResultsRecord> entry) =>
-                              !entry.value.done,
-                        )
-                        .isNotEmpty,
                   );
                 },
               ),
             ],
           ),
         );
-
-        // return value;
       },
     );
   }

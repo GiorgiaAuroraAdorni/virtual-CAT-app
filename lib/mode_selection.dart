@@ -1,5 +1,6 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/connection.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/session_selection.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -13,9 +14,12 @@ class ModeSelection extends StatelessWidget {
   const ModeSelection({super.key});
 
   @override
-  Widget build(BuildContext context) => CupertinoPageScaffold(
+  Widget build(BuildContext context) =>
+      CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(CATLocalizations.of(context).mode),
+          middle: Text(CATLocalizations
+              .of(context)
+              .mode),
         ),
         child: CustomScrollView(
           slivers: <Widget>[
@@ -43,13 +47,14 @@ class ModeSelection extends StatelessWidget {
                         onPressed: () async {
                           await SchemasReader().normal();
                           await Connection().testConnection().then(
-                            (bool value) {
+                                (bool value) {
                               if (value) {
+                                CatInterpreter().initialize();
                                 Navigator.push(
                                   context,
                                   CupertinoPageRoute<Widget>(
                                     builder: (BuildContext context) =>
-                                        const SessionSelection(),
+                                    const SessionSelection(),
                                   ),
                                 );
                               }
@@ -64,7 +69,9 @@ class ModeSelection extends StatelessWidget {
                           // );
                         },
                         child: Text(
-                          CATLocalizations.of(context).tutorialTitle,
+                          CATLocalizations
+                              .of(context)
+                              .tutorialTitle,
                         ),
                       ),
                     ],
@@ -89,21 +96,25 @@ class ModeSelection extends StatelessWidget {
                       ),
                       CupertinoButton.filled(
                         onPressed: () async {
-                          await SchemasReader().testing().whenComplete(
-                                () => Navigator.push(
-                                  context,
-                                  CupertinoPageRoute<Widget>(
-                                    builder: (BuildContext context) =>
-                                        const ActivityHome(
-                                      sessionID: -1,
-                                      studentID: -1,
-                                    ),
-                                  ),
+                          await SchemasReader().testing().whenComplete(() {
+                            CatInterpreter().initialize();
+
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute<Widget>(
+                                builder: (BuildContext context) =>
+                                const ActivityHome(
+                                  sessionID: -1,
+                                  studentID: -1,
                                 ),
-                              );
+                              ),
+                            );
+                          });
                         },
                         child: Text(
-                          CATLocalizations.of(context).testApplication,
+                          CATLocalizations
+                              .of(context)
+                              .testApplication,
                         ),
                       ),
                     ],
