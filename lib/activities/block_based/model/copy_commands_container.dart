@@ -4,11 +4,11 @@ import "package:flutter/cupertino.dart";
 
 class CopyCommandsContainer extends SimpleContainer {
   CopyCommandsContainer({
-    super.name = "Copia",
-    super.type = ContainerType.copy,
     required super.container,
     required super.moves,
     required super.languageCode,
+    super.name = "Copia",
+    super.type = ContainerType.copy,
   });
 
   @override

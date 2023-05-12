@@ -6,8 +6,8 @@ import "package:flutter_svg/svg.dart";
 
 class StudentSelection extends StatelessWidget {
   const StudentSelection({
-    super.key,
     required this.sessionID,
+    super.key,
   });
 
   /// A variable that is used to store the session data.
@@ -24,7 +24,7 @@ class StudentSelection extends StatelessWidget {
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     const SizedBox(
                       height: 30,
                     ),

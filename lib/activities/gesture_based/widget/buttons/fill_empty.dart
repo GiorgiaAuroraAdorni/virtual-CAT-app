@@ -31,18 +31,14 @@ class FillEmpty extends ActionButton {
 
 /// `FillEmptyState` is a state class for the `FillEmpty` action button
 class FillEmptyState extends ActionButtonState<FillEmpty> {
-
+  @override
   bool additionalFlag = false;
 
   @override
-  Widget build(BuildContext context) =>
-      AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
         animation: context.read<SelectedColorsNotifier>(),
         builder: (BuildContext c, Widget? w) {
-          if (context
-              .read<SelectedColorsNotifier>()
-              .colors
-              .length == 1 &&
+          if (context.read<SelectedColorsNotifier>().colors.length == 1 &&
               widget.state.widget.selectionMode.value == SelectionModes.base) {
             activateNoState();
           } else {
@@ -55,19 +51,16 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
 
   @override
   void onSelect() {
-    final List<String> colors =
-    analyzeColor(context
-        .read<SelectedColorsNotifier>()
-        .colors);
+    final List<String> colors = analyzeColor(
+      context.read<SelectedColorsNotifier>().colors,
+    );
     if (colors.length != 1) {
       widget.state.widget.shakeKey.currentState?.shake();
 
       return;
     }
     CatInterpreter()
-        .fillEmpty(colors.first, CATLocalizations
-        .of(context)
-        .languageCode);
+        .fillEmpty(colors.first, CATLocalizations.of(context).languageCode);
     CatLogger().addLog(
       context: context,
       previousCommand: "",

@@ -5,16 +5,17 @@ import "package:flutter/cupertino.dart";
 
 class PaintSingleContainer extends SimpleContainer {
   PaintSingleContainer({
+    required super.languageCode,
     super.name = "Colora singolo",
     super.type = ContainerType.paintSingle,
-    required super.languageCode,
     this.selected = CupertinoColors.systemOrange,
   });
 
   CupertinoDynamicColor selected;
 
   @override
-  String toString() => "paint(${analyzeColor([selected]).join()})";
+  String toString() =>
+      "paint(${analyzeColor(<CupertinoDynamicColor>[selected]).join()})";
 
   @override
   PaintSingleContainer copy() => PaintSingleContainer(

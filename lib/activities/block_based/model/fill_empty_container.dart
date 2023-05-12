@@ -5,19 +5,21 @@ import "package:flutter/cupertino.dart";
 
 class FillEmptyContainer extends SimpleContainer {
   FillEmptyContainer({
+    required super.languageCode,
     super.name = "Riempi vuoti",
     super.type = ContainerType.fillEmpty,
     this.selected = CupertinoColors.systemOrange,
-    required super.languageCode,
   });
 
   /// It's a key that is used to identify the component in the tree.
+  @override
   Key key = UniqueKey();
 
   CupertinoDynamicColor selected;
 
   @override
-  String toString() => "fill_empty(${analyzeColor([selected]).join()})";
+  String toString() =>
+      "fill_empty(${analyzeColor(<CupertinoDynamicColor>[selected]).join()})";
 
   @override
   FillEmptyContainer copy() => FillEmptyContainer(

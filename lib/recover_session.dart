@@ -7,10 +7,10 @@ class RecoverSession extends StatefulWidget {
   const RecoverSession({super.key});
 
   @override
-  _RecoverSessionState createState() => _RecoverSessionState();
+  RecoverSessionState createState() => RecoverSessionState();
 }
 
-class _RecoverSessionState extends State<RecoverSession> {
+class RecoverSessionState extends State<RecoverSession> {
   final TextEditingController _controllerSession = TextEditingController();
 
   @override
@@ -23,7 +23,7 @@ class _RecoverSessionState extends State<RecoverSession> {
             autovalidateMode: AutovalidateMode.always,
             child: CupertinoFormSection.insetGrouped(
               header: Text(CATLocalizations.of(context).requestSessionID),
-              children: [
+              children: <Widget>[
                 CupertinoTextFormFieldRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).sessionID}:",
@@ -54,7 +54,7 @@ class _RecoverSessionState extends State<RecoverSession> {
     if (value != null) {
       Connection().sessions().then(
         (ret) {
-          for (var i in ret) {
+          for (final i in ret) {
             if (i["id"] == value) {
               Navigator.push(
                 context,

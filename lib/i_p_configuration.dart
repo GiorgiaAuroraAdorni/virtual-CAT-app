@@ -6,10 +6,10 @@ class IPConfiguration extends StatefulWidget {
   const IPConfiguration({super.key});
 
   @override
-  _IPConfigurationState createState() => _IPConfigurationState();
+  IPConfigurationState createState() => IPConfigurationState();
 }
 
-class _IPConfigurationState extends State<IPConfiguration> {
+class IPConfigurationState extends State<IPConfiguration> {
   final TextEditingController _controllerIP =
       TextEditingController(text: "192.168.2.1");
 
@@ -22,8 +22,8 @@ class _IPConfigurationState extends State<IPConfiguration> {
           child: Form(
             autovalidateMode: AutovalidateMode.always,
             child: CupertinoFormSection.insetGrouped(
-              header: const Text('IP adress configuration'),
-              children: [
+              header: const Text("IP adress configuration"),
+              children: <Widget>[
                 CupertinoTextFormFieldRow(
                   prefix: const Text(
                     "IP:",
@@ -33,7 +33,7 @@ class _IPConfigurationState extends State<IPConfiguration> {
                   controller: _controllerIP,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a value';
+                      return "Please enter a value";
                     }
 
                     return null;

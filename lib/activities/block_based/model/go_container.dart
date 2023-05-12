@@ -8,11 +8,11 @@ import "package:flutter/material.dart";
 
 class GoContainer extends SimpleContainer {
   GoContainer({
+    required super.languageCode,
     super.name = "Vai a",
     super.type = ContainerType.go,
     this.direction = "right",
     super.repetitions = 1,
-    required super.languageCode,
   });
 
   String direction;

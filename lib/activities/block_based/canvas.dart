@@ -40,21 +40,21 @@ import "package:provider/provider.dart";
 
 class BlockCanvas extends StatefulWidget {
   const BlockCanvas({
-    super.key,
     required this.shakeKey,
+    super.key,
   });
 
   /// It's a key that is used to shake the widget.
   final GlobalKey<ShakeWidgetState> shakeKey;
 
   @override
-  _BlockCanvasState createState() => _BlockCanvasState();
+  BlockCanvasState createState() => BlockCanvasState();
 }
 
-class _BlockCanvasState extends State<BlockCanvas> {
-  late List<Widget> widgets = <Widget>[];
+class BlockCanvasState extends State<BlockCanvas> {
+  List<Dismissible> _widgets = <Dismissible>[];
 
-  List<GlobalKey> _keys = [];
+  List<GlobalKey> _keys = <GlobalKey>[];
 
   void _blockDroppedOnCanvas({
     required SimpleContainer item,
@@ -78,7 +78,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 .join(",");
             setState(
               () {
-                widgets.removeWhere((Widget element) => element.key == key);
+                _widgets
+                    .removeWhere((Dismissible element) => element.key == key);
                 CatInterpreter().allCommandsBuffer.removeWhere(
                       (SimpleContainer element) => element.key == key,
                     );
@@ -100,11 +101,11 @@ class _BlockCanvasState extends State<BlockCanvas> {
           },
         );
         if (position == -1) {
-          widgets.add(element);
+          _widgets.add(element);
           CatInterpreter().allCommandsBuffer.add(itemCopy);
           _keys.add(key);
         } else {
-          widgets[position] = element;
+          _widgets[position] = element;
           _keys[position] = key;
           if (position >= CatInterpreter().allCommandsBuffer.length) {
             CatInterpreter().allCommandsBuffer.add(itemCopy);
@@ -116,7 +117,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
     );
   }
 
-  Widget _generateDismiss(
+  WidgetContainer _generateDismiss(
     SimpleContainer container,
     Function f,
   ) {
@@ -211,10 +212,10 @@ class _BlockCanvasState extends State<BlockCanvas> {
         break;
     }
 
-    return Container();
+    return WidgetContainer(onChange: () {});
   }
 
-  bool added = false;
+  bool _added = false;
 
   void _interpreterListener() {
     if (!mounted) {
@@ -223,9 +224,9 @@ class _BlockCanvasState extends State<BlockCanvas> {
     if (context.read<VisibilityNotifier>().visible) {
       context.read<ResultNotifier>().cross =
           CatInterpreter().getLastState as Cross;
-      if (!added) {
+      if (!_added) {
         CatInterpreter().addListener(_interpreterListener);
-        added = !added;
+        _added = !_added;
       }
     } else {
       CatInterpreter().removeListener(_interpreterListener);
@@ -237,7 +238,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
       return;
     }
     setState(() {
-      widgets.clear();
+      _widgets.clear();
       _keys.clear();
       CatInterpreter().allCommandsBuffer.clear();
       // items.clear();
@@ -300,9 +301,9 @@ class _BlockCanvasState extends State<BlockCanvas> {
 
   final ScrollController _firstController = ScrollController();
 
-  int prevIndex = -1;
+  int _prevIndex = -1;
 
-  Timer t = Timer(Duration.zero, () {});
+  Timer _timer = Timer(Duration.zero, () {});
 
   @override
   Widget build(BuildContext context) => ShakeWidget(
@@ -314,7 +315,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
           builder: (
             BuildContext context,
             List<SimpleContainer?> candidateItems,
-            List rejectedItems,
+            List<dynamic> rejectedItems,
           ) =>
               Container(
             width: MediaQuery.of(context).size.width * 0.50,
@@ -334,8 +335,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
                   bottom: 200,
                 ),
                 onReorder: (int oldIndex, int newIndex) {
-                  t.cancel();
-                  t = Timer(const Duration(milliseconds: 200), () {});
+                  _timer.cancel();
+                  _timer = Timer(const Duration(milliseconds: 200), () {});
                   final String prev = CatInterpreter()
                       .allCommandsBuffer
                       .map((SimpleContainer e) => e.toString())
@@ -343,16 +344,14 @@ class _BlockCanvasState extends State<BlockCanvas> {
                   if (oldIndex < newIndex) {
                     newIndex -= 1;
                   }
-                  widgets.insert(newIndex, widgets.removeAt(oldIndex));
+                  _widgets.insert(newIndex, _widgets.removeAt(oldIndex));
                   _keys.insert(newIndex, _keys.removeAt(oldIndex));
-                  CatInterpreter().allCommandsBuffer = widgets
+                  CatInterpreter().allCommandsBuffer = _widgets
                       .filter(
-                        (Widget e) =>
-                            (e as Dismissible).child is WidgetContainer,
+                        (Dismissible e) => e.child is WidgetContainer,
                       )
                       .map(
-                        (Widget e) =>
-                            ((e as Dismissible).child as WidgetContainer).item,
+                        (Dismissible e) => (e.child as WidgetContainer).item,
                       )
                       .toList();
                   context.read<BlockUpdateNotifier>().update();
@@ -367,8 +366,8 @@ class _BlockCanvasState extends State<BlockCanvas> {
                   );
                 },
                 children: () {
-                  if (candidateItems.isEmpty && widgets.isEmpty) {
-                    return [
+                  if (candidateItems.isEmpty && _widgets.isEmpty) {
+                    return <Widget>[
                       IgnorePointer(
                         key: GlobalKey(),
                         child: ColorFiltered(
@@ -388,7 +387,7 @@ class _BlockCanvasState extends State<BlockCanvas> {
                     ];
                   }
 
-                  return widgets;
+                  return _widgets;
                 }.call(),
               ),
             ),
@@ -406,30 +405,36 @@ class _BlockCanvasState extends State<BlockCanvas> {
           },
           onLeave: (_) {
             setState(() {
-              widgets = widgets.filter((Widget e) => e is Dismissible).toList();
+              _widgets = _widgets
+                  .filter(
+                    (Dismissible element) => element.child is WidgetContainer,
+                  )
+                  .toList();
             });
-            _keys = widgets.map((Widget e) => e.key as GlobalKey).toList();
-            CatInterpreter().allCommandsBuffer = widgets
+            _keys = _widgets
+                .filter((Dismissible element) => element.key is GlobalKey)
+                .map((Dismissible e) => e.key as GlobalKey)
+                .toList();
+            CatInterpreter().allCommandsBuffer = _widgets
                 .filter(
-                  (Widget e) => (e as Dismissible).child is WidgetContainer,
+                  (Dismissible e) => e.child is WidgetContainer,
                 )
                 .map(
-                  (Widget e) =>
-                      ((e as Dismissible).child as WidgetContainer).item,
+                  (Dismissible e) => (e.child as WidgetContainer).item,
                 )
                 .toList();
-            prevIndex = -1;
+            _prevIndex = -1;
           },
           onMove: (DragTargetDetails<SimpleContainer> details) {
             if (details.data.type == ContainerType.point) {
               return;
             }
-            if (t.isActive) {
+            if (_timer.isActive) {
               return;
             }
             int index = _keys.length;
             double distance = double.maxFinite;
-            bool sized_box = false;
+            bool sizedBox = false;
             for (int i = 0; i < _keys.length; i++) {
               if (_keys[i].currentContext?.findRenderObject() != null) {
                 final RenderBox renderBox =
@@ -448,21 +453,47 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 if (dist < distance) {
                   distance = dist;
                   index = i;
-                  sized_box = widgets[index] is SizedBox;
+                  sizedBox = _widgets[index] is SizedBox;
                 }
               }
             }
-            if (sized_box) {
+            if (sizedBox) {
               return;
             }
             final GlobalKey key = GlobalKey();
-            if (prevIndex != -1) {
+            if (_prevIndex != -1) {
               setState(() {
-                widgets
-                  ..removeAt(prevIndex)
+                _widgets
+                  ..removeAt(_prevIndex)
                   ..insert(
                     index,
-                    Container(
+                    Dismissible(
+                      key: GlobalKey(),
+                      child: Container(
+                        key: key,
+                        height: 70,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          color: CupertinoColors.systemBackground,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                      ),
+                    ),
+                  );
+                _keys
+                  ..removeAt(_prevIndex)
+                  ..insert(index, key);
+                _prevIndex = index;
+              });
+            } else {
+              setState(() {
+                _widgets.insert(
+                  index,
+                  Dismissible(
+                    key: GlobalKey(),
+                    child: Container(
                       key: key,
                       height: 70,
                       width: MediaQuery.of(context).size.width,
@@ -473,32 +504,13 @@ class _BlockCanvasState extends State<BlockCanvas> {
                             const BorderRadius.all(Radius.circular(8)),
                       ),
                     ),
-                  );
-                _keys
-                  ..removeAt(prevIndex)
-                  ..insert(index, key);
-                prevIndex = index;
-              });
-            } else {
-              setState(() {
-                widgets.insert(
-                  index,
-                  Container(
-                    key: key,
-                    height: 70,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      color: CupertinoColors.systemBackground,
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    ),
                   ),
                 );
                 _keys.insert(index, key);
-                prevIndex = index;
+                _prevIndex = index;
               });
             }
-            t = Timer(const Duration(milliseconds: 200), () {});
+            _timer = Timer(const Duration(milliseconds: 200), () {});
           },
           onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
             final SimpleContainer item = details.data;
@@ -508,22 +520,28 @@ class _BlockCanvasState extends State<BlockCanvas> {
                 .join(",");
             _blockDroppedOnCanvas(
               item: item,
-              position: prevIndex,
+              position: _prevIndex,
             );
             setState(() {
-              widgets = widgets.filter((Widget e) => e is Dismissible).toList();
+              _widgets = _widgets
+                  .filter(
+                    (Dismissible element) => element.child is WidgetContainer,
+                  )
+                  .toList();
             });
-            _keys = widgets.map((Widget e) => e.key as GlobalKey).toList();
-            CatInterpreter().allCommandsBuffer = widgets
+            _keys = _widgets
+                .filter((Dismissible element) => element.key is GlobalKey)
+                .map((Dismissible e) => e.key as GlobalKey)
+                .toList();
+            CatInterpreter().allCommandsBuffer = _widgets
                 .filter(
-                  (Widget e) => (e as Dismissible).child is WidgetContainer,
+                  (Dismissible e) => e.child is WidgetContainer,
                 )
                 .map(
-                  (Widget e) =>
-                      ((e as Dismissible).child as WidgetContainer).item,
+                  (Dismissible e) => (e.child as WidgetContainer).item,
                 )
                 .toList();
-            prevIndex = -1;
+            _prevIndex = -1;
             context.read<BlockUpdateNotifier>().update();
             CatLogger().addLog(
               context: context,

@@ -387,7 +387,7 @@ class _Copy extends State<CopyCommands> {
                         builder: (BuildContext context, Widget? child) =>
                             IgnorePointer(
                           child: Column(
-                            children: [
+                            children: <Widget>[
                               ColorFiltered(
                                 colorFilter: const ColorFilter.mode(
                                   Colors.white54,

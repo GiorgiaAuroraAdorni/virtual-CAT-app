@@ -5,11 +5,11 @@ import "package:flutter_svg/svg.dart";
 
 class MirrorSimpleContainer extends SimpleContainer {
   MirrorSimpleContainer({
+    required super.type,
+    required super.languageCode,
     super.name = "Specchia croce",
     this.position = 0,
     this.direction = "horizontal",
-    required super.type,
-    required super.languageCode,
   });
 
   int position;

@@ -21,7 +21,7 @@ import "package:provider/provider.dart";
 /// `_TopBarState` object
 class TopBar extends StatefulWidget {
   /// A named constructor.
-  TopBar({
+  const TopBar({
     required this.sessionID,
     required this.studentID,
     required this.allResults,
@@ -52,7 +52,7 @@ class TopBar extends StatefulWidget {
   State<StatefulWidget> createState() => _TopBarState();
 }
 
-class _TopBarState extends State<TopBar> {
+class _TopBarState extends State<TopBar> with ChangeNotifier {
   late Timer _timer;
 
   @override
@@ -83,7 +83,7 @@ class _TopBarState extends State<TopBar> {
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: CupertinoButton(

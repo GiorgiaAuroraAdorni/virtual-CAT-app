@@ -169,49 +169,49 @@ class _Go extends State<Go> {
 
   void _repetitionsPickerIcon() {
     final List<Widget> repetitions = <Widget>[
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(CupertinoIcons.circle_fill),
         ],
       ),
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
-          Icon(CupertinoIcons.circle_fill),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
+        children: <Widget>[
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
         ],
       ),
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
+        children: <Widget>[
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
         ],
       ),
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Icon(CupertinoIcons.circle_fill),
+        children: <Widget>[
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
         ],
       ),
-      Row(
+      const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+          Icon(CupertinoIcons.circle_fill),
+        ],
+      ),
+      const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),
           Icon(CupertinoIcons.circle_fill),

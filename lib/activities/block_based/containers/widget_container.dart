@@ -4,8 +4,8 @@ import "package:flutter/cupertino.dart";
 
 class WidgetContainer extends StatefulWidget {
   WidgetContainer({
-    super.key,
     required this.onChange,
+    super.key,
   });
 
   /// Creating a new instance of the SimpleContainer class.

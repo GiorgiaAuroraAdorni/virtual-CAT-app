@@ -1,11 +1,10 @@
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
+import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:provider/provider.dart";
-
-import "../../../../utility/cat_log.dart";
 
 /// A button that can be selected or not
 class SelectionButton extends ActionButton {

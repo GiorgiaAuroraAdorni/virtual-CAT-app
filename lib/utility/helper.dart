@@ -13,7 +13,7 @@ RouteObserver<PageRoute> routeObserver = RouteObserver();
 /// Returns:
 ///   A list of strings.
 List<String> analyzeColor(List<CupertinoDynamicColor> nextColors) {
-  final List<String> colors = [];
+  final List<String> colors = <String>[];
   for (final CupertinoDynamicColor currentColor in nextColors) {
     if (currentColor == CupertinoColors.systemBlue) {
       colors.add("blue");

@@ -3,11 +3,11 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 
 class PointContainer extends SimpleContainer {
   PointContainer({
+    required super.languageCode,
     super.name = "Pallino",
     super.type = ContainerType.point,
     this.a = "C",
     this.b = "1",
-    required super.languageCode,
   });
 
   String a;

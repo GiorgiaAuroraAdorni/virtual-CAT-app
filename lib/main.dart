@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
             home: const HomePage(),
             initialRoute: "/",
             routes: {
-              "/mode": (context) => const ModeSelection(),
+              "/mode": (BuildContext context) => const ModeSelection(),
             },
             theme: const CupertinoThemeData(
               brightness: Brightness.light,

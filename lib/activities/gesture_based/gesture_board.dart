@@ -45,7 +45,7 @@ class GestureBoard extends StatefulWidget {
 class _GestureBoardState extends State<GestureBoard> {
   @override
   Widget build(BuildContext context) => Column(
-        children: [
+        children: <Widget>[
           const ChangeCrossVisualization(),
           Padding(
             padding: const EdgeInsets.all(15),

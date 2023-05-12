@@ -192,7 +192,7 @@ class _Mirror extends State<MirrorPoints> {
                             BlendMode.modulate,
                           ),
                           child: Column(
-                            children: [
+                            children: <Widget>[
                               Point(
                                 item: PointContainer(
                                   languageCode:

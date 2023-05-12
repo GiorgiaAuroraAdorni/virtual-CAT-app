@@ -200,10 +200,10 @@ class _Paint extends State<Paint> {
     setState(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
-        repetitionsText = [repetitionsText[2]];
+        repetitionsText = <Widget>[repetitionsText[2]];
       } else if (widget.item.direction.startsWith("l")) {
         widget.item.repetitions = 3;
-        repetitionsText = [repetitionsText[3]];
+        repetitionsText = <Widget>[repetitionsText[3]];
       } else if (widget.item.direction.startsWith("zig-zag")) {
         widget.item.repetitions = 1;
         repetitionsText.removeAt(0);
@@ -256,10 +256,10 @@ class _Paint extends State<Paint> {
     setState(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
-        repetitionsIcons = [repetitionsIcons[2]];
+        repetitionsIcons = <Widget>[repetitionsIcons[2]];
       } else if (widget.item.direction.startsWith("l")) {
         widget.item.repetitions = 3;
-        repetitionsIcons = [repetitionsIcons[3]];
+        repetitionsIcons = <Widget>[repetitionsIcons[3]];
       } else if (widget.item.direction.startsWith("zig-zag")) {
         widget.item.repetitions = 1;
         repetitionsIcons.removeAt(0);
@@ -428,10 +428,10 @@ class _Paint extends State<Paint> {
               onPressed: () {
                 final String prev = widget.item.toString();
                 setState(() {
-                  if (widget.item.selected_colors.contains(color)) {
-                    widget.item.selected_colors.remove(color);
+                  if (widget.item.selectedColors.contains(color)) {
+                    widget.item.selectedColors.remove(color);
                   } else {
-                    widget.item.selected_colors.add(color);
+                    widget.item.selectedColors.add(color);
                   }
                 });
                 context.read<BlockUpdateNotifier>().update();
@@ -446,7 +446,7 @@ class _Paint extends State<Paint> {
               minSize: 30,
               color: color,
               padding: EdgeInsets.zero,
-              child: widget.item.selected_colors.contains(color)
+              child: widget.item.selectedColors.contains(color)
                   ? Stack(
                       alignment: AlignmentDirectional.center,
                       children: <Widget>[
@@ -455,7 +455,7 @@ class _Paint extends State<Paint> {
                           size: 20,
                         ),
                         Text(
-                          "${widget.item.selected_colors.indexOf(color) + 1}",
+                          "${widget.item.selectedColors.indexOf(color) + 1}",
                           style: textStyle,
                         ),
                       ],

@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import "package:cross_array_task_app/model/baseConnection.dart";
+import "package:cross_array_task_app/model/base_connection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";

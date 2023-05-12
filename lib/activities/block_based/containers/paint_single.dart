@@ -108,9 +108,9 @@ class _PaintSingle extends State<PaintSingle> {
               color: color,
               padding: EdgeInsets.zero,
               child: widget.item.selected == color
-                  ? Stack(
+                  ? const Stack(
                       alignment: AlignmentDirectional.center,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Icon(
                           CupertinoIcons.circle_filled,
                           size: 15,

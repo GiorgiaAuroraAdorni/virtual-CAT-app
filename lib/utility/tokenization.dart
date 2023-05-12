@@ -31,8 +31,8 @@ Collector elaborate({
   // interpreter = CATInterpreter(json);
   // interpreterFull = CATInterpreter(json);
   // List<String> commands = splitCommands(command);
-  goCommands = [];
-  for (String c in commands) {
+  goCommands = <String>[];
+  for (final String c in commands) {
     // interpreterFull.validateOnScheme(c, schema);
     final List<String> tokens = splitCommand(c);
     switch (tokens.first) {
@@ -50,7 +50,7 @@ Collector elaborate({
       case "copy":
         // var temp = correctCommandUse(command: c, schema: schema);
         const bool temp = true;
-        _copyAnalysis(tokens, parent: temp);
+        _copyAnalysis(tokens);
         break;
       case "mirror":
         _mirrorAnalysis(c, schemeIndex: schema);
@@ -79,7 +79,7 @@ void _paintAnalysis(
     collector.data["paintDot"]?.add(finalValue);
   }
   if (tokens.length == 4) {
-    String cap = tokens.last
+    final String cap = tokens.last
         .replaceAll("-", "")
         .split(" ")
         .map((String str) => str.capitalize())
@@ -97,7 +97,7 @@ void _copyAnalysis(List<String> command, {bool parent = true}) {
   final List<String> commands =
       splitCommands(command.second.removeSurrounding(prefix: "{", suffix: "}"));
   bool flag = false;
-  for (String c in commands) {
+  for (final String c in commands) {
     final List<String> tokens = splitCommand(c);
     if (tokens.first == "paint") {
       flag = true;
@@ -114,7 +114,6 @@ void _copyAnalysis(List<String> command, {bool parent = true}) {
 void _mirrorAnalysis(
   String command, {
   int schemeIndex = 1,
-  bool parent = true,
 }) {
   final List<String> tokens = splitCommand(command);
   final List<String> toEvaluate = splitByCurly(tokens.second);
@@ -150,7 +149,7 @@ void _mirrorAnalysis(
         commands = true;
       }
       if (tokens.first == "paint") {
-        _paintAnalysis(c, skip: true, parent: correctness);
+        _paintAnalysis(c, skip: true);
         commands = true;
       }
       if (tokens.first == "fill_empty") {
@@ -160,12 +159,12 @@ void _mirrorAnalysis(
       }
       if (tokens.first == "copy") {
         collector.data["copy"]?.add(correctness);
-        _copyAnalysis(tokens, parent: correctness);
+        _copyAnalysis(tokens);
         commands = true;
         continue;
       }
       if (tokens.first == "mirror") {
-        _mirrorAnalysis(c, schemeIndex: schemeIndex, parent: correctness);
+        _mirrorAnalysis(c, schemeIndex: schemeIndex);
         commands = true;
         continue;
       }

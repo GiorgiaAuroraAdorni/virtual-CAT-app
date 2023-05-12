@@ -211,9 +211,8 @@ class _Copy extends State<CopyCells> {
             return Align(
               child: Container(
                 decoration: BoxDecoration(
-                  color: candidateItems.isNotEmpty
-                      ? Colors.indigo
-                      : Colors.white,
+                  color:
+                      candidateItems.isNotEmpty ? Colors.indigo : Colors.white,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(8),
                   ),
@@ -332,7 +331,7 @@ class _Copy extends State<CopyCells> {
                               BlendMode.modulate,
                             ),
                             child: Column(
-                              children: [
+                              children: <Widget>[
                                 Point(
                                   item: PointContainer(
                                     languageCode: CATLocalizations.of(context)

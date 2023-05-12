@@ -26,6 +26,7 @@ class RepeatButton extends ActionButton {
 /// It's a button that can be selected or deselected, and when selected,
 /// it calls a function
 class RepeatButtonState extends ActionButtonState<RepeatButton> {
+  @override
   bool additionalFlag = false;
 
   @override

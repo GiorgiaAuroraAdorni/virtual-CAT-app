@@ -6,12 +6,12 @@ import "package:flutter_svg/svg.dart";
 
 class MirrorContainerPoints extends SimpleContainer {
   MirrorContainerPoints({
+    required super.container,
+    required super.languageCode,
     super.name = "Specchia",
     super.type = ContainerType.mirrorPoints,
     this.position = 0,
     this.direction = "horizontal",
-    required super.container,
-    required super.languageCode,
   });
 
   int position;

@@ -17,7 +17,7 @@ import "package:provider/provider.dart";
 /// It's a button that can be selected, deselected, and changed color
 class CrossButton extends StatefulWidget {
   /// It's the constructor of the class.
-  CrossButton({
+  const CrossButton({
     required this.globalKey,
     required this.position,
     required this.shakeKey,
@@ -304,7 +304,7 @@ class CrossButtonState extends State<CrossButton> {
     );
     final List<List<int>> localGridCopy =
         localResultsCopy.first.getStates.last.getGrid;
-    final List<Pair<int, int>> selectedButtons = [];
+    final List<Pair<int, int>> selectedButtons = <Pair<int, int>>[];
     for (int i = 0; i < localGrid.length; i++) {
       for (int j = 0; j < localGrid[i].length; j++) {
         if (localGridCopy[i][j] != localGrid[i][j]) {
@@ -398,13 +398,13 @@ class CrossButtonState extends State<CrossButton> {
 
       return;
     }
-    t = Timer.periodic(const Duration(milliseconds: 1), (timer) {
+    t = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
       setState(() {
         buttonColor = CupertinoColors.lightBackgroundGray;
       });
     });
 
-    await Future.delayed(const Duration(milliseconds: 300), () {
+    await Future<void>.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         t.cancel();
         buttonColor = this.colors[widget.resultValueNotifier.cross
@@ -459,7 +459,7 @@ class CrossButtonState extends State<CrossButton> {
       selectionRepeat = false;
     });
     if (success) {
-      t = Timer.periodic(const Duration(milliseconds: 1), (timer) {
+      t = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
         setState(() {
           buttonColor = CupertinoColors.lightBackgroundGray;
         });
@@ -467,7 +467,7 @@ class CrossButtonState extends State<CrossButton> {
       setState(() {
         buttonColor = CupertinoColors.lightBackgroundGray;
       });
-      await Future.delayed(const Duration(milliseconds: 300), () {
+      await Future<void>.delayed(const Duration(milliseconds: 300), () {
         setState(() {
           t.cancel();
           buttonColor = colors[widget.resultValueNotifier.cross

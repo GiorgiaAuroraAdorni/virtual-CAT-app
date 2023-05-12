@@ -9,15 +9,15 @@ import "package:flutter/material.dart";
 
 class PaintContainer extends SimpleContainer {
   PaintContainer({
+    required this.selectedColors,
+    required super.languageCode,
     super.name = "Colora",
     super.type = ContainerType.paint,
     this.direction = "right",
     super.repetitions = 0,
-    required this.selected_colors,
-    required super.languageCode,
   });
 
-  List<CupertinoDynamicColor> selected_colors;
+  List<CupertinoDynamicColor> selectedColors;
 
   String direction;
 
@@ -369,44 +369,33 @@ class PaintContainer extends SimpleContainer {
   ];
 
   final List<Widget> repetitionsIcons = <Widget>[
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(CupertinoIcons.circle_fill),
-        Icon(CupertinoIcons.circle_fill),
-        Icon(CupertinoIcons.circle_fill),
-      ],
-    ),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(CupertinoIcons.circle_fill),
+      children: <Widget>[
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(CupertinoIcons.circle_fill),
+      children: <Widget>[
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(CupertinoIcons.circle_fill),
+      children: <Widget>[
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
         Icon(CupertinoIcons.circle_fill),
@@ -414,18 +403,29 @@ class PaintContainer extends SimpleContainer {
         Icon(CupertinoIcons.circle_fill),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+        Icon(CupertinoIcons.circle_fill),
+      ],
+    ),
+    const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
         Icon(CupertinoIcons.infinite),
       ],
     ),
   ];
 
   final List<Widget> repetitionsDisplay = <Widget>[
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
         Icon(
           CupertinoIcons.circle_fill,
           color: CupertinoColors.black,
@@ -436,30 +436,9 @@ class PaintContainer extends SimpleContainer {
         ),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
-      ],
-    ),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
+      children: <Widget>[
         Icon(
           CupertinoIcons.circle_fill,
           color: CupertinoColors.black,
@@ -474,13 +453,9 @@ class PaintContainer extends SimpleContainer {
         ),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
+      children: <Widget>[
         Icon(
           CupertinoIcons.circle_fill,
           color: CupertinoColors.black,
@@ -499,13 +474,9 @@ class PaintContainer extends SimpleContainer {
         ),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
-        Icon(
-          CupertinoIcons.circle_fill,
-          color: CupertinoColors.black,
-        ),
+      children: <Widget>[
         Icon(
           CupertinoIcons.circle_fill,
           color: CupertinoColors.black,
@@ -528,9 +499,38 @@ class PaintContainer extends SimpleContainer {
         ),
       ],
     ),
-    Row(
+    const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+        Icon(
+          CupertinoIcons.circle_fill,
+          color: CupertinoColors.black,
+        ),
+      ],
+    ),
+    const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
         Icon(
           CupertinoIcons.infinite,
           color: CupertinoColors.black,
@@ -546,13 +546,13 @@ class PaintContainer extends SimpleContainer {
 
   @override
   PaintContainer copy() => PaintContainer(
-        selected_colors: selected_colors,
+        selectedColors: selectedColors,
         direction: direction,
         repetitions: repetitions,
         languageCode: super.languageCode,
       );
 
   @override
-  String toString() => "paint({${analyzeColor(selected_colors).join(",")}},"
+  String toString() => "paint({${analyzeColor(selectedColors).join(",")}},"
       "${repetitionsText[repetitions].data},$direction)";
 }

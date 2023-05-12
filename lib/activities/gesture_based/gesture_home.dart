@@ -125,7 +125,7 @@ class GestureHomeState extends State<GestureHome> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: <Widget>[
                     if (context.read<TypeUpdateNotifier>().state > 0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -217,14 +217,14 @@ class GestureHomeState extends State<GestureHome> {
     }
     await Connection().students().then(
       (ret) async {
-        for (var i in ret) {
+        for (final i in ret) {
           if (i["id"] == widget.studentID && i["session"] == widget.sessionID) {
             await Connection()
                 .getResultsByStudentID(widget.studentID)
                 .then((value) => value as List)
                 .then(
               (List value) async {
-                for (var element in value) {
+                for (final element in value) {
                   final String command =
                       await Connection().getCommandsByAlgorithmID(
                     element["algorithmID"]!,

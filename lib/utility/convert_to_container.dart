@@ -140,7 +140,7 @@ List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
 }
 
 List<SimpleContainer> _parseFillEmpty(
-        List<String> command, String languageCode) =>
+        List<String> command, String languageCode,) =>
     <SimpleContainer>[
       FillEmptyContainer(
         selected: _colors[command.last.trim()]!,
@@ -191,7 +191,7 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
           _parsePaint([
             "paint",
             colors[j],
-          ], languageCode),
+          ], languageCode,),
         );
       j = (j + 1) % colors.length;
     }
@@ -210,7 +210,7 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
 
   return <SimpleContainer>[
     PaintContainer(
-      selected_colors: colors.map((String e) => _colors[e.trim()]!).toList(),
+      selectedColors: colors.map((String e) => _colors[e.trim()]!).toList(),
       repetitions: repetitionsConverter[command[2]]!,
       direction: command[3].trim(),
       languageCode: languageCode,

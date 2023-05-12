@@ -43,7 +43,7 @@ class CatLogger with ChangeNotifier {
   }
 
   void printLogs() {
-    for (var i in _logs.keys) {
+    for (final String i in _logs.keys) {
       print(_logs[i]);
     }
   }

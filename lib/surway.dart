@@ -12,10 +12,10 @@ import "package:text_to_speech/text_to_speech.dart";
 
 class Surway extends StatefulWidget {
   const Surway({
-    super.key,
     required this.sessionID,
     required this.studentID,
     required this.results,
+    super.key,
   });
 
   /// It's a variable that stores the data of the session.
@@ -27,7 +27,7 @@ class Surway extends StatefulWidget {
   final Map<int, ResultsRecord> results;
 
   @override
-  _SurwayState createState() => _SurwayState();
+  State<Surway> createState() => _SurwayState();
 }
 
 class _SurwayState extends State<Surway> {
@@ -42,7 +42,7 @@ class _SurwayState extends State<Surway> {
   String _q6 = "yes";
   String _q7 = "yes";
   String _q8 = "yes";
-  final player = AudioPlayer();
+  final AudioPlayer player = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +59,12 @@ class _SurwayState extends State<Surway> {
           child: SingleChildScrollView(
             child: FastForm(
               formKey: formKey,
-              children: [
+              children: <Widget>[
                 FastFormSection(
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -75,7 +75,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "1",
                             labelText: CATLocalizations.of(context).q1,
                             onChanged: (String? s) {
@@ -83,13 +83,13 @@ class _SurwayState extends State<Surway> {
                                 _q1 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -103,7 +103,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -116,7 +116,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -133,7 +133,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -144,7 +144,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q2,
                             onChanged: (String? s) {
@@ -152,13 +152,13 @@ class _SurwayState extends State<Surway> {
                                 _q2 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -172,7 +172,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -185,7 +185,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -202,7 +202,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -213,7 +213,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q3,
                             onChanged: (String? s) {
@@ -221,13 +221,13 @@ class _SurwayState extends State<Surway> {
                                 _q3 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -241,7 +241,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -254,7 +254,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -271,7 +271,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -282,7 +282,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q4,
                             onChanged: (String? s) {
@@ -290,13 +290,13 @@ class _SurwayState extends State<Surway> {
                                 _q4 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -310,7 +310,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -323,7 +323,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -340,7 +340,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -351,7 +351,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q5,
                             onChanged: (String? s) {
@@ -359,13 +359,13 @@ class _SurwayState extends State<Surway> {
                                 _q5 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/code.svg",
                                         width: 30,
@@ -379,7 +379,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/block.svg",
                                       width: 30,
@@ -392,7 +392,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/gesture.svg",
                                       width: 30,
@@ -409,7 +409,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -420,7 +420,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q6,
                             onChanged: (String? s) {
@@ -428,13 +428,13 @@ class _SurwayState extends State<Surway> {
                                 _q6 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -448,7 +448,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -461,7 +461,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -478,7 +478,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -489,7 +489,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q7,
                             onChanged: (String? s) {
@@ -497,13 +497,13 @@ class _SurwayState extends State<Surway> {
                                 _q7 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -517,7 +517,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -530,7 +530,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,
@@ -547,7 +547,7 @@ class _SurwayState extends State<Surway> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         CupertinoButton(
                           onPressed: () async {
                             await tts.speak(
@@ -558,7 +558,7 @@ class _SurwayState extends State<Surway> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
-                          child: FastSegmentedControl(
+                          child: FastSegmentedControl<String>(
                             name: "2",
                             labelText: CATLocalizations.of(context).q8,
                             onChanged: (String? s) {
@@ -566,13 +566,13 @@ class _SurwayState extends State<Surway> {
                                 _q8 = s;
                               }
                             },
-                            children: {
+                            children: <String, Widget>{
                               "yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "resources/icons/happy.svg",
                                         width: 30,
@@ -586,7 +586,7 @@ class _SurwayState extends State<Surway> {
                               "neutral": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/neutral.svg",
                                       width: 30,
@@ -599,7 +599,7 @@ class _SurwayState extends State<Surway> {
                               "no": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     SvgPicture.asset(
                                       "resources/icons/sad.svg",
                                       width: 30,

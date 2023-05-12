@@ -4,11 +4,11 @@ import "package:flutter/cupertino.dart";
 
 class CopyCellsContainer extends SimpleContainer {
   CopyCellsContainer({
-    super.name = "Copia celle",
-    super.type = ContainerType.copyCells,
     required super.container,
     required super.moves,
     required super.languageCode,
+    super.name = "Copia celle",
+    super.type = ContainerType.copyCells,
   });
 
   @override

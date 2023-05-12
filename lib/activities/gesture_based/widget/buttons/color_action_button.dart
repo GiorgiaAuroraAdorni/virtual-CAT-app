@@ -1,6 +1,5 @@
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 
 /// `ColorActionButton` is a subclass of `ActionButton` that adds a `selectionColor`
@@ -25,8 +24,9 @@ class ColorActionButton extends ActionButton {
 /// `ColorActionButtonState` is a subclass of `ActionButtonState` that sets the
 /// icon to `CupertinoIcons.paintbrush` in its `initState` method
 class ColorActionButtonState extends ActionButtonState<ColorActionButton> {
+  @override
   bool additionalFlag = false;
-  
+
   @override
   void onDismiss() {
     widget.state.colorActionButtonKey.currentState?.select();

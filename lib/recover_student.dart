@@ -9,7 +9,7 @@ class RecoverStudent extends StatefulWidget {
   final int sessionID;
 
   @override
-  _RecoverStudentState createState() => _RecoverStudentState();
+  State<RecoverStudent> createState() => _RecoverStudentState();
 }
 
 class _RecoverStudentState extends State<RecoverStudent> {
@@ -26,14 +26,14 @@ class _RecoverStudentState extends State<RecoverStudent> {
             child: CupertinoFormSection.insetGrouped(
               header: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     "${CATLocalizations.of(context).session}: ${widget.sessionID}",
                   ),
                   Text(CATLocalizations.of(context).requestStudentID),
                 ],
               ),
-              children: [
+              children: <Widget>[
                 CupertinoTextFormFieldRow(
                   prefix: Text(
                     "${CATLocalizations.of(context).studentID}:",
@@ -64,7 +64,7 @@ class _RecoverStudentState extends State<RecoverStudent> {
     if (value != null) {
       Connection().students().then(
         (ret) {
-          for (var i in ret) {
+          for (final i in ret) {
             if (i["id"] == value && i["session"] == widget.sessionID) {
               Navigator.push(
                 context,

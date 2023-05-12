@@ -58,21 +58,24 @@ class CATLocalizations {
     "Sekundarschule": "Secondary school",
   };
 
-  static final Map<String, Map<String, String>> _localizedBlocks = {
+  static final Map<String, Map<String, String>> _localizedBlocks =
+      <String, Map<String, String>>{
     "en": blocksEn,
     "it": blocksIt,
     "fr": blocksFr,
     "de": blocksDe,
   };
 
-  static final Map<String, Map<String, String>> _localizedDirections = {
+  static final Map<String, Map<String, String>> _localizedDirections =
+      <String, Map<String, String>>{
     "en": directionsEn,
     "it": directionsIt,
     "fr": directionsFr,
     "de": directionsDe,
   };
 
-  static final Map<String, Map<String, String>> _localizedPatterns = {
+  static final Map<String, Map<String, String>> _localizedPatterns =
+      <String, Map<String, String>>{
     "en": patternsEn,
     "it": pattersIt,
     "fr": patternsFr,

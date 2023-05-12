@@ -148,6 +148,7 @@ class MirrorButtonVerticalStateSecondary
 
   @override
   void initState() {
+    super.initState();
     super.icon = CupertinoIcons.square_fill_line_vertical_square;
   }
 

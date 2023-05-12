@@ -109,7 +109,7 @@ class SideMenuState extends State<SideMenu> {
     const TextStyle textStyle = TextStyle(
       color: CupertinoColors.black,
       fontFamily: "CupertinoIcons",
-      fontFeatures: [
+      fontFeatures: <FontFeature>[
         FontFeature.tabularFigures(),
       ],
     );

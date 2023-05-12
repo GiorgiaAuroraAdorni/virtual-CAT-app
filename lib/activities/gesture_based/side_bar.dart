@@ -49,7 +49,7 @@ class SideBar extends StatefulWidget {
   State<StatefulWidget> createState() => _SideBarState();
 }
 
-class _SideBarState extends State<SideBar> {
+class _SideBarState extends State<SideBar> with ChangeNotifier {
   bool added = false;
 
   void _interpreterListener() {

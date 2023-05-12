@@ -142,12 +142,10 @@ class ResultsScreen extends StatelessWidget {
                                   if (results[index + 1]!.correct) {
                                     return CATLocalizations.of(context)
                                         .resultCorrect;
-                                    ;
                                   }
 
                                   return CATLocalizations.of(context)
                                       .resultWrong;
-                                  ;
                                 }.call(),
                               ),
                             ],

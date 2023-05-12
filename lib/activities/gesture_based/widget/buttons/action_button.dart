@@ -50,8 +50,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   double angle = 0;
 
   @override
-  Widget build(BuildContext context) =>
-      AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
         animation: CatInterpreter(),
         builder: (BuildContext context, Widget? child) {
           if (!active ||
@@ -85,7 +84,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
                 child: Icon(
                   icon,
                   color:
-                  selected ? CupertinoColors.white : CupertinoColors.black,
+                      selected ? CupertinoColors.white : CupertinoColors.black,
                 ),
               ),
             ),
@@ -114,8 +113,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   }
 
   /// Deselect from external widget
-  void deSelect() =>
-      setState(() {
+  void deSelect() => setState(() {
         selected = false;
       });
 
@@ -124,24 +122,22 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   /// The setState() function is the key to making the button interactive. It tells
   /// Flutter to rebuild the widget tree, which causes the framework to update the
   /// display
-  void select() =>
-      setState(() {
+  void select() => setState(() {
         selected = true;
       });
 
   void selectNoState() => selected = true;
 
   /// Activate from external widget
-  void activate() =>
-      setState(() {
+  @override
+  void activate() => setState(() {
         active = true;
       });
 
   void activateNoState() => active = true;
 
   /// Deactivate from external widget
-  void deActivate() =>
-      setState(() {
+  void deActivate() => setState(() {
         selected = false;
         active = false;
       });

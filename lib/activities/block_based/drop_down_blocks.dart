@@ -23,7 +23,7 @@ class DropDownBlocks extends AnimatedWidget {
   @override
   Widget build(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.20,
             child: Padding(

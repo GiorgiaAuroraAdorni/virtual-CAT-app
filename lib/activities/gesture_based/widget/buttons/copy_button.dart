@@ -74,7 +74,7 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
 }
 
 class CopyButtonSecondary extends ActionButton {
-  CopyButtonSecondary({
+  const CopyButtonSecondary({
     required this.state,
     super.displayColoring,
     super.selectionColor,
@@ -90,6 +90,7 @@ class CopyButtonSecondary extends ActionButton {
 }
 
 class CopyButtonSecondatyState extends ActionButtonState<CopyButtonSecondary> {
+  @override
   bool additionalFlag = false;
 
   @override
