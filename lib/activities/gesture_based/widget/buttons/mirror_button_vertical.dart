@@ -1,9 +1,11 @@
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 
@@ -52,18 +54,15 @@ class MirrorButtonVerticalState
               minSize: 50,
               padding: EdgeInsets.zero,
               borderRadius: BorderRadius.circular(45),
-              child: Transform.rotate(
-                angle: angle,
-                child: SvgPicture.asset(
-                  "resources/icons/mirror_horizontal.svg",
-                  height: 20,
-                  colorFilter: const ColorFilter.matrix(<double>[
-                    -1, 0, 0, 0, 255, //
-                    0, -1, 0, 0, 255, //
-                    0, 0, -1, 0, 255, //
-                    0, 0, 0, 1, 0, //
-                  ]),
-                ),
+              child: SvgPicture.asset(
+                "resources/icons/mirror_horizontal.svg",
+                height: 20,
+                colorFilter: const ColorFilter.matrix(<double>[
+                  -1, 0, 0, 0, 255, //
+                  0, -1, 0, 0, 255, //
+                  0, 0, -1, 0, 255, //
+                  0, 0, 0, 1, 0, //
+                ]),
               ),
             ),
           );
@@ -77,25 +76,22 @@ class MirrorButtonVerticalState
             minSize: 50,
             padding: EdgeInsets.zero,
             color: selected ? widget.selectionColor : widget.background,
-            child: Transform.rotate(
-              angle: angle,
-              child: SvgPicture.asset(
-                "resources/icons/mirror_vertical.svg",
-                height: 20,
-                colorFilter: selected
-                    ? const ColorFilter.matrix(<double>[
-                        -1, 0, 0, 0, 255, //
-                        0, -1, 0, 0, 255, //
-                        0, 0, -1, 0, 255, //
-                        0, 0, 0, 1, 0, //
-                      ])
-                    : const ColorFilter.matrix(<double>[
-                        1, 0, 0, 0, 0, //
-                        0, 1, 0, 0, 0, //
-                        0, 0, 1, 0, 0, //
-                        0, 0, 0, 1, 0, //
-                      ]),
-              ),
+            child: SvgPicture.asset(
+              "resources/icons/mirror_vertical.svg",
+              height: 20,
+              colorFilter: selected
+                  ? const ColorFilter.matrix(<double>[
+                      -1, 0, 0, 0, 255, //
+                      0, -1, 0, 0, 255, //
+                      0, 0, -1, 0, 255, //
+                      0, 0, 0, 1, 0, //
+                    ])
+                  : const ColorFilter.matrix(<double>[
+                      1, 0, 0, 0, 0, //
+                      0, 1, 0, 0, 0, //
+                      0, 0, 1, 0, 0, //
+                      0, 0, 0, 1, 0, //
+                    ]),
             ),
           ),
         );
@@ -176,18 +172,15 @@ class MirrorButtonVerticalStateSecondary
                     minSize: 50,
                     padding: EdgeInsets.zero,
                     borderRadius: BorderRadius.circular(45),
-                    child: Transform.rotate(
-                      angle: angle,
-                      child: SvgPicture.asset(
-                        "resources/icons/mirror_horizontal.svg",
-                        height: 20,
-                        colorFilter: const ColorFilter.matrix(<double>[
-                          -1, 0, 0, 0, 255, //
-                          0, -1, 0, 0, 255, //
-                          0, 0, -1, 0, 255, //
-                          0, 0, 0, 1, 0, //
-                        ]),
-                      ),
+                    child: SvgPicture.asset(
+                      "resources/icons/mirror_horizontal.svg",
+                      height: 20,
+                      colorFilter: const ColorFilter.matrix(<double>[
+                        -1, 0, 0, 0, 255, //
+                        0, -1, 0, 0, 255, //
+                        0, 0, -1, 0, 255, //
+                        0, 0, 0, 1, 0, //
+                      ]),
                     ),
                   ),
                 );
@@ -201,25 +194,22 @@ class MirrorButtonVerticalStateSecondary
                   minSize: 50,
                   padding: EdgeInsets.zero,
                   color: selected ? widget.selectionColor : widget.background,
-                  child: Transform.rotate(
-                    angle: angle,
-                    child: SvgPicture.asset(
-                      "resources/icons/mirror_vertical.svg",
-                      height: 20,
-                      colorFilter: selected
-                          ? const ColorFilter.matrix(<double>[
-                              -1, 0, 0, 0, 255, //
-                              0, -1, 0, 0, 255, //
-                              0, 0, -1, 0, 255, //
-                              0, 0, 0, 1, 0, //
-                            ])
-                          : const ColorFilter.matrix(<double>[
-                              1, 0, 0, 0, 0, //
-                              0, 1, 0, 0, 0, //
-                              0, 0, 1, 0, 0, //
-                              0, 0, 0, 1, 0, //
-                            ]),
-                    ),
+                  child: SvgPicture.asset(
+                    "resources/icons/mirror_vertical.svg",
+                    height: 20,
+                    colorFilter: selected
+                        ? const ColorFilter.matrix(<double>[
+                            -1, 0, 0, 0, 255, //
+                            0, -1, 0, 0, 255, //
+                            0, 0, -1, 0, 255, //
+                            0, 0, 0, 1, 0, //
+                          ])
+                        : const ColorFilter.matrix(<double>[
+                            1, 0, 0, 0, 0, //
+                            0, 1, 0, 0, 0, //
+                            0, 0, 1, 0, 0, //
+                            0, 0, 0, 1, 0, //
+                          ]),
                   ),
                 ),
               );
@@ -233,6 +223,14 @@ class MirrorButtonVerticalStateSecondary
     widget.state.copyButtonKey.currentState?.deSelect();
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.mirrorVertical;
+    for (final CrossButton i in widget.state.widget.coloredButtons.value) {
+      final Pair<int, int> pos = i.position;
+      final Widget button = i.buttons[pos.first].children[5 - pos.second];
+      if (button is CrossButton) {
+        button.selectRepeat();
+        widget.state.widget.selectedButtons.value.add(button);
+      }
+    }
     CatLogger().addLog(
       context: context,
       previousCommand: "",
@@ -245,6 +243,10 @@ class MirrorButtonVerticalStateSecondary
   void onDismiss() {
     super.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.transition;
+    for (final CrossButton i in widget.state.widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.state.widget.selectedButtons.value.clear();
     CatLogger().addLog(
       context: context,
       previousCommand: "",
