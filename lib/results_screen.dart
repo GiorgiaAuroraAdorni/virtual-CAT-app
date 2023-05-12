@@ -42,30 +42,35 @@ class ResultsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         SizedBox(
-                          width: (6 *
-                                  (MediaQuery.of(context).size.width / 28)) +
-                              ((MediaQuery.of(context).size.width / 200) * 5),
+                          width: MediaQuery.of(context).size.width / 4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                              Icon(CupertinoIcons.add),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Text(CATLocalizations.of(context).column1),
                             ],
                           ),
                         ),
                         SizedBox(
-                          width: (6 *
-                                  (MediaQuery.of(context).size.width / 28)) +
-                              ((MediaQuery.of(context).size.width / 200) * 5),
+                          width: MediaQuery.of(context).size.width / 4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                              Icon(CupertinoIcons.add),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Text(CATLocalizations.of(context).column2),
                             ],
                           ),
                         ),
                         SizedBox(
-                          width: 50,
+                          width: MediaQuery.of(context).size.width / 8,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               SvgPicture.asset(
                                 "resources/icons/trophy.svg",
@@ -76,9 +81,14 @@ class ResultsScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: 80,
+                          width: MediaQuery.of(context).size.width / 8,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
+                              Icon(CupertinoIcons.add),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Text(CATLocalizations.of(context).column3),
                             ],
                           ),
@@ -94,61 +104,77 @@ class ResultsScreen extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          CrossWidgetSimple.fromBasicShape(
-                            shape: results[index + 1]!.reference,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 4,
+                            child: CrossWidgetSimple.fromBasicShape(
+                              shape: results[index + 1]!.reference,
+                            ),
                           ),
-                          CrossWidgetSimple.fromBasicShape(
-                            shape: results[index + 1]!.result,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 4,
+                            child: CrossWidgetSimple.fromBasicShape(
+                              shape: results[index + 1]!.result,
+                            ),
                           ),
-                          Text(
-                            "${results[index + 1]!.score}",
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                () {
-                                  if (!results[index + 1]!.state) {
-                                    return CupertinoIcons.flag_fill;
-                                  }
-                                  if (results[index + 1]!.correct) {
-                                    return CupertinoIcons.hand_thumbsup_fill;
-                                  }
-
-                                  return CupertinoIcons.hand_thumbsdown_fill;
-                                }.call(),
-                                color: () {
-                                  if (!results[index + 1]!.state) {
-                                    return CupertinoColors.darkBackgroundGray
-                                        .withAlpha(127);
-                                  }
-                                  if (results[index + 1]!.correct) {
-                                    return CupertinoColors.activeGreen;
-                                  }
-
-                                  return CupertinoColors.destructiveRed;
-                                }.call(),
-                                size: 30,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 8,
+                            child: Text(
+                              "${results[index + 1]!.score}",
+                              style: const TextStyle(
+                                fontSize: 20,
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                () {
-                                  if (!results[index + 1]!.state) {
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 8,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  () {
+                                    if (!results[index + 1]!.state) {
+                                      return CupertinoIcons.flag_fill;
+                                    }
+                                    if (results[index + 1]!.correct) {
+                                      return CupertinoIcons.hand_thumbsup_fill;
+                                    }
+
+                                    return CupertinoIcons.hand_thumbsdown_fill;
+                                  }.call(),
+                                  color: () {
+                                    if (!results[index + 1]!.state) {
+                                      return CupertinoColors.darkBackgroundGray
+                                          .withAlpha(127);
+                                    }
+                                    if (results[index + 1]!.correct) {
+                                      return CupertinoColors.activeGreen;
+                                    }
+
+                                    return CupertinoColors.destructiveRed;
+                                  }.call(),
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  () {
+                                    if (!results[index + 1]!.state) {
+                                      return CATLocalizations.of(context)
+                                          .resultSkip;
+                                    }
+                                    if (results[index + 1]!.correct) {
+                                      return CATLocalizations.of(context)
+                                          .resultCorrect;
+                                    }
+
                                     return CATLocalizations.of(context)
-                                        .resultSkip;
-                                  }
-                                  if (results[index + 1]!.correct) {
-                                    return CATLocalizations.of(context)
-                                        .resultCorrect;
-                                  }
-
-                                  return CATLocalizations.of(context)
-                                      .resultWrong;
-                                }.call(),
-                              ),
-                            ],
+                                        .resultWrong;
+                                  }.call(),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
