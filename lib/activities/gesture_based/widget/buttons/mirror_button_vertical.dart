@@ -5,6 +5,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_svg/svg.dart";
 
 /// `MirrorButtonVertical` is a stateful widget that displays a vertical mirror
 /// button that calls `onSelect` when selected and `onDismiss` when dismissed
@@ -28,6 +29,8 @@ class MirrorButtonVertical extends ActionButton {
 /// It's a button that rotates 90 degrees and changes color when pressed
 class MirrorButtonVerticalState
     extends ActionButtonState<MirrorButtonVertical> {
+  final double _paddingSize = 5;
+
   @override
   Widget build(BuildContext context) {
     if (widget.state.widget.selectionMode.value == SelectionModes.base) {
@@ -36,7 +39,68 @@ class MirrorButtonVerticalState
       deActivateNoState();
     }
 
-    return super.build(context);
+    return AnimatedBuilder(
+      animation: CatInterpreter(),
+      builder: (BuildContext context, Widget? child) {
+        if (!active ||
+            (CatInterpreter().executedCommands == 1 && additionalFlag)) {
+          return Padding(
+            padding: EdgeInsets.all(_paddingSize),
+            child: CupertinoButton(
+              onPressed: null,
+              color: widget.background,
+              minSize: 50,
+              padding: EdgeInsets.zero,
+              borderRadius: BorderRadius.circular(45),
+              child: Transform.rotate(
+                angle: angle,
+                child: SvgPicture.asset(
+                  "resources/icons/mirror_horizontal.svg",
+                  height: 20,
+                  colorFilter: const ColorFilter.matrix(<double>[
+                    -1, 0, 0, 0, 255, //
+                    0, -1, 0, 0, 255, //
+                    0, 0, -1, 0, 255, //
+                    0, 0, 0, 1, 0, //
+                  ]),
+                ),
+              ),
+            ),
+          );
+        }
+
+        return Padding(
+          padding: EdgeInsets.all(_paddingSize),
+          child: CupertinoButton(
+            onPressed: selected ? whenSelected : whenNotSelected,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            padding: EdgeInsets.zero,
+            color: selected ? widget.selectionColor : widget.background,
+            child: Transform.rotate(
+              angle: angle,
+              child: SvgPicture.asset(
+                "resources/icons/mirror_vertical.svg",
+                height: 20,
+                colorFilter: selected
+                    ? const ColorFilter.matrix(<double>[
+                        -1, 0, 0, 0, 255, //
+                        0, -1, 0, 0, 255, //
+                        0, 0, -1, 0, 255, //
+                        0, 0, 0, 1, 0, //
+                      ])
+                    : const ColorFilter.matrix(<double>[
+                        1, 0, 0, 0, 0, //
+                        0, 1, 0, 0, 0, //
+                        0, 0, 1, 0, 0, //
+                        0, 0, 0, 1, 0, //
+                      ]),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -57,11 +121,6 @@ class MirrorButtonVerticalState
 
   @override
   void onDismiss() {}
-
-  @override
-  void initState() {
-    super.icon = CupertinoIcons.square_fill_line_vertical_square;
-  }
 }
 
 /// It's a button that mirrors the image vertically
@@ -85,6 +144,8 @@ class MirrorButtonVerticalSecondary extends ActionButton {
 
 class MirrorButtonVerticalStateSecondary
     extends ActionButtonState<MirrorButtonVerticalSecondary> {
+  final double _paddingSize = 5;
+
   @override
   void initState() {
     super.icon = CupertinoIcons.square_fill_line_vertical_square;
@@ -101,7 +162,68 @@ class MirrorButtonVerticalStateSecondary
             deActivateNoState();
           }
 
-          return super.build(context);
+          return AnimatedBuilder(
+            animation: CatInterpreter(),
+            builder: (BuildContext context, Widget? child) {
+              if (!active ||
+                  (CatInterpreter().executedCommands == 1 && additionalFlag)) {
+                return Padding(
+                  padding: EdgeInsets.all(_paddingSize),
+                  child: CupertinoButton(
+                    onPressed: null,
+                    color: widget.background,
+                    minSize: 50,
+                    padding: EdgeInsets.zero,
+                    borderRadius: BorderRadius.circular(45),
+                    child: Transform.rotate(
+                      angle: angle,
+                      child: SvgPicture.asset(
+                        "resources/icons/mirror_horizontal.svg",
+                        height: 20,
+                        colorFilter: const ColorFilter.matrix(<double>[
+                          -1, 0, 0, 0, 255, //
+                          0, -1, 0, 0, 255, //
+                          0, 0, -1, 0, 255, //
+                          0, 0, 0, 1, 0, //
+                        ]),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              return Padding(
+                padding: EdgeInsets.all(_paddingSize),
+                child: CupertinoButton(
+                  onPressed: selected ? whenSelected : whenNotSelected,
+                  borderRadius: BorderRadius.circular(45),
+                  minSize: 50,
+                  padding: EdgeInsets.zero,
+                  color: selected ? widget.selectionColor : widget.background,
+                  child: Transform.rotate(
+                    angle: angle,
+                    child: SvgPicture.asset(
+                      "resources/icons/mirror_vertical.svg",
+                      height: 20,
+                      colorFilter: selected
+                          ? const ColorFilter.matrix(<double>[
+                              -1, 0, 0, 0, 255, //
+                              0, -1, 0, 0, 255, //
+                              0, 0, -1, 0, 255, //
+                              0, 0, 0, 1, 0, //
+                            ])
+                          : const ColorFilter.matrix(<double>[
+                              1, 0, 0, 0, 0, //
+                              0, 1, 0, 0, 0, //
+                              0, 0, 1, 0, 0, //
+                              0, 0, 0, 1, 0, //
+                            ]),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
         },
       );
 

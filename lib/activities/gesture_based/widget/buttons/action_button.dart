@@ -38,8 +38,8 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   void onDismiss();
 
   final double _paddingSize = 5;
-  bool _selected = false;
-  bool _active = true;
+  bool selected = false;
+  bool active = true;
 
   bool additionalFlag = true;
 
@@ -50,10 +50,11 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   double angle = 0;
 
   @override
-  Widget build(BuildContext context) => AnimatedBuilder(
+  Widget build(BuildContext context) =>
+      AnimatedBuilder(
         animation: CatInterpreter(),
         builder: (BuildContext context, Widget? child) {
-          if (!_active ||
+          if (!active ||
               (CatInterpreter().executedCommands == 1 && additionalFlag)) {
             return Padding(
               padding: EdgeInsets.all(_paddingSize),
@@ -74,17 +75,17 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
           return Padding(
             padding: EdgeInsets.all(_paddingSize),
             child: CupertinoButton(
-              onPressed: _selected ? whenSelected : whenNotSelected,
+              onPressed: selected ? whenSelected : whenNotSelected,
               borderRadius: BorderRadius.circular(45),
               minSize: 50,
               padding: EdgeInsets.zero,
-              color: _selected ? widget.selectionColor : widget.background,
+              color: selected ? widget.selectionColor : widget.background,
               child: Transform.rotate(
                 angle: angle,
                 child: Icon(
                   icon,
                   color:
-                      _selected ? CupertinoColors.white : CupertinoColors.black,
+                  selected ? CupertinoColors.white : CupertinoColors.black,
                 ),
               ),
             ),
@@ -96,7 +97,7 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   /// selected state is set to false
   void whenSelected() {
     setState(() {
-      _selected = false;
+      selected = false;
     });
     onDismiss.call();
   }
@@ -106,15 +107,16 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   void whenNotSelected() {
     if (widget.displayColoring) {
       setState(() {
-        _selected = true;
+        selected = true;
       });
     }
     onSelect.call();
   }
 
   /// Deselect from external widget
-  void deSelect() => setState(() {
-        _selected = false;
+  void deSelect() =>
+      setState(() {
+        selected = false;
       });
 
   /// "When the user taps the button, set the selected state to true."
@@ -122,27 +124,30 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
   /// The setState() function is the key to making the button interactive. It tells
   /// Flutter to rebuild the widget tree, which causes the framework to update the
   /// display
-  void select() => setState(() {
-        _selected = true;
+  void select() =>
+      setState(() {
+        selected = true;
       });
 
-  void selectNoState() => _selected = true;
+  void selectNoState() => selected = true;
 
   /// Activate from external widget
-  void activate() => setState(() {
-        _active = true;
+  void activate() =>
+      setState(() {
+        active = true;
       });
 
-  void activateNoState() => _active = true;
+  void activateNoState() => active = true;
 
   /// Deactivate from external widget
-  void deActivate() => setState(() {
-        _selected = false;
-        _active = false;
+  void deActivate() =>
+      setState(() {
+        selected = false;
+        active = false;
       });
 
   void deActivateNoState() {
-    _selected = false;
-    _active = false;
+    selected = false;
+    active = false;
   }
 }

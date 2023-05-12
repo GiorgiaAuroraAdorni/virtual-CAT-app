@@ -1,4 +1,5 @@
 import "dart:math" as math;
+
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
@@ -6,6 +7,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_svg/flutter_svg.dart";
 
 /// `MirrorButtonHorizontal` is a stateful widget that displays a
 /// horizontal row of buttons that can be used to select or dismiss a mirror
@@ -30,6 +32,8 @@ class MirrorButtonHorizontal extends ActionButton {
 /// deactivated
 class MirrorButtonHorizontalState
     extends ActionButtonState<MirrorButtonHorizontal> {
+  final double _paddingSize = 5;
+
   @override
   Widget build(BuildContext context) {
     if (widget.state.widget.selectionMode.value == SelectionModes.base) {
@@ -38,7 +42,68 @@ class MirrorButtonHorizontalState
       deActivateNoState();
     }
 
-    return super.build(context);
+    return AnimatedBuilder(
+      animation: CatInterpreter(),
+      builder: (BuildContext context, Widget? child) {
+        if (!active ||
+            (CatInterpreter().executedCommands == 1 && additionalFlag)) {
+          return Padding(
+            padding: EdgeInsets.all(_paddingSize),
+            child: CupertinoButton(
+              onPressed: null,
+              color: widget.background,
+              minSize: 50,
+              padding: EdgeInsets.zero,
+              borderRadius: BorderRadius.circular(45),
+              child: Transform.rotate(
+                angle: angle,
+                child: SvgPicture.asset(
+                  "resources/icons/mirror_horizontal.svg",
+                  height: 20,
+                  colorFilter: const ColorFilter.matrix(<double>[
+                    -1, 0, 0, 0, 255, //
+                    0, -1, 0, 0, 255, //
+                    0, 0, -1, 0, 255, //
+                    0, 0, 0, 1, 0, //
+                  ]),
+                ),
+              ),
+            ),
+          );
+        }
+
+        return Padding(
+          padding: EdgeInsets.all(_paddingSize),
+          child: CupertinoButton(
+            onPressed: selected ? whenSelected : whenNotSelected,
+            borderRadius: BorderRadius.circular(45),
+            minSize: 50,
+            padding: EdgeInsets.zero,
+            color: selected ? widget.selectionColor : widget.background,
+            child: Transform.rotate(
+              angle: angle,
+              child: SvgPicture.asset(
+                "resources/icons/mirror_horizontal.svg",
+                height: 20,
+                colorFilter: selected
+                    ? const ColorFilter.matrix(<double>[
+                        -1, 0, 0, 0, 255, //
+                        0, -1, 0, 0, 255, //
+                        0, 0, -1, 0, 255, //
+                        0, 0, 0, 1, 0, //
+                      ])
+                    : const ColorFilter.matrix(<double>[
+                        1, 0, 0, 0, 0, //
+                        0, 1, 0, 0, 0, //
+                        0, 0, 1, 0, 0, //
+                        0, 0, 0, 1, 0, //
+                      ]),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -59,13 +124,6 @@ class MirrorButtonHorizontalState
 
   @override
   void onDismiss() {}
-
-  @override
-  void initState() {
-    super.icon = CupertinoIcons.square_fill_line_vertical_square;
-    super.angle = 90 * math.pi / 180;
-    super.initState();
-  }
 }
 
 /// It's a button that mirrors the state of the other buttons in the horizontal
@@ -90,6 +148,8 @@ class MirrorButtonHorizontalSecondary extends ActionButton {
 
 class MirrorButtonHorizontalStateSecondary
     extends ActionButtonState<MirrorButtonHorizontalSecondary> {
+  final double _paddingSize = 5;
+
   @override
   void initState() {
     super.icon = CupertinoIcons.square_fill_line_vertical_square;
@@ -108,7 +168,68 @@ class MirrorButtonHorizontalStateSecondary
             deActivateNoState();
           }
 
-          return super.build(context);
+          return AnimatedBuilder(
+            animation: CatInterpreter(),
+            builder: (BuildContext context, Widget? child) {
+              if (!active ||
+                  (CatInterpreter().executedCommands == 1 && additionalFlag)) {
+                return Padding(
+                  padding: EdgeInsets.all(_paddingSize),
+                  child: CupertinoButton(
+                    onPressed: null,
+                    color: widget.background,
+                    minSize: 50,
+                    padding: EdgeInsets.zero,
+                    borderRadius: BorderRadius.circular(45),
+                    child: Transform.rotate(
+                      angle: angle,
+                      child: SvgPicture.asset(
+                        "resources/icons/mirror_horizontal.svg",
+                        height: 20,
+                        colorFilter: const ColorFilter.matrix(<double>[
+                          -1, 0, 0, 0, 255, //
+                          0, -1, 0, 0, 255, //
+                          0, 0, -1, 0, 255, //
+                          0, 0, 0, 1, 0, //
+                        ]),
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              return Padding(
+                padding: EdgeInsets.all(_paddingSize),
+                child: CupertinoButton(
+                  onPressed: selected ? whenSelected : whenNotSelected,
+                  borderRadius: BorderRadius.circular(45),
+                  minSize: 50,
+                  padding: EdgeInsets.zero,
+                  color: selected ? widget.selectionColor : widget.background,
+                  child: Transform.rotate(
+                    angle: angle,
+                    child: SvgPicture.asset(
+                      "resources/icons/mirror_horizontal.svg",
+                      height: 20,
+                      colorFilter: selected
+                          ? const ColorFilter.matrix(<double>[
+                              -1, 0, 0, 0, 255, //
+                              0, -1, 0, 0, 255, //
+                              0, 0, -1, 0, 255, //
+                              0, 0, 0, 1, 0, //
+                            ])
+                          : const ColorFilter.matrix(<double>[
+                              1, 0, 0, 0, 0, //
+                              0, 1, 0, 0, 0, //
+                              0, 0, 1, 0, 0, //
+                              0, 0, 0, 1, 0, //
+                            ]),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
         },
       );
 
