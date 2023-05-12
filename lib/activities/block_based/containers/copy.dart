@@ -99,10 +99,10 @@ class _Copy extends State<CopyCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          (context.read<TypeUpdateNotifier>().state == 2 ? 210 : 100) +
-          60 *
+          (context.read<TypeUpdateNotifier>().state == 2 ? 220 : 170) +
+          (context.read<TypeUpdateNotifier>().state == 2 ? 100 : 80) *
               (widget.item.moves.length +
-                  (widget.item.container.isEmpty ? 4 : 0) +
+                  (widget.item.container.isEmpty ? 3 : 0) +
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -195,9 +195,7 @@ class _Copy extends State<CopyCommands> {
                     Radius.circular(8),
                   ),
                 ),
-                height: widget.item.container.isNotEmpty
-                    ? childHeight + 60.0
-                    : childHeight + 60 + (widget.item.moves.length + 4 * 60),
+                height: childHeight + 60.0,
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
@@ -247,11 +245,7 @@ class _Copy extends State<CopyCommands> {
           ),
           height: childHeight +
               60 +
-              (widget.item.moves.length +
-                  4 *
-                      (context.read<TypeUpdateNotifier>().state == 2
-                          ? 60
-                          : 30)),
+              (4 * (context.read<TypeUpdateNotifier>().state == 2 ? 60 : 30)),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(
@@ -378,7 +372,7 @@ class _Copy extends State<CopyCommands> {
                         (widget.item.moves.length +
                             1 *
                                 (context.read<TypeUpdateNotifier>().state == 2
-                                    ? 60
+                                    ? 100
                                     : 30)),
                     width: constraints.maxWidth - 15,
                     child: Center(
@@ -423,7 +417,9 @@ class _Copy extends State<CopyCommands> {
                   height: 60 +
                       ((widget.item.moves.length +
                               (widget.item.moves.isEmpty ? 1 : 0)) *
-                          60),
+                          (context.read<TypeUpdateNotifier>().state == 2
+                              ? 100
+                              : 50)),
                   width: constraints.maxWidth - 15,
                   child: ReorderableListView(
                     onReorder: (int oldIndex, int newIndex) {

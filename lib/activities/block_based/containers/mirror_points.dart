@@ -75,7 +75,7 @@ class _Mirror extends State<MirrorPoints> {
       key: widgetKey,
       height: childHeight +
           185.0 -
-          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 50) +
+          (context.read<TypeUpdateNotifier>().state == 2 ? -30 : 50) +
           ((widget.item.moves.length +
                   (widget.item.container.isEmpty ? 1 : 0)) *
               60),
@@ -178,8 +178,13 @@ class _Mirror extends State<MirrorPoints> {
                       Radius.circular(8),
                     ),
                   ),
-                  height:
-                      childHeight + 60 + (widget.item.moves.length + 1 * 60),
+                  height: childHeight +
+                      60 +
+                      (widget.item.moves.length +
+                          1 *
+                              (context.read<TypeUpdateNotifier>().state == 2
+                                  ? 100
+                                  : 50)),
                   width: constraints.maxWidth - 15,
                   child: Center(
                     child: AnimatedBuilder(
@@ -224,7 +229,9 @@ class _Mirror extends State<MirrorPoints> {
                     60 +
                     ((widget.item.moves.length +
                             (widget.item.container.isEmpty ? 1 : 0)) *
-                        60),
+                        (context.read<TypeUpdateNotifier>().state == 2
+                            ? 100
+                            : 50)),
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
