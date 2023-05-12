@@ -106,7 +106,7 @@ class _Copy extends State<CopyCommands> {
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        border: Border.all(),
+        // border: Border.all(),
         color: Colors.indigo,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),

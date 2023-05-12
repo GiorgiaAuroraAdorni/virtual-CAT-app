@@ -50,20 +50,20 @@ class _Point extends State<Point> {
       decoration: BoxDecoration(
         color: Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-        border: Border.all(
-          color: CupertinoColors.darkBackgroundGray,
-        ),
+        // border: Border.all(
+        //   color: CupertinoColors.darkBackgroundGray,
+        // ),
       ),
       child: Center(
         child: AnimatedBuilder(
-            animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) {
-              if (context.read<TypeUpdateNotifier>().state == 2) {
-                return text();
-              }
+          animation: context.watch<TypeUpdateNotifier>(),
+          builder: (BuildContext context, Widget? child) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
+              return text();
+            }
 
-              return figure();
-            },
+            return figure();
+          },
         ),
       ),
     );
