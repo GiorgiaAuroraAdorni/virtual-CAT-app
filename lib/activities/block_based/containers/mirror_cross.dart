@@ -137,7 +137,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
             );
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: widget.item.directions,
@@ -178,7 +177,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
             );
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: widget.item.directions2,

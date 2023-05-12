@@ -32,8 +32,7 @@ final Map<String, String> de = <String, String>{
 
 const Map<String, String> _firsForm = <String, String>{
   "tutorialTitle": "Auswertungssitzung",
-  "school": "Schule",
-  "grade": "Klasse",
+  "grade": "Grado scolastico",
   "section": "Abschnitt",
   "supervisor": "Supervisor",
   "data": "Datum",
@@ -217,3 +216,32 @@ const Map<String, String> conversionDeToEn = <String, String>{
   "Männlich": "Male",
   "Weiblich": "Female",
 };
+
+const List<String> ticinoDE = [
+  "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire",
+  "1 (kindergarten)",
+  "* 2 (kindergarten)",
+  "* 3 (primary 1 year)",
+  "* 4 (primary 2 year)",
+  "* 5 (primary 3 year)",
+  "* 6 (primary 4 year)",
+  "* 7 (primary 5 year)",
+  "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
+  "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
+  "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
+  "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
+];
+
+const List<String> otherCantonsDE = [
+  "1 (kindergarten)",
+  "* 2 (kindergarten)",
+  "* 3 (primary 1 year)",
+  "* 4 (primary 2 year)",
+  "* 5 (primary 3 year)",
+  "* 6 (primary 4 year)",
+  "* 7 (primary 5 year)",
+  "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
+  "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
+  "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
+  "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
+];

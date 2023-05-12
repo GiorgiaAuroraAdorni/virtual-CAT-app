@@ -39,23 +39,48 @@ class CATLocalizations {
     "de": schoolTypeDe,
   };
 
-  static final Map<String, String> schoolTypeToEnglish = <String, String>{
+  static final Map<String, List<String>> _localizedSchoolGrade =
+      <String, List<String>>{
+    "en": otherCantonsEN,
+    "it": otherCantonsIT,
+    "fr": otherCantonsFR,
+    "de": otherCantonsDE,
+  };
+
+  static final Map<String, List<String>> _localizedSchoolGradeTI =
+      <String, List<String>>{
+    "en": ticinoEN,
+    "it": ticinoIT,
+    "fr": ticinoFR,
+    "de": ticinoDE,
+  };
+
+  static final Map<String, String> gradedToEnglish = <String, String>{
     //English
-    "Pre school": "Pre school",
-    "Primary school": "Primary school",
-    "Secondary school": "Secondary school",
+    // TODO
     //Italian
-    "Scuola dell’infanzia, materna": "Pre school",
-    "Scuola primaria, elementare": "Primary school",
-    "Scuola secondaria, media": "Secondary school",
+    // TODO
     //Franch
-    "École maternelle": "Pre school",
-    "École primaire": "Primary school",
-    "École secondaire": "Secondary school",
+    // TODO
     //German
-    "Kindergarten": "Pre school",
-    "Primarschule": "Primary school",
-    "Sekundarschule": "Secondary school",
+    // TODO
+    "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire":
+        "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire",
+    "1 (kindergarten)": "1 (kindergarten)",
+    "* 2 (kindergarten)": "* 2 (kindergarten)",
+    "* 3 (primary 1 year)": "* 3 (primary 1 year)",
+    "* 4 (primary 2 year)": "* 4 (primary 2 year)",
+    "* 5 (primary 3 year)": "* 5 (primary 3 year)",
+    "* 6 (primary 4 year)": "* 6 (primary 4 year)",
+    "* 7 (primary 5 year)": "* 7 (primary 5 year)",
+    "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)":
+        "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
+    "* 9 (secondary 1 year) (IN TICINO secondary 2 year)":
+        "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
+    "* 10 (secondary 2 year) (IN TICINO secondary 3 year)":
+        "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
+    "* 11 (secondary 3 year) (IN TICINO secondary 4 year)":
+        "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
   };
 
   static final Map<String, Map<String, String>> _localizedBlocks =
@@ -127,9 +152,6 @@ class CATLocalizations {
 
   String get studentData =>
       _localizedValues[_locale.languageCode]!["studentData"]!;
-
-  /// It's a getter that returns the localized string for the key "school"
-  String get school => _localizedValues[_locale.languageCode]!["school"]!;
 
   /// It's a getter that returns the localized string for the key "grade"
   String get grade => _localizedValues[_locale.languageCode]!["grade"]!;
@@ -347,6 +369,12 @@ class CATLocalizations {
   List<Text> get genderType => _localizedGenderType[_locale.languageCode]!;
 
   Map<String, String> get blocks => _localizedBlocks[_locale.languageCode]!;
+
+  List<String> get localizedSchoolGrade =>
+      _localizedSchoolGrade[_locale.languageCode]!;
+
+  List<String> get localizedSchoolGradeTI =>
+      _localizedSchoolGradeTI[_locale.languageCode]!;
 
   Map<String, String> get blockGroups =>
       _localizedGroupsBlocks[_locale.languageCode]!;

@@ -342,7 +342,6 @@ class _Mirror extends State<MirrorPoints> {
             );
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: widget.item.directions,
@@ -382,7 +381,6 @@ class _Mirror extends State<MirrorPoints> {
             );
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: widget.item.directions2,

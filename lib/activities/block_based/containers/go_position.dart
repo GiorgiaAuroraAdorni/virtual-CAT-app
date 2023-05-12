@@ -155,7 +155,6 @@ class _Go extends State<GoPosition> {
                   context.read<BlockUpdateNotifier>().update();
                 },
                 itemExtent: 25,
-                diameterRatio: 1,
                 useMagnifier: true,
                 magnification: 1.3,
                 children: List<Widget>.generate(
@@ -175,7 +174,6 @@ class _Go extends State<GoPosition> {
                   context.read<BlockUpdateNotifier>().update();
                 },
                 itemExtent: 25,
-                diameterRatio: 1,
                 useMagnifier: true,
                 magnification: 1.3,
                 children: List<Widget>.generate(

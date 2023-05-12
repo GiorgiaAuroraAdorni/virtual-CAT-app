@@ -162,7 +162,6 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
             });
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: CATLocalizations.of(context).genderType,

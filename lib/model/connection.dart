@@ -94,8 +94,6 @@ class Connection extends BaseConnection {
       <String, dynamic>{
         "supervisor": s.supervisor,
         "school": s.school,
-        "level": s.level,
-        "classs": s.classs,
         "section": s.section,
         "date": s.date.toIso8601String(),
         "notes": s.notes,
@@ -275,8 +273,6 @@ class Session {
   Session({
     required this.supervisor,
     required this.school,
-    required this.level,
-    required this.classs,
     required this.section,
     required this.date,
     required this.notes,
@@ -285,8 +281,6 @@ class Session {
 
   final int supervisor;
   final int school;
-  final int level;
-  final int classs;
   final String section;
   final DateTime date;
   final String notes;

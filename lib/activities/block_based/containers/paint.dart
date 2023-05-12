@@ -233,7 +233,6 @@ class _Paint extends State<Paint> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: repetitionsText,
@@ -290,7 +289,6 @@ class _Paint extends State<Paint> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: repetitionsIcons,
@@ -326,7 +324,6 @@ class _Paint extends State<Paint> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: directions,
@@ -373,7 +370,6 @@ class _Paint extends State<Paint> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: List<Widget>.generate(

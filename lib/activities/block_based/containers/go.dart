@@ -239,7 +239,6 @@ class _Go extends State<Go> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: repetitions,
@@ -281,7 +280,6 @@ class _Go extends State<Go> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: repetitions,
@@ -317,7 +315,6 @@ class _Go extends State<Go> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: directions,
@@ -353,7 +350,6 @@ class _Go extends State<Go> {
             context.read<BlockUpdateNotifier>().update();
           },
           itemExtent: 25,
-          diameterRatio: 1,
           useMagnifier: true,
           magnification: 1.3,
           children: directions,
