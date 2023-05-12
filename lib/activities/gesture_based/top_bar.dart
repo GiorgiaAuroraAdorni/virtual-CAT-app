@@ -52,7 +52,7 @@ class TopBar extends StatefulWidget {
   State<StatefulWidget> createState() => _TopBarState();
 }
 
-class _TopBarState extends State<TopBar> with ChangeNotifier {
+class _TopBarState extends State<TopBar> {
   late Timer _timer;
 
   @override
