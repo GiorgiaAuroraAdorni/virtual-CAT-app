@@ -7,6 +7,7 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:flutter/material.dart";
+import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
 /// `FillEmpty` is a `StatefulWidget` that displays a `FloatingActionButton` that,
@@ -38,8 +39,21 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: context.read<SelectedColorsNotifier>(),
         builder: (BuildContext c, Widget? w) {
+          final Cross state =
+              CatInterpreter().getResults.getStates.last as Cross;
+          final List<List<int>> cross = state.getGrid;
+          int count = 0;
+          for (int i = 0; i < cross.first.length; i++) {
+            for (int j = 0; j < cross.last.length; j++) {
+              if (state.validatePosition(i, j) && cross[i][j] != 0) {
+                count += 1;
+              }
+            }
+          }
+          final bool full = count == 20;
           if (context.read<SelectedColorsNotifier>().colors.length == 1 &&
-              widget.state.widget.selectionMode.value == SelectionModes.base) {
+              widget.state.widget.selectionMode.value == SelectionModes.base &&
+              !full) {
             activateNoState();
           } else {
             deActivateNoState();

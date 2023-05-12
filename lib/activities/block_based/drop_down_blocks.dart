@@ -30,13 +30,18 @@ class DropDownBlocks extends AnimatedWidget {
               padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  border: Border.all(color: CupertinoColors.darkBackgroundGray),
+                  border: Border(
+                    right: BorderSide(
+                      width: 10,
+                      color: color,
+                    ),
+                  ),
                 ),
                 position: DecorationPosition.foreground,
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(16),
                   borderRadius: BorderRadius.zero,
-                  color: !visibility.value
+                  color: visibility.value
                       ? color
                       : CupertinoColors.extraLightBackgroundGray,
                   child: Row(
@@ -49,9 +54,9 @@ class DropDownBlocks extends AnimatedWidget {
                             return Text(
                               title,
                               style: TextStyle(
-                                color: !visibility.value
+                                color: visibility.value
                                     ? CupertinoColors.extraLightBackgroundGray
-                                    : CupertinoColors.label,
+                                    : color,
                                 fontWeight: FontWeight.bold,
                               ),
                             );
@@ -63,9 +68,7 @@ class DropDownBlocks extends AnimatedWidget {
                             width: 25,
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
-                              !visibility.value
-                                  ? CupertinoColors.white
-                                  : CupertinoColors.systemGrey2.darkColor,
+                              visibility.value ? CupertinoColors.white : color,
                               BlendMode.modulate,
                             ),
                           );
