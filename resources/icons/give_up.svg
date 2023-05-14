@@ -11,7 +11,7 @@
                 <mask id="mask-2" fill="white">
                     <use xlink:href="#path-1"></use>
                 </mask>
-                <use id="Mask" fill="#FFFBFB" xlink:href="#path-1"></use>
+                <use id="Mask" stroke="#E5E5EA" stroke-width="10" fill="#FFFFFF" xlink:href="#path-1"></use>
             </g>
         </g>
     </g>
