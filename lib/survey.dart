@@ -47,22 +47,6 @@ class _SurveyState extends State<Survey> {
   @override
   Widget build(BuildContext context) {
     tts.setLanguage(CATLocalizations.of(context).languageCode);
-    Connection()
-        .checkIfSurwayComplete(widget.sessionID, widget.studentID)
-        .then((bool value) {
-      if (value) {
-        Navigator.push(
-          context,
-          CupertinoPageRoute<Widget>(
-            builder: (BuildContext context) => ResultsScreen(
-              results: widget.results,
-            ),
-          ),
-        );
-
-        return;
-      }
-    });
 
     return WillPopScope(
       onWillPop: () async => false,

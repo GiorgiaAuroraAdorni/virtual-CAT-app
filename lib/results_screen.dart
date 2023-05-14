@@ -131,29 +131,18 @@ class ResultsScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                SvgPicture.asset(
                                   () {
                                     if (!results[index + 1]!.state) {
-                                      return CupertinoIcons.flag_fill;
+                                      return "resources/icons/give_up.svg";
                                     }
                                     if (results[index + 1]!.correct) {
-                                      return CupertinoIcons.hand_thumbsup_fill;
+                                      return "resources/icons/thumb_up.svg";
                                     }
 
-                                    return CupertinoIcons.hand_thumbsdown_fill;
+                                    return "resources/icons/thumb_down.svg";
                                   }.call(),
-                                  color: () {
-                                    if (!results[index + 1]!.state) {
-                                      return CupertinoColors.darkBackgroundGray
-                                          .withAlpha(127);
-                                    }
-                                    if (results[index + 1]!.correct) {
-                                      return CupertinoColors.activeGreen;
-                                    }
-
-                                    return CupertinoColors.destructiveRed;
-                                  }.call(),
-                                  size: 30,
+                                  height: 30,
                                 ),
                                 const SizedBox(
                                   width: 10,

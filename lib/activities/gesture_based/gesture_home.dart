@@ -13,6 +13,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
+import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/survey.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
@@ -253,16 +254,29 @@ class GestureHomeState extends State<GestureHome> {
 
                   return;
                 }
-                Navigator.push(
-                  context,
-                  CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => Survey(
-                      results: _allResults,
-                      sessionID: widget.sessionID,
-                      studentID: widget.studentID,
-                    ),
-                  ),
-                );
+                Connection()
+                    .checkIfSurwayComplete(widget.sessionID, widget.studentID)
+                    .then((bool value) {
+                  if (value) {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ResultsScreen(
+                          results: _allResults,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => Survey(
+                          results: _allResults,
+                          sessionID: widget.sessionID,
+                          studentID: widget.studentID,
+                        ),
+                      ),
+                    );
+                  }
+                });
               },
             );
           }
