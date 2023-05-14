@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
@@ -43,18 +44,26 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
 
   @override
   void onDismiss() {
-    super.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.transition;
+    for (final CrossButton i in widget.state.widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.state.widget.selectedButtons.value.clear();
     CatLogger().addLog(
       context: context,
       previousCommand: "",
       currentCommand: "copy",
       description: CatLoggingLevel.buttonDismiss,
     );
+    super.deSelect();
   }
 
   @override
   void onSelect() {
+    for (final CrossButton i in widget.state.widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.state.widget.selectedButtons.value.clear();
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
     widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.select;

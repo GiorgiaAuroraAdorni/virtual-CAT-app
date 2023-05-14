@@ -1,10 +1,8 @@
-import "dart:math" as math;
-
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
 
 class GoContainer extends SimpleContainer {
   GoContainer({
@@ -70,61 +68,45 @@ class GoContainer extends SimpleContainer {
   );
 
   Map<Widget, String> items2 = <Widget, String>{
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/right.svg",
+      height: 20,
+      width: 20,
     ): "right",
-    Transform.rotate(
-      angle: 180 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/left.svg",
+      height: 20,
+      width: 20,
     ): "left",
-    Transform.rotate(
-      angle: 270 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/up.svg",
+      height: 20,
+      width: 20,
     ): "up",
-    Transform.rotate(
-      angle: 90 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/down.svg",
+      height: 20,
+      width: 20,
     ): "down",
-    Transform.rotate(
-      angle: 225 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_up_left.svg",
+      height: 20,
+      width: 20,
     ): "diagonal up left",
-    Transform.rotate(
-      angle: 315 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_up_right.svg",
+      height: 20,
+      width: 20,
     ): "diagonal up right",
-    Transform.rotate(
-      angle: 135 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_down_left.svg",
+      height: 20,
+      width: 20,
     ): "diagonal down left",
-    Transform.rotate(
-      angle: 45 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_down_right.svg",
+      height: 20,
+      width: 20,
     ): "diagonal down right",
   };
 

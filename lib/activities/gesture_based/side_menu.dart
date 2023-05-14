@@ -338,18 +338,16 @@ class SideMenuState extends State<SideMenu> {
 
                               return;
                             }
-                            if (widget.selectedButtons.value.isEmpty &&
-                                widget.selectionMode.value ==
-                                    SelectionModes.mirrorVertical) {
+                            if (widget.selectionMode.value ==
+                                SelectionModes.mirrorVertical) {
                               _mirrorCells("vertical");
                               selectionButtonKey.currentState?.whenSelected();
                               widget.selectionMode.value = SelectionModes.base;
 
                               return;
                             }
-                            if (widget.selectedButtons.value.isEmpty &&
-                                widget.selectionMode.value ==
-                                    SelectionModes.mirrorHorizontal) {
+                            if (widget.selectionMode.value ==
+                                SelectionModes.mirrorHorizontal) {
                               _mirrorCells("horizontal");
                               selectionButtonKey.currentState?.whenSelected();
                               widget.selectionMode.value = SelectionModes.base;
@@ -447,6 +445,10 @@ class SideMenuState extends State<SideMenu> {
 
   void _mirrorCells(String direction) {
     final List<Pair<int, int>> origins = <Pair<int, int>>[];
+    for (final CrossButton i in widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.selectedButtons.value.clear();
     for (final CrossButton b in widget.coloredButtons.value) {
       origins.add(b.position);
     }

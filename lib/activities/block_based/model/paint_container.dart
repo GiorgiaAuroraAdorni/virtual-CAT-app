@@ -1,11 +1,9 @@
-import "dart:math" as math;
-
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import "package:flutter_svg/svg.dart";
 
 class PaintContainer extends SimpleContainer {
   PaintContainer({
@@ -87,245 +85,165 @@ class PaintContainer extends SimpleContainer {
   );
 
   Map<Widget, String> items2 = <Widget, String>{
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/right.svg",
+      height: 20,
+      width: 20,
     ): "right",
-    Transform.rotate(
-      angle: 180 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/left.svg",
+      height: 20,
+      width: 20,
     ): "left",
-    Transform.rotate(
-      angle: 270 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/up.svg",
+      height: 20,
+      width: 20,
     ): "up",
-    Transform.rotate(
-      angle: 90 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/down.svg",
+      height: 20,
+      width: 20,
     ): "down",
-    Transform.rotate(
-      angle: 225 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_up_left.svg",
+      height: 20,
+      width: 20,
     ): "diagonal up left",
-    Transform.rotate(
-      angle: 315 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_up_right.svg",
+      height: 20,
+      width: 20,
     ): "diagonal up right",
-    Transform.rotate(
-      angle: 135 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_down_left.svg",
+      height: 20,
+      width: 20,
     ): "diagonal down left",
-    Transform.rotate(
-      angle: 45 * math.pi / 180,
-      child: const Icon(
-        Icons.arrow_right_alt,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_down_right.svg",
+      height: 20,
+      width: 20,
     ): "diagonal down right",
-    Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.rotationY(math.pi),
-      child: Transform.rotate(
-        angle: 0 * math.pi / 180,
-        child: const Icon(
-          CupertinoIcons.return_icon,
-          color: Colors.black87,
-        ),
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_left_down_right.svg",
+      height: 20,
+      width: 20,
     ): "square left down right",
-    Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.rotationY(math.pi),
-      child: Transform.rotate(
-        angle: 270 * math.pi / 180,
-        child: const Icon(
-          CupertinoIcons.return_icon,
-          color: Colors.black87,
-        ),
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_up_left_down.svg",
+      height: 20,
+      width: 20,
     ): "square up left down",
-    Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.rotationY(math.pi),
-      child: Transform.rotate(
-        angle: 180 * math.pi / 180,
-        child: const Icon(
-          CupertinoIcons.return_icon,
-          color: Colors.black87,
-        ),
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_right_up_left.svg",
+      height: 20,
+      width: 20,
     ): "square right up left",
-    Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.rotationY(math.pi),
-      child: Transform.rotate(
-        angle: 90 * math.pi / 180,
-        child: const Icon(
-          CupertinoIcons.return_icon,
-          color: Colors.black87,
-        ),
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_down_right_up.svg",
+      height: 20,
+      width: 20,
     ): "square down right up",
-    Transform.rotate(
-      angle: 90 * math.pi / 180,
-      child: const Icon(
-        CupertinoIcons.return_icon,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_down_left_up.svg",
+      height: 20,
+      width: 20,
     ): "square down left up",
-    Transform.rotate(
-      angle: 180 * math.pi / 180,
-      child: const Icon(
-        CupertinoIcons.return_icon,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_left_up_right.svg",
+      height: 20,
+      width: 20,
     ): "square left up right",
-    Transform.rotate(
-      angle: 270 * math.pi / 180,
-      child: const Icon(
-        CupertinoIcons.return_icon,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_up_right_down.svg",
+      height: 20,
+      width: 20,
     ): "square up right down",
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        CupertinoIcons.return_icon,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/square_right_down_left.svg",
+      height: 20,
+      width: 20,
     ): "square right down left",
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_up_left.svg",
+      height: 20,
+      width: 20,
     ): "l up left",
-    Transform.rotate(
-      angle: 0 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_up_right.svg",
+      height: 20,
+      width: 20,
     ): "l up right",
-    Transform.rotate(
-      angle: 90 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_right_down.svg",
+      height: 20,
+      width: 20,
     ): "l right down",
-    Transform.rotate(
-      angle: 90 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_right_up.svg",
+      height: 20,
+      width: 20,
     ): "l right up",
-    Transform.rotate(
-      angle: 270 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_left_down.svg",
+      height: 20,
+      width: 20,
     ): "l left down",
-    Transform.rotate(
-      angle: 270 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_left_up.svg",
+      height: 20,
+      width: 20,
     ): "l left up",
-    Transform.rotate(
-      angle: 180 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_down_left.svg",
+      height: 20,
+      width: 20,
     ): "l down left",
-    Transform.rotate(
-      angle: 180 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/L_down_right.svg",
+      height: 20,
+      width: 20,
     ): "l down right",
-    Transform.rotate(
-      angle: 225 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/diagonal_down_right.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag left down up",
-    Transform.rotate(
-      angle: 45 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_right_up_down.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag right up down",
-    Transform.rotate(
-      angle: 135 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_down_right_left.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag down right left",
-    Transform.rotate(
-      angle: 135 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_right_down_up.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag right down up",
-    Transform.rotate(
-      angle: 45 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_up_right_left.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag up right left",
-    Transform.rotate(
-      angle: 225 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_down_left_right.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag down left right",
-    Transform.rotate(
-      angle: 315 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_right,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_up_left_right.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag up left right",
-    Transform.rotate(
-      angle: 315 * math.pi / 180,
-      child: const Icon(
-        Icons.turn_left,
-        color: Colors.black87,
-      ),
+    SvgPicture.asset(
+      "resources/symbols/zigzag_left_up_down.svg",
+      height: 20,
+      width: 20,
     ): "zig-zag left up down",
   };
 

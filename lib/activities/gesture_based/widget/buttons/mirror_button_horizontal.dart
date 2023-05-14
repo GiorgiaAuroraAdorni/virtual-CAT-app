@@ -219,6 +219,10 @@ class MirrorButtonHorizontalStateSecondary
     widget.state.copyButtonKey.currentState?.deSelect();
     widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
     widget.state.widget.selectionMode.value = SelectionModes.mirrorHorizontal;
+    for (final CrossButton i in widget.state.widget.selectedButtons.value) {
+      i.unSelect();
+    }
+    widget.state.widget.selectedButtons.value.clear();
     for (final CrossButton i in widget.state.widget.coloredButtons.value) {
       final Pair<int, int> pos = i.position;
       final Widget button = i.buttons[5 - pos.first].children[pos.second];
@@ -237,7 +241,6 @@ class MirrorButtonHorizontalStateSecondary
 
   @override
   void onDismiss() {
-    super.deSelect();
     for (final CrossButton i in widget.state.widget.selectedButtons.value) {
       i.unSelect();
     }
@@ -249,5 +252,6 @@ class MirrorButtonHorizontalStateSecondary
       currentCommand: "selection mirror horizontal",
       description: CatLoggingLevel.buttonDismiss,
     );
+    super.deSelect();
   }
 }
