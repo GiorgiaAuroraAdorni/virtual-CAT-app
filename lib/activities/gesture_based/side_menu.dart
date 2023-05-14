@@ -136,7 +136,9 @@ class SideMenuState extends State<SideMenu> {
                           SelectionModes.mirrorVertical ||
                       widget.selectionMode.value == SelectionModes.multiple ||
                       widget.selectionMode.value == SelectionModes.select ||
-                      widget.selectionMode.value == SelectionModes.transition) {
+                      widget.selectionMode.value == SelectionModes.transition ||
+                      widget.selectionMode.value ==
+                          SelectionModes.selectCopyCells) {
                     return null;
                   }
 
@@ -215,186 +217,208 @@ class SideMenuState extends State<SideMenu> {
             ),
             Column(
               children: <Widget>[
-                Visibility(
-                  visible: widget.selectionMode.value == SelectionModes.repeat,
-                  replacement: Padding(
-                    padding: EdgeInsets.all(_paddingSize),
-                    child: SizedBox.fromSize(
-                      size: const Size(50, 50),
+                AnimatedBuilder(
+                  animation: widget.selectionMode,
+                  builder: (_, __) => Visibility(
+                    visible:
+                        widget.selectionMode.value == SelectionModes.repeat ||
+                            widget.selectionMode.value == SelectionModes.select,
+                    replacement: Padding(
+                      padding: EdgeInsets.all(_paddingSize),
+                      child: SizedBox.fromSize(
+                        size: const Size(50, 50),
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        ColorActionButton(
+                          key: colorActionButtonKey,
+                          selectionColor: Colors.teal,
+                          state: this,
+                          background: null,
+                        ),
+                        const Divider(
+                          height: 20,
+                        ),
+                        CopyButtonSecondary(
+                          key: copyButtonSecondaryKey,
+                          selectionColor: Colors.teal,
+                          background: null,
+                          state: this,
+                        ),
+                        const Divider(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(_paddingSize),
+                          child: CupertinoButton(
+                            onPressed: _repeatAdvancement,
+                            minSize: 50,
+                            padding: EdgeInsets.zero,
+                            borderRadius: BorderRadius.circular(100),
+                            color:
+                                CupertinoColors.systemGreen.highContrastColor,
+                            child: const Icon(CupertinoIcons.check_mark),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(_paddingSize),
+                          child: CupertinoButton(
+                            onPressed: () {
+                              repeatButtonKey.currentState?.whenSelected();
+                              widget.selectionMode.value = SelectionModes.base;
+                              CatInterpreter().deleteCopyCommands();
+                              CatLogger().addLog(
+                                context: context,
+                                previousCommand: "",
+                                currentCommand: "copy commands",
+                                description: CatLoggingLevel.dismissCommand,
+                              );
+                            },
+                            minSize: 50,
+                            padding: EdgeInsets.zero,
+                            borderRadius: BorderRadius.circular(100),
+                            color: CupertinoColors.systemRed.highContrastColor,
+                            child: const Icon(CupertinoIcons.xmark),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      ColorActionButton(
-                        key: colorActionButtonKey,
-                        selectionColor: Colors.teal,
-                        state: this,
-                        background: null,
-                      ),
-                      const Divider(
-                        height: 20,
-                      ),
-                      CopyButtonSecondary(
-                        key: copyButtonSecondaryKey,
-                        selectionColor: Colors.teal,
-                        background: null,
-                        state: this,
-                      ),
-                      const Divider(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(_paddingSize),
-                        child: CupertinoButton(
-                          onPressed: _repeatAdvancement,
-                          minSize: 50,
-                          padding: EdgeInsets.zero,
-                          borderRadius: BorderRadius.circular(100),
-                          color: CupertinoColors.systemGreen.highContrastColor,
-                          child: const Icon(CupertinoIcons.check_mark),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(_paddingSize),
-                        child: CupertinoButton(
-                          onPressed: () {
-                            repeatButtonKey.currentState?.whenSelected();
-                            widget.selectionMode.value = SelectionModes.base;
-                            CatInterpreter().deleteCopyCommands();
-                            CatLogger().addLog(
-                              context: context,
-                              previousCommand: "",
-                              currentCommand: "copy commands",
-                              description: CatLoggingLevel.dismissCommand,
-                            );
-                          },
-                          minSize: 50,
-                          padding: EdgeInsets.zero,
-                          borderRadius: BorderRadius.circular(100),
-                          color: CupertinoColors.systemRed.highContrastColor,
-                          child: const Icon(CupertinoIcons.xmark),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
-                Visibility(
-                  visible:
-                      widget.selectionMode.value == SelectionModes.multiple,
-                  maintainState: true,
-                  child: Column(
-                    children: <Widget>[
-                      SelectionActionButton(
-                        key: selectionActionButtonKey,
-                        selectionColor: Colors.teal,
-                        background: null,
-                        state: this,
-                      ),
-                      const Divider(
-                        height: 20,
-                      ),
-                      CopyButton(
-                        key: copyButtonKey,
-                        selectionColor: Colors.teal,
-                        state: this,
-                      ),
-                      MirrorButtonHorizontalSecondary(
-                        state: this,
-                        key: mirrorHorizontalButtonKeySecondary,
-                        selectionColor: Colors.teal,
-                      ),
-                      MirrorButtonVerticalSecondary(
-                        state: this,
-                        key: mirrorVerticalButtonKeySecondary,
-                        selectionColor: Colors.teal,
-                      ),
-                      const Divider(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(_paddingSize),
-                        child: CupertinoButton(
-                          onPressed: () {
-                            if (widget.coloredButtons.value.isNotEmpty &&
-                                widget.selectionMode.value ==
-                                    SelectionModes.multiple) {
-                              selectionActionButtonKey.currentState?.deSelect();
-                              widget.selectionMode.value =
-                                  SelectionModes.transition;
-                              copyButtonKey.currentState?.activate();
-                              mirrorHorizontalButtonKeySecondary.currentState
-                                  ?.activate();
-                              mirrorVerticalButtonKeySecondary.currentState
-                                  ?.activate();
-
-                              return;
-                            }
-                            if (widget.selectedButtons.value.isNotEmpty &&
-                                widget.selectionMode.value ==
-                                    SelectionModes.select) {
-                              _copyCells();
-                              selectionButtonKey.currentState?.whenSelected();
-                              widget.selectionMode.value = SelectionModes.base;
-
-                              return;
-                            }
-                            if (widget.selectionMode.value ==
-                                SelectionModes.mirrorVertical) {
-                              _mirrorCells("vertical");
-                              selectionButtonKey.currentState?.whenSelected();
-                              widget.selectionMode.value = SelectionModes.base;
-
-                              return;
-                            }
-                            if (widget.selectionMode.value ==
-                                SelectionModes.mirrorHorizontal) {
-                              _mirrorCells("horizontal");
-                              selectionButtonKey.currentState?.whenSelected();
-                              widget.selectionMode.value = SelectionModes.base;
-
-                              return;
-                            }
-                            widget.shakeKey.currentState?.shake();
-                            CatLogger().addLog(
-                              context: context,
-                              previousCommand: "",
-                              currentCommand:
-                                  CatInterpreter().getResults.getCommands.last,
-                              description: CatLoggingLevel.confirmCommand,
-                            );
-                          },
-                          minSize: 50,
-                          padding: EdgeInsets.zero,
-                          borderRadius: BorderRadius.circular(100),
-                          color: CupertinoColors.systemGreen.highContrastColor,
-                          child: const Icon(CupertinoIcons.check_mark),
+                AnimatedBuilder(
+                  animation: widget.selectionMode,
+                  builder: (_, __) => Visibility(
+                    visible: widget.selectionMode.value ==
+                            SelectionModes.multiple ||
+                        widget.selectionMode.value ==
+                            SelectionModes.selectCopyCells ||
+                        widget.selectionMode.value ==
+                            SelectionModes.mirrorVertical ||
+                        widget.selectionMode.value ==
+                            SelectionModes.mirrorHorizontal ||
+                        widget.selectionMode.value == SelectionModes.transition,
+                    maintainState: true,
+                    child: Column(
+                      children: <Widget>[
+                        SelectionActionButton(
+                          key: selectionActionButtonKey,
+                          selectionColor: Colors.teal,
+                          background: null,
+                          state: this,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(_paddingSize),
-                        child: CupertinoButton(
-                          onPressed: () {
-                            setState(() {
-                              selectionButtonKey.currentState?.whenSelected();
-                              mirrorVerticalButtonKeySecondary.currentState
-                                  ?.whenSelected();
-                              widget.selectionMode.value = SelectionModes.base;
-                            });
-                            CatLogger().addLog(
-                              context: context,
-                              previousCommand: "",
-                              currentCommand: "cells selection",
-                              description: CatLoggingLevel.dismissCommand,
-                            );
-                          },
-                          minSize: 50,
-                          padding: EdgeInsets.zero,
-                          borderRadius: BorderRadius.circular(100),
-                          color: CupertinoColors.systemRed.highContrastColor,
-                          child: const Icon(CupertinoIcons.xmark),
+                        const Divider(
+                          height: 20,
                         ),
-                      ),
-                    ],
+                        CopyButton(
+                          key: copyButtonKey,
+                          selectionColor: Colors.teal,
+                          state: this,
+                        ),
+                        MirrorButtonHorizontalSecondary(
+                          state: this,
+                          key: mirrorHorizontalButtonKeySecondary,
+                          selectionColor: Colors.teal,
+                        ),
+                        MirrorButtonVerticalSecondary(
+                          state: this,
+                          key: mirrorVerticalButtonKeySecondary,
+                          selectionColor: Colors.teal,
+                        ),
+                        const Divider(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(_paddingSize),
+                          child: CupertinoButton(
+                            onPressed: () {
+                              if (widget.coloredButtons.value.isNotEmpty &&
+                                  widget.selectionMode.value ==
+                                      SelectionModes.multiple) {
+                                selectionActionButtonKey.currentState
+                                    ?.deSelect();
+                                widget.selectionMode.value =
+                                    SelectionModes.transition;
+                                copyButtonKey.currentState?.activate();
+                                mirrorHorizontalButtonKeySecondary.currentState
+                                    ?.activate();
+                                mirrorVerticalButtonKeySecondary.currentState
+                                    ?.activate();
+
+                                return;
+                              } else if (widget
+                                      .selectedButtons.value.isNotEmpty &&
+                                  widget.selectionMode.value ==
+                                      SelectionModes.selectCopyCells) {
+                                _copyCells();
+                                selectionButtonKey.currentState?.whenSelected();
+                                widget.selectionMode.value =
+                                    SelectionModes.base;
+
+                                return;
+                              } else if (widget.selectionMode.value ==
+                                  SelectionModes.mirrorVertical) {
+                                _mirrorCells("vertical");
+                                selectionButtonKey.currentState?.whenSelected();
+                                widget.selectionMode.value =
+                                    SelectionModes.base;
+
+                                return;
+                              } else if (widget.selectionMode.value ==
+                                  SelectionModes.mirrorHorizontal) {
+                                _mirrorCells("horizontal");
+                                selectionButtonKey.currentState?.whenSelected();
+                                widget.selectionMode.value =
+                                    SelectionModes.base;
+
+                                return;
+                              }
+                              widget.shakeKey.currentState?.shake();
+                              CatLogger().addLog(
+                                context: context,
+                                previousCommand: "",
+                                currentCommand: CatInterpreter()
+                                    .getResults
+                                    .getCommands
+                                    .last,
+                                description: CatLoggingLevel.confirmCommand,
+                              );
+                            },
+                            minSize: 50,
+                            padding: EdgeInsets.zero,
+                            borderRadius: BorderRadius.circular(100),
+                            color:
+                                CupertinoColors.systemGreen.highContrastColor,
+                            child: const Icon(CupertinoIcons.check_mark),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(_paddingSize),
+                          child: CupertinoButton(
+                            onPressed: () {
+                              setState(() {
+                                selectionButtonKey.currentState?.whenSelected();
+                                mirrorVerticalButtonKeySecondary.currentState
+                                    ?.whenSelected();
+                                widget.selectionMode.value =
+                                    SelectionModes.base;
+                              });
+                              CatLogger().addLog(
+                                context: context,
+                                previousCommand: "",
+                                currentCommand: "cells selection",
+                                description: CatLoggingLevel.dismissCommand,
+                              );
+                            },
+                            minSize: 50,
+                            padding: EdgeInsets.zero,
+                            borderRadius: BorderRadius.circular(100),
+                            color: CupertinoColors.systemRed.highContrastColor,
+                            child: const Icon(CupertinoIcons.xmark),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

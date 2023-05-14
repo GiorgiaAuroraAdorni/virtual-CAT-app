@@ -32,7 +32,8 @@ class RepeatButtonState extends ActionButtonState<RepeatButton> {
   @override
   Widget build(BuildContext context) {
     if (widget.state.widget.selectionMode.value == SelectionModes.base ||
-        widget.state.widget.selectionMode.value == SelectionModes.repeat) {
+        widget.state.widget.selectionMode.value == SelectionModes.repeat ||
+        widget.state.widget.selectionMode.value == SelectionModes.select) {
       activateNoState();
     } else {
       deActivateNoState();

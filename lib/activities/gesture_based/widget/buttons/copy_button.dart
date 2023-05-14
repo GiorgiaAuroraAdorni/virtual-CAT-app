@@ -66,7 +66,7 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
     widget.state.widget.selectedButtons.value.clear();
     widget.state.mirrorHorizontalButtonKeySecondary.currentState?.deSelect();
     widget.state.mirrorVerticalButtonKeySecondary.currentState?.deSelect();
-    widget.state.widget.selectionMode.value = SelectionModes.select;
+    widget.state.widget.selectionMode.value = SelectionModes.selectCopyCells;
     CatLogger().addLog(
       context: context,
       previousCommand: "",

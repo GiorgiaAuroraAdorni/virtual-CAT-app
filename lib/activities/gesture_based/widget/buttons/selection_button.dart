@@ -30,7 +30,14 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
   @override
   Widget build(BuildContext context) {
     if (widget.state.widget.selectionMode.value == SelectionModes.base ||
-        widget.state.widget.selectionMode.value == SelectionModes.multiple) {
+        widget.state.widget.selectionMode.value == SelectionModes.multiple ||
+        widget.state.widget.selectionMode.value ==
+            SelectionModes.mirrorVertical ||
+        widget.state.widget.selectionMode.value ==
+            SelectionModes.mirrorHorizontal ||
+        widget.state.widget.selectionMode.value == SelectionModes.transition ||
+        widget.state.widget.selectionMode.value ==
+            SelectionModes.selectCopyCells) {
       activateNoState();
     } else {
       deActivateNoState();

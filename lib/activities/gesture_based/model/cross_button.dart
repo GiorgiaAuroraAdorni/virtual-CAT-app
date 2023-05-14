@@ -169,7 +169,9 @@ class CrossButtonState extends State<CrossButton> {
 
                 return;
               }
-              if (widget.selectionMode.value == SelectionModes.select) {
+              if (widget.selectionMode.value == SelectionModes.select ||
+                  widget.selectionMode.value ==
+                      SelectionModes.selectCopyCells) {
                 if (CatInterpreter().copyCommandsBuffer.isEmpty) {
                   _selection();
                 } else {

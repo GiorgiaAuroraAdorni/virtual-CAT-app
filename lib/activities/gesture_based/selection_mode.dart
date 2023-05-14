@@ -23,6 +23,9 @@ enum SelectionModes {
   /// Selection mode for when it's necessary to do select the cells.
   select,
 
+  /// Selection mode for when it's necessary to do select the cells for copy.
+  selectCopyCells,
+
   /// Selection mode for transition between different states.
   transition,
 }
