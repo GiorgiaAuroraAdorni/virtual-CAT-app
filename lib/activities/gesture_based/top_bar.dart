@@ -232,10 +232,10 @@ class _TopBarState extends State<TopBar> {
                                       }
                                       if (widget
                                           .allResults[index + 1]!.correct) {
-                                        return "resources/icons/thumb_up.svg";
+                                        return "resources/icons/thumbs_up.svg";
                                       }
 
-                                      return "resources/icons/thumb_down.svg";
+                                      return "resources/icons/thumbs_down.svg";
                                     }.call(),
                                     height: 25,
                                   )
