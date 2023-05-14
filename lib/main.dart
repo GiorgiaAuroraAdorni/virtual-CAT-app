@@ -175,6 +175,9 @@ class _HomePageState extends State<HomePage> {
                               height: 100,
                               fit: BoxFit.fill,
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Text(
                               LocaleProvider()._localeMap[locale]![1],
                               style: const TextStyle(

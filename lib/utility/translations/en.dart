@@ -104,7 +104,8 @@ const Map<String, String> _descriptions = <String, String>{
 const Map<String, String> _resultsScreen = <String, String>{
   "column1": "Schema di riferimento",
   "column2": "Schema colorato",
-  "column3": "Risultato",
+  "column3": "CAT-score",
+  "column4": "Risultato",
   "resultCorrect": "Corretto",
   "resultSkip": "Resa",
   "resultWrong": "Sbagliato",

@@ -43,12 +43,15 @@ class ResultsScreen extends StatelessWidget {
                       children: <Widget>[
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 4,
-                          child: Row(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(CupertinoIcons.add),
+                              SvgPicture.asset(
+                                "resources/icons/reference.svg",
+                                height: 60,
+                              ),
                               const SizedBox(
-                                width: 10,
+                                height: 5,
                               ),
                               Text(CATLocalizations.of(context).column1),
                             ],
@@ -56,12 +59,15 @@ class ResultsScreen extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 4,
-                          child: Row(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(CupertinoIcons.add),
+                              SvgPicture.asset(
+                                "resources/icons/result.svg",
+                                height: 60,
+                              ),
                               const SizedBox(
-                                width: 10,
+                                height: 5,
                               ),
                               Text(CATLocalizations.of(context).column2),
                             ],
@@ -69,27 +75,33 @@ class ResultsScreen extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 8,
-                          child: Row(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               SvgPicture.asset(
-                                "resources/icons/trophy.svg",
-                                height: 30,
-                                width: 30,
+                                "resources/icons/trophy_final.svg",
+                                height: 50,
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(CATLocalizations.of(context).column3),
                             ],
                           ),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 8,
-                          child: Row(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(CupertinoIcons.add),
-                              const SizedBox(
-                                width: 10,
+                              SvgPicture.asset(
+                                "resources/icons/feedback.svg",
+                                height: 60,
                               ),
-                              Text(CATLocalizations.of(context).column3),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(CATLocalizations.of(context).column4),
                             ],
                           ),
                         ),
@@ -134,15 +146,15 @@ class ResultsScreen extends StatelessWidget {
                                 SvgPicture.asset(
                                   () {
                                     if (!results[index + 1]!.state) {
-                                      return "resources/icons/give_up.svg";
+                                      return "resources/icons/give_up_final.svg";
                                     }
                                     if (results[index + 1]!.correct) {
-                                      return "resources/icons/thumb_up.svg";
+                                      return "resources/icons/thumbs_up_final.svg";
                                     }
 
-                                    return "resources/icons/thumb_down.svg";
+                                    return "resources/icons/thumbs_down_final.svg";
                                   }.call(),
-                                  height: 30,
+                                  height: 40,
                                 ),
                                 const SizedBox(
                                   width: 10,

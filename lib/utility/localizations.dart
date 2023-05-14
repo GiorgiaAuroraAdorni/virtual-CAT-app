@@ -311,6 +311,8 @@ class CATLocalizations {
 
   String get column3 => _localizedValues[_locale.languageCode]!["column3"]!;
 
+  String get column4 => _localizedValues[_locale.languageCode]!["column4"]!;
+
   String get resultCorrect =>
       _localizedValues[_locale.languageCode]!["resultCorrect"]!;
 
