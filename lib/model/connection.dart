@@ -237,6 +237,21 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <String, dynamic>{})["id"];
   }
 
+  Future<bool> checkIfSurwayComplete(int sessionID, int studentID) async {
+    if (sessionID == -1 || studentID == -1) {
+      return false;
+    }
+    final Response res = await super.dio.get(
+      "/surveys",
+      data: <String, dynamic>{
+        "studentID": studentID,
+        "sessionID": sessionID,
+      },
+    );
+
+    return res.statusCode == 200;
+  }
+
   Future<int> addSurvay(int sessionID, int studentID, String results) async {
     if (sessionID == -1 || studentID == -1) {
       return -1;

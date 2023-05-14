@@ -13,7 +13,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/surway.dart";
+import "package:cross_array_task_app/survey.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -256,7 +256,7 @@ class GestureHomeState extends State<GestureHome> {
                 Navigator.push(
                   context,
                   CupertinoPageRoute<Widget>(
-                    builder: (BuildContext context) => Surway(
+                    builder: (BuildContext context) => Survey(
                       results: _allResults,
                       sessionID: widget.sessionID,
                       studentID: widget.studentID,

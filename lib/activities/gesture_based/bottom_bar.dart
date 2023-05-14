@@ -6,7 +6,7 @@ import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/results_screen.dart";
-import "package:cross_array_task_app/surway.dart";
+import "package:cross_array_task_app/survey.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
@@ -179,7 +179,7 @@ class _BottomBarState extends State<BottomBar> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) => Surway(
+                          builder: (BuildContext context) => Survey(
                             results: widget.allResults,
                             sessionID: widget.sessionID,
                             studentID: widget.studentID,

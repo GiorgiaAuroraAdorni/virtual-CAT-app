@@ -10,8 +10,8 @@ import "package:flutter_fast_forms/flutter_fast_forms.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:text_to_speech/text_to_speech.dart";
 
-class Surway extends StatefulWidget {
-  const Surway({
+class Survey extends StatefulWidget {
+  const Survey({
     required this.sessionID,
     required this.studentID,
     required this.results,
@@ -27,10 +27,10 @@ class Surway extends StatefulWidget {
   final Map<int, ResultsRecord> results;
 
   @override
-  State<Surway> createState() => _SurwayState();
+  State<Survey> createState() => _SurveyState();
 }
 
-class _SurwayState extends State<Surway> {
+class _SurveyState extends State<Survey> {
   TextToSpeech tts = TextToSpeech();
   bool airplaneMode = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -47,6 +47,22 @@ class _SurwayState extends State<Surway> {
   @override
   Widget build(BuildContext context) {
     tts.setLanguage(CATLocalizations.of(context).languageCode);
+    Connection()
+        .checkIfSurwayComplete(widget.sessionID, widget.studentID)
+        .then((bool value) {
+      if (value) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute<Widget>(
+            builder: (BuildContext context) => ResultsScreen(
+              results: widget.results,
+            ),
+          ),
+        );
+
+        return;
+      }
+    });
 
     return WillPopScope(
       onWillPop: () async => false,
