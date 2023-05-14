@@ -38,31 +38,31 @@ class DropDownBlocks extends AnimatedWidget {
                   ),
                 ),
                 position: DecorationPosition.foreground,
-                child: CupertinoButton(
-                  padding: const EdgeInsets.all(16),
-                  borderRadius: BorderRadius.zero,
-                  color: visibility.value
-                      ? color
-                      : CupertinoColors.extraLightBackgroundGray,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      AnimatedBuilder(
-                        animation: context.read<TypeUpdateNotifier>(),
-                        builder: (_, __) {
-                          if (context.read<TypeUpdateNotifier>().state == 2) {
-                            return Text(
-                              title,
-                              style: TextStyle(
-                                color: visibility.value
-                                    ? CupertinoColors.extraLightBackgroundGray
-                                    : color,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          }
-
-                          return SvgPicture.asset(
+                child: AnimatedBuilder(
+                  animation: context.read<TypeUpdateNotifier>(),
+                  builder: (_, __) => CupertinoButton(
+                    padding: EdgeInsets.all(
+                      context.read<TypeUpdateNotifier>().state == 2 ? 16 : 13.5,
+                    ),
+                    borderRadius: BorderRadius.zero,
+                    color: visibility.value
+                        ? color
+                        : CupertinoColors.extraLightBackgroundGray,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        if (context.read<TypeUpdateNotifier>().state == 2)
+                          Text(
+                            title,
+                            style: TextStyle(
+                              color: visibility.value
+                                  ? CupertinoColors.extraLightBackgroundGray
+                                  : color,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        else
+                          SvgPicture.asset(
                             iconLocation,
                             height: 25,
                             width: 25,
@@ -71,12 +71,11 @@ class DropDownBlocks extends AnimatedWidget {
                               visibility.value ? CupertinoColors.white : color,
                               BlendMode.modulate,
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                          ),
+                      ],
+                    ),
+                    onPressed: () => visibility.value = !visibility.value,
                   ),
-                  onPressed: () => visibility.value = !visibility.value,
                 ),
               ),
             ),

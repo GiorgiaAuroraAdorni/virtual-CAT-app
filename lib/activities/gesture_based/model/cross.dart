@@ -52,6 +52,14 @@ class _CrossState extends BasicShapeState<Cross> {
     final List<String> colors = analyzeColor(
       context.read<SelectedColorsNotifier>().colors,
     );
+    if (selectedButtons.length < colors.length) {
+      widget.shakeKey.currentState?.shake();
+      for (final CrossButton i in selectedButtons) {
+        i.unSelect();
+      }
+
+      return;
+    }
     if (colors.isEmpty) {
       if (widget.selectionMode.value == SelectionModes.base) {
         for (final CrossButton i in selectedButtons) {
