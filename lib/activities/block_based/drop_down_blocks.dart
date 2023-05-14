@@ -42,7 +42,7 @@ class DropDownBlocks extends AnimatedWidget {
                   animation: context.read<TypeUpdateNotifier>(),
                   builder: (_, __) => CupertinoButton(
                     padding: EdgeInsets.all(
-                      context.read<TypeUpdateNotifier>().state == 2 ? 16 : 13.5,
+                      context.read<TypeUpdateNotifier>().state == 2 ? 16 : 11,
                     ),
                     borderRadius: BorderRadius.zero,
                     color: visibility.value
@@ -64,8 +64,8 @@ class DropDownBlocks extends AnimatedWidget {
                         else
                           SvgPicture.asset(
                             iconLocation,
-                            height: 25,
-                            width: 25,
+                            height: 30,
+                            width: 30,
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.mode(
                               visibility.value ? CupertinoColors.white : color,

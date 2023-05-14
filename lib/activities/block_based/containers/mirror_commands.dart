@@ -92,7 +92,7 @@ class _Mirror extends State<MirrorCommands> {
       key: widgetKey,
       height: childHeight +
           185.0 -
-          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 50) +
+          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 140) +
           (widget.item.moves.length +
               (widget.item.container.isEmpty ? 4 : 0) * 60),
       width: MediaQuery.of(context).size.width,
@@ -163,9 +163,6 @@ class _Mirror extends State<MirrorCommands> {
                 );
               },
             ),
-            // const SizedBox(
-            //   height: 5,
-            // ),
             DragTarget<SimpleContainer>(
               builder: (
                 BuildContext context,
@@ -250,7 +247,13 @@ class _Mirror extends State<MirrorCommands> {
               Radius.circular(8),
             ),
           ),
-          height: childHeight + 60 + (widget.item.moves.length + 4 * 60),
+          height: childHeight +
+              60 +
+              (widget.item.moves.length +
+                  4 *
+                      (context.read<TypeUpdateNotifier>().state == 2
+                          ? 60
+                          : 35)),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(

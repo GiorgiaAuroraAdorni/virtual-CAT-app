@@ -99,10 +99,11 @@ class _Copy extends State<CopyCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          (context.read<TypeUpdateNotifier>().state == 2 ? 220 : 170) +
-          (context.read<TypeUpdateNotifier>().state == 2 ? 100 : 80) *
+          315 -
+          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 100) +
+          (context.read<TypeUpdateNotifier>().state == 2 ? 100 : 60) *
               (widget.item.moves.length +
-                  (widget.item.container.isEmpty ? 3 : 0) +
+                  (widget.item.container.isEmpty ? 4 : 0) +
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -194,7 +195,14 @@ class _Copy extends State<CopyCommands> {
                     Radius.circular(8),
                   ),
                 ),
-                height: childHeight + 60.0,
+                height: childHeight +
+                    60.0 +
+                    (widget.item.container.isEmpty
+                        ? (4 *
+                            (context.read<TypeUpdateNotifier>().state == 2
+                                ? 60
+                                : 35))
+                        : 0),
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
@@ -244,7 +252,7 @@ class _Copy extends State<CopyCommands> {
           ),
           height: childHeight +
               60 +
-              (4 * (context.read<TypeUpdateNotifier>().state == 2 ? 60 : 30)),
+              (4 * (context.read<TypeUpdateNotifier>().state == 2 ? 60 : 35)),
           width: constraints.maxWidth - 15,
           child: Center(
             child: AnimatedBuilder(
@@ -372,7 +380,7 @@ class _Copy extends State<CopyCommands> {
                             1 *
                                 (context.read<TypeUpdateNotifier>().state == 2
                                     ? 100
-                                    : 30)),
+                                    : 50)),
                     width: constraints.maxWidth - 15,
                     child: Center(
                       child: AnimatedBuilder(
