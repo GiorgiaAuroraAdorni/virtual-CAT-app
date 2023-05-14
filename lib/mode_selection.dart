@@ -32,13 +32,48 @@ class ModeSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SvgPicture.asset(
-                        "resources/icons/flag.checkered.2.crossed.svg",
+                        "resources/icons/Training.svg",
                         height: 100,
                         width: 100,
-                        colorFilter: const ColorFilter.mode(
-                          CupertinoColors.black,
-                          BlendMode.srcIn,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CupertinoButton.filled(
+                        onPressed: () async {
+                          await SchemasReader().testing().whenComplete(() {
+                            CatInterpreter().initialize();
+
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute<Widget>(
+                                builder: (BuildContext context) =>
+                                const ActivityHome(
+                                  sessionID: -1,
+                                  studentID: -1,
+                                ),
+                              ),
+                            );
+                          });
+                        },
+                        child: Text(
+                          CATLocalizations
+                              .of(context)
+                              .testApplication,
                         ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        "resources/icons/Assessment.svg",
+                        height: 100,
+                        width: 100,
                       ),
                       const SizedBox(
                         height: 20,
@@ -72,49 +107,6 @@ class ModeSelection extends StatelessWidget {
                           CATLocalizations
                               .of(context)
                               .tutorialTitle,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icons/gamecontroller.svg",
-                        height: 100,
-                        width: 100,
-                        colorFilter: const ColorFilter.mode(
-                          CupertinoColors.black,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoButton.filled(
-                        onPressed: () async {
-                          await SchemasReader().testing().whenComplete(() {
-                            CatInterpreter().initialize();
-
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute<Widget>(
-                                builder: (BuildContext context) =>
-                                const ActivityHome(
-                                  sessionID: -1,
-                                  studentID: -1,
-                                ),
-                              ),
-                            );
-                          });
-                        },
-                        child: Text(
-                          CATLocalizations
-                              .of(context)
-                              .testApplication,
                         ),
                       ),
                     ],
