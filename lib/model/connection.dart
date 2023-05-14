@@ -98,6 +98,7 @@ class Connection extends BaseConnection {
         "date": s.date.toIso8601String(),
         "notes": s.notes,
         "language": s.language,
+        "schoolGrade": s.schoolGrade,
       },
     ).run();
 
@@ -271,6 +272,7 @@ class Algorithm {
 
 class Session {
   Session({
+    required this.schoolGrade,
     required this.supervisor,
     required this.school,
     required this.section,
@@ -281,6 +283,7 @@ class Session {
 
   final int supervisor;
   final int school;
+  final String schoolGrade;
   final String section;
   final DateTime date;
   final String notes;

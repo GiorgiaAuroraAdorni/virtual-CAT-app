@@ -55,6 +55,25 @@ class CATLocalizations {
     "de": ticinoDE,
   };
 
+  static final Map<String, String> schoolTypeToEnglish = <String, String>{
+    //English
+    "Pre school": "Pre school",
+    "Primary school": "Primary school",
+    "Secondary school": "Secondary school",
+    //Italian
+    "Scuola dell’infanzia, materna": "Pre school",
+    "Scuola primaria, elementare": "Primary school",
+    "Scuola secondaria, media": "Secondary school",
+    //Franch
+    "École maternelle": "Pre school",
+    "École primaire": "Primary school",
+    "École secondaire": "Secondary school",
+    //German
+    "Kindergarten": "Pre school",
+    "Primarschule": "Primary school",
+    "Sekundarschule": "Secondary school",
+  };
+
   static final Map<String, String> gradedToEnglish = <String, String>{
     //English
     // TODO
@@ -266,6 +285,8 @@ class CATLocalizations {
 
   /// It's a getter that returns the localized list for the key "newStudent"
   String get studentID => _localizedValues[_locale.languageCode]!["studentID"]!;
+
+  String get school => _localizedValues[_locale.languageCode]!["school"]!;
 
   String get errorMessage =>
       _localizedValues[_locale.languageCode]!["errorMessage"]!;

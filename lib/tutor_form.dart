@@ -4,6 +4,7 @@ import "package:cross_array_task_app/utility/cantons_list.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/schools.dart";
 import "package:cross_array_task_app/utility/supervisor.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 
 /// `SchoolForm` is a stateful widget that creates a `SchoolFormState` object
@@ -23,6 +24,7 @@ class SchoolFormState extends State<SchoolForm> {
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _canton = TextEditingController();
+  final TextEditingController _schoolType = TextEditingController();
   final TextEditingController _school = TextEditingController();
   final TextEditingController _grade = TextEditingController();
   final TextEditingController _section = TextEditingController();
@@ -86,6 +88,23 @@ class SchoolFormState extends State<SchoolForm> {
                     return null;
                   },
                 ),
+              ),
+              CupertinoTextFormFieldRow(
+                prefix: Text(
+                  "${CATLocalizations.of(context).school}:",
+                  textAlign: TextAlign.right,
+                ),
+                placeholder: CATLocalizations.of(context).selectionSchool,
+                readOnly: true,
+                onTap: _schoolTypePicker,
+                controller: _schoolType,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return CATLocalizations.of(context).errorMessage;
+                  }
+
+                  return null;
+                },
               ),
               CupertinoTextFormFieldRow(
                 prefix: Text(
@@ -168,7 +187,7 @@ class SchoolFormState extends State<SchoolForm> {
                       .addSchool(
                     _canton.text,
                     _school.text,
-                    CATLocalizations.gradedToEnglish[_grade.text]!,
+                    CATLocalizations.schoolTypeToEnglish[_schoolType.text]!,
                   )
                       .then(
                     (int value) {
@@ -183,6 +202,8 @@ class SchoolFormState extends State<SchoolForm> {
                       Session(
                         supervisor: supervisorId,
                         school: schoolId,
+                        schoolGrade:
+                            CATLocalizations.gradedToEnglish[_grade.text]!,
                         section: _section.text,
                         date: _selectedDate,
                         notes: _notes.text,
@@ -325,9 +346,15 @@ class SchoolFormState extends State<SchoolForm> {
   }
 
   void _schoolPicker() {
-    schoolsRequest().then((List<Text> schools) {
+    schoolsRequest().then((Pair<List<Text>, List<int>> schools) {
       setState(
-        () => _school.text = schools.first.data.toString(),
+        () {
+          _school.text = schools.first.first.data.toString();
+          cantonsRequest().then(
+            (List<Text> value) =>
+                _canton.text = value[schools.second.first - 1].data.toString(),
+          );
+        },
       );
       showCupertinoModalPopup(
         context: context,
@@ -337,17 +364,48 @@ class SchoolFormState extends State<SchoolForm> {
           child: CupertinoPicker(
             onSelectedItemChanged: (int value) {
               setState(() {
-                final Text text = schools[value];
+                final Text text = schools.first[value];
                 _school.text = text.data.toString();
+                cantonsRequest().then(
+                  (List<Text> value) => _canton.text =
+                      value[schools.second.first - 1].data.toString(),
+                );
               });
             },
             itemExtent: 25,
             useMagnifier: true,
             magnification: 1.3,
-            children: schools,
+            children: schools.first,
           ),
         ),
       );
     });
+  }
+
+  void _schoolTypePicker() {
+    setState(() {
+      final Text text = CATLocalizations.of(context).schoolType[0];
+      _schoolType.text = text.data.toString();
+    });
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext builder) => Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.25,
+        color: CupertinoColors.white,
+        child: CupertinoPicker(
+          onSelectedItemChanged: (int value) {
+            setState(() {
+              final Text text = CATLocalizations.of(context).schoolType[value];
+              _schoolType.text = text.data.toString();
+            });
+          },
+          itemExtent: 25,
+          diameterRatio: 1,
+          useMagnifier: true,
+          magnification: 1.3,
+          children: CATLocalizations.of(context).schoolType,
+        ),
+      ),
+    );
   }
 }

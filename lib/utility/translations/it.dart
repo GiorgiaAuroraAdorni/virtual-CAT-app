@@ -37,6 +37,7 @@ const Map<String, String> _firsForm = <String, String>{
   "supervisor": "Supervisore",
   "data": "Data",
   "schoolPlaceholder": "Nome della scuola",
+  "school": "Scuola",
   "notes": "Note",
   "selectionCanton": "Seleziona il cantone di residenza",
   "selectionSchool": "Selezionare la scuola",

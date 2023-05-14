@@ -33,6 +33,7 @@ final Map<String, String> en = <String, String>{
 const Map<String, String> _firsForm = <String, String>{
   "tutorialTitle": "Evaluation session",
   "grade": "Grado scolastico",
+  "school": "School",
   "section": "Section",
   "supervisor": "Supervisor",
   "data": "Date",

@@ -5,6 +5,7 @@ final Map<String, String> fr = <String, String>{
   "canton": "Canton",
   "selection": "Sélectionnez",
   "level": "Niveau",
+  "school": "École",
   "testApplication": "Session d'essai",
   "mode": "Mode",
   "oldSession": "Continuer une session précédente",
