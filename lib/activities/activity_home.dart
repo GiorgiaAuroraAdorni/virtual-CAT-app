@@ -28,6 +28,13 @@ class ActivityHome extends StatefulWidget {
 /// It's a stateful widget that displays a button to change the schema
 /// and a widget that displays the schema
 class ActivityHomeState extends State<ActivityHome> {
+  @override
+  void initState() {
+    SchemasReader().reset();
+    CatLogger().resetLogs();
+    super.initState();
+  }
+
   /// It creates a column with a row of buttons.
   ///
   /// Args:
@@ -45,9 +52,6 @@ class ActivityHomeState extends State<ActivityHome> {
           ),
         ],
         builder: (BuildContext context, Widget? child) {
-          SchemasReader().reset();
-          CatLogger().resetLogs();
-
           if (widget.sessionID == -1 && widget.studentID == -1) {
             return CupertinoPageScaffold(
               child: GestureHome(
