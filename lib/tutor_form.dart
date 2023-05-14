@@ -111,13 +111,6 @@ class SchoolFormState extends State<SchoolForm> {
                 ),
                 placeholder: CATLocalizations.of(context).sectionName,
                 controller: _section,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return CATLocalizations.of(context).errorMessage;
-                  }
-
-                  return null;
-                },
               ),
               CupertinoFormRow(
                 prefix: Text(

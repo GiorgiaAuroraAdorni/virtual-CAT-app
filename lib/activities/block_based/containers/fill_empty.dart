@@ -50,9 +50,9 @@ class _FillEmpty extends State<FillEmpty> {
       decoration: BoxDecoration(
         color: Colors.teal,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-        // border: Border.all(
-        //   color: CupertinoColors.darkBackgroundGray,
-        // ),
+        border: Border.all(
+          color: CupertinoColors.darkBackgroundGray,
+        ),
       ),
       child: Center(
         child: AnimatedBuilder(

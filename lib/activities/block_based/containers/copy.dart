@@ -106,7 +106,7 @@ class _Copy extends State<CopyCommands> {
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        // border: Border.all(),
+        border: Border.all(),
         color: Colors.indigo,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
@@ -188,10 +188,9 @@ class _Copy extends State<CopyCommands> {
 
             return Align(
               child: Container(
-                decoration: BoxDecoration(
-                  color:
-                      candidateItems.isNotEmpty ? Colors.indigo : Colors.white,
-                  borderRadius: const BorderRadius.all(
+                decoration: const BoxDecoration(
+                  color: CupertinoColors.systemBackground,
+                  borderRadius: BorderRadius.all(
                     Radius.circular(8),
                   ),
                 ),
@@ -406,11 +405,9 @@ class _Copy extends State<CopyCommands> {
 
               return Align(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: candidateItems.isNotEmpty
-                        ? Colors.indigo
-                        : Colors.white,
-                    borderRadius: const BorderRadius.all(
+                  decoration: const BoxDecoration(
+                    color: CupertinoColors.systemBackground,
+                    borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
                   ),

@@ -71,7 +71,7 @@ class _TopBarState extends State<TopBar> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             if (widget.sessionID != -1 && widget.studentID != -1)
               Text(
@@ -175,79 +175,81 @@ class _TopBarState extends State<TopBar> {
                 ),
                 if (widget.sessionID != -1 && widget.studentID != -1)
                   Padding(
-                    padding: const EdgeInsets.only(right: 30),
+                    padding: const EdgeInsets.only(right: 125),
                     child: SizedBox(
-                      // width: MediaQuery.of(context).size.width * 0.65,
-                      height: 44,
+                      height: 35,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: widget.allResults.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) =>
-                            CupertinoButton(
-                          borderRadius: BorderRadius.circular(0),
-                          padding: EdgeInsets.zero,
-                          disabledColor: () {
-                            if (!widget.allResults[index + 1]!.state) {
-                              return CupertinoColors.darkBackgroundGray
-                                  .withAlpha(127);
-                            }
-                            if (widget.allResults[index + 1]!.correct) {
-                              return CupertinoColors.activeGreen;
-                            }
-
-                            return CupertinoColors.destructiveRed;
-                          }.call(),
-                          color: index + 1 == SchemasReader().index
-                              ? CupertinoColors.activeOrange
-                              : CupertinoColors.inactiveGray.withAlpha(200),
-                          onPressed: widget.allResults[index + 1]!.done
-                              ? null
-                              : () {
-                                  final bool check = CatLogger()
-                                      .logs
-                                      .values
-                                      .filter(
-                                        (LoggerInfo e) =>
-                                            e.description !=
-                                                CatLoggingLevel.changeMode &&
-                                            e.description !=
-                                                CatLoggingLevel.commandsReset &&
-                                            e.description !=
-                                                CatLoggingLevel
-                                                    .changeVisibility,
-                                      )
-                                      .isEmpty;
-                                  if (check) {
-                                    _reset();
-                                    context.read<TimeKeeper>().resetTimer();
-                                    CatLogger().resetLogs();
-                                    context.read<TypeUpdateNotifier>().reset();
-                                    context
-                                        .read<ReferenceNotifier>()
-                                        .toLocation(index + 1);
-                                  }
-                                },
-                          child: widget.allResults[index + 1]!.done
-                              ? Icon(
-                                  () {
-                                    if (!widget.allResults[index + 1]!.state) {
-                                      return CupertinoIcons.flag_fill;
+                            SizedBox(
+                          width: 35,
+                          height: 35,
+                          child: CupertinoButton(
+                            borderRadius: BorderRadius.circular(0),
+                            padding: EdgeInsets.zero,
+                            disabledColor: CupertinoColors.lightBackgroundGray,
+                            color: index + 1 == SchemasReader().index
+                                ? CupertinoColors.activeOrange
+                                : CupertinoColors.lightBackgroundGray,
+                            onPressed: widget.allResults[index + 1]!.done
+                                ? null
+                                : () {
+                                    final bool check = CatLogger()
+                                        .logs
+                                        .values
+                                        .filter(
+                                          (LoggerInfo e) =>
+                                              e.description !=
+                                                  CatLoggingLevel.changeMode &&
+                                              e.description !=
+                                                  CatLoggingLevel
+                                                      .commandsReset &&
+                                              e.description !=
+                                                  CatLoggingLevel
+                                                      .changeVisibility,
+                                        )
+                                        .isEmpty;
+                                    if (check) {
+                                      _reset();
+                                      context.read<TimeKeeper>().resetTimer();
+                                      CatLogger().resetLogs();
+                                      context
+                                          .read<TypeUpdateNotifier>()
+                                          .reset();
+                                      context
+                                          .read<ReferenceNotifier>()
+                                          .toLocation(index + 1);
                                     }
-                                    if (widget.allResults[index + 1]!.correct) {
-                                      return CupertinoIcons.hand_thumbsup_fill;
-                                    }
+                                  },
+                            child: widget.allResults[index + 1]!.done
+                                ? SvgPicture.asset(
+                                    () {
+                                      if (!widget
+                                          .allResults[index + 1]!.state) {
+                                        return "resources/icons/give_up.svg";
+                                      }
+                                      if (widget
+                                          .allResults[index + 1]!.correct) {
+                                        return "resources/icons/thumb_up.svg";
+                                      }
 
-                                    return CupertinoIcons.hand_thumbsdown_fill;
-                                  }.call(),
-                                  size: 35,
-                                  color:
-                                      CupertinoColors.extraLightBackgroundGray,
-                                )
-                              : Text(
-                                  "${index + 1}",
-                                  style: const TextStyle(fontSize: 20),
-                                ),
+                                      return "resources/icons/thumb_down.svg";
+                                    }.call(),
+                                    height: 25,
+                                  )
+                                : Text(
+                                    "${index + 1}",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: index + 1 == SchemasReader().index
+                                          ? CupertinoColors
+                                              .extraLightBackgroundGray
+                                          : CupertinoColors.darkBackgroundGray,
+                                    ),
+                                  ),
+                          ),
                         ),
                         separatorBuilder: (BuildContext context, int index) =>
                             const SizedBox(

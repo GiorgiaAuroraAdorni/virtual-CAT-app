@@ -76,7 +76,7 @@ int catScore({
       default:
         continue;
     }
-    partScore += lineScore;
+    partScore = lineScore > partScore ? lineScore : partScore;
   }
 
   return score + partScore;

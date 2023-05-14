@@ -97,7 +97,7 @@ class _Mirror extends State<MirrorCommands> {
               (widget.item.container.isEmpty ? 4 : 0) * 60),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        // border: Border.all(),
+        border: Border.all(),
         color: Colors.blueGrey,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
@@ -183,11 +183,9 @@ class _Mirror extends State<MirrorCommands> {
 
                   return Align(
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: candidateItems.isNotEmpty
-                            ? Colors.blueGrey
-                            : CupertinoColors.systemBackground,
-                        borderRadius: const BorderRadius.all(
+                      decoration: const BoxDecoration(
+                        color: CupertinoColors.systemBackground,
+                        borderRadius: BorderRadius.all(
                           Radius.circular(8),
                         ),
                       ),
