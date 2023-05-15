@@ -186,7 +186,6 @@ class SchoolFormState extends State<SchoolForm> {
                       .addSchool(
                     _school.text,
                     _canton.text,
-                    _grade.text,
                   )
                       .then(
                     (int value) {

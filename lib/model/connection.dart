@@ -53,7 +53,7 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
-  Future<int> addSchool(String canton, String name, String schoolType) async {
+  Future<int> addSchool(String canton, String name) async {
     final List<Either<String, List<dynamic>>> responses = await Future.wait(
       [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],
     );
@@ -70,8 +70,7 @@ class Connection extends BaseConnection {
     }
     for (final Map<String, dynamic> element in schools) {
       if (element["name"] == name &&
-          element["canton"] == cantonId &&
-          element["schoolType"] == schoolType) {
+          element["canton"] == cantonId) {
         return element["id"];
       }
     }
@@ -81,7 +80,6 @@ class Connection extends BaseConnection {
       <String, dynamic>{
         "canton": cantonId,
         "name": name,
-        "schoolType": schoolType,
       },
     ).run();
 
@@ -203,7 +201,7 @@ class Connection extends BaseConnection {
         "studentID": a.studentID,
         "schemaID": SchemasReader().currentIndex,
         "algorithmID": algorithmID,
-        "unplugged": true,
+        "domain": "virtual",
         "voice": false,
         "schema": false,
         "visualFeedback": visible,
