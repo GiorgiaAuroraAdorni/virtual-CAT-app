@@ -184,8 +184,8 @@ class SchoolFormState extends State<SchoolForm> {
                   int supervisorId = 0;
                   Connection()
                       .addSchool(
-                    _school.text,
                     _canton.text,
+                    _school.text,
                   )
                       .then(
                     (int value) {

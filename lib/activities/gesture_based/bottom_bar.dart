@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/collector.dart";
@@ -101,8 +102,13 @@ class _BottomBarState extends State<BottomBar> {
   ///   A Future<bool>
   Future<void> schemaCompleted({required bool complete}) async {
     final Results results = CatInterpreter().getResults;
-    final List<String> commands = List<String>.from(results.getCommands);
-    commands.removeAt(0);
+    final List<String> commands = CatInterpreter()
+        .allCommandsBuffer
+        .map((SimpleContainer e) => e.toString())
+        .toList();
+    if (commands.isNotEmpty && commands.first == "None") {
+      commands.removeAt(0);
+    }
     final Collector collector = elaborate(commands: commands);
 
     UIBlock.block(

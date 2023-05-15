@@ -69,8 +69,7 @@ class Connection extends BaseConnection {
       }
     }
     for (final Map<String, dynamic> element in schools) {
-      if (element["name"] == name &&
-          element["canton"] == cantonId) {
+      if (element["name"] == name && element["canton"] == cantonId) {
         return element["id"];
       }
     }

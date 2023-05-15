@@ -115,6 +115,7 @@ void _mirrorAnalysis(
   String command, {
   int schemeIndex = 1,
 }) {
+  print(command);
   final List<String> tokens = splitCommand(command);
   final List<String> toEvaluate = splitByCurly(tokens.second);
   bool isCell = true;
@@ -173,10 +174,8 @@ void _mirrorAnalysis(
       collector.data["mirrorCommands${tokens.last.capitalize()}"]
           ?.add(correctness);
     } else {
-      if (commands) {
-        collector.data["mirrorCross${tokens.last.capitalize()}"]
-            ?.add(correctness);
-      }
+      collector.data["mirrorCross${tokens.last.capitalize()}"]
+          ?.add(correctness);
     }
 
     return;

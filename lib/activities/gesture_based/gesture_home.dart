@@ -15,6 +15,7 @@ import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/survey.dart";
+import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -236,8 +237,16 @@ class GestureHomeState extends State<GestureHome> {
                   );
                   final Pair<Results, CatError> results = interpreter
                       .validateOnScheme(command, element["schemaID"]!);
+
                   _allResults[element["schemaID"]!]!
+                    ..time = element["time"]!
                     ..result = results.first.getStates.last
+                    ..score = catScore(
+                      commands:
+                          command.isEmpty ? splitCommands(command) : ["None"],
+                      visible: element["visualFeedback"]!,
+                      interface: element["artefactDimension"]! - 1,
+                    )
                     ..done = true
                     ..correct = results.first.completed
                     ..state = element["complete"]!;
