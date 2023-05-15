@@ -5,75 +5,68 @@ final Map<String, String> it = <String, String>{
   "canton": "Cantone",
   "selection": "Selezionare",
   "level": "Livello",
-  "testApplication": "Sessione di prova",
+  "testApplication": "Preparazione",
   "mode": "Modalità",
-  "oldSession": "Continua una sessione precedente",
-  "newSession": "Avvia una nuova sessione",
-  "oldStudent": "Continua con uno studente registrato",
-  "newStudent": "Crea un nuovo studente",
-  "sessionID": "ID Sessione",
-  "studentID": "ID Studente",
+  "newSession": "Crea una sessione di classe",
+  "oldSession": "Continua una sessione di classe",
+  "newStudent": "Comincia l'attività dell'allievo",
+  "oldStudent": "Continua l'attività dell'allievo",
+  "sessionID": "ID della sessione",
+  "studentID": "ID dell'allievo",
   "student": "Allievo",
   "session": "Sessione",
   "sessionData": "Dati della sessione",
   "studentData": "Dati dell'allievo",
   "errorMessage": "Campo obbligatorio",
   "results": "Risultati",
-  "requestStudentID": "Inserire l'ID studente per continuare",
+  "requestStudentID": "Inserire l'ID dell'allievo per continuare",
   "continueStudentID": "Continua",
   "requestSessionID": "Inserire l'ID della sessione per continuare",
   "continueSessionID": "Continua",
 }
-  ..addAll(_firsForm)
+  ..addAll(_firstForm)
   ..addAll(_secondForm)
   ..addAll(_resultsScreen)
   ..addAll(_questions)
   ..addAll(_descriptions);
 
-const Map<String, String> _firsForm = <String, String>{
-  "tutorialTitle": "Sessione di valutazione",
-  "grade": "Grado scolastico ",
+const Map<String, String> _firstForm = <String, String>{
+  "tutorialTitle": "Valutazione",
+  "selectionCanton": "Seleziona il cantone",
+  "schoolName": "Scuola",
+  "selectionSchool": "Seleziona la scuola",
+  "grade": "Anno HarmoS",
+  "selectionClass": "Seleziona anno HarmoS",
   "section": "Sezione",
-  "supervisor": "Supervisore",
-  "data": "Data",
-  "schoolPlaceholder": "Nome della scuola",
-  "school": "Scuola",
-  "notes": "Note",
-  "selectionCanton": "Seleziona il cantone di residenza",
-  "selectionSchool": "Selezionare la scuola",
-  "selectionLevel": "Selezionare il livello",
-  "selectionClass": "Selezionare la classe",
   "sectionName": "Inserisci il nome della sezione",
-  "supervisorInformation": "Inserisci nome e cognome del supervisore",
-  "schoolName": "Nome della scuola",
+  "supervisor": "Supervisore",
+  "supervisorInformation": "Seleziona il supervisore",
+  "data": "Data",
+  "notes": "Note",
 };
 
 const Map<String, String> _secondForm = <String, String>{
   "secondFormTitle": "Allievo",
-  "name": "Nome",
-  "surname": "Cognome",
   "gender": "Genere",
   "birth": "Data di nascita",
-  "inputName": "Inserisci il tuo nome (opzionale)",
-  "inputSurname": "Inserisci il tuo cognome (opzionale)",
-  "inputGender": "Inserisci il tuo genere",
+  "inputGender": "Inserisci il genere dello studente",
 };
 
 const Map<String, String> _questions = <String, String>{
   "q1": "Ti é piaciuta questa attività?",
   "q2": "Avevi mai usato un app come questa per fare esercizi e imparare?",
-  "q3": "L'applicazione era facile da usare?",
+  "q3": "L'app era facile da usare?",
   "q4": "Le regole dell'attività erano facili da capire?",
   "q5": "Quale modalità di risoluzione hai preferito utilizzare?",
-  "q6": "Gli esercizi erano facili?",
+  "q6": "Gli esercizi erano facili da risolvere?",
   "q7": "Quanto tempo hai impiegato per completare gli esercizi?",
   "q8": "Rifaresti questa esperienza?",
 };
 
 const Map<String, String> _descriptions = <String, String>{
-  "q11": "Bene",
-  "q12": "Cosí cosí",
-  "q13": "Male",
+  "q11": "Si, molto",
+  "q12": "Così così",
+  "q13": "No, per niente",
   //
   "q21": "Si",
   "q22": "Non ricordo",
@@ -83,31 +76,32 @@ const Map<String, String> _descriptions = <String, String>{
   "q32": "Normale",
   "q33": "Difficile",
   //
-  "q51": "Blocchi testuali",
-  "q52": "Blocchi simbolici",
+  "q51": "Blocchi e testo",
+  "q52": "Blocchi e simboli",
   "q53": "Gesti",
   //
-  "q61": "Facile",
-  "q62": "Normal",
-  "q63": "Difficile",
+  "q61": "Facili",
+  "q62": "Normali",
+  "q63": "Difficili",
   //
   "q71": "Poco",
-  "q72": "Normal",
+  "q72": "Normale",
   "q73": "Tanto",
   //
   "q81": "Si",
   "q82": "Forse",
   "q83": "No",
+
   "finalButton": "Vai ai risultati",
 };
 
 const Map<String, String> _resultsScreen = <String, String>{
   "column1": "Schema di riferimento",
-  "column2": "Schema colorato",
+  "column2": "Schema prodotto",
   "column3": "CAT-score",
   "column4": "Risultato",
-  "resultCorrect": "Corretto",
-  "resultSkip": "Resa",
+  "resultCorrect": "Giusto",
+  "resultSkip": "Ababndonato",
   "resultWrong": "Sbagliato",
 };
 
@@ -220,30 +214,30 @@ const Map<String, String> conversionItToEn = <String, String>{
 };
 
 const List<String> ticinoIT = [
-  "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire",
-  "1 (kindergarten)",
-  "* 2 (kindergarten)",
-  "* 3 (primary 1 year)",
-  "* 4 (primary 2 year)",
-  "* 5 (primary 3 year)",
-  "* 6 (primary 4 year)",
-  "* 7 (primary 5 year)",
-  "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
-  "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
-  "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
-  "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
+  "0  (scuola dell'infanzia)",
+  "1  (scuola dell'infanzia)",
+  "2  (scuola dell'infanzia)",
+  "3  (1º anno di scuola primaria)",
+  "4  (2º anno di scuola primaria)",
+  "5  (3º anno di scuola primaria)",
+  "6  (4º anno di scuola primaria)",
+  "7  (5º anno di scuola primaria)",
+  "8  (1º anno di scuola secondaria)",
+  "9  (2º anno di scuola secondaria)",
+  "10 (3º anno di scuola secondaria)",
+  "11 (4º anno di scuola secondaria)",
 ];
 
 const List<String> otherCantonsIT = [
-  "1 (kindergarten)",
-  "* 2 (kindergarten)",
-  "* 3 (primary 1 year)",
-  "* 4 (primary 2 year)",
-  "* 5 (primary 3 year)",
-  "* 6 (primary 4 year)",
-  "* 7 (primary 5 year)",
-  "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
-  "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
-  "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
-  "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
+  "1  (scuola dell'infanzia)",
+  "2  (scuola dell'infanzia)",
+  "3  (1º anno di scuola primaria)",
+  "4  (2º anno di scuola primaria)",
+  "5  (3º anno di scuola primaria)",
+  "6  (4º anno di scuola primaria)",
+  "7  (5º anno di scuola primaria)",
+  "8  (6º anno di scuola primaria)",
+  "9  (1º anno di scuola secondaria)",
+  "10 (2º anno di scuola secondaria)",
+  "11 (3º anno di scuola secondaria)",
 ];
