@@ -89,23 +89,23 @@ class SchoolFormState extends State<SchoolForm> {
                   },
                 ),
               ),
-              CupertinoTextFormFieldRow(
-                prefix: Text(
-                  "${CATLocalizations.of(context).school}:",
-                  textAlign: TextAlign.right,
-                ),
-                placeholder: CATLocalizations.of(context).selectionSchool,
-                readOnly: true,
-                onTap: _schoolTypePicker,
-                controller: _schoolType,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return CATLocalizations.of(context).errorMessage;
-                  }
-
-                  return null;
-                },
-              ),
+              // CupertinoTextFormFieldRow(
+              //   prefix: Text(
+              //     "${CATLocalizations.of(context).school}:",
+              //     textAlign: TextAlign.right,
+              //   ),
+              //   placeholder: CATLocalizations.of(context).selectionSchool,
+              //   readOnly: true,
+              //   onTap: _schoolTypePicker,
+              //   controller: _schoolType,
+              //   validator: (String? value) {
+              //     if (value == null || value.isEmpty) {
+              //       return CATLocalizations.of(context).errorMessage;
+              //     }
+              //
+              //     return null;
+              //   },
+              // ),
               CupertinoTextFormFieldRow(
                 prefix: Text(
                   "${CATLocalizations.of(context).grade}:",
@@ -187,7 +187,7 @@ class SchoolFormState extends State<SchoolForm> {
                       .addSchool(
                     _canton.text,
                     _school.text,
-                    CATLocalizations.schoolTypeToEnglish[_schoolType.text]!,
+                    _grade.text,
                   )
                       .then(
                     (int value) {
@@ -202,8 +202,7 @@ class SchoolFormState extends State<SchoolForm> {
                       Session(
                         supervisor: supervisorId,
                         school: schoolId,
-                        schoolGrade:
-                            CATLocalizations.gradedToEnglish[_grade.text]!,
+                        schoolGrade: _grade.text,
                         section: _section.text,
                         date: _selectedDate,
                         notes: _notes.text,
