@@ -243,9 +243,7 @@ class GestureHomeState extends State<GestureHome> {
                     ..result = results.first.getStates.last
                     ..score = element["complete"]!
                         ? catScore(
-                            commands: command.isEmpty
-                                ? splitCommands(command)
-                                : ["None"],
+                            commands: splitCommands(command),
                             visible: element["visualFeedback"]!,
                             interface: element["artefactDimension"]! - 1,
                           )

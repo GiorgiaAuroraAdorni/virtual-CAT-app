@@ -52,7 +52,9 @@ int catScore({
   if (commands.isEmpty) {
     return 0;
   }
-  commands.removeAt(0);
+  if (commands.first == "None") {
+    commands.removeAt(0);
+  }
   if (commands.isEmpty) {
     return 0;
   }
@@ -63,7 +65,6 @@ int catScore({
   for (final String s in commands) {
     int lineScore = 0;
     final List<String> tokenized = splitCommand(s.toLowerCase());
-    print(tokenized);
     switch (tokenized.first) {
       case "paint":
         lineScore = tokenized.length == 2 ? 4 : 5;

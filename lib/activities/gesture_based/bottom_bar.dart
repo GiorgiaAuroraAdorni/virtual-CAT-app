@@ -161,7 +161,7 @@ class _BottomBarState extends State<BottomBar> {
                   widget.allResults[SchemasReader().index]!
                     ..time = context.read<TimeKeeper>().rawTime
                     ..result = CatInterpreter().getResults.getStates.last
-                    ..score = score
+                    ..score = CatInterpreter().getResults.completed ? score : 0
                     ..done = true
                     ..correct = CatInterpreter().getResults.completed
                     ..state = complete;
