@@ -83,7 +83,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Yes, very much": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -152,7 +152,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Yes": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -221,7 +221,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Easy": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -290,7 +290,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Easy": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -359,7 +359,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Blocks and text": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -428,7 +428,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Easy": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -497,7 +497,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "A little": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
@@ -566,7 +566,7 @@ class _SurveyState extends State<Survey> {
                             },
                             children: <String, Widget>{
                               "Yes of course": SizedBox(
-                                width: 140,
+                                width: MediaQuery.of(context).size.width / 6.5,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Column(
