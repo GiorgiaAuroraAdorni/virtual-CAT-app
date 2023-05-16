@@ -200,7 +200,8 @@ class SchoolFormState extends State<SchoolForm> {
                       Session(
                         supervisor: supervisorId,
                         school: schoolId,
-                        schoolGrade: _grade.text,
+                        schoolGrade:
+                            CATLocalizations.gradedToEnglish[_grade.text]!,
                         section: _section.text,
                         date: _selectedDate,
                         notes: _notes.text,

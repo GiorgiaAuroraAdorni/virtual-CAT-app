@@ -241,12 +241,15 @@ class GestureHomeState extends State<GestureHome> {
                   _allResults[element["schemaID"]!]!
                     ..time = element["time"]!
                     ..result = results.first.getStates.last
-                    ..score = catScore(
-                      commands:
-                          command.isEmpty ? splitCommands(command) : ["None"],
-                      visible: element["visualFeedback"]!,
-                      interface: element["artefactDimension"]! - 1,
-                    )
+                    ..score = element["complete"]!
+                        ? catScore(
+                            commands: command.isEmpty
+                                ? splitCommands(command)
+                                : ["None"],
+                            visible: element["visualFeedback"]!,
+                            interface: element["artefactDimension"]! - 1,
+                          )
+                        : 0
                     ..done = true
                     ..correct = results.first.completed
                     ..state = element["complete"]!;

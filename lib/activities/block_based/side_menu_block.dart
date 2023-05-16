@@ -38,67 +38,45 @@ class SideMenuBlockState extends State<SideMenuBlock> {
   /// Creating a list of SimpleContainer objects.
   late List<SimpleContainer> containers = <SimpleContainer>[
     PointContainer(
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintSingleContainer(
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     GoPositionContainer(
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintContainer(
       selectedColors: <CupertinoDynamicColor>[],
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     GoContainer(
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     FillEmptyContainer(
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorSimpleContainer(
       type: ContainerType.mirrorCross,
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorContainerPoints(
       container: <SimpleContainer>[],
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     MirrorContainerCommands(
       container: <SimpleContainer>[],
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     CopyCommandsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
     CopyCellsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
-      languageCode: CATLocalizations
-          .of(context)
-          .languageCode,
+      languageCode: CATLocalizations.of(context).languageCode,
     ),
   ];
 
@@ -137,74 +115,51 @@ class SideMenuBlockState extends State<SideMenuBlock> {
           {#item: copyContainer, #onChange: (Size size) {}, #key: UniqueKey()},
         ),
       ),
-      onDragCompleted: () =>
-          setState(() {
-            containers = <SimpleContainer>[
-              PointContainer(
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              PaintSingleContainer(
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              GoPositionContainer(
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              PaintContainer(
-                selectedColors: <CupertinoDynamicColor>[],
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              GoContainer(
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              FillEmptyContainer(
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              MirrorSimpleContainer(
-                type: ContainerType.mirrorCross,
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              MirrorContainerPoints(
-                container: <SimpleContainer>[],
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              MirrorContainerCommands(
-                container: <SimpleContainer>[],
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              CopyCommandsContainer(
-                container: <SimpleContainer>[],
-                moves: <SimpleContainer>[],
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-              CopyCellsContainer(
-                container: <SimpleContainer>[],
-                moves: <SimpleContainer>[],
-                languageCode: CATLocalizations
-                    .of(context)
-                    .languageCode,
-              ),
-            ];
-          }),
+      onDragCompleted: () => setState(() {
+        containers = <SimpleContainer>[
+          PointContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          PaintSingleContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          GoPositionContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          PaintContainer(
+            selectedColors: <CupertinoDynamicColor>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          GoContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          FillEmptyContainer(
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          MirrorSimpleContainer(
+            type: ContainerType.mirrorCross,
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          MirrorContainerPoints(
+            container: <SimpleContainer>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          MirrorContainerCommands(
+            container: <SimpleContainer>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          CopyCommandsContainer(
+            container: <SimpleContainer>[],
+            moves: <SimpleContainer>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+          CopyCellsContainer(
+            container: <SimpleContainer>[],
+            moves: <SimpleContainer>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
+        ];
+      }),
     );
   }
 
@@ -286,18 +241,11 @@ class SideMenuBlockState extends State<SideMenuBlock> {
   ];
 
   @override
-  Widget build(BuildContext context) =>
-      Padding(
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.20,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.85,
+          width: MediaQuery.of(context).size.width * 0.20,
+          height: MediaQuery.of(context).size.height * 0.85,
           child: Scrollbar(
             controller: _firstController,
             interactive: true,
@@ -306,9 +254,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
               controller: _firstController,
               children: <Widget>[
                 DropDownBlocks(
-                  title: CATLocalizations
-                      .of(context)
-                      .blockGroups["groupGoTo"]!,
+                  title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
                   color: Colors.green,
                   items: <Widget>[
                     _buildContainerItem(container: containers[2]),
@@ -320,9 +266,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title:
-                  CATLocalizations
-                      .of(context)
-                      .blockGroups["groupColor"]!,
+                      CATLocalizations.of(context).blockGroups["groupColor"]!,
                   color: Colors.teal,
                   items: <Widget>[
                     _buildContainerItem(container: containers[1]),
@@ -333,9 +277,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                   iconLocation: "resources/icons/colouring_menu.svg",
                 ),
                 DropDownBlocks(
-                  title: CATLocalizations
-                      .of(context)
-                      .blockGroups["groupCopy"]!,
+                  title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
                   color: Colors.indigo,
                   items: <Widget>[
                     _buildContainerItem(container: containers[10]),
@@ -346,9 +288,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 ),
                 DropDownBlocks(
                   title:
-                  CATLocalizations
-                      .of(context)
-                      .blockGroups["groupMirror"]!,
+                      CATLocalizations.of(context).blockGroups["groupMirror"]!,
                   color: Colors.blueGrey,
                   items: <Widget>[
                     _buildContainerItem(container: containers[6]),
@@ -360,16 +300,6 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 ),
               ],
             ),
-            // child: ListView.separated(
-            //   controller: _firstController,
-            //   itemCount: containers.length,
-            //   itemBuilder: (BuildContext context, int index) =>
-            //       _buildContainerItem(container: containers[index]),
-            //   separatorBuilder: (BuildContext context, int index) =>
-            //       const SizedBox(
-            //     height: 5,
-            //   ),
-            // ),
           ),
         ),
       );

@@ -76,30 +76,73 @@ class CATLocalizations {
 
   static final Map<String, String> gradedToEnglish = <String, String>{
     //English
-    // TODO
+    "0  (kindergarten)": "0  (kindergarten)",
+    "1  (kindergarten)": "1  (kindergarten)",
+    "2  (kindergarten)": "2  (kindergarten)",
+    "3  (1st year of primary school)": "3  (1st year of primary school)",
+    "4  (2nd year of primary school)": "4  (2nd year of primary school)",
+    "5  (3rd year of primary school)": "5  (3rd year of primary school)",
+    "6  (4th year of primary school)": "6  (4th year of primary school)",
+    "7  (5th year of primary school)": "7  (5th year of primary school)",
+    "8  (1st year of secondary school)": "8  (1st year of secondary school)",
+    "9  (2nd year of secondary school)": "9  (2nd year of secondary school)",
+    "10 (3rd year of secondary school)": "10 (3rd year of secondary school)",
+    "11 (4th year of secondary school)": "11 (4th year of secondary school)",
+    "8  (6th year of primary school)": "8  (6th year of primary school)",
+    "9  (1st year of secondary school)": "9  (1st year of secondary school)",
+    "10 (2nd year of secondary school)": "10 (2nd year of secondary school)",
+    "11 (3rd year of secondary school)": "11 (3rd year of secondary school)",
     //Italian
-    // TODO
+    "0  (scuola dell'infanzia)": "0  (kindergarten)",
+    "1  (scuola dell'infanzia)": "1  (kindergarten)",
+    "2  (scuola dell'infanzia)": "2  (kindergarten)",
+    "3  (1º anno di scuola primaria)": "3  (1st year of primary school)",
+    "4  (2º anno di scuola primaria)": "4  (2nd year of primary school)",
+    "5  (3º anno di scuola primaria)": "5  (3rd year of primary school)",
+    "6  (4º anno di scuola primaria)": "6  (4th year of primary school)",
+    "7  (5º anno di scuola primaria)": "7  (5th year of primary school)",
+    "8  (1º anno di scuola secondaria)": "8  (1st year of secondary school)",
+    "9  (2º anno di scuola secondaria)": "9  (2nd year of secondary school)",
+    "10 (3º anno di scuola secondaria)": "10 (3rd year of secondary school)",
+    "11 (4º anno di scuola secondaria)": "11 (4th year of secondary school)",
+    "8  (6º anno di scuola primaria)": "8  (6th year of primary school)",
+    "9  (1º anno di scuola secondaria)": "9  (1st year of secondary school)",
+    "10 (2º anno di scuola secondaria)": "10 (2nd year of secondary school)",
+    "11 (3º anno di scuola secondaria)": "11 (3rd year of secondary school)",
     //Franch
-    // TODO
+    "0  (école enfantine)": "0  (kindergarten)",
+    "1  (école enfantine)": "1  (kindergarten)",
+    "2  (école enfantine)": "2  (kindergarten)",
+    "3  (1re année - école élémentaire)": "3  (1st year of primary school)",
+    "4  (2e année - école élémentaire)": "4  (2nd year of primary school)",
+    "5  (3e année - école élémentaire)": "5  (3rd year of primary school)",
+    "6  (4e année - école élémentaire)": "6  (4th year of primary school)",
+    "7  (5e année - école élémentaire)": "7  (5th year of primary school)",
+    "8  (1re année - école secondaire)": "8  (1st year of secondary school)",
+    "9  (2e année - école secondaire)": "9  (2nd year of secondary school)",
+    "10 (3e année - école secondaire)": "10 (3rd year of secondary school)",
+    "11 (4e année - école secondaire)": "11 (4th year of secondary school)",
+    "8  (6e année - école élémentaire)": "8  (6th year of primary school)",
+    "9  (1re année - école secondaire)": "9  (1st year of secondary school)",
+    "10 (2e année - école secondaire)": "10 (2nd year of secondary school)",
+    "11 (3e année - école secondaire)": "11 (3rd year of secondary school)",
     //German
-    // TODO
-    "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire":
-        "0 (kindergarten)SOLO IN TICINO negli altri cantoni non deve comparire",
-    "1 (kindergarten)": "1 (kindergarten)",
-    "* 2 (kindergarten)": "* 2 (kindergarten)",
-    "* 3 (primary 1 year)": "* 3 (primary 1 year)",
-    "* 4 (primary 2 year)": "* 4 (primary 2 year)",
-    "* 5 (primary 3 year)": "* 5 (primary 3 year)",
-    "* 6 (primary 4 year)": "* 6 (primary 4 year)",
-    "* 7 (primary 5 year)": "* 7 (primary 5 year)",
-    "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)":
-        "* 8 (primary 6 year) (IN TICINO deve comparire secondary 1 year)",
-    "* 9 (secondary 1 year) (IN TICINO secondary 2 year)":
-        "* 9 (secondary 1 year) (IN TICINO secondary 2 year)",
-    "* 10 (secondary 2 year) (IN TICINO secondary 3 year)":
-        "* 10 (secondary 2 year) (IN TICINO secondary 3 year)",
-    "* 11 (secondary 3 year) (IN TICINO secondary 4 year)":
-        "* 11 (secondary 3 year) (IN TICINO secondary 4 year)",
+    "0  (Kindergarten)": "0  (kindergarten)",
+    "1  (Kindergarten)": "1  (kindergarten)",
+    "2  (Kindergarten)": "2  (kindergarten)",
+    "3  (1 Jahre in der Primarstufe)": "3  (1st year of primary school)",
+    "4  (2 Jahre in der Primarstufe)": "4  (2nd year of primary school)",
+    "5  (3 Jahre in der Primarstufe)": "5  (3rd year of primary school)",
+    "6  (4 Jahre in der Primarstufe)": "6  (4th year of primary school)",
+    "7  (5 Jahre in der Primarstufe)": "7  (5th year of primary school)",
+    "8  (1 Jahre in der Sekundarstufe I)": "8  (1st year of secondary school)",
+    "9  (2 Jahre in der Sekundarstufe I)": "9  (2nd year of secondary school)",
+    "10 (3 Jahre in der Sekundarstufe I)": "10 (3rd year of secondary school)",
+    "11 (4 Jahre in der Sekundarstufe I)": "11 (4th year of secondary school)",
+    "8  (6 Jahre in der Primarstufe)": "8  (6th year of primary school)",
+    "9  (1 Jahre in der Sekundarstufe I)": "9  (1st year of secondary school)",
+    "10 (2 Jahre in der Sekundarstufe I)": "10 (2nd year of secondary school)",
+    "11 (3 Jahre in der Sekundarstufe I)": "11 (3rd year of secondary school)",
   };
 
   static final Map<String, Map<String, String>> _localizedBlocks =
