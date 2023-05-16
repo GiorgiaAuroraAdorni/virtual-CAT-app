@@ -59,7 +59,7 @@ const Map<String, String> _questions = <String, String>{
   "q4": "Les règles de l’activité étaient-elles faciles à comprendre?",
   "q5": "Quel mode de résolution avez-vous préféré utiliser?",
   "q6": "Les exercices étaient-ils faciles à résoudre?",
-  "Q7": "Combien de temps avez-vous pris pour terminer les exercices?",
+  "q7": "Combien de temps avez-vous pris pour terminer les exercices?",
   "q8": "Pourriez-vous refaire cette expérience?",
 };
 
@@ -73,7 +73,7 @@ const Map<String, String> _descriptions = <String, String>{
   "q23" : "Jamais",
   //
   "q31" : "Facile",
-  "q32" : "Normal ",
+  "q32" : "Normal",
   "q33" : "Difficile",
   //
   "q51" : "Blocs et texte",
@@ -81,11 +81,11 @@ const Map<String, String> _descriptions = <String, String>{
   "q53" : "Gestes",
   //
   "q61" : "Facile",
-  "q62" : "Normal ",
+  "q62" : "Normal",
   "q63" : "Difficile",
   //
   "q71" : "Un peu",
-  "q72" : "Normal ",
+  "q72" : "Normal",
   "q73" : "Si longtemps",
   //
   "q81" : "Oui bien sûr",
