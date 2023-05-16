@@ -32,14 +32,14 @@ class _SurveyState extends State<Survey> {
   TextToSpeech tts = TextToSpeech();
   bool airplaneMode = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String _q1 = "yes";
-  String _q2 = "yes";
-  String _q3 = "yes";
-  String _q4 = "yes";
-  String _q5 = "yes";
-  String _q6 = "yes";
-  String _q7 = "yes";
-  String _q8 = "yes";
+  String _q1 = "Yes, very much";
+  String _q2 = "Yes";
+  String _q3 = "Easy";
+  String _q4 = "Easy";
+  String _q5 = "Blocks and text";
+  String _q6 = "Easy";
+  String _q7 = "A little";
+  String _q8 = "Yes of course";
   final AudioPlayer player = AudioPlayer();
 
   @override
