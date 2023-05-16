@@ -23,8 +23,8 @@ final Map<String, String> de = <String, String>{
   "continueStudentID": "Fortsetzung",
   "requestSessionID": "Sitzungs-ID eingeben, um fortzufahren",
   "continueSessionID": "Fortsetzung",
-  "errorMessageSession": "La sessione non esiste",
-  "errorMessageStudent": "Lo studente non esiste",
+  "errorMessageSession": "Die Sitzung existiert nicht",
+  "errorMessageStudent": "Der Schüler existiert nicht",
 }
   ..addAll(_firstForm)
   ..addAll(_secondForm)
@@ -55,15 +55,14 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> _questions = <String, String>{
-  "q1": "Hat dir diese Aktivität Spass gemacht??",
-  "q2":
-      "Hast du schon einmal eine solche App verwendet, um Übungen zu machen und zu lernen?",
-  "q3": "War die App einfach zu bedienen?",
-  "q4": "Waren die Regeln der Aktivität leicht zu verstehen?",
-  "q5": "Welche Befehle hast du bevorzugt?",
-  "q6": "Waren die Übungen leicht zu lösen?",
-  "q7": "Wie lange hast du gebraucht, um die Übungen abzuschließen?",
-  "q8": "Würdest du diese die Übungen mit der App wiederholen?",
+  "q1": "Hat dir diese Aktivität Spass gemacht?" ,
+  "q2": "Hast du schon einmal eine solche App verwendet, um Übungen zu machen und zu lernen?" ,
+  "q3": "War die App einfach zu bedienen?" ,
+  "q4": "Waren die Regeln der Aktivität leicht zu verstehen?" ,
+  "q5": "Welche Befehle hast du bevorzugt?" ,
+  "q6": "Waren die Übungen leicht zu lösen?" ,
+  "q7": "Wie lange hast du gebraucht, um die Übungen abzuschließen?" ,
+  "q8": "Würdest du diese die Übungen mit der App wiederholen?" ,
 };
 
 const Map<String, String> _descriptions = <String, String>{
