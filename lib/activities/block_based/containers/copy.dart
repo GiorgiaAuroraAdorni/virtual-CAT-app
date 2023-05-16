@@ -99,10 +99,11 @@ class _Copy extends State<CopyCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          315 -
+          225 -
           (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 100) +
           (context.read<TypeUpdateNotifier>().state == 2 ? 100 : 60) *
               (widget.item.moves.length +
+                  widget.item.container.length +
                   (widget.item.container.isEmpty ? 4 : 0) +
                   (widget.item.moves.isEmpty ? 1 : 0)),
       width: MediaQuery.of(context).size.width,

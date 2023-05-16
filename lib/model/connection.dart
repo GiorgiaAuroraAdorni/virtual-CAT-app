@@ -211,12 +211,41 @@ class Connection extends BaseConnection {
         "time": a.context.read<TimeKeeper>().rawTime,
         "timeStamp": DateTime.now().toIso8601String(),
         "complete": a.complete,
+        "coloredCorrectly": computeColoredCorretly(),
+        "colored": computeColored(),
       },
     ).run();
 
     final int resID = res2.getOrElse((String l) => <String, dynamic>{})["id"];
 
     return CatLogger().commitLogs(resID);
+  }
+
+  int computeColoredCorretly() {
+    int count = 0;
+    final List<List<int>> computedGrid = CatInterpreter().getLastState.getGrid;
+    final List<List<int>> reference = SchemasReader().current.getGrid;
+    for (int i = 0; i < reference.first.length; i++) {
+      for (int j = 0; j < reference.first.length; j++) {
+        if (reference[i][j] != 0) {
+          count += reference[i][j] == computedGrid[i][j] ? 1 : 0;
+        }
+      }
+    }
+
+    return count;
+  }
+
+  int computeColored() {
+    final List<List<int>> grid = CatInterpreter().getLastState.getGrid;
+    int count = 0;
+    for (final List<int> i in grid) {
+      for (final int j in i) {
+        count += j == 0 ? 0 : 1;
+      }
+    }
+
+    return count;
   }
 
   Future<int> addLog(int resultsID, String logs) async {
