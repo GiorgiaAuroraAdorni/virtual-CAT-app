@@ -24,8 +24,10 @@ import "package:cross_array_task_app/activities/block_based/model/point_containe
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class SideMenuBlock extends StatefulWidget {
   const SideMenuBlock({super.key});
@@ -35,6 +37,21 @@ class SideMenuBlock extends StatefulWidget {
 }
 
 class SideMenuBlockState extends State<SideMenuBlock> {
+  void _interpreterListener() {
+    if (!mounted) {
+      return;
+    }
+    for (final ValueNotifier<bool> i in _states) {
+      i.value = false;
+    }
+  }
+
+  @override
+  void initState() {
+    context.read<ReferenceNotifier>().addListener(_interpreterListener);
+    super.initState();
+  }
+
   /// Creating a list of SimpleContainer objects.
   late List<SimpleContainer> containers = <SimpleContainer>[
     PointContainer(
