@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1060px" height="1063px" viewBox="0 0 1060 1063" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>mirror_horizontal</title>
-    <defs>
-        <path d="M115.000007,769.230769 L115,999.996 L113.47652,999.983914 C50.6314289,998.964977 0,947.702669 0,884.614757 C0,821.017846 51.4517238,769.438128 115.000007,769.230769 Z M115.000007,384.615385 L115,615.38 L113.47652,615.36853 C50.6314289,614.349592 0,563.087284 0,499.999373 C0,436.402461 51.4517238,384.822743 115.000007,384.615385 Z M115.000007,-2.4124653e-13 L115,230.765 L113.47652,230.753145 C50.6314289,229.734208 0,178.4719 0,115.383988 C0,51.7870764 51.4517238,0.207358876 115.000007,-2.41315756e-13 Z" id="path-1"></path>
-    </defs>
     <g id="mirror_horizontal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(530.000000, 531.500000) rotate(90.000000) translate(-530.000000, -531.500000) translate(30.000000, -0.500000)">
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="115.384615" cy="145.884615" r="115.384615"></circle>
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="884.615385" cy="145.884615" r="115.384615"></circle>
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="115.384615" cy="530.5" r="115.384615"></circle>
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="884.615385" cy="530.5" r="115.384615"></circle>
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill="#000000" fill-rule="nonzero" cx="115.384615" cy="915.115385" r="115.384615"></circle>
-            <circle id="Oval" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="884.615385" cy="915.115385" r="115.384615"></circle>
-            <g id="Rectangle" transform="translate(384.000000, 29.500627)">
-                <mask id="mask-2" fill="white">
-                    <use xlink:href="#path-1"></use>
-                </mask>
-                <use id="Combined-Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="Group-2" transform="translate(515.990961, 531.250000) rotate(90.000000) translate(-515.990961, -531.250000) translate(-13.009039, 15.500000)" stroke="#000000">
+            <line x1="529.38526" y1="175.77773" x2="529.006287" y2="1031.5" id="Path-23" stroke-width="60" stroke-dasharray="65,60"></line>
+            <path d="M0.5,312.778229 L412.165395,639.190221 L0.5,965.602213 L0.5,312.778229 Z" id="Path-24" fill="#000000"></path>
+            <path d="M675.02984,373.817015 L1009.71413,639.190221 L675.02984,904.563426 L675.02984,373.817015 Z" id="Path-24-Copy" stroke-width="60" transform="translate(851.514920, 639.190221) scale(-1, 1) translate(-851.514920, -639.190221) "></path>
+            <g id="Group" transform="translate(243.057082, 0.000000)">
+                <path d="M0,175.77773 C96.4586774,58.5925766 191.775079,0 285.949206,0 C380.123332,0 473.535936,58.5925766 566.187018,175.77773" id="Path-25" stroke-width="60"></path>
+                <polygon id="Path-26" fill="#000000" points="455.579866 234.769231 632.951958 234.769231 632.951958 53.0893539"></polygon>
             </g>
-            <circle id="Oval-Copy-6" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="499.615385" cy="144.884615" r="115.384615"></circle>
-            <circle id="Oval-Copy-5" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="499.615385" cy="529.5" r="115.384615"></circle>
-            <circle id="Oval-Copy-4" stroke="#000000" stroke-width="60" fill-rule="nonzero" cx="499.615385" cy="914.115385" r="115.384615"></circle>
-            <line x1="500" y1="0.5" x2="499" y2="1063.5" id="Path-18" stroke="#000000" stroke-width="60"></line>
         </g>
     </g>
 </svg>
