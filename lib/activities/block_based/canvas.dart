@@ -254,6 +254,7 @@ class BlockCanvasState extends State<BlockCanvas> {
         .allCommandsBuffer
         .map((SimpleContainer e) => e.toString())
         .toList();
+    CatInterpreter().validCommandsBuffer.clear();
     for (final String command in commands) {
       runZonedGuarded(
         () {

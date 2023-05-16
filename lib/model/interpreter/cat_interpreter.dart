@@ -33,7 +33,7 @@ class CatInterpreter with ChangeNotifier {
   /// A buffer that stores the commands that are executed when the user
   /// is copying cells.
   final List<String> copyCommandsBuffer = <String>[];
-  final List<String> _validCommandsBuffer = <String>[];
+  final List<String> validCommandsBuffer = <String>[];
 
   /// A buffer that stores all the commands that have been executed.
   List<SimpleContainer> allCommandsBuffer = <SimpleContainer>[];
@@ -54,7 +54,7 @@ class CatInterpreter with ChangeNotifier {
   /// It resets the interpreter and notifies the listeners
   void resetInterpreter() {
     _interpreter.reset();
-    _validCommandsBuffer.clear();
+    validCommandsBuffer.clear();
     copyCommandsBuffer.clear();
     notifyListeners();
   }
@@ -84,7 +84,7 @@ class CatInterpreter with ChangeNotifier {
     if (copyCommands) {
       copyCommandsBuffer.addAll(code.split(","));
     } else {
-      _validCommandsBuffer.addAll(code.split(","));
+      validCommandsBuffer.addAll(code.split(","));
       allCommandsBuffer.addAll(
         code
             .split(",")
@@ -122,7 +122,7 @@ class CatInterpreter with ChangeNotifier {
     if (copyCommands) {
       copyCommandsBuffer.addAll(command);
     } else {
-      _validCommandsBuffer.addAll(command);
+      validCommandsBuffer.addAll(command);
       allCommandsBuffer.addAll(
         command
             .map(
@@ -142,7 +142,7 @@ class CatInterpreter with ChangeNotifier {
   void fillEmpty(String color, String languageCode) {
     final String code = "fill_empty($color)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    _validCommandsBuffer.add(code);
+    validCommandsBuffer.add(code);
     allCommandsBuffer.addAll(parseToContainer(code, languageCode));
     notifyListeners();
   }
@@ -178,20 +178,20 @@ class CatInterpreter with ChangeNotifier {
       code = "copy({${originsPosition.joinToString(separator: ",")}},"
           "{${destinationPosition.joinToString(separator: ",")}})";
     }
-    _validCommandsBuffer.add(code);
+    validCommandsBuffer.add(code);
     allCommandsBuffer.addAll(parseToContainer(code, languageCode));
     _interpreter.reset();
     final Pair<cat.Results, cat.CatError> res = _interpreter.validateOnScheme(
-      _validCommandsBuffer.joinToString(),
+      validCommandsBuffer.joinToString(),
       SchemasReader().currentIndex,
     );
     if (res.second != cat.CatError.none) {
       allCommandsBuffer.removeLast();
-      _validCommandsBuffer.removeLast();
+      validCommandsBuffer.removeLast();
       _interpreter
         ..reset()
         ..validateOnScheme(
-          _validCommandsBuffer.joinToString(),
+          validCommandsBuffer.joinToString(),
           SchemasReader().currentIndex,
         );
     }
@@ -209,7 +209,7 @@ class CatInterpreter with ChangeNotifier {
   void mirror(String direction, String languageCode) {
     final String code = "mirror($direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    _validCommandsBuffer.add(code);
+    validCommandsBuffer.add(code);
     allCommandsBuffer.addAll(parseToContainer(code, languageCode));
     notifyListeners();
   }
@@ -234,7 +234,7 @@ class CatInterpreter with ChangeNotifier {
     final String code =
         "mirror({${originsPosition.joinToString(separator: ",")}},$direction)";
     _interpreter.validateOnScheme(code, SchemasReader().currentIndex);
-    _validCommandsBuffer.add(code);
+    validCommandsBuffer.add(code);
     allCommandsBuffer.addAll(parseToContainer(code, languageCode));
     notifyListeners();
   }
@@ -247,14 +247,27 @@ class CatInterpreter with ChangeNotifier {
   void executeCommands(String commands, String languageCode) {
     final Pair<Results, CatError> results =
         _interpreter.validateOnScheme(commands, SchemasReader().currentIndex);
-
     if (results.second != CatError.none) {
+      final List<String> c = cat.splitCommands(commands);
+      if (c.first.startsWith("copy")) {
+        final List<String> c1 = cat.splitCommand(c.first);
+        for (String i in cat.splitByCurly(c1.last)) {
+          final String command = "copy(${c1.second},{$i})";
+          final Pair<Results, CatError> results = _interpreter.validateOnScheme(
+            command,
+            SchemasReader().currentIndex,
+          );
+          if (results.second == CatError.none) {
+            validCommandsBuffer.add(command);
+          }
+        }
+      }
       _interpreter.reset();
-      for (final String i in _validCommandsBuffer) {
+      for (final String i in validCommandsBuffer) {
         _interpreter.validateOnScheme(i, SchemasReader().currentIndex);
       }
     } else {
-      _validCommandsBuffer.add(commands);
+      validCommandsBuffer.add(commands);
     }
 
     notifyListeners();
@@ -265,7 +278,7 @@ class CatInterpreter with ChangeNotifier {
     _interpreter
       ..reset()
       ..validateOnScheme(
-        _validCommandsBuffer.joinToString(),
+        validCommandsBuffer.joinToString(),
         SchemasReader().currentIndex,
       );
     notifyListeners();
