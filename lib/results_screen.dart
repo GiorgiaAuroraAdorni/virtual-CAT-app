@@ -129,7 +129,7 @@ class ResultsScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 8,
+                            width: MediaQuery.of(context).size.width / 10,
                             child: Text(
                               "${results[index + 1]!.score}",
                               style: const TextStyle(
@@ -139,7 +139,7 @@ class ResultsScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 8,
+                            width: MediaQuery.of(context).size.width / 6,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
