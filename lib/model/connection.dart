@@ -249,7 +249,8 @@ class Connection extends BaseConnection {
     return res.statusCode == 200;
   }
 
-  Future<int> addSurvay(int sessionID, int studentID, String results) async {
+  Future<int> addSurvay(
+      int sessionID, int studentID, Map<String, String> results) async {
     if (sessionID == -1 || studentID == -1) {
       return -1;
     }
@@ -257,7 +258,7 @@ class Connection extends BaseConnection {
         await mappingPostRequest("/surveys", <String, dynamic>{
       "studentID": studentID,
       "sessionID": sessionID,
-      "results": results,
+      ...results,
     }).run();
 
     return res.getOrElse((String l) => <String, dynamic>{})["id"];

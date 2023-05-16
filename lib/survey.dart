@@ -1,5 +1,3 @@
-import "dart:convert";
-
 import "package:audioplayers/audioplayers.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/results_record.dart";
@@ -84,7 +82,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Yes, very much": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -100,7 +98,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "So-so": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -113,7 +111,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "No, not at all": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -153,7 +151,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Yes": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -169,7 +167,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "I don’t remember": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -182,7 +180,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "Never": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -222,7 +220,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Easy": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -238,7 +236,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Normal": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -251,7 +249,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "Difficult": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -291,7 +289,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Easy": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -307,7 +305,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Normal": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -320,7 +318,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "Difficult": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -360,7 +358,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Blocks and text": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -376,7 +374,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Blocks and symbols": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -389,7 +387,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "Gestures": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -429,7 +427,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Easy": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -445,7 +443,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Normal": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -458,7 +456,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "Difficult": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -498,7 +496,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "A little": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -514,7 +512,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Normal": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -527,7 +525,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "So long": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -567,7 +565,7 @@ class _SurveyState extends State<Survey> {
                               }
                             },
                             children: <String, Widget>{
-                              "yes": SizedBox(
+                              "Yes of course": SizedBox(
                                 width: 140,
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
@@ -583,7 +581,7 @@ class _SurveyState extends State<Survey> {
                                   ),
                                 ),
                               ),
-                              "neutral": Padding(
+                              "Maybe": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -596,7 +594,7 @@ class _SurveyState extends State<Survey> {
                                   ],
                                 ),
                               ),
-                              "no": Padding(
+                              "No, never": Padding(
                                 padding: const EdgeInsets.all(3),
                                 child: Column(
                                   children: <Widget>[
@@ -620,33 +618,29 @@ class _SurveyState extends State<Survey> {
                   height: 30,
                 ),
                 CupertinoButton.filled(
-                  onPressed: () async => Connection()
-                      .addSurvay(
-                        widget.sessionID,
-                        widget.studentID,
-                        jsonEncode(
-                          <String, dynamic>{
-                            "q1": _q1,
-                            "q2": _q2,
-                            "q3": _q3,
-                            "q4": _q4,
-                            "q5": _q5,
-                            "q6": _q6,
-                            "q7": _q7,
-                            "q8": _q8,
-                          },
-                        ),
-                      )
-                      .whenComplete(
-                        () => Navigator.push(
-                          context,
-                          CupertinoPageRoute<Widget>(
-                            builder: (BuildContext context) => ResultsScreen(
-                              results: widget.results,
-                            ),
-                          ),
+                  onPressed: () async => Connection().addSurvay(
+                    widget.sessionID,
+                    widget.studentID,
+                    <String, String>{
+                      "q1": _q1,
+                      "q2": _q2,
+                      "q3": _q3,
+                      "q4": _q4,
+                      "q5": _q5,
+                      "q6": _q6,
+                      "q7": _q7,
+                      "q8": _q8,
+                    },
+                  ).whenComplete(
+                    () => Navigator.push(
+                      context,
+                      CupertinoPageRoute<Widget>(
+                        builder: (BuildContext context) => ResultsScreen(
+                          results: widget.results,
                         ),
                       ),
+                    ),
+                  ),
                   child: Text(CATLocalizations.of(context).finalButton),
                 ),
                 const SizedBox(
