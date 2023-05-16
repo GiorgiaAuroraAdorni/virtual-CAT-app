@@ -53,44 +53,44 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> _questions = <String, String>{
-  "q1": "Haben Sie diese Aktivität genossen?" ,
-  "q2": "Haben Sie jemals eine solche App verwendet, um Übungen zu machen und zu lernen?" ,
+  "q1": "Hat dir diese Aktivität Spass gemacht??" ,
+  "q2": "Hast du schon einmal eine solche App verwendet, um Übungen zu machen und zu lernen?" ,
   "q3": "War die App einfach zu bedienen?" ,
   "q4": "Waren die Regeln der Aktivität leicht zu verstehen?" ,
-  "q5": "Welchen Auflösungsmodus haben Sie bevorzugt?" ,
+  "q5": "Welche Befehle hast du bevorzugt?" ,
   "q6": "Waren die Übungen leicht zu lösen?" ,
-  "q7": "Wie lange haben Sie gebraucht, um die Übungen abzuschließen?" ,
-  "q8": "Würdest du diese Erfahrung wiederholen?" ,
+  "q7": "Wie lange hast du gebraucht, um die Übungen abzuschließen?" ,
+  "q8": "Würdest du diese die Übungen mit der App wiederholen?" ,
 };
 
 const Map<String, String> _descriptions = <String, String>{
-  "q11": "Ja, sehr viel",
-  "q12": "So lala",
-  "q13": "Nein, überhaupt nicht",
+  "q11": "Ja",
+  "q12": "Teilweise ",
+  "q13": "Nein",
   //
   "q21": "Ja",
-  "q22": "Ich weiß nicht",
+  "q22": "Kann mich nicht erinnern",
   "q23": "Nein",
   //
-  "q31": "Einfach",
-  "q32": "Normal",
-  "q33": "Schwer",
+  "q31": "Ja",
+  "q32": "Teilweise",
+  "q33": "Nein",
   //
   "q51": "Blöcke und Text",
   "q52": "Blöcke und Symbole",
   "q53": "Gesten",
   //
   "q61": "Einfach",
-  "q62": "Normal",
-  "q63": "Schwer",
+  "q62": "Mittel",
+  "q63": "Schwierig",
   //
-  "q71": "Ein wenig",
-  "q72": "Normal",
-  "q73": "So lang",
+  "q71": "Nicht lange",
+  "q72": "Mittellang",
+  "q73": "Sehr lange",
   //
-  "q81": "Ja natürlich",
+  "q81": "Ja",
   "q82": "Vielleicht",
-  "q83": "Nein, nie",
+  "q83": "Nein",
 
   "finalButton": "Zu den Ergebnissen",
 };
