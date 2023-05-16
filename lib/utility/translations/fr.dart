@@ -61,7 +61,7 @@ const Map<String, String> _questions = <String, String>{
   "q4": "Les règles de l’activité étaient-elles faciles à comprendre?",
   "q5": "Quel mode de résolution avez-vous préféré utiliser?",
   "q6": "Les exercices étaient-ils faciles à résoudre?",
-  "Q7": "Combien de temps avez-vous pris pour terminer les exercices?",
+  "q7": "Combien de temps avez-vous pris pour terminer les exercices?",
   "q8": "Pourriez-vous refaire cette expérience?",
 };
 
