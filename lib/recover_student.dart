@@ -54,16 +54,27 @@ class _RecoverStudentState extends State<RecoverStudent> {
                     return null;
                   },
                 ),
-                Text(
-                  _error,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: CupertinoColors.destructiveRed,
-                  ),
-                ),
-                CupertinoButton(
-                  onPressed: _changePage,
-                  child: Text(CATLocalizations.of(context).continueStudentID),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            _error,
+                            style: const TextStyle(
+                              color: CupertinoColors.destructiveRed,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    CupertinoButton(
+                      onPressed: _changePage,
+                      child:
+                          Text(CATLocalizations.of(context).continueStudentID),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -88,6 +99,8 @@ class _RecoverStudentState extends State<RecoverStudent> {
                   ),
                 ),
               );
+
+              return;
             }
           }
           setState(() {

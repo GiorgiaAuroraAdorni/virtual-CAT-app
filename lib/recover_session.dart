@@ -26,6 +26,7 @@ class RecoverSessionState extends State<RecoverSession> {
               header: Text(CATLocalizations.of(context).requestSessionID),
               children: <Widget>[
                 CupertinoTextFormFieldRow(
+                  style: TextStyle(),
                   prefix: Text(
                     "${CATLocalizations.of(context).sessionID}:",
                     textAlign: TextAlign.right,
@@ -44,16 +45,30 @@ class RecoverSessionState extends State<RecoverSession> {
                     return null;
                   },
                 ),
-                Text(
-                  _error,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    color: CupertinoColors.destructiveRed,
-                  ),
-                ),
-                CupertinoButton(
-                  onPressed: _changePage,
-                  child: Text(CATLocalizations.of(context).continueSessionID),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            _error,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              color: CupertinoColors.destructiveRed,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    CupertinoButton(
+                      onPressed: _changePage,
+                      child: Text(
+                        CATLocalizations.of(context).continueSessionID,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -76,6 +91,8 @@ class RecoverSessionState extends State<RecoverSession> {
                       StudentSelection(sessionID: value),
                 ),
               );
+
+              return;
             }
           }
           setState(() {
