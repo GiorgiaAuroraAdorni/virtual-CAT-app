@@ -241,7 +241,7 @@ class GestureHomeState extends State<GestureHome> {
                   _allResults[element["schemaID"]!]!
                     ..time = element["time"]!
                     ..result = results.first.getStates.last
-                    ..score = element["complete"]!
+                    ..score = interpreter.getResults.completed
                         ? catScore(
                             commands: splitCommands(command),
                             visible: element["visualFeedback"]!,

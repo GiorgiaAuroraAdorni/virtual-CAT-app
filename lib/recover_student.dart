@@ -95,15 +95,6 @@ class _RecoverStudentState extends State<RecoverStudent> {
           });
         },
       ).onError((Object? error, StackTrace stackTrace) => null);
-      // Navigator.push(
-      //   context,
-      //   CupertinoPageRoute<Widget>(
-      //     builder: (BuildContext context) => ActivityHome(
-      //       sessionID: widget.sessionID,
-      //       studentID: value,
-      //     ),
-      //   ),
-      // );
     }
   }
 }

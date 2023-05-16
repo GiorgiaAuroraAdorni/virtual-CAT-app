@@ -12,6 +12,7 @@ class RecoverSession extends StatefulWidget {
 
 class RecoverSessionState extends State<RecoverSession> {
   final TextEditingController _controllerSession = TextEditingController();
+  String _error = "";
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
@@ -29,6 +30,11 @@ class RecoverSessionState extends State<RecoverSession> {
                     "${CATLocalizations.of(context).sessionID}:",
                     textAlign: TextAlign.right,
                   ),
+                  onChanged: (_) {
+                    setState(() {
+                      _error = "";
+                    });
+                  },
                   controller: _controllerSession,
                   validator: (String? val) {
                     if (val == null || val.isEmpty) {
@@ -37,6 +43,13 @@ class RecoverSessionState extends State<RecoverSession> {
 
                     return null;
                   },
+                ),
+                Text(
+                  _error,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: CupertinoColors.destructiveRed,
+                  ),
                 ),
                 CupertinoButton(
                   onPressed: _changePage,
@@ -65,6 +78,9 @@ class RecoverSessionState extends State<RecoverSession> {
               );
             }
           }
+          setState(() {
+            _error = CATLocalizations.of(context).errorMessageSession;
+          });
         },
       ).onError((Object? error, StackTrace stackTrace) => null);
     }
