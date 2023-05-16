@@ -119,7 +119,7 @@ class Connection extends BaseConnection {
 
   Future<int> addStudent(
     DateTime date,
-    bool gender,
+    String gender,
     int session,
   ) async {
     final Either<String, Map<String, dynamic>> res = await mappingPostRequest(

@@ -43,7 +43,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
   final TextEditingController _controllerDate = TextEditingController();
   final TextEditingController _gender = TextEditingController();
 
-  bool _genderBool = false;
+  String _selectedGender = "M";
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
@@ -94,7 +94,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
               Connection()
                   .addStudent(
                 _selectedDate,
-                _genderBool,
+                _selectedGender,
                 widget.sessionID,
               )
                   .then(
@@ -148,7 +148,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
       final Text text = CATLocalizations.of(context).genderType[0];
       _gender.text = text.data.toString();
     });
-    showCupertinoModalPopup(
+      showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
         height: MediaQuery.of(context).copyWith().size.height * 0.25,
@@ -156,7 +156,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             setState(() {
-              _genderBool = !(value == 0);
+              _selectedGender = (value == 0) ? "M" : "F";
               final Text text = CATLocalizations.of(context).genderType[value];
               _gender.text = text.data.toString();
             });
