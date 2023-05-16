@@ -23,6 +23,8 @@ final Map<String, String> it = <String, String>{
   "continueStudentID": "Continua",
   "requestSessionID": "Inserire l'ID della sessione per continuare",
   "continueSessionID": "Continua",
+  "errorMessageSession": "La sessione non esiste",
+  "errorMessageStudent": "Lo studente non esiste",
 }
   ..addAll(_firstForm)
   ..addAll(_secondForm)

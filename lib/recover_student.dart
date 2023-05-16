@@ -14,6 +14,7 @@ class RecoverStudent extends StatefulWidget {
 
 class _RecoverStudentState extends State<RecoverStudent> {
   final TextEditingController _controllerStudent = TextEditingController();
+  String _error = "";
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
@@ -40,6 +41,11 @@ class _RecoverStudentState extends State<RecoverStudent> {
                     textAlign: TextAlign.right,
                   ),
                   controller: _controllerStudent,
+                  onChanged: (_) {
+                    setState(() {
+                      _error = "";
+                    });
+                  },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return CATLocalizations.of(context).errorMessage;
@@ -47,6 +53,13 @@ class _RecoverStudentState extends State<RecoverStudent> {
 
                     return null;
                   },
+                ),
+                Text(
+                  _error,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: CupertinoColors.destructiveRed,
+                  ),
                 ),
                 CupertinoButton(
                   onPressed: _changePage,
@@ -77,6 +90,9 @@ class _RecoverStudentState extends State<RecoverStudent> {
               );
             }
           }
+          setState(() {
+            _error = CATLocalizations.of(context).errorMessageStudent;
+          });
         },
       ).onError((Object? error, StackTrace stackTrace) => null);
       // Navigator.push(

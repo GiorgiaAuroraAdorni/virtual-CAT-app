@@ -24,7 +24,7 @@ class CATLocalizations {
       Localizations.of<CATLocalizations>(context, CATLocalizations)!;
 
   static final Map<String, Map<String, String>> _localizedValues =
-      <String, Map<String, String>>{
+  <String, Map<String, String>>{
     "en": en,
     "it": it,
     "fr": fr,
@@ -32,7 +32,7 @@ class CATLocalizations {
   };
 
   static final Map<String, List<Text>> _localizedSchoolType =
-      <String, List<Text>>{
+  <String, List<Text>>{
     "en": schoolTypeEn,
     "it": schoolTypeIt,
     "fr": schoolTypeFr,
@@ -40,7 +40,7 @@ class CATLocalizations {
   };
 
   static final Map<String, List<String>> _localizedSchoolGrade =
-      <String, List<String>>{
+  <String, List<String>>{
     "en": otherCantonsEN,
     "it": otherCantonsIT,
     "fr": otherCantonsFR,
@@ -48,7 +48,7 @@ class CATLocalizations {
   };
 
   static final Map<String, List<String>> _localizedSchoolGradeTI =
-      <String, List<String>>{
+  <String, List<String>>{
     "en": ticinoEN,
     "it": ticinoIT,
     "fr": ticinoFR,
@@ -146,7 +146,7 @@ class CATLocalizations {
   };
 
   static final Map<String, Map<String, String>> _localizedBlocks =
-      <String, Map<String, String>>{
+  <String, Map<String, String>>{
     "en": blocksEn,
     "it": blocksIt,
     "fr": blocksFr,
@@ -154,7 +154,7 @@ class CATLocalizations {
   };
 
   static final Map<String, Map<String, String>> _localizedDirections =
-      <String, Map<String, String>>{
+  <String, Map<String, String>>{
     "en": directionsEn,
     "it": directionsIt,
     "fr": directionsFr,
@@ -162,7 +162,7 @@ class CATLocalizations {
   };
 
   static final Map<String, Map<String, String>> _localizedPatterns =
-      <String, Map<String, String>>{
+  <String, Map<String, String>>{
     "en": patternsEn,
     "it": pattersIt,
     "fr": patternsFr,
@@ -170,7 +170,7 @@ class CATLocalizations {
   };
 
   static final Map<String, List<Text>> _localizedGenderType =
-      <String, List<Text>>{
+  <String, List<Text>>{
     "en": genderTypeEn,
     "it": genderTypeIt,
     "fr": genderTypeFr,
@@ -178,7 +178,7 @@ class CATLocalizations {
   };
 
   static final Map<String, Map<String, String>> _localizedGroupsBlocks =
-      <String, Map<String, String>>{
+  <String, Map<String, String>>{
     "en": groupsEn,
     "it": groupsIt,
     "fr": groupsFr,
@@ -187,10 +187,8 @@ class CATLocalizations {
 
   /// It's a map that contains all the translations from the other languages to
   /// English.
-  static final Map<String, String> mapToEn = <String, String>{}
-    ..addAll(conversionDeToEn)
-    ..addAll(conversionFrToEn)
-    ..addAll(conversionItToEn);
+  static final Map<String, String> mapToEn = <String, String>{}..addAll(
+      conversionDeToEn)..addAll(conversionFrToEn)..addAll(conversionItToEn);
 
   /// Returns a list of all supported languages
   static List<String> languages() => _localizedValues.keys.toList();
@@ -333,6 +331,12 @@ class CATLocalizations {
 
   String get errorMessage =>
       _localizedValues[_locale.languageCode]!["errorMessage"]!;
+
+  String get errorMessageSession =>
+      _localizedValues[_locale.languageCode]!["errorMessageSession"]!;
+
+  String get errorMessageStudent =>
+      _localizedValues[_locale.languageCode]!["errorMessageStudent"]!;
 
   String get results => _localizedValues[_locale.languageCode]!["results"]!;
 
