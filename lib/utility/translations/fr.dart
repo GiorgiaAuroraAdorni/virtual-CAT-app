@@ -68,12 +68,12 @@ const Map<String, String> _descriptions = <String, String>{
   "q12" : "Comme ci comme ça",
   "q13" : "Non, pas du tout",
   //
-  "q21 " : "Oui",
+  "q21" : "Oui",
   "q22" : "Je ne sais pas",
-  "q23 " : "Jamais",
+  "q23" : "Jamais",
   //
-  "q31 " : "Facile",
-  "q32 " : "Normal ",
+  "q31" : "Facile",
+  "q32" : "Normal ",
   "q33" : "Difficile",
   //
   "q51" : "Blocs et texte",
@@ -85,7 +85,7 @@ const Map<String, String> _descriptions = <String, String>{
   "q63" : "Difficile",
   //
   "q71" : "Un peu",
-  "q72 " : "Normal ",
+  "q72" : "Normal ",
   "q73" : "Si longtemps",
   //
   "q81" : "Oui bien sûr",

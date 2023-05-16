@@ -96,8 +96,8 @@ const Map<String, String> _descriptions = <String, String>{
 };
 
 const Map<String, String> _resultsScreen = <String, String>{
-  "column1": "Reference scheme",
-  "column2": "Product diagram",
+  "column1": "Reference schema",
+  "column2": "Produced schema",
   "column3": "CAT-score",
   "column4": "Result",
   "resultCorrect": "Correct",
