@@ -1,35 +1,22 @@
 PODS:
-  - audioplayers_darwin (0.0.1):
-    - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
   - text_to_speech_macos (0.1.0):
     - FlutterMacOS
 
 DEPENDENCIES:
-  - audioplayers_darwin (from `Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - text_to_speech_macos (from `Flutter/ephemeral/.symlinks/plugins/text_to_speech_macos/macos`)
 
 EXTERNAL SOURCES:
-  audioplayers_darwin:
-    :path: Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
-  path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   text_to_speech_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/text_to_speech_macos/macos
 
 SPEC CHECKSUMS:
-  audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   text_to_speech_macos: 83b12a215a4cdb60e089d7c9d38942e2c548b240
 
-PODFILE CHECKSUM: c7b3571d07ebc76e420cb25b9ed54c63b8cb7be8
+PODFILE CHECKSUM: 92f0e282b50684cfde6918be8f895eb67f81a23f
 
 COCOAPODS: 1.12.0
