@@ -56,7 +56,7 @@ const Map<String, String> _secondForm = <String, String>{
 
 const Map<String, String> _questions = <String, String>{
   "q1": "Did you enjoy this activity?",
-  "q2": "Have you ever used an app like this\nto do exercises and learn?",
+  "q2": "Have you ever used an app like this to do\nexercises and learn?",
   "q3": "Was the app easy to use?",
   "q4": "Were the rules of the activity easy to understand?",
   "q5": "Which resolution mode did you prefer to use?",

@@ -56,12 +56,12 @@ const Map<String, String> _secondForm = <String, String>{
 
 const Map<String, String> _questions = <String, String>{
   "q1": "Ti é piaciuta questa attività?",
-  "q2": "Avevi mai usato un app come\nquesta per fare esercizi e imparare?",
+  "q2": "Avevi mai usato un app'come questa per fare\nesercizi e imparare?",
   "q3": "L'app era facile da usare?",
   "q4": "Le regole dell'attività erano facili da capire?",
   "q5": "Quale modalità di risoluzione hai preferito utilizzare?",
   "q6": "Gli esercizi erano facili da risolvere?",
-  "q7": "Quanto tempo hai impiegato per completare gli esercizi?",
+  "q7": "Quanto tempo hai impiegato per completare\ngli esercizi?",
   "q8": "Rifaresti questa esperienza?",
 };
 
