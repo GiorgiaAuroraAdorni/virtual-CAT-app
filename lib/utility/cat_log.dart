@@ -22,8 +22,6 @@ class CatLogger with ChangeNotifier {
     required String currentCommand,
     required CatLoggingLevel description,
   }) {
-    print("log");
-    print(currentCommand);
     _logs[DateTime.now().toIso8601String()] = LoggerInfo(
       previousCommand: previousCommand,
       currentCommand: currentCommand,
@@ -42,11 +40,11 @@ class CatLogger with ChangeNotifier {
     notifyListeners();
   }
 
-  void printLogs() {
-    for (final String i in _logs.keys) {
-      print(_logs[i]);
-    }
-  }
+  // void printLogs() {
+  //   for (final String i in _logs.keys) {
+  //     print(_logs[i]);
+  //   }
+  // }
 
   Future<int> commitLogs(int resultsID) async =>
       Connection().addLog(resultsID, jsonEncode(_logs));

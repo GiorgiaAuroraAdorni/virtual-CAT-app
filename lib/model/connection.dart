@@ -184,11 +184,8 @@ class Connection extends BaseConnection {
       collected,
     ).run();
 
-    final int algorithmID = res.getOrElse((String l) {
-      print(l);
-
-      return <String, dynamic>{};
-    })["algorithm"];
+    final int algorithmID =
+        res.getOrElse((String l) => <String, dynamic>{})["algorithm"];
 
     final bool visible = a.context.read<VisibilityNotifier>().finalState;
 

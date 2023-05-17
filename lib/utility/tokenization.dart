@@ -115,7 +115,6 @@ void _mirrorAnalysis(
   String command, {
   int schemeIndex = 1,
 }) {
-  print(command);
   final List<String> tokens = splitCommand(command);
   final List<String> toEvaluate = splitByCurly(tokens.second);
   bool isCell = true;

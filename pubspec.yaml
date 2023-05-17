@@ -30,8 +30,6 @@ dependencies:
 
   flutter_sfsymbols: ^2.0.0
 
-  flutter_screen_lock: ^9.0.1
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
@@ -39,8 +37,6 @@ dependencies:
   uiblock: ^2.0.2
 
   dartx: ^1.1.0
-
-  #  path: ^1.8.2
 
   flutter:
     sdk: flutter
@@ -50,7 +46,6 @@ dependencies:
   provider: ^6.0.5
 
   text_to_speech: ^0.2.3
-  audioplayers: ^4.0.1
 
   dio: ^5.1.1
   #  native_dio_adapter: ^0.1.0
@@ -116,21 +111,6 @@ flutter:
     - family: UiIcons
       fonts:
         - asset: lib/icon_font/ui_icons.ttf
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_icons:
   android: true

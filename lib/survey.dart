@@ -1,4 +1,3 @@
-import "package:audioplayers/audioplayers.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/results_screen.dart";
@@ -40,7 +39,6 @@ class _SurveyState extends State<Survey> {
   String _q6 = "Easy";
   String _q7 = "A little";
   String _q8 = "Yes of course";
-  final AudioPlayer player = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
