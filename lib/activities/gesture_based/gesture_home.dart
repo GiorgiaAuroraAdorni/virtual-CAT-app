@@ -134,7 +134,7 @@ class GestureHomeState extends State<GestureHome> {
                         children: <Widget>[
                           const SideMenuBlock(),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.91,
+                            height: MediaQuery.of(context).size.height * 0.90,
                             width: 2,
                             child: const VerticalDivider(
                               thickness: 2,
@@ -145,7 +145,7 @@ class GestureHomeState extends State<GestureHome> {
                             shakeKey: _shakeKey,
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.91,
+                            height: MediaQuery.of(context).size.height * 0.90,
                             width: 2,
                             child: const VerticalDivider(
                               thickness: 2,
@@ -166,7 +166,7 @@ class GestureHomeState extends State<GestureHome> {
                             resetShape: _resetCross,
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.91,
+                            height: MediaQuery.of(context).size.height * 0.90,
                             width: 2,
                             child: const VerticalDivider(
                               thickness: 2,
@@ -183,7 +183,7 @@ class GestureHomeState extends State<GestureHome> {
                                 context.watch<ResultNotifier>(),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.91,
+                            height: MediaQuery.of(context).size.height * 0.90,
                             width: 2,
                             child: const VerticalDivider(
                               thickness: 2,

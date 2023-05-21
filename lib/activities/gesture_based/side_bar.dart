@@ -86,7 +86,7 @@ class _SideBarState extends State<SideBar> {
           builder: (BuildContext context, Widget? child) => Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 AnimatedBuilder(
                   animation: CatLogger(),
@@ -242,43 +242,33 @@ class _SideBarState extends State<SideBar> {
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: CrossWidgetSimple(
-                    displayLetters:
-                        context.read<TypeUpdateNotifier>().state > 0,
-                    resultValueNotifier: context.watch<ReferenceNotifier>(),
-                  ),
+                CrossWidgetSimple(
+                  displayLetters: context.read<TypeUpdateNotifier>().state > 0,
+                  resultValueNotifier: context.watch<ReferenceNotifier>(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40),
-                  child: Column(
-                    children: <Widget>[
-                      if (context.read<TypeUpdateNotifier>().state > 0)
-                        const ChangeCrossVisualization()
-                      else
-                        const SizedBox(
-                          height: 55,
-                        ),
-                      CrossWidgetSimple(
-                        displayLetters:
-                            context.read<TypeUpdateNotifier>().state > 0 &&
-                                context.read<VisibilityNotifier>().visible,
-                        resultValueNotifier: context.watch<ResultNotifier>(),
+                Column(
+                  children: <Widget>[
+                    if (context.read<TypeUpdateNotifier>().state > 0)
+                      const ChangeCrossVisualization()
+                    else
+                      const SizedBox(
+                        height: 55,
                       ),
-                    ],
-                  ),
+                    CrossWidgetSimple(
+                      displayLetters:
+                          context.read<TypeUpdateNotifier>().state > 0 &&
+                              context.read<VisibilityNotifier>().visible,
+                      resultValueNotifier: context.watch<ResultNotifier>(),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: BottomBar(
-                    studentID: widget.studentID,
-                    sessionID: widget.sessionID,
-                    selectionMode: widget.selectionMode,
-                    selectedButtons: widget.selectedButtons,
-                    coloredButtons: widget.coloredButtons,
-                    allResults: widget.allResults,
-                  ),
+                BottomBar(
+                  studentID: widget.studentID,
+                  sessionID: widget.sessionID,
+                  selectionMode: widget.selectionMode,
+                  selectedButtons: widget.selectedButtons,
+                  coloredButtons: widget.coloredButtons,
+                  allResults: widget.allResults,
                 ),
               ],
             ),
