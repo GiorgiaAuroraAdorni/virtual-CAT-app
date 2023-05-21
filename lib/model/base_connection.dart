@@ -9,7 +9,7 @@ class BaseConnection {
   /// Base connection class constructor
   BaseConnection() {
     _connectionString = kReleaseMode
-        ? "${_protocol}198.168.0.2$_port"
+        ? "${_protocol}192.168.0.2$_port"
         : "${_protocol}127.0.0.1$_port";
     // if (Platform.isIOS || Platform.isMacOS || Platform.isAndroid) {
     //   _dio.httpClientAdapter = NativeAdapter();
