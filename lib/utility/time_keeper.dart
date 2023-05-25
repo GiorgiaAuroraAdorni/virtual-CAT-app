@@ -27,6 +27,9 @@ class TimeKeeper with ChangeNotifier {
     final String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
     final String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
     final String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
+    if (hourLeft == "00") {
+      return "$minuteLeft:$secondsLeft";
+    }
 
     return "$hourLeft:$minuteLeft:$secondsLeft";
   }
