@@ -102,6 +102,7 @@ const Map<String, String> _resultsScreen = <String, String>{
   "column2": "Produced schema",
   "column3": "CAT-score",
   "column4": "Result",
+  "column5": "Time",
   "resultCorrect": "Correct",
   "resultSkip": "Given up",
   "resultWrong": "Wrong",

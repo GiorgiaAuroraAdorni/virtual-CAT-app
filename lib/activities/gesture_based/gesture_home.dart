@@ -271,6 +271,8 @@ class GestureHomeState extends State<GestureHome> {
                     Navigator.of(context).push(
                       CupertinoPageRoute<Widget>(
                         builder: (BuildContext context) => ResultsScreen(
+                          sessionID: widget.sessionID,
+                          studentID: widget.studentID,
                           results: _allResults,
                         ),
                       ),

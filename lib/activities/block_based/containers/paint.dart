@@ -80,9 +80,19 @@ class _Paint extends State<Paint> {
             const SizedBox(
               height: 5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _colorButtonsBuild(),
+            Container(
+              padding: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemGrey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colorButtonsBuild(),
+              ),
             ),
             const SizedBox(
               height: 5,
@@ -142,8 +152,19 @@ class _Paint extends State<Paint> {
                   SFSymbols.paintbrush_fill,
                   color: CupertinoColors.systemBackground,
                 ),
-                Row(
-                  children: _colorButtonsBuild(),
+                Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: const BoxDecoration(
+                    color: CupertinoColors.systemGrey5,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _colorButtonsBuild(),
+                  ),
                 ),
               ],
             ),
@@ -197,11 +218,13 @@ class _Paint extends State<Paint> {
     List<Widget> repetitionsText = List<Widget>.from(
       widget.item.repetitionsText,
     );
+    print(widget.item.direction);
     setState(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
         repetitionsText = <Widget>[repetitionsText[2]];
-      } else if (widget.item.direction.startsWith("l")) {
+      } else if (widget.item.direction.startsWith("l") &&
+          !widget.item.direction.startsWith("left")) {
         widget.item.repetitions = 3;
         repetitionsText = <Widget>[repetitionsText[3]];
       } else if (widget.item.direction.startsWith("zig-zag")) {
@@ -256,7 +279,8 @@ class _Paint extends State<Paint> {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
         repetitionsIcons = <Widget>[repetitionsIcons[2]];
-      } else if (widget.item.direction.startsWith("l")) {
+      } else if (widget.item.direction.startsWith("l") &&
+          !widget.item.direction.startsWith("left")) {
         widget.item.repetitions = 3;
         repetitionsIcons = <Widget>[repetitionsIcons[3]];
       } else if (widget.item.direction.startsWith("zig-zag")) {
@@ -334,7 +358,8 @@ class _Paint extends State<Paint> {
         setState(() {
           if (widget.item.direction.startsWith("square")) {
             widget.item.repetitions = 2;
-          } else if (widget.item.direction.startsWith("l")) {
+          } else if (widget.item.direction.startsWith("l") &&
+              !widget.item.direction.startsWith("left")) {
             widget.item.repetitions = 3;
           } else if (widget.item.direction.startsWith("zig-zag")) {
             widget.item.repetitions = 1;
@@ -385,7 +410,8 @@ class _Paint extends State<Paint> {
         setState(() {
           if (widget.item.direction.startsWith("square")) {
             widget.item.repetitions = 2;
-          } else if (widget.item.direction.startsWith("l")) {
+          } else if (widget.item.direction.startsWith("l") &&
+              !widget.item.direction.startsWith("left")) {
             widget.item.repetitions = 3;
           } else if (widget.item.direction.startsWith("zig-zag")) {
             widget.item.repetitions = 1;

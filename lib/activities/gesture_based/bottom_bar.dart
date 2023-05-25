@@ -200,6 +200,8 @@ class _BottomBarState extends State<BottomBar> {
                       context,
                       CupertinoPageRoute<Widget>(
                         builder: (BuildContext context) => ResultsScreen(
+                          sessionID: widget.sessionID,
+                          studentID: widget.studentID,
                           results: widget.allResults,
                         ),
                       ),

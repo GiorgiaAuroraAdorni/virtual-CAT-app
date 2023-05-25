@@ -261,7 +261,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.20,
+          width: MediaQuery.of(context).size.width * 0.21,
           height: MediaQuery.of(context).size.height * 0.85,
           child: Scrollbar(
             controller: _firstController,

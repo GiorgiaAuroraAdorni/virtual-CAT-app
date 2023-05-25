@@ -56,7 +56,8 @@ const Map<String, String> _secondForm = <String, String>{
 
 const Map<String, String> _questions = <String, String>{
   "q1": "Avez-vous aimé cette activité?",
-  "q2": "Avez-vous déjà utilisé une application comme\ncelle-ci pour faire des exercices et apprendre?",
+  "q2":
+      "Avez-vous déjà utilisé une application comme\ncelle-ci pour faire des exercices et apprendre?",
   "q3": "L’application était-elle facile à utiliser?",
   "q4": "Les règles de l’activité étaient-elles faciles\nà comprendre?",
   "q5": "Quel mode de résolution avez-vous préféré utiliser?",
@@ -66,45 +67,46 @@ const Map<String, String> _questions = <String, String>{
 };
 
 const Map<String, String> _descriptions = <String, String>{
-  "q11" : "Oui, beaucoup",
-  "q12" : "Comme ci comme ça",
-  "q13" : "Non, pas du tout",
+  "q11": "Oui, beaucoup",
+  "q12": "Comme ci comme ça",
+  "q13": "Non, pas du tout",
   //
-  "q21" : "Oui",
-  "q22" : "Je ne sais pas",
-  "q23" : "Jamais",
+  "q21": "Oui",
+  "q22": "Je ne sais pas",
+  "q23": "Jamais",
   //
-  "q31" : "Facile",
-  "q32" : "Normal ",
-  "q33" : "Difficile",
+  "q31": "Facile",
+  "q32": "Normal ",
+  "q33": "Difficile",
   //
-  "q51" : "Blocs et texte",
-  "q52" : "Blocs et symboles",
-  "q53" : "Gestes",
+  "q51": "Blocs et texte",
+  "q52": "Blocs et symboles",
+  "q53": "Gestes",
   //
-  "q61" : "Facile",
-  "q62" : "Normal ",
-  "q63" : "Difficile",
+  "q61": "Facile",
+  "q62": "Normal ",
+  "q63": "Difficile",
   //
-  "q71" : "Un peu",
-  "q72" : "Normal ",
-  "q73" : "Si longtemps",
+  "q71": "Un peu",
+  "q72": "Normal ",
+  "q73": "Si longtemps",
   //
-  "q81" : "Oui bien sûr",
-  "q82" : "Peut-être",
-  "q83" : "Non, jamais",
+  "q81": "Oui bien sûr",
+  "q82": "Peut-être",
+  "q83": "Non, jamais",
 
-  "finalButton" : "Aller aux résultats",
+  "finalButton": "Aller aux résultats",
 };
 
 const Map<String, String> _resultsScreen = <String, String>{
-  "column1" : "Schéma de référence",
-  "column2" : "Schéma produit",
-  "column3" : "CAT-score",
-  "column4" : "Résultat",
-  "resultCorrect" : "Correct",
-  "resultSkip" : "Abandonné",
-  "resultWrong" : "Faux",
+  "column1": "Schéma de référence",
+  "column2": "Schéma produit",
+  "column3": "CAT-score",
+  "column4": "Résultat",
+  "column5": "Time",
+  "resultCorrect": "Correct",
+  "resultSkip": "Abandonné",
+  "resultWrong": "Faux",
 };
 
 const Map<String, String> groupsFr = <String, String>{

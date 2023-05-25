@@ -129,9 +129,22 @@ class _FillEmpty extends State<FillEmpty> {
                 color: CupertinoColors.systemBackground,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _colorButtonsBuild(),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              padding: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemGrey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colorButtonsBuild(),
+              ),
             ),
           ],
         ),
@@ -146,8 +159,19 @@ class _FillEmpty extends State<FillEmpty> {
               Icons.format_color_fill_rounded,
               color: CupertinoColors.systemBackground,
             ),
-            Row(
-              children: _colorButtonsBuild(),
+            Container(
+              padding: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemGrey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colorButtonsBuild(),
+              ),
             ),
           ],
         ),

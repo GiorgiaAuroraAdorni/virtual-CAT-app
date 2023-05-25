@@ -1,16 +1,25 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({
     required this.results,
-    Key? key,
-  }) : super(key: key);
+    required this.sessionID,
+    required this.studentID,
+    super.key,
+  });
 
   final Map<int, ResultsRecord> results;
+
+  /// It's a variable that stores the data of the session.
+  final int sessionID;
+
+  /// It's a variable that stores the data of the student.
+  final int studentID;
 
   @override
   _ResultsScreenState createState() => _ResultsScreenState();
@@ -36,6 +45,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
               },
               child: const Icon(CupertinoIcons.home),
             ),
+            trailing: Text("${widget.sessionID}:${widget.studentID}"),
           ),
           child: SafeArea(
             child: Column(
@@ -110,6 +120,22 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            "resources/icons/trophy_final.svg",
+                            height: 50,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(CATLocalizations.of(context).column5),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -131,7 +157,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       itemBuilder: _buildRow,
                       separatorBuilder: (BuildContext context, int index) =>
                           const SizedBox(height: 50),
-                      itemCount: widget.results.length,
+                      itemCount: widget.results.length + 1,
                     ),
                   ),
                 ),
@@ -145,7 +171,48 @@ class _ResultsScreenState extends State<ResultsScreen> {
       );
 
   Widget _buildRow(BuildContext context, int index) {
-    final ResultsRecord record = widget.results.values.toList()[index];
+    if (index == 0) {
+      final int score = widget.results.values
+          .fold(0, (previousValue, element) => previousValue + element.score);
+      final int time = widget.results.values
+          .fold(0, (previousValue, element) => previousValue + element.time);
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 4,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 4,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 10,
+            child: Text(
+              "$score",
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 6,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 10,
+            child: Text(
+              TimeKeeper.timeFormat(time),
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
+    final ResultsRecord record = widget.results.values.toList()[index - 1];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -186,6 +253,16 @@ class _ResultsScreenState extends State<ResultsScreen> {
               ),
               Text(_getFeedbackText(record)),
             ],
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 10,
+          child: Text(
+            TimeKeeper.timeFormat(record.time),
+            style: const TextStyle(
+              fontSize: 20,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

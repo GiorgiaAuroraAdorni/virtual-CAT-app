@@ -122,6 +122,7 @@ class MyApp extends StatelessWidget {
             routes: {
               "/mode": (BuildContext context) => const ModeSelection(),
             },
+            debugShowCheckedModeBanner: false,
             theme: const CupertinoThemeData(
               brightness: Brightness.light,
               primaryColor: CupertinoColors.systemOrange,

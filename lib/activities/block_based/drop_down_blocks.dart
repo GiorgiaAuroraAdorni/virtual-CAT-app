@@ -25,7 +25,7 @@ class DropDownBlocks extends AnimatedWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.20,
+            width: MediaQuery.of(context).size.width * 0.21,
             child: Padding(
               padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
               child: DecoratedBox(

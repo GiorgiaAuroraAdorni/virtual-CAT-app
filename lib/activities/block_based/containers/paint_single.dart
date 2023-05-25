@@ -48,9 +48,6 @@ class _PaintSingle extends State<PaintSingle> {
     return Container(
       key: widgetKey,
       width: MediaQuery.of(context).size.width,
-      // width: constraints.maxWidth.isFinite
-      //     ? constraints.maxWidth
-      //     : MediaQuery.of(context).size.width / 4,
       decoration: BoxDecoration(
         color: Colors.teal,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -135,9 +132,22 @@ class _PaintSingle extends State<PaintSingle> {
                 color: CupertinoColors.systemBackground,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _colorButtonsBuild(),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              padding: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemGrey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colorButtonsBuild(),
+              ),
             ),
           ],
         ),
@@ -152,8 +162,19 @@ class _PaintSingle extends State<PaintSingle> {
               SFSymbols.paintbrush_fill,
               color: CupertinoColors.systemBackground,
             ),
-            Row(
-              children: _colorButtonsBuild(),
+            Container(
+              padding: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(
+                color: CupertinoColors.systemGrey5,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _colorButtonsBuild(),
+              ),
             ),
           ],
         ),

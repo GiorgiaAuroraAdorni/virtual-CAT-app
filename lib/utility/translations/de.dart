@@ -55,14 +55,15 @@ const Map<String, String> _secondForm = <String, String>{
 };
 
 const Map<String, String> _questions = <String, String>{
-  "q1": "Hat dir diese Aktivität Spass gemacht?" ,
-  "q2": "Hast du schon einmal eine solche App verwendet,\num Übungen zu machen und zu lernen?" ,
-  "q3": "War die App einfach zu bedienen?" ,
-  "q4": "Waren die Regeln der Aktivität leicht zu verstehen?" ,
-  "q5": "Welche Befehle hast du bevorzugt?" ,
-  "q6": "Waren die Übungen leicht zu lösen?" ,
-  "q7": "Wie lange hast du gebraucht, um die Übungen\nabzuschließen?" ,
-  "q8": "Würdest du diese die Übungen mit der App\nwiederholen?" ,
+  "q1": "Hat dir diese Aktivität Spass gemacht?",
+  "q2":
+      "Hast du schon einmal eine solche App verwendet,\num Übungen zu machen und zu lernen?",
+  "q3": "War die App einfach zu bedienen?",
+  "q4": "Waren die Regeln der Aktivität leicht zu verstehen?",
+  "q5": "Welche Befehle hast du bevorzugt?",
+  "q6": "Waren die Übungen leicht zu lösen?",
+  "q7": "Wie lange hast du gebraucht, um die Übungen\nabzuschließen?",
+  "q8": "Würdest du diese die Übungen mit der App\nwiederholen?",
 };
 
 const Map<String, String> _descriptions = <String, String>{
@@ -102,6 +103,7 @@ const Map<String, String> _resultsScreen = <String, String>{
   "column2": "Produktionsschema",
   "column3": "CAT-score",
   "column4": "Ergebnis",
+  "column5": "Time",
   "resultCorrect": "Richtig",
   "resultSkip": "Kapitulation",
   "resultWrong": "Falsch",

@@ -47,9 +47,10 @@ class _SurveyState extends State<Survey> {
     return WillPopScope(
       onWillPop: () async => false,
       child: CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
+        navigationBar: CupertinoNavigationBar(
           transitionBetweenRoutes: false,
           automaticallyImplyLeading: false,
+          trailing: Text("${widget.sessionID}:${widget.studentID}"),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
@@ -634,6 +635,8 @@ class _SurveyState extends State<Survey> {
                       context,
                       CupertinoPageRoute<Widget>(
                         builder: (BuildContext context) => ResultsScreen(
+                          sessionID: widget.sessionID,
+                          studentID: widget.studentID,
                           results: widget.results,
                         ),
                       ),

@@ -206,7 +206,7 @@ class PaintContainer extends SimpleContainer {
       width: 20,
     ): "l down right",
     SvgPicture.asset(
-      "resources/symbols/diagonal_down_right.svg",
+      "resources/symbols/zigzag_left_down_up.svg",
       height: 20,
       width: 20,
     ): "zig-zag left down up",

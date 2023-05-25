@@ -400,6 +400,7 @@ class CrossButtonState extends State<CrossButton> {
 
       return;
     }
+    context.read<SelectedColorsNotifier>().clear();
     t = Timer.periodic(const Duration(milliseconds: 1), (Timer timer) {
       setState(() {
         buttonColor = CupertinoColors.lightBackgroundGray;
@@ -427,7 +428,6 @@ class CrossButtonState extends State<CrossButton> {
         description: CatLoggingLevel.confirmCommand,
       ),
     );
-    // Timer(const Duration(milliseconds: 300), );
   }
 
   void _selectionMultiple() {
