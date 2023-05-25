@@ -171,7 +171,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
       );
 
   Widget _buildRow(BuildContext context, int index) {
-    if (index == 0) {
+    if (index >= widget.results.values.length) {
       final int score = widget.results.values
           .fold(0, (previousValue, element) => previousValue + element.score);
       final int time = widget.results.values
@@ -182,6 +182,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
         children: <Widget>[
           SizedBox(
             width: MediaQuery.of(context).size.width / 4,
+            child: Text(
+              CATLocalizations.of(context).total,
+              textAlign: TextAlign.center,
+            ),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width / 4,
@@ -212,7 +216,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
         ],
       );
     }
-    final ResultsRecord record = widget.results.values.toList()[index - 1];
+    final ResultsRecord record = widget.results.values.toList()[index];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

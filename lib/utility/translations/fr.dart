@@ -104,6 +104,7 @@ const Map<String, String> _resultsScreen = <String, String>{
   "column3": "CAT-score",
   "column4": "Résultat",
   "column5": "Time",
+  "total": "Totale",
   "resultCorrect": "Correct",
   "resultSkip": "Abandonné",
   "resultWrong": "Faux",
