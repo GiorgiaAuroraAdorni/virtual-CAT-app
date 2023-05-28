@@ -9,6 +9,7 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";
@@ -152,60 +153,67 @@ class CrossButtonState extends State<CrossButton> {
     dimension = MediaQuery.of(context).size.width / 13;
 
     return AnimatedBuilder(
-      animation: widget.resultValueNotifier,
-      builder: (BuildContext context, Widget? child) {
-        if (!t.isActive) {
-          buttonColor = colors[widget.resultValueNotifier.cross
-              .getGrid[widget.position.first][widget.position.second]];
-        }
+      animation: context.watch<VisibilityNotifier>(),
+      builder: (_, __) => AnimatedBuilder(
+        animation: CatInterpreter(),
+        builder: (_, __) {
+          if (!t.isActive) {
+            buttonColor = context.read<VisibilityNotifier>().visible
+                ? colors[CatInterpreter()
+                    .getLastState
+                    .getGrid[widget.position.first][widget.position.second]]
+                : colors[0];
+          }
 
-        return Padding(
-          padding: EdgeInsets.all(dimension / 10),
-          child: CupertinoButton(
-            pressedOpacity: 1,
-            onPressed: () async {
-              if (widget.selectionMode.value == SelectionModes.transition) {
-                widget.shakeKey.currentState?.shake();
-
-                return;
-              }
-              if (widget.selectionMode.value == SelectionModes.select ||
-                  widget.selectionMode.value ==
-                      SelectionModes.selectCopyCells) {
-                if (CatInterpreter().copyCommandsBuffer.isEmpty) {
-                  _selection();
-                } else {
-                  _selection2();
-                }
-
-                return;
-              } else if (widget.selectionMode.value ==
-                  SelectionModes.multiple) {
-                if (context.read<SelectedColorsNotifier>().isEmpty) {
-                  _selectionMultiple();
-                } else {
+          return Padding(
+            padding: EdgeInsets.all(dimension / 10),
+            child: CupertinoButton(
+              pressedOpacity: 1,
+              onPressed: () async {
+                if (widget.selectionMode.value == SelectionModes.transition) {
                   widget.shakeKey.currentState?.shake();
+
+                  return;
                 }
+                if (widget.selectionMode.value == SelectionModes.select ||
+                    widget.selectionMode.value ==
+                        SelectionModes.selectCopyCells) {
+                  if (CatInterpreter().copyCommandsBuffer.isEmpty) {
+                    _selection();
+                  } else {
+                    _selection2();
+                  }
 
-                return;
-              }
-              if (widget.selectionMode.value == SelectionModes.repeat) {
-                await _normalColoring(
-                  selected: widget.selectionMode.value == SelectionModes.repeat,
-                );
+                  return;
+                } else if (widget.selectionMode.value ==
+                    SelectionModes.multiple) {
+                  if (context.read<SelectedColorsNotifier>().isEmpty) {
+                    _selectionMultiple();
+                  } else {
+                    widget.shakeKey.currentState?.shake();
+                  }
 
-                return;
-              }
-              await _normalColoring();
-            },
-            borderRadius: BorderRadius.circular(100),
-            minSize: dimension,
-            color: buttonColor,
-            padding: EdgeInsets.zero,
-            child: _widget(),
-          ),
-        );
-      },
+                  return;
+                }
+                if (widget.selectionMode.value == SelectionModes.repeat) {
+                  await _normalColoring(
+                    selected:
+                        widget.selectionMode.value == SelectionModes.repeat,
+                  );
+
+                  return;
+                }
+                await _normalColoring();
+              },
+              borderRadius: BorderRadius.circular(100),
+              minSize: dimension,
+              color: buttonColor,
+              padding: EdgeInsets.zero,
+              child: _widget(),
+            ),
+          );
+        },
+      ),
     );
   }
 

@@ -50,31 +50,6 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
-  bool added = false;
-
-  void _interpreterListener() {
-    if (!mounted) {
-      return;
-    }
-    if (context.read<VisibilityNotifier>().visible) {
-      context.read<ResultNotifier>().cross =
-          CatInterpreter().getLastState as Cross;
-      if (!added) {
-        CatInterpreter().addListener(_interpreterListener);
-        added = !added;
-      }
-    } else {
-      CatInterpreter().removeListener(_interpreterListener);
-      added = !added;
-    }
-  }
-
-  @override
-  void initState() {
-    context.read<VisibilityNotifier>().addListener(_interpreterListener);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) => Container(
         height: MediaQuery.of(context).size.height * 0.90,
@@ -243,8 +218,8 @@ class _SideBarState extends State<SideBar> {
                   },
                 ),
                 CrossWidgetSimple(
+                  reference: true,
                   displayLetters: context.read<TypeUpdateNotifier>().state > 0,
-                  resultValueNotifier: context.watch<ReferenceNotifier>(),
                 ),
                 Column(
                   children: <Widget>[
@@ -255,10 +230,9 @@ class _SideBarState extends State<SideBar> {
                         height: 55,
                       ),
                     CrossWidgetSimple(
+                      reference: false,
                       displayLetters:
-                          context.read<TypeUpdateNotifier>().state > 0 &&
-                              context.read<VisibilityNotifier>().visible,
-                      resultValueNotifier: context.watch<ResultNotifier>(),
+                          context.read<TypeUpdateNotifier>().state > 0,
                     ),
                   ],
                 ),
@@ -301,11 +275,5 @@ class _SideBarState extends State<SideBar> {
       currentCommand: "",
       description: CatLoggingLevel.commandsReset,
     );
-  }
-
-  @override
-  void dispose() {
-    CatInterpreter().removeListener(_interpreterListener);
-    super.dispose();
   }
 }
