@@ -602,7 +602,7 @@ class _SurveyState extends State<Survey> {
                                       width: 30,
                                       height: 30,
                                     ),
-                                    Text(CATLocalizations.of(context).q82),
+                                    Text(CATLocalizations.of(context).q83),
                                   ],
                                 ),
                               ),
