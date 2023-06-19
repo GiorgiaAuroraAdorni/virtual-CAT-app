@@ -1,10 +1,14 @@
+import "dart:async";
+
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_fast_forms/flutter_fast_forms.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:provider/provider.dart";
 import "package:text_to_speech/text_to_speech.dart";
 
 class Survey extends StatefulWidget {
@@ -39,6 +43,21 @@ class _SurveyState extends State<Survey> {
   String _q6 = "Easy";
   String _q7 = "A little";
   String _q8 = "Yes of course";
+
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<TimeKeeper>().resetTimer();
+    const Duration oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        context.read<TimeKeeper>().increment();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -617,31 +636,34 @@ class _SurveyState extends State<Survey> {
                   height: 30,
                 ),
                 CupertinoButton.filled(
-                  onPressed: () async => Connection().addSurvay(
-                    widget.sessionID,
-                    widget.studentID,
-                    <String, String>{
-                      "q1": _q1,
-                      "q2": _q2,
-                      "q3": _q3,
-                      "q4": _q4,
-                      "q5": _q5,
-                      "q6": _q6,
-                      "q7": _q7,
-                      "q8": _q8,
-                    },
-                  ).whenComplete(
-                    () => Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => ResultsScreen(
-                          sessionID: widget.sessionID,
-                          studentID: widget.studentID,
-                          results: widget.results,
+                  onPressed: () async => Connection()
+                      .addSurvay(
+                        widget.sessionID,
+                        widget.studentID,
+                        <String, String>{
+                          "q1": _q1,
+                          "q2": _q2,
+                          "q3": _q3,
+                          "q4": _q4,
+                          "q5": _q5,
+                          "q6": _q6,
+                          "q7": _q7,
+                          "q8": _q8,
+                        },
+                        context.read<TimeKeeper>().rawTime,
+                      )
+                      .whenComplete(
+                        () => Navigator.push(
+                          context,
+                          CupertinoPageRoute<Widget>(
+                            builder: (BuildContext context) => ResultsScreen(
+                              sessionID: widget.sessionID,
+                              studentID: widget.studentID,
+                              results: widget.results,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                   child: Text(CATLocalizations.of(context).finalButton),
                 ),
                 const SizedBox(
@@ -653,5 +675,11 @@ class _SurveyState extends State<Survey> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

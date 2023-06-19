@@ -276,7 +276,11 @@ class Connection extends BaseConnection {
   }
 
   Future<int> addSurvay(
-      int sessionID, int studentID, Map<String, String> results) async {
+    int sessionID,
+    int studentID,
+    Map<String, String> results,
+    int time,
+  ) async {
     if (sessionID == -1 || studentID == -1) {
       return -1;
     }
@@ -284,6 +288,7 @@ class Connection extends BaseConnection {
         await mappingPostRequest("/surveys", <String, dynamic>{
       "studentID": studentID,
       "sessionID": sessionID,
+      "time": time,
       ...results,
     }).run();
 
