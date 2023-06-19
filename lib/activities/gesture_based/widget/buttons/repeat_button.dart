@@ -10,6 +10,7 @@ class RepeatButton extends ActionButton {
   /// It's a constructor.
   const RepeatButton({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,

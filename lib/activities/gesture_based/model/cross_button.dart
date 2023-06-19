@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
@@ -22,6 +23,7 @@ class CrossButton extends StatefulWidget {
     required this.globalKey,
     required this.position,
     required this.shakeKey,
+    required this.shakeKeyColors,
     required this.selectionMode,
     required this.coloredButtons,
     required this.selectedButtons,
@@ -46,6 +48,8 @@ class CrossButton extends StatefulWidget {
 
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
+
+  final List<GlobalKey<BlinkWidgetState>> shakeKeyColors;
 
   /// It's a list of rows that are used to access the buttons in the grid.
   final List<Row> buttons;
@@ -172,6 +176,9 @@ class CrossButtonState extends State<CrossButton> {
               onPressed: () async {
                 if (widget.selectionMode.value == SelectionModes.transition) {
                   widget.shakeKey.currentState?.shake();
+                  for (final int i in 9.rangeTo(11)) {
+                    widget.shakeKeyColors[i].currentState?.shake();
+                  }
 
                   return;
                 }
@@ -191,6 +198,10 @@ class CrossButtonState extends State<CrossButton> {
                     _selectionMultiple();
                   } else {
                     widget.shakeKey.currentState?.shake();
+                    widget.shakeKeyColors.forEach(
+                      (GlobalKey<BlinkWidgetState> element) =>
+                          element.currentState?.shake(),
+                    );
                   }
 
                   return;
@@ -392,6 +403,9 @@ class CrossButtonState extends State<CrossButton> {
     );
     if (colors.length != 1) {
       widget.shakeKey.currentState?.shake();
+      widget.shakeKeyColors.forEach(
+        (GlobalKey<BlinkWidgetState> element) => element.currentState?.shake(),
+      );
 
       return;
     }

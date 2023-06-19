@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/dummy_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:dartx/dartx.dart";
@@ -12,6 +13,7 @@ abstract class BasicShape extends StatefulWidget {
   /// A constructor that takes a `key` as a parameter.
   const BasicShape({
     required this.shakeKey,
+    required this.shakeKeyColors,
     required this.width,
     required this.selectionMode,
     required this.coloredButtons,
@@ -26,6 +28,8 @@ abstract class BasicShape extends StatefulWidget {
 
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
+
+  final List<GlobalKey<BlinkWidgetState>> shakeKeyColors;
 
   /// It's a variable that is used to store the width of the widget.
   final double width;
@@ -66,6 +70,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
           rowChildren.add(
             CrossButton(
               shakeKey: widget.shakeKey,
+              shakeKeyColors: widget.shakeKeyColors,
               globalKey: GlobalKey<CrossButtonState>(),
               position: Pair<int, int>(i, j),
               selectionMode: widget.selectionMode,

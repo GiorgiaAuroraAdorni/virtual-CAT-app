@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/cross_button
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
@@ -15,6 +16,7 @@ class MirrorButtonVertical extends ActionButton {
   /// A constructor.
   const MirrorButtonVertical({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring = false,
     super.selectionColor,
     super.background,
@@ -68,30 +70,36 @@ class MirrorButtonVerticalState
           );
         }
 
-        return Padding(
-          padding: EdgeInsets.all(_paddingSize),
-          child: CupertinoButton(
-            onPressed: selected ? whenSelected : whenNotSelected,
-            borderRadius: BorderRadius.circular(45),
-            minSize: 50,
-            padding: EdgeInsets.zero,
-            color: selected ? widget.selectionColor : widget.background,
-            child: SvgPicture.asset(
-              "resources/icons/mirror_vertical.svg",
-              height: 20,
-              colorFilter: selected
-                  ? const ColorFilter.matrix(<double>[
-                      -1, 0, 0, 0, 255, //
-                      0, -1, 0, 0, 255, //
-                      0, 0, -1, 0, 255, //
-                      0, 0, 0, 1, 0, //
-                    ])
-                  : const ColorFilter.matrix(<double>[
-                      1, 0, 0, 0, 0, //
-                      0, 1, 0, 0, 0, //
-                      0, 0, 1, 0, 0, //
-                      0, 0, 0, 1, 0, //
-                    ]),
+        return BlinkWidget(
+          key: widget.shakeKeyColors,
+          shakeCount: 0.5,
+          shakeOffset: 10,
+          shakeDuration: const Duration(milliseconds: 400),
+          child: Padding(
+            padding: EdgeInsets.all(_paddingSize),
+            child: CupertinoButton(
+              onPressed: selected ? whenSelected : whenNotSelected,
+              borderRadius: BorderRadius.circular(45),
+              minSize: 50,
+              padding: EdgeInsets.zero,
+              color: selected ? widget.selectionColor : widget.background,
+              child: SvgPicture.asset(
+                "resources/icons/mirror_vertical.svg",
+                height: 20,
+                colorFilter: selected
+                    ? const ColorFilter.matrix(<double>[
+                        -1, 0, 0, 0, 255, //
+                        0, -1, 0, 0, 255, //
+                        0, 0, -1, 0, 255, //
+                        0, 0, 0, 1, 0, //
+                      ])
+                    : const ColorFilter.matrix(<double>[
+                        1, 0, 0, 0, 0, //
+                        0, 1, 0, 0, 0, //
+                        0, 0, 1, 0, 0, //
+                        0, 0, 0, 1, 0, //
+                      ]),
+              ),
             ),
           ),
         );
@@ -124,6 +132,7 @@ class MirrorButtonVerticalSecondary extends ActionButton {
   /// It's a constructor.
   const MirrorButtonVerticalSecondary({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,
@@ -186,30 +195,36 @@ class MirrorButtonVerticalStateSecondary
                 );
               }
 
-              return Padding(
-                padding: EdgeInsets.all(_paddingSize),
-                child: CupertinoButton(
-                  onPressed: selected ? whenSelected : whenNotSelected,
-                  borderRadius: BorderRadius.circular(45),
-                  minSize: 50,
-                  padding: EdgeInsets.zero,
-                  color: selected ? widget.selectionColor : widget.background,
-                  child: SvgPicture.asset(
-                    "resources/icons/mirror_vertical.svg",
-                    height: 20,
-                    colorFilter: selected
-                        ? const ColorFilter.matrix(<double>[
-                            -1, 0, 0, 0, 255, //
-                            0, -1, 0, 0, 255, //
-                            0, 0, -1, 0, 255, //
-                            0, 0, 0, 1, 0, //
-                          ])
-                        : const ColorFilter.matrix(<double>[
-                            1, 0, 0, 0, 0, //
-                            0, 1, 0, 0, 0, //
-                            0, 0, 1, 0, 0, //
-                            0, 0, 0, 1, 0, //
-                          ]),
+              return BlinkWidget(
+                key: widget.shakeKeyColors,
+                shakeCount: 0.5,
+                shakeOffset: 10,
+                shakeDuration: const Duration(milliseconds: 400),
+                child: Padding(
+                  padding: EdgeInsets.all(_paddingSize),
+                  child: CupertinoButton(
+                    onPressed: selected ? whenSelected : whenNotSelected,
+                    borderRadius: BorderRadius.circular(45),
+                    minSize: 50,
+                    padding: EdgeInsets.zero,
+                    color: selected ? widget.selectionColor : widget.background,
+                    child: SvgPicture.asset(
+                      "resources/icons/mirror_vertical.svg",
+                      height: 20,
+                      colorFilter: selected
+                          ? const ColorFilter.matrix(<double>[
+                              -1, 0, 0, 0, 255, //
+                              0, -1, 0, 0, 255, //
+                              0, 0, -1, 0, 255, //
+                              0, 0, 0, 1, 0, //
+                            ])
+                          : const ColorFilter.matrix(<double>[
+                              1, 0, 0, 0, 0, //
+                              0, 1, 0, 0, 0, //
+                              0, 0, 1, 0, 0, //
+                              0, 0, 0, 1, 0, //
+                            ]),
+                    ),
                   ),
                 ),
               );

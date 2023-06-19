@@ -5,6 +5,7 @@ class Square extends BasicShape {
   /// This is the constructor of the Square class.
   const Square({
     required super.shakeKey,
+    required super.shakeKeyColors,
     required super.width,
     required super.selectionMode,
     required super.coloredButtons,

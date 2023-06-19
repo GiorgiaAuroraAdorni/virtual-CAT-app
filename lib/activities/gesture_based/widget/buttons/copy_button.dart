@@ -12,6 +12,7 @@ class CopyButton extends ActionButton {
   /// Constructor
   const CopyButton({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,
@@ -85,6 +86,7 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
 class CopyButtonSecondary extends ActionButton {
   const CopyButtonSecondary({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,

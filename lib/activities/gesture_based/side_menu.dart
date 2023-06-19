@@ -10,6 +10,7 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/mir
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/repeat_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/selection_action_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/selection_button.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
@@ -26,6 +27,7 @@ class SideMenu extends StatefulWidget {
   /// A constructor.
   const SideMenu({
     required this.shakeKey,
+    required this.shakeKeyColors,
     required this.selectionMode,
     required this.coloredButtons,
     required this.selectedButtons,
@@ -35,6 +37,9 @@ class SideMenu extends StatefulWidget {
 
   /// It's a key that is used to access the state of the `ShakeWidget`
   final GlobalKey<ShakeWidgetState> shakeKey;
+
+  /// It's a key that is used to access the state of the `ShakeWidget`
+  final List<GlobalKey<BlinkWidgetState>> shakeKeyColors;
 
   /// It's a variable that is used to store the current selection mode.
   final ValueNotifier<SelectionModes> selectionMode;
@@ -187,30 +192,41 @@ class SideMenuState extends State<SideMenu> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                AnimatedBuilder(
-                  animation: widget.selectionMode,
-                  builder: (_, __) => Column(
-                    children: _colorButtonsBuild(),
+                BlinkWidget(
+                  key: widget.shakeKeyColors[0],
+                  shakeCount: 0.5,
+                  shakeOffset: 10,
+                  shakeDuration: const Duration(milliseconds: 400),
+                  child: AnimatedBuilder(
+                    animation: widget.selectionMode,
+                    builder: (_, __) => Column(
+                      children: _colorButtonsBuild(),
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 130,
                 ),
                 FillEmpty(
+                  shakeKeyColors: widget.shakeKeyColors[1],
                   state: this,
                 ),
                 SelectionButton(
+                  shakeKeyColors: widget.shakeKeyColors[2],
                   state: this,
                   key: selectionButtonKey,
                 ),
                 RepeatButton(
+                  shakeKeyColors: widget.shakeKeyColors[3],
                   state: this,
                   key: repeatButtonKey,
                 ),
                 MirrorButtonHorizontal(
+                  shakeKeyColors: widget.shakeKeyColors[4],
                   state: this,
                 ),
                 MirrorButtonVertical(
+                  shakeKeyColors: widget.shakeKeyColors[5],
                   state: this,
                 ),
               ],
@@ -232,6 +248,7 @@ class SideMenuState extends State<SideMenu> {
                     child: Column(
                       children: <Widget>[
                         ColorActionButton(
+                          shakeKeyColors: GlobalKey<BlinkWidgetState>(),
                           key: colorActionButtonKey,
                           selectionColor: Colors.teal,
                           state: this,
@@ -241,6 +258,7 @@ class SideMenuState extends State<SideMenu> {
                           height: 20,
                         ),
                         CopyButtonSecondary(
+                          shakeKeyColors: GlobalKey<BlinkWidgetState>(),
                           key: copyButtonSecondaryKey,
                           selectionColor: Colors.teal,
                           background: null,
@@ -302,6 +320,7 @@ class SideMenuState extends State<SideMenu> {
                     child: Column(
                       children: <Widget>[
                         SelectionActionButton(
+                          shakeKeyColors: GlobalKey<BlinkWidgetState>(),
                           key: selectionActionButtonKey,
                           selectionColor: Colors.teal,
                           background: null,
@@ -311,16 +330,19 @@ class SideMenuState extends State<SideMenu> {
                           height: 20,
                         ),
                         CopyButton(
+                          shakeKeyColors: widget.shakeKeyColors[9],
                           key: copyButtonKey,
                           selectionColor: Colors.teal,
                           state: this,
                         ),
                         MirrorButtonHorizontalSecondary(
+                          shakeKeyColors: widget.shakeKeyColors[10],
                           state: this,
                           key: mirrorHorizontalButtonKeySecondary,
                           selectionColor: Colors.teal,
                         ),
                         MirrorButtonVerticalSecondary(
+                          shakeKeyColors: widget.shakeKeyColors[11],
                           state: this,
                           key: mirrorVerticalButtonKeySecondary,
                           selectionColor: Colors.teal,

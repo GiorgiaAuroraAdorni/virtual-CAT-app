@@ -7,6 +7,7 @@ class SelectionActionButton extends ActionButton {
   /// A constructor.
   const SelectionActionButton({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,

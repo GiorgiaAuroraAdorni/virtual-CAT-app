@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/gesture_based/model/basic_shape.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
@@ -15,6 +16,7 @@ class Cross extends BasicShape {
   /// A constructor that is calling the constructor of the super class.
   const Cross({
     required super.shakeKey,
+    required super.shakeKeyColors,
     required super.width,
     required super.selectionMode,
     required super.coloredButtons,
@@ -54,6 +56,10 @@ class _CrossState extends BasicShapeState<Cross> {
     );
     if (selectedButtons.length < colors.length) {
       widget.shakeKey.currentState?.shake();
+      widget.shakeKeyColors.forEach(
+        (GlobalKey<BlinkWidgetState> element) => element.currentState?.shake(),
+      );
+
       for (final CrossButton i in selectedButtons) {
         i.unSelect();
       }
@@ -75,6 +81,10 @@ class _CrossState extends BasicShapeState<Cross> {
       selectedButtons.clear();
       if (widget.selectionMode.value != SelectionModes.select) {
         widget.shakeKey.currentState?.shake();
+        widget.shakeKeyColors.forEach(
+          (GlobalKey<BlinkWidgetState> element) =>
+              element.currentState?.shake(),
+        );
       }
     }
     final List<Pair<int, int>> positions = <Pair<int, int>>[];

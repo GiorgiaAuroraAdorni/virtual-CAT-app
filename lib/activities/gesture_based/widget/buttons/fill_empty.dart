@@ -17,6 +17,7 @@ class FillEmpty extends ActionButton {
   /// A constructor.
   const FillEmpty({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring = false,
     super.selectionColor,
     super.background,

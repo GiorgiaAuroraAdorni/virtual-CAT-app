@@ -8,6 +8,7 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/activities/gesture_based/side_bar.dart";
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/top_bar.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
@@ -75,6 +76,11 @@ class GestureHomeState extends State<GestureHome> {
   final ValueNotifier<bool> _resetCross = ValueNotifier<bool>(false);
 
   final GlobalKey<ShakeWidgetState> _shakeKey = GlobalKey<ShakeWidgetState>();
+  final List<GlobalKey<BlinkWidgetState>> _shakeKeysColors =
+      List<GlobalKey<BlinkWidgetState>>.generate(
+    12,
+    (_) => GlobalKey<BlinkWidgetState>(),
+  );
 
   final Map<int, ResultsRecord> _allResults = <int, ResultsRecord>{
     for (int v in 1.rangeTo(SchemasReader().size))
@@ -160,6 +166,7 @@ class GestureHomeState extends State<GestureHome> {
                         children: <Widget>[
                           SideMenu(
                             shakeKey: _shakeKey,
+                            shakeKeyColors: _shakeKeysColors,
                             selectionMode: _selectionMode,
                             coloredButtons: _coloredButtons,
                             selectedButtons: _selectedButtons,
@@ -175,6 +182,7 @@ class GestureHomeState extends State<GestureHome> {
                           ),
                           GestureBoard(
                             shakeKey: _shakeKey,
+                            shakeKeyColors: _shakeKeysColors,
                             selectionMode: _selectionMode,
                             coloredButtons: _coloredButtons,
                             selectedButtons: _selectedButtons,

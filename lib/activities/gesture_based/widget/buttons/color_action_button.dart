@@ -8,6 +8,7 @@ class ColorActionButton extends ActionButton {
   /// A constructor that is calling the super class constructor.
   const ColorActionButton({
     required this.state,
+    required super.shakeKeyColors,
     super.displayColoring,
     super.selectionColor,
     super.background,

@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:flutter/cupertino.dart";
 
@@ -6,6 +7,7 @@ import "package:flutter/cupertino.dart";
 abstract class ActionButton extends StatefulWidget {
   /// It's a constructor.
   const ActionButton({
+    required this.shakeKeyColors,
     this.displayColoring = true,
     this.selectionColor = CupertinoColors.activeOrange,
     this.background = CupertinoColors.systemFill,
@@ -15,6 +17,8 @@ abstract class ActionButton extends StatefulWidget {
   /// It's a variable that is used to determine whether or not to display the
   /// coloring of the button.
   final bool displayColoring;
+
+  final GlobalKey<BlinkWidgetState> shakeKeyColors;
 
   /// It's a variable that is used to determine the color to show when
   /// the button is active.
@@ -71,20 +75,27 @@ abstract class ActionButtonState<T extends ActionButton> extends State<T> {
             );
           }
 
-          return Padding(
-            padding: EdgeInsets.all(_paddingSize),
-            child: CupertinoButton(
-              onPressed: selected ? whenSelected : whenNotSelected,
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              padding: EdgeInsets.zero,
-              color: selected ? widget.selectionColor : widget.background,
-              child: Transform.rotate(
-                angle: angle,
-                child: Icon(
-                  icon,
-                  color:
-                      selected ? CupertinoColors.white : CupertinoColors.black,
+          return BlinkWidget(
+            key: widget.shakeKeyColors,
+            shakeCount: 0.5,
+            shakeOffset: 10,
+            shakeDuration: const Duration(milliseconds: 400),
+            child: Padding(
+              padding: EdgeInsets.all(_paddingSize),
+              child: CupertinoButton(
+                onPressed: selected ? whenSelected : whenNotSelected,
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                padding: EdgeInsets.zero,
+                color: selected ? widget.selectionColor : widget.background,
+                child: Transform.rotate(
+                  angle: angle,
+                  child: Icon(
+                    icon,
+                    color: selected
+                        ? CupertinoColors.white
+                        : CupertinoColors.black,
+                  ),
                 ),
               ),
             ),

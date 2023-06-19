@@ -1,3 +1,4 @@
+import "dart:core";
 import "dart:math";
 
 import "package:flutter/animation.dart";
@@ -28,4 +29,26 @@ class SineCurve extends Curve {
   ///   The sine of the count times 2 times pi times t.
   @override
   double transformInternal(double t) => sin(count * 2 * pi * t);
+}
+
+class CustomCurve extends Curve {
+  /// Setting the default value of the `count` parameter to 3.
+  const CustomCurve({this.count = 3});
+
+  /// A parameter that is passed to the constructor.
+  final double count;
+
+  /// "The transformInternal function returns the sine of
+  /// the count times 2 times pi times t."
+  ///
+  /// The first thing to notice is that the function returns a double. This is
+  /// because the transformInternal function is a function that returns a double
+  ///
+  /// Args:
+  ///   t (double): The current time, in seconds.
+  ///
+  /// Returns:
+  ///   The sine of the count times 2 times pi times t.
+  @override
+  double transformInternal(double t) => 0.5 * (1 + sin(2 * pi * count * t));
 }

@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/gesture_based/change_cross_visua
 import "package:cross_array_task_app/activities/gesture_based/model/cross.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
@@ -12,6 +13,7 @@ class GestureBoard extends StatefulWidget {
   /// It's a constructor.
   const GestureBoard({
     required this.shakeKey,
+    required this.shakeKeyColors,
     required this.selectionMode,
     required this.coloredButtons,
     required this.selectedButtons,
@@ -22,6 +24,8 @@ class GestureBoard extends StatefulWidget {
 
   /// It's a key that is used to shake the widget.
   final GlobalKey<ShakeWidgetState> shakeKey;
+
+  final List<GlobalKey<BlinkWidgetState>> shakeKeyColors;
 
   /// It's a variable that is used to store the current selection mode.
   final ValueNotifier<SelectionModes> selectionMode;
@@ -51,6 +55,7 @@ class _GestureBoardState extends State<GestureBoard> {
             padding: const EdgeInsets.all(15),
             child: Cross(
               shakeKey: widget.shakeKey,
+              shakeKeyColors: widget.shakeKeyColors,
               width: MediaQuery.of(context).size.width,
               selectionMode: widget.selectionMode,
               coloredButtons: widget.coloredButtons,
