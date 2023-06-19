@@ -17,6 +17,7 @@ import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_svg/svg.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 import "package:uiblock/uiblock.dart";
@@ -94,6 +95,47 @@ class _BottomBarState extends State<BottomBar> {
     await schemaCompleted(complete: complete);
   }
 
+  Future<bool> blockIfNotComplete() async => await UIBlock.blockWithData(
+        context,
+        customLoaderChild: SvgPicture.asset(
+          "resources/icons/give_up_final.svg",
+          height: 100,
+        ),
+        loadingTextWidget: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 5, left: 5, top: 20),
+              child: CupertinoButton(
+                onPressed: () => UIBlock.unblockWithData(context, false),
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                padding: EdgeInsets.zero,
+                color: CupertinoColors.systemRed,
+                child: const Icon(
+                  CupertinoIcons.xmark_circle_fill,
+                  size: 44,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 5, left: 5, top: 20),
+              child: CupertinoButton(
+                onPressed: () => UIBlock.unblockWithData(context, true),
+                borderRadius: BorderRadius.circular(45),
+                minSize: 50,
+                padding: EdgeInsets.zero,
+                color: CupertinoColors.systemGreen.highContrastColor,
+                child: const Icon(
+                  CupertinoIcons.check_mark_circled_solid,
+                  size: 44,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
   /// It's a function that is called when the user completes the schema,
   /// it calculates the score and the time,
   /// and then it shows a popup with the score and the time
@@ -110,6 +152,13 @@ class _BottomBarState extends State<BottomBar> {
       commands.removeAt(0);
     }
     final Collector collector = elaborate(commands: commands);
+    bool cont = true;
+    if (!complete) {
+      cont = await blockIfNotComplete();
+    }
+    if (!cont) {
+      return;
+    }
 
     UIBlock.block(
       context,
@@ -133,6 +182,11 @@ class _BottomBarState extends State<BottomBar> {
     }).whenComplete(
       () {
         context.read<VisibilityNotifier>().visibleFinal = true;
+        if (!complete) {
+          continuation(complete);
+
+          return;
+        }
 
         return UIBlock.block(
           context,
@@ -149,64 +203,7 @@ class _BottomBarState extends State<BottomBar> {
               CupertinoButton.filled(
                 child: const Icon(CupertinoIcons.arrow_right),
                 onPressed: () {
-                  final bool v = context.read<VisibilityNotifier>().finalState;
-                  final int score = catScore(
-                    commands: List<String>.from(
-                      CatInterpreter().getResults.getCommands,
-                    ),
-                    visible: v,
-                    interface:
-                        context.read<TypeUpdateNotifier>().state == 0 ? 0 : 3,
-                  );
-                  widget.allResults[SchemasReader().index]!
-                    ..time = context.read<TimeKeeper>().rawTime
-                    ..result = CatInterpreter().getResults.getStates.last
-                    ..score = CatInterpreter().getResults.completed ? score : 0
-                    ..done = true
-                    ..correct = CatInterpreter().getResults.completed
-                    ..state = complete;
-                  final Map<int, ResultsRecord> res = widget.allResults.filter(
-                    (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
-                  );
-                  if (res.isNotEmpty) {
-                    final List<int> idx = res.keys
-                        .sorted()
-                        .filter((int e) => e > SchemasReader().currentIndex)
-                        .toList();
-                    final int nextIndex =
-                        idx.isEmpty ? res.keys.sorted().first : idx.first;
-                    _reset();
-                    context.read<TimeKeeper>().resetTimer();
-                    CatLogger().resetLogs();
-                    context.read<TypeUpdateNotifier>().reset();
-                    context.read<ReferenceNotifier>().toLocation(nextIndex);
-                  } else {
-                    if (widget.studentID != -1 && widget.sessionID != -1) {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute<Widget>(
-                          builder: (BuildContext context) => Survey(
-                            results: widget.allResults,
-                            sessionID: widget.sessionID,
-                            studentID: widget.studentID,
-                          ),
-                        ),
-                      );
-
-                      return;
-                    }
-
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => ResultsScreen(
-                          sessionID: widget.sessionID,
-                          studentID: widget.studentID,
-                          results: widget.allResults,
-                        ),
-                      ),
-                    );
-                  }
+                  continuation(complete);
                   UIBlock.unblock(
                     context,
                   );
@@ -217,6 +214,65 @@ class _BottomBarState extends State<BottomBar> {
         );
       },
     );
+  }
+
+  void continuation(bool complete) {
+    final bool v = context.read<VisibilityNotifier>().finalState;
+    final int score = catScore(
+      commands: List<String>.from(
+        CatInterpreter().getResults.getCommands,
+      ),
+      visible: v,
+      interface: context.read<TypeUpdateNotifier>().state == 0 ? 0 : 3,
+    );
+    widget.allResults[SchemasReader().index]!
+      ..time = context.read<TimeKeeper>().rawTime
+      ..result = CatInterpreter().getResults.getStates.last
+      ..score = CatInterpreter().getResults.completed ? score : 0
+      ..done = true
+      ..correct = CatInterpreter().getResults.completed
+      ..state = complete;
+    final Map<int, ResultsRecord> res = widget.allResults.filter(
+      (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+    );
+    if (res.isNotEmpty) {
+      final List<int> idx = res.keys
+          .sorted()
+          .filter((int e) => e > SchemasReader().currentIndex)
+          .toList();
+      final int nextIndex = idx.isEmpty ? res.keys.sorted().first : idx.first;
+      _reset();
+      context.read<TimeKeeper>().resetTimer();
+      CatLogger().resetLogs();
+      context.read<TypeUpdateNotifier>().reset();
+      context.read<ReferenceNotifier>().toLocation(nextIndex);
+    } else {
+      if (widget.studentID != -1 && widget.sessionID != -1) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute<Widget>(
+            builder: (BuildContext context) => Survey(
+              results: widget.allResults,
+              sessionID: widget.sessionID,
+              studentID: widget.studentID,
+            ),
+          ),
+        );
+
+        return;
+      }
+
+      Navigator.push(
+        context,
+        CupertinoPageRoute<Widget>(
+          builder: (BuildContext context) => ResultsScreen(
+            sessionID: widget.sessionID,
+            studentID: widget.studentID,
+            results: widget.allResults,
+          ),
+        ),
+      );
+    }
   }
 
   void _reset() {
