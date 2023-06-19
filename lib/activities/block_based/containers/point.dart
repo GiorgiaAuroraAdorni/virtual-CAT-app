@@ -132,11 +132,8 @@ class _Point extends State<Point> {
     final List<String> directions =
         List<String>.generate(6, (int index) => (index + 1).toString());
     final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
-    setState(() {
-      widget.item.a = directions2.first;
-      widget.item.b = directions.first;
-    });
-    context.read<BlockUpdateNotifier>().update();
+    final int initialA = directions2.indexOf(widget.item.a);
+    final int initialB = directions.indexOf(widget.item.b);
     final String prev = widget.item.toString();
 
     showCupertinoModalPopup(
@@ -149,6 +146,8 @@ class _Point extends State<Point> {
           children: <Widget>[
             Expanded(
               child: CupertinoPicker(
+                scrollController:
+                    FixedExtentScrollController(initialItem: initialA),
                 onSelectedItemChanged: (int value) {
                   setState(() {
                     widget.item.a = directions2[value];
@@ -168,6 +167,8 @@ class _Point extends State<Point> {
             ),
             Expanded(
               child: CupertinoPicker(
+                scrollController:
+                    FixedExtentScrollController(initialItem: initialB),
                 onSelectedItemChanged: (int value) {
                   setState(() {
                     widget.item.b = directions[value];

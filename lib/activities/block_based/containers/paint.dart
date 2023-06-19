@@ -330,10 +330,12 @@ class _Paint extends State<Paint> {
 
   void _directionPickerIcons() {
     final List<Widget> directions = widget.item.items2.keys.toList();
-    setState(() {
-      widget.item.direction = widget.item.items2[directions[0]]!;
-    });
-    context.read<BlockUpdateNotifier>().update();
+    final int pos = directions.indexOf(
+      directions.firstWhere(
+        (Widget element) =>
+            widget.item.direction == widget.item.items2[element],
+      ),
+    );
     final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
@@ -341,6 +343,7 @@ class _Paint extends State<Paint> {
         height: MediaQuery.of(context).copyWith().size.height * 0.25,
         color: CupertinoColors.white,
         child: CupertinoPicker(
+          scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
             setState(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
@@ -377,10 +380,11 @@ class _Paint extends State<Paint> {
 
   void _directionPicker() {
     final List<String> directions = widget.item.items.keys.toList();
-    setState(() {
-      widget.item.direction = widget.item.items[directions[0]]!;
-    });
-    context.read<BlockUpdateNotifier>().update();
+    final int pos = directions.indexOf(
+      directions.firstWhere(
+        (String element) => widget.item.direction == widget.item.items[element],
+      ),
+    );
     final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
@@ -388,6 +392,7 @@ class _Paint extends State<Paint> {
         height: MediaQuery.of(context).copyWith().size.height * 0.25,
         color: CupertinoColors.white,
         child: CupertinoPicker(
+          scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
             setState(() {
               widget.item.direction = widget.item.items[directions[value]]!;
