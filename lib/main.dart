@@ -2,6 +2,7 @@ import "package:cross_array_task_app/mode_selection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -108,6 +109,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<BlockUpdateNotifier>(
             create: (_) => BlockUpdateNotifier(),
+          ),
+          ChangeNotifierProvider<VisibilityNotifier>(
+            create: (_) => VisibilityNotifier(),
           ),
         ],
         child: Consumer<LocaleProvider>(

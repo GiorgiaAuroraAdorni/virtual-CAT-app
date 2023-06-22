@@ -7,15 +7,22 @@ class CopyCellsContainer extends SimpleContainer {
     required super.container,
     required super.moves,
     required super.languageCode,
+    this.added1 = false,
+    this.added2 = false,
     super.name = "Copia celle",
     super.type = ContainerType.copyCells,
   });
+
+  bool added1;
+  bool added2;
 
   @override
   CopyCellsContainer copy() => CopyCellsContainer(
         container: super.container,
         moves: super.moves,
         languageCode: super.languageCode,
+        added1: added1,
+        added2: added2,
       );
 
   @override
@@ -32,6 +39,10 @@ class CopyCellsContainer extends SimpleContainer {
         )
         .join(",")
         .replaceAll(RegExp("[go()]"), "");
+
+    if (added1 && added2) {
+      return "copy(,)";
+    }
 
     return "copy({$positions},{$positions2})";
   }

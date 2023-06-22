@@ -284,16 +284,7 @@ class BlockCanvasState extends State<BlockCanvas> {
     super.initState();
     Future<void>(
       () {
-        // for (final String i in commands) {
-        //   if (i == "None") {
-        //     continue;
-        //   }
-        //   for (final SimpleContainer j in parseToContainer(i, context)) {
-        //     _blockDroppedOnCanvas(item: j);
-        //   }
-        // }
         for (final SimpleContainer i in commands) {
-          // parseToContainer("", context);
           _blockDroppedOnCanvas(item: i, position: -1);
         }
       },

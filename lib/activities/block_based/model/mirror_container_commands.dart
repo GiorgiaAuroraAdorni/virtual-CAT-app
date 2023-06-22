@@ -10,12 +10,14 @@ class MirrorContainerCommands extends SimpleContainer {
     required super.languageCode,
     super.name = "Specchia",
     super.type = ContainerType.mirrorCommands,
+    this.added = false,
     this.position = 0,
     this.direction = "horizontal",
   });
 
   int position;
   String direction;
+  bool added;
 
   static const TextStyle _style = TextStyle(
     color: CupertinoColors.black,
@@ -51,6 +53,7 @@ class MirrorContainerCommands extends SimpleContainer {
         direction: direction,
         container: super.container,
         languageCode: super.languageCode,
+        added: added,
       );
 
   @override
@@ -60,6 +63,9 @@ class MirrorContainerCommands extends SimpleContainer {
           (SimpleContainer e) => e.toString(),
         )
         .join(",");
+    if (added) {
+      return "mirror()";
+    }
 
     return "mirror({$positions},$direction)";
   }

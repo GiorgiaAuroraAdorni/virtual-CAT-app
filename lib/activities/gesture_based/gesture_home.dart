@@ -20,7 +20,6 @@ import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -102,9 +101,6 @@ class GestureHomeState extends State<GestureHome> {
         providers: <ChangeNotifierProvider<ChangeNotifier>>[
           ChangeNotifierProvider<TimeKeeper>(
             create: (_) => TimeKeeper(),
-          ),
-          ChangeNotifierProvider<VisibilityNotifier>(
-            create: (_) => VisibilityNotifier(),
           ),
           ChangeNotifierProvider<ResultNotifier>(
             create: (_) => ResultNotifier(),

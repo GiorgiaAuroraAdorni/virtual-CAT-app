@@ -40,9 +40,16 @@ class _Copy extends State<CopyCells> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
   double childHeight = 0;
+  double childHeight2 = 0;
   List<Widget> widgets = <Widget>[];
   List<Widget> widgets2 = <Widget>[];
-  final Map<Key, double> sized = <Key, double>{
+  bool preview1 = true;
+  bool preview2 = true;
+  Map<Key, double> sized = <Key, double>{
+    const Key("ciao"): 0.0,
+    const Key("lalala"): 0.0,
+  };
+  Map<Key, double> sized2 = <Key, double>{
     const Key("ciao"): 0.0,
     const Key("lalala"): 0.0,
   };
@@ -79,15 +86,13 @@ class _Copy extends State<CopyCells> {
         .map((MapEntry<Key, double> e) => e.value)
         .reduce((double a, double b) => a + b);
 
+    childHeight2 = sized2.entries
+        .map((MapEntry<Key, double> e) => e.value)
+        .reduce((double a, double b) => a + b);
+
     return Container(
       key: widgetKey,
-      height: 50 +
-          135 +
-          (context.read<TypeUpdateNotifier>().state == 2 ? 100 : 60) *
-              (widget.item.moves.length +
-                  widget.item.container.length +
-                  (widget.item.moves.isEmpty ? 1 : 0) +
-                  (widget.item.container.isEmpty ? 1 : 0)),
+      height: childHeight + childHeight2 + 200,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -166,7 +171,33 @@ class _Copy extends State<CopyCells> {
         ) =>
             LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            if (widget.item.container.isEmpty && candidateItems.isEmpty) {
+            if (widget.item.container.isEmpty) {
+              preview1 = true;
+            }
+            if (candidateItems.isNotEmpty && preview1) {
+              preview1 = false;
+              widget.item.added1 = false;
+              widget.item.container.clear();
+              widgets.clear();
+              sized = <Key, double>{
+                const Key("ciao"): 0.0,
+                const Key("lalala"): 0.0,
+              };
+            }
+            if (preview1) {
+              if (!widget.item.added1 &&
+                  widget.item.container.isEmpty &&
+                  widgets.isEmpty) {
+                addOrigin(
+                  PointContainer(
+                    languageCode: CATLocalizations.of(context).languageCode,
+                  ),
+                  update: false,
+                  log: false,
+                );
+                widget.item.added1 = true;
+              }
+
               return Align(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -175,12 +206,7 @@ class _Copy extends State<CopyCells> {
                       Radius.circular(8),
                     ),
                   ),
-                  height: 45 +
-                      (widget.item.container.length +
-                          1 *
-                              (context.read<TypeUpdateNotifier>().state == 2
-                                  ? 100
-                                  : 60)),
+                  height: childHeight + 30,
                   width: constraints.maxWidth - 15,
                   child: Center(
                     child: AnimatedBuilder(
@@ -192,16 +218,9 @@ class _Copy extends State<CopyCells> {
                             Colors.white54,
                             BlendMode.modulate,
                           ),
-                          child: Column(
-                            children: <Widget>[
-                              Point(
-                                item: PointContainer(
-                                  languageCode:
-                                      CATLocalizations.of(context).languageCode,
-                                ),
-                                onChange: (Size size) {},
-                              ),
-                            ],
+                          child: ReorderableListView(
+                            onReorder: (int oldIndex, int newIndex) {},
+                            children: widgets,
                           ),
                         ),
                       ),
@@ -219,12 +238,7 @@ class _Copy extends State<CopyCells> {
                     Radius.circular(8),
                   ),
                 ),
-                height: 45 +
-                    ((widget.item.container.length +
-                            (widget.item.container.isEmpty ? 1 : 0)) *
-                        (context.read<TypeUpdateNotifier>().state == 2
-                            ? 100
-                            : 60)),
+                height: childHeight + 30,
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
@@ -246,61 +260,69 @@ class _Copy extends State<CopyCells> {
         onAccept: addOrigin,
       );
 
-  void addOrigin(PointContainer el, {bool log = true}) {
-    final String prev = widget.item.toString();
-    setState(
-      () {
-        final UniqueKey key = UniqueKey();
-        final PointContainer container = el.copy();
-        widget.item.container.add(
-          container,
-        );
-        container.key = key;
-        sized[key] = 0.0;
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: Point(
-              key: UniqueKey(),
-              item: container,
-              onChange: (Size size) {
+  void addOrigin(
+    PointContainer el, {
+    bool log = true,
+    bool update = true,
+  }) {
+    Future<void>.delayed(Duration.zero, () async {
+      final String prev = widget.item.toString();
+      setState(
+        () {
+          final UniqueKey key = UniqueKey();
+          final PointContainer container = el.copy();
+          widget.item.container.add(
+            container,
+          );
+          container.key = key;
+          sized[key] = 0.0;
+          widgets.add(
+            Dismissible(
+              key: key,
+              child: Point(
+                key: UniqueKey(),
+                item: container,
+                onChange: (Size size) {
+                  setState(() {
+                    sized[key] = size.height;
+                  });
+                },
+              ),
+              onDismissed: (DismissDirection direction) {
+                final String prev = widget.item.toString();
                 setState(() {
-                  sized[key] = size.height;
+                  widget.item.container.removeWhere(
+                    (SimpleContainer e) => e.key == key,
+                  );
+                  widgets.removeWhere(
+                    (Widget element) => element.key == key,
+                  );
+                  sized.remove(key);
                 });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.removeCommand,
+                );
               },
             ),
-            onDismissed: (DismissDirection direction) {
-              final String prev = widget.item.toString();
-              setState(() {
-                widget.item.container.removeWhere(
-                  (SimpleContainer e) => e.key == key,
-                );
-                widgets.removeWhere(
-                  (Widget element) => element.key == key,
-                );
-                sized.remove(key);
-              });
-              context.read<BlockUpdateNotifier>().update();
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.removeCommand,
-              );
-            },
-          ),
-        );
-      },
-    );
-    context.read<BlockUpdateNotifier>().update();
-    if (log) {
-      CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.addCommand,
+          );
+        },
       );
-    }
+      if (update) {
+        context.read<BlockUpdateNotifier>().update();
+      }
+      if (log) {
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.addCommand,
+        );
+      }
+    });
   }
 
   Widget positions() => Flexible(
@@ -313,7 +335,33 @@ class _Copy extends State<CopyCells> {
           ) =>
               LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              if (widget.item.moves.isEmpty && candidateItems.isEmpty) {
+              if (widget.item.moves.isEmpty) {
+                preview2 = true;
+              }
+              if (candidateItems.isNotEmpty && preview2) {
+                preview2 = false;
+                widget.item.added2 = false;
+                widget.item.moves.clear();
+                widgets2.clear();
+                sized2 = <Key, double>{
+                  const Key("ciao"): 0.0,
+                  const Key("lalala"): 0.0,
+                };
+              }
+              if (preview2) {
+                if (!widget.item.added2 &&
+                    widget.item.moves.isEmpty &&
+                    widgets2.isEmpty) {
+                  addDestination(
+                    PointContainer(
+                      languageCode: CATLocalizations.of(context).languageCode,
+                    ),
+                    update: false,
+                    log: false,
+                  );
+                  widget.item.added2 = true;
+                }
+
                 return Align(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -322,12 +370,7 @@ class _Copy extends State<CopyCells> {
                         Radius.circular(8),
                       ),
                     ),
-                    height: 45 +
-                        (widget.item.container.length +
-                            1 *
-                                (context.read<TypeUpdateNotifier>().state == 2
-                                    ? 100
-                                    : 60)),
+                    height: childHeight2 + 30,
                     width: constraints.maxWidth - 15,
                     child: Center(
                       child: AnimatedBuilder(
@@ -339,16 +382,9 @@ class _Copy extends State<CopyCells> {
                               Colors.white54,
                               BlendMode.modulate,
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                Point(
-                                  item: PointContainer(
-                                    languageCode: CATLocalizations.of(context)
-                                        .languageCode,
-                                  ),
-                                  onChange: (Size size) {},
-                                ),
-                              ],
+                            child: ReorderableListView(
+                              onReorder: (int oldIndex, int newIndex) {},
+                              children: widgets2,
                             ),
                           ),
                         ),
@@ -366,12 +402,7 @@ class _Copy extends State<CopyCells> {
                       Radius.circular(8),
                     ),
                   ),
-                  height: 45 +
-                      ((widget.item.moves.length +
-                              (widget.item.moves.isEmpty ? 1 : 0)) *
-                          (context.read<TypeUpdateNotifier>().state == 2
-                              ? 100
-                              : 60)),
+                  height: childHeight2 + 30,
                   width: constraints.maxWidth - 15,
                   child: ReorderableListView(
                     onReorder: (int oldIndex, int newIndex) {
@@ -402,53 +433,67 @@ class _Copy extends State<CopyCells> {
         ),
       );
 
-  void addDestination(PointContainer el, {bool log = true}) {
-    final String prev = widget.item.toString();
-    setState(() {
-      final UniqueKey key = UniqueKey();
-      final PointContainer container = el.copy();
-      widget.item.moves.add(
-        container,
-      );
-      widget.item.moves.last.key = key;
-      widgets2.add(
-        Dismissible(
-          key: key,
-          child: Point(
-            key: UniqueKey(),
-            item: container,
-            onChange: (Size size) {},
+  void addDestination(
+    PointContainer el, {
+    bool log = true,
+    bool update = true,
+  }) {
+    Future<void>.delayed(Duration.zero, () async {
+      final String prev = widget.item.toString();
+      setState(() {
+        final UniqueKey key = UniqueKey();
+        final PointContainer container = el.copy();
+        widget.item.moves.add(
+          container,
+        );
+        widget.item.moves.last.key = key;
+        sized2[key] = 0.0;
+        widgets2.add(
+          Dismissible(
+            key: key,
+            child: Point(
+              key: UniqueKey(),
+              item: container,
+              onChange: (Size size) {
+                setState(() {
+                  sized2[key] = size.height;
+                });
+              },
+            ),
+            onDismissed: (DismissDirection direction) {
+              final String prev = widget.item.toString();
+              setState(() {
+                widgets2.removeWhere(
+                  (Widget element) => element.key == key,
+                );
+                widget.item.moves.removeWhere(
+                  (SimpleContainer element) => element.key == key,
+                );
+                sized2.remove(key);
+              });
+              context.read<BlockUpdateNotifier>().update();
+              CatLogger().addLog(
+                context: context,
+                previousCommand: prev,
+                currentCommand: widget.item.toString(),
+                description: CatLoggingLevel.removeCommand,
+              );
+            },
           ),
-          onDismissed: (DismissDirection direction) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widgets2.removeWhere(
-                (Widget element) => element.key == key,
-              );
-              widget.item.moves.removeWhere(
-                (SimpleContainer element) => element.key == key,
-              );
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.removeCommand,
-            );
-          },
-        ),
-      );
+        );
+      });
+      if (update) {
+        context.read<BlockUpdateNotifier>().update();
+      }
+      if (log) {
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.addCommand,
+        );
+      }
     });
-    context.read<BlockUpdateNotifier>().update();
-    if (log) {
-      CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.addCommand,
-      );
-    }
   }
 
   Size? oldSize = Size.zero;

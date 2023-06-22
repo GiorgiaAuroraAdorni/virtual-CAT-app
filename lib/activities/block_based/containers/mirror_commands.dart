@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
@@ -61,7 +63,8 @@ class _Mirror extends State<MirrorCommands> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   List<Widget> widgets = <Widget>[];
   double childHeight = 0;
-  final Map<Key, double> sized = <Key, double>{
+  bool preview = true;
+  Map<Key, double> sized = <Key, double>{
     const Key("ciao"): 0.0,
     const Key("lalala"): 0.0,
   };
@@ -91,10 +94,8 @@ class _Mirror extends State<MirrorCommands> {
     return Container(
       key: widgetKey,
       height: childHeight +
-          185.0 -
-          (context.read<TypeUpdateNotifier>().state == 2 ? 0 : 140) +
-          (widget.item.moves.length +
-              (widget.item.container.isEmpty ? 4 : 0) * 60),
+          100 +
+          (context.read<TypeUpdateNotifier>().state == 2 ? 50 : 0),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -174,7 +175,20 @@ class _Mirror extends State<MirrorCommands> {
                   BuildContext context,
                   BoxConstraints constraints,
                 ) {
-                  if (widget.item.container.isEmpty && candidateItems.isEmpty) {
+                  if (widget.item.container.isEmpty) {
+                    preview = true;
+                  }
+                  if (candidateItems.isNotEmpty && preview) {
+                    preview = false;
+                    widget.item.added = false;
+                    widget.item.container.clear();
+                    widgets.clear();
+                    sized = <Key, double>{
+                      const Key("ciao"): 0.0,
+                      const Key("lalala"): 0.0,
+                    };
+                  }
+                  if (preview) {
                     return _preview(constraints);
                   }
 
@@ -186,10 +200,7 @@ class _Mirror extends State<MirrorCommands> {
                           Radius.circular(8),
                         ),
                       ),
-                      height: childHeight +
-                          60 +
-                          (widget.item.moves.length +
-                              (widget.item.container.isEmpty ? 4 : 0) * 60),
+                      height: childHeight + 30,
                       width: constraints.maxWidth - 15,
                       child: ReorderableListView(
                         onReorder: (int oldIndex, int newIndex) {
@@ -238,121 +249,130 @@ class _Mirror extends State<MirrorCommands> {
 
   Widget _preview(
     BoxConstraints constraints,
-  ) =>
-      Align(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: CupertinoColors.systemBackground,
-            borderRadius: BorderRadius.all(
-              Radius.circular(8),
-            ),
+  ) {
+    if (!widget.item.added &&
+        widget.item.container.isEmpty &&
+        widgets.isEmpty) {
+      _addContainer(
+        PaintSingleContainer(
+          selected: CupertinoColors.systemBlue,
+          languageCode: CATLocalizations.of(context).languageCode,
+        ),
+        update: false,
+        log: false,
+      );
+      _addContainer(
+        GoPositionContainer(
+          a: "F",
+          b: "3",
+          languageCode: CATLocalizations.of(context).languageCode,
+        ),
+        update: false,
+        log: false,
+      );
+      _addContainer(
+        PaintSingleContainer(
+          selected: CupertinoColors.systemRed,
+          languageCode: CATLocalizations.of(context).languageCode,
+        ),
+        update: false,
+        log: false,
+      );
+      widget.item.added = true;
+    }
+
+    return Align(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: CupertinoColors.systemBackground,
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
           ),
-          height: childHeight +
-              60 +
-              (widget.item.moves.length +
-                  4 *
-                      (context.read<TypeUpdateNotifier>().state == 2
-                          ? 60
-                          : 35)),
-          width: constraints.maxWidth - 15,
-          child: Center(
-            child: AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
-              builder: (BuildContext context, Widget? child) => IgnorePointer(
-                child: ColorFiltered(
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white54,
-                    BlendMode.modulate,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      PaintSingle(
-                        item: PaintSingleContainer(
-                          selected: CupertinoColors.systemBlue,
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
-                      ),
-                      GoPosition(
-                        item: GoPositionContainer(
-                          a: "F",
-                          b: "3",
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
-                      ),
-                      PaintSingle(
-                        item: PaintSingleContainer(
-                          selected: CupertinoColors.systemRed,
-                          languageCode:
-                              CATLocalizations.of(context).languageCode,
-                        ),
-                        onChange: (Size size) {},
-                      ),
-                    ],
-                  ),
+        ),
+        height: childHeight + 30,
+        width: constraints.maxWidth - 15,
+        child: Center(
+          child: AnimatedBuilder(
+            animation: context.watch<TypeUpdateNotifier>(),
+            builder: (BuildContext context, Widget? child) => IgnorePointer(
+              child: ColorFiltered(
+                colorFilter: const ColorFilter.mode(
+                  Colors.white54,
+                  BlendMode.modulate,
+                ),
+                child: ReorderableListView(
+                  onReorder: (int oldIndex, int newIndex) {},
+                  children: widgets,
                 ),
               ),
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 
-  void _addContainer(SimpleContainer el, {bool log = true}) {
-    final String prev = widget.item.toString();
-    setState(
-      () {
-        final UniqueKey key = UniqueKey();
-        final SimpleContainer container = el.copy();
-        widget.item.container.add(
-          container,
-        );
-        container.key = key;
-        widgets.add(
-          Dismissible(
-            key: key,
-            child: generateDismiss(
-              container,
-              (Size size) {
+  void _addContainer(
+    SimpleContainer el, {
+    bool log = true,
+    bool update = true,
+  }) {
+    Future<void>.delayed(Duration.zero, () async {
+      final String prev = widget.item.toString();
+      setState(
+        () {
+          final UniqueKey key = UniqueKey();
+          final SimpleContainer container = el.copy();
+          widget.item.container.add(
+            container,
+          );
+          container.key = key;
+          widgets.add(
+            Dismissible(
+              key: key,
+              child: generateDismiss(
+                container,
+                (Size size) {
+                  setState(() {
+                    sized[key] = size.height;
+                  });
+                },
+              ),
+              onDismissed: (DismissDirection direction) {
+                final String prev = widget.item.toString();
                 setState(() {
-                  sized[key] = size.height;
+                  widget.item.container.removeWhere(
+                    (SimpleContainer e) => e.key == key,
+                  );
+                  widgets.removeWhere(
+                    (Widget element) => element.key == key,
+                  );
+                  sized.remove(key);
                 });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.removeCommand,
+                );
               },
             ),
-            onDismissed: (DismissDirection direction) {
-              final String prev = widget.item.toString();
-              setState(() {
-                widget.item.container.removeWhere(
-                  (SimpleContainer e) => e.key == key,
-                );
-                widgets.removeWhere(
-                  (Widget element) => element.key == key,
-                );
-                sized.remove(key);
-              });
-              context.read<BlockUpdateNotifier>().update();
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.removeCommand,
-              );
-            },
-          ),
-        );
-      },
-    );
-    context.read<BlockUpdateNotifier>().update();
-    if (log) {
-      CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.addCommand,
+          );
+        },
       );
-    }
+      if (update) {
+        context.read<BlockUpdateNotifier>().update();
+      }
+      if (log) {
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.addCommand,
+        );
+      }
+    });
   }
 
   Widget generateDismiss(

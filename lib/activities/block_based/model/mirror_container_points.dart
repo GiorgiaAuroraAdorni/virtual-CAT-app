@@ -10,12 +10,14 @@ class MirrorContainerPoints extends SimpleContainer {
     required super.languageCode,
     super.name = "Specchia",
     super.type = ContainerType.mirrorPoints,
+    this.added = false,
     this.position = 0,
     this.direction = "horizontal",
   });
 
   int position;
   String direction;
+  bool added;
 
   static const TextStyle _style = TextStyle(
     color: CupertinoColors.black,
@@ -51,6 +53,7 @@ class MirrorContainerPoints extends SimpleContainer {
         direction: direction,
         container: super.container,
         languageCode: super.languageCode,
+        added: added,
       );
 
   @override
@@ -61,6 +64,9 @@ class MirrorContainerPoints extends SimpleContainer {
         )
         .join(",")
         .replaceAll(RegExp("[go()]"), "");
+    if (added) {
+      return "mirror()";
+    }
 
     return "mirror({$positions},$direction)";
   }
