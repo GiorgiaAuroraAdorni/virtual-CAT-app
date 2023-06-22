@@ -37,6 +37,7 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
   if (command.length == 2) {
     return <SimpleContainer>[
       MirrorSimpleContainer(
+        position: command.last.trim() == "horizontal" ? 0 : 1,
         type: ContainerType.mirrorCross,
         direction: command.last.trim(),
         languageCode: languageCode,
@@ -140,7 +141,9 @@ List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
 }
 
 List<SimpleContainer> _parseFillEmpty(
-        List<String> command, String languageCode,) =>
+  List<String> command,
+  String languageCode,
+) =>
     <SimpleContainer>[
       FillEmptyContainer(
         selected: _colors[command.last.trim()]!,
@@ -188,10 +191,13 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
       toReturn
         ..addAll(_parseGo(["go", i.trim()], languageCode))
         ..addAll(
-          _parsePaint([
-            "paint",
-            colors[j],
-          ], languageCode,),
+          _parsePaint(
+            [
+              "paint",
+              colors[j],
+            ],
+            languageCode,
+          ),
         );
       j = (j + 1) % colors.length;
     }

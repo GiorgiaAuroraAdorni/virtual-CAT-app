@@ -17,6 +17,7 @@ class MirrorSimpleContainer extends SimpleContainer {
 
   @override
   SimpleContainer copy() => MirrorSimpleContainer(
+        position: position,
         type: super.type,
         languageCode: super.languageCode,
       );
