@@ -36,12 +36,13 @@ class Point extends WidgetContainer {
   State<StatefulWidget> createState() => _Point();
 }
 
-class _Point extends State<Point> {
+class _Point extends State<Point> with AutomaticKeepAliveClientMixin {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -223,4 +224,7 @@ class _Point extends State<Point> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

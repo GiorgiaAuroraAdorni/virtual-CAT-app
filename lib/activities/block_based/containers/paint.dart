@@ -35,11 +35,12 @@ class Paint extends WidgetContainer {
   State<Paint> createState() => _Paint();
 }
 
-class _Paint extends State<Paint> {
+class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
   final GlobalKey<State<Paint>> widgetKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -518,4 +519,7 @@ class _Paint extends State<Paint> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

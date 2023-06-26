@@ -33,77 +33,82 @@ class MirrorCross extends WidgetContainer {
   State<StatefulWidget> createState() => _MirrorHorizontal();
 }
 
-class _MirrorHorizontal extends State<MirrorCross> {
+class _MirrorHorizontal extends State<MirrorCross>
+    with AutomaticKeepAliveClientMixin {
   final double fontSize = 15;
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context) => Container(
-        key: widgetKey,
-        height: context.read<TypeUpdateNotifier>().state == 2 ? 90 : 60,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          border: Border.all(),
-          color: Colors.blueGrey,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: AnimatedBuilder(
-            animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) {
-              if (context.read<TypeUpdateNotifier>().state == 2) {
-                return Column(
-                  children: <Widget>[
-                    Text(
-                      CATLocalizations.of(context).blocks["mirrorCross"]!,
-                      style: const TextStyle(
-                        color: CupertinoColors.systemBackground,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    CupertinoButton(
-                      color: CupertinoColors.systemGrey5,
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      onPressed: _directionPicker,
-                      child: widget.item.directions[widget.item.position],
-                    ),
-                  ],
-                );
-              }
+  Widget build(BuildContext context) {
+    super.build(context);
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+      key: widgetKey,
+      height: context.read<TypeUpdateNotifier>().state == 2 ? 90 : 60,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(),
+        color: Colors.blueGrey,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: AnimatedBuilder(
+          animation: context.watch<TypeUpdateNotifier>(),
+          builder: (BuildContext context, Widget? child) {
+            if (context.read<TypeUpdateNotifier>().state == 2) {
+              return Column(
                 children: <Widget>[
-                  // ColorFiltered(
-                  //   colorFilter: invert,
-                  //   child: SvgPicture.asset(
-                  //     "resources/icons/gesture.svg",
-                  //     height: 42,
-                  //     width: 42,
-                  //     colorFilter: const ColorFilter.mode(
-                  //       CupertinoColors.black,
-                  //       BlendMode.modulate,
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   width: 5,
-                  // ),
+                  Text(
+                    CATLocalizations.of(context).blocks["mirrorCross"]!,
+                    style: const TextStyle(
+                      color: CupertinoColors.systemBackground,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   CupertinoButton(
                     color: CupertinoColors.systemGrey5,
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    onPressed: _directionPickerIcons,
-                    child: widget.item.directions2[widget.item.position],
+                    onPressed: _directionPicker,
+                    child: widget.item.directions[widget.item.position],
                   ),
                 ],
               );
-            },
-          ),
+            }
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // ColorFiltered(
+                //   colorFilter: invert,
+                //   child: SvgPicture.asset(
+                //     "resources/icons/gesture.svg",
+                //     height: 42,
+                //     width: 42,
+                //     colorFilter: const ColorFilter.mode(
+                //       CupertinoColors.black,
+                //       BlendMode.modulate,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _directionPickerIcons,
+                  child: widget.item.directions2[widget.item.position],
+                ),
+              ],
+            );
+          },
         ),
-      );
+      ),
+    );
+  }
 
   void _directionPicker() {
     final List<String> directions = <String>[
@@ -184,4 +189,7 @@ class _MirrorHorizontal extends State<MirrorCross> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

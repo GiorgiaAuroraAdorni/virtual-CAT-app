@@ -36,13 +36,14 @@ class GoPosition extends WidgetContainer {
   State<StatefulWidget> createState() => _Go();
 }
 
-class _Go extends State<GoPosition> {
+class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   List<Widget> widgets = <Widget>[];
   final double fontSize = 15;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -223,4 +224,7 @@ class _Go extends State<GoPosition> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

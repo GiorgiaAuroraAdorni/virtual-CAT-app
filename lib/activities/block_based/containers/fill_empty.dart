@@ -36,12 +36,13 @@ class FillEmpty extends WidgetContainer {
   State<StatefulWidget> createState() => _FillEmpty();
 }
 
-class _FillEmpty extends State<FillEmpty> {
+class _FillEmpty extends State<FillEmpty> with AutomaticKeepAliveClientMixin {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -201,4 +202,7 @@ class _FillEmpty extends State<FillEmpty> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

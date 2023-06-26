@@ -37,12 +37,14 @@ class PaintSingle extends WidgetContainer {
   State<StatefulWidget> createState() => _PaintSingle();
 }
 
-class _PaintSingle extends State<PaintSingle> {
+class _PaintSingle extends State<PaintSingle>
+    with AutomaticKeepAliveClientMixin {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -204,4 +206,7 @@ class _PaintSingle extends State<PaintSingle> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

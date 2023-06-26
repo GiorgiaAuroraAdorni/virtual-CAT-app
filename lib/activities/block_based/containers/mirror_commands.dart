@@ -58,7 +58,7 @@ class MirrorCommands extends WidgetContainer {
   State<StatefulWidget> createState() => _Mirror();
 }
 
-class _Mirror extends State<MirrorCommands> {
+class _Mirror extends State<MirrorCommands> with AutomaticKeepAliveClientMixin {
   final double fontSize = 15;
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   List<Widget> widgets = <Widget>[];
@@ -86,6 +86,7 @@ class _Mirror extends State<MirrorCommands> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
     childHeight = sized.entries
         .map((MapEntry<Key, double> e) => e.value)
@@ -577,4 +578,7 @@ class _Mirror extends State<MirrorCommands> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

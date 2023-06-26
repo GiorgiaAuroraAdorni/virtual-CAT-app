@@ -55,7 +55,7 @@ class CopyCommands extends WidgetContainer {
   State<StatefulWidget> createState() => _Copy();
 }
 
-class _Copy extends State<CopyCommands> {
+class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
   double childHeight = 0;
@@ -99,6 +99,7 @@ class _Copy extends State<CopyCommands> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
     childHeight = sized.entries
         .map((MapEntry<Key, double> e) => e.value)
@@ -673,4 +674,7 @@ class _Copy extends State<CopyCommands> {
     oldSize = newSize;
     widget.onChange(newSize);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
