@@ -208,6 +208,7 @@ class _Copy extends State<CopyCommands> {
                 width: constraints.maxWidth - 15,
                 child: ReorderableListView(
                   onReorder: (int oldIndex, int newIndex) {
+                    final String prev = widget.item.toString();
                     if (oldIndex < newIndex) {
                       newIndex -= 1;
                     }
@@ -216,6 +217,15 @@ class _Copy extends State<CopyCommands> {
                         widget.item.container.removeAt(oldIndex);
                     widgets.insert(newIndex, widgett);
                     widget.item.container.insert(newIndex, item);
+
+                    context.read<BlockUpdateNotifier>().update();
+
+                    CatLogger().addLog(
+                      context: context,
+                      previousCommand: prev,
+                      currentCommand: widget.item.toString(),
+                      description: CatLoggingLevel.removeCommand,
+                    );
                   },
                   children: widgets,
                 ),
