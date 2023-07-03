@@ -48,12 +48,17 @@ class GestureBoard extends StatefulWidget {
 
 class _GestureBoardState extends State<GestureBoard> {
   @override
-  Widget build(BuildContext context) => Column(
-        children: <Widget>[
-          const ChangeCrossVisualization(),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Cross(
+  Widget build(BuildContext context) => Container(
+        width: MediaQuery.of(context).size.width * 0.60,
+        height: MediaQuery.of(context).size.height * 0.90,
+        decoration: const BoxDecoration(
+          color: CupertinoColors.systemBackground,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            const ChangeCrossVisualization(),
+            Cross(
               shakeKey: widget.shakeKey,
               shakeKeyColors: widget.shakeKeyColors,
               width: MediaQuery.of(context).size.width,
@@ -63,7 +68,7 @@ class _GestureBoardState extends State<GestureBoard> {
               resetSignal: widget.resetSignal,
               resultValueNotifier: widget.resultValueNotifier,
             ),
-          ),
-        ],
+          ],
+        ),
       );
 }

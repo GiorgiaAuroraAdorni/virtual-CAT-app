@@ -67,8 +67,7 @@ class CrossWidgetSimpleState extends State<CrossWidgetSimple> {
   Widget build(BuildContext context) {
     containerDimension = MediaQuery.of(context).size.width / 28;
     sizeBoxDimension = MediaQuery.of(context).size.width / 200;
-    final double widgetDimension =
-        (6 * containerDimension) + (sizeBoxDimension * 5);
+    final double widgetDimension = (containerDimension + sizeBoxDimension) * 6;
     buttons = List<List<Widget>>.generate(
       6,
       (int i) => List<Widget>.filled(6, _buildDummy()),

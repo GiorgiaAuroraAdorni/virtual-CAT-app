@@ -184,13 +184,13 @@ class SideMenuState extends State<SideMenu> {
   }
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(5),
+  Widget build(BuildContext context) => SizedBox(
+        width: MediaQuery.of(context).size.width * 0.12,
+        height: MediaQuery.of(context).size.height * 0.90,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 BlinkWidget(
                   key: widget.shakeKeyColors[0],
@@ -204,34 +204,39 @@ class SideMenuState extends State<SideMenu> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 130,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.20,
                 ),
-                FillEmpty(
-                  shakeKeyColors: widget.shakeKeyColors[1],
-                  state: this,
-                ),
-                SelectionButton(
-                  shakeKeyColors: widget.shakeKeyColors[2],
-                  state: this,
-                  key: selectionButtonKey,
-                ),
-                RepeatButton(
-                  shakeKeyColors: widget.shakeKeyColors[3],
-                  state: this,
-                  key: repeatButtonKey,
-                ),
-                MirrorButtonHorizontal(
-                  shakeKeyColors: widget.shakeKeyColors[4],
-                  state: this,
-                ),
-                MirrorButtonVertical(
-                  shakeKeyColors: widget.shakeKeyColors[5],
-                  state: this,
+                Column(
+                  children: <Widget>[
+                    FillEmpty(
+                      shakeKeyColors: widget.shakeKeyColors[1],
+                      state: this,
+                    ),
+                    SelectionButton(
+                      shakeKeyColors: widget.shakeKeyColors[2],
+                      state: this,
+                      key: selectionButtonKey,
+                    ),
+                    RepeatButton(
+                      shakeKeyColors: widget.shakeKeyColors[3],
+                      state: this,
+                      key: repeatButtonKey,
+                    ),
+                    MirrorButtonHorizontal(
+                      shakeKeyColors: widget.shakeKeyColors[4],
+                      state: this,
+                    ),
+                    MirrorButtonVertical(
+                      shakeKeyColors: widget.shakeKeyColors[5],
+                      state: this,
+                    ),
+                  ],
                 ),
               ],
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 AnimatedBuilder(
                   animation: widget.selectionMode,

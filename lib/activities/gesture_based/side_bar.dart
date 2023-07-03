@@ -53,199 +53,187 @@ class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) => Container(
         height: MediaQuery.of(context).size.height * 0.90,
+        width: MediaQuery.of(context).size.width * 0.24,
         decoration: const BoxDecoration(
           color: CupertinoColors.systemBackground,
         ),
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) => Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                AnimatedBuilder(
-                  animation: CatLogger(),
-                  builder: (BuildContext context, Widget? w) {
-                    final bool check = CatLogger()
-                        .logs
-                        .values
-                        .filter(
-                          (LoggerInfo e) =>
-                              e.description != CatLoggingLevel.changeMode &&
-                              e.description != CatLoggingLevel.commandsReset &&
-                              e.description != CatLoggingLevel.changeVisibility,
-                        )
-                        .isEmpty;
+          builder: (BuildContext context, Widget? child) => Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              AnimatedBuilder(
+                animation: CatLogger(),
+                builder: (BuildContext context, Widget? w) {
+                  final bool check = CatLogger()
+                      .logs
+                      .values
+                      .filter(
+                        (LoggerInfo e) =>
+                            e.description != CatLoggingLevel.changeMode &&
+                            e.description != CatLoggingLevel.commandsReset &&
+                            e.description != CatLoggingLevel.changeVisibility,
+                      )
+                      .isEmpty;
 
-                    final Map<int, ResultsRecord> checkNext =
-                        widget.sessionID == -1 && widget.studentID == -1
-                            ? widget.allResults.filter(
-                                (MapEntry<int, ResultsRecord> entry) =>
-                                    entry.key > SchemasReader().index,
-                              )
-                            : widget.allResults.filter(
-                                (
-                                  MapEntry<int, ResultsRecord> entry,
-                                ) =>
-                                    entry.key > SchemasReader().index &&
-                                    !entry.value.done,
-                              );
+                  final Map<int, ResultsRecord> checkNext =
+                      widget.sessionID == -1 && widget.studentID == -1
+                          ? widget.allResults.filter(
+                              (MapEntry<int, ResultsRecord> entry) =>
+                                  entry.key > SchemasReader().index,
+                            )
+                          : widget.allResults.filter(
+                              (
+                                MapEntry<int, ResultsRecord> entry,
+                              ) =>
+                                  entry.key > SchemasReader().index &&
+                                  !entry.value.done,
+                            );
 
-                    final Map<int, ResultsRecord> checkPrev =
-                        widget.sessionID == -1 && widget.studentID == -1
-                            ? widget.allResults.filter(
-                                (MapEntry<int, ResultsRecord> entry) =>
-                                    entry.key < SchemasReader().index,
-                              )
-                            : widget.allResults.filter(
-                                (
-                                  MapEntry<int, ResultsRecord> entry,
-                                ) =>
-                                    entry.key < SchemasReader().index &&
-                                    !entry.value.done,
-                              );
+                  final Map<int, ResultsRecord> checkPrev =
+                      widget.sessionID == -1 && widget.studentID == -1
+                          ? widget.allResults.filter(
+                              (MapEntry<int, ResultsRecord> entry) =>
+                                  entry.key < SchemasReader().index,
+                            )
+                          : widget.allResults.filter(
+                              (
+                                MapEntry<int, ResultsRecord> entry,
+                              ) =>
+                                  entry.key < SchemasReader().index &&
+                                  !entry.value.done,
+                            );
 
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: check && checkPrev.isNotEmpty
-                              ? () {
-                                  final Map<int,
-                                      ResultsRecord> filtered = widget
-                                                  .sessionID ==
-                                              -1 &&
-                                          widget.studentID == -1
-                                      ? widget.allResults.filter(
-                                          (
-                                            MapEntry<int, ResultsRecord> entry,
-                                          ) =>
-                                              entry.key < SchemasReader().index,
-                                        )
-                                      : widget.allResults.filter(
-                                          (
-                                            MapEntry<int, ResultsRecord> entry,
-                                          ) =>
-                                              entry.key <
-                                                  SchemasReader().index &&
-                                              !entry.value.done,
-                                        );
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: check && checkPrev.isNotEmpty
+                            ? () {
+                                final Map<int, ResultsRecord> filtered = widget
+                                                .sessionID ==
+                                            -1 &&
+                                        widget.studentID == -1
+                                    ? widget.allResults.filter(
+                                        (
+                                          MapEntry<int, ResultsRecord> entry,
+                                        ) =>
+                                            entry.key < SchemasReader().index,
+                                      )
+                                    : widget.allResults.filter(
+                                        (
+                                          MapEntry<int, ResultsRecord> entry,
+                                        ) =>
+                                            entry.key < SchemasReader().index &&
+                                            !entry.value.done,
+                                      );
 
-                                  if (filtered.isEmpty) {
-                                    return;
-                                  }
-                                  final int nextIndex =
-                                      filtered.keys.sorted().reversed.first;
-                                  _reset();
-                                  context.read<TimeKeeper>().resetTimer();
-                                  CatLogger().resetLogs();
-                                  context.read<TypeUpdateNotifier>().reset();
-                                  context
-                                      .read<ReferenceNotifier>()
-                                      .toLocation(nextIndex);
+                                if (filtered.isEmpty) {
+                                  return;
                                 }
-                              : null,
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_left_circle_fill,
-                            size: 44,
-                          ),
+                                final int nextIndex =
+                                    filtered.keys.sorted().reversed.first;
+                                _reset();
+                                context.read<TimeKeeper>().resetTimer();
+                                CatLogger().resetLogs();
+                                context.read<TypeUpdateNotifier>().reset();
+                                context
+                                    .read<ReferenceNotifier>()
+                                    .toLocation(nextIndex);
+                              }
+                            : null,
+                        borderRadius: BorderRadius.circular(45),
+                        color: CupertinoColors.black,
+                        child: const Icon(
+                          CupertinoIcons.arrow_left_circle_fill,
+                          size: 44,
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _reset,
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_counterclockwise_circle_fill,
-                            size: 44,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        CupertinoButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: check && checkNext.isNotEmpty
-                              ? () {
-                                  final Map<int,
-                                      ResultsRecord> filtered = widget
-                                                  .sessionID ==
-                                              -1 &&
-                                          widget.studentID == -1
-                                      ? widget.allResults.filter(
-                                          (
-                                            MapEntry<int, ResultsRecord> entry,
-                                          ) =>
-                                              entry.key > SchemasReader().index,
-                                        )
-                                      : widget.allResults.filter(
-                                          (
-                                            MapEntry<int, ResultsRecord> entry,
-                                          ) =>
-                                              entry.key >
-                                                  SchemasReader().index &&
-                                              !entry.value.done,
-                                        );
-                                  if (filtered.isEmpty) {
-                                    return;
-                                  }
-                                  final int nextIndex =
-                                      filtered.keys.sorted().first;
-                                  _reset();
-                                  context.read<TimeKeeper>().resetTimer();
-                                  CatLogger().resetLogs();
-                                  context.read<TypeUpdateNotifier>().reset();
-                                  context
-                                      .read<ReferenceNotifier>()
-                                      .toLocation(nextIndex);
-                                }
-                              : null,
-                          borderRadius: BorderRadius.circular(45),
-                          color: CupertinoColors.black,
-                          child: const Icon(
-                            CupertinoIcons.arrow_right_circle_fill,
-                            size: 44,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                CrossWidgetSimple(
-                  reference: true,
-                  displayLetters: context.read<TypeUpdateNotifier>().state > 0,
-                ),
-                Column(
-                  children: <Widget>[
-                    if (context.read<TypeUpdateNotifier>().state > 0)
-                      const ChangeCrossVisualization()
-                    else
-                      const SizedBox(
-                        height: 55,
                       ),
-                    CrossWidgetSimple(
-                      reference: false,
-                      displayLetters:
-                          context.read<TypeUpdateNotifier>().state > 0,
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: _reset,
+                        borderRadius: BorderRadius.circular(45),
+                        color: CupertinoColors.black,
+                        child: const Icon(
+                          CupertinoIcons.arrow_counterclockwise_circle_fill,
+                          size: 44,
+                        ),
+                      ),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: check && checkNext.isNotEmpty
+                            ? () {
+                                final Map<int, ResultsRecord> filtered = widget
+                                                .sessionID ==
+                                            -1 &&
+                                        widget.studentID == -1
+                                    ? widget.allResults.filter(
+                                        (
+                                          MapEntry<int, ResultsRecord> entry,
+                                        ) =>
+                                            entry.key > SchemasReader().index,
+                                      )
+                                    : widget.allResults.filter(
+                                        (
+                                          MapEntry<int, ResultsRecord> entry,
+                                        ) =>
+                                            entry.key > SchemasReader().index &&
+                                            !entry.value.done,
+                                      );
+                                if (filtered.isEmpty) {
+                                  return;
+                                }
+                                final int nextIndex =
+                                    filtered.keys.sorted().first;
+                                _reset();
+                                context.read<TimeKeeper>().resetTimer();
+                                CatLogger().resetLogs();
+                                context.read<TypeUpdateNotifier>().reset();
+                                context
+                                    .read<ReferenceNotifier>()
+                                    .toLocation(nextIndex);
+                              }
+                            : null,
+                        borderRadius: BorderRadius.circular(45),
+                        color: CupertinoColors.black,
+                        child: const Icon(
+                          CupertinoIcons.arrow_right_circle_fill,
+                          size: 44,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              CrossWidgetSimple(
+                reference: true,
+                displayLetters: context.read<TypeUpdateNotifier>().state > 0,
+              ),
+              Column(
+                children: <Widget>[
+                  if (context.read<TypeUpdateNotifier>().state > 0)
+                    const ChangeCrossVisualization()
+                  else
+                    const SizedBox(
+                      height: 55,
                     ),
-                  ],
-                ),
-                BottomBar(
-                  studentID: widget.studentID,
-                  sessionID: widget.sessionID,
-                  selectionMode: widget.selectionMode,
-                  selectedButtons: widget.selectedButtons,
-                  coloredButtons: widget.coloredButtons,
-                  allResults: widget.allResults,
-                ),
-              ],
-            ),
+                  CrossWidgetSimple(
+                    reference: false,
+                    displayLetters:
+                        context.read<TypeUpdateNotifier>().state > 0,
+                  ),
+                ],
+              ),
+              BottomBar(
+                studentID: widget.studentID,
+                sessionID: widget.sessionID,
+                selectionMode: widget.selectionMode,
+                selectedButtons: widget.selectedButtons,
+                coloredButtons: widget.coloredButtons,
+                allResults: widget.allResults,
+              ),
+            ],
           ),
         ),
       );

@@ -310,7 +310,7 @@ class BlockCanvasState extends State<BlockCanvas> {
             List<dynamic> rejectedItems,
           ) =>
               Container(
-            width: MediaQuery.of(context).size.width * 0.50,
+            width: MediaQuery.of(context).size.width * 0.51,
             height: MediaQuery.of(context).size.height * 0.85,
             decoration: const BoxDecoration(
               color: CupertinoColors.systemBackground,

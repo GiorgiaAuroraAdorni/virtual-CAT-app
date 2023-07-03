@@ -137,7 +137,7 @@ class GestureHomeState extends State<GestureHome> {
                           const SideMenuBlock(),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.90,
-                            width: 2,
+                            width: MediaQuery.of(context).size.width * 0.01,
                             child: const VerticalDivider(
                               thickness: 2,
                               color: Colors.black,
@@ -148,7 +148,7 @@ class GestureHomeState extends State<GestureHome> {
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.90,
-                            width: 2,
+                            width: MediaQuery.of(context).size.width * 0.01,
                             child: const VerticalDivider(
                               thickness: 2,
                               color: Colors.black,
@@ -170,7 +170,7 @@ class GestureHomeState extends State<GestureHome> {
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.90,
-                            width: 2,
+                            width: MediaQuery.of(context).size.width * 0.01,
                             child: const VerticalDivider(
                               thickness: 2,
                               color: Colors.black,
@@ -188,7 +188,7 @@ class GestureHomeState extends State<GestureHome> {
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.90,
-                            width: 2,
+                            width: MediaQuery.of(context).size.width * 0.01,
                             child: const VerticalDivider(
                               thickness: 2,
                               color: Colors.black,

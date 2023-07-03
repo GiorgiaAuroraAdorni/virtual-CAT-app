@@ -17,6 +17,7 @@ class ChangeCrossVisualization extends StatelessWidget {
         child: AnimatedBuilder(
           animation: context.watch<VisibilityNotifier>(),
           builder: (BuildContext context, Widget? child) => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CupertinoButton(
                 onPressed: !context.read<VisibilityNotifier>().visible

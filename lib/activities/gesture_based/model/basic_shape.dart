@@ -111,14 +111,14 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    final double containerDimension = widget.width / 13;
-    final double sizeBoxDimension = widget.width / 50;
-    final double widgetDimension =
-        (6 * containerDimension) + (sizeBoxDimension * 5);
+    final double containerDimension =
+        ((MediaQuery.of(context).size.width / 13) +
+                (MediaQuery.of(context).size.width / 13 / 5)) *
+            6;
 
     return SizedBox(
-      width: widgetDimension,
-      height: widgetDimension,
+      width: containerDimension,
+      height: containerDimension,
       child: ShakeWidget(
         key: widget.shakeKey,
         shakeCount: 3,

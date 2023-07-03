@@ -117,7 +117,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
       delay: const Duration(milliseconds: 200),
       data: copyContainer,
       feedback: SizedBox(
-        width: 250,
+        width: MediaQuery.of(context).size.width * 0.20,
         child: Function.apply(
           builder,
           [],
@@ -258,65 +258,60 @@ class SideMenuBlockState extends State<SideMenuBlock> {
   ];
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(5),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.21,
-          height: MediaQuery.of(context).size.height * 0.85,
-          child: Scrollbar(
+  Widget build(BuildContext context) => SizedBox(
+        width: MediaQuery.of(context).size.width * 0.21,
+        height: MediaQuery.of(context).size.height * 0.85,
+        child: Scrollbar(
+          controller: _firstController,
+          interactive: true,
+          thumbVisibility: true,
+          child: ListView(
             controller: _firstController,
-            interactive: true,
-            thumbVisibility: true,
-            child: ListView(
-              controller: _firstController,
-              children: <Widget>[
-                DropDownBlocks(
-                  title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
-                  color: Colors.green,
-                  items: <Widget>[
-                    _buildContainerItem(container: containers[2]),
-                    _buildContainerItem(container: containers[4]),
-                    _buildContainerItem(container: containers[0]),
-                  ],
-                  visibility: _states[0],
-                  iconLocation: "resources/icons/placement_menu.svg",
-                ),
-                DropDownBlocks(
-                  title:
-                      CATLocalizations.of(context).blockGroups["groupColor"]!,
-                  color: Colors.teal,
-                  items: <Widget>[
-                    _buildContainerItem(container: containers[1]),
-                    _buildContainerItem(container: containers[3]),
-                    _buildContainerItem(container: containers[5]),
-                  ],
-                  visibility: _states[1],
-                  iconLocation: "resources/icons/colouring_menu.svg",
-                ),
-                DropDownBlocks(
-                  title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
-                  color: Colors.indigo,
-                  items: <Widget>[
-                    _buildContainerItem(container: containers[10]),
-                    _buildContainerItem(container: containers[9]),
-                  ],
-                  visibility: _states[2],
-                  iconLocation: "resources/icons/loops_menu.svg",
-                ),
-                DropDownBlocks(
-                  title:
-                      CATLocalizations.of(context).blockGroups["groupMirror"]!,
-                  color: Colors.blueGrey,
-                  items: <Widget>[
-                    _buildContainerItem(container: containers[6]),
-                    _buildContainerItem(container: containers[7]),
-                    _buildContainerItem(container: containers[8]),
-                  ],
-                  visibility: _states[3],
-                  iconLocation: "resources/icons/mirror_menu.svg",
-                ),
-              ],
-            ),
+            children: <Widget>[
+              DropDownBlocks(
+                title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
+                color: Colors.green,
+                items: <Widget>[
+                  _buildContainerItem(container: containers[2]),
+                  _buildContainerItem(container: containers[4]),
+                  _buildContainerItem(container: containers[0]),
+                ],
+                visibility: _states[0],
+                iconLocation: "resources/icons/placement_menu.svg",
+              ),
+              DropDownBlocks(
+                title: CATLocalizations.of(context).blockGroups["groupColor"]!,
+                color: Colors.teal,
+                items: <Widget>[
+                  _buildContainerItem(container: containers[1]),
+                  _buildContainerItem(container: containers[3]),
+                  _buildContainerItem(container: containers[5]),
+                ],
+                visibility: _states[1],
+                iconLocation: "resources/icons/colouring_menu.svg",
+              ),
+              DropDownBlocks(
+                title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
+                color: Colors.indigo,
+                items: <Widget>[
+                  _buildContainerItem(container: containers[10]),
+                  _buildContainerItem(container: containers[9]),
+                ],
+                visibility: _states[2],
+                iconLocation: "resources/icons/loops_menu.svg",
+              ),
+              DropDownBlocks(
+                title: CATLocalizations.of(context).blockGroups["groupMirror"]!,
+                color: Colors.blueGrey,
+                items: <Widget>[
+                  _buildContainerItem(container: containers[6]),
+                  _buildContainerItem(container: containers[7]),
+                  _buildContainerItem(container: containers[8]),
+                ],
+                visibility: _states[3],
+                iconLocation: "resources/icons/mirror_menu.svg",
+              ),
+            ],
           ),
         ),
       );
