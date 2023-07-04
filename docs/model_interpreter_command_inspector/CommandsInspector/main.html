@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the main method from the CommandsInspector class, for the Dart programming language.">
+  <title>main method - CommandsInspector class - command_inspector library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">cross_array_task_app</a></li>
+    <li><a href="../../model_interpreter_command_inspector/model_interpreter_command_inspector-library.html">command_inspector</a></li>
+    <li><a href="../../model_interpreter_command_inspector/CommandsInspector-class.html">CommandsInspector</a></li>
+    <li class="self-crumb">main static method</li>
+  </ol>
+  <div class="self-name">main</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="model_interpreter_command_inspector&#47;CommandsInspector-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">main</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+<span class="name ">main</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="main-param-positions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/dartx/1.1.0/dartx_io/Pair-class.html">Pair</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>&gt;</span></span> <span class="parameter-name">positions</span>, </span></li>
+<li><span class="parameter" id="main-param-colors"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">colors</span>, </span></li>
+<li><span class="parameter" id="main-param-copyCommands">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">copyCommands</span> = <span class="default-value">false</span>}</span></li>
+</ol>)
+
+      
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static List&lt;String&gt; main(
+  List&lt;Pair&lt;int, int&gt;&gt; positions,
+  List&lt;String&gt; colors, {
+  bool copyCommands = false,
+}) {
+  if (positions.length &lt; 2 || colors.isEmpty) {
+    return &lt;String&gt;[];
+  }
+  final CommandsInspector inspector = CommandsInspector();
+  String direction = &quot;&quot;;
+  if (inspector._right(positions)) {
+    direction = &quot;right&quot;;
+  } else if (inspector._left(positions)) {
+    direction = &quot;left&quot;;
+  } else if (inspector._up(positions)) {
+    direction = &quot;up&quot;;
+  } else if (inspector._down(positions)) {
+    direction = &quot;down&quot;;
+  } else if (inspector._diagonalDownRight(positions)) {
+    direction = &quot;diagonal down right&quot;;
+  } else if (inspector._diagonalUpLeft(positions)) {
+    direction = &quot;diagonal up left&quot;;
+  } else if (inspector._diagonalUpRight(positions)) {
+    direction = &quot;diagonal up right&quot;;
+  } else if (inspector._diagonalDownLeft(positions)) {
+    direction = &quot;diagonal down left&quot;;
+  } else if (inspector._lDownLeft(positions)) {
+    direction = &quot;l down left&quot;;
+  } else if (inspector._lDownRight(positions)) {
+    direction = &quot;l down right&quot;;
+  } else if (inspector._lLeftUp(positions)) {
+    direction = &quot;l left up&quot;;
+  } else if (inspector._lLeftDown(positions)) {
+    direction = &quot;l left down&quot;;
+  } else if (inspector._lRightUp(positions)) {
+    direction = &quot;l right up&quot;;
+  } else if (inspector._lRightDown(positions)) {
+    direction = &quot;l right down&quot;;
+  } else if (inspector._lUpLeft(positions)) {
+    direction = &quot;l up left&quot;;
+  } else if (inspector._lUpRight(positions)) {
+    direction = &quot;l up right&quot;;
+  } else if (inspector._zigzagRightDownUp(positions)) {
+    direction = &quot;zigzag right down up&quot;;
+  } else if (inspector._zigzagRightUpDown(positions)) {
+    direction = &quot;zigzag right up down&quot;;
+  } else if (inspector._zigzagLeftDownUp(positions)) {
+    direction = &quot;zigzag left down up&quot;;
+  } else if (inspector._zigzagLeftUpDown(positions)) {
+    direction = &quot;zigzag left up down&quot;;
+  } else if (inspector._zigzagDownLeftRight(positions)) {
+    direction = &quot;zigzag down left right&quot;;
+  } else if (inspector._zigzagDownRightLeft(positions)) {
+    direction = &quot;zigzag down right left&quot;;
+  } else if (inspector._zigzagUpLeftRight(positions)) {
+    direction = &quot;zigzag up left right&quot;;
+  } else if (inspector._zigzagUpRightLeft(positions)) {
+    direction = &quot;zigzag up right left&quot;;
+  } else if (inspector._squareBottomLeft(positions)) {
+    direction = patternsEn[&quot;square bottom left&quot;]!;
+  } else if (inspector._squareBottomRight(positions)) {
+    direction = patternsEn[&quot;square bottom right&quot;]!;
+  } else if (inspector._squareTopLeft(positions)) {
+    direction = patternsEn[&quot;square top left&quot;]!;
+  } else if (inspector._squareTopRight(positions)) {
+    direction = patternsEn[&quot;square top right&quot;]!;
+  } else if (inspector._squareBottomLeftReverse(positions)) {
+    direction = patternsEn[&quot;square bottom left reverse&quot;]!;
+  } else if (inspector._squareBottomRightReverse(positions)) {
+    direction = patternsEn[&quot;square bottom right reverse&quot;]!;
+  } else if (inspector._squareTopLeftReverse(positions)) {
+    direction = patternsEn[&quot;square top left reverse&quot;]!;
+  } else if (inspector._squareTopRightReverse(positions)) {
+    direction = patternsEn[&quot;square top right reverse&quot;]!;
+  } else {
+    final List&lt;String&gt; command = &lt;String&gt;[];
+    int j = 0;
+    for (final Pair&lt;int, int&gt; k in positions) {
+      command
+        ..add(&quot;go(${rows[k.first]}${k.second + 1})&quot;)
+        ..add(
+          &quot;paint(${colors[j]})&quot;,
+        );
+      j = (j + 1) % colors.length;
+    }
+
+    return command;
+  }
+  if (copyCommands &amp;&amp;
+      (direction.startsWith(&quot;right&quot;) ||
+          direction.startsWith(&quot;left&quot;) ||
+          direction.startsWith(&quot;up&quot;) ||
+          direction.startsWith(&quot;down&quot;) ||
+          direction.startsWith(&quot;diagonal&quot;))) {
+    return inspector._conversionForCopy(direction, positions, colors);
+  }
+  final List&lt;String&gt; command = &lt;String&gt;[];
+  if (!direction.isBlank) {
+    command
+      ..add(
+        &quot;go(${rows[positions.first.first]}${positions.first.second + 1})&quot;,
+      )
+      ..add(
+        &quot;paint({${colors.joinToString()}},${positions.length},$direction)&quot;,
+      );
+  }
+
+  return command;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">cross_array_task_app</a></li>
+    <li><a href="../../model_interpreter_command_inspector/model_interpreter_command_inspector-library.html">command_inspector</a></li>
+    <li><a href="../../model_interpreter_command_inspector/CommandsInspector-class.html">CommandsInspector</a></li>
+    <li class="self-crumb">main static method</li>
+</ol>
+
+
+    <h5>CommandsInspector class</h5>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    cross_array_task_app
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

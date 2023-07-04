@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the build method from the CrossButtonState class, for the Dart programming language.">
+  <title>build method - CrossButtonState class - cross_button library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">cross_array_task_app</a></li>
+    <li><a href="../../activities_gesture_based_model_cross_button/activities_gesture_based_model_cross_button-library.html">cross_button</a></li>
+    <li><a href="../../activities_gesture_based_model_cross_button/CrossButtonState-class.html">CrossButtonState</a></li>
+    <li class="self-crumb">build method</li>
+  </ol>
+  <div class="self-name">build</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="activities_gesture_based_model_cross_button&#47;CrossButtonState-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">build</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+<span class="name ">build</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="build-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
+
+      <div class="features"><span class="feature">override</span></div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>It creates a rounded button.</p>
+<p>Args:
+context: The BuildContext of the widget.</p>
+<p>Returns:
+A CupertinoButton with a child of either an Icon or a Text widget.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">@override
+Widget build(BuildContext context) {
+  dimension = MediaQuery.of(context).size.width &#47; 13;
+
+  return AnimatedBuilder(
+    animation: context.watch&lt;VisibilityNotifier&gt;(),
+    builder: (_, __) =&gt; AnimatedBuilder(
+      animation: CatInterpreter(),
+      builder: (_, __) {
+        if (!t.isActive) {
+          buttonColor = context.read&lt;VisibilityNotifier&gt;().visible
+              ? colors[CatInterpreter()
+                  .getLastState
+                  .getGrid[widget.position.first][widget.position.second]]
+              : colors[0];
+        }
+
+        return Padding(
+          padding: EdgeInsets.all(dimension &#47; 10),
+          child: CupertinoButton(
+            pressedOpacity: 1,
+            onPressed: () async {
+              if (widget.selectionMode.value == SelectionModes.transition) {
+                widget.shakeKey.currentState?.shake();
+                for (final int i in 9.rangeTo(11)) {
+                  widget.shakeKeyColors[i].currentState?.shake();
+                }
+
+                return;
+              }
+              if (widget.selectionMode.value == SelectionModes.select ||
+                  widget.selectionMode.value ==
+                      SelectionModes.selectCopyCells) {
+                if (CatInterpreter().copyCommandsBuffer.isEmpty) {
+                  _selection();
+                } else {
+                  _selection2();
+                }
+
+                return;
+              } else if (widget.selectionMode.value ==
+                  SelectionModes.multiple) {
+                if (context.read&lt;SelectedColorsNotifier&gt;().isEmpty) {
+                  _selectionMultiple();
+                } else {
+                  widget.shakeKey.currentState?.shake();
+                  widget.shakeKeyColors.forEach(
+                    (GlobalKey&lt;BlinkWidgetState&gt; element) =&gt;
+                        element.currentState?.shake(),
+                  );
+                }
+
+                return;
+              }
+              if (widget.selectionMode.value == SelectionModes.repeat) {
+                await _normalColoring(
+                  selected:
+                      widget.selectionMode.value == SelectionModes.repeat,
+                );
+
+                return;
+              }
+              await _normalColoring();
+            },
+            borderRadius: BorderRadius.circular(100),
+            minSize: dimension,
+            color: buttonColor,
+            padding: EdgeInsets.zero,
+            child: _widget(),
+          ),
+        );
+      },
+    ),
+  );
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">cross_array_task_app</a></li>
+    <li><a href="../../activities_gesture_based_model_cross_button/activities_gesture_based_model_cross_button-library.html">cross_button</a></li>
+    <li><a href="../../activities_gesture_based_model_cross_button/CrossButtonState-class.html">CrossButtonState</a></li>
+    <li class="self-crumb">build method</li>
+</ol>
+
+
+    <h5>CrossButtonState class</h5>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    cross_array_task_app
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
