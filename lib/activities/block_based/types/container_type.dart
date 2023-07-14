@@ -32,4 +32,5 @@ enum ContainerType {
 
   /// Point type
   point,
+  none,
 }

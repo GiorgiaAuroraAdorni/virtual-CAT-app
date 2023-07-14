@@ -18,8 +18,14 @@ class CopyCommandsContainer extends SimpleContainer {
 
   @override
   CopyCommandsContainer copy() => CopyCommandsContainer(
-        container: super.container,
-        moves: super.moves,
+        container: List<SimpleContainer>.generate(
+          super.container.length,
+          (int i) => super.container[i].copy(),
+        ),
+        moves: List<SimpleContainer>.generate(
+          super.moves.length,
+          (int i) => super.moves[i].copy(),
+        ),
         languageCode: super.languageCode,
         added1: added1,
         added2: added2,

@@ -22,6 +22,13 @@ class CatLogger with ChangeNotifier {
     required String currentCommand,
     required CatLoggingLevel description,
   }) {
+    // print(CatInterpreter()
+    //     .allCommandsBuffer
+    //     .map((SimpleContainer e) => e.toString())
+    //     .join(","));
+    // print(previousCommand);
+    // print(currentCommand);
+    // print(description);
     _logs[DateTime.now().toIso8601String()] = LoggerInfo(
       previousCommand: previousCommand,
       currentCommand: currentCommand,

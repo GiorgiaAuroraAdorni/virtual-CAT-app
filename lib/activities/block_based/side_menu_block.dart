@@ -9,6 +9,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_po
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
+import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/drop_down_blocks.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
@@ -245,6 +246,8 @@ class SideMenuBlockState extends State<SideMenuBlock> {
           container: container,
           builder: Point.build,
         );
+      case ContainerType.none:
+        return WidgetContainer(onChange: () {});
     }
   }
 

@@ -1,3 +1,6 @@
+import "dart:async";
+import "dart:math";
+
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
@@ -22,9 +25,11 @@ import "package:cross_array_task_app/activities/block_based/model/paint_single_c
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
@@ -40,12 +45,21 @@ class CopyCommands extends WidgetContainer {
     super.key,
   });
 
+  CopyCommands.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
   /// A constructor for the Copy class.
   CopyCommands.build({
     required this.item,
     required super.onChange,
     super.key,
   });
+
+  List<State> state = [];
 
   /// Creating a new instance of the SimpleContainer class.
   @override
@@ -55,52 +69,81 @@ class CopyCommands extends WidgetContainer {
   State<StatefulWidget> createState() => _Copy();
 }
 
-class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
+class _Copy extends State<CopyCommands> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
   double childHeight = 0;
   double childHeight2 = 0;
-  List<Widget> widgets = <Widget>[];
-  List<Widget> widgets2 = <Widget>[];
-  bool preview1 = true;
-  bool preview2 = true;
-  Map<Key, double> sized = <Key, double>{
-    const Key("ciao"): 0.0,
-    const Key("lalala"): 0.0,
-  };
+  int _prevIndex = -1;
+  Map<Key, double> sized = <Key, double>{};
+  Map<Key, double> sized2 = <Key, double>{};
+  Timer _timer = Timer(Duration.zero, () {});
 
-  Map<Key, double> sized2 = <Key, double>{
-    const Key("ciao"): 0.0,
-    const Key("lalala"): 0.0,
-  };
+  late final List<SimpleContainer> _data_placeholder = <SimpleContainer>[
+    PaintSingleContainer(
+      selected: CupertinoColors.systemBlue,
+      languageCode: CATLocalizations.of(context).languageCode,
+    )..key = GlobalKey(),
+    GoPositionContainer(
+      a: "F",
+      b: "3",
+      languageCode: CATLocalizations.of(context).languageCode,
+    )..key = GlobalKey(),
+    PaintSingleContainer(
+      selected: CupertinoColors.systemRed,
+      languageCode: CATLocalizations.of(context).languageCode,
+    )..key = GlobalKey(),
+  ];
+
+  late final List<SimpleContainer> _data_placeholder2 = <SimpleContainer>[
+    PointContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    )..key = GlobalKey(),
+  ];
+
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    Future<void>(() {
-      if (widget.item.container.isNotEmpty) {
-        final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.container);
-        widget.item.container.clear();
-        for (final SimpleContainer i in copy) {
-          addOrigin(i, log: false);
-        }
-        final List<SimpleContainer> copy2 =
-            List<SimpleContainer>.from(widget.item.moves);
-        widget.item.moves.clear();
-        for (final SimpleContainer i in copy2) {
-          if (i is PointContainer) {
-            addDestination(i, log: false);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      setStateCustom(() {
+        if (widget.item.container.isNotEmpty) {
+          final List<SimpleContainer> copy =
+              List<SimpleContainer>.from(widget.item.container);
+          widget.item.container.clear();
+          for (final SimpleContainer element in copy) {
+            element.key = GlobalKey();
           }
+          widget.item.container = copy;
         }
-      }
+        if (widget.item.moves.isNotEmpty) {
+          final List<SimpleContainer> copy =
+              List<SimpleContainer>.from(widget.item.moves);
+          widget.item.moves.clear();
+          for (final SimpleContainer element in copy) {
+            element.key = GlobalKey();
+          }
+          widget.item.moves = copy;
+        }
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
+    if (sized.isEmpty) {
+      sized = <Key, double>{const Key("ciao"): 0.0, const Key("lalala"): 0.0};
+    }
+    if (sized2.isEmpty) {
+      sized2 = <Key, double>{const Key("ciao"): 0.0, const Key("lalala"): 0.0};
+    }
     childHeight = sized.entries
         .map((MapEntry<Key, double> e) => e.value)
         .reduce((double a, double b) => a + b);
@@ -179,67 +222,23 @@ class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
           List<dynamic> rejectedItems,
         ) =>
             LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            if (widget.item.container.isEmpty) {
-              preview1 = true;
-            }
-            if (candidateItems.isNotEmpty && preview1) {
-              preview1 = false;
-              widget.item.added1 = false;
-              widget.item.container.clear();
-              widgets.clear();
-              sized = <Key, double>{
-                const Key("ciao"): 0.0,
-                const Key("lalala"): 0.0,
-              };
-            }
-            if (preview1) {
-              return _preview(constraints);
-            }
-
-            return Align(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: CupertinoColors.systemBackground,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
-                  ),
-                ),
-                height: childHeight + 30,
-                width: constraints.maxWidth - 15,
-                child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {
-                    final String prev = widget.item.toString();
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final Widget widgett = widgets.removeAt(oldIndex);
-                    final SimpleContainer item =
-                        widget.item.container.removeAt(oldIndex);
-                    widgets.insert(newIndex, widgett);
-                    widget.item.container.insert(newIndex, item);
-
-                    context.read<BlockUpdateNotifier>().update();
-
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.removeCommand,
-                    );
-                  },
-                  children: widgets,
-                ),
-              ),
-            );
-          },
+          builder: (BuildContext context, BoxConstraints constraints) =>
+              canvas(candidateItems, constraints),
         ),
         onWillAccept: (SimpleContainer? container) {
           if (container is SimpleContainer) {
+            if (container.type == ContainerType.mirrorCommands) {
+              return false;
+            }
+            if (container.type == ContainerType.mirrorPoints) {
+              return false;
+            }
+            if (container.type == ContainerType.copyCells) {
+              return false;
+            }
             if (container.type == ContainerType.copy) {
               return false;
             }
-
             if (container.type == ContainerType.point) {
               return false;
             }
@@ -249,138 +248,255 @@ class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
 
           return false;
         },
-        onAccept: addOrigin,
-      );
-
-  Widget _preview(
-    BoxConstraints constraints,
-  ) {
-    if (!widget.item.added1 &&
-        widget.item.container.isEmpty &&
-        widgets.isEmpty) {
-      addOrigin(
-        PaintSingleContainer(
-          selected: CupertinoColors.systemBlue,
-          languageCode: CATLocalizations.of(context).languageCode,
-        ),
-        update: false,
-        log: false,
-      );
-      addOrigin(
-        GoPositionContainer(
-          a: "F",
-          b: "3",
-          languageCode: CATLocalizations.of(context).languageCode,
-        ),
-        update: false,
-        log: false,
-      );
-      addOrigin(
-        PaintSingleContainer(
-          selected: CupertinoColors.systemRed,
-          languageCode: CATLocalizations.of(context).languageCode,
-        ),
-        update: false,
-        log: false,
-      );
-      widget.item.added1 = true;
-    }
-
-    return Align(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: CupertinoColors.systemBackground,
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
-        height: childHeight + 30,
-        width: constraints.maxWidth - 15,
-        child: Center(
-          child: AnimatedBuilder(
-            animation: context.watch<TypeUpdateNotifier>(),
-            builder: (BuildContext context, Widget? child) => IgnorePointer(
-              child: ColorFiltered(
-                colorFilter: const ColorFilter.mode(
-                  Colors.white54,
-                  BlendMode.modulate,
+        onMove: (DragTargetDetails<SimpleContainer> details) =>
+            Timer(const Duration(milliseconds: 30), () {
+          move(details);
+        }),
+        onLeave: (_) {
+          Timer(const Duration(milliseconds: 40), () {
+            setStateCustom(() {
+              widget.item.container = widget.item.container
+                  .filter(
+                    (SimpleContainer e) => e.type != ContainerType.none,
+                  )
+                  .toList();
+              sized = sized.filter(
+                (MapEntry<Key, double> entry) => widget.item.container.any(
+                  (SimpleContainer element) => element.key == entry.key,
                 ),
-                child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {},
-                  children: widgets,
+              );
+              _prevIndex = -1;
+            });
+          });
+        },
+        onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
+          Timer(const Duration(milliseconds: 40), () {
+            final String prev = CatInterpreter()
+                .allCommandsBuffer
+                .map((SimpleContainer e) => e.toString())
+                .join(",");
+            final SimpleContainer copy = details.data.copy()..key = GlobalKey();
+            setStateCustom(() {
+              widget.item.container.insert(_prevIndex, copy);
+              widget.item.container = widget.item.container
+                  .filter(
+                    (SimpleContainer e) => e.type != ContainerType.none,
+                  )
+                  .toList();
+              sized = sized.filter(
+                (MapEntry<Key, double> entry) => widget.item.container.any(
+                  (SimpleContainer element) => element.key == entry.key,
                 ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void addOrigin(
-    SimpleContainer el, {
-    bool log = true,
-    bool update = true,
-  }) {
-    Future<void>.delayed(Duration.zero, () async {
-      final String prev = widget.item.toString();
-      setState(
-        () {
-          final UniqueKey key = UniqueKey();
-          final SimpleContainer container = el.copy();
-          widget.item.container.add(
-            container,
-          );
-          container.key = key;
-          sized[key] = 0.0;
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: generateDismiss(
-                container,
-                (Size size) {
-                  setState(() {
-                    sized[key] = size.height;
-                  });
-                },
-              ),
-              onDismissed: (DismissDirection direction) {
-                final String prev = widget.item.toString();
-                setState(() {
-                  widget.item.container.removeWhere(
-                    (SimpleContainer e) => e.key == key,
-                  );
-                  widgets.removeWhere(
-                    (Widget element) => element.key == key,
-                  );
-                  sized.remove(key);
-                });
-                context.read<BlockUpdateNotifier>().update();
-
-                CatLogger().addLog(
-                  context: context,
-                  previousCommand: prev,
-                  currentCommand: widget.item.toString(),
-                  description: CatLoggingLevel.removeCommand,
-                );
-              },
-            ),
-          );
-          if (update) {
+              );
+              _prevIndex = -1;
+            });
             context.read<BlockUpdateNotifier>().update();
-          }
-          if (log) {
             CatLogger().addLog(
               context: context,
               previousCommand: prev,
-              currentCommand: widget.item.toString(),
+              currentCommand: CatInterpreter()
+                  .allCommandsBuffer
+                  .map((SimpleContainer e) => e.toString())
+                  .join(","),
               description: CatLoggingLevel.addCommand,
             );
-          }
+          });
         },
       );
-    });
+
+  void move(DragTargetDetails<SimpleContainer> details) {
+    if (!mounted) {
+      return;
+    }
+    if (details.data.type == ContainerType.mirrorCommands) {
+      return;
+    }
+    if (details.data.type == ContainerType.mirrorPoints) {
+      return;
+    }
+    if (details.data.type == ContainerType.copyCells) {
+      return;
+    }
+    if (details.data.type == ContainerType.copy) {
+      return;
+    }
+    if (details.data.type == ContainerType.point) {
+      return;
+    }
+    if (_timer.isActive) {
+      return;
+    }
+    int index = widget.item.container.length;
+    double distance = double.maxFinite;
+    bool placeholder = false;
+    for (int i = 0; i < widget.item.container.length; i++) {
+      final Key elementKey = widget.item.container[i].key;
+      if (elementKey is GlobalKey &&
+          elementKey.currentContext?.findRenderObject() != null &&
+          elementKey != details.data.key) {
+        final RenderBox renderBox =
+            elementKey.currentContext?.findRenderObject() as RenderBox;
+
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+        final double posy = offset.dy;
+        final double dist = sqrt(
+          pow(posy - details.offset.dy, 2),
+        );
+        if (dist < distance) {
+          distance = dist;
+          index = i;
+          placeholder = widget.item.container[index].type == ContainerType.none;
+        }
+      }
+    }
+    if (placeholder) {
+      return;
+    }
+    if (_prevIndex != -1) {
+      setStateCustom(() {
+        final SimpleContainer removed =
+            widget.item.container.removeAt(_prevIndex);
+        sized.remove(removed.key);
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    } else {
+      setStateCustom(() {
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    }
+    _timer = Timer(const Duration(milliseconds: 200), () {});
   }
+
+  Widget canvas(
+    List<SimpleContainer?> candidateItems,
+    BoxConstraints constraints,
+  ) =>
+      Align(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: CupertinoColors.systemBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          height: childHeight + 30,
+          width: constraints.maxWidth - 15,
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) =>
+                widget.item.container.isEmpty && candidateItems.isEmpty
+                    ? IgnorePointer(
+                        key: _data_placeholder[index].key,
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white54,
+                            BlendMode.modulate,
+                          ),
+                          child: generateDismiss(
+                            _data_placeholder[index],
+                            (Size size) {
+                              setStateCustom(() {
+                                sized[_data_placeholder[index].key] =
+                                    size.height;
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                    : Dismissible(
+                        key: widget.item.container[index].key,
+                        child: LongPressDraggable<SimpleContainer>(
+                          delay: const Duration(milliseconds: 200),
+                          data: widget.item.container[index].copy(),
+                          feedback: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: generateDismiss(
+                              widget.item.container[index],
+                              (Size size) {},
+                            ),
+                          ),
+                          child: generateDismiss(
+                            widget.item.container[index],
+                            (Size size) {
+                              setStateCustom(
+                                () {
+                                  sized[widget.item.container[index].key] =
+                                      size.height;
+                                },
+                              );
+                            },
+                          ),
+                          onDragStarted: () {
+                            final String prev = CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(",");
+                            setStateCustom(
+                              () {
+                                sized.remove(
+                                  widget.item.container[index].key,
+                                );
+                                widget.item.container.removeAt(index);
+                              },
+                            );
+                            context.read<BlockUpdateNotifier>().update();
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: prev,
+                              currentCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .map((SimpleContainer e) => e.toString())
+                                  .join(","),
+                              description: CatLoggingLevel.removeCommand,
+                            );
+                          },
+                        ),
+                        onDismissed: (_) {
+                          final String prev = CatInterpreter()
+                              .allCommandsBuffer
+                              .map((SimpleContainer e) => e.toString())
+                              .join(",");
+                          setStateCustom(
+                            () {
+                              sized.remove(
+                                widget.item.container[index].key,
+                              );
+                              widget.item.container.removeAt(index);
+                            },
+                          );
+                          context.read<BlockUpdateNotifier>().update();
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand: prev,
+                            currentCommand: CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(","),
+                            description: CatLoggingLevel.removeCommand,
+                          );
+                        },
+                      ),
+            itemCount: widget.item.container.isEmpty && candidateItems.isEmpty
+                ? _data_placeholder.length
+                : widget.item.container.length,
+          ),
+        ),
+      );
 
   Widget positions() => Flexible(
         flex: 0,
@@ -391,166 +507,244 @@ class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
             List<dynamic> rejectedItems,
           ) =>
               LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (widget.item.moves.isEmpty) {
-                preview2 = true;
-              }
-              if (candidateItems.isNotEmpty && preview2) {
-                preview2 = false;
-                widget.item.added2 = false;
-                widget.item.moves.clear();
-                widgets2.clear();
-                sized2 = <Key, double>{
-                  const Key("ciao"): 0.0,
-                  const Key("lalala"): 0.0,
-                };
-              }
-              if (preview2) {
-                if (!widget.item.added2 &&
-                    widget.item.moves.isEmpty &&
-                    widgets2.isEmpty) {
-                  addDestination(
-                    PointContainer(
-                      languageCode: CATLocalizations.of(context).languageCode,
-                    ),
-                    update: false,
-                    log: false,
-                  );
-                  widget.item.added2 = true;
-                }
-
-                return Align(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: CupertinoColors.systemBackground,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    height: childHeight2 + 30,
-                    width: constraints.maxWidth - 15,
-                    child: Center(
-                      child: AnimatedBuilder(
-                        animation: context.watch<TypeUpdateNotifier>(),
-                        builder: (BuildContext context, Widget? child) =>
-                            IgnorePointer(
-                          child: ColorFiltered(
-                            colorFilter: const ColorFilter.mode(
-                              Colors.white54,
-                              BlendMode.modulate,
-                            ),
-                            child: ReorderableListView(
-                              onReorder: (int oldIndex, int newIndex) {},
-                              children: widgets2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }
-
-              return Align(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: CupertinoColors.systemBackground,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  height: childHeight2 + 30,
-                  width: constraints.maxWidth - 15,
-                  child: ReorderableListView(
-                    onReorder: (int oldIndex, int newIndex) {
-                      final String prev = widget.item.toString();
-                      if (oldIndex < newIndex) {
-                        newIndex -= 1;
-                      }
-                      final Widget widgett = widgets2.removeAt(oldIndex);
-                      final SimpleContainer item =
-                          widget.item.moves.removeAt(oldIndex);
-                      widgets2.insert(newIndex, widgett);
-                      widget.item.moves.insert(newIndex, item);
-                      context.read<BlockUpdateNotifier>().update();
-                      CatLogger().addLog(
-                        context: context,
-                        previousCommand: prev,
-                        currentCommand: widget.item.toString(),
-                        description: CatLoggingLevel.reorderCommand,
-                      );
-                    },
-                    children: widgets2,
-                  ),
-                ),
-              );
-            },
+            builder: (BuildContext context, BoxConstraints constraints) =>
+                canvas2(candidateItems, constraints),
           ),
-          onAccept: addDestination,
-        ),
-      );
-
-  void addDestination(
-    PointContainer el, {
-    bool log = true,
-    bool update = true,
-  }) {
-    Future<void>.delayed(Duration.zero, () async {
-      final String prev = widget.item.toString();
-      setState(() {
-        final UniqueKey key = UniqueKey();
-        final PointContainer container = el.copy();
-        widget.item.moves.add(
-          container,
-        );
-        widget.item.moves.last.key = key;
-        widgets2.add(
-          Dismissible(
-            key: key,
-            child: Point(
-              key: UniqueKey(),
-              item: container,
-              onChange: (Size size) {
-                setState(() {
-                  sized2[key] = size.height;
-                });
-              },
-            ),
-            onDismissed: (DismissDirection direction) {
-              final String prev = widget.item.toString();
-              setState(() {
-                widgets2.removeWhere(
-                  (Widget element) => element.key == key,
+          onMove: (DragTargetDetails<SimpleContainer> details) =>
+              Timer(const Duration(milliseconds: 30), () {
+            move2(details);
+          }),
+          onLeave: (_) {
+            Timer(const Duration(milliseconds: 40), () {
+              setStateCustom(() {
+                widget.item.moves = widget.item.moves
+                    .filter(
+                      (SimpleContainer e) => e.type != ContainerType.none,
+                    )
+                    .toList();
+                sized2 = sized2.filter(
+                  (MapEntry<Key, double> entry) => widget.item.moves.any(
+                    (SimpleContainer element) => element.key == entry.key,
+                  ),
                 );
-                widget.item.moves.removeWhere(
-                  (SimpleContainer element) => element.key == key,
+                _prevIndex = -1;
+              });
+            });
+          },
+          onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
+            Timer(const Duration(milliseconds: 40), () {
+              final String prev = CatInterpreter()
+                  .allCommandsBuffer
+                  .map((SimpleContainer e) => e.toString())
+                  .join(",");
+              final SimpleContainer copy = details.data.copy()
+                ..key = GlobalKey();
+              setStateCustom(() {
+                widget.item.moves.insert(_prevIndex, copy);
+                widget.item.moves = widget.item.moves
+                    .filter(
+                      (SimpleContainer e) => e.type != ContainerType.none,
+                    )
+                    .toList();
+                sized2 = sized2.filter(
+                  (MapEntry<Key, double> entry) => widget.item.moves.any(
+                    (SimpleContainer element) => element.key == entry.key,
+                  ),
                 );
-                sized2.remove(key);
+                _prevIndex = -1;
               });
               context.read<BlockUpdateNotifier>().update();
               CatLogger().addLog(
                 context: context,
                 previousCommand: prev,
-                currentCommand: widget.item.toString(),
-                description: CatLoggingLevel.removeCommand,
+                currentCommand: CatInterpreter()
+                    .allCommandsBuffer
+                    .map((SimpleContainer e) => e.toString())
+                    .join(","),
+                description: CatLoggingLevel.addCommand,
               );
-            },
-          ),
+            });
+          },
+        ),
+      );
+
+  void move2(DragTargetDetails<SimpleContainer> details) {
+    if (!mounted) {
+      return;
+    }
+    if (_timer.isActive) {
+      return;
+    }
+    int index = widget.item.moves.length;
+    double distance = double.maxFinite;
+    bool placeholder = false;
+    for (int i = 0; i < widget.item.moves.length; i++) {
+      final Key elementKey = widget.item.moves[i].key;
+      if (elementKey is GlobalKey &&
+          elementKey.currentContext?.findRenderObject() != null &&
+          elementKey != details.data.key) {
+        final RenderBox renderBox =
+            elementKey.currentContext?.findRenderObject() as RenderBox;
+
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+        final double posy = offset.dy;
+        final double dist = sqrt(
+          pow(posy - details.offset.dy, 2),
         );
+        if (dist < distance) {
+          distance = dist;
+          index = i;
+          placeholder = widget.item.moves[index].type == ContainerType.none;
+        }
+      }
+    }
+    if (placeholder) {
+      return;
+    }
+    if (_prevIndex != -1) {
+      setStateCustom(() {
+        final SimpleContainer removed = widget.item.moves.removeAt(_prevIndex);
+        sized2.remove(removed.key);
+        widget.item.moves.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
       });
-      if (update) {
-        context.read<BlockUpdateNotifier>().update();
-      }
-      if (log) {
-        CatLogger().addLog(
-          context: context,
-          previousCommand: prev,
-          currentCommand: widget.item.toString(),
-          description: CatLoggingLevel.addCommand,
+    } else {
+      setStateCustom(() {
+        widget.item.moves.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
         );
-      }
-    });
+        _prevIndex = index;
+      });
+    }
+    _timer = Timer(const Duration(milliseconds: 200), () {});
   }
+
+  Widget canvas2(
+    List<PointContainer?> candidateItems,
+    BoxConstraints constraints,
+  ) =>
+      Align(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: CupertinoColors.systemBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          height: childHeight2 + 30,
+          width: constraints.maxWidth - 15,
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) =>
+                widget.item.moves.isEmpty && candidateItems.isEmpty
+                    ? IgnorePointer(
+                        key: _data_placeholder2[index].key,
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white54,
+                            BlendMode.modulate,
+                          ),
+                          child: generateDismiss(
+                            _data_placeholder2[index],
+                            (Size size) {
+                              setStateCustom(() {
+                                sized2[_data_placeholder2[index].key] =
+                                    size.height;
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                    : Dismissible(
+                        key: widget.item.moves[index].key,
+                        child: LongPressDraggable<SimpleContainer>(
+                          delay: const Duration(milliseconds: 200),
+                          data: widget.item.moves[index].copy(),
+                          feedback: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: generateDismiss(
+                              widget.item.moves[index],
+                              (Size size) {},
+                            ),
+                          ),
+                          child: generateDismiss(
+                            widget.item.moves[index],
+                            (Size size) {
+                              setStateCustom(
+                                () {
+                                  sized2[widget.item.moves[index].key] =
+                                      size.height;
+                                },
+                              );
+                            },
+                          ),
+                          onDragStarted: () {
+                            final String prev = CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(",");
+                            setStateCustom(
+                              () {
+                                sized2.remove(
+                                  widget.item.moves[index].key,
+                                );
+                                widget.item.moves.removeAt(index);
+                              },
+                            );
+                            context.read<BlockUpdateNotifier>().update();
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: prev,
+                              currentCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .map((SimpleContainer e) => e.toString())
+                                  .join(","),
+                              description: CatLoggingLevel.removeCommand,
+                            );
+                          },
+                        ),
+                        onDismissed: (_) {
+                          final String prev = CatInterpreter()
+                              .allCommandsBuffer
+                              .map((SimpleContainer e) => e.toString())
+                              .join(",");
+                          setStateCustom(
+                            () {
+                              sized2.remove(
+                                widget.item.moves[index].key,
+                              );
+                              widget.item.moves.removeAt(index);
+                            },
+                          );
+                          context.read<BlockUpdateNotifier>().update();
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand: prev,
+                            currentCommand: CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(","),
+                            description: CatLoggingLevel.removeCommand,
+                          );
+                        },
+                      ),
+            itemCount: widget.item.moves.isEmpty && candidateItems.isEmpty
+                ? _data_placeholder2.length
+                : widget.item.moves.length,
+          ),
+        ),
+      );
 
   Widget generateDismiss(
     SimpleContainer container,
@@ -559,95 +753,112 @@ class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
     switch (container.type) {
       case ContainerType.fillEmpty:
         if (container is FillEmptyContainer) {
-          return FillEmpty(
+          return FillEmpty.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.go:
         if (container is GoContainer) {
-          return Go(
+          return Go.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.goPosition:
         if (container is GoPositionContainer) {
-          return GoPosition(
+          return GoPosition.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.paint:
         if (container is PaintContainer) {
-          return Paint(
+          return Paint.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.paintSingle:
         if (container is PaintSingleContainer) {
-          return PaintSingle(
+          return PaintSingle.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.copy:
         if (container is CopyCommandsContainer) {
-          return CopyCommands(
+          return CopyCommands.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.mirrorCross:
         if (container is MirrorSimpleContainer) {
-          return MirrorCross(
+          return MirrorCross.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.mirrorPoints:
         if (container is MirrorContainerPoints) {
-          return MirrorPoints(
+          return MirrorPoints.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.mirrorCommands:
         if (container is MirrorContainerCommands) {
-          return MirrorCommands(
+          return MirrorCommands.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.copyCells:
         if (container is CopyCellsContainer) {
-          return CopyCells(
+          return CopyCells.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
       case ContainerType.point:
         if (container is PointContainer) {
-          return Point(
+          return Point.context(
             item: container,
             onChange: f,
+            state: List<State>.from(widget.state)..add(this),
           );
         }
         break;
+      case ContainerType.none:
+        return WidgetContainer(
+          onChange: f,
+        )..item = container;
     }
 
-    return Container();
+    return WidgetContainer(
+      onChange: f,
+    )..item = container;
   }
 
   Size? oldSize = Size.zero;
@@ -674,7 +885,4 @@ class _Copy extends State<CopyCommands> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

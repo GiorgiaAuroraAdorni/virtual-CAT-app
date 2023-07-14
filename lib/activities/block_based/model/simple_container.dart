@@ -43,6 +43,9 @@ class SimpleContainer {
   SimpleContainer copy() => SimpleContainer(
         name: name,
         type: type,
+        container: List<SimpleContainer>.from(container),
+        moves: List<SimpleContainer>.from(moves),
+        axis: axis,
         languageCode: languageCode,
       );
 

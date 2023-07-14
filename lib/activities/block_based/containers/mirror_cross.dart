@@ -5,6 +5,7 @@ import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/scheduler.dart";
 import "package:provider/provider.dart";
 
 /// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
@@ -17,6 +18,15 @@ class MirrorCross extends WidgetContainer {
     required super.onChange,
     super.key,
   });
+
+  MirrorCross.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
 
   /// A constructor for a class called Mirror.
   MirrorCross.build({
@@ -33,19 +43,30 @@ class MirrorCross extends WidgetContainer {
   State<StatefulWidget> createState() => _MirrorHorizontal();
 }
 
-class _MirrorHorizontal extends State<MirrorCross>
-    with AutomaticKeepAliveClientMixin {
+class _MirrorHorizontal extends State<MirrorCross> {
   final double fontSize = 15;
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
       key: widgetKey,
-      height: context.read<TypeUpdateNotifier>().state == 2 ? 90 : 60,
-      width: MediaQuery.of(context).size.width,
+      height: context
+          .read<TypeUpdateNotifier>()
+          .state == 2 ? 90 : 60,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       decoration: BoxDecoration(
         border: Border.all(),
         color: Colors.blueGrey,
@@ -56,11 +77,15 @@ class _MirrorHorizontal extends State<MirrorCross>
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
           builder: (BuildContext context, Widget? child) {
-            if (context.read<TypeUpdateNotifier>().state == 2) {
+            if (context
+                .read<TypeUpdateNotifier>()
+                .state == 2) {
               return Column(
                 children: <Widget>[
                   Text(
-                    CATLocalizations.of(context).blocks["mirrorCross"]!,
+                    CATLocalizations
+                        .of(context)
+                        .blocks["mirrorCross"]!,
                     style: const TextStyle(
                       color: CupertinoColors.systemBackground,
                     ),
@@ -115,7 +140,7 @@ class _MirrorHorizontal extends State<MirrorCross>
       "horizontal",
       "vertical",
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
@@ -123,30 +148,35 @@ class _MirrorHorizontal extends State<MirrorCross>
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setStateCustom(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions,
+            ),
+          ),
     );
   }
 
@@ -155,7 +185,7 @@ class _MirrorHorizontal extends State<MirrorCross>
       "horizontal",
       "vertical",
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
@@ -163,33 +193,60 @@ class _MirrorHorizontal extends State<MirrorCross>
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setState(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions2,
-        ),
-      ),
+      builder: (BuildContext builder) =>
+          Container(
+            height: MediaQuery
+                .of(context)
+                .copyWith()
+                .size
+                .height * 0.25,
+            color: CupertinoColors.white,
+            child: CupertinoPicker(
+              onSelectedItemChanged: (int value) {
+                final String prev = widget.item.toString();
+                setStateCustom(() {
+                  widget.item.position = value;
+                  widget.item.direction = directions[value];
+                });
+                context.read<BlockUpdateNotifier>().update();
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              itemExtent: 25,
+              useMagnifier: true,
+              magnification: 1.3,
+              children: widget.item.directions2,
+            ),
+          ),
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  Size? oldSize = Size.zero;
+
+  /// If the size of the widget has changed, call the onChange callback
+  ///
+  /// Args:
+  ///   _: This is the callback function that will be called after the frame is
+  /// rendered.
+  ///
+  /// Returns:
+  ///   A function that is called after the frame is rendered.
+  void postFrameCallback(_) {
+    final BuildContext? context = widgetKey.currentContext;
+    if (context == null) {
+      return;
+    }
+
+    final Size? newSize = context.size;
+    if (oldSize == newSize) {
+      return;
+    }
+
+    oldSize = newSize;
+    widget.onChange(newSize);
+  }
 }

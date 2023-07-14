@@ -26,4 +26,10 @@ class VisibilityNotifier with ChangeNotifier {
     _visible = value;
     notifyListeners();
   }
+
+  void reset() {
+    _visible = false;
+    _finalState = false;
+    notifyListeners();
+  }
 }

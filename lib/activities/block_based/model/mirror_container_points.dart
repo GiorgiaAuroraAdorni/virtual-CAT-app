@@ -51,7 +51,10 @@ class MirrorContainerPoints extends SimpleContainer {
   SimpleContainer copy() => MirrorContainerPoints(
         position: position,
         direction: direction,
-        container: super.container,
+        container: List<SimpleContainer>.generate(
+          super.container.length,
+          (int i) => super.container[i].copy(),
+        ),
         languageCode: super.languageCode,
         added: added,
       );

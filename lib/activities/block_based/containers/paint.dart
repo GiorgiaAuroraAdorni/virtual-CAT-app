@@ -20,6 +20,15 @@ class Paint extends WidgetContainer {
     super.key,
   });
 
+  Paint.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// A constructor for the class Paint.
   Paint.build({
     required this.item,
@@ -35,12 +44,18 @@ class Paint extends WidgetContainer {
   State<Paint> createState() => _Paint();
 }
 
-class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
+class _Paint extends State<Paint> {
   final GlobalKey<State<Paint>> widgetKey = GlobalKey();
+
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -220,7 +235,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
       widget.item.repetitionsText,
     );
     print(widget.item.direction);
-    setState(() {
+    setStateCustom(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
         repetitionsText = <Widget>[repetitionsText[2]];
@@ -246,11 +261,11 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
           onSelectedItemChanged: (int value) {
             if (repetitionsText.length == 1) {
             } else if (repetitionsText.length == 5) {
-              setState(() {
+              setStateCustom(() {
                 widget.item.repetitions = value + 1;
               });
             } else {
-              setState(() {
+              setStateCustom(() {
                 widget.item.repetitions = value;
               });
             }
@@ -276,7 +291,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
     List<Widget> repetitionsIcons = List<Widget>.from(
       widget.item.repetitionsIcons,
     );
-    setState(() {
+    setStateCustom(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;
         repetitionsIcons = <Widget>[repetitionsIcons[2]];
@@ -302,11 +317,11 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
           onSelectedItemChanged: (int value) {
             if (repetitionsIcons.length == 1) {
             } else if (repetitionsIcons.length == 5) {
-              setState(() {
+              setStateCustom(() {
                 widget.item.repetitions = value + 1;
               });
             } else {
-              setState(() {
+              setStateCustom(() {
                 widget.item.repetitions = value;
               });
             }
@@ -346,7 +361,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -359,7 +374,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
       ),
     ).whenComplete(
       () {
-        setState(() {
+        setStateCustom(() {
           if (widget.item.direction.startsWith("square")) {
             widget.item.repetitions = 2;
           } else if (widget.item.direction.startsWith("l") &&
@@ -395,7 +410,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -413,7 +428,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
       ),
     ).whenComplete(
       () {
-        setState(() {
+        setStateCustom(() {
           if (widget.item.direction.startsWith("square")) {
             widget.item.repetitions = 2;
           } else if (widget.item.direction.startsWith("l") &&
@@ -455,7 +470,7 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
               key: Key(colors[color]!),
               onPressed: () {
                 final String prev = widget.item.toString();
-                setState(() {
+                setStateCustom(() {
                   if (widget.item.selectedColors.contains(color)) {
                     widget.item.selectedColors.remove(color);
                   } else {
@@ -519,7 +534,4 @@ class _Paint extends State<Paint> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

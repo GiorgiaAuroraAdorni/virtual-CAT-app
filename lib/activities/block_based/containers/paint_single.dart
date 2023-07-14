@@ -20,6 +20,15 @@ class PaintSingle extends WidgetContainer {
     super.key,
   });
 
+  PaintSingle.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// This is a named constructor that is used to create a new instance of
   /// the FillEmpty class.
   PaintSingle.build({
@@ -37,14 +46,19 @@ class PaintSingle extends WidgetContainer {
   State<StatefulWidget> createState() => _PaintSingle();
 }
 
-class _PaintSingle extends State<PaintSingle>
-    with AutomaticKeepAliveClientMixin {
+class _PaintSingle extends State<PaintSingle> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -91,7 +105,7 @@ class _PaintSingle extends State<PaintSingle>
               key: Key(colors[color]!),
               onPressed: () {
                 final String prev = widget.item.toString();
-                setState(() {
+                setStateCustom(() {
                   widget.item.selected = color;
                 });
                 context.read<BlockUpdateNotifier>().update();
@@ -206,7 +220,4 @@ class _PaintSingle extends State<PaintSingle>
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

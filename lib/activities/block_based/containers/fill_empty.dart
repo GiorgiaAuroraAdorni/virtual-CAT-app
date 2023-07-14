@@ -19,6 +19,13 @@ class FillEmpty extends WidgetContainer {
     super.key,
   });
 
+  FillEmpty.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
   /// This is a named constructor that is used to create a new instance of
   /// the FillEmpty class.
   FillEmpty.build({
@@ -26,6 +33,8 @@ class FillEmpty extends WidgetContainer {
     required super.onChange,
     super.key,
   });
+
+  List<State> state = [];
 
   /// A variable that is used to store the SimpleContainer that is passed in from
   /// the parent widget.
@@ -36,13 +45,19 @@ class FillEmpty extends WidgetContainer {
   State<StatefulWidget> createState() => _FillEmpty();
 }
 
-class _FillEmpty extends State<FillEmpty> with AutomaticKeepAliveClientMixin {
+class _FillEmpty extends State<FillEmpty> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -87,7 +102,7 @@ class _FillEmpty extends State<FillEmpty> with AutomaticKeepAliveClientMixin {
             padding: const EdgeInsets.all(5),
             child: CupertinoButton(
               key: Key(colors[color]!),
-              onPressed: () => setState(() {
+              onPressed: () => setStateCustom(() {
                 final String prev = widget.item.toString();
                 widget.item.selected = color;
                 context.read<BlockUpdateNotifier>().update();
@@ -202,7 +217,4 @@ class _FillEmpty extends State<FillEmpty> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

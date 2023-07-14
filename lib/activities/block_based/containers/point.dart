@@ -19,6 +19,15 @@ class Point extends WidgetContainer {
     super.key,
   });
 
+  Point.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// A named constructor that is used to create a new instance of the
   /// Go class.
   Point.build({
@@ -36,13 +45,19 @@ class Point extends WidgetContainer {
   State<StatefulWidget> createState() => _Point();
 }
 
-class _Point extends State<Point> with AutomaticKeepAliveClientMixin {
+class _Point extends State<Point> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -150,7 +165,7 @@ class _Point extends State<Point> with AutomaticKeepAliveClientMixin {
                 scrollController:
                     FixedExtentScrollController(initialItem: initialA),
                 onSelectedItemChanged: (int value) {
-                  setState(() {
+                  setStateCustom(() {
                     widget.item.a = directions2[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
@@ -171,7 +186,7 @@ class _Point extends State<Point> with AutomaticKeepAliveClientMixin {
                 scrollController:
                     FixedExtentScrollController(initialItem: initialB),
                 onSelectedItemChanged: (int value) {
-                  setState(() {
+                  setStateCustom(() {
                     widget.item.b = directions[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
@@ -224,7 +239,4 @@ class _Point extends State<Point> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -19,6 +19,15 @@ class GoPosition extends WidgetContainer {
     super.key,
   });
 
+  GoPosition.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// A named constructor that is used to create a new instance of the
   /// Go class.
   GoPosition.build({
@@ -36,14 +45,20 @@ class GoPosition extends WidgetContainer {
   State<StatefulWidget> createState() => _Go();
 }
 
-class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
+class _Go extends State<GoPosition> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   List<Widget> widgets = <Widget>[];
   final double fontSize = 15;
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -150,7 +165,7 @@ class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
                 scrollController:
                     FixedExtentScrollController(initialItem: initialA),
                 onSelectedItemChanged: (int value) {
-                  setState(() {
+                  setStateCustom(() {
                     widget.item.a = directions2[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
@@ -171,7 +186,7 @@ class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
                 scrollController:
                     FixedExtentScrollController(initialItem: initialB),
                 onSelectedItemChanged: (int value) {
-                  setState(() {
+                  setStateCustom(() {
                     widget.item.b = directions[value];
                   });
                   context.read<BlockUpdateNotifier>().update();
@@ -191,12 +206,14 @@ class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () {
+        CatLogger().addLog(
+          context: context,
+          previousCommand: prev,
+          currentCommand: widget.item.toString(),
+          description: CatLoggingLevel.updateCommandProperties,
+        );
+      },
     );
   }
 
@@ -224,7 +241,4 @@ class _Go extends State<GoPosition> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

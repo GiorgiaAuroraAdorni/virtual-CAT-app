@@ -209,7 +209,8 @@ class BlockCanvasState extends State<BlockCanvas> {
             onChange: f,
           );
         }
-        break;
+      case ContainerType.none:
+        return WidgetContainer(onChange: () {});
     }
 
     return WidgetContainer(onChange: () {});

@@ -464,7 +464,10 @@ class PaintContainer extends SimpleContainer {
 
   @override
   PaintContainer copy() => PaintContainer(
-        selectedColors: selectedColors,
+        selectedColors: List<CupertinoDynamicColor>.generate(
+          selectedColors.length,
+          (int i) => selectedColors[i],
+        ),
         direction: direction,
         repetitions: repetitions,
         languageCode: super.languageCode,

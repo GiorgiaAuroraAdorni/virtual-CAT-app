@@ -1,11 +1,17 @@
+import "dart:async";
+import "dart:math";
+
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
+import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
@@ -22,6 +28,15 @@ class MirrorPoints extends WidgetContainer {
     super.key,
   });
 
+  MirrorPoints.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// A constructor for a class called Mirror.
   MirrorPoints.build({
     required this.item,
@@ -37,38 +52,51 @@ class MirrorPoints extends WidgetContainer {
   State<StatefulWidget> createState() => _Mirror();
 }
 
-class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
+class _Mirror extends State<MirrorPoints> {
   final double fontSize = 15;
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
-  List<Widget> widgets = <Widget>[];
   double childHeight = 0;
-  bool preview = true;
-  Map<Key, double> sized = <Key, double>{
-    const Key("ciao"): 0.0,
-    const Key("lalala"): 0.0,
-  };
+  int _prevIndex = -1;
+  Map<Key, double> sized = <Key, double>{};
+  Timer _timer = Timer(Duration.zero, () {});
+
+  late final List<SimpleContainer> _data_placeholder = <SimpleContainer>[
+    PointContainer(
+      languageCode: CATLocalizations.of(context).languageCode,
+    )..key = GlobalKey(),
+  ];
+
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    Future<void>(() {
-      if (widget.item.container.isNotEmpty) {
-        final List<SimpleContainer> copy =
-            List<SimpleContainer>.from(widget.item.container);
-        widget.item.container.clear();
-        for (final SimpleContainer i in copy) {
-          if (i is PointContainer) {
-            _addContainer(i, log: false);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      setStateCustom(() {
+        if (widget.item.container.isNotEmpty) {
+          final List<SimpleContainer> copy =
+              List<SimpleContainer>.from(widget.item.container);
+          widget.item.container.clear();
+          for (final SimpleContainer element in copy) {
+            element.key = GlobalKey();
           }
+          widget.item.container = copy;
         }
-      }
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
+    if (sized.isEmpty) {
+      sized = <Key, double>{const Key("ciao"): 0.0, const Key("lalala"): 0.0};
+    }
     childHeight = sized.entries
         .map((MapEntry<Key, double> e) => e.value)
         .reduce((double a, double b) => a + b);
@@ -90,248 +118,329 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  Widget header() => AnimatedBuilder(
+        animation: context.watch<TypeUpdateNotifier>(),
+        builder: (
+          BuildContext context,
+          Widget? child,
+        ) {
+          if (context.read<TypeUpdateNotifier>().state == 2) {
+            return Column(
+              children: <Widget>[
+                Text(
+                  CATLocalizations.of(context).blocks["mirrorPoints"]!,
+                  style: const TextStyle(
+                    color: CupertinoColors.systemBackground,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                CupertinoButton(
+                  color: CupertinoColors.systemGrey5,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  onPressed: _directionPicker,
+                  child: widget.item.directions[widget.item.position],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  CATLocalizations.of(context).blocks["mirrorPointsBlock"]!,
+                  style: const TextStyle(
+                    color: CupertinoColors.systemBackground,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
+            );
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CupertinoButton(
+                color: CupertinoColors.systemGrey5,
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                onPressed: _directionPickerIcons,
+                child: widget.item.directions2[widget.item.position],
+              ),
+            ],
+          );
+        },
+      );
+
   Widget figure() => Padding(
         padding: const EdgeInsets.all(5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            AnimatedBuilder(
-              animation: context.watch<TypeUpdateNotifier>(),
+            header(),
+            DragTarget<PointContainer>(
               builder: (
                 BuildContext context,
-                Widget? child,
-              ) {
-                if (context.read<TypeUpdateNotifier>().state == 2) {
-                  return Column(
-                    children: <Widget>[
-                      Text(
-                        CATLocalizations.of(context).blocks["mirrorPoints"]!,
-                        style: const TextStyle(
-                          color: CupertinoColors.systemBackground,
-                        ),
+                List<PointContainer?> candidateItems,
+                List<dynamic> rejectedItems,
+              ) =>
+                  LayoutBuilder(
+                builder: (
+                  BuildContext context,
+                  BoxConstraints constraints,
+                ) =>
+                    canvas(candidateItems, constraints),
+              ),
+              onLeave: (_) {
+                Timer(const Duration(milliseconds: 40), () {
+                  setStateCustom(() {
+                    widget.item.container = widget.item.container
+                        .filter(
+                          (SimpleContainer e) => e.type != ContainerType.none,
+                        )
+                        .toList();
+                    sized = sized.filter(
+                      (MapEntry<Key, double> entry) =>
+                          widget.item.container.any(
+                        (SimpleContainer element) => element.key == entry.key,
                       ),
-                      const SizedBox(
-                        height: 5,
+                    );
+                    _prevIndex = -1;
+                  });
+                });
+              },
+              onMove: (DragTargetDetails<SimpleContainer> details) =>
+                  Timer(const Duration(milliseconds: 30), () {
+                move(details);
+              }),
+              onAcceptWithDetails:
+                  (DragTargetDetails<SimpleContainer> details) {
+                Timer(const Duration(milliseconds: 40), () {
+                  final String prev = CatInterpreter()
+                      .allCommandsBuffer
+                      .map((SimpleContainer e) => e.toString())
+                      .join(",");
+                  final SimpleContainer copy = details.data.copy()
+                    ..key = GlobalKey();
+                  setStateCustom(() {
+                    widget.item.container.insert(_prevIndex, copy);
+                    widget.item.container = widget.item.container
+                        .filter(
+                          (SimpleContainer e) => e.type != ContainerType.none,
+                        )
+                        .toList();
+                    sized = sized.filter(
+                      (MapEntry<Key, double> entry) =>
+                          widget.item.container.any(
+                        (SimpleContainer element) => element.key == entry.key,
                       ),
-                      CupertinoButton(
-                        color: CupertinoColors.systemGrey5,
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        onPressed: _directionPicker,
-                        child: widget.item.directions[widget.item.position],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        CATLocalizations.of(context)
-                            .blocks["mirrorPointsBlock"]!,
-                        style: const TextStyle(
-                          color: CupertinoColors.systemBackground,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                    ],
+                    );
+                    _prevIndex = -1;
+                  });
+                  context.read<BlockUpdateNotifier>().update();
+                  CatLogger().addLog(
+                    context: context,
+                    previousCommand: prev,
+                    currentCommand: CatInterpreter()
+                        .allCommandsBuffer
+                        .map((SimpleContainer e) => e.toString())
+                        .join(","),
+                    description: CatLoggingLevel.addCommand,
                   );
-                }
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CupertinoButton(
-                      color: CupertinoColors.systemGrey5,
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      onPressed: _directionPickerIcons,
-                      child: widget.item.directions2[widget.item.position],
-                    ),
-                  ],
-                );
+                });
               },
             ),
-            positions(),
           ],
         ),
       );
 
-  Widget positions() => DragTarget<PointContainer>(
-        builder: (
-          BuildContext context,
-          List<PointContainer?> candidateItems,
-          List<dynamic> rejectedItems,
-        ) =>
-            LayoutBuilder(
-          builder: (
-            BuildContext context,
-            BoxConstraints constraints,
-          ) {
-            if (widget.item.container.isEmpty) {
-              preview = true;
-            }
-            if (candidateItems.isNotEmpty && preview) {
-              preview = false;
-              widget.item.added = false;
-              widget.item.container.clear();
-              widgets.clear();
-              sized = <Key, double>{
-                const Key("ciao"): 0.0,
-                const Key("lalala"): 0.0,
-              };
-            }
-            if (preview) {
-              if (!widget.item.added &&
-                  widget.item.container.isEmpty &&
-                  widgets.isEmpty) {
-                _addContainer(
-                  PointContainer(
-                    languageCode: CATLocalizations.of(context).languageCode,
-                  ),
-                  update: false,
-                  log: false,
-                );
-                widget.item.added = true;
-              }
+  void move(DragTargetDetails<SimpleContainer> details) {
+    if (!mounted) {
+      return;
+    }
+    if (_timer.isActive) {
+      return;
+    }
+    int index = widget.item.container.length;
+    double distance = double.maxFinite;
+    bool placeholder = false;
+    for (int i = 0; i < widget.item.container.length; i++) {
+      final Key elementKey = widget.item.container[i].key;
+      if (elementKey is GlobalKey &&
+          elementKey.currentContext?.findRenderObject() != null &&
+          elementKey != details.data.key) {
+        final RenderBox renderBox =
+            elementKey.currentContext?.findRenderObject() as RenderBox;
 
-              return Align(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: CupertinoColors.systemBackground,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  height: childHeight + 30,
-                  width: constraints.maxWidth - 15,
-                  child: Center(
-                    child: AnimatedBuilder(
-                      animation: context.watch<TypeUpdateNotifier>(),
-                      builder: (BuildContext context, Widget? child) =>
-                          IgnorePointer(
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+        final double posy = offset.dy;
+        final double dist = sqrt(
+          pow(posy - details.offset.dy, 2),
+        );
+        if (dist < distance) {
+          distance = dist;
+          index = i;
+          placeholder = widget.item.container[index].type == ContainerType.none;
+        }
+      }
+    }
+    if (placeholder) {
+      return;
+    }
+    if (_prevIndex != -1) {
+      setStateCustom(() {
+        final SimpleContainer removed =
+            widget.item.container.removeAt(_prevIndex);
+        sized.remove(removed.key);
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    } else {
+      setStateCustom(() {
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    }
+    _timer = Timer(const Duration(milliseconds: 200), () {});
+  }
+
+  Widget canvas(
+    List<PointContainer?> candidateItems,
+    BoxConstraints constraints,
+  ) =>
+      Align(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: CupertinoColors.systemBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          height: childHeight + 30,
+          width: constraints.maxWidth - 15,
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) =>
+                widget.item.container.isEmpty && candidateItems.isEmpty
+                    ? IgnorePointer(
+                        key: _data_placeholder[index].key,
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
                             Colors.white54,
                             BlendMode.modulate,
                           ),
-                          child: ReorderableListView(
-                            onReorder: (int oldIndex, int newIndex) {},
-                            children: widgets,
+                          child: generateDismiss(
+                            _data_placeholder[index],
+                            (Size size) {
+                              setStateCustom(() {
+                                sized[_data_placeholder[index].key] =
+                                    size.height;
+                              });
+                            },
                           ),
                         ),
+                      )
+                    : Dismissible(
+                        key: widget.item.container[index].key,
+                        child: LongPressDraggable<SimpleContainer>(
+                          delay: const Duration(milliseconds: 200),
+                          data: widget.item.container[index].copy(),
+                          feedback: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: IgnorePointer(
+                              child: generateDismiss(
+                                widget.item.container[index],
+                                (Size size) {},
+                              ),
+                            ),
+                          ),
+                          child: generateDismiss(
+                            widget.item.container[index],
+                            (Size size) {
+                              setStateCustom(
+                                () {
+                                  sized[widget.item.container[index].key] =
+                                      size.height;
+                                },
+                              );
+                            },
+                          ),
+                          onDragStarted: () {
+                            final String prev = CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(",");
+                            setStateCustom(
+                              () {
+                                sized.remove(
+                                  widget.item.container[index].key,
+                                );
+                                widget.item.container.removeAt(index);
+                              },
+                            );
+                            context.read<BlockUpdateNotifier>().update();
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand: prev,
+                              currentCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .map((SimpleContainer e) => e.toString())
+                                  .join(","),
+                              description: CatLoggingLevel.removeCommand,
+                            );
+                          },
+                        ),
+                        onDismissed: (_) {
+                          final String prev = CatInterpreter()
+                              .allCommandsBuffer
+                              .map((SimpleContainer e) => e.toString())
+                              .join(",");
+                          setStateCustom(
+                            () {
+                              sized.remove(
+                                widget.item.container[index].key,
+                              );
+                              widget.item.container.removeAt(index);
+                            },
+                          );
+                          context.read<BlockUpdateNotifier>().update();
+                          CatLogger().addLog(
+                            context: context,
+                            previousCommand: prev,
+                            currentCommand: CatInterpreter()
+                                .allCommandsBuffer
+                                .map((SimpleContainer e) => e.toString())
+                                .join(","),
+                            description: CatLoggingLevel.removeCommand,
+                          );
+                        },
                       ),
-                    ),
-                  ),
-                ),
-              );
-            }
-
-            return Align(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: CupertinoColors.systemBackground,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
-                  ),
-                ),
-                height: childHeight + 30,
-                width: constraints.maxWidth - 15,
-                child: ReorderableListView(
-                  onReorder: (int oldIndex, int newIndex) {
-                    final String prev = widget.item.toString();
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final Widget widgett = widgets.removeAt(oldIndex);
-                    widgets.insert(newIndex, widgett);
-                    final SimpleContainer item =
-                        widget.item.container.removeAt(oldIndex);
-                    widget.item.container.insert(newIndex, item);
-                    context.read<BlockUpdateNotifier>().update();
-                    CatLogger().addLog(
-                      context: context,
-                      previousCommand: prev,
-                      currentCommand: widget.item.toString(),
-                      description: CatLoggingLevel.reorderCommand,
-                    );
-                  },
-                  children: widgets,
-                ),
-              ),
-            );
-          },
+            itemCount: widget.item.container.isEmpty && candidateItems.isEmpty
+                ? _data_placeholder.length
+                : widget.item.container.length,
+          ),
         ),
-        onAccept: _addContainer,
       );
-
-  void _addContainer(
-    PointContainer el, {
-    bool log = true,
-    bool update = true,
-  }) {
-    Future<void>.delayed(Duration.zero, () async {
-      final String prev = widget.item.toString();
-      setState(
-        () {
-          final UniqueKey key = UniqueKey();
-          final PointContainer container = el.copy();
-          widget.item.container.add(
-            container,
-          );
-          container.key = key;
-          widgets.add(
-            Dismissible(
-              key: key,
-              child: Point(
-                key: UniqueKey(),
-                item: container,
-                onChange: (Size size) {
-                  setState(() {
-                    sized[key] = size.height;
-                  });
-                },
-              ),
-              onDismissed: (DismissDirection direction) {
-                final String prev = widget.item.toString();
-                setState(() {
-                  widget.item.container.removeWhere(
-                    (SimpleContainer e) => e.key == key,
-                  );
-                  widgets.removeWhere(
-                    (Widget element) => element.key == key,
-                  );
-                  sized.remove(key);
-                });
-                context.read<BlockUpdateNotifier>().update();
-                CatLogger().addLog(
-                  context: context,
-                  previousCommand: prev,
-                  currentCommand: widget.item.toString(),
-                  description: CatLoggingLevel.removeCommand,
-                );
-              },
-            ),
-          );
-          if (update) {
-            context.read<BlockUpdateNotifier>().update();
-          }
-          if (log) {
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.addCommand,
-            );
-          }
-        },
-      );
-    });
-  }
 
   void _directionPicker() {
     final List<String> directions = <String>[
       "horizontal",
       "vertical",
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
@@ -345,7 +454,7 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             final String prev = widget.item.toString();
-            setState(() {
+            setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
             });
@@ -371,7 +480,7 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
       "horizontal",
       "vertical",
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.position = 0;
       widget.item.direction = directions[0];
     });
@@ -384,7 +493,7 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
             final String prev = widget.item.toString();
-            setState(() {
+            setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
             });
@@ -403,6 +512,51 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
+  }
+
+  Widget generateDismiss(
+    SimpleContainer container,
+    Function f,
+  ) {
+    switch (container.type) {
+      case ContainerType.fillEmpty:
+        break;
+      case ContainerType.go:
+        break;
+      case ContainerType.goPosition:
+        break;
+      case ContainerType.paint:
+        break;
+      case ContainerType.paintSingle:
+        break;
+      case ContainerType.copy:
+        break;
+      case ContainerType.mirrorCross:
+        break;
+      case ContainerType.mirrorPoints:
+        break;
+      case ContainerType.mirrorCommands:
+        break;
+      case ContainerType.copyCells:
+        break;
+      case ContainerType.point:
+        if (container is PointContainer) {
+          return Point.context(
+            item: container,
+            onChange: f,
+            state: List<State>.from(widget.state)..add(this),
+          );
+        }
+        break;
+      case ContainerType.none:
+        return WidgetContainer(
+          onChange: f,
+        )..item = container;
+    }
+
+    return WidgetContainer(
+      onChange: f,
+    )..item = container;
   }
 
   Size? oldSize = Size.zero;
@@ -429,7 +583,4 @@ class _Mirror extends State<MirrorPoints> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

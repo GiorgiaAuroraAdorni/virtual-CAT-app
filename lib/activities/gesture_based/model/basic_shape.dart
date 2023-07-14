@@ -127,11 +127,11 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         child: GestureDetector(
           onPanStart: (DragStartDetails details) => _checkPosition(
             details.globalPosition,
-            containerDimension / 2,
+            MediaQuery.of(context).size.width / 13 / 2,
           ),
           onPanUpdate: (DragUpdateDetails details) => _checkPosition(
             details.globalPosition,
-            containerDimension / 2,
+            MediaQuery.of(context).size.width / 13 / 2,
           ),
           onPanEnd: endPan,
           child: Flex(

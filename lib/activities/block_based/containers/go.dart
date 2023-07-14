@@ -19,6 +19,15 @@ class Go extends WidgetContainer {
     super.key,
   });
 
+  Go.context({
+    required this.item,
+    required super.onChange,
+    required this.state,
+    super.key,
+  });
+
+  List<State> state = [];
+
   /// A named constructor that is used to create a new instance of the
   /// Go class.
   Go.build({
@@ -36,13 +45,19 @@ class Go extends WidgetContainer {
   State<StatefulWidget> createState() => _Go();
 }
 
-class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
+class _Go extends State<Go> {
   GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   final double fontSize = 15;
 
+  void setStateCustom(VoidCallback fn) {
+    setState(fn);
+    for (final State<StatefulWidget> i in widget.state) {
+      i.setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
 
     return Container(
@@ -222,7 +237,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
         ],
       ),
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
@@ -234,7 +249,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -263,7 +278,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
       const Text("4"),
       const Text("5"),
     ];
-    setState(() {
+    setStateCustom(() {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
@@ -275,7 +290,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.repetitions = value + 1;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -313,7 +328,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.direction = widget.item.items2[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -350,7 +365,7 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
         child: CupertinoPicker(
           scrollController: FixedExtentScrollController(initialItem: pos),
           onSelectedItemChanged: (int value) {
-            setState(() {
+            setStateCustom(() {
               widget.item.direction = widget.item.items[directions[value]]!;
             });
             context.read<BlockUpdateNotifier>().update();
@@ -395,7 +410,4 @@ class _Go extends State<Go> with AutomaticKeepAliveClientMixin {
     oldSize = newSize;
     widget.onChange(newSize);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
