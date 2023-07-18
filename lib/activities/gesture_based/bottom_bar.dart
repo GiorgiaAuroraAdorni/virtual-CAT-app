@@ -17,6 +17,7 @@ import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -61,33 +62,83 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 5, left: 5),
-            child: CupertinoButton(
-              onPressed: () async => submit(complete: false),
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              padding: EdgeInsets.zero,
-              color: CupertinoColors.systemRed,
-              child: const Icon(
-                CupertinoIcons.xmark_circle_fill,
-                size: 44,
-              ),
-            ),
+          AnimatedBuilder(
+            animation: widget.selectionMode,
+            builder: (_, __) =>
+                widget.selectionMode.value == SelectionModes.base
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 5, left: 5),
+                        child: CupertinoButton(
+                          onPressed: () async => submit(complete: false),
+                          borderRadius: BorderRadius.circular(45),
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          color: CupertinoColors.systemRed,
+                          child: const Icon(
+                            CupertinoIcons.xmark_circle_fill,
+                            size: 44,
+                          ),
+                        ),
+                      )
+                    : IgnorePointer(
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                              Colors.white54, BlendMode.modulate),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 5, left: 5),
+                            child: CupertinoButton(
+                              onPressed: () async => submit(complete: false),
+                              borderRadius: BorderRadius.circular(45),
+                              minSize: 50,
+                              padding: EdgeInsets.zero,
+                              color: CupertinoColors.systemRed,
+                              child: const Icon(
+                                CupertinoIcons.xmark_circle_fill,
+                                size: 44,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5, left: 5),
-            child: CupertinoButton(
-              onPressed: () async => submit(complete: true),
-              borderRadius: BorderRadius.circular(45),
-              minSize: 50,
-              padding: EdgeInsets.zero,
-              color: CupertinoColors.systemGreen.highContrastColor,
-              child: const Icon(
-                CupertinoIcons.check_mark_circled_solid,
-                size: 44,
-              ),
-            ),
+          AnimatedBuilder(
+            animation: widget.selectionMode,
+            builder: (_, __) => widget.selectionMode.value ==
+                    SelectionModes.base
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 5, left: 5),
+                    child: CupertinoButton(
+                      onPressed: () async => submit(complete: true),
+                      borderRadius: BorderRadius.circular(45),
+                      minSize: 50,
+                      padding: EdgeInsets.zero,
+                      color: CupertinoColors.systemGreen.highContrastColor,
+                      child: const Icon(
+                        CupertinoIcons.check_mark_circled_solid,
+                        size: 44,
+                      ),
+                    ),
+                  )
+                : IgnorePointer(
+                    child: ColorFiltered(
+                      colorFilter: const ColorFilter.mode(
+                          Colors.white54, BlendMode.modulate),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5, left: 5),
+                        child: CupertinoButton(
+                          onPressed: () async => submit(complete: true),
+                          borderRadius: BorderRadius.circular(45),
+                          minSize: 50,
+                          padding: EdgeInsets.zero,
+                          color: CupertinoColors.systemGreen.highContrastColor,
+                          child: const Icon(
+                            CupertinoIcons.check_mark_circled_solid,
+                            size: 44,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
           ),
         ],
       );
@@ -160,6 +211,14 @@ class _BottomBarState extends State<BottomBar> {
     if (!cont) {
       return;
     }
+
+    CatLogger().addLog(
+      context: context,
+      previousCommand: commands.joinToString(),
+      currentCommand: "",
+      description:
+          complete ? CatLoggingLevel.completed : CatLoggingLevel.surrendered,
+    );
 
     UIBlock.block(
       context,

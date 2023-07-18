@@ -22,10 +22,6 @@ class CatLogger with ChangeNotifier {
     required String currentCommand,
     required CatLoggingLevel description,
   }) {
-    // print(CatInterpreter()
-    //     .allCommandsBuffer
-    //     .map((SimpleContainer e) => e.toString())
-    //     .join(","));
     // print(previousCommand);
     // print(currentCommand);
     // print(description);
@@ -99,4 +95,6 @@ enum CatLoggingLevel {
   confirmCommand,
   dismissCommand,
   updateCommandProperties,
+  completed,
+  surrendered,
 }
