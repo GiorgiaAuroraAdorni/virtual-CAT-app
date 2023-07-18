@@ -261,12 +261,14 @@ class _Go extends State<Go> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 
@@ -302,12 +304,14 @@ class _Go extends State<Go> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 
@@ -340,12 +344,14 @@ class _Go extends State<Go> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 
@@ -377,12 +383,14 @@ class _Go extends State<Go> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 

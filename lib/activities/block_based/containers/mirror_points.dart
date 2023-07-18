@@ -238,6 +238,9 @@ class _Mirror extends State<MirrorPoints> {
                     _prevIndex = -1;
                   });
                   context.read<BlockUpdateNotifier>().update();
+                  if (widget.state.isEmpty) {
+                    return;
+                  }
                   CatLogger().addLog(
                     context: context,
                     previousCommand: prev,
@@ -392,6 +395,9 @@ class _Mirror extends State<MirrorPoints> {
                               },
                             );
                             context.read<BlockUpdateNotifier>().update();
+                            if (widget.state.isEmpty) {
+                              return;
+                            }
                             CatLogger().addLog(
                               context: context,
                               previousCommand: prev,
@@ -417,6 +423,9 @@ class _Mirror extends State<MirrorPoints> {
                             },
                           );
                           context.read<BlockUpdateNotifier>().update();
+                          if (widget.state.isEmpty) {
+                            return;
+                          }
                           CatLogger().addLog(
                             context: context,
                             previousCommand: prev,
@@ -459,6 +468,9 @@ class _Mirror extends State<MirrorPoints> {
               widget.item.direction = directions[value];
             });
             context.read<BlockUpdateNotifier>().update();
+            if (widget.state.isEmpty) {
+              return;
+            }
             CatLogger().addLog(
               context: context,
               previousCommand: prev,
@@ -498,6 +510,9 @@ class _Mirror extends State<MirrorPoints> {
               widget.item.direction = directions[value];
             });
             context.read<BlockUpdateNotifier>().update();
+            if (widget.state.isEmpty) {
+              return;
+            }
             CatLogger().addLog(
               context: context,
               previousCommand: prev,

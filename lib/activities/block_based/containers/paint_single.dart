@@ -109,6 +109,9 @@ class _PaintSingle extends State<PaintSingle> {
                   widget.item.selected = color;
                 });
                 context.read<BlockUpdateNotifier>().update();
+                if (widget.state.isEmpty) {
+                  return;
+                }
                 CatLogger().addLog(
                   context: context,
                   previousCommand: prev,

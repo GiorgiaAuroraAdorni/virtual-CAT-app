@@ -207,6 +207,9 @@ class _Go extends State<GoPosition> {
       ),
     ).whenComplete(
       () {
+        if (widget.state.isEmpty) {
+          return;
+        }
         CatLogger().addLog(
           context: context,
           previousCommand: prev,

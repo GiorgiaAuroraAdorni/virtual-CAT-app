@@ -250,6 +250,9 @@ class _Copy extends State<CopyCells> {
               _prevIndex = -1;
             });
             context.read<BlockUpdateNotifier>().update();
+            if (widget.state.isEmpty) {
+              return;
+            }
             CatLogger().addLog(
               context: context,
               previousCommand: prev,
@@ -399,6 +402,9 @@ class _Copy extends State<CopyCells> {
                               },
                             );
                             context.read<BlockUpdateNotifier>().update();
+                            if (widget.state.isEmpty) {
+                              return;
+                            }
                             CatLogger().addLog(
                               context: context,
                               previousCommand: prev,
@@ -424,6 +430,9 @@ class _Copy extends State<CopyCells> {
                             },
                           );
                           context.read<BlockUpdateNotifier>().update();
+                          if (widget.state.isEmpty) {
+                            return;
+                          }
                           CatLogger().addLog(
                             context: context,
                             previousCommand: prev,
@@ -543,6 +552,9 @@ class _Copy extends State<CopyCells> {
                 _prevIndex = -1;
               });
               context.read<BlockUpdateNotifier>().update();
+              if (widget.state.isEmpty) {
+                return;
+              }
               CatLogger().addLog(
                 context: context,
                 previousCommand: prev,
@@ -694,6 +706,9 @@ class _Copy extends State<CopyCells> {
                               },
                             );
                             context.read<BlockUpdateNotifier>().update();
+                            if (widget.state.isEmpty) {
+                              return;
+                            }
                             CatLogger().addLog(
                               context: context,
                               previousCommand: prev,
@@ -719,6 +734,9 @@ class _Copy extends State<CopyCells> {
                             },
                           );
                           context.read<BlockUpdateNotifier>().update();
+                          if (widget.state.isEmpty) {
+                            return;
+                          }
                           CatLogger().addLog(
                             context: context,
                             previousCommand: prev,

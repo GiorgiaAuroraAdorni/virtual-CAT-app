@@ -278,12 +278,14 @@ class _Paint extends State<Paint> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 
@@ -335,12 +337,14 @@ class _Paint extends State<Paint> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 
@@ -384,6 +388,9 @@ class _Paint extends State<Paint> {
             widget.item.repetitions = 1;
           }
         });
+        if (widget.state.isEmpty) {
+          return;
+        }
         CatLogger().addLog(
           context: context,
           previousCommand: prev,
@@ -438,6 +445,9 @@ class _Paint extends State<Paint> {
             widget.item.repetitions = 1;
           }
         });
+        if (widget.state.isEmpty) {
+          return;
+        }
         CatLogger().addLog(
           context: context,
           previousCommand: prev,
@@ -478,6 +488,9 @@ class _Paint extends State<Paint> {
                   }
                 });
                 context.read<BlockUpdateNotifier>().update();
+                if (widget.state.isEmpty) {
+                  return;
+                }
                 CatLogger().addLog(
                   context: context,
                   previousCommand: prev,

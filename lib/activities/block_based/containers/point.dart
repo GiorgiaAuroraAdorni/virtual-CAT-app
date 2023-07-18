@@ -206,12 +206,14 @@ class _Point extends State<Point> {
         ),
       ),
     ).whenComplete(
-      () => CatLogger().addLog(
-        context: context,
-        previousCommand: prev,
-        currentCommand: widget.item.toString(),
-        description: CatLoggingLevel.updateCommandProperties,
-      ),
+      () => widget.state.isEmpty
+          ? null
+          : CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: widget.item.toString(),
+              description: CatLoggingLevel.updateCommandProperties,
+            ),
     );
   }
 

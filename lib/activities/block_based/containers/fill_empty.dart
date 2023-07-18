@@ -106,6 +106,9 @@ class _FillEmpty extends State<FillEmpty> {
                 final String prev = widget.item.toString();
                 widget.item.selected = color;
                 context.read<BlockUpdateNotifier>().update();
+                if (widget.state.isEmpty) {
+                  return;
+                }
                 CatLogger().addLog(
                   context: context,
                   previousCommand: prev,
