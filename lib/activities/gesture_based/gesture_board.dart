@@ -9,7 +9,7 @@ import "package:flutter/cupertino.dart";
 
 /// It's a widget that displays a grid of buttons that can be tapped to change
 /// the color of the selected color
-class GestureBoard extends StatefulWidget {
+class GestureBoard extends StatelessWidget {
   /// It's a constructor.
   const GestureBoard({
     required this.shakeKey,
@@ -43,11 +43,6 @@ class GestureBoard extends StatefulWidget {
   final ResultNotifier resultValueNotifier;
 
   @override
-  State<StatefulWidget> createState() => _GestureBoardState();
-}
-
-class _GestureBoardState extends State<GestureBoard> {
-  @override
   Widget build(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width * 0.60,
         height: MediaQuery.of(context).size.height * 0.90,
@@ -59,14 +54,14 @@ class _GestureBoardState extends State<GestureBoard> {
           children: <Widget>[
             const ChangeCrossVisualization(),
             Cross(
-              shakeKey: widget.shakeKey,
-              shakeKeyColors: widget.shakeKeyColors,
+              shakeKey: shakeKey,
+              shakeKeyColors: shakeKeyColors,
               width: MediaQuery.of(context).size.width,
-              selectionMode: widget.selectionMode,
-              coloredButtons: widget.coloredButtons,
-              selectedButtons: widget.selectedButtons,
-              resetSignal: widget.resetSignal,
-              resultValueNotifier: widget.resultValueNotifier,
+              selectionMode: selectionMode,
+              coloredButtons: coloredButtons,
+              selectedButtons: selectedButtons,
+              resetSignal: resetSignal,
+              resultValueNotifier: resultValueNotifier,
             ),
           ],
         ),

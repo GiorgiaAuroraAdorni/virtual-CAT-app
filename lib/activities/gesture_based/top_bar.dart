@@ -262,18 +262,22 @@ class _TopBarState extends State<TopBar> {
                         width: 30,
                       ),
                       AnimatedBuilder(
-                        animation: CatInterpreter(),
-                        builder: (_, __) => Text(
-                          " ${catScore(
-                            commands: List<String>.from(
-                              CatInterpreter().getResults.getCommands,
-                            ),
-                            visible: context.read<VisibilityNotifier>().visible,
-                            interface:
-                                context.read<TypeUpdateNotifier>().state == 0
-                                    ? 0
-                                    : 3,
-                          )}",
+                        animation: context.watch<VisibilityNotifier>(),
+                        builder: (_, __) => AnimatedBuilder(
+                          animation: CatInterpreter(),
+                          builder: (_, __) => Text(
+                            " ${catScore(
+                              commands: List<String>.from(
+                                CatInterpreter().getResults.getCommands,
+                              ),
+                              visible:
+                                  context.read<VisibilityNotifier>().visible,
+                              interface:
+                                  context.read<TypeUpdateNotifier>().state == 0
+                                      ? 0
+                                      : 3,
+                            )}",
+                          ),
                         ),
                       ),
                       const SizedBox(

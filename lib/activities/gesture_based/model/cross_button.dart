@@ -143,7 +143,7 @@ class CrossButtonState extends State<CrossButton> {
   /// It's setting the dimension of the button to 0.
   double dimension = 0;
 
-  Timer t = Timer(Duration.zero, () {});
+  Timer t = Timer(Duration.zero, () {})..cancel();
 
   /// It creates a rounded button.
   ///
