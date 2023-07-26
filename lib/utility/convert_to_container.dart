@@ -7,6 +7,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_multiple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -185,24 +186,41 @@ List<SimpleContainer> _parsePaint(List<String> command, String languageCode) {
   final List<String> colors = splitByCurly(command[1]);
   final List<String> cells = splitByCurly(command.last);
   if (cells.length > 1) {
-    final List<SimpleContainer> toReturn = <SimpleContainer>[];
-    int j = 0;
-    for (final String i in cells) {
-      toReturn
-        ..addAll(_parseGo(["go", i.trim()], languageCode))
-        ..addAll(
-          _parsePaint(
-            [
-              "paint",
-              colors[j],
-            ],
-            languageCode,
+    return <SimpleContainer>[
+      PaintMultipleContainer(
+        container: <SimpleContainer>[
+          ...cells.map(
+            (String e) => PointContainer(
+              a: e[0].toUpperCase(),
+              b: e[1],
+              languageCode: languageCode,
+            ),
           ),
-        );
-      j = (j + 1) % colors.length;
-    }
-
-    return toReturn;
+        ],
+        selectedColors: <CupertinoDynamicColor>[
+          ...colors.map((String e) => _colors[e]!),
+        ],
+        languageCode: languageCode,
+      ),
+    ];
+    // final List<SimpleContainer> toReturn = <SimpleContainer>[];
+    // int j = 0;
+    // for (final String i in cells) {
+    //   toReturn
+    //     ..addAll(_parseGo(["go", i.trim()], languageCode))
+    //     ..addAll(
+    //       _parsePaint(
+    //         [
+    //           "paint",
+    //           colors[j],
+    //         ],
+    //         languageCode,
+    //       ),
+    //     );
+    //   j = (j + 1) % colors.length;
+    // }
+    //
+    // return toReturn;
   }
 
   final Map<String, int> repetitionsConverter = <String, int>{

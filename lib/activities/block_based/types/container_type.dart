@@ -14,6 +14,7 @@ enum ContainerType {
 
   /// Paint type
   paintSingle,
+  paintMultiple,
 
   /// Copy type
   copy,

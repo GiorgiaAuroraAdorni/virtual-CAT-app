@@ -47,6 +47,7 @@ class _CrossState extends BasicShapeState<Cross> {
 
   @override
   void endPan(DragEndDetails details) {
+    super.endPan(details);
     if (widget.selectionMode.value != SelectionModes.repeat &&
         widget.selectionMode.value != SelectionModes.base) {
       return;

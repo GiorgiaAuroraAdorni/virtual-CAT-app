@@ -112,8 +112,14 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
   @override
   Widget build(BuildContext context) {
     final double containerDimension =
-        ((MediaQuery.of(context).size.width / 13) +
-                (MediaQuery.of(context).size.width / 13 / 5)) *
+        ((MediaQuery
+            .of(context)
+            .size
+            .width / 13) +
+            (MediaQuery
+                .of(context)
+                .size
+                .width / 13 / 5)) *
             6;
 
     return SizedBox(
@@ -125,14 +131,23 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         shakeOffset: 10,
         shakeDuration: const Duration(milliseconds: 400),
         child: GestureDetector(
-          onPanStart: (DragStartDetails details) => _checkPosition(
-            details.globalPosition,
-            MediaQuery.of(context).size.width / 13 / 2,
-          ),
-          onPanUpdate: (DragUpdateDetails details) => _checkPosition(
-            details.globalPosition,
-            MediaQuery.of(context).size.width / 13 / 2,
-          ),
+          onPanStart: (DragStartDetails details) {
+            _checkPosition(
+              details.globalPosition,
+              MediaQuery
+                  .of(context)
+                  .size
+                  .width / 13 / 2,
+            );
+          },
+          onPanUpdate: (DragUpdateDetails details) =>
+              _checkPosition(
+                details.globalPosition,
+                MediaQuery
+                    .of(context)
+                    .size
+                    .width / 13 / 2,
+              ),
           onPanEnd: endPan,
           child: Flex(
             direction: Axis.vertical,
@@ -157,7 +172,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         if (buttons[j].children[i] is CrossButton) {
           final double distance =
               ((buttons[j].children[i] as CrossButton).getPosition() -
-                      globalPosition)
+                  globalPosition)
                   .distance;
           if (distance < minDistance && distance < maxDistance) {
             minDistance = distance;

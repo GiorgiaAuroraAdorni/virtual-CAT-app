@@ -21,6 +21,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_multiple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -208,6 +209,10 @@ class BlockCanvasState extends State<BlockCanvas> {
             item: container,
             onChange: f,
           );
+        }
+      case ContainerType.paintMultiple:
+        if (container is PaintMultipleContainer) {
+          return WidgetContainer(onChange: () {});
         }
       case ContainerType.none:
         return WidgetContainer(onChange: () {});

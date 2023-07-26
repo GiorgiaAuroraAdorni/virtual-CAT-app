@@ -78,18 +78,23 @@ class CommandsInspector {
     } else if (inspector._squareTopRightReverse(positions)) {
       direction = patternsEn["square top right reverse"]!;
     } else {
-      final List<String> command = <String>[];
-      int j = 0;
-      for (final Pair<int, int> k in positions) {
-        command
-          ..add("go(${rows[k.first]}${k.second + 1})")
-          ..add(
-            "paint(${colors[j]})",
-          );
-        j = (j + 1) % colors.length;
-      }
+      // final List<String> command = <String>[];
+      // int j = 0;
+      // for (final Pair<int, int> k in positions) {
+      //   command..add("go(${rows[k.first]}${k.second + 1})")..add(
+      //     "paint(${colors[j]})",
+      //   );
+      //   j = (j + 1) % colors.length;
+      // }
+      final String pos = positions
+          .map((Pair<int, int> k) => "${rows[k.first]}${k.second + 1}")
+          .join(",");
+      final String col = colors.join(",");
 
-      return command;
+      return <String>[
+        "go(${rows[positions.first.first]}${positions.first.second + 1})",
+        "paint({$col},{$pos})",
+      ];
     }
     if (copyCommands &&
         (direction.startsWith("right") ||

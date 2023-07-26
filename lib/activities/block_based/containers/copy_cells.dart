@@ -476,6 +476,8 @@ class _Copy extends State<CopyCells> {
         break;
       case ContainerType.copyCells:
         break;
+      case ContainerType.paintMultiple:
+        break;
       case ContainerType.point:
         if (container is PointContainer) {
           return Point.context(

@@ -9,6 +9,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_co
 import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
+import "package:cross_array_task_app/activities/block_based/containers/paint_multiple.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
@@ -21,6 +22,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_multiple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -868,6 +870,14 @@ class _Copy extends State<CopyCommands> {
           );
         }
         break;
+      case ContainerType.paintMultiple:
+        if (container is PaintMultipleContainer) {
+          return PaintMultiple.context(
+            item: container,
+            onChange: f,
+            state: <State>[this],
+          );
+        }
       case ContainerType.none:
         return WidgetContainer(
           onChange: f,

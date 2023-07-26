@@ -264,11 +264,16 @@ class CrossButtonState extends State<CrossButton> {
     }
     String code = "";
     if (copyCommandsBuffer.isNotEmpty) {
-      final String firstDestination =
-          copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
-      destinationPosition.insert(0, firstDestination);
-      code = "COPY({${copyCommandsBuffer.joinToString(separator: ",")}},"
-          "{${destinationPosition.joinToString(separator: ",")}})";
+      if (copyCommandsBuffer.first.startsWith("go")) {
+        final String firstDestination =
+            copyCommandsBuffer.removeAt(0).replaceAll(RegExp("[go()]"), "");
+        destinationPosition.insert(0, firstDestination);
+        code = "COPY({${copyCommandsBuffer.joinToString(separator: ",")}},"
+            "{${destinationPosition.joinToString(separator: ",")}})";
+      } else {
+        code = "COPY({${copyCommandsBuffer.joinToString(separator: ",")}},"
+            "{${destinationPosition.joinToString(separator: ",")}})";
+      }
       copyCommandsBuffer.clear();
     } else {
       final List<String> originsPosition = <String>[];
@@ -306,6 +311,8 @@ class CrossButtonState extends State<CrossButton> {
     );
     if (localResults.second != CatError.none) {
       widget.shakeKey.currentState?.shake();
+
+      return;
     }
     final List<List<int>> localGrid = localResults.first.getStates.last.getGrid;
 

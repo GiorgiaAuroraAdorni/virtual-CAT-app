@@ -554,6 +554,8 @@ class _Mirror extends State<MirrorPoints> {
         break;
       case ContainerType.copyCells:
         break;
+      case ContainerType.paintMultiple:
+        break;
       case ContainerType.point:
         if (container is PointContainer) {
           return Point.context(

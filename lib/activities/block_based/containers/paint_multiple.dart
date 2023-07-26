@@ -1,29 +1,9 @@
 import "dart:async";
 import "dart:math";
 
-import "package:cross_array_task_app/activities/block_based/containers/copy.dart";
-import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
-import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
-import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
-import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
-import "package:cross_array_task_app/activities/block_based/containers/paint_multiple.dart";
-import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/copy_cells_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
-import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
-import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_multiple_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
@@ -35,27 +15,23 @@ import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
+import "package:flutter_sfsymbols/flutter_sfsymbols.dart";
 import "package:provider/provider.dart";
 
-/// `Mirror` is a `StatefulWidget` that takes in a `bool` `active`, a
-/// `SimpleContainer` `item`, and a `Function` `onChange` and returns a
-/// `State<StatefulWidget>` `_Mirror`
-class MirrorCommands extends WidgetContainer {
-  /// A constructor for the Mirror class.
-  MirrorCommands({
+class PaintMultiple extends WidgetContainer {
+  PaintMultiple({
     required this.item,
     required super.onChange,
     super.key,
   });
 
-  /// A constructor for a class called Mirror.
-  MirrorCommands.build({
+  PaintMultiple.build({
     required this.item,
     required super.onChange,
     super.key,
   });
 
-  MirrorCommands.context({
+  PaintMultiple.context({
     required this.item,
     required super.onChange,
     required this.state,
@@ -64,35 +40,32 @@ class MirrorCommands extends WidgetContainer {
 
   List<State> state = [];
 
-  /// Creating a new instance of the SimpleContainer class.
   @override
-  final MirrorContainerCommands item;
+  final PaintMultipleContainer item;
 
   @override
-  State<StatefulWidget> createState() => _Mirror();
+  _PaintMultipleState createState() => _PaintMultipleState();
 }
 
-class _Mirror extends State<MirrorCommands> {
-  final double fontSize = 15;
-  GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
+class _PaintMultipleState extends State<PaintMultiple> {
+  final GlobalKey<State<PaintMultiple>> widgetKey = GlobalKey();
   double childHeight = 0;
   int _prevIndex = -1;
   Map<Key, double> sized = <Key, double>{};
   Timer _timer = Timer(Duration.zero, () {});
 
   late final List<SimpleContainer> _data_placeholder = <SimpleContainer>[
-    PaintSingleContainer(
-      selected: CupertinoColors.systemBlue,
+    PointContainer(
       languageCode: CATLocalizations.of(context).languageCode,
     )..key = GlobalKey(),
-    GoPositionContainer(
-      a: "F",
-      b: "3",
+    PointContainer(
       languageCode: CATLocalizations.of(context).languageCode,
+      b: "2",
     )..key = GlobalKey(),
-    PaintSingleContainer(
-      selected: CupertinoColors.systemRed,
+    PointContainer(
       languageCode: CATLocalizations.of(context).languageCode,
+      a: "D",
+      b: "2",
     )..key = GlobalKey(),
   ];
 
@@ -140,7 +113,7 @@ class _Mirror extends State<MirrorCommands> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(),
-        color: Colors.blueGrey,
+        color: Colors.teal,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(
@@ -154,9 +127,9 @@ class _Mirror extends State<MirrorCommands> {
         builder: (BuildContext context, Widget? child) {
           if (context.read<TypeUpdateNotifier>().state == 2) {
             return Column(
-              children: <Widget>[
+              children: [
                 Text(
-                  CATLocalizations.of(context).blocks["mirrorCommands"]!,
+                  CATLocalizations.of(context).blocks["paintMultiple"]!,
                   style: const TextStyle(
                     color: CupertinoColors.systemBackground,
                   ),
@@ -164,19 +137,18 @@ class _Mirror extends State<MirrorCommands> {
                 const SizedBox(
                   height: 5,
                 ),
-                CupertinoButton(
-                  color: CupertinoColors.systemGrey5,
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  onPressed: _directionPicker,
-                  child: widget.item.directions[widget.item.position],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  CATLocalizations.of(context).blocks["mirrorBlocksBlock"]!,
-                  style: const TextStyle(
-                    color: CupertinoColors.systemBackground,
+                Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: const BoxDecoration(
+                    color: CupertinoColors.systemGrey5,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _colorButtonsBuild(),
                   ),
                 ),
                 const SizedBox(
@@ -186,16 +158,39 @@ class _Mirror extends State<MirrorCommands> {
             );
           }
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CupertinoButton(
-                color: CupertinoColors.systemGrey5,
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                onPressed: _directionPickerIcons,
-                child: widget.item.directions2[widget.item.position],
-              ),
-            ],
+          return Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Icon(
+                      SFSymbols.paintbrush_fill,
+                      color: CupertinoColors.systemBackground,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(1),
+                      decoration: const BoxDecoration(
+                        color: CupertinoColors.systemGrey5,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _colorButtonsBuild(),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
+            ),
           );
         },
       );
@@ -206,10 +201,10 @@ class _Mirror extends State<MirrorCommands> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             header(),
-            DragTarget<SimpleContainer>(
+            DragTarget<PointContainer>(
               builder: (
                 BuildContext context,
-                List<SimpleContainer?> candidateItems,
+                List<PointContainer?> candidateItems,
                 List<dynamic> rejectedItems,
               ) =>
                   LayoutBuilder(
@@ -219,33 +214,6 @@ class _Mirror extends State<MirrorCommands> {
                 ) =>
                     canvas(candidateItems, constraints),
               ),
-              onWillAccept: (SimpleContainer? container) {
-                if (container is SimpleContainer) {
-                  if (container.type == ContainerType.mirrorCommands) {
-                    return false;
-                  }
-                  if (container.type == ContainerType.mirrorPoints) {
-                    return false;
-                  }
-                  if (container.type == ContainerType.copyCells) {
-                    return false;
-                  }
-                  if (container.type == ContainerType.copy) {
-                    return false;
-                  }
-                  if (container.type == ContainerType.point) {
-                    return false;
-                  }
-
-                  return true;
-                }
-
-                return false;
-              },
-              onMove: (DragTargetDetails<SimpleContainer> details) =>
-                  Timer(const Duration(milliseconds: 30), () {
-                move(details);
-              }),
               onLeave: (_) {
                 Timer(const Duration(milliseconds: 40), () {
                   setStateCustom(() {
@@ -264,6 +232,10 @@ class _Mirror extends State<MirrorCommands> {
                   });
                 });
               },
+              onMove: (DragTargetDetails<SimpleContainer> details) =>
+                  Timer(const Duration(milliseconds: 30), () {
+                move(details);
+              }),
               onAcceptWithDetails:
                   (DragTargetDetails<SimpleContainer> details) {
                 Timer(const Duration(milliseconds: 40), () {
@@ -308,87 +280,8 @@ class _Mirror extends State<MirrorCommands> {
         ),
       );
 
-  void move(DragTargetDetails<SimpleContainer> details) {
-    if (!mounted) {
-      return;
-    }
-    if (details.data.type == ContainerType.mirrorCommands) {
-      return;
-    }
-    if (details.data.type == ContainerType.mirrorPoints) {
-      return;
-    }
-    if (details.data.type == ContainerType.copyCells) {
-      return;
-    }
-    if (details.data.type == ContainerType.copy) {
-      return;
-    }
-    if (details.data.type == ContainerType.point) {
-      return;
-    }
-    if (_timer.isActive) {
-      return;
-    }
-    int index = widget.item.container.length;
-    double distance = double.maxFinite;
-    bool placeholder = false;
-    for (int i = 0; i < widget.item.container.length; i++) {
-      final Key elementKey = widget.item.container[i].key;
-      if (elementKey is GlobalKey &&
-          elementKey.currentContext?.findRenderObject() != null &&
-          elementKey != details.data.key) {
-        final RenderBox renderBox =
-            elementKey.currentContext?.findRenderObject() as RenderBox;
-
-        final Offset offset = renderBox.localToGlobal(Offset.zero);
-        final double posy = offset.dy;
-        final double dist = sqrt(
-          pow(posy - details.offset.dy, 2),
-        );
-        if (dist < distance) {
-          distance = dist;
-          index = i;
-          placeholder = widget.item.container[index].type == ContainerType.none;
-        }
-      }
-    }
-    if (placeholder) {
-      return;
-    }
-    if (_prevIndex != -1) {
-      setStateCustom(() {
-        final SimpleContainer removed =
-            widget.item.container.removeAt(_prevIndex);
-        sized.remove(removed.key);
-        widget.item.container.insert(
-          index,
-          SimpleContainer(
-            name: "",
-            type: ContainerType.none,
-            languageCode: "en",
-          )..key = GlobalKey(),
-        );
-        _prevIndex = index;
-      });
-    } else {
-      setStateCustom(() {
-        widget.item.container.insert(
-          index,
-          SimpleContainer(
-            name: "",
-            type: ContainerType.none,
-            languageCode: "en",
-          )..key = GlobalKey(),
-        );
-        _prevIndex = index;
-      });
-    }
-    _timer = Timer(const Duration(milliseconds: 200), () {});
-  }
-
   Widget canvas(
-    List<SimpleContainer?> candidateItems,
+    List<PointContainer?> candidateItems,
     BoxConstraints constraints,
   ) =>
       Align(
@@ -510,100 +403,96 @@ class _Mirror extends State<MirrorCommands> {
         ),
       );
 
+  void move(DragTargetDetails<SimpleContainer> details) {
+    if (!mounted) {
+      return;
+    }
+    if (_timer.isActive) {
+      return;
+    }
+    int index = widget.item.container.length;
+    double distance = double.maxFinite;
+    bool placeholder = false;
+    for (int i = 0; i < widget.item.container.length; i++) {
+      final Key elementKey = widget.item.container[i].key;
+      if (elementKey is GlobalKey &&
+          elementKey.currentContext?.findRenderObject() != null &&
+          elementKey != details.data.key) {
+        final RenderBox renderBox =
+            elementKey.currentContext?.findRenderObject() as RenderBox;
+
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+        final double posy = offset.dy;
+        final double dist = sqrt(
+          pow(posy - details.offset.dy, 2),
+        );
+        if (dist < distance) {
+          distance = dist;
+          index = i;
+          placeholder = widget.item.container[index].type == ContainerType.none;
+        }
+      }
+    }
+    if (placeholder) {
+      return;
+    }
+    if (_prevIndex != -1) {
+      setStateCustom(() {
+        final SimpleContainer removed =
+            widget.item.container.removeAt(_prevIndex);
+        sized.remove(removed.key);
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    } else {
+      setStateCustom(() {
+        widget.item.container.insert(
+          index,
+          SimpleContainer(
+            name: "",
+            type: ContainerType.none,
+            languageCode: "en",
+          )..key = GlobalKey(),
+        );
+        _prevIndex = index;
+      });
+    }
+    _timer = Timer(const Duration(milliseconds: 200), () {});
+  }
+
   Widget generateDismiss(
     SimpleContainer container,
     Function f,
   ) {
     switch (container.type) {
       case ContainerType.fillEmpty:
-        if (container is FillEmptyContainer) {
-          return FillEmpty.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.go:
-        if (container is GoContainer) {
-          return Go.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.goPosition:
-        if (container is GoPositionContainer) {
-          return GoPosition.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.paint:
-        if (container is PaintContainer) {
-          return Paint.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.paintSingle:
-        if (container is PaintSingleContainer) {
-          return PaintSingle.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.copy:
-        if (container is CopyCommandsContainer) {
-          return CopyCommands.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.mirrorCross:
-        if (container is MirrorSimpleContainer) {
-          return MirrorCross.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.mirrorPoints:
-        if (container is MirrorContainerPoints) {
-          return MirrorPoints.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.mirrorCommands:
-        if (container is MirrorContainerCommands) {
-          return MirrorCommands.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
         break;
       case ContainerType.copyCells:
-        if (container is CopyCellsContainer) {
-          return CopyCells.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
+        break;
+      case ContainerType.paintMultiple:
         break;
       case ContainerType.point:
         if (container is PointContainer) {
@@ -614,14 +503,6 @@ class _Mirror extends State<MirrorCommands> {
           );
         }
         break;
-      case ContainerType.paintMultiple:
-        if (container is PaintMultipleContainer) {
-          return PaintMultiple.context(
-            item: container,
-            onChange: f,
-            state: <State>[this],
-          );
-        }
       case ContainerType.none:
         return WidgetContainer(
           onChange: f,
@@ -633,90 +514,69 @@ class _Mirror extends State<MirrorCommands> {
     )..item = container;
   }
 
-  void _directionPicker() {
-    final List<String> directions = <String>[
-      "horizontal",
-      "vertical",
-    ];
-    setStateCustom(() {
-      widget.item.position = 0;
-      widget.item.direction = directions[0];
-    });
-    context.read<BlockUpdateNotifier>().update();
-
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setStateCustom(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            if (widget.state.isEmpty) {
-              return;
-            }
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions,
-        ),
-      ),
+  List<Widget> _colorButtonsBuild() {
+    const TextStyle textStyle = TextStyle(
+      color: CupertinoColors.black,
+      fontFamily: "CupertinoIcons",
+      fontSize: 13,
     );
-  }
+    final Map<CupertinoDynamicColor, String> colors =
+        <CupertinoDynamicColor, String>{
+      CupertinoColors.systemBlue: "ColorButtonBlue",
+      CupertinoColors.systemRed: "ColorButtonRed",
+      CupertinoColors.systemGreen: "ColorButtonGreen",
+      CupertinoColors.systemYellow: "ColorButtonYellow",
+    };
 
-  void _directionPickerIcons() {
-    final List<String> directions = <String>[
-      "horizontal",
-      "vertical",
-    ];
-    setStateCustom(() {
-      widget.item.position = 0;
-      widget.item.direction = directions[0];
-    });
-    context.read<BlockUpdateNotifier>().update();
-
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext builder) => Container(
-        height: MediaQuery.of(context).copyWith().size.height * 0.25,
-        color: CupertinoColors.white,
-        child: CupertinoPicker(
-          onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
-            setStateCustom(() {
-              widget.item.position = value;
-              widget.item.direction = directions[value];
-            });
-            context.read<BlockUpdateNotifier>().update();
-            if (widget.state.isEmpty) {
-              return;
-            }
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: widget.item.toString(),
-              description: CatLoggingLevel.updateCommandProperties,
-            );
-          },
-          itemExtent: 25,
-          useMagnifier: true,
-          magnification: 1.3,
-          children: widget.item.directions2,
-        ),
-      ),
-    );
+    return colors.keys
+        .map(
+          (CupertinoDynamicColor color) => Padding(
+            padding: const EdgeInsets.all(5),
+            child: CupertinoButton(
+              key: Key(colors[color]!),
+              onPressed: () {
+                final String prev = widget.item.toString();
+                setStateCustom(() {
+                  if (widget.item.selectedColors.contains(color)) {
+                    widget.item.selectedColors.remove(color);
+                  } else {
+                    widget.item.selectedColors.add(color);
+                  }
+                });
+                context.read<BlockUpdateNotifier>().update();
+                if (widget.state.isEmpty) {
+                  return;
+                }
+                CatLogger().addLog(
+                  context: context,
+                  previousCommand: prev,
+                  currentCommand: widget.item.toString(),
+                  description: CatLoggingLevel.updateCommandProperties,
+                );
+              },
+              borderRadius: BorderRadius.circular(45),
+              minSize: 30,
+              color: color,
+              padding: EdgeInsets.zero,
+              child: widget.item.selectedColors.contains(color)
+                  ? Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        const Icon(
+                          CupertinoIcons.circle_filled,
+                          size: 20,
+                        ),
+                        Text(
+                          "${widget.item.selectedColors.indexOf(color) + 1}",
+                          style: textStyle,
+                        ),
+                      ],
+                    )
+                  : const Text(""),
+            ),
+          ),
+        )
+        .toList();
   }
 
   Size? oldSize = Size.zero;
@@ -742,11 +602,5 @@ class _Mirror extends State<MirrorCommands> {
 
     oldSize = newSize;
     widget.onChange(newSize);
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 }

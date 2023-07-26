@@ -7,6 +7,7 @@ import "package:cross_array_task_app/activities/block_based/containers/mirror_co
 import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
+import "package:cross_array_task_app/activities/block_based/containers/paint_multiple.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint_single.dart";
 import "package:cross_array_task_app/activities/block_based/containers/point.dart";
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
@@ -20,6 +21,7 @@ import "package:cross_array_task_app/activities/block_based/model/mirror_contain
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_container.dart";
+import "package:cross_array_task_app/activities/block_based/model/paint_multiple_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/paint_single_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/point_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
@@ -94,6 +96,11 @@ class SideMenuBlockState extends State<SideMenuBlock> {
     CopyCellsContainer(
       container: <SimpleContainer>[],
       moves: <SimpleContainer>[],
+      languageCode: CATLocalizations.of(context).languageCode,
+    ),
+    PaintMultipleContainer(
+      container: <SimpleContainer>[],
+      selectedColors: <CupertinoDynamicColor>[],
       languageCode: CATLocalizations.of(context).languageCode,
     ),
   ];
@@ -176,6 +183,11 @@ class SideMenuBlockState extends State<SideMenuBlock> {
             moves: <SimpleContainer>[],
             languageCode: CATLocalizations.of(context).languageCode,
           ),
+          PaintMultipleContainer(
+            container: <SimpleContainer>[],
+            selectedColors: <CupertinoDynamicColor>[],
+            languageCode: CATLocalizations.of(context).languageCode,
+          ),
         ];
       }),
     );
@@ -246,6 +258,11 @@ class SideMenuBlockState extends State<SideMenuBlock> {
           container: container,
           builder: Point.build,
         );
+      case ContainerType.paintMultiple:
+        return _buildLongPressDraggable(
+          container: container,
+          builder: PaintMultiple.build,
+        );
       case ContainerType.none:
         return WidgetContainer(onChange: () {});
     }
@@ -289,6 +306,7 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                   _buildContainerItem(container: containers[1]),
                   _buildContainerItem(container: containers[3]),
                   _buildContainerItem(container: containers[5]),
+                  _buildContainerItem(container: containers[11]),
                 ],
                 visibility: _states[1],
                 iconLocation: "resources/icons/colouring_menu.svg",
