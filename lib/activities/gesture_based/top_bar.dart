@@ -115,6 +115,8 @@ class _TopBarState extends State<TopBar> {
                             description: CatLoggingLevel.changeMode,
                           );
                           context.read<TypeUpdateNotifier>().setState(2);
+                          widget.selectionMode.value = SelectionModes.base;
+                          CatInterpreter().deleteCopyCommands();
                         },
                       ),
                       CupertinoButton(
@@ -141,6 +143,8 @@ class _TopBarState extends State<TopBar> {
                             description: CatLoggingLevel.changeMode,
                           );
                           context.read<TypeUpdateNotifier>().setState(1);
+                          widget.selectionMode.value = SelectionModes.base;
+                          CatInterpreter().deleteCopyCommands();
                         },
                       ),
                       CupertinoButton(
@@ -167,6 +171,8 @@ class _TopBarState extends State<TopBar> {
                             description: CatLoggingLevel.changeMode,
                           );
                           context.read<TypeUpdateNotifier>().setState(0);
+                          widget.selectionMode.value = SelectionModes.base;
+                          CatInterpreter().deleteCopyCommands();
                         },
                       ),
                     ],
