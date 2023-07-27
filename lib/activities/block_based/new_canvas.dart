@@ -5,7 +5,6 @@ import "package:cross_array_task_app/activities/block_based/containers/copy.dart
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
@@ -18,7 +17,6 @@ import "package:cross_array_task_app/activities/block_based/model/copy_cells_con
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
@@ -58,7 +56,7 @@ class NewCanvasState extends State<NewCanvas> {
   int _prevIndex = -1;
   List<SimpleContainer> _data = <SimpleContainer>[];
   late final List<SimpleContainer> _data_placeholder = <SimpleContainer>[
-    GoPositionContainer(
+    PointContainer(
       languageCode: CATLocalizations.of(context).languageCode,
     ),
   ];
@@ -157,15 +155,6 @@ class NewCanvasState extends State<NewCanvas> {
       case ContainerType.go:
         if (container is GoContainer) {
           return Go.context(
-            item: container,
-            onChange: f,
-            state: <State>[this],
-          );
-        }
-        break;
-      case ContainerType.goPosition:
-        if (container is GoPositionContainer) {
-          return GoPosition.context(
             item: container,
             onChange: f,
             state: <State>[this],
@@ -386,10 +375,6 @@ class NewCanvasState extends State<NewCanvas> {
           ),
           onWillAccept: (SimpleContainer? data) {
             if (data is SimpleContainer) {
-              if (data.type == ContainerType.point) {
-                return false;
-              }
-
               return true;
             }
 
@@ -398,9 +383,6 @@ class NewCanvasState extends State<NewCanvas> {
           onMove: (DragTargetDetails<SimpleContainer> details) {
             Timer(const Duration(milliseconds: 30), () {
               if (!mounted) {
-                return;
-              }
-              if (details.data.type == ContainerType.point) {
                 return;
               }
               if (_timer.isActive) {

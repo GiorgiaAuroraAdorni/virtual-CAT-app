@@ -538,8 +538,6 @@ class _Mirror extends State<MirrorPoints> {
         break;
       case ContainerType.go:
         break;
-      case ContainerType.goPosition:
-        break;
       case ContainerType.paint:
         break;
       case ContainerType.paintSingle:

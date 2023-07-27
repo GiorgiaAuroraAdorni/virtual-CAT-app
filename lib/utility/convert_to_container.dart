@@ -2,7 +2,6 @@ import "package:cross_array_task_app/activities/block_based/model/copy_cells_con
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
@@ -156,7 +155,7 @@ List<SimpleContainer> _parseGo(List<String> command, String languageCode) {
   final List<String> positions = command.last.trim().split("");
   if (positions.length == 2) {
     return <SimpleContainer>[
-      GoPositionContainer(
+      PointContainer(
         a: positions.first.toUpperCase(),
         b: positions.last,
         languageCode: languageCode,

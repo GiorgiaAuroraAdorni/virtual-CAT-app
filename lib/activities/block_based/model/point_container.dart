@@ -21,5 +21,5 @@ class PointContainer extends SimpleContainer {
       );
 
   @override
-  String toString() => "$a$b";
+  String toString() => "go($a$b)";
 }

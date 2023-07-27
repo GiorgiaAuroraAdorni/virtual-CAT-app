@@ -5,7 +5,6 @@ import "package:cross_array_task_app/activities/block_based/containers/copy.dart
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
 import "package:cross_array_task_app/activities/block_based/containers/paint.dart";
@@ -17,7 +16,6 @@ import "package:cross_array_task_app/activities/block_based/model/copy_cells_con
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
@@ -85,7 +83,7 @@ class _Mirror extends State<MirrorCommands> {
       selected: CupertinoColors.systemBlue,
       languageCode: CATLocalizations.of(context).languageCode,
     )..key = GlobalKey(),
-    GoPositionContainer(
+    PointContainer(
       a: "F",
       b: "3",
       languageCode: CATLocalizations.of(context).languageCode,
@@ -233,9 +231,6 @@ class _Mirror extends State<MirrorCommands> {
                   if (container.type == ContainerType.copy) {
                     return false;
                   }
-                  if (container.type == ContainerType.point) {
-                    return false;
-                  }
 
                   return true;
                 }
@@ -322,9 +317,6 @@ class _Mirror extends State<MirrorCommands> {
       return;
     }
     if (details.data.type == ContainerType.copy) {
-      return;
-    }
-    if (details.data.type == ContainerType.point) {
       return;
     }
     if (_timer.isActive) {
@@ -527,15 +519,6 @@ class _Mirror extends State<MirrorCommands> {
       case ContainerType.go:
         if (container is GoContainer) {
           return Go.context(
-            item: container,
-            onChange: f,
-            state: List<State>.from(widget.state)..add(this),
-          );
-        }
-        break;
-      case ContainerType.goPosition:
-        if (container is GoPositionContainer) {
-          return GoPosition.context(
             item: container,
             onChange: f,
             state: List<State>.from(widget.state)..add(this),

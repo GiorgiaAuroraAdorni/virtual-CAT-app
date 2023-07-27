@@ -31,5 +31,5 @@ class PaintMultipleContainer extends SimpleContainer {
   String toString() =>
       "paint({${analyzeColor(selectedColors).join(",")}},{${container.map(
             (SimpleContainer e) => e.toString(),
-          ).join(",")}})";
+          ).join(",").replaceAll(RegExp("[go()]"), "")}})";
 }

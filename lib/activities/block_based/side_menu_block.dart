@@ -2,7 +2,6 @@ import "package:cross_array_task_app/activities/block_based/containers/copy.dart
 import "package:cross_array_task_app/activities/block_based/containers/copy_cells.dart";
 import "package:cross_array_task_app/activities/block_based/containers/fill_empty.dart";
 import "package:cross_array_task_app/activities/block_based/containers/go.dart";
-import "package:cross_array_task_app/activities/block_based/containers/go_position.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_commands.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_cross.dart";
 import "package:cross_array_task_app/activities/block_based/containers/mirror_points.dart";
@@ -16,7 +15,6 @@ import "package:cross_array_task_app/activities/block_based/model/copy_cells_con
 import "package:cross_array_task_app/activities/block_based/model/copy_commands_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/fill_empty_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/go_container.dart";
-import "package:cross_array_task_app/activities/block_based/model/go_position_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_commands.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_container_points.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
@@ -61,9 +59,6 @@ class SideMenuBlockState extends State<SideMenuBlock> {
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintSingleContainer(
-      languageCode: CATLocalizations.of(context).languageCode,
-    ),
-    GoPositionContainer(
       languageCode: CATLocalizations.of(context).languageCode,
     ),
     PaintContainer(
@@ -146,9 +141,6 @@ class SideMenuBlockState extends State<SideMenuBlock> {
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           PaintSingleContainer(
-            languageCode: CATLocalizations.of(context).languageCode,
-          ),
-          GoPositionContainer(
             languageCode: CATLocalizations.of(context).languageCode,
           ),
           PaintContainer(
@@ -238,11 +230,6 @@ class SideMenuBlockState extends State<SideMenuBlock> {
           container: container,
           builder: PaintSingle.build,
         );
-      case ContainerType.goPosition:
-        return _buildLongPressDraggable(
-          container: container,
-          builder: GoPosition.build,
-        );
       case ContainerType.mirrorCross:
         return _buildLongPressDraggable(
           container: container,
@@ -292,8 +279,8 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 title: CATLocalizations.of(context).blockGroups["groupGoTo"]!,
                 color: Colors.green,
                 items: <Widget>[
-                  _buildContainerItem(container: containers[2]),
-                  _buildContainerItem(container: containers[4]),
+                  // _buildContainerItem(container: containers[2]),
+                  _buildContainerItem(container: containers[3]),
                   _buildContainerItem(container: containers[0]),
                 ],
                 visibility: _states[0],
@@ -304,9 +291,9 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 color: Colors.teal,
                 items: <Widget>[
                   _buildContainerItem(container: containers[1]),
-                  _buildContainerItem(container: containers[3]),
-                  _buildContainerItem(container: containers[5]),
-                  _buildContainerItem(container: containers[11]),
+                  _buildContainerItem(container: containers[2]),
+                  _buildContainerItem(container: containers[4]),
+                  _buildContainerItem(container: containers[10]),
                 ],
                 visibility: _states[1],
                 iconLocation: "resources/icons/colouring_menu.svg",
@@ -315,8 +302,8 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 title: CATLocalizations.of(context).blockGroups["groupCopy"]!,
                 color: Colors.indigo,
                 items: <Widget>[
-                  _buildContainerItem(container: containers[10]),
                   _buildContainerItem(container: containers[9]),
+                  _buildContainerItem(container: containers[8]),
                 ],
                 visibility: _states[2],
                 iconLocation: "resources/icons/loops_menu.svg",
@@ -325,9 +312,9 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 title: CATLocalizations.of(context).blockGroups["groupMirror"]!,
                 color: Colors.blueGrey,
                 items: <Widget>[
+                  _buildContainerItem(container: containers[5]),
                   _buildContainerItem(container: containers[6]),
                   _buildContainerItem(container: containers[7]),
-                  _buildContainerItem(container: containers[8]),
                 ],
                 visibility: _states[3],
                 iconLocation: "resources/icons/mirror_menu.svg",
