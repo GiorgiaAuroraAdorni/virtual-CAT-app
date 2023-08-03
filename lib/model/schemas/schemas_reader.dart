@@ -1,3 +1,5 @@
+import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/model/schemas/tutorial.dart";
 import "package:flutter/services.dart";
 import "package:interpreter/cat_interpreter.dart";
 
@@ -28,8 +30,8 @@ class SchemasReader {
     await _readSchemasJSON("resources/sequence/schemas_testing.json")
         .then((String value) {
       _schemes = schemesFromJson(value);
+      _tutorial = tutorialFromJson(value);
       _size = _schemes.getData.length;
-      // _size = 5;
     });
   }
 
@@ -62,6 +64,16 @@ class SchemasReader {
   /// index, otherwise return the first index.
   Cross get current => _schemes.getData[_index]!;
 
+  List<SimpleContainer> get currentSolution =>
+      _tutorial.getSolutions.containsKey(_index)
+          ? _tutorial.getSolutions[_index]!
+          : <SimpleContainer>[];
+
+  Map<String, String> get currentVideo =>
+      _tutorial.getVideos.containsKey(_index)
+          ? _tutorial.getVideos[_index]!
+          : {};
+
   /// It returns the current index of the page.
   int get currentIndex => _index;
 
@@ -75,6 +87,7 @@ class SchemasReader {
   Schemes get schemes => _schemes;
 
   Schemes _schemes = Schemes(schemas: <int, Cross>{1: Cross()});
+  Tutorial _tutorial = Tutorial(expectedSolutions: {}, tutorialVideos: {});
   int _size = 0;
   int _index = 1;
   static final SchemasReader _schemas = SchemasReader._internal();
