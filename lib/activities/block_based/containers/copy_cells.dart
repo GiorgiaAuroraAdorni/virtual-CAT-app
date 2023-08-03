@@ -196,6 +196,7 @@ class _Copy extends State<CopyCells> {
           ],
         ),
       );
+  int _counter = 0;
 
   Widget origins() => DragTarget<PointContainer>(
         builder: (
@@ -208,61 +209,57 @@ class _Copy extends State<CopyCells> {
               canvas(candidateItems, constraints),
         ),
         onMove: (DragTargetDetails<SimpleContainer> details) =>
-            Timer(const Duration(milliseconds: 30), () {
-          move(details);
-        }),
+            _counter < 1 ? _counter++ : move(details),
         onLeave: (_) {
-          Timer(const Duration(milliseconds: 40), () {
-            setStateCustom(() {
-              widget.item.container = widget.item.container
-                  .filter(
-                    (SimpleContainer e) => e.type != ContainerType.none,
-                  )
-                  .toList();
-              sized = sized.filter(
-                (MapEntry<Key, double> entry) => widget.item.container.any(
-                  (SimpleContainer element) => element.key == entry.key,
-                ),
-              );
-              _prevIndex = -1;
-            });
+          setStateCustom(() {
+            widget.item.container = widget.item.container
+                .filter(
+                  (SimpleContainer e) => e.type != ContainerType.none,
+                )
+                .toList();
+            sized = sized.filter(
+              (MapEntry<Key, double> entry) => widget.item.container.any(
+                (SimpleContainer element) => element.key == entry.key,
+              ),
+            );
+            _prevIndex = -1;
           });
+          _counter = 0;
         },
         onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-          Timer(const Duration(milliseconds: 40), () {
-            final String prev = CatInterpreter()
+          final String prev = CatInterpreter()
+              .allCommandsBuffer
+              .map((SimpleContainer e) => e.toString())
+              .join(",");
+          final SimpleContainer copy = details.data.copy()..key = GlobalKey();
+          setStateCustom(() {
+            widget.item.container.insert(_prevIndex, copy);
+            widget.item.container = widget.item.container
+                .filter(
+                  (SimpleContainer e) => e.type != ContainerType.none,
+                )
+                .toList();
+            sized = sized.filter(
+              (MapEntry<Key, double> entry) => widget.item.container.any(
+                (SimpleContainer element) => element.key == entry.key,
+              ),
+            );
+            _prevIndex = -1;
+          });
+          context.read<BlockUpdateNotifier>().update();
+          if (widget.state.isEmpty) {
+            return;
+          }
+          CatLogger().addLog(
+            context: context,
+            previousCommand: prev,
+            currentCommand: CatInterpreter()
                 .allCommandsBuffer
                 .map((SimpleContainer e) => e.toString())
-                .join(",");
-            final SimpleContainer copy = details.data.copy()..key = GlobalKey();
-            setStateCustom(() {
-              widget.item.container.insert(_prevIndex, copy);
-              widget.item.container = widget.item.container
-                  .filter(
-                    (SimpleContainer e) => e.type != ContainerType.none,
-                  )
-                  .toList();
-              sized = sized.filter(
-                (MapEntry<Key, double> entry) => widget.item.container.any(
-                  (SimpleContainer element) => element.key == entry.key,
-                ),
-              );
-              _prevIndex = -1;
-            });
-            context.read<BlockUpdateNotifier>().update();
-            if (widget.state.isEmpty) {
-              return;
-            }
-            CatLogger().addLog(
-              context: context,
-              previousCommand: prev,
-              currentCommand: CatInterpreter()
-                  .allCommandsBuffer
-                  .map((SimpleContainer e) => e.toString())
-                  .join(","),
-              description: CatLoggingLevel.addCommand,
-            );
-          });
+                .join(","),
+            description: CatLoggingLevel.addCommand,
+          );
+          _counter = 0;
         },
       );
 
@@ -496,6 +493,8 @@ class _Copy extends State<CopyCells> {
     )..item = container;
   }
 
+  int _counter2 = 0;
+
   Widget positions() => Flexible(
         flex: 0,
         child: DragTarget<PointContainer>(
@@ -509,62 +508,57 @@ class _Copy extends State<CopyCells> {
                 canvas2(candidateItems, constraints),
           ),
           onLeave: (_) {
-            Timer(const Duration(milliseconds: 40), () {
-              setStateCustom(() {
-                widget.item.moves = widget.item.moves
-                    .filter(
-                      (SimpleContainer e) => e.type != ContainerType.none,
-                    )
-                    .toList();
-                sized2 = sized2.filter(
-                  (MapEntry<Key, double> entry) => widget.item.moves.any(
-                    (SimpleContainer element) => element.key == entry.key,
-                  ),
-                );
-                _prevIndex = -1;
-              });
+            setStateCustom(() {
+              widget.item.moves = widget.item.moves
+                  .filter(
+                    (SimpleContainer e) => e.type != ContainerType.none,
+                  )
+                  .toList();
+              sized2 = sized2.filter(
+                (MapEntry<Key, double> entry) => widget.item.moves.any(
+                  (SimpleContainer element) => element.key == entry.key,
+                ),
+              );
+              _prevIndex = -1;
             });
+            _counter2 = 0;
           },
           onMove: (DragTargetDetails<SimpleContainer> details) =>
-              Timer(const Duration(milliseconds: 30), () {
-            move2(details);
-          }),
+              _counter2 < 1 ? _counter2++ : move2(details),
           onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-            Timer(const Duration(milliseconds: 40), () {
-              final String prev = CatInterpreter()
+            final String prev = CatInterpreter()
+                .allCommandsBuffer
+                .map((SimpleContainer e) => e.toString())
+                .join(",");
+            final SimpleContainer copy = details.data.copy()..key = GlobalKey();
+            setStateCustom(() {
+              widget.item.moves.insert(_prevIndex, copy);
+              widget.item.moves = widget.item.moves
+                  .filter(
+                    (SimpleContainer e) => e.type != ContainerType.none,
+                  )
+                  .toList();
+              sized2 = sized2.filter(
+                (MapEntry<Key, double> entry) => widget.item.moves.any(
+                  (SimpleContainer element) => element.key == entry.key,
+                ),
+              );
+              _prevIndex = -1;
+            });
+            context.read<BlockUpdateNotifier>().update();
+            if (widget.state.isEmpty) {
+              return;
+            }
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: CatInterpreter()
                   .allCommandsBuffer
                   .map((SimpleContainer e) => e.toString())
-                  .join(",");
-              final SimpleContainer copy = details.data.copy()
-                ..key = GlobalKey();
-              setStateCustom(() {
-                widget.item.moves.insert(_prevIndex, copy);
-                widget.item.moves = widget.item.moves
-                    .filter(
-                      (SimpleContainer e) => e.type != ContainerType.none,
-                    )
-                    .toList();
-                sized2 = sized2.filter(
-                  (MapEntry<Key, double> entry) => widget.item.moves.any(
-                    (SimpleContainer element) => element.key == entry.key,
-                  ),
-                );
-                _prevIndex = -1;
-              });
-              context.read<BlockUpdateNotifier>().update();
-              if (widget.state.isEmpty) {
-                return;
-              }
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(","),
-                description: CatLoggingLevel.addCommand,
-              );
-            });
+                  .join(","),
+              description: CatLoggingLevel.addCommand,
+            );
+            _counter2 = 0;
           },
         ),
       );

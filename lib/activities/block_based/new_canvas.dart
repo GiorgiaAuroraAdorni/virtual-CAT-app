@@ -36,6 +36,7 @@ import "package:cross_array_task_app/utility/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/scheduler.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
@@ -124,16 +125,19 @@ class NewCanvasState extends State<NewCanvas> {
     context.read<BlockUpdateNotifier>().addListener(_executeCommands);
     final List<SimpleContainer> commands = List<SimpleContainer>.from(
       CatInterpreter().allCommandsBuffer,
-    );
+    )
+        .filter((SimpleContainer element) => element.type != ContainerType.none)
+        .toList();
     CatInterpreter().allCommandsBuffer.clear();
     super.initState();
-    Future<void>(
-      () {
-        _data = commands
-            .onEach((SimpleContainer e) => e.key = GlobalKey())
-            .toList();
-        CatInterpreter().allCommandsBuffer = _data;
-        setState(() {});
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        setState(() {
+          _data = commands
+              .onEach((SimpleContainer e) => e.key = GlobalKey())
+              .toList();
+          CatInterpreter().allCommandsBuffer = _data;
+        });
       },
     );
   }
@@ -252,6 +256,8 @@ class NewCanvasState extends State<NewCanvas> {
       onChange: f,
     )..item = container;
   }
+
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) => ShakeWidget(
@@ -381,56 +387,48 @@ class NewCanvasState extends State<NewCanvas> {
             return false;
           },
           onMove: (DragTargetDetails<SimpleContainer> details) {
-            Timer(const Duration(milliseconds: 30), () {
-              if (!mounted) {
-                return;
-              }
-              if (_timer.isActive) {
-                return;
-              }
-              int index = _data.length;
-              double distance = double.maxFinite;
-              bool placeholder = false;
-              for (int i = 0; i < _data.length; i++) {
-                final Key elementKey = _data[i].key;
-                if (elementKey is GlobalKey &&
-                    elementKey.currentContext?.findRenderObject() != null &&
-                    elementKey != details.data.key) {
-                  final RenderBox renderBox = elementKey.currentContext
-                      ?.findRenderObject() as RenderBox;
+            if (_counter < 1) {
+              _counter++;
 
-                  final Offset offset = renderBox.localToGlobal(Offset.zero);
-                  final double posy = offset.dy;
-                  final double dist = sqrt(
-                    pow(posy - details.offset.dy, 2),
-                  );
-                  if (dist < distance) {
-                    distance = dist;
-                    index = i;
-                    placeholder = _data[index].type == ContainerType.none;
-                  }
+              return;
+            }
+            if (!mounted) {
+              return;
+            }
+            if (_timer.isActive) {
+              return;
+            }
+            int index = _data.length;
+            double distance = double.maxFinite;
+            bool placeholder = false;
+            for (int i = 0; i < _data.length; i++) {
+              final Key elementKey = _data[i].key;
+              if (elementKey is GlobalKey &&
+                  elementKey.currentContext?.findRenderObject() != null &&
+                  elementKey != details.data.key) {
+                final RenderBox renderBox =
+                    elementKey.currentContext?.findRenderObject() as RenderBox;
+
+                final Offset offset = renderBox.localToGlobal(Offset.zero);
+                final double posy = offset.dy;
+                final double dist = sqrt(
+                  pow(posy - details.offset.dy, 2),
+                );
+                if (dist < distance) {
+                  distance = dist;
+                  index = i;
+                  placeholder = _data[index].type == ContainerType.none;
                 }
               }
-              if (placeholder) {
-                return;
-              }
-              if (_prevIndex != -1) {
-                setState(() {
-                  _data
-                    ..removeAt(_prevIndex)
-                    ..insert(
-                      index,
-                      SimpleContainer(
-                        name: "",
-                        type: ContainerType.none,
-                        languageCode: "en",
-                      )..key = GlobalKey(),
-                    );
-                  _prevIndex = index;
-                });
-              } else {
-                setState(() {
-                  _data.insert(
+            }
+            if (placeholder) {
+              return;
+            }
+            if (_prevIndex != -1) {
+              setState(() {
+                _data
+                  ..removeAt(_prevIndex)
+                  ..insert(
                     index,
                     SimpleContainer(
                       name: "",
@@ -438,51 +436,59 @@ class NewCanvasState extends State<NewCanvas> {
                       languageCode: "en",
                     )..key = GlobalKey(),
                   );
-                  _prevIndex = index;
-                });
-              }
-              // print(_prevIndex);
-              _timer = Timer(const Duration(milliseconds: 200), () {});
-            });
+                _prevIndex = index;
+              });
+            } else {
+              setState(() {
+                _data.insert(
+                  index,
+                  SimpleContainer(
+                    name: "",
+                    type: ContainerType.none,
+                    languageCode: "en",
+                  )..key = GlobalKey(),
+                );
+                _prevIndex = index;
+              });
+            }
+            // print(_prevIndex);
+            _timer = Timer(const Duration(milliseconds: 200), () {});
           },
           onLeave: (_) {
-            Timer(const Duration(milliseconds: 40), () {
-              setState(() {
-                _data = _data
-                    .filter((SimpleContainer e) => e.type != ContainerType.none)
-                    .toList();
-                _prevIndex = -1;
-              });
+            setState(() {
+              _data = _data
+                  .filter((SimpleContainer e) => e.type != ContainerType.none)
+                  .toList();
+              _prevIndex = -1;
             });
+            _counter = 0;
           },
           onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-            Timer(const Duration(milliseconds: 40), () {
-              final String prev = CatInterpreter()
+            final String prev = CatInterpreter()
+                .allCommandsBuffer
+                .map((SimpleContainer e) => e.toString())
+                .join(",");
+            final SimpleContainer copy = details.data.copy()..key = GlobalKey();
+
+            setState(() {
+              _data.insert(_prevIndex, copy);
+              _data = _data
+                  .filter((SimpleContainer e) => e.type != ContainerType.none)
+                  .toList();
+              _prevIndex = -1;
+              CatInterpreter().allCommandsBuffer = _data;
+            });
+            context.read<BlockUpdateNotifier>().update();
+            CatLogger().addLog(
+              context: context,
+              previousCommand: prev,
+              currentCommand: CatInterpreter()
                   .allCommandsBuffer
                   .map((SimpleContainer e) => e.toString())
-                  .join(",");
-              final SimpleContainer copy = details.data.copy()
-                ..key = GlobalKey();
-
-              setState(() {
-                _data.insert(_prevIndex, copy);
-                _data = _data
-                    .filter((SimpleContainer e) => e.type != ContainerType.none)
-                    .toList();
-                _prevIndex = -1;
-                CatInterpreter().allCommandsBuffer = _data;
-              });
-              context.read<BlockUpdateNotifier>().update();
-              CatLogger().addLog(
-                context: context,
-                previousCommand: prev,
-                currentCommand: CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(","),
-                description: CatLoggingLevel.addCommand,
-              );
-            });
+                  .join(","),
+              description: CatLoggingLevel.addCommand,
+            );
+            _counter = 0;
           },
         ),
       );

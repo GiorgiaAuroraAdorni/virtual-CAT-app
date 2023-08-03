@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/base_connection.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
@@ -170,6 +171,9 @@ class Connection extends BaseConnection {
     final List<String> commands = List<String>.from(
       CatInterpreter()
           .allCommandsBuffer
+          .where(
+            (SimpleContainer element) => element.type != ContainerType.none,
+          )
           .map((SimpleContainer e) => e.toString()),
     );
     // commands.removeAt(0);
