@@ -11,6 +11,7 @@ import "package:cross_array_task_app/results_screen.dart";
 import "package:cross_array_task_app/survey.dart";
 import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
+import "package:cross_array_task_app/utility/localizations.dart";
 import "package:cross_array_task_app/utility/result_notifier.dart";
 import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
 import "package:cross_array_task_app/utility/time_keeper.dart";
@@ -23,6 +24,8 @@ import "package:flutter_svg/svg.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 import "package:uiblock/uiblock.dart";
+
+import "../tutorial_screen.dart";
 
 /// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {
@@ -250,6 +253,15 @@ class _BottomBarState extends State<BottomBar> {
           return;
         }
 
+        if (widget.studentID == -1 && widget.sessionID == -1) {
+          results.completed = commands.joinToString() ==
+              SchemasReader()
+                  .currentSolution
+                  .map((SimpleContainer e) => e.toString())
+                  .toList()
+                  .joinToString();
+        }
+
         return UIBlock.block(
           context,
           customLoaderChild: Image.asset(
@@ -268,6 +280,11 @@ class _BottomBarState extends State<BottomBar> {
                   UIBlock.unblock(
                     context,
                   );
+                  if (widget.studentID == -1 &&
+                      widget.sessionID == -1 &&
+                      !results.completed) {
+                    return;
+                  }
                   continuation(complete);
                 },
               ),
@@ -308,6 +325,21 @@ class _BottomBarState extends State<BottomBar> {
       CatLogger().resetLogs();
       context.read<TypeUpdateNotifier>().reset();
       context.read<ReferenceNotifier>().toLocation(nextIndex);
+      if (widget.studentID == -1 && widget.sessionID == -1) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute<Widget>(
+            builder: (BuildContext context) => WillPopScope(
+              onWillPop: () async => false,
+              child: TutorialScreen(
+                language: CATLocalizations.of(context).languageCode,
+                studentID: widget.studentID,
+                sessionID: widget.sessionID,
+              ),
+            ),
+          ),
+        );
+      }
     } else {
       if (widget.studentID != -1 && widget.sessionID != -1) {
         Navigator.push(

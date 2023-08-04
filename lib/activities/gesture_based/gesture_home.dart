@@ -23,6 +23,7 @@ import "package:cross_array_task_app/utility/time_keeper.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/scheduler.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 
@@ -51,9 +52,9 @@ class GestureHome extends StatefulWidget {
 class GestureHomeState extends State<GestureHome> {
   @override
   void initState() {
-    CatInterpreter().reset();
     super.initState();
-    Timer.run(() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      CatInterpreter().reset();
       Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
     });
   }

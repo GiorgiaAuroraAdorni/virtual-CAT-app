@@ -113,6 +113,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<VisibilityNotifier>(
             create: (_) => VisibilityNotifier(),
           ),
+          ChangeNotifierProvider<ReferenceNotifier>(
+            create: (_) => ReferenceNotifier(),
+          ),
         ],
         child: Consumer<LocaleProvider>(
           builder: (

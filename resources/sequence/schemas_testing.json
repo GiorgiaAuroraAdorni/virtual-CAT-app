@@ -4,10 +4,10 @@
       "index": 1,
       "expected_solution": "go(C1), paint(blue)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -64,10 +64,10 @@
       "index": 2,
       "expected_solution": "go(C1), paint(blue), go(C2), paint(yellow)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -124,10 +124,10 @@
       "index": 3,
       "expected_solution": "go(C1), paint({blue},6,right)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -184,10 +184,10 @@
       "index": 4,
       "expected_solution": "go(F3), paint({blue},6,down)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -244,10 +244,10 @@
       "index": 5,
       "expected_solution": "go(C1), paint({blue},4,diagonal up right)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -304,10 +304,10 @@
       "index": 6,
       "expected_solution": "go(C1), paint({blue},4,square right up left)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -364,10 +364,10 @@
       "index": 7,
       "expected_solution": "go(C1), paint({blue},5,l right down)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -424,10 +424,10 @@
       "index": 8,
       "expected_solution": "go(C1), paint({blue},6,zigzag right up down)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -484,10 +484,10 @@
       "index": 9,
       "expected_solution": "go(C1), paint({blue},5,l right down), go(A4), paint({blue},5,l up right)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -544,10 +544,10 @@
       "index": 10,
       "expected_solution": "go(C1), paint({blue,yellow},6,right)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -604,10 +604,10 @@
       "index": 11,
       "expected_solution": "go(C1), paint({blue,yellow,green,red},4,square right up left)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -664,10 +664,10 @@
       "index": 12,
       "expected_solution": "fill_empty(blue)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -724,10 +724,10 @@
       "index": 13,
       "expected_solution": "go(C1), paint({blue},4,diagonal up right), copy({C1,D2,E3,F4},{A3})",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -784,10 +784,10 @@
       "index": 14,
       "expected_solution": "go(C1), paint({blue,yellow,green,red},4,square right up left), copy({C1,C2,D2,D1},{C5})",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -844,10 +844,10 @@
       "index": 15,
       "expected_solution": "copy({paint({blue},:,down)},{D1,F3,D5})",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -904,10 +904,10 @@
       "index": 16,
       "expected_solution": "copy({paint(blue),go(C2),paint(yellow)},{C1,D3,C5})",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -964,10 +964,10 @@
       "index": 17,
       "expected_solution": "go(D1), paint({blue},4,square right down left), mirror(vertical)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -1024,10 +1024,10 @@
       "index": 18,
       "expected_solution": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
@@ -1084,10 +1084,10 @@
       "index": 19,
       "expected_solution": "mirror({paint({blue,yellow},4,square right up left)},vertical)",
       "tutorials": {
-        "en": "Path to the tutorial in en",
-        "it": "Path to the tutorial in it",
-        "fr": "Path to the tutorial in fr",
-        "de": "Path to the tutorial in de"
+        "en": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "it": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "fr": "resources/tutorial_videos/t1/pointing_blue.mp4",
+        "de": "resources/tutorial_videos/t1/pointing_blue.mp4"
       },
       "array": [
         [
