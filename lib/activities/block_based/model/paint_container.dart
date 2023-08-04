@@ -475,5 +475,5 @@ class PaintContainer extends SimpleContainer {
 
   @override
   String toString() => "paint({${analyzeColor(selectedColors).join(",")}},"
-      "${repetitionsText[repetitions].data},$direction)";
+      "${repetitionsText[repetitions].data == "∞" ? ":" : repetitionsText[repetitions].data},$direction)";
 }

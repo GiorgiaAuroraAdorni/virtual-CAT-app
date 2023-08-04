@@ -22,6 +22,7 @@ class SchemasReader {
     await _readSchemasJSON("resources/sequence/schemas.json")
         .then((String value) {
       _schemes = schemesFromJson(value);
+      _tutorial = Tutorial(expectedSolutions: {}, tutorialVideos: {});
       _size = _schemes.getData.length;
     });
   }
@@ -31,6 +32,9 @@ class SchemasReader {
         .then((String value) {
       _schemes = schemesFromJson(value);
       _tutorial = tutorialFromJson(value);
+      // for (var k in _tutorial.getSolutions.values) {
+      //   print(k);
+      // }
       _size = _schemes.getData.length;
     });
   }

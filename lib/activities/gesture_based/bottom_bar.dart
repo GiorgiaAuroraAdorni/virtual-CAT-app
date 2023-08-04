@@ -1,4 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
+import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/collector.dart";
@@ -198,6 +199,7 @@ class _BottomBarState extends State<BottomBar> {
     final Results results = CatInterpreter().getResults;
     final List<String> commands = CatInterpreter()
         .allCommandsBuffer
+        .filter((SimpleContainer element) => element.type != ContainerType.none)
         .map((SimpleContainer e) => e.toString())
         .toList();
     if (commands.isNotEmpty && commands.first == "None") {
@@ -263,10 +265,10 @@ class _BottomBarState extends State<BottomBar> {
               CupertinoButton.filled(
                 child: const Icon(CupertinoIcons.arrow_right),
                 onPressed: () {
-                  continuation(complete);
                   UIBlock.unblock(
                     context,
                   );
+                  continuation(complete);
                 },
               ),
             ],

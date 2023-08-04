@@ -44,7 +44,24 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
       ),
     ];
   }
-  final List<String> secondPart = splitByCurly(command.second.trim());
+  List<String> secondPart =
+      splitCommands(command.second.trim().removePrefix("{").removeSuffix("}"));
+  if (secondPart.isNotEmpty) {
+    return <SimpleContainer>[
+      MirrorContainerCommands(
+        container: secondPart
+            .map((String e) => parseToContainer(e.trim(), languageCode))
+            .reduce(
+              (List<SimpleContainer> value, List<SimpleContainer> element) =>
+                  value + element,
+            ),
+        position: command.last.trim() == "horizontal" ? 0 : 1,
+        direction: command.last.trim(),
+        languageCode: languageCode,
+      ),
+    ];
+  }
+  secondPart = splitByCurly(command.second.trim());
   if (secondPart.first.trim().split("").length == 2) {
     return <SimpleContainer>[
       MirrorContainerPoints(
@@ -71,19 +88,7 @@ List<SimpleContainer> _parseMirror(List<String> command, String languageCode) {
     ];
   }
 
-  return <SimpleContainer>[
-    MirrorContainerCommands(
-      container: secondPart
-          .map((String e) => parseToContainer(e.trim(), languageCode))
-          .reduce(
-            (List<SimpleContainer> value, List<SimpleContainer> element) =>
-                value + element,
-          ),
-      position: command.last.trim() == "horizontal" ? 0 : 1,
-      direction: command.last.trim(),
-      languageCode: languageCode,
-    ),
-  ];
+  return [];
 }
 
 List<SimpleContainer> _parseCopy(List<String> command, String languageCode) {
