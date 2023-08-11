@@ -61,9 +61,6 @@ class TutorialsList extends StatelessWidget {
                           onPressed: () {
                             SchemasReader().currentIndex = i + 1;
                             context.read<TypeUpdateNotifier>().setState(2);
-                            SchemasReader().completedVideo[i + 1]![
-                                CATLocalizations.of(context)
-                                    .languageCode]![2] = true;
                             Navigator.push(
                               context,
                               CupertinoPageRoute<Widget>(
@@ -100,9 +97,6 @@ class TutorialsList extends StatelessWidget {
                           onPressed: () {
                             SchemasReader().currentIndex = i + 1;
                             context.read<TypeUpdateNotifier>().setState(1);
-                            SchemasReader().completedVideo[i + 1]![
-                                CATLocalizations.of(context)
-                                    .languageCode]![1] = true;
                             Navigator.push(
                               context,
                               CupertinoPageRoute<Widget>(
@@ -139,9 +133,6 @@ class TutorialsList extends StatelessWidget {
                           onPressed: () {
                             SchemasReader().currentIndex = i + 1;
                             context.read<TypeUpdateNotifier>().setState(0);
-                            SchemasReader().completedVideo[i + 1]![
-                                CATLocalizations.of(context)
-                                    .languageCode]![0] = true;
                             Navigator.push(
                               context,
                               CupertinoPageRoute<Widget>(

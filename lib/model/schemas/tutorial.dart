@@ -8,10 +8,11 @@ import "package:interpreter/cat_interpreter.dart";
 Tutorial tutorialFromJson(String str) => Tutorial.fromJson(json.decode(str));
 
 class Tutorial {
-  Tutorial(
-      {required Map<int, List<SimpleContainer>> expectedSolutions,
-      required Map<int, Map<String, Map<int, String>>> tutorialVideos,
-      required Map<int, Map<String, Map<int, bool>>> completedTutorials}) {
+  Tutorial({
+    required Map<int, List<SimpleContainer>> expectedSolutions,
+    required Map<int, Map<String, Map<int, String>>> tutorialVideos,
+    required Map<int, Map<String, Map<int, bool>>> completedTutorials,
+  }) {
     _expectedSolutions = expectedSolutions;
     _tutorialVideos = tutorialVideos;
     _completedTutorials = completedTutorials;

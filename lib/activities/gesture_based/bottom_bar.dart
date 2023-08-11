@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/block_based/model/simple_contain
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
+import "package:cross_array_task_app/activities/tutorial/next_tutorial.dart";
 import "package:cross_array_task_app/model/collector.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
@@ -24,8 +25,6 @@ import "package:flutter_svg/svg.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 import "package:uiblock/uiblock.dart";
-
-import "../tutorial/tutorial_screen.dart";
 
 /// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {
@@ -323,8 +322,6 @@ class _BottomBarState extends State<BottomBar> {
       _reset();
       context.read<TimeKeeper>().resetTimer();
       CatLogger().resetLogs();
-      context.read<TypeUpdateNotifier>().reset();
-      context.read<ReferenceNotifier>().toLocation(nextIndex);
       if (widget.studentID == -1 && widget.sessionID == -1) {
         SchemasReader().completedVideo[SchemasReader().currentIndex]![
                 CATLocalizations.of(context)
@@ -333,18 +330,15 @@ class _BottomBarState extends State<BottomBar> {
         Navigator.push(
           context,
           CupertinoPageRoute<Widget>(
-            builder: (BuildContext context) => WillPopScope(
-              onWillPop: () async => false,
-              child: TutorialScreen(
-                video: SchemasReader().videos[SchemasReader().currentIndex]![
-                        CATLocalizations.of(context).languageCode]![
-                    context.read<TypeUpdateNotifier>().state]!,
-                studentID: widget.studentID,
-                sessionID: widget.sessionID,
-              ),
+            builder: (BuildContext context) => NextTutorial(
+              previouse: SchemasReader().currentIndex,
+              next: nextIndex,
             ),
           ),
         );
+      } else {
+        context.read<TypeUpdateNotifier>().reset();
+        context.read<ReferenceNotifier>().toLocation(nextIndex);
       }
     } else {
       if (widget.studentID != -1 && widget.sessionID != -1) {
