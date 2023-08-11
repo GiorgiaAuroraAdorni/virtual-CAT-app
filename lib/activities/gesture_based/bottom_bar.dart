@@ -16,7 +16,6 @@ import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
 import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:cross_array_task_app/utility/tokenization.dart";
 import "package:cross_array_task_app/utility/translations/localizations.dart";
-import "package:cross_array_task_app/views/results_screen.dart";
 import "package:cross_array_task_app/views/survey.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
@@ -356,16 +355,20 @@ class _BottomBarState extends State<BottomBar> {
         return;
       }
 
-      Navigator.push(
-        context,
-        CupertinoPageRoute<Widget>(
-          builder: (BuildContext context) => ResultsScreen(
-            sessionID: widget.sessionID,
-            studentID: widget.studentID,
-            results: widget.allResults,
-          ),
-        ),
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/tutorial",
+        (Route<dynamic> route) => false,
       );
+      // Navigator.push(
+      //   context,
+      //   CupertinoPageRoute<Widget>(
+      //     builder: (BuildContext context) => ResultsScreen(
+      //       sessionID: widget.sessionID,
+      //       studentID: widget.studentID,
+      //       results: widget.allResults,
+      //     ),
+      //   ),
+      // );
     }
   }
 
