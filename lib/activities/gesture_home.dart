@@ -55,7 +55,9 @@ class GestureHomeState extends State<GestureHome> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       CatInterpreter().reset();
-      Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
+      if (widget.studentID != -1 && widget.sessionID != -1) {
+        Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
+      }
     });
   }
 

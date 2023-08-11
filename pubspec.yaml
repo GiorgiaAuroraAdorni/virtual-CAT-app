@@ -36,7 +36,7 @@ dependencies:
 
   uiblock: ^2.0.2
 
-  dartx: ^1.1.0
+  dartx: ^1.2.0
 
   flutter:
     sdk: flutter
@@ -47,14 +47,14 @@ dependencies:
 
   text_to_speech: ^0.2.3
 
-  dio: ^5.1.1
+  dio: ^5.3.2
   #  native_dio_adapter: ^0.1.0
   # A package that allows you to use svg images in your flutter app.
-  flutter_svg: ^2.0.5
+  flutter_svg: ^2.0.7
 
-  fpdart: ^0.6.0
+  fpdart: ^1.0.0
 
-  flutter_fast_forms: ^11.0.0
+  flutter_fast_forms: ^11.1.0
 
   video_player: ^2.7.0
 
@@ -73,7 +73,7 @@ dependencies:
 
 dev_dependencies:
 
-  dart_code_metrics: ^5.7.2
+  dart_code_metrics: ^5.7.6
 
   flutter_launcher_icons_maker: ^0.10.2
 
@@ -82,7 +82,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.1
+  flutter_lints: ^2.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -115,7 +115,7 @@ flutter:
 
     - family: UiIcons
       fonts:
-        - asset: lib/icon_font/ui_icons.ttf
+        - asset: lib/utility/icon_font/ui_icons.ttf
 
 flutter_icons:
   android: true

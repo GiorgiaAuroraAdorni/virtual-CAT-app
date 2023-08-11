@@ -1,8 +1,7 @@
 import "package:cross_array_task_app/activities/gesture_home.dart";
-import "package:cross_array_task_app/activities/tutorial/tutorial_screen.dart";
+import "package:cross_array_task_app/activities/tutorial/tutorials_list.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
-import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`
@@ -46,21 +45,7 @@ class ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) {
     if (widget.sessionID == -1 && widget.studentID == -1) {
-      return WillPopScope(
-        onWillPop: () async => false,
-        child: TutorialScreen(
-          language: CATLocalizations.of(context).languageCode,
-          studentID: widget.studentID,
-          sessionID: widget.sessionID,
-        ),
-      );
-
-      return CupertinoPageScaffold(
-        child: GestureHome(
-          studentID: widget.studentID,
-          sessionID: widget.sessionID,
-        ),
-      );
+      return const TutorialsList();
     }
 
     return WillPopScope(

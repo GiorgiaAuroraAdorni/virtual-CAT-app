@@ -326,13 +326,19 @@ class _BottomBarState extends State<BottomBar> {
       context.read<TypeUpdateNotifier>().reset();
       context.read<ReferenceNotifier>().toLocation(nextIndex);
       if (widget.studentID == -1 && widget.sessionID == -1) {
+        SchemasReader().completedVideo[SchemasReader().currentIndex]![
+                CATLocalizations.of(context)
+                    .languageCode]![context.read<TypeUpdateNotifier>().state] =
+            true;
         Navigator.push(
           context,
           CupertinoPageRoute<Widget>(
             builder: (BuildContext context) => WillPopScope(
               onWillPop: () async => false,
               child: TutorialScreen(
-                language: CATLocalizations.of(context).languageCode,
+                video: SchemasReader().videos[SchemasReader().currentIndex]![
+                        CATLocalizations.of(context).languageCode]![
+                    context.read<TypeUpdateNotifier>().state]!,
                 studentID: widget.studentID,
                 sessionID: widget.sessionID,
               ),

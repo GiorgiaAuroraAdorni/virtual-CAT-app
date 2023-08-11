@@ -22,7 +22,11 @@ class SchemasReader {
     await _readSchemasJSON("resources/sequence/schemas.json")
         .then((String value) {
       _schemes = schemesFromJson(value);
-      _tutorial = Tutorial(expectedSolutions: {}, tutorialVideos: {});
+      _tutorial = Tutorial(
+        expectedSolutions: {},
+        tutorialVideos: {},
+        completedTutorials: {},
+      );
       _size = _schemes.getData.length;
     });
   }
@@ -73,10 +77,10 @@ class SchemasReader {
           ? _tutorial.getSolutions[_index]!
           : <SimpleContainer>[];
 
-  Map<String, String> get currentVideo =>
-      _tutorial.getVideos.containsKey(_index)
-          ? _tutorial.getVideos[_index]!
-          : {};
+  Map<int, Map<String, Map<int, String>>> get videos => _tutorial.getVideos;
+
+  Map<int, Map<String, Map<int, bool>>> get completedVideo =>
+      _tutorial.getCompleted;
 
   /// It returns the current index of the page.
   int get currentIndex => _index;
@@ -91,7 +95,11 @@ class SchemasReader {
   Schemes get schemes => _schemes;
 
   Schemes _schemes = Schemes(schemas: <int, Cross>{1: Cross()});
-  Tutorial _tutorial = Tutorial(expectedSolutions: {}, tutorialVideos: {});
+  Tutorial _tutorial = Tutorial(
+    expectedSolutions: {},
+    tutorialVideos: {},
+    completedTutorials: {},
+  );
   int _size = 0;
   int _index = 1;
   static final SchemasReader _schemas = SchemasReader._internal();

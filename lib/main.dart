@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/tutorial/tutorials_list.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
@@ -128,6 +129,7 @@ class MyApp extends StatelessWidget {
             initialRoute: "/",
             routes: {
               "/mode": (BuildContext context) => const ModeSelection(),
+              "/tutorial": (BuildContext context) => const TutorialsList(),
             },
             debugShowCheckedModeBanner: false,
             theme: const CupertinoThemeData(

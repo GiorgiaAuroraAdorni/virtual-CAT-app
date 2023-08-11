@@ -86,98 +86,103 @@ class _TopBarState extends State<TopBar> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.21,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child: SvgPicture.asset(
-                          "resources/icons/code.svg",
-                          height: 42,
-                          width: 42,
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            context.read<TypeUpdateNotifier>().state == 2
-                                ? CupertinoColors.white
-                                : CupertinoColors.systemGrey2.darkColor
-                                    .withAlpha(127),
-                            BlendMode.modulate,
+                if (widget.sessionID != -1 && widget.studentID != -1)
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.21,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: SvgPicture.asset(
+                            "resources/icons/code.svg",
+                            height: 42,
+                            width: 42,
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              context.read<TypeUpdateNotifier>().state == 2
+                                  ? CupertinoColors.white
+                                  : CupertinoColors.systemGrey2.darkColor
+                                      .withAlpha(127),
+                              BlendMode.modulate,
+                            ),
                           ),
+                          onPressed: () {
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand:
+                                  "${context.read<TypeUpdateNotifier>().state}",
+                              currentCommand: "2",
+                              description: CatLoggingLevel.changeMode,
+                            );
+                            context.read<TypeUpdateNotifier>().setState(2);
+                            widget.selectionMode.value = SelectionModes.base;
+                            CatInterpreter().deleteCopyCommands();
+                          },
                         ),
-                        onPressed: () {
-                          CatLogger().addLog(
-                            context: context,
-                            previousCommand:
-                                "${context.read<TypeUpdateNotifier>().state}",
-                            currentCommand: "2",
-                            description: CatLoggingLevel.changeMode,
-                          );
-                          context.read<TypeUpdateNotifier>().setState(2);
-                          widget.selectionMode.value = SelectionModes.base;
-                          CatInterpreter().deleteCopyCommands();
-                        },
-                      ),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child: SvgPicture.asset(
-                          "resources/icons/block.svg",
-                          height: 42,
-                          width: 42,
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            context.read<TypeUpdateNotifier>().state == 1
-                                ? CupertinoColors.white
-                                : CupertinoColors.systemGrey2.darkColor
-                                    .withAlpha(127),
-                            BlendMode.modulate,
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: SvgPicture.asset(
+                            "resources/icons/block.svg",
+                            height: 42,
+                            width: 42,
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              context.read<TypeUpdateNotifier>().state == 1
+                                  ? CupertinoColors.white
+                                  : CupertinoColors.systemGrey2.darkColor
+                                      .withAlpha(127),
+                              BlendMode.modulate,
+                            ),
                           ),
+                          onPressed: () {
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand:
+                                  "${context.read<TypeUpdateNotifier>().state}",
+                              currentCommand: "1",
+                              description: CatLoggingLevel.changeMode,
+                            );
+                            context.read<TypeUpdateNotifier>().setState(1);
+                            widget.selectionMode.value = SelectionModes.base;
+                            CatInterpreter().deleteCopyCommands();
+                          },
                         ),
-                        onPressed: () {
-                          CatLogger().addLog(
-                            context: context,
-                            previousCommand:
-                                "${context.read<TypeUpdateNotifier>().state}",
-                            currentCommand: "1",
-                            description: CatLoggingLevel.changeMode,
-                          );
-                          context.read<TypeUpdateNotifier>().setState(1);
-                          widget.selectionMode.value = SelectionModes.base;
-                          CatInterpreter().deleteCopyCommands();
-                        },
-                      ),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child: SvgPicture.asset(
-                          "resources/icons/gesture.svg",
-                          height: 42,
-                          width: 42,
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            context.read<TypeUpdateNotifier>().state == 0
-                                ? CupertinoColors.white
-                                : CupertinoColors.systemGrey2.darkColor
-                                    .withAlpha(127),
-                            BlendMode.modulate,
+                        CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          child: SvgPicture.asset(
+                            "resources/icons/gesture.svg",
+                            height: 42,
+                            width: 42,
+                            fit: BoxFit.cover,
+                            colorFilter: ColorFilter.mode(
+                              context.read<TypeUpdateNotifier>().state == 0
+                                  ? CupertinoColors.white
+                                  : CupertinoColors.systemGrey2.darkColor
+                                      .withAlpha(127),
+                              BlendMode.modulate,
+                            ),
                           ),
+                          onPressed: () {
+                            CatLogger().addLog(
+                              context: context,
+                              previousCommand:
+                                  "${context.read<TypeUpdateNotifier>().state}",
+                              currentCommand: "0",
+                              description: CatLoggingLevel.changeMode,
+                            );
+                            context.read<TypeUpdateNotifier>().setState(0);
+                            widget.selectionMode.value = SelectionModes.base;
+                            CatInterpreter().deleteCopyCommands();
+                          },
                         ),
-                        onPressed: () {
-                          CatLogger().addLog(
-                            context: context,
-                            previousCommand:
-                                "${context.read<TypeUpdateNotifier>().state}",
-                            currentCommand: "0",
-                            description: CatLoggingLevel.changeMode,
-                          );
-                          context.read<TypeUpdateNotifier>().setState(0);
-                          widget.selectionMode.value = SelectionModes.base;
-                          CatInterpreter().deleteCopyCommands();
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
+                  )
+                else
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.21,
                   ),
-                ),
                 if (widget.sessionID != -1 && widget.studentID != -1)
                   Container(
                     alignment: AlignmentDirectional.center,
