@@ -1,8 +1,8 @@
-import "package:cross_array_task_app/activities/gesture_based/gesture_home.dart";
-import "package:cross_array_task_app/activities/tutorial_screen.dart";
+import "package:cross_array_task_app/activities/gesture_home.dart";
+import "package:cross_array_task_app/activities/tutorial/tutorial_screen.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 /// `ActivityHome` is a `StatefulWidget` that creates a `ActivityHomeState`

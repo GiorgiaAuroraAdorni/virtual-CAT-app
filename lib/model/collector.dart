@@ -65,6 +65,8 @@ class Collector {
     "paintZigzagUpRightLeftPolychromatic": <bool>[],
     "paintZigzagDownLeftRightPolychromatic": <bool>[],
     "paintZigzagDownRightLeftPolychromatic": <bool>[],
+    "paintCustomPatternMonochromatic": <bool>[],
+    "paintCustomPatternPolychromatic": <bool>[],
     "fillEmpty": <bool>[],
     "copy": <bool>[],
     "repeat": <bool>[],

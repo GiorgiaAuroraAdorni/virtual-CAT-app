@@ -4,7 +4,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/cross_button
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 
 /// It's a widget that displays a grid of buttons that can be tapped to change

@@ -8,9 +8,9 @@ import "package:cross_array_task_app/activities/block_based/model/point_containe
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";

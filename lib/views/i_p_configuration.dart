@@ -1,5 +1,5 @@
-import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/session_selection.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
+import "package:cross_array_task_app/views/session_selection.dart";
 import "package:flutter/cupertino.dart";
 
 class IPConfiguration extends StatefulWidget {

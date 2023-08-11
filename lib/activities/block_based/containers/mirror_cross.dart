@@ -1,8 +1,8 @@
 import "package:cross_array_task_app/activities/block_based/containers/widget_container.dart";
 import "package:cross_array_task_app/activities/block_based/model/mirror_simple_container.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";

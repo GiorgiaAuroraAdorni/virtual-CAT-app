@@ -1,9 +1,9 @@
-import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/student_form.dart";
-import "package:cross_array_task_app/utility/cantons_list.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/schools.dart";
-import "package:cross_array_task_app/utility/supervisor.dart";
+import "package:cross_array_task_app/utility/connection/cantons_list.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
+import "package:cross_array_task_app/utility/connection/schools.dart";
+import "package:cross_array_task_app/utility/connection/supervisor.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/student_form.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 

@@ -1,10 +1,10 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/session_selection.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
+import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/session_selection.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";

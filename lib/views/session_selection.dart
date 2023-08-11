@@ -1,6 +1,6 @@
-import "package:cross_array_task_app/recover_session.dart";
-import "package:cross_array_task_app/tutor_form.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/recover_session.dart";
+import "package:cross_array_task_app/views/tutor_form.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 
@@ -35,7 +35,8 @@ class SessionSelection extends StatelessWidget {
                           Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) => const SchoolForm(),
+                              builder: (BuildContext context) =>
+                                  const SchoolForm(),
                             ),
                           );
                         },
@@ -64,7 +65,8 @@ class SessionSelection extends StatelessWidget {
                           Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(
-                              builder: (BuildContext context) => const RecoverSession(),
+                              builder: (BuildContext context) =>
+                                  const RecoverSession(),
                             ),
                           );
                         },
@@ -79,5 +81,5 @@ class SessionSelection extends StatelessWidget {
             ),
           ],
         ),
-  );
+      );
 }

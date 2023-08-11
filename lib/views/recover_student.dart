@@ -1,44 +1,53 @@
-import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/student_selection.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/activities/activity_home.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 
-class RecoverSession extends StatefulWidget {
-  const RecoverSession({super.key});
+class RecoverStudent extends StatefulWidget {
+  const RecoverStudent({required this.sessionID, super.key});
+
+  final int sessionID;
 
   @override
-  RecoverSessionState createState() => RecoverSessionState();
+  State<RecoverStudent> createState() => _RecoverStudentState();
 }
 
-class RecoverSessionState extends State<RecoverSession> {
-  final TextEditingController _controllerSession = TextEditingController();
+class _RecoverStudentState extends State<RecoverStudent> {
+  final TextEditingController _controllerStudent = TextEditingController();
   String _error = "";
 
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(CATLocalizations.of(context).sessionData),
+          middle: Text(CATLocalizations.of(context).studentData),
         ),
         child: SafeArea(
           child: Form(
             autovalidateMode: AutovalidateMode.always,
             child: CupertinoFormSection.insetGrouped(
-              header: Text(CATLocalizations.of(context).requestSessionID),
+              header: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "${CATLocalizations.of(context).session}: ${widget.sessionID}",
+                  ),
+                  Text(CATLocalizations.of(context).requestStudentID),
+                ],
+              ),
               children: <Widget>[
                 CupertinoTextFormFieldRow(
-                  style: TextStyle(),
                   prefix: Text(
-                    "${CATLocalizations.of(context).sessionID}:",
+                    "${CATLocalizations.of(context).studentID}:",
                     textAlign: TextAlign.right,
                   ),
+                  controller: _controllerStudent,
                   onChanged: (_) {
                     setState(() {
                       _error = "";
                     });
                   },
-                  controller: _controllerSession,
-                  validator: (String? val) {
-                    if (val == null || val.isEmpty) {
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
                       return CATLocalizations.of(context).errorMessage;
                     }
 
@@ -53,10 +62,8 @@ class RecoverSessionState extends State<RecoverSession> {
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             _error,
-                            textAlign: TextAlign.left,
                             style: const TextStyle(
                               color: CupertinoColors.destructiveRed,
-                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
@@ -64,9 +71,8 @@ class RecoverSessionState extends State<RecoverSession> {
                     ),
                     CupertinoButton(
                       onPressed: _changePage,
-                      child: Text(
-                        CATLocalizations.of(context).continueSessionID,
-                      ),
+                      child:
+                          Text(CATLocalizations.of(context).continueStudentID),
                     ),
                   ],
                 ),
@@ -78,17 +84,19 @@ class RecoverSessionState extends State<RecoverSession> {
 
   /// It changes the page to the SchoolForm page.
   void _changePage() {
-    final int? value = int.tryParse(_controllerSession.text);
+    final int? value = int.tryParse(_controllerStudent.text);
     if (value != null) {
-      Connection().sessions().then(
+      Connection().students().then(
         (ret) {
           for (final i in ret) {
-            if (i["id"] == value) {
+            if (i["id"] == value && i["session"] == widget.sessionID) {
               Navigator.push(
                 context,
                 CupertinoPageRoute<Widget>(
-                  builder: (BuildContext context) =>
-                      StudentSelection(sessionID: value),
+                  builder: (BuildContext context) => ActivityHome(
+                    sessionID: widget.sessionID,
+                    studentID: value,
+                  ),
                 ),
               );
 
@@ -96,7 +104,7 @@ class RecoverSessionState extends State<RecoverSession> {
             }
           }
           setState(() {
-            _error = CATLocalizations.of(context).errorMessageSession;
+            _error = CATLocalizations.of(context).errorMessageStudent;
           });
         },
       ).onError((Object? error, StackTrace stackTrace) => null);

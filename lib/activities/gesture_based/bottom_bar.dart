@@ -3,20 +3,20 @@ import "package:cross_array_task_app/activities/block_based/types/container_type
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/collector.dart";
-import "package:cross_array_task_app/model/connection.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/results_screen.dart";
-import "package:cross_array_task_app/survey.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
-import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
-import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
+import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:cross_array_task_app/utility/tokenization.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/results_screen.dart";
+import "package:cross_array_task_app/views/survey.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -25,7 +25,7 @@ import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
 import "package:uiblock/uiblock.dart";
 
-import "../tutorial_screen.dart";
+import "../tutorial/tutorial_screen.dart";
 
 /// `BottomBar` is a stateful widget that has a key
 class BottomBar extends StatefulWidget {

@@ -1,6 +1,6 @@
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 import "package:interpreter/cat_interpreter.dart";

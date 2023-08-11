@@ -13,9 +13,9 @@ import "package:cross_array_task_app/activities/gesture_based/widget/buttons/sel
 import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";

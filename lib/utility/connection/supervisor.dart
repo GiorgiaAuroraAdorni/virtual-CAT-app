@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/model/connection.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
 import "package:flutter/cupertino.dart";
 
 // /// A list of supervisors.

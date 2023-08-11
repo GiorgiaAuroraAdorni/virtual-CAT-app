@@ -3,7 +3,7 @@ import "package:cross_array_task_app/activities/gesture_based/model/dummy_button
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/blink_widget.dart";
 import "package:cross_array_task_app/model/shake_widget.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 
@@ -112,14 +112,8 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
   @override
   Widget build(BuildContext context) {
     final double containerDimension =
-        ((MediaQuery
-            .of(context)
-            .size
-            .width / 13) +
-            (MediaQuery
-                .of(context)
-                .size
-                .width / 13 / 5)) *
+        ((MediaQuery.of(context).size.width / 13) +
+                (MediaQuery.of(context).size.width / 13 / 5)) *
             6;
 
     return SizedBox(
@@ -134,20 +128,13 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
           onPanStart: (DragStartDetails details) {
             _checkPosition(
               details.globalPosition,
-              MediaQuery
-                  .of(context)
-                  .size
-                  .width / 13 / 2,
+              MediaQuery.of(context).size.width / 13 / 2,
             );
           },
-          onPanUpdate: (DragUpdateDetails details) =>
-              _checkPosition(
-                details.globalPosition,
-                MediaQuery
-                    .of(context)
-                    .size
-                    .width / 13 / 2,
-              ),
+          onPanUpdate: (DragUpdateDetails details) => _checkPosition(
+            details.globalPosition,
+            MediaQuery.of(context).size.width / 13 / 2,
+          ),
           onPanEnd: endPan,
           child: Flex(
             direction: Axis.vertical,
@@ -172,7 +159,7 @@ abstract class BasicShapeState<T extends BasicShape> extends State<T> {
         if (buttons[j].children[i] is CrossButton) {
           final double distance =
               ((buttons[j].children[i] as CrossButton).getPosition() -
-                  globalPosition)
+                      globalPosition)
                   .distance;
           if (distance < minDistance && distance < maxDistance) {
             minDistance = distance;

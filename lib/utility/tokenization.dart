@@ -78,6 +78,13 @@ void _paintAnalysis(
   if (tokens.length == 2) {
     collector.data["paintDot"]?.add(finalValue);
   }
+  if (tokens.length == 3) {
+    if (splitByCurly(tokens[1]).length == 1) {
+      collector.data["paintCustomPatternMonochromatic"]?.add(finalValue);
+    } else {
+      collector.data["paintCustomPatternPolychromatic"]?.add(finalValue);
+    }
+  }
   if (tokens.length == 4) {
     final String cap = tokens.last
         .replaceAll("-", "")

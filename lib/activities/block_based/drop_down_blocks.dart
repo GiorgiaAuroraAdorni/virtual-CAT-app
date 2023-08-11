@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/utility/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";

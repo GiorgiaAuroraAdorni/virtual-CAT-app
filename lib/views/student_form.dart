@@ -1,8 +1,8 @@
 import "package:cross_array_task_app/activities/activity_home.dart";
-import "package:cross_array_task_app/model/connection.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
+import "package:cross_array_task_app/utility/connection/connection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 
 /// Implementation for the gestures-based GUI
@@ -148,7 +148,7 @@ class StudentsFormState extends State<StudentsForm> with RouteAware {
       final Text text = CATLocalizations.of(context).genderType[0];
       _gender.text = text.data.toString();
     });
-      showCupertinoModalPopup(
+    showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
         height: MediaQuery.of(context).copyWith().size.height * 0.25,

@@ -2,10 +2,10 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
 import "package:cross_array_task_app/utility/helper.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/material.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
@@ -79,7 +79,7 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
     CatLogger().addLog(
       context: context,
       previousCommand: "",
-      currentCommand: "fill_empty",
+      currentCommand: "fill_empty(${colors.first})",
       description: CatLoggingLevel.buttonSelect,
     );
     context.read<SelectedColorsNotifier>().clear();

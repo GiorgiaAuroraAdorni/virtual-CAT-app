@@ -1,5 +1,5 @@
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 

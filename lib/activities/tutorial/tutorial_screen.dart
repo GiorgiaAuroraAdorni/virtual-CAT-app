@@ -1,10 +1,9 @@
 import "package:chewie/chewie.dart";
+import 'package:cross_array_task_app/activities/gesture_home.dart';
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:video_player/video_player.dart";
-
-import "gesture_based/gesture_home.dart";
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({
@@ -103,22 +102,6 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ],
         ),
       );
-
-  // @override
-  // Widget build(BuildContext context) => CupertinoPageScaffold(
-  //       child: FutureBuilder(
-  //         future: _initializeVideoPlayerFuture,
-  //         builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
-  //             snapshot.connectionState == ConnectionState.done
-  //                 ? Center(
-  //                     child: AspectRatio(
-  //                       aspectRatio: _controller.value.aspectRatio,
-  //                       child: VideoPlayer(_controller),
-  //                     ),
-  //                   )
-  //                 : const Center(child: CircularProgressIndicator()),
-  //       ),
-  //     );
 
   @override
   void dispose() {

@@ -1,6 +1,6 @@
 import "package:cross_array_task_app/activities/gesture_based/side_menu.dart";
 import "package:cross_array_task_app/activities/gesture_based/widget/buttons/action_button.dart";
-import "package:cross_array_task_app/widgets/icons.dart";
+import 'package:cross_array_task_app/utility/icons.dart';
 
 /// It's a button that can be selected or deselected
 class SelectionActionButton extends ActionButton {

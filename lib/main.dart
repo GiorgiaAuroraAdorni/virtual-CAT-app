@@ -1,8 +1,8 @@
-import "package:cross_array_task_app/mode_selection.dart";
 import "package:cross_array_task_app/utility/helper.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/mode_selection.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/services.dart";
 import "package:flutter_localizations/flutter_localizations.dart";

@@ -6,11 +6,11 @@ import "package:cross_array_task_app/activities/gesture_based/selection_mode.dar
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
-import "package:cross_array_task_app/utility/cat_log.dart";
-import "package:cross_array_task_app/utility/result_notifier.dart";
-import "package:cross_array_task_app/utility/selected_colors_notifier.dart";
-import "package:cross_array_task_app/utility/time_keeper.dart";
-import "package:cross_array_task_app/utility/visibility_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/selected_colors_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
+import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:dartx/dartx.dart";
 import "package:flutter/cupertino.dart";
 import "package:interpreter/cat_interpreter.dart";

@@ -1,7 +1,7 @@
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/results_record.dart";
-import "package:cross_array_task_app/utility/localizations.dart";
-import "package:cross_array_task_app/utility/time_keeper.dart";
+import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 
