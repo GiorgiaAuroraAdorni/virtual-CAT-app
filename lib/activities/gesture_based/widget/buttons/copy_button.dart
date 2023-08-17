@@ -52,7 +52,6 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
     widget.state.widget.selectedButtons.value.clear();
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy",
       description: CatLoggingLevel.buttonDismiss,
     );
@@ -70,7 +69,6 @@ class CopyButtonState extends ActionButtonState<CopyButton> {
     widget.state.widget.selectionMode.value = SelectionModes.selectCopyCells;
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -133,7 +131,6 @@ class CopyButtonSecondatyState extends ActionButtonState<CopyButtonSecondary> {
     widget.state.copyButtonSecondaryKey.currentState?.deSelect();
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -144,7 +141,6 @@ class CopyButtonSecondatyState extends ActionButtonState<CopyButtonSecondary> {
     widget.state.copyButtonSecondaryKey.currentState?.select();
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy",
       description: CatLoggingLevel.buttonDismiss,
     );

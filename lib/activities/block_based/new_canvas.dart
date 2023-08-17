@@ -322,10 +322,6 @@ class NewCanvasState extends State<NewCanvas> {
                                 (Size size) {},
                               ),
                               onDragStarted: () {
-                                final String prev = CatInterpreter()
-                                    .allCommandsBuffer
-                                    .map((SimpleContainer e) => e.toString())
-                                    .join(",");
                                 setState(
                                   () {
                                     _data[index] = SimpleContainer(
@@ -341,7 +337,6 @@ class NewCanvasState extends State<NewCanvas> {
                                 context.read<BlockUpdateNotifier>().update();
                                 CatLogger().addLog(
                                   context: context,
-                                  previousCommand: prev,
                                   currentCommand: CatInterpreter()
                                       .allCommandsBuffer
                                       .map((SimpleContainer e) => e.toString())
@@ -351,10 +346,6 @@ class NewCanvasState extends State<NewCanvas> {
                               },
                             ),
                             onDismissed: (_) {
-                              final String prev = CatInterpreter()
-                                  .allCommandsBuffer
-                                  .map((SimpleContainer e) => e.toString())
-                                  .join(",");
                               setState(
                                 () {
                                   _data.removeAt(index);
@@ -364,7 +355,6 @@ class NewCanvasState extends State<NewCanvas> {
                               context.read<BlockUpdateNotifier>().update();
                               CatLogger().addLog(
                                 context: context,
-                                previousCommand: prev,
                                 currentCommand: CatInterpreter()
                                     .allCommandsBuffer
                                     .map((SimpleContainer e) => e.toString())
@@ -464,10 +454,6 @@ class NewCanvasState extends State<NewCanvas> {
             _counter = 0;
           },
           onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-            final String prev = CatInterpreter()
-                .allCommandsBuffer
-                .map((SimpleContainer e) => e.toString())
-                .join(",");
             final SimpleContainer copy = details.data.copy()..key = GlobalKey();
 
             setState(() {
@@ -481,7 +467,6 @@ class NewCanvasState extends State<NewCanvas> {
             context.read<BlockUpdateNotifier>().update();
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: CatInterpreter()
                   .allCommandsBuffer
                   .map((SimpleContainer e) => e.toString())

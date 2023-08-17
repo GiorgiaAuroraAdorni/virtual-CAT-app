@@ -251,7 +251,6 @@ class _Paint extends State<Paint> {
       }
     });
     context.read<BlockUpdateNotifier>().update();
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -282,7 +281,6 @@ class _Paint extends State<Paint> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),
@@ -309,7 +307,6 @@ class _Paint extends State<Paint> {
       }
     });
     context.read<BlockUpdateNotifier>().update();
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -341,7 +338,6 @@ class _Paint extends State<Paint> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),
@@ -356,7 +352,6 @@ class _Paint extends State<Paint> {
             widget.item.direction == widget.item.items2[element],
       ),
     );
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -393,7 +388,6 @@ class _Paint extends State<Paint> {
         }
         CatLogger().addLog(
           context: context,
-          previousCommand: prev,
           currentCommand: widget.item.toString(),
           description: CatLoggingLevel.updateCommandProperties,
         );
@@ -408,7 +402,6 @@ class _Paint extends State<Paint> {
         (String element) => widget.item.direction == widget.item.items[element],
       ),
     );
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -450,7 +443,6 @@ class _Paint extends State<Paint> {
         }
         CatLogger().addLog(
           context: context,
-          previousCommand: prev,
           currentCommand: widget.item.toString(),
           description: CatLoggingLevel.updateCommandProperties,
         );
@@ -479,7 +471,6 @@ class _Paint extends State<Paint> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () {
-                final String prev = widget.item.toString();
                 setStateCustom(() {
                   if (widget.item.selectedColors.contains(color)) {
                     widget.item.selectedColors.remove(color);
@@ -493,7 +484,6 @@ class _Paint extends State<Paint> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: widget.item.toString(),
                   description: CatLoggingLevel.updateCommandProperties,
                 );

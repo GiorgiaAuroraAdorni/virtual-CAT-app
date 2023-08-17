@@ -104,7 +104,6 @@ class _PaintSingle extends State<PaintSingle> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () {
-                final String prev = widget.item.toString();
                 setStateCustom(() {
                   widget.item.selected = color;
                 });
@@ -114,7 +113,6 @@ class _PaintSingle extends State<PaintSingle> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: widget.item.toString(),
                   description: CatLoggingLevel.updateCommandProperties,
                 );

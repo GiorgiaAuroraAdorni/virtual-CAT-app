@@ -117,7 +117,6 @@ class MirrorButtonVerticalState
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "mirror vertical",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -252,7 +251,6 @@ class MirrorButtonVerticalStateSecondary
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "cells mirror vertical",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -267,7 +265,6 @@ class MirrorButtonVerticalStateSecondary
     widget.state.widget.selectionMode.value = SelectionModes.transition;
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "cells mirror vertical",
       description: CatLoggingLevel.buttonDismiss,
     );

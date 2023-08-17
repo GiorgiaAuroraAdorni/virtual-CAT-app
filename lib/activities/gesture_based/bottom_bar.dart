@@ -217,8 +217,7 @@ class _BottomBarState extends State<BottomBar> {
 
     CatLogger().addLog(
       context: context,
-      previousCommand: commands.joinToString(),
-      currentCommand: "",
+      currentCommand: "end()",
       description:
           complete ? CatLoggingLevel.completed : CatLoggingLevel.surrendered,
     );
@@ -393,8 +392,7 @@ class _BottomBarState extends State<BottomBar> {
 
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
-      currentCommand: "",
+      currentCommand: "commands_reset()",
       description: CatLoggingLevel.commandsReset,
     );
   }

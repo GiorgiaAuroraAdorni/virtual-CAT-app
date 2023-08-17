@@ -241,7 +241,6 @@ class _Go extends State<Go> {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -265,7 +264,6 @@ class _Go extends State<Go> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),
@@ -284,7 +282,6 @@ class _Go extends State<Go> {
       widget.item.repetitions = 1;
     });
     context.read<BlockUpdateNotifier>().update();
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -308,7 +305,6 @@ class _Go extends State<Go> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),
@@ -323,7 +319,6 @@ class _Go extends State<Go> {
             widget.item.direction == widget.item.items2[element],
       ),
     );
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -348,7 +343,6 @@ class _Go extends State<Go> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),
@@ -362,7 +356,6 @@ class _Go extends State<Go> {
         (Widget element) => widget.item.direction == widget.item.items[element],
       ),
     );
-    final String prev = widget.item.toString();
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext builder) => Container(
@@ -387,7 +380,6 @@ class _Go extends State<Go> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),

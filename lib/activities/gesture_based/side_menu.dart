@@ -293,7 +293,6 @@ class SideMenuState extends State<SideMenu> {
                               CatInterpreter().deleteCopyCommands();
                               CatLogger().addLog(
                                 context: context,
-                                previousCommand: "",
                                 currentCommand: "copy commands",
                                 description: CatLoggingLevel.dismissCommand,
                               );
@@ -403,7 +402,6 @@ class SideMenuState extends State<SideMenu> {
                               widget.shakeKey.currentState?.shake();
                               CatLogger().addLog(
                                 context: context,
-                                previousCommand: "",
                                 currentCommand: CatInterpreter()
                                     .getResults
                                     .getCommands
@@ -432,7 +430,6 @@ class SideMenuState extends State<SideMenu> {
                               });
                               CatLogger().addLog(
                                 context: context,
-                                previousCommand: "",
                                 currentCommand: "cells selection",
                                 description: CatLoggingLevel.dismissCommand,
                               );
@@ -470,8 +467,12 @@ class SideMenuState extends State<SideMenu> {
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
-      currentCommand: CatInterpreter().getResults.getCommands.last,
+      currentCommand: CatInterpreter()
+          .allCommandsBuffer
+          .reversed
+          .take(2)
+          .reversed
+          .joinToString(),
       description: CatLoggingLevel.confirmCommand,
     );
   }

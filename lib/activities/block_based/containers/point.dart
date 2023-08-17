@@ -150,7 +150,6 @@ class _Point extends State<Point> {
     final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
     final int initialA = directions2.indexOf(widget.item.a);
     final int initialB = directions.indexOf(widget.item.b);
-    final String prev = widget.item.toString();
 
     showCupertinoModalPopup(
       context: context,
@@ -210,7 +209,6 @@ class _Point extends State<Point> {
           ? null
           : CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             ),

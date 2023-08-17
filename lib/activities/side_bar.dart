@@ -265,8 +265,7 @@ class _SideBarState extends State<SideBar> {
 
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
-      currentCommand: "",
+      currentCommand: "commands_reset()",
       description: CatLoggingLevel.commandsReset,
     );
   }

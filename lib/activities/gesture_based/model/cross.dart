@@ -109,7 +109,6 @@ class _CrossState extends BasicShapeState<Cross> {
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: CatInterpreter()
           .allCommandsBuffer
           .reversed

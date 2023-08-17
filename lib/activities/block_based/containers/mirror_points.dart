@@ -213,10 +213,6 @@ class _Mirror extends State<MirrorPoints> {
                   _counter < 1 ? _counter++ : move(details),
               onAcceptWithDetails:
                   (DragTargetDetails<SimpleContainer> details) {
-                final String prev = CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(",");
                 final SimpleContainer copy = details.data.copy()
                   ..key = GlobalKey();
                 setStateCustom(() {
@@ -239,7 +235,6 @@ class _Mirror extends State<MirrorPoints> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: CatInterpreter()
                       .allCommandsBuffer
                       .map((SimpleContainer e) => e.toString())
@@ -378,10 +373,6 @@ class _Mirror extends State<MirrorPoints> {
                             },
                           ),
                           onDragStarted: () {
-                            final String prev = CatInterpreter()
-                                .allCommandsBuffer
-                                .map((SimpleContainer e) => e.toString())
-                                .join(",");
                             setStateCustom(
                               () {
                                 sized.remove(
@@ -396,7 +387,6 @@ class _Mirror extends State<MirrorPoints> {
                             }
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: prev,
                               currentCommand: CatInterpreter()
                                   .allCommandsBuffer
                                   .map((SimpleContainer e) => e.toString())
@@ -406,10 +396,6 @@ class _Mirror extends State<MirrorPoints> {
                           },
                         ),
                         onDismissed: (_) {
-                          final String prev = CatInterpreter()
-                              .allCommandsBuffer
-                              .map((SimpleContainer e) => e.toString())
-                              .join(",");
                           setStateCustom(
                             () {
                               sized.remove(
@@ -424,7 +410,6 @@ class _Mirror extends State<MirrorPoints> {
                           }
                           CatLogger().addLog(
                             context: context,
-                            previousCommand: prev,
                             currentCommand: CatInterpreter()
                                 .allCommandsBuffer
                                 .map((SimpleContainer e) => e.toString())
@@ -458,7 +443,6 @@ class _Mirror extends State<MirrorPoints> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
@@ -469,7 +453,6 @@ class _Mirror extends State<MirrorPoints> {
             }
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             );
@@ -500,7 +483,6 @@ class _Mirror extends State<MirrorPoints> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
@@ -511,7 +493,6 @@ class _Mirror extends State<MirrorPoints> {
             }
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             );

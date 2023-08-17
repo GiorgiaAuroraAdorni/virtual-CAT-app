@@ -103,7 +103,6 @@ class _FillEmpty extends State<FillEmpty> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () => setStateCustom(() {
-                final String prev = widget.item.toString();
                 widget.item.selected = color;
                 context.read<BlockUpdateNotifier>().update();
                 if (widget.state.isEmpty) {
@@ -111,7 +110,6 @@ class _FillEmpty extends State<FillEmpty> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: widget.item.toString(),
                   description: CatLoggingLevel.updateCommandProperties,
                 );

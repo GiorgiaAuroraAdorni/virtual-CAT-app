@@ -78,7 +78,6 @@ class FillEmptyState extends ActionButtonState<FillEmpty> {
         .fillEmpty(colors.first, CATLocalizations.of(context).languageCode);
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "fill_empty(${colors.first})",
       description: CatLoggingLevel.buttonSelect,
     );

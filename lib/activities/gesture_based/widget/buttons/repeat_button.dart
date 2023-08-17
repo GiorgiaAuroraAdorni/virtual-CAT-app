@@ -51,7 +51,6 @@ class RepeatButtonState extends ActionButtonState<RepeatButton> {
     });
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy commands",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -67,7 +66,6 @@ class RepeatButtonState extends ActionButtonState<RepeatButton> {
     });
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy commands",
       description: CatLoggingLevel.buttonDismiss,
     );

@@ -446,7 +446,6 @@ class CrossButtonState extends State<CrossButton> {
     }).whenComplete(
       () => CatLogger().addLog(
         context: context,
-        previousCommand: "",
         currentCommand: CatInterpreter()
             .allCommandsBuffer
             .reversed

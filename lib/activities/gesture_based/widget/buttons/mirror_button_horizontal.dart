@@ -118,7 +118,6 @@ class MirrorButtonHorizontalState
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "mirror horizontal",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -248,7 +247,6 @@ class MirrorButtonHorizontalStateSecondary
     }
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "selection mirror horizontal",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -263,7 +261,6 @@ class MirrorButtonHorizontalStateSecondary
     widget.state.widget.selectionMode.value = SelectionModes.transition;
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "selection mirror horizontal",
       description: CatLoggingLevel.buttonDismiss,
     );

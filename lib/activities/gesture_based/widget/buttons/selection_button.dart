@@ -61,7 +61,6 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
     });
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy cells",
       description: CatLoggingLevel.buttonSelect,
     );
@@ -77,7 +76,6 @@ class SelectionButtonState extends ActionButtonState<SelectionButton> {
     });
     CatLogger().addLog(
       context: context,
-      previousCommand: "",
       currentCommand: "copy cells",
       description: CatLoggingLevel.buttonDismiss,
     );

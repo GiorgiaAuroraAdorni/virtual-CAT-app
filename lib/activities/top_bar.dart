@@ -110,10 +110,6 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: CatInterpreter()
-                                  .allCommandsBuffer
-                                  .last
-                                  .toString(),
                               currentCommand: "to_interface(2)",
                               description: CatLoggingLevel.changeMode,
                             );
@@ -140,10 +136,6 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: CatInterpreter()
-                                  .allCommandsBuffer
-                                  .last
-                                  .toString(),
                               currentCommand: "to_interface(1)",
                               description: CatLoggingLevel.changeMode,
                             );
@@ -170,10 +162,6 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: CatInterpreter()
-                                  .allCommandsBuffer
-                                  .last
-                                  .toString(),
                               currentCommand: "to_interface(0)",
                               description: CatLoggingLevel.changeMode,
                             );

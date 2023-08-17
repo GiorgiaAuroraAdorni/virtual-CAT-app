@@ -236,10 +236,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                   _counter < 1 ? _counter++ : move(details),
               onAcceptWithDetails:
                   (DragTargetDetails<SimpleContainer> details) {
-                final String prev = CatInterpreter()
-                    .allCommandsBuffer
-                    .map((SimpleContainer e) => e.toString())
-                    .join(",");
                 final SimpleContainer copy = details.data.copy()
                   ..key = GlobalKey();
                 setStateCustom(() {
@@ -262,7 +258,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: CatInterpreter()
                       .allCommandsBuffer
                       .map((SimpleContainer e) => e.toString())
@@ -337,10 +332,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                             },
                           ),
                           onDragStarted: () {
-                            final String prev = CatInterpreter()
-                                .allCommandsBuffer
-                                .map((SimpleContainer e) => e.toString())
-                                .join(",");
                             setStateCustom(
                               () {
                                 sized.remove(
@@ -355,7 +346,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                             }
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: prev,
                               currentCommand: CatInterpreter()
                                   .allCommandsBuffer
                                   .map((SimpleContainer e) => e.toString())
@@ -365,10 +355,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                           },
                         ),
                         onDismissed: (_) {
-                          final String prev = CatInterpreter()
-                              .allCommandsBuffer
-                              .map((SimpleContainer e) => e.toString())
-                              .join(",");
                           setStateCustom(
                             () {
                               sized.remove(
@@ -383,7 +369,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                           }
                           CatLogger().addLog(
                             context: context,
-                            previousCommand: prev,
                             currentCommand: CatInterpreter()
                                 .allCommandsBuffer
                                 .map((SimpleContainer e) => e.toString())
@@ -529,7 +514,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
             child: CupertinoButton(
               key: Key(colors[color]!),
               onPressed: () {
-                final String prev = widget.item.toString();
                 setStateCustom(() {
                   if (widget.item.selectedColors.contains(color)) {
                     widget.item.selectedColors.remove(color);
@@ -543,7 +527,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
                 }
                 CatLogger().addLog(
                   context: context,
-                  previousCommand: prev,
                   currentCommand: widget.item.toString(),
                   description: CatLoggingLevel.updateCommandProperties,
                 );

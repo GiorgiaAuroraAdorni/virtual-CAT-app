@@ -144,7 +144,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
@@ -155,7 +154,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
             }
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             );
@@ -187,7 +185,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
         color: CupertinoColors.white,
         child: CupertinoPicker(
           onSelectedItemChanged: (int value) {
-            final String prev = widget.item.toString();
             setStateCustom(() {
               widget.item.position = value;
               widget.item.direction = directions[value];
@@ -198,7 +195,6 @@ class _MirrorHorizontal extends State<MirrorCross> {
             }
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: widget.item.toString(),
               description: CatLoggingLevel.updateCommandProperties,
             );

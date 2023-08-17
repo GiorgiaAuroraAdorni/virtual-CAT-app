@@ -1,4 +1,3 @@
-import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/utility/notifiers/cat_log.dart";
 import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
@@ -28,10 +27,6 @@ class ChangeCrossVisualization extends StatelessWidget {
                         context.read<ResultNotifier>().cross = Cross();
                         CatLogger().addLog(
                           context: context,
-                          previousCommand: CatInterpreter()
-                              .allCommandsBuffer
-                              .last
-                              .toString(),
                           currentCommand: "to_visualFeedback(false)",
                           description: CatLoggingLevel.changeVisibility,
                         );
@@ -67,10 +62,6 @@ class ChangeCrossVisualization extends StatelessWidget {
                         context.read<VisibilityNotifier>().visible = true;
                         CatLogger().addLog(
                           context: context,
-                          previousCommand: CatInterpreter()
-                              .allCommandsBuffer
-                              .last
-                              .toString(),
                           currentCommand: "to_visualFeedback(true)",
                           description: CatLoggingLevel.changeVisibility,
                         );

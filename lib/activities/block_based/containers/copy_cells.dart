@@ -227,10 +227,6 @@ class _Copy extends State<CopyCells> {
           _counter = 0;
         },
         onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-          final String prev = CatInterpreter()
-              .allCommandsBuffer
-              .map((SimpleContainer e) => e.toString())
-              .join(",");
           final SimpleContainer copy = details.data.copy()..key = GlobalKey();
           setStateCustom(() {
             widget.item.container.insert(_prevIndex, copy);
@@ -252,7 +248,6 @@ class _Copy extends State<CopyCells> {
           }
           CatLogger().addLog(
             context: context,
-            previousCommand: prev,
             currentCommand: CatInterpreter()
                 .allCommandsBuffer
                 .map((SimpleContainer e) => e.toString())
@@ -386,10 +381,6 @@ class _Copy extends State<CopyCells> {
                             },
                           ),
                           onDragStarted: () {
-                            final String prev = CatInterpreter()
-                                .allCommandsBuffer
-                                .map((SimpleContainer e) => e.toString())
-                                .join(",");
                             setStateCustom(
                               () {
                                 sized.remove(
@@ -404,7 +395,6 @@ class _Copy extends State<CopyCells> {
                             }
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: prev,
                               currentCommand: CatInterpreter()
                                   .allCommandsBuffer
                                   .map((SimpleContainer e) => e.toString())
@@ -414,10 +404,6 @@ class _Copy extends State<CopyCells> {
                           },
                         ),
                         onDismissed: (_) {
-                          final String prev = CatInterpreter()
-                              .allCommandsBuffer
-                              .map((SimpleContainer e) => e.toString())
-                              .join(",");
                           setStateCustom(
                             () {
                               sized.remove(
@@ -432,7 +418,6 @@ class _Copy extends State<CopyCells> {
                           }
                           CatLogger().addLog(
                             context: context,
-                            previousCommand: prev,
                             currentCommand: CatInterpreter()
                                 .allCommandsBuffer
                                 .map((SimpleContainer e) => e.toString())
@@ -526,10 +511,6 @@ class _Copy extends State<CopyCells> {
           onMove: (DragTargetDetails<SimpleContainer> details) =>
               _counter2 < 1 ? _counter2++ : move2(details),
           onAcceptWithDetails: (DragTargetDetails<SimpleContainer> details) {
-            final String prev = CatInterpreter()
-                .allCommandsBuffer
-                .map((SimpleContainer e) => e.toString())
-                .join(",");
             final SimpleContainer copy = details.data.copy()..key = GlobalKey();
             setStateCustom(() {
               widget.item.moves.insert(_prevIndex, copy);
@@ -551,7 +532,6 @@ class _Copy extends State<CopyCells> {
             }
             CatLogger().addLog(
               context: context,
-              previousCommand: prev,
               currentCommand: CatInterpreter()
                   .allCommandsBuffer
                   .map((SimpleContainer e) => e.toString())
@@ -687,10 +667,6 @@ class _Copy extends State<CopyCells> {
                             },
                           ),
                           onDragStarted: () {
-                            final String prev = CatInterpreter()
-                                .allCommandsBuffer
-                                .map((SimpleContainer e) => e.toString())
-                                .join(",");
                             setStateCustom(
                               () {
                                 sized2.remove(
@@ -705,7 +681,6 @@ class _Copy extends State<CopyCells> {
                             }
                             CatLogger().addLog(
                               context: context,
-                              previousCommand: prev,
                               currentCommand: CatInterpreter()
                                   .allCommandsBuffer
                                   .map((SimpleContainer e) => e.toString())
@@ -715,10 +690,6 @@ class _Copy extends State<CopyCells> {
                           },
                         ),
                         onDismissed: (_) {
-                          final String prev = CatInterpreter()
-                              .allCommandsBuffer
-                              .map((SimpleContainer e) => e.toString())
-                              .join(",");
                           setStateCustom(
                             () {
                               sized2.remove(
@@ -733,7 +704,6 @@ class _Copy extends State<CopyCells> {
                           }
                           CatLogger().addLog(
                             context: context,
-                            previousCommand: prev,
                             currentCommand: CatInterpreter()
                                 .allCommandsBuffer
                                 .map((SimpleContainer e) => e.toString())

@@ -24,19 +24,11 @@ class CatLogger with ChangeNotifier {
 
   void addLog({
     required BuildContext context,
-    required String previousCommand,
     required String currentCommand,
     required CatLoggingLevel description,
   }) {
-    if (lastLog != null) {
-      if (lastLog?.description == CatLoggingLevel.changeVisibility) {
-        previousCommand = lastLog!.currentCommand;
-      } else if (lastLog?.description == CatLoggingLevel.changeMode) {
-        previousCommand = lastLog!.currentCommand;
-      }
-    }
     lastLog = LoggerInfo(
-      previousCommand: previousCommand,
+      previousCommand: lastLog == null ? "" : lastLog!.currentCommand,
       currentCommand: currentCommand,
       actualAlgorithm: CatInterpreter()
           .allCommandsBuffer
@@ -44,18 +36,14 @@ class CatLogger with ChangeNotifier {
           .map((SimpleContainer e) => e.toString())
           .joinToString(),
       description: description,
-      interface: context
-          .read<TypeUpdateNotifier>()
-          .state,
-      visualFeedback: context
-          .read<VisibilityNotifier>()
-          .visible,
+      interface: context.read<TypeUpdateNotifier>().state,
+      visualFeedback: context.read<VisibilityNotifier>().visible,
       schema: SchemasReader().currentIndex,
     );
     _logs[DateTime.now().toIso8601String()] = lastLog!;
-    print(previousCommand);
-    print(currentCommand);
-    print(description);
+    // print(lastLog!.previousCommand);
+    // print(currentCommand);
+    // print(description);
     notifyListeners();
   }
 
@@ -96,8 +84,7 @@ class LoggerInfo {
   int schema;
   bool visualFeedback;
 
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{
+  Map<String, dynamic> toJson() => <String, dynamic>{
         "currentCommand": currentCommand,
         "previousCommand": previousCommand,
         "actualAlgorithm": actualAlgorithm,
