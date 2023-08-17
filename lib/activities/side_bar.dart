@@ -1,6 +1,6 @@
+import 'package:cross_array_task_app/activities/change_cross_visualization.dart';
 import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/activities/gesture_based/bottom_bar.dart";
-import "package:cross_array_task_app/activities/gesture_based/change_cross_visualization.dart";
 import "package:cross_array_task_app/activities/gesture_based/model/cross_button.dart";
 import "package:cross_array_task_app/activities/gesture_based/selection_mode.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";

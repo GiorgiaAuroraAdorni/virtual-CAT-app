@@ -110,9 +110,11 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand:
-                                  "${context.read<TypeUpdateNotifier>().state}",
-                              currentCommand: "2",
+                              previousCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .last
+                                  .toString(),
+                              currentCommand: "to_interface(2)",
                               description: CatLoggingLevel.changeMode,
                             );
                             context.read<TypeUpdateNotifier>().setState(2);
@@ -138,9 +140,11 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand:
-                                  "${context.read<TypeUpdateNotifier>().state}",
-                              currentCommand: "1",
+                              previousCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .last
+                                  .toString(),
+                              currentCommand: "to_interface(1)",
                               description: CatLoggingLevel.changeMode,
                             );
                             context.read<TypeUpdateNotifier>().setState(1);
@@ -166,9 +170,11 @@ class _TopBarState extends State<TopBar> {
                           onPressed: () {
                             CatLogger().addLog(
                               context: context,
-                              previousCommand:
-                                  "${context.read<TypeUpdateNotifier>().state}",
-                              currentCommand: "0",
+                              previousCommand: CatInterpreter()
+                                  .allCommandsBuffer
+                                  .last
+                                  .toString(),
+                              currentCommand: "to_interface(0)",
                               description: CatLoggingLevel.changeMode,
                             );
                             context.read<TypeUpdateNotifier>().setState(0);

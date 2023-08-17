@@ -111,8 +111,7 @@ class _CrossState extends BasicShapeState<Cross> {
       context: context,
       previousCommand: "",
       currentCommand: CatInterpreter()
-          .getResults
-          .getCommands
+          .allCommandsBuffer
           .reversed
           .take(2)
           .reversed
