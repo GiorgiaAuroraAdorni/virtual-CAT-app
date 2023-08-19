@@ -52,7 +52,7 @@ dependencies:
   # A package that allows you to use svg images in your flutter app.
   flutter_svg: ^2.0.7
 
-  fpdart: ^1.0.0
+  fpdart: ^1.1.0
 
   flutter_fast_forms: ^11.1.0
 
