@@ -82,7 +82,10 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 PaintContainer copy() =&gt; PaintContainer(
-      selectedColors: selectedColors,
+      selectedColors: List&lt;CupertinoDynamicColor&gt;.generate(
+        selectedColors.length,
+        (int i) =&gt; selectedColors[i],
+      ),
       direction: direction,
       repetitions: repetitions,
       languageCode: super.languageCode,

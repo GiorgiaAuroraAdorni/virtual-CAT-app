@@ -69,7 +69,7 @@
   </div>
           <a href="../../activities_block_based_model_paint_single_container/PaintSingleContainer-class.html">PaintSingleContainer</a>
           <span class="name ">item</span>
-          <div class="features"><span class="feature">final</span></div>
+          <div class="features"><span class="feature">final</span><span class="feature">read / write</span><span class="feature">inherited-setter</span><span class="feature">override-getter</span></div>
 
         </section>
         
@@ -82,7 +82,13 @@ from the parent widget.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-final PaintSingleContainer item;</code></pre>
+final PaintSingleContainer item;
+
+SimpleContainer item = SimpleContainer(
+  name: &quot;&quot;,
+  type: ContainerType.none,
+  languageCode: &quot;en&quot;,
+);</code></pre>
 </section>
 
 

@@ -82,8 +82,14 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 CopyCommandsContainer copy() =&gt; CopyCommandsContainer(
-      container: super.container,
-      moves: super.moves,
+      container: List&lt;SimpleContainer&gt;.generate(
+        super.container.length,
+        (int i) =&gt; super.container[i].copy(),
+      ),
+      moves: List&lt;SimpleContainer&gt;.generate(
+        super.moves.length,
+        (int i) =&gt; super.moves[i].copy(),
+      ),
       languageCode: super.languageCode,
       added1: added1,
       added2: added2,
