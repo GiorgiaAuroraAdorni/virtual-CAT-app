@@ -137,33 +137,34 @@ class NextTutorial extends StatelessWidget {
                           );
                         },
                       ),
-                    CupertinoButton(
-                      child: const Icon(
-                        CupertinoIcons.right_chevron,
-                        size: 80,
-                      ),
-                      onPressed: () {
-                        context.read<ReferenceNotifier>().toLocation(next);
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute<Widget>(
-                            builder: (BuildContext context) => WillPopScope(
-                              onWillPop: () async => false,
-                              child: TutorialScreen(
-                                video: SchemasReader()
-                                        .videos[SchemasReader().currentIndex]![
-                                    CATLocalizations.of(context)
-                                        .languageCode]![context
-                                    .read<TypeUpdateNotifier>()
-                                    .state]!,
-                                studentID: -1,
-                                sessionID: -1,
+                    if (next != -1)
+                      CupertinoButton(
+                        child: const Icon(
+                          CupertinoIcons.right_chevron,
+                          size: 80,
+                        ),
+                        onPressed: () {
+                          context.read<ReferenceNotifier>().toLocation(next);
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute<Widget>(
+                              builder: (BuildContext context) => WillPopScope(
+                                onWillPop: () async => false,
+                                child: TutorialScreen(
+                                  video: SchemasReader().videos[
+                                          SchemasReader().currentIndex]![
+                                      CATLocalizations.of(context)
+                                          .languageCode]![context
+                                      .read<TypeUpdateNotifier>()
+                                      .state]!,
+                                  studentID: -1,
+                                  sessionID: -1,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ],
