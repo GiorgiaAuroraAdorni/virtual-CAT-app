@@ -117,12 +117,9 @@ and</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Widget build(BuildContext context) =&gt;
-    CupertinoPageScaffold(
+Widget build(BuildContext context) =&gt; CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(CATLocalizations
-            .of(context)
-            .mode),
+        middle: Text(CATLocalizations.of(context).mode),
       ),
       child: CustomScrollView(
         slivers: &lt;Widget&gt;[
@@ -146,12 +143,12 @@ Widget build(BuildContext context) =&gt;
                       onPressed: () async {
                         await SchemasReader().testing().whenComplete(() {
                           CatInterpreter().initialize();
-
+                          context.read&lt;VisibilityNotifier&gt;().reset();
                           Navigator.push(
                             context,
                             CupertinoPageRoute&lt;Widget&gt;(
                               builder: (BuildContext context) =&gt;
-                              const ActivityHome(
+                                  const ActivityHome(
                                 sessionID: -1,
                                 studentID: -1,
                               ),
@@ -160,9 +157,7 @@ Widget build(BuildContext context) =&gt;
                         });
                       },
                       child: Text(
-                        CATLocalizations
-                            .of(context)
-                            .testApplication,
+                        CATLocalizations.of(context).testApplication,
                       ),
                     ),
                   ],
@@ -185,14 +180,15 @@ Widget build(BuildContext context) =&gt;
                       onPressed: () async {
                         await SchemasReader().normal();
                         await Connection().testConnection().then(
-                              (bool value) {
+                          (bool value) {
                             if (value) {
+                              context.read&lt;VisibilityNotifier&gt;().reset();
                               CatInterpreter().initialize();
                               Navigator.push(
                                 context,
                                 CupertinoPageRoute&lt;Widget&gt;(
                                   builder: (BuildContext context) =&gt;
-                                  const SessionSelection(),
+                                      const SessionSelection(),
                                 ),
                               );
                             }
@@ -207,9 +203,7 @@ Widget build(BuildContext context) =&gt;
                         &#47;&#47; );
                       },
                       child: Text(
-                        CATLocalizations
-                            .of(context)
-                            .tutorialTitle,
+                        CATLocalizations.of(context).tutorialTitle,
                       ),
                     ),
                   ],

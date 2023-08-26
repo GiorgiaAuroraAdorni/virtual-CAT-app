@@ -84,7 +84,10 @@
 SimpleContainer copy() =&gt; MirrorContainerPoints(
       position: position,
       direction: direction,
-      container: super.container,
+      container: List&lt;SimpleContainer&gt;.generate(
+        super.container.length,
+        (int i) =&gt; super.container[i].copy(),
+      ),
       languageCode: super.languageCode,
       added: added,
     );</code></pre>

@@ -201,11 +201,11 @@ Widget build(BuildContext context) {
       child: GestureDetector(
         onPanStart: (DragStartDetails details) =&gt; _checkPosition(
           details.globalPosition,
-          containerDimension &#47; 2,
+          MediaQuery.of(context).size.width &#47; 13 &#47; 2,
         ),
         onPanUpdate: (DragUpdateDetails details) =&gt; _checkPosition(
           details.globalPosition,
-          containerDimension &#47; 2,
+          MediaQuery.of(context).size.width &#47; 13 &#47; 2,
         ),
         onPanEnd: endPan,
         child: Flex(

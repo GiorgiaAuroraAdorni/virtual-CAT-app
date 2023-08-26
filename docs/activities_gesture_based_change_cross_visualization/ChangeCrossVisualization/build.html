@@ -123,7 +123,7 @@ Widget build(BuildContext context) =&gt; Padding(
         animation: context.watch&lt;VisibilityNotifier&gt;(),
         builder: (BuildContext context, Widget? child) =&gt; Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: &lt;Widget&gt;[
             CupertinoButton(
               onPressed: !context.read&lt;VisibilityNotifier&gt;().visible
                   ? null
@@ -162,7 +162,7 @@ Widget build(BuildContext context) =&gt; Padding(
               width: 5,
             ),
             CupertinoButton(
-              onPressed: context.read&lt;VisibilityNotifier&gt;().visible
+              onPressed: context.watch&lt;VisibilityNotifier&gt;().visible
                   ? null
                   : () {
                       context.read&lt;VisibilityNotifier&gt;().visible = true;

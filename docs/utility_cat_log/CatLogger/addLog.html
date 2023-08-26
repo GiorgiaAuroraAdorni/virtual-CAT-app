@@ -85,6 +85,9 @@
   required String currentCommand,
   required CatLoggingLevel description,
 }) {
+  &#47;&#47; print(previousCommand);
+  &#47;&#47; print(currentCommand);
+  &#47;&#47; print(description);
   _logs[DateTime.now().toIso8601String()] = LoggerInfo(
     previousCommand: previousCommand,
     currentCommand: currentCommand,
