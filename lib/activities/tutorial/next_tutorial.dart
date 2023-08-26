@@ -1,3 +1,4 @@
+import "package:cross_array_task_app/activities/tutorial/intermediate_turorial_selection.dart";
 import "package:cross_array_task_app/activities/tutorial/tutorial_screen.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
@@ -150,15 +151,8 @@ class NextTutorial extends StatelessWidget {
                             CupertinoPageRoute<Widget>(
                               builder: (BuildContext context) => WillPopScope(
                                 onWillPop: () async => false,
-                                child: TutorialScreen(
-                                  video: SchemasReader().videos[
-                                          SchemasReader().currentIndex]![
-                                      CATLocalizations.of(context)
-                                          .languageCode]![context
-                                      .read<TypeUpdateNotifier>()
-                                      .state]!,
-                                  studentID: -1,
-                                  sessionID: -1,
+                                child: IntermediateTurorialSelection(
+                                  next: next,
                                 ),
                               ),
                             ),
