@@ -69,7 +69,7 @@
   </div>
           <a href="../../activities_block_based_model_mirror_container_points/MirrorContainerPoints-class.html">MirrorContainerPoints</a>
           <span class="name ">item</span>
-          <div class="features"><span class="feature">final</span></div>
+          <div class="features"><span class="feature">final</span><span class="feature">read / write</span><span class="feature">inherited-setter</span><span class="feature">override-getter</span></div>
 
         </section>
         
@@ -81,7 +81,13 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-final MirrorContainerPoints item;</code></pre>
+final MirrorContainerPoints item;
+
+SimpleContainer item = SimpleContainer(
+  name: &quot;&quot;,
+  type: ContainerType.none,
+  languageCode: &quot;en&quot;,
+);</code></pre>
 </section>
 
 

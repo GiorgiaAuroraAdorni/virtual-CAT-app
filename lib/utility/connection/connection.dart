@@ -54,6 +54,18 @@ class Connection extends BaseConnection {
     return res.getOrElse((String l) => <Map<String, dynamic>>[]);
   }
 
+  Future<Map<String, dynamic>> student(int id, int sessionid) async {
+    final Response student = await dio.get(
+      "/student",
+      data: {
+        "id": id,
+        "sessionID": sessionid,
+      },
+    );
+
+    return student.data;
+  }
+
   Future<int> addSchool(String canton, String name) async {
     final List<Either<String, List<dynamic>>> responses = await Future.wait(
       [mappingGetRequest("/school").run(), mappingGetRequest("/cantons").run()],

@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/activity_home.dart";
 import "package:cross_array_task_app/model/interpreter/cat_interpreter.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/connection/connection.dart";
+import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
 import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:cross_array_task_app/views/session_selection.dart";
@@ -82,6 +83,7 @@ class ModeSelection extends StatelessWidget {
                             (bool value) {
                               if (value) {
                                 context.read<VisibilityNotifier>().reset();
+                                context.read<TypeUpdateNotifier>().reset();
                                 CatInterpreter().initialize();
                                 Navigator.push(
                                   context,

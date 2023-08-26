@@ -1,4 +1,5 @@
 import "dart:convert";
+import "dart:developer";
 
 import "package:cross_array_task_app/activities/block_based/model/simple_container.dart";
 import "package:cross_array_task_app/activities/block_based/types/container_type.dart";
@@ -45,6 +46,7 @@ class CatLogger with ChangeNotifier {
     // print(currentCommand);
     // print(description);
     notifyListeners();
+    printLogs();
   }
 
   Map<String, LoggerInfo> get logs => _logs;
@@ -54,6 +56,8 @@ class CatLogger with ChangeNotifier {
     lastLog = null;
     notifyListeners();
   }
+
+  void printLogs() => log(jsonEncode(_logs));
 
   // void printLogs() {
   //   for (final String i in _logs.keys) {

@@ -39,7 +39,7 @@ class SchemasReader {
       // for (var k in _tutorial.getSolutions.values) {
       //   print(k);
       // }
-      _size = _schemes.getData.length;
+      _size = _schemes.getData.length - 1;
     });
   }
 
@@ -72,10 +72,10 @@ class SchemasReader {
   /// index, otherwise return the first index.
   Cross get current => _schemes.getData[_index]!;
 
-  List<SimpleContainer> get currentSolution =>
+  Map<int, List<SimpleContainer>> get currentSolution =>
       _tutorial.getSolutions.containsKey(_index)
           ? _tutorial.getSolutions[_index]!
-          : <SimpleContainer>[];
+          : {};
 
   Map<int, Map<String, Map<int, String>>> get videos => _tutorial.getVideos;
 

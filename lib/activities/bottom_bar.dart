@@ -253,7 +253,7 @@ class _BottomBarState extends State<BottomBar> {
         if (widget.studentID == -1 && widget.sessionID == -1) {
           results.completed = commands.joinToString() ==
               SchemasReader()
-                  .currentSolution
+                  .currentSolution[context.read<TypeUpdateNotifier>().state]!
                   .map((SimpleContainer e) => e.toString())
                   .toList()
                   .joinToString();
@@ -354,20 +354,15 @@ class _BottomBarState extends State<BottomBar> {
         return;
       }
 
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        "/tutorial",
-        (Route<dynamic> route) => false,
+      Navigator.push(
+        context,
+        CupertinoPageRoute<Widget>(
+          builder: (BuildContext context) => NextTutorial(
+            previouse: SchemasReader().currentIndex,
+            next: -1,
+          ),
+        ),
       );
-      // Navigator.push(
-      //   context,
-      //   CupertinoPageRoute<Widget>(
-      //     builder: (BuildContext context) => ResultsScreen(
-      //       sessionID: widget.sessionID,
-      //       studentID: widget.studentID,
-      //       results: widget.allResults,
-      //     ),
-      //   ),
-      // );
     }
   }
 

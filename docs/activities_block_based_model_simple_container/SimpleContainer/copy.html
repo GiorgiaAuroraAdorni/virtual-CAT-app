@@ -78,6 +78,9 @@
   <pre class="language-dart"><code class="language-dart">SimpleContainer copy() =&gt; SimpleContainer(
       name: name,
       type: type,
+      container: List&lt;SimpleContainer&gt;.from(container),
+      moves: List&lt;SimpleContainer&gt;.from(moves),
+      axis: axis,
       languageCode: languageCode,
     );</code></pre>
 </section>

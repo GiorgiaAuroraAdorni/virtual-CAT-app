@@ -57,7 +57,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
         onWillPop: () async => false,
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            middle: Text("Tutorial ${SchemasReader().currentIndex}"),
+            middle: SchemasReader().currentIndex != 0
+                ? Text("Tutorial ${SchemasReader().currentIndex}")
+                : Text("Application tutorial"),
             transitionBetweenRoutes: false,
             automaticallyImplyLeading: false,
             leading: CupertinoButton(
@@ -98,21 +100,22 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CupertinoButton(
-                        child: Text("Solve schema"),
-                        onPressed: () => Navigator.push(
-                          context,
-                          CupertinoPageRoute<Widget>(
-                            builder: (BuildContext context) =>
-                                CupertinoPageScaffold(
-                              child: GestureHome(
-                                studentID: widget.studentID,
-                                sessionID: widget.sessionID,
+                      if (SchemasReader().currentIndex != 0)
+                        CupertinoButton(
+                          child: Text("Solve schema"),
+                          onPressed: () => Navigator.push(
+                            context,
+                            CupertinoPageRoute<Widget>(
+                              builder: (BuildContext context) =>
+                                  CupertinoPageScaffold(
+                                child: GestureHome(
+                                  studentID: widget.studentID,
+                                  sessionID: widget.sessionID,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

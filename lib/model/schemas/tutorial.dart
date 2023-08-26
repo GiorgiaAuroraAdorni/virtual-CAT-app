@@ -9,7 +9,7 @@ Tutorial tutorialFromJson(String str) => Tutorial.fromJson(json.decode(str));
 
 class Tutorial {
   Tutorial({
-    required Map<int, List<SimpleContainer>> expectedSolutions,
+    required Map<int, Map<int, List<SimpleContainer>>> expectedSolutions,
     required Map<int, Map<String, Map<int, String>>> tutorialVideos,
     required Map<int, Map<String, Map<int, bool>>> completedTutorials,
   }) {
@@ -19,12 +19,17 @@ class Tutorial {
   }
 
   factory Tutorial.fromJson(Map<String, dynamic> json) => Tutorial(
-        expectedSolutions: <int, List<SimpleContainer>>{
+        expectedSolutions: <int, Map<int, List<SimpleContainer>>>{
           for (Map<String, dynamic> k in json["data"])
-            k["index"]: splitCommands(k["expected_solution"])
-                .map((String e) => parseToContainer(e, "en"))
-                .flatten()
-                .toList(),
+            k["index"]: (k["expected_solution"] as Map<String, dynamic>).map(
+              (key, value) => MapEntry(
+                int.parse(key),
+                splitCommands(value.toString())
+                    .map((String e) => parseToContainer(e, "en"))
+                    .flatten()
+                    .toList(),
+              ),
+            ),
         },
         tutorialVideos: <int, Map<String, Map<int, String>>>{
           for (Map<String, dynamic> k in json["data"])
@@ -56,11 +61,12 @@ class Tutorial {
         },
       );
 
-  late final Map<int, List<SimpleContainer>> _expectedSolutions;
+  late final Map<int, Map<int, List<SimpleContainer>>> _expectedSolutions;
   late final Map<int, Map<String, Map<int, String>>> _tutorialVideos;
   late final Map<int, Map<String, Map<int, bool>>> _completedTutorials;
 
-  Map<int, List<SimpleContainer>> get getSolutions => _expectedSolutions;
+  Map<int, Map<int, List<SimpleContainer>>> get getSolutions =>
+      _expectedSolutions;
 
   Map<int, Map<String, Map<int, String>>> get getVideos => _tutorialVideos;
 
