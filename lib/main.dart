@@ -1,6 +1,7 @@
 import "package:cross_array_task_app/activities/tutorial/tutorials_list.dart";
 import "package:cross_array_task_app/utility/helper.dart";
 import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
+import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
 import "package:cross_array_task_app/utility/notifiers/visibility_notifier.dart";
 import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:cross_array_task_app/views/mode_selection.dart";
@@ -116,6 +117,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<ReferenceNotifier>(
             create: (_) => ReferenceNotifier(),
+          ),
+          ChangeNotifierProvider<TimeKeeper>(
+            create: (_) => TimeKeeper(),
           ),
         ],
         child: Consumer<LocaleProvider>(
