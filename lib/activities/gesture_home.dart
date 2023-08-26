@@ -241,8 +241,22 @@ class GestureHomeState extends State<GestureHome> {
                 SchemasReader().schemes,
                 Shape.cross,
               );
-              final Pair<Results, CatError> results =
-                  interpreter.validateOnScheme(command, element["schemaID"]!);
+
+              Pair<Results, CatError> results =
+                  interpreter.validateOnScheme("", element["schemaID"]!);
+              for (final String c in splitCommands(command)) {
+                runZonedGuarded(
+                  () {
+                    if (c.isNotEmpty) {
+                      results =
+                          interpreter.validateOnScheme(c, element["schemaID"]!);
+                    }
+                  },
+                  (Object error, StackTrace stackTrace) {
+                    // widget.shakeKey.currentState?.shake();
+                  },
+                );
+              }
 
               _allResults[element["schemaID"]!]!
                 ..time = element["time"]!
