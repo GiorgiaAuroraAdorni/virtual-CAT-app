@@ -291,6 +291,17 @@ class Connection extends BaseConnection {
     return res.statusCode == 200;
   }
 
+  Future<List<dynamic>> itas(int studentID) async {
+    final Response res = await super.dio.get(
+      "/itas",
+      data: <String, dynamic>{
+        "id": studentID,
+      },
+    );
+
+    return res.data;
+  }
+
   Future<int> addSurvay(
     int sessionID,
     int studentID,

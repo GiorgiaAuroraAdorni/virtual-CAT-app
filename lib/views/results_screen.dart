@@ -2,6 +2,7 @@ import "package:cross_array_task_app/activities/cross.dart";
 import "package:cross_array_task_app/model/results_record.dart";
 import "package:cross_array_task_app/utility/notifiers/time_keeper.dart";
 import "package:cross_array_task_app/utility/translations/localizations.dart";
+import "package:cross_array_task_app/views/itas_results.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_svg/svg.dart";
 
@@ -38,10 +39,19 @@ class _ResultsScreenState extends State<ResultsScreen> {
             automaticallyImplyLeading: false,
             leading: CupertinoButton(
               onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  "/mode",
-                  (Route<dynamic> route) => false,
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute<Widget>(
+                    builder: (BuildContext context) => ItasResults(
+                      studentID: widget.studentID,
+                      sessionID: widget.sessionID,
+                    ),
+                  ),
                 );
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //   "/mode",
+                //   (Route<dynamic> route) => false,
+                // );
               },
               child: const Icon(CupertinoIcons.home),
             ),
