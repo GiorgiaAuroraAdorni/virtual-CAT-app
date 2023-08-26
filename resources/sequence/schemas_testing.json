@@ -1,6 +1,50 @@
 {
   "data": [
     {
+      "index": 0,
+      "expected_solution": {
+        "0": "",
+        "1": "",
+        "2": ""
+      },
+      "tutorials": {
+        "en": {
+          "0": "resources/tutorial_videos/t1/pointing_blue.mp4",
+          "1": "",
+          "2": ""
+        },
+        "it": {
+          "0": "resources/tutorial_videos/t1/pointing_blue.mp4",
+          "1": "",
+          "2": ""
+        },
+        "fr": {
+          "0": "resources/tutorial_videos/t1/pointing_blue.mp4",
+          "1": "",
+          "2": ""
+        },
+        "de": {
+          "0": "resources/tutorial_videos/t1/pointing_blue.mp4",
+          "1": "",
+          "2": ""
+        }
+      },
+      "array": [
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ]
+      ]
+    },
+    {
       "index": 1,
       "expected_solution": {
         "0": "go(C1), paint(blue)",

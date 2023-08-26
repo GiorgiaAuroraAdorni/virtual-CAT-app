@@ -39,7 +39,7 @@ class SchemasReader {
       // for (var k in _tutorial.getSolutions.values) {
       //   print(k);
       // }
-      _size = _schemes.getData.length;
+      _size = _schemes.getData.length - 1;
     });
   }
 

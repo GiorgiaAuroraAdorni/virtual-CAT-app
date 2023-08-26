@@ -29,136 +29,202 @@ class TutorialsList extends StatelessWidget {
           ),
           child: SafeArea(
             child: ListView.separated(
-              itemBuilder: (BuildContext c, int i) => Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 20,
-                  right: 20,
-                  bottom: 10,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Tutorial ${i + 1}"),
-                    Row(
-                      children: <Widget>[
-                        CupertinoButton(
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(100),
-                          ),
-                          color: SchemasReader().completedVideo[i + 1]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![2]!
-                              ? CupertinoColors.systemGreen.withOpacity(0.5)
-                              : CupertinoColors.systemBackground,
-                          child: SvgPicture.asset(
-                            "resources/icons/code.svg",
-                            height: 42,
-                            width: 42,
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            SchemasReader().currentIndex = i + 1;
-                            context.read<TypeUpdateNotifier>().setState(2);
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute<Widget>(
-                                builder: (BuildContext context) => WillPopScope(
-                                  onWillPop: () async => false,
-                                  child: TutorialScreen(
-                                    video: SchemasReader().videos[i + 1]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![2]!,
-                                    studentID: -1,
-                                    sessionID: -1,
-                                  ),
+              itemBuilder: (BuildContext c, int i) => i == 0
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 20,
+                        right: 20,
+                        bottom: 10,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Application tutorial"),
+                          Row(
+                            children: <Widget>[
+                              CupertinoButton(
+                                padding: const EdgeInsets.all(5),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(100),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                        CupertinoButton(
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(100),
-                          ),
-                          color: SchemasReader().completedVideo[i + 1]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![1]!
-                              ? CupertinoColors.systemGreen.withOpacity(0.5)
-                              : CupertinoColors.systemBackground,
-                          child: SvgPicture.asset(
-                            "resources/icons/block.svg",
-                            height: 42,
-                            width: 42,
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            SchemasReader().currentIndex = i + 1;
-                            context.read<TypeUpdateNotifier>().setState(1);
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute<Widget>(
-                                builder: (BuildContext context) => WillPopScope(
-                                  onWillPop: () async => false,
-                                  child: TutorialScreen(
-                                    video: SchemasReader().videos[i + 1]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![1]!,
-                                    studentID: -1,
-                                    sessionID: -1,
-                                  ),
+                                color: CupertinoColors.systemBackground,
+                                child: SvgPicture.asset(
+                                  "resources/icons/Training.svg",
+                                  height: 42,
+                                  width: 42,
+                                  fit: BoxFit.cover,
                                 ),
+                                onPressed: () {
+                                  SchemasReader().currentIndex = i;
+                                  context
+                                      .read<TypeUpdateNotifier>()
+                                      .setState(0);
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute<Widget>(
+                                      builder: (BuildContext context) =>
+                                          WillPopScope(
+                                        onWillPop: () async => false,
+                                        child: TutorialScreen(
+                                          video: SchemasReader().videos[i]![
+                                              CATLocalizations.of(context)
+                                                  .languageCode]![0]!,
+                                          studentID: -1,
+                                          sessionID: -1,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                        CupertinoButton(
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(100),
+                            ],
                           ),
-                          color: SchemasReader().completedVideo[i + 1]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![0]!
-                              ? CupertinoColors.systemGreen.withOpacity(0.5)
-                              : CupertinoColors.systemBackground,
-                          child: SvgPicture.asset(
-                            "resources/icons/gesture.svg",
-                            height: 42,
-                            width: 42,
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            SchemasReader().currentIndex = i + 1;
-                            context.read<TypeUpdateNotifier>().setState(0);
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute<Widget>(
-                                builder: (BuildContext context) => WillPopScope(
-                                  onWillPop: () async => false,
-                                  child: TutorialScreen(
-                                    video: SchemasReader().videos[i + 1]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![0]!,
-                                    studentID: -1,
-                                    sessionID: -1,
-                                  ),
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 20,
+                        right: 20,
+                        bottom: 10,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Tutorial $i"),
+                          Row(
+                            children: <Widget>[
+                              CupertinoButton(
+                                padding: const EdgeInsets.all(5),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(100),
                                 ),
+                                color: SchemasReader().completedVideo[i]![
+                                        CATLocalizations.of(context)
+                                            .languageCode]![2]!
+                                    ? CupertinoColors.systemGreen
+                                        .withOpacity(0.5)
+                                    : CupertinoColors.systemBackground,
+                                child: SvgPicture.asset(
+                                  "resources/icons/code.svg",
+                                  height: 42,
+                                  width: 42,
+                                  fit: BoxFit.cover,
+                                ),
+                                onPressed: () {
+                                  SchemasReader().currentIndex = i;
+                                  context
+                                      .read<TypeUpdateNotifier>()
+                                      .setState(2);
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute<Widget>(
+                                      builder: (BuildContext context) =>
+                                          WillPopScope(
+                                        onWillPop: () async => false,
+                                        child: TutorialScreen(
+                                          video: SchemasReader().videos[i]![
+                                              CATLocalizations.of(context)
+                                                  .languageCode]![2]!,
+                                          studentID: -1,
+                                          sessionID: -1,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      ],
+                              CupertinoButton(
+                                padding: const EdgeInsets.all(5),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(100),
+                                ),
+                                color: SchemasReader().completedVideo[i]![
+                                        CATLocalizations.of(context)
+                                            .languageCode]![1]!
+                                    ? CupertinoColors.systemGreen
+                                        .withOpacity(0.5)
+                                    : CupertinoColors.systemBackground,
+                                child: SvgPicture.asset(
+                                  "resources/icons/block.svg",
+                                  height: 42,
+                                  width: 42,
+                                  fit: BoxFit.cover,
+                                ),
+                                onPressed: () {
+                                  SchemasReader().currentIndex = i;
+                                  context
+                                      .read<TypeUpdateNotifier>()
+                                      .setState(1);
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute<Widget>(
+                                      builder: (BuildContext context) =>
+                                          WillPopScope(
+                                        onWillPop: () async => false,
+                                        child: TutorialScreen(
+                                          video: SchemasReader().videos[i]![
+                                              CATLocalizations.of(context)
+                                                  .languageCode]![1]!,
+                                          studentID: -1,
+                                          sessionID: -1,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              CupertinoButton(
+                                padding: const EdgeInsets.all(5),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(100),
+                                ),
+                                color: SchemasReader().completedVideo[i]![
+                                        CATLocalizations.of(context)
+                                            .languageCode]![0]!
+                                    ? CupertinoColors.systemGreen
+                                        .withOpacity(0.5)
+                                    : CupertinoColors.systemBackground,
+                                child: SvgPicture.asset(
+                                  "resources/icons/gesture.svg",
+                                  height: 42,
+                                  width: 42,
+                                  fit: BoxFit.cover,
+                                ),
+                                onPressed: () {
+                                  SchemasReader().currentIndex = i;
+                                  context
+                                      .read<TypeUpdateNotifier>()
+                                      .setState(0);
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute<Widget>(
+                                      builder: (BuildContext context) =>
+                                          WillPopScope(
+                                        onWillPop: () async => false,
+                                        child: TutorialScreen(
+                                          video: SchemasReader().videos[i]![
+                                              CATLocalizations.of(context)
+                                                  .languageCode]![0]!,
+                                          studentID: -1,
+                                          sessionID: -1,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
               separatorBuilder: (_, __) => const SizedBox(
                 height: 10,
               ),
-              itemCount: SchemasReader().size,
+              itemCount: SchemasReader().size + 1,
             ),
           ),
         ),
