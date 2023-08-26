@@ -76,9 +76,9 @@ class CATLocalizations {
 
   static final Map<String, String> gradedToEnglish = <String, String>{
     //English
-    "0  (kindergarten)": "0  (kindergarten)",
-    "1  (kindergarten)": "1  (kindergarten)",
-    "2  (kindergarten)": "2  (kindergarten)",
+    "0  (preschool)": "0  (preschool)",
+    "1  (preschool)": "1  (preschool)",
+    "2  (preschool)": "2  (preschool)",
     "3  (1st year of primary school)": "3  (1st year of primary school)",
     "4  (2nd year of primary school)": "4  (2nd year of primary school)",
     "5  (3rd year of primary school)": "5  (3rd year of primary school)",
@@ -93,9 +93,9 @@ class CATLocalizations {
     "10 (2nd year of secondary school)": "10 (2nd year of secondary school)",
     "11 (3rd year of secondary school)": "11 (3rd year of secondary school)",
     //Italian
-    "0  (scuola dell'infanzia)": "0  (kindergarten)",
-    "1  (scuola dell'infanzia)": "1  (kindergarten)",
-    "2  (scuola dell'infanzia)": "2  (kindergarten)",
+    "0  (scuola dell'infanzia)": "0  (preschool)",
+    "1  (scuola dell'infanzia)": "1  (preschool)",
+    "2  (scuola dell'infanzia)": "2  (preschool)",
     "3  (1º anno di scuola primaria)": "3  (1st year of primary school)",
     "4  (2º anno di scuola primaria)": "4  (2nd year of primary school)",
     "5  (3º anno di scuola primaria)": "5  (3rd year of primary school)",
@@ -110,9 +110,9 @@ class CATLocalizations {
     "10 (2º anno di scuola secondaria)": "10 (2nd year of secondary school)",
     "11 (3º anno di scuola secondaria)": "11 (3rd year of secondary school)",
     //Franch
-    "0  (école enfantine)": "0  (kindergarten)",
-    "1  (école enfantine)": "1  (kindergarten)",
-    "2  (école enfantine)": "2  (kindergarten)",
+    "0  (école enfantine)": "0  (preschool)",
+    "1  (école enfantine)": "1  (preschool)",
+    "2  (école enfantine)": "2  (preschool)",
     "3  (1re année - école élémentaire)": "3  (1st year of primary school)",
     "4  (2e année - école élémentaire)": "4  (2nd year of primary school)",
     "5  (3e année - école élémentaire)": "5  (3rd year of primary school)",
@@ -127,9 +127,9 @@ class CATLocalizations {
     "10 (2e année - école secondaire)": "10 (2nd year of secondary school)",
     "11 (3e année - école secondaire)": "11 (3rd year of secondary school)",
     //German
-    "0  (Kindergarten)": "0  (kindergarten)",
-    "1  (Kindergarten)": "1  (kindergarten)",
-    "2  (Kindergarten)": "2  (kindergarten)",
+    "0  (Kindergarten)": "0  (preschool)",
+    "1  (Kindergarten)": "1  (preschool)",
+    "2  (Kindergarten)": "2  (preschool)",
     "3  (1 Jahre in der Primarstufe)": "3  (1st year of primary school)",
     "4  (2 Jahre in der Primarstufe)": "4  (2nd year of primary school)",
     "5  (3 Jahre in der Primarstufe)": "5  (3rd year of primary school)",

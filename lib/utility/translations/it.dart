@@ -128,6 +128,7 @@ const Map<String, String> blocksIt = <String, String>{
   //colorazione
   "paintSingle": "COLORA PALLINO",
   "paintMultiple": "COLORA PATTERN",
+  "paintMultipleSecondBlock": "dove?",
   "pattern": "in quale direzione?",
   "repetitionsPaint": "quanti pallini?",
   "fillEmpty": "RIEMPI VUOTI",

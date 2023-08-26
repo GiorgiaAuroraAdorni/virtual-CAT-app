@@ -62,11 +62,6 @@ class _PaintMultipleState extends State<PaintMultiple> {
       languageCode: CATLocalizations.of(context).languageCode,
       b: "2",
     )..key = GlobalKey(),
-    PointContainer(
-      languageCode: CATLocalizations.of(context).languageCode,
-      a: "D",
-      b: "2",
-    )..key = GlobalKey(),
   ];
 
   void setStateCustom(VoidCallback fn) {
@@ -154,6 +149,15 @@ class _PaintMultipleState extends State<PaintMultiple> {
                 const SizedBox(
                   height: 5,
                 ),
+                Text(
+                  CATLocalizations.of(context).blocks["paintMultipleSecondBlock"]!,
+                  style: const TextStyle(
+                    color: CupertinoColors.systemBackground,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
               ],
             );
           }
@@ -192,6 +196,8 @@ class _PaintMultipleState extends State<PaintMultiple> {
               ],
             ),
           );
+
+
         },
       );
 

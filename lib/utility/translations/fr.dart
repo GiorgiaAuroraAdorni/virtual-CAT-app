@@ -129,6 +129,7 @@ const Map<String, String> blocksFr = <String, String>{
   //colouring
   "paintSingle": "COLORIER UN POINT",
   "paintMultiple": "COLORIER UN MOTIF",
+  "paintMultipleSecondBlock": "où ?",
   "pattern": "dans quelle direction ?",
   "repetitionsPaint": "combien de points ?",
   "fillEmpty": "REMPLIR VIDE",

@@ -128,6 +128,7 @@ const Map<String, String> blocksEn = <String, String>{
   //colouring
   "paintSingle": "COLOUR DOT",
   "paintMultiple": "COLOUR PATTERN",
+  "paintMultipleSecondBlock": "where?",
   "pattern": "in which direction?",
   "repetitionsPaint": "how many dots?",
   "fillEmpty": "FILL EMPTY",
@@ -200,7 +201,7 @@ const Map<String, String> patternsEn = <String, String>{
 
 /// A list of school types.
 const List<Text> schoolTypeEn = <Text>[
-  Text("Pre school", key: Key("1")),
+  Text("Preschool", key: Key("1")),
   Text("Primary school", key: Key("2")),
   Text("Secondary school", key: Key("3")),
 ];
@@ -212,9 +213,9 @@ const List<Text> genderTypeEn = <Text>[
 ];
 
 const List<String> ticinoEN = [
-  "0  (kindergarten)",
-  "1  (kindergarten)",
-  "2  (kindergarten)",
+  "0  (preschool)",
+  "1  (preschool)",
+  "2  (preschool)",
   "3  (1st year of primary school)",
   "4  (2nd year of primary school)",
   "5  (3rd year of primary school)",
@@ -227,8 +228,8 @@ const List<String> ticinoEN = [
 ];
 
 const List<String> otherCantonsEN = [
-  "1  (kindergarten)",
-  "2  (kindergarten)",
+  "1  (preschool)",
+  "2  (preschool)",
   "3  (1st year of primary school)",
   "4  (2nd year of primary school)",
   "5  (3rd year of primary school)",
