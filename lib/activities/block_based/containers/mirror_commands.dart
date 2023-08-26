@@ -83,9 +83,9 @@ class _Mirror extends State<MirrorCommands> {
       selected: CupertinoColors.systemBlue,
       languageCode: CATLocalizations.of(context).languageCode,
     )..key = GlobalKey(),
-    PointContainer(
-      a: "F",
-      b: "3",
+    GoContainer(
+      repetitions: 2,
+      direction: "right",
       languageCode: CATLocalizations.of(context).languageCode,
     )..key = GlobalKey(),
     PaintSingleContainer(
