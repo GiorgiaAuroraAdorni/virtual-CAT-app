@@ -26,6 +26,7 @@ import "package:flutter/material.dart";
 import "package:flutter/scheduler.dart";
 import "package:interpreter/cat_interpreter.dart";
 import "package:provider/provider.dart";
+import "package:uiblock/uiblock.dart";
 
 /// `GestureHome` is a `StatefulWidget` that creates a
 /// `GestureHomeState` when it's built
@@ -58,6 +59,9 @@ class GestureHomeState extends State<GestureHome> {
       if (widget.studentID != -1 && widget.sessionID != -1) {
         Provider.of<TypeUpdateNotifier>(context, listen: false).reset();
       }
+    });
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await recoverSession();
     });
   }
 
@@ -114,104 +118,97 @@ class GestureHomeState extends State<GestureHome> {
         ],
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) {
-            Timer.run(() async {
-              await recoverSession();
-            });
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TopBar(
-                  sessionID: widget.sessionID,
-                  studentID: widget.studentID,
-                  allResults: _allResults,
-                  selectionMode: _selectionMode,
-                  selectedButtons: _selectedButtons,
-                  coloredButtons: _coloredButtons,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    if (context.read<TypeUpdateNotifier>().state > 0)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          const SideMenuBlock(),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.90,
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: const VerticalDivider(
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
+          builder: (BuildContext context, Widget? child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TopBar(
+                sessionID: widget.sessionID,
+                studentID: widget.studentID,
+                allResults: _allResults,
+                selectionMode: _selectionMode,
+                selectedButtons: _selectedButtons,
+                coloredButtons: _coloredButtons,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  if (context.read<TypeUpdateNotifier>().state > 0)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        const SideMenuBlock(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
                           ),
-                          NewCanvas(
-                            shakeKey: _shakeKey,
+                        ),
+                        NewCanvas(
+                          shakeKey: _shakeKey,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.90,
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: const VerticalDivider(
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
+                        ),
+                      ],
+                    )
+                  else
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SideMenu(
+                          shakeKey: _shakeKey,
+                          shakeKeyColors: _shakeKeysColors,
+                          selectionMode: _selectionMode,
+                          coloredButtons: _coloredButtons,
+                          selectedButtons: _selectedButtons,
+                          resetShape: _resetCross,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
                           ),
-                        ],
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          SideMenu(
-                            shakeKey: _shakeKey,
-                            shakeKeyColors: _shakeKeysColors,
-                            selectionMode: _selectionMode,
-                            coloredButtons: _coloredButtons,
-                            selectedButtons: _selectedButtons,
-                            resetShape: _resetCross,
+                        ),
+                        GestureBoard(
+                          shakeKey: _shakeKey,
+                          shakeKeyColors: _shakeKeysColors,
+                          selectionMode: _selectionMode,
+                          coloredButtons: _coloredButtons,
+                          selectedButtons: _selectedButtons,
+                          resetSignal: _resetCross,
+                          resultValueNotifier: context.watch<ResultNotifier>(),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.90,
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: const VerticalDivider(
+                            thickness: 2,
+                            color: Colors.black,
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.90,
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: const VerticalDivider(
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
-                          ),
-                          GestureBoard(
-                            shakeKey: _shakeKey,
-                            shakeKeyColors: _shakeKeysColors,
-                            selectionMode: _selectionMode,
-                            coloredButtons: _coloredButtons,
-                            selectedButtons: _selectedButtons,
-                            resetSignal: _resetCross,
-                            resultValueNotifier:
-                                context.watch<ResultNotifier>(),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.90,
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: const VerticalDivider(
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    SideBar(
-                      studentID: widget.studentID,
-                      sessionID: widget.sessionID,
-                      selectionMode: _selectionMode,
-                      selectedButtons: _selectedButtons,
-                      coloredButtons: _coloredButtons,
-                      allResults: _allResults,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ],
-            );
-          },
+                  SideBar(
+                    studentID: widget.studentID,
+                    sessionID: widget.sessionID,
+                    selectionMode: _selectionMode,
+                    selectedButtons: _selectedButtons,
+                    coloredButtons: _coloredButtons,
+                    allResults: _allResults,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
 
@@ -219,89 +216,90 @@ class GestureHomeState extends State<GestureHome> {
     if (_recovered) {
       return;
     }
-    if (widget.studentID == -1) {
+    if (widget.studentID == -1 && widget.sessionID == -1) {
       _recovered = true;
 
       return;
     }
-    await Connection().students().then(
-      (ret) async {
-        for (final i in ret) {
-          if (i["id"] == widget.studentID && i["session"] == widget.sessionID) {
-            await Connection()
-                .getResultsByStudentID(widget.studentID)
-                .then((value) => value as List)
-                .then(
-              (List value) async {
-                for (final element in value) {
-                  final String command =
-                      await Connection().getCommandsByAlgorithmID(
-                    element["algorithmID"]!,
-                  );
-                  final CATInterpreter interpreter = CATInterpreter.fromSchemes(
-                    SchemasReader().schemes,
-                    Shape.cross,
-                  );
-                  final Pair<Results, CatError> results = interpreter
-                      .validateOnScheme(command, element["schemaID"]!);
+    UIBlock.block(
+      context,
+      loadingTextWidget: Text("${widget.sessionID}:${widget.studentID}"),
+    );
+    await Connection().student(widget.studentID, widget.sessionID).then(
+      (Map<String, dynamic> i) async {
+        await Connection()
+            .getResultsByStudentID(widget.studentID)
+            .then((value) => value as List)
+            .then(
+          (List value) async {
+            for (final element in value) {
+              final String command =
+                  await Connection().getCommandsByAlgorithmID(
+                element["algorithmID"]!,
+              );
+              final CATInterpreter interpreter = CATInterpreter.fromSchemes(
+                SchemasReader().schemes,
+                Shape.cross,
+              );
+              final Pair<Results, CatError> results =
+                  interpreter.validateOnScheme(command, element["schemaID"]!);
 
-                  _allResults[element["schemaID"]!]!
-                    ..time = element["time"]!
-                    ..result = results.first.getStates.last
-                    ..score = interpreter.getResults.completed
-                        ? catScore(
-                            commands: splitCommands(command),
-                            visible: element["visualFeedback"]!,
-                            interface: element["artefactDimension"]! - 1,
-                          )
-                        : 0
-                    ..done = true
-                    ..correct = results.first.completed
-                    ..state = element["complete"]!;
-                }
-              },
-            ).whenComplete(
-              () {
-                final Map<int, ResultsRecord> res = _allResults.filter(
-                  (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
-                );
-                if (res.isNotEmpty) {
-                  final int nextIndex = res.keys.sorted().first;
-                  context.read<ReferenceNotifier>().toLocation(nextIndex);
+              _allResults[element["schemaID"]!]!
+                ..time = element["time"]!
+                ..result = results.first.getStates.last
+                ..score = interpreter.getResults.completed
+                    ? catScore(
+                        commands: splitCommands(command),
+                        visible: element["visualFeedback"]!,
+                        interface: element["artefactDimension"]! - 1,
+                      )
+                    : 0
+                ..done = true
+                ..correct = results.first.completed
+                ..state = element["complete"]!;
+            }
+          },
+        );
+      },
+    ).whenComplete(
+      () {
+        final Map<int, ResultsRecord> res = _allResults.filter(
+          (MapEntry<int, ResultsRecord> entry) => !entry.value.done,
+        );
+        if (res.isNotEmpty) {
+          final int nextIndex = res.keys.sorted().first;
+          context.read<ReferenceNotifier>().toLocation(nextIndex);
 
-                  return;
-                }
-                Connection()
-                    .checkIfSurwayComplete(widget.sessionID, widget.studentID)
-                    .then((bool value) {
-                  if (value) {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => ResultsScreen(
-                          sessionID: widget.sessionID,
-                          studentID: widget.studentID,
-                          results: _allResults,
-                        ),
-                      ),
-                    );
-                  } else {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute<Widget>(
-                        builder: (BuildContext context) => Survey(
-                          results: _allResults,
-                          sessionID: widget.sessionID,
-                          studentID: widget.studentID,
-                        ),
-                      ),
-                    );
-                  }
-                });
-              },
+          return;
+        }
+        Connection()
+            .checkIfSurwayComplete(widget.sessionID, widget.studentID)
+            .then((bool value) {
+          if (value) {
+            Navigator.of(context).push(
+              CupertinoPageRoute<Widget>(
+                builder: (BuildContext context) => ResultsScreen(
+                  sessionID: widget.sessionID,
+                  studentID: widget.studentID,
+                  results: _allResults,
+                ),
+              ),
+            );
+          } else {
+            Navigator.of(context).push(
+              CupertinoPageRoute<Widget>(
+                builder: (BuildContext context) => Survey(
+                  results: _allResults,
+                  sessionID: widget.sessionID,
+                  studentID: widget.studentID,
+                ),
+              ),
             );
           }
-        }
+        });
       },
     );
     _recovered = true;
+    UIBlock.unblock(context);
   }
 }
