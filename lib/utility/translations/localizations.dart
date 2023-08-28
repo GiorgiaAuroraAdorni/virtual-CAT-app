@@ -438,6 +438,20 @@ class CATLocalizations {
   String get finalButton =>
       _localizedValues[_locale.languageCode]!["finalButton"]!;
 
+  /// Tutorial section
+  String get tutorialsHeader =>
+      _localizedValues[_locale.languageCode]!["tutorialsHeader"]!;
+
+  String get applicationTutorial =>
+      _localizedValues[_locale.languageCode]!["applicationTutorial"]!;
+
+  String get singleTutorial =>
+      _localizedValues[_locale.languageCode]!["singleTutorial"]!;
+
+  String get loading => _localizedValues[_locale.languageCode]!["loading"]!;
+
+  String get toScheme => _localizedValues[_locale.languageCode]!["toScheme"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 

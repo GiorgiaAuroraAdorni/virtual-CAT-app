@@ -1,6 +1,7 @@
 import "package:chewie/chewie.dart";
 import "package:cross_array_task_app/activities/gesture_home.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
+import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:video_player/video_player.dart";
@@ -58,8 +59,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
             middle: SchemasReader().currentIndex != 0
-                ? Text("Tutorial ${SchemasReader().currentIndex}")
-                : Text("Application tutorial"),
+                ? Text(
+                    "${CATLocalizations.of(context).singleTutorial} ${SchemasReader().currentIndex}",
+                  )
+                : Text(CATLocalizations.of(context).applicationTutorial),
             transitionBetweenRoutes: false,
             automaticallyImplyLeading: false,
             leading: CupertinoButton(
@@ -85,12 +88,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
                               controller: _chewieController!,
                             ),
                           )
-                        : const Column(
+                        : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CircularProgressIndicator(),
-                              SizedBox(height: 20),
-                              Text("Loading"),
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 20),
+                              Text(CATLocalizations.of(context).loading),
                             ],
                           ),
                   ),
@@ -102,7 +105,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     children: [
                       if (SchemasReader().currentIndex != 0)
                         CupertinoButton(
-                          child: Text("Solve schema"),
+                          child: Text(CATLocalizations.of(context).toScheme),
                           onPressed: () => Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(

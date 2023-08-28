@@ -14,7 +14,7 @@ class IntermediateTurorialSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text("Tutorial $next"),
+          middle: Text("${CATLocalizations.of(context).singleTutorial} $next"),
           transitionBetweenRoutes: false,
           automaticallyImplyLeading: false,
           leading: CupertinoButton(

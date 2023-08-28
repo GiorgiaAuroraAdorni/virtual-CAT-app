@@ -26,7 +26,7 @@ class RecoverSessionState extends State<RecoverSession> {
               header: Text(CATLocalizations.of(context).requestSessionID),
               children: <Widget>[
                 CupertinoTextFormFieldRow(
-                  style: TextStyle(),
+                  style: const TextStyle(),
                   prefix: Text(
                     "${CATLocalizations.of(context).sessionID}:",
                     textAlign: TextAlign.right,

@@ -14,7 +14,7 @@ class TutorialsList extends StatelessWidget {
         onWillPop: () async => false,
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            middle: const Text("Tutorials"),
+            middle: Text(CATLocalizations.of(context).tutorialsHeader),
             transitionBetweenRoutes: false,
             automaticallyImplyLeading: false,
             leading: CupertinoButton(
@@ -40,7 +40,9 @@ class TutorialsList extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Application tutorial"),
+                          Text(
+                            CATLocalizations.of(context).applicationTutorial,
+                          ),
                           Row(
                             children: <Widget>[
                               CupertinoButton(
@@ -93,7 +95,9 @@ class TutorialsList extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Tutorial $i"),
+                          Text(
+                            "${CATLocalizations.of(context).singleTutorial} $i",
+                          ),
                           Row(
                             children: <Widget>[
                               CupertinoButton(

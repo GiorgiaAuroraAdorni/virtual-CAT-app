@@ -22,7 +22,9 @@ class NextTutorial extends StatelessWidget {
         onWillPop: () async => false,
         child: CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
-            middle: Text("Tutorial ${SchemasReader().currentIndex}"),
+            middle: Text(
+              "${CATLocalizations.of(context).singleTutorial} ${SchemasReader().currentIndex}",
+            ),
             transitionBetweenRoutes: false,
             automaticallyImplyLeading: false,
             leading: CupertinoButton(

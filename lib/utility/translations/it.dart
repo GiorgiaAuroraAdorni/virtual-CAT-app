@@ -30,7 +30,8 @@ final Map<String, String> it = <String, String>{
   ..addAll(_secondForm)
   ..addAll(_resultsScreen)
   ..addAll(_questions)
-  ..addAll(_descriptions);
+  ..addAll(_descriptions)
+  ..addAll(_tutorial);
 
 const Map<String, String> _firstForm = <String, String>{
   "tutorialTitle": "Valutazione",
@@ -246,3 +247,11 @@ const List<String> otherCantonsIT = [
   "10 (2º anno di scuola secondaria)",
   "11 (3º anno di scuola secondaria)",
 ];
+
+const Map<String, String> _tutorial = <String, String>{
+  "tutorialsHeader": "Tutorials",
+  "applicationTutorial": "Tutorial applicazione",
+  "singleTutorial": "Tutorial",
+  "loading": "Caricamento",
+  "toScheme": "Risolvi schema",
+};
