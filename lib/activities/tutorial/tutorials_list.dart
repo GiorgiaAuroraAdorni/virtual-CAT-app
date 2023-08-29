@@ -117,14 +117,13 @@ class TutorialsList extends StatelessWidget {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
-                                color: SchemasReader().completedVideo[i]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![2]!
-                                    ? CupertinoColors.systemGreen
-                                        .withOpacity(0.5)
-                                    : CupertinoColors.systemBackground,
+                                color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/text_video.svg",
+                                  SchemasReader().completedVideo[i]![
+                                  CATLocalizations.of(context)
+                                      .languageCode]![2]!
+                                      ? "resources/icons/text_video_seen.svg"
+                                    :"resources/icons/text_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
@@ -157,14 +156,13 @@ class TutorialsList extends StatelessWidget {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
-                                color: SchemasReader().completedVideo[i]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![1]!
-                                    ? CupertinoColors.systemGreen
-                                        .withOpacity(0.5)
-                                    : CupertinoColors.systemBackground,
+                                color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/symbol_video.svg",
+                                  SchemasReader().completedVideo[i]![
+                                  CATLocalizations.of(context)
+                                      .languageCode]![1]!
+                                      ? "resources/icons/symbol_video_seen.svg"
+                                      :"resources/icons/symbol_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
@@ -197,14 +195,13 @@ class TutorialsList extends StatelessWidget {
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
-                                color: SchemasReader().completedVideo[i]![
-                                        CATLocalizations.of(context)
-                                            .languageCode]![0]!
-                                    ? CupertinoColors.systemGreen
-                                        .withOpacity(0.5)
-                                    : CupertinoColors.systemBackground,
+                                color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/gesture_video.svg",
+                                  SchemasReader().completedVideo[i]![
+                                  CATLocalizations.of(context)
+                                      .languageCode]![0]!
+                                      ? "resources/icons/gesture_video_seen.svg"
+                                      : "resources/icons/gesture_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
