@@ -254,4 +254,5 @@ const Map<String, String> _tutorial = <String, String>{
   "singleTutorial": "Tutorial",
   "loading": "Caricamento",
   "toScheme": "Risolvi schema",
+  "toNextScheme": "Vai al prossimo schema",
 };

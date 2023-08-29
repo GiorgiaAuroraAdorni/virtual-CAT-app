@@ -255,4 +255,5 @@ const Map<String, String> _tutorial = <String, String>{
   "singleTutorial": "Tutoriel",
   "loading": "Chargement",
   "toScheme": "Résoudre schéma",
+  "toNextScheme": "Aller au schéma suivant",
 };

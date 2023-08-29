@@ -141,11 +141,8 @@ class NextTutorial extends StatelessWidget {
                         },
                       ),
                     if (next != -1)
-                      CupertinoButton(
-                        child: const Icon(
-                          CupertinoIcons.right_chevron,
-                          size: 80,
-                        ),
+                      CupertinoButton.filled(
+                        child: Text(CATLocalizations.of(context).toNextScheme),
                         onPressed: () {
                           context.read<ReferenceNotifier>().toLocation(next);
                           Navigator.push(

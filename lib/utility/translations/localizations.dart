@@ -452,6 +452,8 @@ class CATLocalizations {
 
   String get toScheme => _localizedValues[_locale.languageCode]!["toScheme"]!;
 
+  String get toNextScheme => _localizedValues[_locale.languageCode]!["toNextScheme"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 
