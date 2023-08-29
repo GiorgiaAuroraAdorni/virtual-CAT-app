@@ -33,22 +33,16 @@ class TutorialsList extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(
                         top: 30,
-                        left: 200,
+                        left: 300,
                         right: 360,
                         bottom: 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          const Icon(
-                            CupertinoIcons.play_rectangle,
-                            color: CupertinoColors.black, // Set the icon color to black
-                          ),
-                          const SizedBox(width: 24),
                           Text(
                               CATLocalizations.of(context).applicationTutorial,
                           ),
-                          const Spacer(),
                           Row(
                             children: <Widget>[
                               CupertinoButton(
@@ -94,22 +88,16 @@ class TutorialsList extends StatelessWidget {
                   : Padding(
                       padding: const EdgeInsets.only(
                         top: 10,
-                        left: 200,
+                        left: 300,
                         right: 300,
                         bottom: 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          const Icon(
-                            CupertinoIcons.play_rectangle,
-                            color: CupertinoColors.black, // Set the icon color to black
-                          ),
-                          const SizedBox(width: 24),
                           Text(
                             "${CATLocalizations.of(context).singleTutorial} $i",
                           ),
-                          const Spacer(),
                           Row(
                             children: <Widget>[
                               CupertinoButton(
