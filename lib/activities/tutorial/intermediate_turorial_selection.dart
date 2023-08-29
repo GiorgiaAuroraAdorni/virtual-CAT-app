@@ -24,7 +24,7 @@ class IntermediateTurorialSelection extends StatelessWidget {
                 (Route<dynamic> route) => false,
               );
             },
-            child: const Icon(CupertinoIcons.arrow_branch),
+            child: const Icon(CupertinoIcons.back),
           ),
         ),
         child: SafeArea(
@@ -39,7 +39,7 @@ class IntermediateTurorialSelection extends StatelessWidget {
                       Radius.circular(100),
                     ),
                     child: SvgPicture.asset(
-                      "resources/icons/code.svg",
+                      "resources/icons/text_video.svg",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
@@ -69,7 +69,7 @@ class IntermediateTurorialSelection extends StatelessWidget {
                       Radius.circular(100),
                     ),
                     child: SvgPicture.asset(
-                      "resources/icons/block.svg",
+                      "resources/icons/symbol_video.svg",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
@@ -99,7 +99,7 @@ class IntermediateTurorialSelection extends StatelessWidget {
                       Radius.circular(100),
                     ),
                     child: SvgPicture.asset(
-                      "resources/icons/gesture.svg",
+                      "resources/icons/gesture_video.svg",
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,

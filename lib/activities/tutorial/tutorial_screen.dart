@@ -72,7 +72,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   (Route<dynamic> route) => false,
                 );
               },
-              child: const Icon(CupertinoIcons.arrow_branch),
+              child: const Icon(CupertinoIcons.back),
             ),
           ),
           child: SafeArea(
@@ -104,8 +104,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (SchemasReader().currentIndex != 0)
-                        CupertinoButton(
-                          child: Text(CATLocalizations.of(context).toScheme),
+                        CupertinoButton.filled(
+                          child: Text("${CATLocalizations.of(context).toScheme} ${SchemasReader().currentIndex}"),
                           onPressed: () => Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(

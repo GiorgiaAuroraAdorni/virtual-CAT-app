@@ -32,29 +32,35 @@ class TutorialsList extends StatelessWidget {
               itemBuilder: (BuildContext c, int i) => i == 0
                   ? Padding(
                       padding: const EdgeInsets.only(
-                        top: 10,
-                        left: 20,
-                        right: 20,
+                        top: 30,
+                        left: 200,
+                        right: 360,
                         bottom: 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            CATLocalizations.of(context).applicationTutorial,
+                          const Icon(
+                            CupertinoIcons.play_rectangle,
+                            color: CupertinoColors.black, // Set the icon color to black
                           ),
+                          const SizedBox(width: 24),
+                          Text(
+                              CATLocalizations.of(context).applicationTutorial,
+                          ),
+                          const Spacer(),
                           Row(
                             children: <Widget>[
                               CupertinoButton(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(10),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
                                 color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/Training.svg",
-                                  height: 42,
-                                  width: 42,
+                                  "resources/icons/training_video.svg",
+                                  height: 56,
+                                  width: 56,
                                   fit: BoxFit.cover,
                                 ),
                                 onPressed: () {
@@ -88,20 +94,26 @@ class TutorialsList extends StatelessWidget {
                   : Padding(
                       padding: const EdgeInsets.only(
                         top: 10,
-                        left: 20,
-                        right: 20,
+                        left: 200,
+                        right: 300,
                         bottom: 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          const Icon(
+                            CupertinoIcons.play_rectangle,
+                            color: CupertinoColors.black, // Set the icon color to black
+                          ),
+                          const SizedBox(width: 24),
                           Text(
                             "${CATLocalizations.of(context).singleTutorial} $i",
                           ),
+                          const Spacer(),
                           Row(
                             children: <Widget>[
                               CupertinoButton(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(10),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
@@ -112,9 +124,9 @@ class TutorialsList extends StatelessWidget {
                                         .withOpacity(0.5)
                                     : CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/code.svg",
-                                  height: 42,
-                                  width: 42,
+                                  "resources/icons/text_video.svg",
+                                  height: 56,
+                                  width: 56,
                                   fit: BoxFit.cover,
                                 ),
                                 onPressed: () {
@@ -141,7 +153,7 @@ class TutorialsList extends StatelessWidget {
                                 },
                               ),
                               CupertinoButton(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(10),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
@@ -152,9 +164,9 @@ class TutorialsList extends StatelessWidget {
                                         .withOpacity(0.5)
                                     : CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/block.svg",
-                                  height: 42,
-                                  width: 42,
+                                  "resources/icons/symbol_video.svg",
+                                  height: 56,
+                                  width: 56,
                                   fit: BoxFit.cover,
                                 ),
                                 onPressed: () {
@@ -181,7 +193,7 @@ class TutorialsList extends StatelessWidget {
                                 },
                               ),
                               CupertinoButton(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(10),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
@@ -192,9 +204,9 @@ class TutorialsList extends StatelessWidget {
                                         .withOpacity(0.5)
                                     : CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/gesture.svg",
-                                  height: 42,
-                                  width: 42,
+                                  "resources/icons/gesture_video.svg",
+                                  height: 56,
+                                  width: 56,
                                   fit: BoxFit.cover,
                                 ),
                                 onPressed: () {
@@ -226,7 +238,7 @@ class TutorialsList extends StatelessWidget {
                       ),
                     ),
               separatorBuilder: (_, __) => const SizedBox(
-                height: 10,
+                height: 5,
               ),
               itemCount: SchemasReader().size + 1,
             ),
