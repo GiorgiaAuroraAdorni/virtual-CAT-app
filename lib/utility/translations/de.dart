@@ -102,10 +102,10 @@ const Map<String, String> _descriptions = <String, String>{
 const Map<String, String> _resultsScreen = <String, String>{
   "column1": "Referenzschema",
   "column2": "Produktionsschema",
-  "column3": "CAT-score",
+  "column3": "CAT-Score",
   "column4": "Ergebnis",
-  "column5": "Time",
-  "total": "Totale",
+  "column5": "Zeit",
+  "total": "Kumulative Statistik",
   "resultCorrect": "Richtig",
   "resultSkip": "Kapitulation",
   "resultWrong": "Falsch",
@@ -250,9 +250,9 @@ const List<String> otherCantonsDE = [
 ];
 
 const Map<String, String> _tutorial = <String, String>{
-  "tutorialsHeader": "Tutorials",
-  "applicationTutorial": "Tutorial applicazione",
-  "singleTutorial": "Tutorial",
-  "loading": "Caricamento",
-  "toScheme": "Risolvi schema",
+  "tutorialsHeader": "Schulung",
+  "applicationTutorial": "Einführung",
+  "singleTutorial": "Lehrgang",
+  "loading": "Laden",
+  "toScheme": "Schema auflösen",
 };

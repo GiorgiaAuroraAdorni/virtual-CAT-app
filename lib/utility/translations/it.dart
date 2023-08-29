@@ -104,7 +104,7 @@ const Map<String, String> _resultsScreen = <String, String>{
   "column3": "CAT-score",
   "column4": "Risultato",
   "column5": "Tempo",
-  "total": "Totale",
+  "total": "Statistiche cumulate",
   "resultCorrect": "Giusto",
   "resultSkip": "Rinuncia",
   "resultWrong": "Sbagliato",
@@ -249,8 +249,8 @@ const List<String> otherCantonsIT = [
 ];
 
 const Map<String, String> _tutorial = <String, String>{
-  "tutorialsHeader": "Tutorials",
-  "applicationTutorial": "Tutorial applicazione",
+  "tutorialsHeader": "Preparazione",
+  "applicationTutorial": "Introduzione",
   "singleTutorial": "Tutorial",
   "loading": "Caricamento",
   "toScheme": "Risolvi schema",
