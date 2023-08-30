@@ -12,3 +12,13 @@ PRODUCT_BUNDLE_IDENTIFIER = com.cat.crossArrayTaskApp
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 com.cat. All rights reserved.
+
+// Debug configuration
+#include "../../Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+
+// Release configuration
+#include "../../Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+
+// Profile configuration
+#include "../../Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
+
