@@ -41,7 +41,7 @@ class TutorialsList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                              CATLocalizations.of(context).applicationTutorial,
+                            CATLocalizations.of(context).applicationTutorial,
                           ),
                           Row(
                             children: <Widget>[
@@ -52,7 +52,11 @@ class TutorialsList extends StatelessWidget {
                                 ),
                                 color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
-                                  "resources/icons/training_video.svg",
+                                  SchemasReader().completedVideo[i]![
+                                          CATLocalizations.of(context)
+                                              .languageCode]![0]!
+                                      ? "resources/icons/training_video_seen.svg"
+                                      : "resources/icons/training_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
@@ -108,10 +112,10 @@ class TutorialsList extends StatelessWidget {
                                 color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
                                   SchemasReader().completedVideo[i]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![2]!
+                                          CATLocalizations.of(context)
+                                              .languageCode]![2]!
                                       ? "resources/icons/text_video_seen.svg"
-                                    :"resources/icons/text_video.svg",
+                                      : "resources/icons/text_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
@@ -147,10 +151,10 @@ class TutorialsList extends StatelessWidget {
                                 color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
                                   SchemasReader().completedVideo[i]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![1]!
+                                          CATLocalizations.of(context)
+                                              .languageCode]![1]!
                                       ? "resources/icons/symbol_video_seen.svg"
-                                      :"resources/icons/symbol_video.svg",
+                                      : "resources/icons/symbol_video.svg",
                                   height: 56,
                                   width: 56,
                                   fit: BoxFit.cover,
@@ -186,8 +190,8 @@ class TutorialsList extends StatelessWidget {
                                 color: CupertinoColors.systemBackground,
                                 child: SvgPicture.asset(
                                   SchemasReader().completedVideo[i]![
-                                  CATLocalizations.of(context)
-                                      .languageCode]![0]!
+                                          CATLocalizations.of(context)
+                                              .languageCode]![0]!
                                       ? "resources/icons/gesture_video_seen.svg"
                                       : "resources/icons/gesture_video.svg",
                                   height: 56,

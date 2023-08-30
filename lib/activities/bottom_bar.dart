@@ -64,45 +64,46 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          AnimatedBuilder(
-            animation: widget.selectionMode,
-            builder: (_, __) =>
-                widget.selectionMode.value == SelectionModes.base
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: 5, left: 5),
-                        child: CupertinoButton(
-                          onPressed: () async => submit(complete: false),
-                          borderRadius: BorderRadius.circular(45),
-                          minSize: 50,
-                          padding: EdgeInsets.zero,
-                          color: CupertinoColors.systemRed,
-                          child: const Icon(
-                            CupertinoIcons.xmark_circle_fill,
-                            size: 44,
+          if (widget.studentID != -1 && widget.sessionID != -1)
+            AnimatedBuilder(
+              animation: widget.selectionMode,
+              builder: (_, __) =>
+                  widget.selectionMode.value == SelectionModes.base
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 5, left: 5),
+                          child: CupertinoButton(
+                            onPressed: () async => submit(complete: false),
+                            borderRadius: BorderRadius.circular(45),
+                            minSize: 50,
+                            padding: EdgeInsets.zero,
+                            color: CupertinoColors.systemRed,
+                            child: const Icon(
+                              CupertinoIcons.xmark_circle_fill,
+                              size: 44,
+                            ),
                           ),
-                        ),
-                      )
-                    : IgnorePointer(
-                        child: ColorFiltered(
-                          colorFilter: const ColorFilter.mode(
-                              Colors.white54, BlendMode.modulate),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5, left: 5),
-                            child: CupertinoButton(
-                              onPressed: () async => submit(complete: false),
-                              borderRadius: BorderRadius.circular(45),
-                              minSize: 50,
-                              padding: EdgeInsets.zero,
-                              color: CupertinoColors.systemRed,
-                              child: const Icon(
-                                CupertinoIcons.xmark_circle_fill,
-                                size: 44,
+                        )
+                      : IgnorePointer(
+                          child: ColorFiltered(
+                            colorFilter: const ColorFilter.mode(
+                                Colors.white54, BlendMode.modulate),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5, left: 5),
+                              child: CupertinoButton(
+                                onPressed: () async => submit(complete: false),
+                                borderRadius: BorderRadius.circular(45),
+                                minSize: 50,
+                                padding: EdgeInsets.zero,
+                                color: CupertinoColors.systemRed,
+                                child: const Icon(
+                                  CupertinoIcons.xmark_circle_fill,
+                                  size: 44,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-          ),
+            ),
           AnimatedBuilder(
             animation: widget.selectionMode,
             builder: (_, __) => widget.selectionMode.value ==
@@ -280,6 +281,8 @@ class _BottomBarState extends State<BottomBar> {
                   if (widget.studentID == -1 &&
                       widget.sessionID == -1 &&
                       !results.completed) {
+                    _reset();
+
                     return;
                   }
                   continuation(complete);
@@ -330,7 +333,7 @@ class _BottomBarState extends State<BottomBar> {
           CupertinoPageRoute<Widget>(
             builder: (BuildContext context) => NextTutorial(
               previouse: SchemasReader().currentIndex,
-              next: nextIndex,
+              next: nextIndex > SchemasReader().currentIndex ? nextIndex : -1,
             ),
           ),
         );

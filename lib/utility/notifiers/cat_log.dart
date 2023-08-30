@@ -46,7 +46,7 @@ class CatLogger with ChangeNotifier {
     // print(currentCommand);
     // print(description);
     notifyListeners();
-    printLogs();
+    // printLogs();
   }
 
   Map<String, LoggerInfo> get logs => _logs;

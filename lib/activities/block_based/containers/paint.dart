@@ -234,7 +234,6 @@ class _Paint extends State<Paint> {
     List<Widget> repetitionsText = List<Widget>.from(
       widget.item.repetitionsText,
     );
-    print(widget.item.direction);
     setStateCustom(() {
       if (widget.item.direction.startsWith("square")) {
         widget.item.repetitions = 2;

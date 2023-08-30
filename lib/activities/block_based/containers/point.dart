@@ -148,8 +148,18 @@ class _Point extends State<Point> {
     final List<String> directions =
         List<String>.generate(6, (int index) => (index + 1).toString());
     final List<String> directions2 = <String>["A", "B", "C", "D", "E", "F"];
+    final Map<String, List<String>> dir = <String, List<String>>{
+      "A": <String>["3", "4"],
+      "B": <String>["3", "4"],
+      "C": directions,
+      "D": directions,
+      "E": <String>["3", "4"],
+      "F": <String>["3", "4"],
+    };
     final int initialA = directions2.indexOf(widget.item.a);
-    final int initialB = directions.indexOf(widget.item.b);
+    final int initialB = dir[widget.item.a]!.indexOf(widget.item.b);
+    final ValueNotifier<String> valueNotifier =
+        ValueNotifier<String>(widget.item.a);
 
     showCupertinoModalPopup(
       context: context,
@@ -166,6 +176,8 @@ class _Point extends State<Point> {
                 onSelectedItemChanged: (int value) {
                   setStateCustom(() {
                     widget.item.a = directions2[value];
+                    valueNotifier.value = widget.item.a;
+                    valueNotifier.notifyListeners();
                   });
                   context.read<BlockUpdateNotifier>().update();
                 },
@@ -181,22 +193,26 @@ class _Point extends State<Point> {
               ),
             ),
             Expanded(
-              child: CupertinoPicker(
-                scrollController:
-                    FixedExtentScrollController(initialItem: initialB),
-                onSelectedItemChanged: (int value) {
-                  setStateCustom(() {
-                    widget.item.b = directions[value];
-                  });
-                  context.read<BlockUpdateNotifier>().update();
-                },
-                itemExtent: 25,
-                useMagnifier: true,
-                magnification: 1.3,
-                children: List<Widget>.generate(
-                  directions.length,
-                  (int index) => Text(
-                    directions[index],
+              child: AnimatedBuilder(
+                animation: valueNotifier,
+                builder: (BuildContext context, Widget? child) =>
+                    CupertinoPicker(
+                  scrollController:
+                      FixedExtentScrollController(initialItem: initialB),
+                  onSelectedItemChanged: (int value) {
+                    setStateCustom(() {
+                      widget.item.b = dir[widget.item.a]![value];
+                    });
+                    context.read<BlockUpdateNotifier>().update();
+                  },
+                  itemExtent: 25,
+                  useMagnifier: true,
+                  magnification: 1.3,
+                  children: List<Widget>.generate(
+                    dir[widget.item.a]!.length,
+                    (int index) => Text(
+                      dir[widget.item.a]![index],
+                    ),
                   ),
                 ),
               ),

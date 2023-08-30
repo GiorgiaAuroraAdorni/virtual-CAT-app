@@ -67,6 +67,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
             automaticallyImplyLeading: false,
             leading: CupertinoButton(
               onPressed: () {
+                if (SchemasReader().currentIndex == 0) {
+                  SchemasReader().completedVideo[SchemasReader().currentIndex]![
+                      CATLocalizations.of(context).languageCode]![0] = true;
+                }
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   "/tutorial",
                   (Route<dynamic> route) => false,
@@ -105,7 +109,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     children: [
                       if (SchemasReader().currentIndex != 0)
                         CupertinoButton.filled(
-                          child: Text("${CATLocalizations.of(context).toScheme} ${SchemasReader().currentIndex}"),
+                          child: Text(
+                              "${CATLocalizations.of(context).toScheme} ${SchemasReader().currentIndex}"),
                           onPressed: () => Navigator.push(
                             context,
                             CupertinoPageRoute<Widget>(
