@@ -205,7 +205,7 @@ class SideMenuState extends State<SideMenu> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.20,
+                  height: MediaQuery.of(context).size.height * 0.10,
                 ),
                 Column(
                   children: <Widget>[
