@@ -31,26 +31,31 @@ class ChangeCrossVisualization extends StatelessWidget {
                           description: CatLoggingLevel.changeVisibility,
                         );
                       },
-                disabledColor: CupertinoColors.activeOrange,
                 borderRadius: BorderRadius.circular(45),
                 minSize: 45,
                 padding: EdgeInsets.zero,
                 color: CupertinoColors.opaqueSeparator,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(1000),
-                  child: SvgPicture.asset(
-                    "resources/icons/closed_eye.svg",
-                    height: 45,
-                    width: 45,
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                      !context.read<VisibilityNotifier>().visible
-                          ? CupertinoColors.tertiarySystemFill
-                          : CupertinoColors.inactiveGray,
-                      BlendMode.color,
-                    ),
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(1000),
+                    child: !context.read<VisibilityNotifier>().visible
+                        ? SvgPicture.asset(
+                            "resources/icons/closed_eye.svg",
+                            height: 45,
+                            width: 45,
+                            fit: BoxFit.cover,
+                          )
+                        : ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              CupertinoColors.systemGrey,
+                              BlendMode.saturation,
+                            ),
+                            child: SvgPicture.asset(
+                              "resources/icons/closed_eye.svg",
+                              height: 45,
+                              width: 45,
+                              fit: BoxFit.cover,
+                            ),
+                          )),
               ),
               const SizedBox(
                 width: 5,
@@ -69,22 +74,28 @@ class ChangeCrossVisualization extends StatelessWidget {
                 borderRadius: BorderRadius.circular(45),
                 minSize: 45,
                 padding: EdgeInsets.zero,
-                disabledColor: CupertinoColors.activeOrange,
                 color: CupertinoColors.opaqueSeparator,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(1000),
-                  child: SvgPicture.asset(
-                    "resources/icons/open_eye.svg",
-                    height: 45,
-                    width: 45,
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                      context.read<VisibilityNotifier>().visible
-                          ? CupertinoColors.tertiarySystemFill
-                          : CupertinoColors.inactiveGray,
-                      BlendMode.color,
-                    ),
-                  ),
+                  child: context.read<VisibilityNotifier>().visible
+                      ? SvgPicture.asset(
+                          "resources/icons/open_eye.svg",
+                          height: 45,
+                          width: 45,
+                          fit: BoxFit.cover,
+                        )
+                      : ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            CupertinoColors.systemGrey,
+                            BlendMode.saturation,
+                          ),
+                          child: SvgPicture.asset(
+                            "resources/icons/open_eye.svg",
+                            height: 45,
+                            width: 45,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                 ),
               ),
             ],
