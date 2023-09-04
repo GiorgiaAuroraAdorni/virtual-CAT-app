@@ -4,7 +4,6 @@ import "package:cross_array_task_app/utility/connection/connection.dart";
 import "package:cross_array_task_app/utility/translations/localizations.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter_svg/flutter_svg.dart";
 
 class ItasResults extends StatelessWidget {
   ItasResults({super.key, required this.studentID, required this.sessionID});
@@ -24,110 +23,79 @@ class ItasResults extends StatelessWidget {
     fontSize: 14,
   );
 
-  late List<Widget> supplementary_skills = [
-    Text(
-      "dot",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "fill empty",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "custom pattern monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "row column monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "square monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "diagonal monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "l monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "zigzag monochromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "custom pattern polychromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "row column polychromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "square polychromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "diagonal or zigzag polychromatic",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "copy repeat",
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-    Text(
-      "mirror".replaceAll(" ", "\n"),
-      textAlign: TextAlign.center,
-      style: style,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final List<List<Widget>> elements = <List<Widget>>[
-      for (int i in <int>[0, 1, 2])
-        for (String k in <String>["gesture", "block"])
-          for (String j in <String>["open_eye", "closed_eye"])
-            <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: Text(
-                  "${i}D",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: SvgPicture.asset(
-                  "resources/icons/$j.svg",
-                  height: 45,
-                  width: 45,
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: SvgPicture.asset(
-                  "resources/icons/$k.svg",
-                  height: 45,
-                  width: 45,
-                ),
-              ),
-            ],
+    List<Widget> supplementary_skills = [
+      Text(
+        CATLocalizations.of(context).s1,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s2,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s3,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s4,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s5,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s6,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s7,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s8,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s9,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s10,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s11,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s12,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s13,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+      Text(
+        CATLocalizations.of(context).s14,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
     ];
 
     return CupertinoPageScaffold(

@@ -438,6 +438,43 @@ class CATLocalizations {
   String get finalButton =>
       _localizedValues[_locale.languageCode]!["finalButton"]!;
 
+  String get s1 => _localizedValues[_locale.languageCode]!["dot"]!;
+
+  String get s2 => _localizedValues[_locale.languageCode]!["fill_empty"]!;
+
+  String get s3 =>
+      _localizedValues[_locale.languageCode]!["custom_pattern_monochromatic"]!;
+
+  String get s4 =>
+      _localizedValues[_locale.languageCode]!["row_column_monochromatic"]!;
+
+  String get s5 =>
+      _localizedValues[_locale.languageCode]!["square_monochromatic"]!;
+
+  String get s6 =>
+      _localizedValues[_locale.languageCode]!["diagonal_monochromatic"]!;
+
+  String get s7 => _localizedValues[_locale.languageCode]!["l_monochromatic"]!;
+
+  String get s8 =>
+      _localizedValues[_locale.languageCode]!["zigzag_monochromatic"]!;
+
+  String get s9 =>
+      _localizedValues[_locale.languageCode]!["custom_pattern_polychromatic"]!;
+
+  String get s10 =>
+      _localizedValues[_locale.languageCode]!["row_column_polychromatic"]!;
+
+  String get s11 =>
+      _localizedValues[_locale.languageCode]!["square_polychromatic"]!;
+
+  String get s12 => _localizedValues[_locale.languageCode]![
+      "diagonal_or_zigzag_polychromatic"]!;
+
+  String get s13 => _localizedValues[_locale.languageCode]!["copy_repeat"]!;
+
+  String get s14 => _localizedValues[_locale.languageCode]!["mirror"]!;
+
   /// It's a getter that returns the localized list for the school type
   List<Text> get schoolType => _localizedSchoolType[_locale.languageCode]!;
 

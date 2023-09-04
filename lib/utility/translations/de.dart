@@ -30,7 +30,8 @@ final Map<String, String> de = <String, String>{
   ..addAll(_secondForm)
   ..addAll(_resultsScreen)
   ..addAll(_questions)
-  ..addAll(_descriptions);
+  ..addAll(_descriptions)
+  ..addAll(supplementarySkills);
 
 const Map<String, String> _firstForm = <String, String>{
   "tutorialTitle": "Bewertung",
@@ -246,3 +247,20 @@ const List<String> otherCantonsDE = [
   "10 (2 Jahre in der Sekundarstufe I)",
   "11 (3 Jahre in der Sekundarstufe I)",
 ];
+
+const Map<String, String> supplementarySkills = <String, String>{
+  "dot": "dot",
+  "fill_empty": "fill empty",
+  "custom_pattern_monochromatic": "custom pattern monochromatic",
+  "row_column_monochromatic": "row column monochromatic",
+  "square_monochromatic": "square monochromatic",
+  "diagonal_monochromatic": "diagonal monochromatic",
+  "l_monochromatic": "l monochromatic",
+  "zigzag_monochromatic": "zigzag monochromatic",
+  "custom_pattern_polychromatic": "custom pattern polychromatic",
+  "row_column_polychromatic": "row column polychromatic",
+  "square_polychromatic": "square polychromatic",
+  "diagonal_or_zigzag_polychromatic": "diagonal or zigzag polychromatic",
+  "copy_repeat": "copy repeat",
+  "mirror": "mirror",
+};
