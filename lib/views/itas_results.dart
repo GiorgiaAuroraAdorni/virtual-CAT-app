@@ -20,6 +20,83 @@ class ItasResults extends StatelessWidget {
     return super.createElement();
   }
 
+  final TextStyle style = const TextStyle(
+    fontSize: 14,
+  );
+
+  late List<Widget> supplementary_skills = [
+    Text(
+      "dot",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "fill empty",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "custom pattern monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "row column monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "square monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "diagonal monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "l monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "zigzag monochromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "custom pattern polychromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "row column polychromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "square polychromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "diagonal or zigzag polychromatic",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "copy repeat",
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+    Text(
+      "mirror".replaceAll(" ", "\n"),
+      textAlign: TextAlign.center,
+      style: style,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final List<List<Widget>> elements = <List<Widget>>[
@@ -72,140 +149,183 @@ class ItasResults extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icons/feedback.svg",
-                        height: 60,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(CATLocalizations.of(context).column4),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icons/reference.svg",
-                        height: 60,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Dimensione"),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "resources/icons/open_eye.svg",
-                            height: 50,
-                          ),
-                          const Text(
-                            "/",
-                            style: TextStyle(
-                              fontSize: 50,
-                            ),
-                          ),
-                          SvgPicture.asset(
-                            "resources/icons/closed_eye.svg",
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Visibilità"),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "resources/icons/gesture.svg",
-                            height: 50,
-                          ),
-                          const Text(
-                            "/",
-                            style: TextStyle(
-                              fontSize: 50,
-                            ),
-                          ),
-                          SvgPicture.asset(
-                            "resources/icons/block.svg",
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Modalità"),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: FutureBuilder<List<dynamic>>(
                 future: results,
                 builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemBuilder: (_, int i) => Container(
-                        padding: const EdgeInsets.only(
-                          top: 8,
-                          bottom: 8,
-                        ),
-                        color: snapshot.data!.cast<double>().reduce(max) ==
-                                snapshot.data![i]
-                            ? CupertinoColors.activeGreen
-                            : CupertinoColors.systemBackground,
-                        child: Row(
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text("Elementary skills"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 4,
-                              child: Text(
-                                "${snapshot.data![i].toStringAsFixed(3)}",
-                                textAlign: TextAlign.center,
+                            Table(
+                              defaultColumnWidth: FixedColumnWidth(
+                                MediaQuery.of(context).size.width / 14,
                               ),
+                              border: const TableBorder(
+                                horizontalInside: BorderSide(),
+                              ),
+                              defaultVerticalAlignment:
+                                  TableCellVerticalAlignment.middle,
+                              children: [
+                                TableRow(
+                                  children: [
+                                    for (int i = 1; i < 4; i++)
+                                      for (int j = 1; j < 5; j++)
+                                        TableCell(
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                20,
+                                            child: Align(
+                                              child: Text(
+                                                "X$i$j",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: [
+                                    for (int i = 14; i < 26; i++)
+                                      TableCell(
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          color: snapshot.data!
+                                                      .cast<double>()
+                                                      .sublist(14)
+                                                      .reduce(max) ==
+                                                  snapshot.data![i]
+                                              ? CupertinoColors.activeGreen
+                                              : CupertinoColors
+                                                  .systemBackground,
+                                          child: Align(
+                                            child: Text(
+                                              "${snapshot.data![i].toStringAsFixed(2)}",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            ...elements[i],
                           ],
                         ),
-                      ),
-                      itemCount: snapshot.data!.length,
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text("Supplementary skills"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Table(
+                              defaultColumnWidth: FixedColumnWidth(
+                                MediaQuery.of(context).size.width / 8,
+                              ),
+                              border: const TableBorder(
+                                horizontalInside: BorderSide(),
+                              ),
+                              defaultVerticalAlignment:
+                                  TableCellVerticalAlignment.middle,
+                              children: [
+                                TableRow(
+                                  children: <Widget>[
+                                    for (int i = 0; i < 7; i++)
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          child: Align(
+                                            child: supplementary_skills[i],
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: [
+                                    for (int i = 0; i < 7; i++)
+                                      TableCell(
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          color: snapshot.data!
+                                                      .cast<double>()
+                                                      .sublist(0, 14)
+                                                      .reduce(max) ==
+                                                  snapshot.data![i]
+                                              ? CupertinoColors.activeGreen
+                                              : CupertinoColors
+                                                  .systemBackground,
+                                          child: Align(
+                                            child: Text(
+                                              "${snapshot.data![i].toStringAsFixed(2)}",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: <Widget>[
+                                    for (int i = 7; i < 14; i++)
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          child: Align(
+                                            child: supplementary_skills[i],
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                                TableRow(
+                                  children: [
+                                    for (int i = 7; i < 14; i++)
+                                      TableCell(
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20,
+                                          color: snapshot.data!
+                                                      .cast<double>()
+                                                      .sublist(0, 14)
+                                                      .reduce(max) ==
+                                                  snapshot.data![i]
+                                              ? CupertinoColors.activeGreen
+                                              : CupertinoColors
+                                                  .systemBackground,
+                                          child: Align(
+                                            child: Text(
+                                              "${snapshot.data![i].toStringAsFixed(2)}",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     );
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
