@@ -172,8 +172,12 @@ class _ResultsScreenState extends State<ResultsScreen> {
 
   Widget _buildRow(BuildContext context, int index) {
     if (index >= widget.results.values.length) {
-      final int score = widget.results.values
-          .fold(0, (previousValue, element) => previousValue + element.score);
+      final double score = widget.results.values.fold(
+            0,
+            (int previousValue, ResultsRecord element) =>
+                previousValue + element.score,
+          ) /
+          widget.results.values.length;
       final int time = widget.results.values
           .fold(0, (previousValue, element) => previousValue + element.time);
 
