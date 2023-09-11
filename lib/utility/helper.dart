@@ -67,7 +67,11 @@ int catScore({
     final List<String> tokenized = splitCommand(s.toLowerCase());
     switch (tokenized.first) {
       case "paint":
-        lineScore = tokenized.length == 2 ? 4 : 5;
+        lineScore = tokenized.length == 2
+            ? 4
+            : splitByCurly(tokenized[1]).length == 1
+                ? 5
+                : 6;
         break;
       case "fill_empty":
         lineScore = 5;

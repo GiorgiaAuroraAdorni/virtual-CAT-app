@@ -197,7 +197,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width / 10,
             child: Text(
-              "$score",
+              score.toStringAsFixed(2),
               style: const TextStyle(
                 fontSize: 20,
               ),
