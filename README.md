@@ -1,4 +1,4 @@
-# Cross Array Task app
+# virtual-CAT-app
 
 ## How to install
 ### System requirements
@@ -45,3 +45,11 @@ Run the command `flutter run` in the 'cross-array-task-app' directory, select th
 ## Run from some IDE
 Open the project in the selected IDE
 Read the section **Run the app** from [here](https://docs.flutter.dev/get-started/test-drive?tab=androidstudio)
+
+
+
+## Integration
+
+We've developed a dedicated Dart package to seamlessly integrate the interpreter within the Virtual CAT application. This package is imported into the Flutter project, ensuring that the interpreter functions seamlessly within the application.
+
+[Documentation]([link-to-documentation](https://giorgiaauroraadorni.github.io/virtual-CAT-programming-language-interpreter/)https://giorgiaauroraadorni.github.io/virtual-CAT-programming-language-interpreter/)
