@@ -193,9 +193,9 @@
     {
       "index": 5,
       "expected_solution": {
-        "0": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zigzag right down up)",
-        "1": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zigzag right down up)",
-        "2": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zigzag right down up)"
+        "0": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zig-zag right down up)",
+        "1": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zig-zag right down up)",
+        "2": "go(C1), paint({blue},5,l right down), go(D3), paint({yellow},4,zig-zag right down up)"
       },
       "tutorials": {
         "en": {

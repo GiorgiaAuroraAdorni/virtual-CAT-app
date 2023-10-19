@@ -46,21 +46,21 @@ class CommandsInspector {
     } else if (inspector._lUpRight(positions)) {
       direction = "l up right";
     } else if (inspector._zigzagRightDownUp(positions)) {
-      direction = "zigzag right down up";
+      direction = "zig-zag right down up";
     } else if (inspector._zigzagRightUpDown(positions)) {
-      direction = "zigzag right up down";
+      direction = "zig-zag right up down";
     } else if (inspector._zigzagLeftDownUp(positions)) {
-      direction = "zigzag left down up";
+      direction = "zig-zag left down up";
     } else if (inspector._zigzagLeftUpDown(positions)) {
-      direction = "zigzag left up down";
+      direction = "zig-zag left up down";
     } else if (inspector._zigzagDownLeftRight(positions)) {
-      direction = "zigzag down left right";
+      direction = "zig-zag down left right";
     } else if (inspector._zigzagDownRightLeft(positions)) {
-      direction = "zigzag down right left";
+      direction = "zig-zag down right left";
     } else if (inspector._zigzagUpLeftRight(positions)) {
-      direction = "zigzag up left right";
+      direction = "zig-zag up left right";
     } else if (inspector._zigzagUpRightLeft(positions)) {
-      direction = "zigzag up right left";
+      direction = "zig-zag up right left";
     } else if (inspector._squareBottomLeft(positions)) {
       direction = patternsEn["square bottom left"]!;
     } else if (inspector._squareBottomRight(positions)) {
