@@ -1,4 +1,4 @@
-import "package:cross_array_task_app/activities/tutorial/intermediate_turorial_selection.dart";
+import "package:cross_array_task_app/activities/tutorial/intermediate_tutorial_selection.dart";
 import "package:cross_array_task_app/activities/tutorial/tutorial_screen.dart";
 import "package:cross_array_task_app/model/schemas/schemas_reader.dart";
 import "package:cross_array_task_app/utility/notifiers/result_notifier.dart";
