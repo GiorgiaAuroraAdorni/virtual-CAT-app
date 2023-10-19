@@ -37,6 +37,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 
   Future<void> initializePlayer() async {
+    print('Video path: ${widget.video}');  // Debug print statement
     _controller = VideoPlayerController.asset(
       widget.video,
     );

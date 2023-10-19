@@ -101,7 +101,12 @@ flutter:
     - resources/icons/
     - resources/gifs/
     - resources/symbols/
-    - resources/tutorial_videos/t1/
+    - resources/tutorial_videos/
+    - resources/tutorial_videos/it/
+    - resources/tutorial_videos/it/gestures/
+    - resources/tutorial_videos/it/blocks/
+    - resources/tutorial_videos/it/text/
+
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
