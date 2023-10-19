@@ -124,7 +124,7 @@ class _PaintMultipleState extends State<PaintMultiple> {
             return Column(
               children: [
                 Text(
-                  CATLocalizations.of(context).blocks["paintMultiple"]!,
+                  CATLocalizations.of(context).blocks["paintCustom"]!,
                   style: const TextStyle(
                     color: CupertinoColors.systemBackground,
                   ),

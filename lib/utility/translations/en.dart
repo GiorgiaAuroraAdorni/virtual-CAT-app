@@ -128,7 +128,8 @@ const Map<String, String> blocksEn = <String, String>{
   "repetitions": "of how many dots?",
   //colouring
   "paintSingle": "COLOUR DOT",
-  "paintMultiple": "COLOUR PATTERN",
+  "paintMultiple": "COLOUR REGULAR PATTERN",
+  "paintCustom": "COLOUR IRREGULAR PATTERN",
   "paintMultipleSecondBlock": "where?",
   "pattern": "in which direction?",
   "repetitionsPaint": "how many dots?",

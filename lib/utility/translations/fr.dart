@@ -128,8 +128,9 @@ const Map<String, String> blocksFr = <String, String>{
   "goDirection": "dans quelle direction ?",
   "repetitions": "de combien de points ?",
   //colouring
-  "paintSingle": "COLORIER UN POINT",
-  "paintMultiple": "COLORIER UN MOTIF",
+  "paintSingle": "COLORER POINT",
+  "paintMultiple": "COLORER MOTIF RÉGULIER",
+  "paintCustom": "COLORER MOTIF IRRÉGULIER",
   "paintMultipleSecondBlock": "où ?",
   "pattern": "dans quelle direction ?",
   "repetitionsPaint": "combien de points ?",

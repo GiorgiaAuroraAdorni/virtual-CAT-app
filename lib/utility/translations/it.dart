@@ -128,7 +128,8 @@ const Map<String, String> blocksIt = <String, String>{
   "repetitions": "di quanti pallini?",
   //colorazione
   "paintSingle": "COLORA PALLINO",
-  "paintMultiple": "COLORA PATTERN",
+  "paintMultiple": "COLORA PATTERN REGOLARE",
+  "paintCustom": "COLORA PATTERN IRREGOLARE",
   "paintMultipleSecondBlock": "dove?",
   "pattern": "in quale direzione?",
   "repetitionsPaint": "quanti pallini?",

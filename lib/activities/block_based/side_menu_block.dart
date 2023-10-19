@@ -292,8 +292,8 @@ class SideMenuBlockState extends State<SideMenuBlock> {
                 items: <Widget>[
                   _buildContainerItem(container: containers[1]),
                   _buildContainerItem(container: containers[2]),
-                  _buildContainerItem(container: containers[4]),
                   _buildContainerItem(container: containers[10]),
+                  _buildContainerItem(container: containers[4]),
                 ],
                 visibility: _states[1],
                 iconLocation: "resources/icons/colouring_menu.svg",
