@@ -232,9 +232,9 @@
     {
       "index": 6,
       "expected_solution": {
-        "0": "go(C1), paint({blue},5,l right down), go(A4), paint({blue},5,l up right)",
-        "1": "go(C1), paint({blue},5,l right down), go(A4), paint({blue},5,l up right)",
-        "2": "go(C1), paint({blue},5,l right down), go(A4), paint({blue},5,l up right)"
+        "0": "go(C1), paint({blue},{C1,C2,C3,B3,A3,A4,B4,C4,C5,C6})",
+        "1": "paint({blue},{C1,C2,C3,B3,A3,A4,B4,C4,C5,C6})",
+        "2": "paint({blue},{C1,C2,C3,B3,A3,A4,B4,C4,C5,C6})"
       },
       "tutorials": {
         "en": {
@@ -243,9 +243,9 @@
           "2": "resources/tutorial_videos/pointing_blue.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/6g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/6b.mp4",
+          "2": "resources/tutorial_videos/it/text/6t.mp4"
         },
         "fr": {
           "0": "resources/tutorial_videos/pointing_blue.mp4",
@@ -259,54 +259,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          3,
-          3,
-          3,
-          3,
-          3
-        ],
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 3, 3, 3, 3, 3, 3],
+        [ 0, 0, 3, 3, 0, 0],
+        [ 0, 0, 3, 3, 0, 0]
       ]
     },
     {
@@ -339,54 +297,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          4,
-          3,
-          4,
-          3,
-          4
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 3, 4, 3, 4, 3, 4],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     },
     {
@@ -419,54 +335,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          2,
-          1,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          4,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 2, 1, 0, 0, 0, 0],
+        [ 3, 4, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     },
     {
@@ -499,54 +373,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ],
-        [
-          3,
-          3,
-          3,
-          3,
-          3,
-          3
-        ],
-        [
-          3,
-          3,
-          3,
-          3,
-          3,
-          3
-        ],
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          3,
-          0,
-          0
-        ]
+        [ 0, 0, 3, 3, 0, 0],
+        [ 0, 0, 3, 3, 0, 0],
+        [ 3, 3, 3, 3, 3, 3],
+        [ 3, 3, 3, 3, 3, 3],
+        [ 0, 0, 3, 3, 0, 0],
+        [ 0, 0, 3, 3, 0, 0]
       ]
     },
     {
@@ -579,54 +411,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          3,
-          0,
-          0,
-          0,
-          3
-        ],
-        [
-          3,
-          0,
-          0,
-          0,
-          3,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          3,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 3, 0, 0],
+        [ 0, 0, 3, 0, 0, 0],
+        [ 0, 3, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 3, 0],
+        [ 0, 0, 0, 3, 0, 0],
+        [ 0, 0, 3, 0, 0, 0]
       ]
     },
     {
@@ -659,54 +449,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          2,
-          1,
-          0,
-          0,
-          2,
-          1
-        ],
-        [
-          3,
-          4,
-          0,
-          0,
-          3,
-          4
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 2, 1, 0, 0, 2, 1],
+        [ 3, 4, 0, 0, 3, 4],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     },
     {
@@ -739,62 +487,20 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          0,
-          3,
-          0,
-          3,
-          0
-        ],
-        [
-          3,
-          0,
-          3,
-          0,
-          3,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 3, 0, 0, 0],
+        [ 0, 0, 3, 0, 0, 0],
+        [ 3, 0, 3, 0, 3, 0],
+        [ 3, 0, 3, 0, 3, 0],
+        [ 0, 0, 3, 0, 0, 0],
+        [ 0, 0, 3, 0, 0, 0]
       ]
     },
     {
       "index": 13,
       "expected_solution": {
-        "0": "copy({paint(blue),go(C2),paint(yellow)},{C1,D3,C5})",
-        "1": "copy({paint(blue),go(C2),paint(yellow)},{C1,D3,C5})",
-        "2": "copy({paint(blue),go(C2),paint(yellow)},{C1,D3,C5})"
+        "0": "go(C1), paint({blue},4,square right up left), mirror(vertical)",
+        "1": "go(C1), paint({blue},4,square right up left), mirror(vertical)",
+        "2": "go(C1), paint({blue},4,square right up left), mirror(vertical)"
       },
       "tutorials": {
         "en": {
@@ -819,138 +525,16 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          3,
-          4,
-          0,
-          0
-        ],
-        [
-          3,
-          4,
-          0,
-          0,
-          3,
-          4
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 3, 3, 0, 0, 3, 3],
+        [ 3, 3, 0, 0, 3, 3],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     },
     {
       "index": 14,
-      "expected_solution": {
-        "0": "go(D1), paint({blue},4,square right down left), mirror(vertical)",
-        "1": "go(D1), paint({blue},4,square right down left), mirror(vertical)",
-        "2": "go(D1), paint({blue},4,square right down left), mirror(vertical)"
-      },
-      "tutorials": {
-        "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
-        },
-        "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
-        },
-        "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
-        },
-        "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
-        }
-      },
-      "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          3,
-          0,
-          0,
-          3,
-          3
-        ],
-        [
-          3,
-          3,
-          0,
-          0,
-          3,
-          3
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
-      ]
-    },
-    {
-      "index": 15,
       "expected_solution": {
         "0": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)",
         "1": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)",
@@ -979,58 +563,16 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          3,
-          3,
-          0,
-          0,
-          0
-        ],
-        [
-          3,
-          3,
-          3,
-          3,
-          3,
-          3
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 3, 3, 3, 0, 0, 0],
+        [ 3, 3, 3, 3, 3, 3],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     },
     {
-      "index": 16,
+      "index": 15,
       "expected_solution": {
         "0": "go(C1),paint({blue,yellow},4,square right up left),mirror(vertical)",
         "1": "mirror({paint({blue,yellow},4,square right up left)},vertical)",
@@ -1059,54 +601,12 @@
         }
       },
       "array": [
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          4,
-          3,
-          0,
-          0,
-          3,
-          4
-        ],
-        [
-          3,
-          4,
-          0,
-          0,
-          4,
-          3
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 4, 3, 0, 0, 3, 4],
+        [ 3, 4, 0, 0, 4, 3],
+        [ 0, 0, 0, 0, 0, 0],
+        [ 0, 0, 0, 0, 0, 0]
       ]
     }
   ]
