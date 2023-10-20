@@ -1,5 +1,7 @@
 # virtual CAT app
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10027852.svg)](https://doi.org/10.5281/zenodo.10027852)
+
 The virtual Cross Array Task (CAT) application serves as a digital platform to assess algorithmic thinking (AT) skills within Swiss compulsory education. 
 
 The Virtual CAT is a digital embodiment of the Cross Array Task (CAT), a unique assessment activity initially conceived as an unplugged task, meticulously explored in our article [**[1]**](https://doi.org/10.1016/j.chbr.2021.100166). The essence of CAT lies in its ability to evaluate algorithmic skills by challenging individuals to develop a sequence of instructions, essentially an algorithm, to replicate intricate colour patterns on a cross array.
@@ -8,10 +10,10 @@ The transition from an unplugged activity to a digital platform arose from the n
 
 #### Features
 
-- **Multifaceted Interaction Modes**: The app offers gesture-based and visual block-based programming interfaces, replicating embodied and symbolic artefacts used in the unplugged CAT. These interactive modes cater to a diverse learner base, making the app accessible and adaptable.
+- **Multifaceted Interaction Modes**: The app offers gesture-based and visual block-based programming interfaces, replicating embodied and symbolic artefacts in the unplugged CAT. These interactive modes cater to a diverse learner base, making the app accessible and adaptable.
 - **Multilingual Support**: The app's multilingual support facilitates its usability across diverse linguistic backgrounds. In particular, it is available in four languages: 
   - *Italian*, *French*, and *German* to cater to the diverse linguistic landscape of Switzerland. 
-  - *English* to extend the app’s utility to a broader range of educational institutions, ensuring that a wider student demographic can benefit from the learning experience it offers, paving the way for potential adoption beyond Switzerland’s borders.
+  - *English* to extend the app’s utility to a broader range of educational institutions, ensuring that a wider student demographic can benefit from its learning experience, paving the way for potential adoption beyond Switzerland’s borders.
 - **Automated Assessment**: The app automates the assessment process, providing real-time feedback, error notifications, and potential suggestions for rectification, enabling a streamlined evaluation of AT skills.
 - **Cross-Platform Availability**: Developed using Flutter, the app maintains a consistent user experience across iOS, Android, and macOS, ensuring wide accessibility.
 
@@ -24,14 +26,14 @@ Both a pilot and a main evaluation of the virtual CAT were orchestrated in Switz
 The backbone of the virtual CAT app is structured around three fundamental components, each playing a crucial role in the orchestration and functionality of the system. Here's an in-depth look at these pivotal pillars:
 
 1. **CAT programming language**: 
-   - The core purpose behind defining the CAT programming language was to standardise the set of instructions users could use within the application interfaces to craft the required algorithm. This language encodes and formalises all commands and actions derived from the original experimental study with the unplugged CAT.
+   - The core purpose behind defining the CAT programming language was to standardise the instructions users could use within the application interfaces to craft the required algorithm. This language encodes and formalises all commands and actions derived from the original experimental study with the unplugged CAT.
    - *Cross Representation*: The board's layout is referenced using a coordinate system, simplifying the task of identifying, moving around, and manipulating the cross-board dots.
-   - *Moves*: These functions enable traversing the board either by jumping directly to a specific coordinate or by moving a certain number of dots in one of the eight available directions.
-   - *Basic Colouring*: A range of methods is provided to apply colors to the board, allowing both singular and pattern-based coloring.
-   - *Repetition-based Colouring*: For more complex operations, methods have been devised to repeat a sequence of commands across specific coordinates or to replicate colors from one set of coordinates to another.
-   - *Symmetry-based Colouring*: Methods in this category facilitate the creation of symmetrical coloring patterns either across the entire board or within specified segments.
+   - *Moves*: These functions enable traversing the board by jumping directly to a specific coordinate or moving a certain number of dots in one of the eight available directions.
+   - *Basic Colouring*: A range of methods is provided to apply colours to the board, allowing both singular and pattern-based colouring.
+   - *Repetition-based Colouring*: For more complex operations, methods have been devised to repeat a sequence of commands across specific coordinates or to replicate colours from one set of coordinates to another.
+   - *Symmetry-based Colouring*: Methods in this category facilitate the creation of symmetrical colouring patterns either across the entire board or within specified segments.
 2. **virtual CAT programming language interpreter** [**[3]**](https://doi.org/10.5281/zenodo.10016536): 
-   - This interpreter is integral in converting user interactions, whether via gesture or visual programming blocks, into executable, machine-readable instructions.
+   - This interpreter is integral in converting user interactions via gesture or visual programming blocks into executable, machine-readable instructions.
    - Each command undergoes a validation process to catch semantic errors, with real-time feedback provided to the user throughout.
    - A dedicated Dart package was developed and integrated within the Flutter project to facilitate seamless interaction with the interpreter component.
 3. **virtual CAT data infrastructure** [**[4]**](https://doi.org/10.5281/zenodo.10015012): 
