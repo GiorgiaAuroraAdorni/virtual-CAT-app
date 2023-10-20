@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: Adorni
+  given-names: Giorgia
+  orcid: "https://orcid.org/0000-0002-2613-4467"
+- family-names: Piatti
+  given-names: Simone
+- family-names: Karpenko
+  given-names: Volodymyr
+title: "virtual CAT: An app for algorithmic thinking assessment within Swiss compulsory education"
+version: 1.0.0
+doi: 10.5281/zenodo.10027852
+date-released: 2023-10-20
+url: "https://doi.org/10.5281/zenodo.10027852"
