@@ -126,3 +126,7 @@ For iOS, you may need to use iTunes or an alternative method if your device isn'
 For Android, enable installations from unknown sources in your device settings to install the `.apk` file.  
 For macOS, drag the downloaded app to your Applications folder.
 
+## Documentation
+
+The documentation of the platform is available here: [virtual CAT Documentation](https://giorgiaauroraadorni.github.io/virtual-CAT-app/)
+
