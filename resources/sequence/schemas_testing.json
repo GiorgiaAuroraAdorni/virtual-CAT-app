@@ -47,9 +47,9 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/1g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/1b.mp4",
+          "2": "resources/tutorial_videos/en/text/1t.mp4"
         },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/1g.mp4",
@@ -57,14 +57,14 @@
           "2": "resources/tutorial_videos/it/text/1t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/1g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/1b.mp4",
+          "2": "resources/tutorial_videos/fr/text/1t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/1g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/1b.mp4",
+          "2": "resources/tutorial_videos/de/text/1t.mp4"
         }
       },
       "array": [
@@ -85,9 +85,9 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/2g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/2b.mp4",
+          "2": "resources/tutorial_videos/en/text/2t.mp4"
         },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/2g.mp4",
@@ -95,14 +95,14 @@
           "2": "resources/tutorial_videos/it/text/2t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/2g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/2b.mp4",
+          "2": "resources/tutorial_videos/fr/text/2t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/2g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/2b.mp4",
+          "2": "resources/tutorial_videos/de/text/2t.mp4"
         }
       },
       "array": [
@@ -123,9 +123,9 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/3g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/3b.mp4",
+          "2": "resources/tutorial_videos/en/text/3t.mp4"
         },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/3g.mp4",
@@ -133,14 +133,14 @@
           "2": "resources/tutorial_videos/it/text/3t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/3g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/3b.mp4",
+          "2": "resources/tutorial_videos/fr/text/3t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/3g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/3b.mp4",
+          "2": "resources/tutorial_videos/de/text/3t.mp4"
         }
       },
       "array": [
@@ -161,9 +161,9 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/4g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/4b.mp4",
+          "2": "resources/tutorial_videos/en/text/4t.mp4"
         },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/4g.mp4",
@@ -171,14 +171,14 @@
           "2": "resources/tutorial_videos/it/text/4t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/4g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/4b.mp4",
+          "2": "resources/tutorial_videos/fr/text/4t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/4g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/4b.mp4",
+          "2": "resources/tutorial_videos/de/text/4t.mp4"
         }
       },
       "array": [
@@ -199,9 +199,9 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/5g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/5b.mp4",
+          "2": "resources/tutorial_videos/en/text/5t.mp4"
         },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/5g.mp4",
@@ -209,14 +209,14 @@
           "2": "resources/tutorial_videos/it/text/5t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/5g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/5b.mp4",
+          "2": "resources/tutorial_videos/fr/text/5t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/5g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/5b.mp4",
+          "2": "resources/tutorial_videos/de/text/5t.mp4"
         }
       },
       "array": [
@@ -236,26 +236,25 @@
         "1": "paint({blue},{C1,C2,C3,B3,A3,A4,B4,C4,C5,C6})",
         "2": "paint({blue},{C1,C2,C3,B3,A3,A4,B4,C4,C5,C6})"
       },
-      "tutorials": {
-        "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
-        },
+      "tutorials": {"en": {
+        "0": "resources/tutorial_videos/en/gestures/6g.mp4",
+        "1": "resources/tutorial_videos/en/blocks/6b.mp4",
+        "2": "resources/tutorial_videos/en/text/6t.mp4"
+      },
         "it": {
           "0": "resources/tutorial_videos/it/gestures/6g.mp4",
           "1": "resources/tutorial_videos/it/blocks/6b.mp4",
           "2": "resources/tutorial_videos/it/text/6t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/6g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/6b.mp4",
+          "2": "resources/tutorial_videos/fr/text/6t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/6g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/6b.mp4",
+          "2": "resources/tutorial_videos/de/text/6t.mp4"
         }
       },
       "array": [
@@ -276,24 +275,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/7g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/7b.mp4",
+          "2": "resources/tutorial_videos/en/text/7t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/7g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/7b.mp4",
+          "2": "resources/tutorial_videos/it/text/7t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/7g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/7b.mp4",
+          "2": "resources/tutorial_videos/fr/text/7t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/7g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/7b.mp4",
+          "2": "resources/tutorial_videos/de/text/7t.mp4"
         }
       },
       "array": [
@@ -314,24 +313,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/8g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/8b.mp4",
+          "2": "resources/tutorial_videos/en/text/8t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/8g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/8b.mp4",
+          "2": "resources/tutorial_videos/it/text/8t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/8g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/8b.mp4",
+          "2": "resources/tutorial_videos/fr/text/8t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/8g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/8b.mp4",
+          "2": "resources/tutorial_videos/de/text/8t.mp4"
         }
       },
       "array": [
@@ -352,24 +351,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/9g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/9b.mp4",
+          "2": "resources/tutorial_videos/en/text/9t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/9g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/9b.mp4",
+          "2": "resources/tutorial_videos/it/text/9t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/9g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/9b.mp4",
+          "2": "resources/tutorial_videos/fr/text/9t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/9g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/9b.mp4",
+          "2": "resources/tutorial_videos/de/text/9t.mp4"
         }
       },
       "array": [
@@ -390,24 +389,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/10g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/10b.mp4",
+          "2": "resources/tutorial_videos/en/text/10t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/10g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/10b.mp4",
+          "2": "resources/tutorial_videos/it/text/10t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/10g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/10b.mp4",
+          "2": "resources/tutorial_videos/fr/text/10t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/10g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/10b.mp4",
+          "2": "resources/tutorial_videos/de/text/10t.mp4"
         }
       },
       "array": [
@@ -428,24 +427,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/11g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/11b.mp4",
+          "2": "resources/tutorial_videos/en/text/11t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/11g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/11b.mp4",
+          "2": "resources/tutorial_videos/it/text/11t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/11g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/11b.mp4",
+          "2": "resources/tutorial_videos/fr/text/11t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/11g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/11b.mp4",
+          "2": "resources/tutorial_videos/de/text/11t.mp4"
         }
       },
       "array": [
@@ -466,24 +465,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/12g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/12b.mp4",
+          "2": "resources/tutorial_videos/en/text/12t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/12g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/12b.mp4",
+          "2": "resources/tutorial_videos/it/text/12t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/12g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/12b.mp4",
+          "2": "resources/tutorial_videos/fr/text/12t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/12g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/12b.mp4",
+          "2": "resources/tutorial_videos/de/text/12t.mp4"
         }
       },
       "array": [
@@ -504,24 +503,24 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/13g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/13b.mp4",
+          "2": "resources/tutorial_videos/en/text/13t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/13g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/13b.mp4",
+          "2": "resources/tutorial_videos/it/text/13t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/13g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/13b.mp4",
+          "2": "resources/tutorial_videos/fr/text/13t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/13g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/13b.mp4",
+          "2": "resources/tutorial_videos/de/text/13t.mp4"
         }
       },
       "array": [
@@ -536,30 +535,30 @@
     {
       "index": 14,
       "expected_solution": {
-        "0": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)",
-        "1": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)",
-        "2": "go(C1), paint({blue},6,right), mirror({C1,C2,C3},horizontal)"
+        "0": "go(C1), paint({blue},3,right), mirror({C1,C2,C3},horizontal), mirror({C1,C2,C3},vertical)",
+        "1": "go(C1), paint({blue},3,right), mirror({C1,C2,C3},horizontal), mirror({C1,C2,C3},vertical)",
+        "2": "go(C1), paint({blue},3,right), mirror({C1,C2,C3},horizontal), mirror({C1,C2,C3},vertical)"
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/14g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/14b.mp4",
+          "2": "resources/tutorial_videos/en/text/14t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/14g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/14b.mp4",
+          "2": "resources/tutorial_videos/it/text/14t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/14g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/14b.mp4",
+          "2": "resources/tutorial_videos/fr/text/14t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/14g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/14b.mp4",
+          "2": "resources/tutorial_videos/de/text/14t.mp4"
         }
       },
       "array": [
@@ -575,29 +574,29 @@
       "index": 15,
       "expected_solution": {
         "0": "go(C1),paint({blue,yellow},4,square right up left),mirror(vertical)",
-        "1": "mirror({paint({blue,yellow},4,square right up left)},vertical)",
-        "2": "mirror({paint({blue,yellow},4,square right up left)},vertical)"
+        "1": "go(C1),mirror({paint({blue,yellow},4,square right up left)},vertical)",
+        "2": "go(C1),mirror({paint({blue,yellow},4,square right up left)},vertical)"
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/en/gestures/15g.mp4",
+          "1": "resources/tutorial_videos/en/blocks/15b.mp4",
+          "2": "resources/tutorial_videos/en/text/15t.mp4"
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/it/gestures/15g.mp4",
+          "1": "resources/tutorial_videos/it/blocks/15b.mp4",
+          "2": "resources/tutorial_videos/it/text/15t.mp4"
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/fr/gestures/15g.mp4",
+          "1": "resources/tutorial_videos/fr/blocks/15b.mp4",
+          "2": "resources/tutorial_videos/fr/text/15t.mp4"
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
-          "1": "resources/tutorial_videos/pointing_blue.mp4",
-          "2": "resources/tutorial_videos/pointing_blue.mp4"
+          "0": "resources/tutorial_videos/de/gestures/15g.mp4",
+          "1": "resources/tutorial_videos/de/blocks/15b.mp4",
+          "2": "resources/tutorial_videos/de/text/15t.mp4"
         }
       },
       "array": [
