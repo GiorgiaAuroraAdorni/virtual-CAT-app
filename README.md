@@ -6,7 +6,7 @@
 If you use the materials provided in this repository, please cite the following work:
 
 ```bibtex
-   @misc{adorni_virtualCAT2_023,
+   @misc{adorni_virtualCAT_2023,
      author = {Adorni, Giorgia and Piatti, Simone and Karpenko, Volodymyr},
      doi = {10.5281/zenodo.10027851},
      month = oct,
