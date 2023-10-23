@@ -65,7 +65,7 @@ The backbone of the virtual CAT app is structured around three fundamental compo
 **[3]** Adorni, G., & Karpenko, V. (2023). virtual CAT programming language interpreter. Zenodo Software. https://doi.org/10.5281/zenodo.10016535 
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter/
 
-**[4]** Adorni, G. (2023). virtual CAT data infrastructure. Zenodo Software. https://doi.org/10.5281/zenodo.10015011
+**[4]** Adorni, G., & Karpenko, V. (2023). virtual CAT data infrastructure. Zenodo Software. https://doi.org/10.5281/zenodo.10015011
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-data-infrastructure
 
 ## Getting Started
