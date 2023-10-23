@@ -11,7 +11,7 @@ If you use the materials provided in this repository, please cite the following 
      doi = {10.5281/zenodo.10027851},
      month = oct,
      title = {{virtual CAT: An app for algorithmic thinking assessment within Swiss compulsory education}},
-     doi = {10.5281/zenodo.10027851}
+     doi = {10.5281/zenodo.10027851},
      note = {Zenodo Software. \url{https://doi.org/10.5281/zenodo.10027851}},
      year = {2023}
    }
