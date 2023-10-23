@@ -9,22 +9,22 @@
       },
       "tutorials": {
         "en": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
+          "0": "resources/tutorial_videos/en/intro.mp4",
           "1": "",
           "2": ""
         },
         "it": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
+          "0": "resources/tutorial_videos/it/intro.mp4",
           "1": "",
           "2": ""
         },
         "fr": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
+          "0": "resources/tutorial_videos/fr/intro.mp4",
           "1": "",
           "2": ""
         },
         "de": {
-          "0": "resources/tutorial_videos/pointing_blue.mp4",
+          "0": "resources/tutorial_videos/de/intro.mp4",
           "1": "",
           "2": ""
         }
