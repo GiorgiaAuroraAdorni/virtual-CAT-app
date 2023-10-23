@@ -45,12 +45,12 @@ The backbone of the virtual CAT app is structured around three fundamental compo
 
 **[1]** A. Piatti, G. Adorni, L. El-Hamamsy, L. Negrini, D. Assaf, L. Gambardella & F. Mondada. (2022). The CT-cube: A framework for the design and the assessment of computational thinking activities. Computers in Human Behavior Reports, 5, 100166. https://doi.org/10.1016/j.chbr.2021.100166
 
-**[2]** Adorni, G. (2023). Dataset from the pilot study of the virtual CAT platform for algorithmic thinking skills assessment in Swiss Compulsory Education (1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.10018293
+**[2]** Adorni, G. (2023). Dataset from the pilot study of the virtual CAT platform for algorithmic thinking skills assessment in Swiss Compulsory Education (1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.10018292
 
-**[3]** Adorni, G., & Karpenko, V. (2023). virtual CAT programming language interpreter (1.0.0). Zenodo. https://doi.org/10.5281/zenodo.10016536 
+**[3]** Adorni, G., & Karpenko, V. (2023). virtual CAT programming language interpreter (1.0.0). Zenodo. https://doi.org/10.5281/zenodo.10016535 
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter/
 
-**[4]** Adorni, G. (2023). virtual CAT data infrastructure (1.0.0). Zenodo. https://doi.org/10.5281/zenodo.10015012
+**[4]** Adorni, G. (2023). virtual CAT data infrastructure (1.0.0). Zenodo. https://doi.org/10.5281/zenodo.10015011
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-data-infrastructure
 
 ## Getting Started
