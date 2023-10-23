@@ -1,7 +1,23 @@
 # virtual CAT app
 
+### Citation
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10027851.svg)](https://doi.org/10.5281/zenodo.10027851)
 
+If you use the materials provided in this repository, please cite the following work:
+
+```bibtex
+   @misc{adorni_virtualCAT2_023,
+     author = {Adorni, Giorgia and Piatti, Simone and Karpenko, Volodymyr},
+     doi = {10.5281/zenodo.10027851},
+     month = oct,
+     title = {{virtual CAT: An app for algorithmic thinking assessment within Swiss compulsory education}},
+     doi = {10.5281/zenodo.10027851}
+     note = {Zenodo Software. \url{https://doi.org/10.5281/zenodo.10027851}},
+     year = {2023}
+   }
+```
+
+### Overview
 The virtual Cross Array Task (CAT) application serves as a digital platform to assess algorithmic thinking (AT) skills within Swiss compulsory education. 
 
 The Virtual CAT is a digital embodiment of the Cross Array Task (CAT), a unique assessment activity initially conceived as an unplugged task, meticulously explored in our article [**[1]**](https://doi.org/10.1016/j.chbr.2021.100166). The essence of CAT lies in its ability to evaluate algorithmic skills by challenging individuals to develop a sequence of instructions, essentially an algorithm, to replicate intricate colour patterns on a cross array.
