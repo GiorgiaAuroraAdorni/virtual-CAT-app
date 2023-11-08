@@ -106,6 +106,18 @@ flutter:
     - resources/tutorial_videos/it/gestures/
     - resources/tutorial_videos/it/blocks/
     - resources/tutorial_videos/it/text/
+    - resources/tutorial_videos/en/
+    - resources/tutorial_videos/en/gestures/
+    - resources/tutorial_videos/en/blocks/
+    - resources/tutorial_videos/en/text/
+    - resources/tutorial_videos/fr/
+    - resources/tutorial_videos/fr/gestures/
+    - resources/tutorial_videos/fr/blocks/
+    - resources/tutorial_videos/fr/text/
+    - resources/tutorial_videos/de/
+    - resources/tutorial_videos/de/gestures/
+    - resources/tutorial_videos/de/blocks/
+    - resources/tutorial_videos/de/text/
 
 
   # To add custom fonts to your application, add a fonts section here,
