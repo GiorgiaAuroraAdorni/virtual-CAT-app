@@ -118,96 +118,100 @@ class GestureHomeState extends State<GestureHome> {
         ],
         child: AnimatedBuilder(
           animation: context.watch<TypeUpdateNotifier>(),
-          builder: (BuildContext context, Widget? child) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TopBar(
-                sessionID: widget.sessionID,
-                studentID: widget.studentID,
-                allResults: _allResults,
-                selectionMode: _selectionMode,
-                selectedButtons: _selectedButtons,
-                coloredButtons: _coloredButtons,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  if (context.read<TypeUpdateNotifier>().state > 0)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        const SideMenuBlock(),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.90,
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: const VerticalDivider(
-                            thickness: 2,
-                            color: Colors.black,
+          builder: (BuildContext context, Widget? child) =>
+              SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TopBar(
+                  sessionID: widget.sessionID,
+                  studentID: widget.studentID,
+                  allResults: _allResults,
+                  selectionMode: _selectionMode,
+                  selectedButtons: _selectedButtons,
+                  coloredButtons: _coloredButtons,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    if (context.read<TypeUpdateNotifier>().state > 0)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          const SideMenuBlock(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.90,
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: const VerticalDivider(
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        NewCanvas(
-                          shakeKey: _shakeKey,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.90,
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: const VerticalDivider(
-                            thickness: 2,
-                            color: Colors.black,
+                          NewCanvas(
+                            shakeKey: _shakeKey,
                           ),
-                        ),
-                      ],
-                    )
-                  else
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SideMenu(
-                          shakeKey: _shakeKey,
-                          shakeKeyColors: _shakeKeysColors,
-                          selectionMode: _selectionMode,
-                          coloredButtons: _coloredButtons,
-                          selectedButtons: _selectedButtons,
-                          resetShape: _resetCross,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.90,
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: const VerticalDivider(
-                            thickness: 2,
-                            color: Colors.black,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.90,
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: const VerticalDivider(
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        GestureBoard(
-                          shakeKey: _shakeKey,
-                          shakeKeyColors: _shakeKeysColors,
-                          selectionMode: _selectionMode,
-                          coloredButtons: _coloredButtons,
-                          selectedButtons: _selectedButtons,
-                          resetSignal: _resetCross,
-                          resultValueNotifier: context.watch<ResultNotifier>(),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.90,
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: const VerticalDivider(
-                            thickness: 2,
-                            color: Colors.black,
+                        ],
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SideMenu(
+                            shakeKey: _shakeKey,
+                            shakeKeyColors: _shakeKeysColors,
+                            selectionMode: _selectionMode,
+                            coloredButtons: _coloredButtons,
+                            selectedButtons: _selectedButtons,
+                            resetShape: _resetCross,
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.90,
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: const VerticalDivider(
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
+                          ),
+                          GestureBoard(
+                            shakeKey: _shakeKey,
+                            shakeKeyColors: _shakeKeysColors,
+                            selectionMode: _selectionMode,
+                            coloredButtons: _coloredButtons,
+                            selectedButtons: _selectedButtons,
+                            resetSignal: _resetCross,
+                            resultValueNotifier:
+                                context.watch<ResultNotifier>(),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.90,
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: const VerticalDivider(
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    SideBar(
+                      studentID: widget.studentID,
+                      sessionID: widget.sessionID,
+                      selectionMode: _selectionMode,
+                      selectedButtons: _selectedButtons,
+                      coloredButtons: _coloredButtons,
+                      allResults: _allResults,
                     ),
-                  SideBar(
-                    studentID: widget.studentID,
-                    sessionID: widget.sessionID,
-                    selectionMode: _selectionMode,
-                    selectedButtons: _selectedButtons,
-                    coloredButtons: _coloredButtons,
-                    allResults: _allResults,
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

@@ -186,8 +186,9 @@ class SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) => SizedBox(
         width: MediaQuery.of(context).size.width * 0.12,
-        height: MediaQuery.of(context).size.height * 0.90,
+        height: MediaQuery.of(context).size.height * 0.80,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
