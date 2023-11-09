@@ -69,20 +69,10 @@ class _TopBarState extends State<TopBar> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 5, bottom: 5),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (widget.sessionID != -1 && widget.studentID != -1)
-                  Text(
-                    "${widget.sessionID}:${widget.studentID}",
-                    style: const TextStyle(fontSize: 13),
-                  ),
-              ],
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -259,34 +249,58 @@ class _TopBarState extends State<TopBar> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.24,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SvgPicture.asset(
-                        "resources/icons/trophy.svg",
-                        height: 30,
-                        width: 30,
-                      ),
-                      AnimatedBuilder(
-                        animation: context.watch<VisibilityNotifier>(),
-                        builder: (_, __) => AnimatedBuilder(
-                          animation: CatInterpreter(),
-                          builder: (_, __) => Text(
-                            " ${catScore(
-                              commands: List<String>.from(
-                                CatInterpreter().getResults.getCommands,
-                              ),
-                              visible:
-                                  context.read<VisibilityNotifier>().visible,
-                              interface:
-                                  context.read<TypeUpdateNotifier>().state == 0
-                                      ? 0
-                                      : 3,
-                            )}",
-                          ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "resources/icons/trophy.svg",
+                              height: 30,
+                              width: 30,
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
+                      Expanded(
+                        child: Stack(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: AnimatedBuilder(
+                                animation: context.watch<VisibilityNotifier>(),
+                                builder: (_, __) => AnimatedBuilder(
+                                  animation: CatInterpreter(),
+                                  builder: (_, __) => Text(
+                                    " ${catScore(
+                                      commands: List<String>.from(
+                                        CatInterpreter().getResults.getCommands,
+                                      ),
+                                      visible: context
+                                          .read<VisibilityNotifier>()
+                                          .visible,
+                                      interface: context
+                                                  .read<TypeUpdateNotifier>()
+                                                  .state ==
+                                              0
+                                          ? 0
+                                          : 3,
+                                    )}",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              child: widget.sessionID != -1 && widget.studentID != -1
+                                  ? Text(
+                                      "${widget.sessionID}:${widget.studentID}",
+                                      style: const TextStyle(fontSize: 13),
+                                    )
+                                  : const SizedBox
+                                      .shrink(), // Inserisce uno spazio vuoto se non ci sono sessionID e studentID
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
