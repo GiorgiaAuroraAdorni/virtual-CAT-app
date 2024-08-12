@@ -34,7 +34,7 @@ The transition from an unplugged activity to a digital platform arose from the n
 
 #### Evaluation and Impact
 
-Both a pilot and a main evaluation of the virtual CAT were orchestrated in Switzerland, showcasing the platform's robustness in appraising AT skills amongst a heterogeneous ensemble of students and at a large scale. The dataset collected during the pilot study is available here [**[2]**](https://doi.org/10.5281/zenodo.10018292).
+Both a pilot and a main evaluation of the virtual CAT were orchestrated in Switzerland, showcasing the platform's robustness in appraising AT skills amongst a heterogeneous ensemble of students and at a large scale. The dataset collected during the pilot study is available here [**[2]**](https://doi.org/10.5281/zenodo.10018293). That collected during the main large-scale study is available here [**[3]**](https://doi.org/10.5281/zenodo.10912339).
 
 #### Core Architectural Pillars
 
@@ -47,11 +47,11 @@ The backbone of the virtual CAT app is structured around three fundamental compo
    - *Basic Colouring*: A range of methods is provided to apply colours to the board, allowing both singular and pattern-based colouring.
    - *Repetition-based Colouring*: For more complex operations, methods have been devised to repeat a sequence of commands across specific coordinates or to replicate colours from one set of coordinates to another.
    - *Symmetry-based Colouring*: Methods in this category facilitate the creation of symmetrical colouring patterns either across the entire board or within specified segments.
-2. **virtual CAT programming language interpreter** [**[3]**](https://doi.org/10.5281/zenodo.10016535): 
+2. **virtual CAT programming language interpreter** [**[4]**](https://doi.org/10.5281/zenodo.10016535): 
    - This interpreter is integral in converting user interactions via gesture or visual programming blocks into executable, machine-readable instructions.
    - Each command undergoes a validation process to catch semantic errors, with real-time feedback provided to the user throughout.
    - A dedicated Dart package was developed and integrated within the Flutter project to facilitate seamless interaction with the interpreter component.
-3. **virtual CAT data infrastructure** [**[4]**](https://doi.org/10.5281/zenodo.10015011): 
+3. **virtual CAT data infrastructure** [**[5]**](https://doi.org/10.5281/zenodo.10015011): 
    - Considering the frequent unavailability of secure networks in educational settings, a technical framework was devised to ensure participant privacy and responsible data management.
    - The setup requires a local network infrastructure, connecting all devices to a designated data collection point, where a database captures and securely stores the data. 
    - Post-assessment, data can be transferred to a dedicated repository via a private network connection.
@@ -60,12 +60,14 @@ The backbone of the virtual CAT app is structured around three fundamental compo
 
 **[1]** A. Piatti, G. Adorni, L. El-Hamamsy, L. Negrini, D. Assaf, L. Gambardella & F. Mondada. (2022). The CT-cube: A framework for the design and the assessment of computational thinking activities. Computers in Human Behavior Reports, 5, 100166. https://doi.org/10.1016/j.chbr.2021.100166
 
-**[2]** Adorni, G. (2023). Dataset from the pilot study of the virtual CAT platform for algorithmic thinking skills assessment in Swiss Compulsory Education. Zenodo Dataset. https://doi.org/10.5281/zenodo.10018292
+**[2]** Adorni, G. (2023). Dataset for algorithmic thinking skills assessment: Results from the virtual CAT pilot study in Swiss compulsory education. Zenodo Dataset. https://doi.org/10.5281/zenodo.10018292
 
-**[3]** Adorni, G., & Karpenko, V. (2023). virtual CAT programming language interpreter. Zenodo Software. https://doi.org/10.5281/zenodo.10016535 
+**[3]** Adorni, G. (2023). Dataset for algorithmic thinking skills assessment: Results from the virtual CAT large-scale study in Swiss compulsory education. Zenodo Dataset. https://doi.org/10.5281/zenodo.10018292
+
+**[4]** Adorni, G., & Karpenko, V. (2023). virtual CAT programming language interpreter. Zenodo Software. https://doi.org/10.5281/zenodo.10016535 
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-programming-language-interpreter/
 
-**[4]** Adorni, G., & Karpenko, V. (2023). virtual CAT data infrastructure. Zenodo Software. https://doi.org/10.5281/zenodo.10015011
+**[5]** Adorni, G., & Karpenko, V. (2023). virtual CAT data infrastructure. Zenodo Software. https://doi.org/10.5281/zenodo.10015011
 On GitHub: https://github.com/GiorgiaAuroraAdorni/virtual-CAT-data-infrastructure
 
 ## Getting Started
